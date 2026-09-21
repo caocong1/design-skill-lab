@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Design Inspiration"
+  short_description: "Find, deconstruct and apply references"
+  default_prompt: "Use $find-design-inspiration to research references from the curated catalogue and turn them into applicable moves."

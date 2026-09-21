@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Product UI"
+  short_description: "Screens, components, flows and states"
+  default_prompt: "Use $design-product-ui to design this screen or flow with all its states and platform conventions."

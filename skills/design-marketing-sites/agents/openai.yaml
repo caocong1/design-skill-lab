@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Marketing Sites"
+  short_description: "Persuasive, non-templated web pages"
+  default_prompt: "Use $design-marketing-sites to design this page from message to responsive prototype."

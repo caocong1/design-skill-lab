@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Motion"
+  short_description: "Purposeful motion, specified and prototyped"
+  default_prompt: "Use $design-motion to decide, specify and prototype the motion for this interface."

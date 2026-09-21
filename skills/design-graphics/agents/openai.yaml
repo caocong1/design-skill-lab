@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Graphics"
+  short_description: "Posters, social, decks, print from code"
+  default_prompt: "Use $design-graphics to compose and render this graphic at its exact format."

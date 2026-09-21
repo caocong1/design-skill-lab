@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Design"
+  short_description: "Design to code with visual verification"
+  default_prompt: "Use $implement-design to land this design in the host stack and verify it by screenshot."

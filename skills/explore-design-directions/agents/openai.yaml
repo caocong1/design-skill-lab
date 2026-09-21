@@ -1,0 +1,4 @@
+interface:
+  display_name: "Explore Design Directions"
+  short_description: "Brief, diverge, present options, converge"
+  default_prompt: "Use $explore-design-directions to write the brief and present distinct design directions with a recommendation."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Icons"
+  short_description: "Icon families, custom SVG icons, app icons"
+  default_prompt: "Use $design-icons to choose, extend or draw icons and package app icons."

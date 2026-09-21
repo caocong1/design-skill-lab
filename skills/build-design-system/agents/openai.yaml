@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Design System"
+  short_description: "Tokens, foundations, components, theming"
+  default_prompt: "Use $build-design-system to define or audit tokens, foundations and component specs."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Brand Identity"
+  short_description: "Logo, identity system, guidelines, rebrand"
+  default_prompt: "Use $design-brand-identity to develop this identity from strategy to SVG marks and guidelines."

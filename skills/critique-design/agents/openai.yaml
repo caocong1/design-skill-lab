@@ -1,0 +1,4 @@
+interface:
+  display_name: "Critique Design"
+  short_description: "Evidence-backed design review and QA"
+  default_prompt: "Use $critique-design to review this design with evidence, severity and a prioritised plan."
