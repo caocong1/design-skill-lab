@@ -2,7 +2,7 @@
 name: design-studio
 description: Senior-designer entrypoint and router for any design task - web front-end, mobile and desktop app UI, motion, icons, brand identity, and graphic design (posters, social graphics, decks). Use to turn requirements into a complete design (brief, directions, design system, key screens), design a single page or component, find and deconstruct inspiration for a site or app, present several distinct design options, critique or redesign an existing interface, and land a design in code with visual QA. 设计、UI、界面、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案。
 metadata:
-  version: 0.2.0
+  version: 0.3.0
   short-description: Route design work to focused skills
 ---
 
@@ -10,6 +10,25 @@ metadata:
 
 Use this skill as the suite entrypoint. It frames the job the way a senior
 designer would, then routes to the smallest set of focused skills.
+
+## Role and Medium
+
+This suite is the **designer**: it decides, draws, specifies, hands off and
+reviews. Building the product in its target stack is the **implementer's** job
+(a coding agent or a developer), whatever that stack is.
+
+- The drawing medium is always HTML, CSS and SVG rendered to PNG - the way a
+  human designer draws every platform in one canvas tool. It is also a
+  description any coding agent can translate into Flutter, SwiftUI, Compose,
+  ArkUI, a mini-program or a web framework.
+- The **target** - web, iOS, Android, HarmonyOS, mini-program, desktop, data
+  wall - changes the frame, the conventions and the constraints. It never
+  changes the medium, the method or the quality bar. No target is out of scope
+  because of the language it is built in.
+- Stack-specific knowledge makes the implementer's translation better. It is
+  an optimisation offered on request, not a precondition for designing.
+
+See `references/portable-mockups.md`.
 
 ## Route First
 
@@ -27,27 +46,30 @@ Read only the child skill(s) the task needs:
 | Logo, identity system, brand guidelines, rebrand | `../design-brand-identity/SKILL.md` |
 | Posters, social graphics, OG images, decks, print, generative backgrounds | `../design-graphics/SKILL.md` |
 | Review an existing design or implementation; heuristic, visual and accessibility audit; redesign plan; design QA | `../critique-design/SKILL.md` |
-| Land a design in the host stack, keep fidelity, write a handoff spec | `../implement-design/SKILL.md` |
+| Package a design for an implementer in any stack: acceptance shots, tokens, spec, assets; accept the build from screenshots | `../handoff-design/SKILL.md` |
+| (For the implementer) land a handed-off design in a specific stack with fidelity | `../implement-design/SKILL.md` |
+| Draw for a target: frame sizes, units, the portable HTML/CSS subset, how concepts map to native toolkits | `references/portable-mockups.md` |
 | Where to look: galleries, pattern libraries, assets, tools, code, reading | `references/resource-map.md` |
 | Which analysis or upstream source backs a rule | `references/source-map.md` |
 
 Shared fundamentals every child skill relies on (read on demand, not up front):
 `references/typography.md`, `references/color.md`,
 `references/layout-and-spacing.md`, `references/anti-slop.md`,
-`references/render-and-look.md`, `references/quality-rubric.md`,
-`references/licensing.md`.
+`references/portable-mockups.md`, `references/render-and-look.md`,
+`references/quality-rubric.md`, `references/licensing.md`.
 
 ## Modes
 
 | Mode | The user wants | Pipeline |
 | --- | --- | --- |
-| `full` | A complete design from requirements | brief -> inspiration -> directions (user picks) -> system -> key screens / pages -> motion + icons + assets -> critique pass -> handoff or implementation |
+| `full` | A complete design from requirements | brief -> inspiration -> directions (user picks) -> system -> key screens / pages per target -> motion + icons + assets -> critique pass -> handoff |
 | `piece` | One page, screen, component, flow, animation, icon, graphic | design read -> references -> the focused skill -> critique pass |
 | `options` | Several schemes to choose from | `explore-design-directions`; combine with any other mode |
 | `inspire` | Ideas and references, including for an existing site | `find-design-inspiration` |
 | `critique` | An honest review and a fix plan | `critique-design` |
 | `redesign` | A better version that keeps what works | critique -> equity audit -> directions -> system -> migration plan |
-| `implement` | The design running in their stack | `implement-design`, with `critique-design` as QA |
+| `handoff` | A package an implementer can build from, in any stack | `handoff-design`; afterwards accept the build from screenshots |
+| `implement` | The same agent is also asked to build it | `handoff-design` first, then `implement-design`, with `critique-design` as QA |
 
 `options` is a modifier, not a separate job: any deliverable can be produced as
 2-4 alternatives when the decision is genuinely the user's to make.
@@ -55,8 +77,10 @@ Shared fundamentals every child skill relies on (read on demand, not up front):
 ## Baseline Workflow
 
 1. **Inspect the host first.** Existing brand, tokens, component library, fonts,
-   icon set, stack and conventions are constraints, not suggestions. Extend the
-   existing system; do not fork it.
+   icon set and conventions are constraints, not suggestions. Extend the
+   existing system; do not fork it. Note the **targets** (platforms and sizes)
+   the design must serve; the stack they are built in does not limit the
+   design.
 2. **State a design read** before producing anything: what this is, for whom,
    the feeling it should carry, the constraints that bind. Infer from context;
    ask at most one to three questions, and only ones whose answer would change
@@ -72,9 +96,9 @@ Shared fundamentals every child skill relies on (read on demand, not up front):
 6. **Design the unhappy paths**: empty, loading, error, partial, overflow,
    long and mixed-script text, disabled, focus, offline, first-run, small and
    large viewports, dark mode, reduced motion.
-7. **Render and look.** Every visual deliverable is rendered and inspected at
-   the viewports, themes and states it claims to support. See
-   `references/render-and-look.md`.
+7. **Render and look.** Every visual deliverable is drawn in a frame of its
+   target's logical size, rendered, and inspected at the sizes, themes and
+   states it claims to support. See `references/render-and-look.md`.
 8. **Critique with a fresh eye** against the brief using
    `references/quality-rubric.md` before presenting. When the host supports
    subagents, the critic should not be the context that made the work.
@@ -86,9 +110,12 @@ Shared fundamentals every child skill relies on (read on demand, not up front):
 - Design is decision-making under constraints. "Appropriate for this audience
   and this job" outranks "impressive". An enterprise admin that is calm, dense
   and conventional is good taste; the same aesthetic on a fashion brand is not.
-- The medium is code; the eyes are screenshots. Work that was never rendered
-  and looked at is a guess. If nothing in the environment can render, say so
-  and mark the deliverable unverified.
+- The medium is markup; the eyes are screenshots; the target is anything. Work
+  that was never rendered and looked at is a guess. If nothing in the
+  environment can render, say so and mark the deliverable unverified.
+- Design and implementation are different jobs. Do not drift from deciding and
+  drawing into solving the implementer's build and test problems; hand over a
+  contract that makes those problems easy.
 - Models regress to the statistical mean of the web: the same sans-serif, the
   purple-to-blue gradient, the centred hero, three equal cards, uniform large
   radii, shadows on everything, emoji as icons, a glow on every dashboard.
@@ -137,15 +164,16 @@ project already has a convention (check for `design/`, `docs/design/`,
   system/DESIGN.md              agent-readable design system
   system/tokens.css|json        tokens (CSS variables; DTCG JSON when cross-platform)
   system/preview.html           living style guide
-  screens/<name>.html           page / screen prototypes
+  screens/<name>.html           page / screen mockups, one frame per target
+  handoff/<feature>/            spec, acceptance shots, mockups, tokens, assets
   motion/<name>.html            motion demos + spec
   icons/<set>/                  SVGs + preview sheet
   brand/  graphics/             identity and artwork, with sources
   critique/<date>-<target>.md   review reports
 ```
 
-Production code goes into the project's real source tree, following its
-structure. Do not generate reports nobody asked for: `brief.md` and
+Production code, when this agent is also asked to implement, goes into the
+project's real source tree, following its structure. Do not generate reports nobody asked for: `brief.md` and
 `decisions.md` stay short, and a chat answer is enough for small `piece` work.
 
 ## Tool Awareness
@@ -179,8 +207,8 @@ may reshape it; breaking changes are still called out in `CHANGELOG.md`.
 
 - `full`: brief, inspiration notes, options board, chosen direction recorded in
   `decisions.md`, design system (`DESIGN.md`, tokens, preview), key screens
-  with states, motion spec, icon and asset list with licences, critique result,
-  handoff spec or implemented code.
+  with states for each target, motion spec, icon and asset list with licences,
+  critique result, and the handoff package.
 - `piece`: the rendered artefact (or in-project code), its states, a short
   rationale, and screenshot evidence.
 - `options`: one options board plus a comparison and a recommendation.
@@ -188,8 +216,10 @@ may reshape it; breaking changes are still called out in `CHANGELOG.md`.
   moves.
 - `critique` / `redesign`: findings table with evidence and severity,
   prioritised plan, and for `redesign` the equity audit and migration plan.
-- `implement`: code in the host stack, before/after or design/build screenshot
-  evidence, and residual gaps.
+- `handoff`: the handoff folder (spec, acceptance shots, portable mockups,
+  tokens, assets, motion) and, after the build, an acceptance report.
+- `implement`: the handoff, then code in the host stack, design/build
+  screenshot evidence, and residual gaps.
 
 ## Definition of Done
 

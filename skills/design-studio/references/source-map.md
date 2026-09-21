@@ -24,6 +24,8 @@ lower-evidence file with the official source or the user's knowledge.
 | `layout-and-spacing.md` | digest + practice | numeric craft rules are digest-backed; window classes and density values are practice |
 | `anti-slop.md` | digest | all three dated lists and the "cures decay" timeline come from fetched sources; the test itself is the durable part |
 | `render-and-look.md` | measured + practice | the colour-scheme and 500 px minimum-width traps were observed while building `scripts/shot.sh` and the lab's docs page |
+| `portable-mockups.md` | practice + measured | the unit equivalences and concept mapping are general knowledge; the frames were rendered and inspected; HarmonyOS frame metrics are approximate |
+| `../../design-product-ui/assets/mockup-kit/kit.css` | measured + practice | rendered and inspected in `demo.html`; bar heights for iOS / Material follow common platform values, HarmonyOS values are marked approx, mini-program capsule metrics are typical iOS values |
 | `quality-rubric.md` | practice | anchors are untested against real reviews |
 | `licensing.md` | practice + digest | specific licence facts in the catalogue were read at the source; this file is general guidance, not legal advice |
 | `resources/*.md` | measured | generated from the catalogue; `agent_access` is observed by `scripts/check-links.py` |
@@ -51,7 +53,7 @@ lower-evidence file with the official source or the user's knowledge.
 | `analysis/08-chinese-typography-and-platforms.md` | CJK sections of `typography.md`, `licensing.md`, mini-program and HarmonyOS sections of `platforms.md` |
 | `analysis/09-ai-ux-patterns.md` | `ai-ux.md` |
 | `analysis/10-overall-design-synthesis.md` | the core rules in `../SKILL.md`; the durable / perishable split |
-| `analysis/11-distilled-skill-design.md` | suite shape, non-goals, known self-violations |
+| `analysis/11-distilled-skill-design.md` | suite shape, the designer / implementer boundary, non-goals, known self-violations |
 
 ## Digests and Upstream Links
 

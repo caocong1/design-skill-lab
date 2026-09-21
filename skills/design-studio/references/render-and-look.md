@@ -4,7 +4,18 @@ A design that was never rendered and looked at is a guess. This is the design
 equivalent of running the tests, and it has the same rule: report what was
 actually verified.
 
-## Tool Ladder
+Two different acts share this file; do not confuse them.
+
+- **Looking at the design.** The mockup is HTML / CSS / SVG for every target -
+  web, mobile, HarmonyOS, mini-program, desktop, data wall - so one renderer
+  (a browser) is all the designer ever needs. Draw inside the target's frame
+  at its logical size (`portable-mockups.md`).
+- **Accepting the build.** Comparing the implementation with the design needs
+  screenshots of the running product, from whatever stack it was built in.
+  Producing them is the implementer's job (simulator, device, golden test, a
+  screenshot the user pastes). The designer only needs the images.
+
+## Tool Ladder (looking at the design)
 
 Probe once per session; use the highest rung available. Tool names and flags
 are perishable - check what the host really offers.
@@ -19,9 +30,7 @@ are perishable - check what the host really offers.
    Chromium-family browser:
    `shot.sh page.html out/` (390, 768, 1280, 1920 wide at 2x),
    `--dark`, `--full`, custom `WxH` sizes.
-4. **Native stacks**: simulator or emulator screenshots, Flutter golden
-   tests, SwiftUI previews, Storybook.
-5. **Nothing available**: say so, deliver the artefact marked *unverified*,
+4. **Nothing available**: say so, deliver the artefact marked *unverified*,
    and tell the user exactly what to open and look for.
 
 Then **read the PNG** with an image-capable tool. A screenshot that was not
@@ -51,7 +60,7 @@ Known traps:
 
 | Dimension | Minimum |
 | --- | --- |
-| Viewports | 390, 768, 1280, 1920 for web; the real device classes for native |
+| Sizes | 390, 768, 1280, 1920 for web; for other targets the platform frame at its logical size, plus the second size class the product must serve (tablet, wide window) |
 | Themes | every theme claimed (light, dark, high contrast) |
 | States | default plus every designed state: empty, loading, error, long content, hover / focus where reachable |
 | Content | real or realistic; the longest strings; mixed scripts if shipped |
@@ -85,8 +94,11 @@ With a browser tool, measure instead of guessing: computed font sizes and
 families, colour values, target sizes, the count of distinct colours, sizes
 and radii in use.
 
-## Compare
+## Compare (accepting the build)
 
+- Ask the implementer (or the user) for screenshots at the same logical size,
+  theme, state and content as the acceptance shots. Any source will do; if
+  none can be produced, say that acceptance has not happened.
 - **Before / after** for changes; **design / build** for implementation.
 - Same viewport, theme, state and content on both sides.
 - Side by side first; overlay or pixel-diff where tools allow. Anti-aliasing

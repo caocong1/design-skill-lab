@@ -2,7 +2,7 @@
 name: iterate-design-lab
 description: Maintain the design-skill-lab repository - add or correct entries in the curated design resource catalogue, absorb a new authoritative source (article, guideline, book, open-source project, another AI design skill) as a digest plus analysis, refresh a source against its new version, run the link and freshness check, or apply a skill-only improvement to the design-studio suite. Codifies the catalogue schema, tiering rules, generated views, versioning, CHANGELOG, SOURCE_INDEX metadata, analysis format, commit cadence and the invariants gate. Use only inside this lab repository.
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Iterate the design skill lab
 ---
 
@@ -134,6 +134,10 @@ These files carry dates because their content expires. Review them on every
 - `skills/design-motion/references/motion-tokens.md` - platform code snippets
 - `skills/implement-design/references/stacks.md` - framework theming APIs
 - `skills/design-studio/references/render-and-look.md` - tool ladder
+- `skills/design-studio/references/portable-mockups.md` - frame sizes and the
+  toolkit mapping table
+- `skills/design-product-ui/assets/mockup-kit/kit.css` - device frames, bar
+  heights, the mini-program capsule metrics
 
 Durable content (perception, hierarchy, typography fundamentals,
 accessibility, process) lives in the `SKILL.md` files and the fundamentals

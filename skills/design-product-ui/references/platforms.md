@@ -8,6 +8,11 @@ names change with OS releases: open the official guideline
 before finalising a spec.** Several of those sites are JavaScript apps and
 need a browser tool.
 
+These conventions shape the **drawing**: frames, bar structures and the unit
+table are in `../../design-studio/references/portable-mockups.md` and the
+mockup kit (`../assets/mockup-kit/kit.css`). How a platform's UI is coded is
+the implementer's concern, not a limit on what can be designed.
+
 ## Decide the Posture First
 
 | Posture | Means | When |

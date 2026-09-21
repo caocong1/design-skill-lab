@@ -2,7 +2,7 @@
 name: design-product-ui
 description: Design product interfaces - screens, components, flows and all their states - for web apps, mobile apps (iOS, Android, HarmonyOS, mini-programs), desktop apps (Electron, Tauri, native), enterprise admin systems, dashboards and big-screen data walls, and AI product UI. Use when designing or redesigning an app screen, a component, a form, a table, navigation, an onboarding or checkout flow, empty / loading / error states, responsive or adaptive behaviour, or platform-appropriate UI. 页面设计、组件设计、后台管理、表单、表格、数据大屏、App 界面、小程序、桌面端。
 metadata:
-  version: 0.1.0
+  version: 0.2.0
   short-description: Screens, components, flows and states
 ---
 
@@ -15,6 +15,9 @@ colour discipline, motion and microcopy - not in reinventing controls.
 Shared fundamentals: `../design-studio/references/typography.md`,
 `../design-studio/references/color.md`,
 `../design-studio/references/layout-and-spacing.md`.
+Drawing for a target (frame sizes, units, the portable subset):
+`../design-studio/references/portable-mockups.md` and the mockup kit in
+`assets/mockup-kit/kit.css` (demo: `assets/mockup-kit/demo.html`).
 Load on demand: `references/platforms.md` (iOS, Android, HarmonyOS,
 mini-programs, desktop, web app conventions), `references/data-dense-ui.md`
 (forms, tables, admin, dashboards, big-screen), `references/ai-ux.md`
@@ -22,6 +25,10 @@ mini-programs, desktop, web app conventions), `references/data-dense-ui.md`
 
 ## Workflow
 
+0. **Name the targets.** Platform and logical size for each (a phone app may
+   also need a tablet or a desktop composition). The stack the product is
+   built in is irrelevant to the drawing: a Flutter, ArkUI or mini-program
+   screen is drawn in the same HTML/CSS, inside that platform's frame.
 1. **Model before pixels.** List the objects the user cares about (order,
    device, case, document), their attributes, the actions on them and how they
    relate. Navigation and screens fall out of this model; skipping it produces
@@ -46,6 +53,7 @@ mini-programs, desktop, web app conventions), `references/data-dense-ui.md`
    confirmations are design. Use the product's real vocabulary.
 9. **Render, look, critique** (`../design-studio/references/render-and-look.md`,
    `../critique-design/SKILL.md`).
+10. **Hand off** with `../handoff-design/SKILL.md` when someone else builds.
 
 ## State Matrix
 
@@ -130,10 +138,13 @@ behaviour of panes, and multi-window rules.
 
 ## Output
 
-- `piece`: `.design/screens/<name>.html` - a self-contained prototype using
-  the system tokens, with a state switcher (query string or toolbar) so every
-  designed state can be rendered and screenshotted - or production code in the
-  host stack via `../implement-design/SKILL.md`.
+- `piece`: `.design/screens/<name>.html` - a self-contained mockup using the
+  system tokens, drawn inside the target's frame from the mockup kit, written
+  in the portable subset, with a state switcher (query string or toolbar) so
+  every designed state can be rendered and screenshotted; plus the PNG shots
+  per target, theme and state. When the same design serves several targets,
+  put the frames side by side in one file: one design language, re-composed
+  per target.
 - Each screen ships with: purpose and primary action, the state matrix
   coverage, adaptive rules, content rules, accessibility notes, and open
   questions.
@@ -147,5 +158,10 @@ behaviour of panes, and multi-window rules.
 - Desktop tables squeezed onto phones instead of re-thought as lists.
 - iOS patterns shipped on Android (or the reverse), web hover affordances on
   touch, custom back buttons fighting the system gesture.
+- Treating a non-web target as out of reach, or drifting into the
+  implementer's build and test tooling instead of finishing the design.
+- A re-drawn native tab bar or navigation bar handed over as a custom
+  component; the frame shows where system components go, the platform draws
+  them.
 - Skeletons that do not match the loaded layout; spinners for whole pages.
 - Designing only the populated, error-free, English, light-mode screen.

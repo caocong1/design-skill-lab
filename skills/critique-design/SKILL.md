@@ -2,7 +2,7 @@
 name: critique-design
 description: Review an existing design or implementation like a senior design lead - website, app screen, component library, brand, deck or graphic - through purpose fit, information architecture, hierarchy, typography, colour and contrast, spacing and consistency, states, interaction and motion, content, accessibility, platform fit and craft; produce an evidence-backed findings table with severity, a prioritised fix plan, and optionally a redesign brief. Also used as the fresh-eye quality gate for the suite's own output and for design QA of a build against its design. 设计评审、走查、UI 审查、体验走查、设计验收、视觉还原检查、这个页面哪里不好看。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Evidence-backed design review and QA
 ---
 
@@ -136,15 +136,20 @@ owner's default):
 
 ## Design QA (`qa`)
 
-1. Render build and design at the same viewport and state.
+1. Put the acceptance shot and a screenshot of the build side by side, at the
+   same logical size, theme, state and content. The build screenshot can come
+   from anywhere - browser, simulator, device, golden test, or an image the
+   user pastes; the stack it was built in does not matter.
 2. Compare side by side, then overlay or pixel-diff where tools allow; small
    anti-aliasing differences are noise, offsets and wrong tokens are not.
 3. Check in order: layout and spacing, type (family, size, weight,
    line-height, tracking), colour tokens, radii / borders / shadows, icons and
    images, states, responsive behaviour, motion timing and easing, content
    fidelity, accessibility semantics the design implied.
-4. Report deviations as `expected -> actual` with selector or `file:line`,
-   and separate implementation bugs from gaps in the spec.
+4. Report deviations as `expected -> actual` with the screen and component
+   name (and selector or `file:line` when the code is at hand). Classify each:
+   **build bug**, **spec gap** (fix the handoff), or **platform difference**
+   (a system component or font rendering differently - usually accept).
 
 ## Conduct
 

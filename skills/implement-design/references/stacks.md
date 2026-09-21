@@ -1,7 +1,10 @@
 # Stack Notes
 
-How design decisions land in common stacks. APIs are **perishable**: confirm
-against the version installed in the host project before writing code.
+How design decisions land in common stacks, for the implementer. None of this
+is needed to *design* for these targets - the mockup and the handoff are the
+same for all of them; these notes only make the translation more faithful.
+APIs are **perishable**: confirm against the version installed in the host
+project before writing code.
 Libraries: `../../design-studio/references/resources/code.md`.
 
 ## Web (any framework)

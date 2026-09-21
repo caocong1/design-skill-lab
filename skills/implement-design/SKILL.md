@@ -1,18 +1,26 @@
 ---
 name: implement-design
-description: Land a design in a real codebase with fidelity - inspect the host stack and its existing tokens, components and conventions; map design tokens onto the project's theming mechanism; build pages and components in the host framework (React, Vue, Next, Nuxt, Tailwind, Ant Design, Element Plus, Flutter, SwiftUI, Compose, ArkUI, mini-programs, Electron, Tauri); verify with a render-compare-fix loop and visual regression tests; or write a developer handoff spec. Use when the user wants a design implemented, a screenshot or mock-up turned into code, UI polish in an existing project, pixel-level restoration, or 设计稿还原、切图、标注、前端实现、UI 落地.
+description: Land a design in a real codebase with fidelity - inspect the host stack and its existing tokens, components and conventions; map design tokens onto the project's theming mechanism; build pages and components in the host framework (React, Vue, Next, Nuxt, Tailwind, Ant Design, Element Plus, Flutter, SwiftUI, Compose, ArkUI, mini-programs, Electron, Tauri); verify with a render-compare-fix loop and visual regression tests. This is the implementer's companion to the design suite, which hands designs over through handoff-design. Use when the user wants a design implemented, a screenshot or mock-up turned into code, UI polish in an existing project, pixel-level restoration, or 设计稿还原、切图、标注、前端实现、UI 落地.
 metadata:
-  version: 0.1.0
+  version: 0.2.0
   short-description: Design to code with visual verification
 ---
 
 # Implement Design
 
-The design is not done until it survives the codebase. The implementer's
-discipline: respect the host, express everything through tokens, and prove
-fidelity by looking.
+This skill is for the **implementer** - the coding agent or developer who
+receives a design (ideally a package from `../handoff-design/SKILL.md`) and
+builds it. It is separate from designing: the design suite can do its whole
+job for any target without this file. A clean HTML/CSS mockup with tokens is
+already a description that can be translated into any front-end; what follows
+makes that translation faithful.
 
-Stack-specific mapping and gotchas: `references/stacks.md`.
+The implementer's discipline: respect the host, express everything through
+tokens, and prove fidelity by looking.
+
+Stack-specific mapping and gotchas: `references/stacks.md` - an optimisation
+for better translations, not a prerequisite. Concept mapping from the mockup
+to native toolkits: `../design-studio/references/portable-mockups.md`.
 
 ## 1. Inspect the Host
 
@@ -69,10 +77,13 @@ responsive pass -> visual QA.
 
 ## 4. Verify by Looking
 
-Follow `../design-studio/references/render-and-look.md`:
+Producing screenshots of the build is the implementer's responsibility, with
+whatever the stack offers: a browser, a simulator or device, golden or
+snapshot tests, a preview tool. Then:
 
 1. Run the app or the component preview.
-2. Capture the same viewport, theme and state as the design.
+2. Capture the same logical size, theme, state and content as the acceptance
+   shots in the handoff.
 3. Compare side by side (or overlay / pixel-diff). List deviations as
    `expected -> actual`.
 4. Fix, re-capture, repeat until remaining differences are intentional and
@@ -103,21 +114,22 @@ When the source is an image rather than a spec:
 - Do not reproduce another company's product as-is; see the clone boundary in
   `../find-design-inspiration/SKILL.md`.
 
-## 6. Handoff Spec (when someone else builds)
+## 6. Translating a Mockup into a Non-Web Stack
 
-`.design/handoff/<feature>.md`, concise and measurable:
+1. Read the handoff spec's structure section, then the mockup's markup: the
+   flex rows and columns, `data-component` and `data-state` names are the
+   widget tree and its variants.
+2. Map tokens first (theme, resources), then build components by name, then
+   compose screens. Units carry over one-to-one (1 px = 1 pt / dp / vp /
+   logical pixel; 2 rpx in a 375-wide mini-program).
+3. Where the spec says "system component", use the platform's own navigation
+   bar, tab bar, sheet, picker or switch instead of rebuilding the drawing.
+4. When an effect has no cheap native equivalent, use the fallback named in
+   the handoff, or ask for one; do not improvise a look.
+5. Report back **spec gaps** you had to guess at - they are defects of the
+   handoff, and the designer should fix them at the source.
 
-- Scope and the screens / components covered, with links to prototypes.
-- Tokens used, new tokens introduced.
-- Layout: grid, breakpoints, per-breakpoint behaviour, spacing between named
-  regions.
-- Components: variants, states, behaviour, keyboard map, accessible names.
-- Content: final copy, truncation rules, formats, localisation notes.
-- Assets: export list with formats and scales (SVG; PNG / WebP / AVIF at 1x /
-  2x / 3x as needed), source and licence.
-- Motion: spec table from `../design-motion/SKILL.md`.
-- Acceptance checks: what a reviewer will compare and at which viewports.
-- Open questions and known compromises.
+Writing the handoff itself is the designer's job: `../handoff-design/SKILL.md`.
 
 ## Anti-Patterns
 
@@ -135,5 +147,5 @@ When the source is an image rather than a spec:
 
 Code in the host stack following its conventions; new or updated tokens;
 reachable states; before / after or design / build screenshots; visual test
-baseline when the project has the tooling; a short list of deviations,
-unverified areas and follow-ups - or the handoff spec.
+baseline when the project has the tooling; a short list of deviations, spec
+gaps, unverified areas and follow-ups.
