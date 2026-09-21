@@ -1,0 +1,145 @@
+{
+  "web": {
+    "title": "Websites",
+    "intro": "Galleries and pattern collections for marketing sites, landing pages, portfolios, stores and their sections. Galleries show what designers admire, not what converts or what users can use: pair one gallery with a real-product or evidence source.",
+    "sections": [
+      ["site-galleries", "Curated site galleries", "For overall art direction. Open the live site - thumbnails hide type rendering, motion and responsiveness."],
+      ["landing-saas", "Landing pages and SaaS marketing", "For page narrative and section order. Full-page captures show how the argument is sequenced."],
+      ["section-galleries", "Section and element galleries", "When the question is one section (hero, nav, pricing, footer, CTA, email). Compare ten solutions to the same problem."],
+      ["niche-galleries", "Niche and regional galleries", "Dark mode, brutalist, e-commerce, portfolios, and Japanese galleries - the best public references for CJK typographic layout."],
+      ["awards", "Award sites", "Ambition, motion and WebGL. Juries reward spectacle; usability and conversion are not judged."],
+      ["conversion", "Conversion and copy", "Structure and messaging evidence for pages that must persuade."]
+    ]
+  },
+  "app-ui": {
+    "title": "Product UI",
+    "intro": "What actually ships: screens and flows from real products, component references, official platform guidelines, published design systems, data visualisation and AI product patterns. Prefer these over concept shots for anything users will operate daily.",
+    "sections": [
+      ["screens-flows", "Real-product screens and flows", "Look up the screen type or flow in several shipped products before designing it. Convention is a feature."],
+      ["components", "Component references", "Anatomy, naming, states and keyboard behaviour of a component across systems."],
+      ["platform-guidelines", "Platform guidelines and standards", "Authoritative and versioned. Check the current page before relying on a remembered number."],
+      ["design-systems", "Published design systems", "Read the pattern and content guidance, not just the components. Pick a system from a comparable domain."],
+      ["dataviz-dashboards", "Data visualisation, dashboards and big-screen", "Choose the chart from the question being asked; study dashboard genres before laying one out."],
+      ["ai-ux", "AI product UX", "Patterns for chat, copilots and agents. This field moves quickly: date what you take."],
+      ["details-offbeat", "Details and out-of-category sources", "Game HUDs, fictional interfaces and small delights - for immersive, full-screen and one-memorable-moment problems."]
+    ]
+  },
+  "motion": {
+    "title": "Motion",
+    "intro": "Recordings of motion in shipped products are the best teacher: watch them slowed down and note duration, easing, origin and what does not move. Then tools to author curves and springs, official guidelines, and the few writers worth reading.",
+    "sections": [
+      ["recordings", "Motion in shipped products", "Start here for any in-product animation."],
+      ["showcases", "Web motion showcases and asset libraries", "Expressive and experimental work, usually with source. Check licences on assets."],
+      ["tools", "Easing, spring and animation tools", "Author curves and springs by eye, then record the numbers as tokens."],
+      ["guidelines", "Official motion guidance and accessibility", "Token tables, principles, and the rules for motion sensitivity."],
+      ["learning", "Writing and courses on motion craft", "A small set that repays reading in full."],
+      ["native", "Native platform motion", "API references and example collections for SwiftUI, Compose and Flutter."]
+    ]
+  },
+  "icons": {
+    "title": "Icons",
+    "intro": "Pick one family per product and record its licence. Raw-SVG endpoints are listed so an agent can pull an icon without installing a package.",
+    "sections": [
+      ["families", "Icon families", "Choose by style fit, coverage, weights, platform packages, licence and maintenance."],
+      ["search-apis", "Search, aggregators and APIs", "For finding a concept across sets. Do not mix the results in one interface."],
+      ["brand-logos", "Brand and vendor logos", "Trademarks remain with their owners; follow each brand's usage rules."],
+      ["guides", "Icon design guidance", "Read one before drawing a custom icon or writing the rules for a set."],
+      ["app-icons", "App icons and favicons", "Galleries for the idiom, tools for the packaging. Platform specs are perishable."],
+      ["svg-tools", "SVG tooling", "Optimise, edit paths numerically, convert, trace."]
+    ]
+  },
+  "assets": {
+    "title": "Visual assets",
+    "intro": "Illustrations, 3D, photography, mock-ups, and code-native backgrounds. Licence mistakes are the main risk in this domain: the Access column states the licence reality for each source.",
+    "sections": [
+      ["illustrations", "Illustrations", "One style per product. Widely used free sets are instantly recognisable; restyle or use sparingly."],
+      ["3d", "3D", "Models, materials and scenes. Check the runtime cost before embedding."],
+      ["photo-video", "Photography and video", "Treat images consistently. Never use unlicensed images found online."],
+      ["mockups", "Mock-ups and screenshot tools", "Clean frames usually present UI better than staged scenes."],
+      ["backgrounds", "Backgrounds, gradients, patterns and shaders", "Often better recreated in code for control. Interpolate gradients perceptually and add grain against banding."]
+    ]
+  },
+  "brand": {
+    "title": "Brand identity",
+    "intro": "Archives to see how a form has already been solved, publications that critique identity work, real guideline documents, studio case studies, and the tools for naming and trademark checks.",
+    "sections": [
+      ["logo-archives", "Logo archives", "Search the client's initial, shape family and industry before sketching. Similarity to an existing mark is a legal risk, not only a taste issue."],
+      ["identity-publications", "Identity reviews and rebrand coverage", "Learn the vocabulary of identity critique and how systems extend beyond the logo."],
+      ["guidelines-collections", "Brand guideline collections", "Open three guidelines from a similar industry and compare their contents before writing one."],
+      ["studios", "Studio case studies", "Read how the problem is framed and how the work is presented in application."],
+      ["naming-trademark", "Naming and trademark search", "An agent cannot clear a mark. These tools find obvious conflicts; a professional search is still required."]
+    ]
+  },
+  "graphic": {
+    "title": "Graphic design",
+    "intro": "Posters, archives, decks, covers, packaging and the publications that track contemporary graphic design. The strongest moves available to a code-based designer are typographic, so typographic posters and historical archives are the richest sources.",
+    "sections": [
+      ["posters-type", "Posters and typographic work", "Study grid, scale contrast and how little is on the page."],
+      ["archives", "Design history archives", "Authentic period references instead of pastiche."],
+      ["decks", "Presentations and pitch decks", "Narrative order first, slide system second."],
+      ["covers-packaging", "Covers and packaging", "Single-idea composition under a fixed frame."],
+      ["publications", "Publications", "Art-direction awareness beyond interface design."],
+      ["social-og", "Social cards and platform sizes", "Sizes are perishable: verify with the platform before export."]
+    ]
+  },
+  "type": {
+    "title": "Typography",
+    "intro": "Open font sources with clear licences, commercial foundries worth knowing, type seen in real use, tools, the guides that matter, and a full section for Chinese type and typesetting.",
+    "sections": [
+      ["free-fonts", "Open and free font sources", "The route away from default typefaces without licence risk. Self-host; do not hot-link."],
+      ["foundries", "Commercial foundries and marketplaces", "Trial and free-to-try files are for mock-ups only and must not ship."],
+      ["in-use", "Type in use and pairing", "See a typeface set in real context before choosing it."],
+      ["tools", "Type tools", "Scales, fluid type, system stacks, inspection, metrics and subsetting."],
+      ["guides", "Typography guides", "Read the first two in full once."],
+      ["cjk", "Chinese type and typesetting", "Open-licence Chinese fonts, licence directories, web-font slicing, and the typesetting rules for punctuation and mixed scripts. Commercial Chinese font licensing is actively enforced."]
+    ]
+  },
+  "color": {
+    "title": "Colour",
+    "intro": "Palette inspiration, tools that build perceptually even and accessible scales, contrast and colour-vision checks, and the articles that explain why. Compute contrast; never estimate it.",
+    "sections": [
+      ["palettes", "Palette inspiration", "For mood and starting points. A palette is not a system until roles and contrast are defined."],
+      ["system-tools", "Scale and system builders", "Generate scales in a perceptual space; map steps to roles."],
+      ["contrast", "Contrast, colour vision and data palettes", "WCAG 2 ratios are the legal baseline; APCA is informative draft guidance."],
+      ["guides", "Colour guides", "The reasoning behind modern UI colour systems and dark mode."]
+    ]
+  },
+  "code": {
+    "title": "Code and open-source projects",
+    "intro": "The agent's design medium is code. These are the projects to know: other AI design skills and bridges, component libraries and primitives by stack, animation and graphics libraries, token tooling, and the pipeline that turns HTML, SVG and markup into images, PDFs and slides. Verify APIs against the installed version.",
+    "sections": [
+      ["ai-design-skills", "AI design skills, formats and agent tooling", "Prior art for this suite, the DESIGN.md format, and the tools that give an agent eyes and access to design files."],
+      ["components", "Component libraries and headless primitives", "Use the host project's library. When choosing, prefer accessible primitives and a real theme API."],
+      ["animated-components", "Animated and marketing component kits", "Technique references. A page assembled from these looks like every other; use one signature moment and restyle it."],
+      ["motion-libs", "Animation, graphics and chart libraries", "Match the tool to the job; check licences for commercial use."],
+      ["tokens-theming", "Design tokens and colour tooling", "One token source, built to every platform."],
+      ["render-export", "Rendering, export, typesetting and fonts", "How code-made graphics become PNG, SVG, PDF and PPTX, and how fonts are subset."],
+      ["design-tools", "Open design tools", "Scriptable or open tools that complement a code-first workflow."],
+      ["awesome-lists", "Lists worth mining", "Breadth for discovery. Judge quality yourself."]
+    ]
+  },
+  "reading": {
+    "title": "Reading",
+    "intro": "The articles, books, courses and guidelines whose ideas shape this suite. Prefer primary, durable sources; name the principle when justifying a decision.",
+    "sections": [
+      ["interface-craft", "Interface craft and design engineering", "The details that make interfaces feel right, and robust CSS thinking."],
+      ["ai-design", "Designing with and for AI", "Why models produce generic design and what changes that; design in AI-era products."],
+      ["visual-fundamentals", "Visual design fundamentals", "Hierarchy, spacing, perception. Start with the first three."],
+      ["ux-evidence", "Research-backed UX guidance", "Evidence to cite instead of opinion."],
+      ["process-critique", "Process, critique and presenting work", "Briefs, critique formats, and explaining decisions to stakeholders."],
+      ["books", "Books", "The canon. Paid unless noted."],
+      ["courses", "Courses", "Worth their price for building real skill."],
+      ["zh-reading", "Chinese-language reading", "Domestic case studies and team blogs for Chinese-market context."]
+    ]
+  },
+  "general": {
+    "title": "Communities, moodboards and feeds",
+    "intro": "Cross-discipline sources for scanning and collecting. High volume, mixed signal: concept shots ignore real content, states and accessibility. Use for visual treatment and trend awareness, then verify against real products.",
+    "sections": [
+      ["communities", "Communities", "Read case-study process, not just covers."],
+      ["moodboards", "Moodboards and reference tools", "Collect from outside the interface-design bubble."],
+      ["feeds", "Daily feeds and newsletters", "Trend radar. Date what you take; fashion expires."],
+      ["zh-communities", "Chinese communities and file libraries", "Domestic portfolios, moodboards and shared design files."]
+    ]
+  }
+}
