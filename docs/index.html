@@ -24,7 +24,7 @@
   --hue-l: 0.62; --hue-c: 0.14; --tint-l: 0.95; --tint-c: 0.035;
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s6: 24px; --s8: 32px; --s12: 48px;
   --r1: 3px; --r2: 6px;
-  --sans: "Inter", "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --sans: "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   color-scheme: light;
 }
@@ -83,21 +83,22 @@ nav.jump a { font-weight: 550; }
 .status strong { color: var(--text); font-variant-numeric: tabular-nums; }
 
 .group { margin-top: var(--s8); }
-.group > h3 { display: flex; align-items: baseline; gap: var(--s3); font-size: 1.2rem; letter-spacing: -0.01em; margin: 0; }
+.group > h3 { display: flex; align-items: baseline; gap: var(--s3); font-size: 1.2rem; letter-spacing: -0.01em; margin: 0; position: sticky; top: 0; z-index: 1; background: var(--bg); padding: var(--s2) 0; }
+.group > h3 .chip { align-self: center; width: 10px; height: 18px; border-radius: 2px; background: oklch(var(--hue-l) var(--hue-c) var(--h)); flex: none; }
 .group > h3 .n { font-size: 13px; font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; }
 .group > h3 .dom { font-size: 13px; font-weight: 500; color: var(--muted); }
 .group > p { margin: var(--s1) 0 var(--s3); color: var(--muted); max-width: 60em; text-wrap: pretty; }
 .rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.row { display: grid; grid-template-columns: 4px minmax(0, 1fr) 212px; gap: 0 var(--s4); padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
-.row .bar { grid-row: 1 / span 3; border-radius: 2px; background: oklch(var(--hue-l) var(--hue-c) var(--h)); }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 212px; gap: 0 var(--s4); padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
 .row h4 { margin: 0; font-size: 1rem; font-weight: 600; letter-spacing: -0.005em; }
 .row h4 .lang { font-weight: 400; font-size: 12px; color: var(--muted); margin-left: var(--s2); }
-.row .best { grid-column: 2; margin: 2px 0 0; max-width: 62em; }
-.row .how { grid-column: 2; margin: 2px 0 0; font-size: 13px; color: var(--muted); max-width: 66em; overflow-wrap: anywhere; }
-.meta { grid-column: 3; grid-row: 1 / span 3; display: grid; grid-template-columns: 26px 1fr; gap: 2px var(--s3); align-content: start; font-size: 13px; color: var(--muted); }
+.row .best { grid-column: 1; margin: 2px 0 0; max-width: 62em; }
+.row .how { grid-column: 1; margin: 2px 0 0; font-size: 13px; color: var(--muted); max-width: 66em; overflow-wrap: anywhere; }
+.meta { grid-column: 2; grid-row: 1 / span 3; display: grid; grid-template-columns: 26px 1fr; gap: 2px var(--s3); align-content: start; font-size: 13px; color: var(--muted); }
 .tier { width: 24px; height: 24px; display: grid; place-items: center; border-radius: var(--r1); font-weight: 700; font-size: 13px; border: 1.5px solid var(--ink); color: var(--ink); grid-row: span 3; }
 .tier[data-t="S"] { background: var(--ink); color: var(--on-ink); }
 .tier[data-t="B"] { border-color: var(--line-strong); color: var(--muted); font-weight: 500; }
+.meta span { min-width: 0; overflow-wrap: anywhere; }
 .meta .lic { color: var(--faint); }
 .meta .user { color: var(--text); font-weight: 600; }
 
@@ -125,8 +126,8 @@ footer { border-top: 1px solid var(--line); padding: var(--s6) 0 var(--s12); col
   .domains li { flex: none; }
   .domains button { grid-template-columns: 8px auto auto; padding: 6px var(--s3) 6px var(--s2); border: 1px solid var(--line); white-space: nowrap; }
   .domains .chip { width: 8px; height: 16px; }
-  .row { grid-template-columns: 4px minmax(0, 1fr); }
-  .meta { grid-column: 2; grid-row: auto; margin-top: var(--s2); grid-template-columns: 26px auto auto 1fr; align-items: center; }
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .meta { grid-column: 1; grid-row: auto; margin-top: var(--s2); grid-template-columns: 26px auto auto 1fr; align-items: center; }
   .tier { grid-row: auto; }
   .skills td:first-child { white-space: normal; }
 }
@@ -267,8 +268,7 @@ footer { border-top: 1px solid var(--line); padding: var(--s6) 0 var(--s12); col
   };
 
   const row = (r) => `
-    <li class="row" style="--h:${hue(r.domain)}">
-      <span class="bar" aria-hidden="true"></span>
+    <li class="row">
       <h4><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name)}</a>${r.lang !== 'en' ? `<span class="lang">${r.lang === 'zh' ? '中文' : r.lang === 'ja' ? '日文' : esc(r.lang)}</span>` : ''}</h4>
       <p class="best">${esc(r.best_for)}</p>
       ${r.how_to_use ? `<p class="how">${esc(r.how_to_use)}</p>` : ''}
@@ -300,7 +300,7 @@ footer { border-top: 1px solid var(--line); padding: var(--s6) 0 var(--s12); col
       for (const sec of domains[d].sections) {
         const rows = list.filter((r) => r.domain === d && r.section === sec.id).sort((a, b) => rank[a.tier] - rank[b.tier]);
         if (!rows.length) continue;
-        html += `<section class="group"><h3>${esc(sec.title)} <span class="dom">${ZH[d]}</span> <span class="n">${rows.length}</span></h3><p>${esc(sec.note)}</p><ul class="rows">${rows.map(row).join('')}</ul></section>`;
+        html += `<section class="group" style="--h:${hue(d)}"><h3><span class="chip" aria-hidden="true"></span>${esc(sec.title)} <span class="dom">${ZH[d]}</span> <span class="n">${rows.length}</span></h3><p>${esc(sec.note)}</p><ul class="rows">${rows.map(row).join('')}</ul></section>`;
       }
     }
     results.innerHTML = html;
