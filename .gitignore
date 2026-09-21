@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+
+# Shallow clones of upstream repos are evidence, not content. The pinned commit
+# lives in analysis/SOURCE_INDEX.md; re-clone when needed.
+raw/repos/*
+!raw/repos/README.md
+
+# Local render output from skill scripts
+.design/
+*.shot.png
