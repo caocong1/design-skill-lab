@@ -80,6 +80,31 @@ character), including inside wide containers.
   cost, native feel (`resources/type.md` > Modern Font Stacks).
 - Mobile `<input>` text is at least 16 px, or iOS zooms the page on focus.
 
+## System Font Stacks by Voice
+
+When web fonts are off the table - offline tools, strict performance budgets,
+or networks where font CDNs are blocked or unreliable (common in mainland
+China) - system stacks still give real typographic range. List the most
+characterful face first and end with a generic family. Exact faces differ per
+OS, so check the rendering on each platform the audience uses.
+
+| Voice | Latin stack | Chinese companion |
+| --- | --- | --- |
+| Neutral grotesque | `"Helvetica Neue", "Arial Nova", Arial` | `"PingFang SC", "Microsoft YaHei"` |
+| Native UI | `system-ui, -apple-system, "Segoe UI", Roboto` | `"PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei"` |
+| Humanist | `Optima, "Avenir Next", Seravek, Candara, "Gill Sans Nova"` | `"PingFang SC", "Hiragino Sans GB"` |
+| Industrial / condensed | `"DIN Alternate", Bahnschrift, "Avenir Next Condensed", "Roboto Condensed", "Arial Narrow"` | `"PingFang SC", "Microsoft YaHei"` |
+| Old-style serif | `"Iowan Old Style", "Palatino Linotype", Palatino, Georgia` | `"Songti SC", STSong, "Noto Serif CJK SC", SimSun` |
+| Transitional serif | `Charter, "Bitstream Charter", "Sitka Text", Cambria` | `"Songti SC", SimSun` |
+| Didone display | `Didot, "Bodoni 72", "Bodoni MT"` | `"Songti SC"` (bold) |
+| Slab / typewriter | `"American Typewriter", Rockwell, "Courier New"` | `STFangsong, FangSong, "Songti SC"` |
+| Monospace | `ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas` | `"Sarasa Mono SC", "PingFang SC"` |
+| Rounded | `ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold"` | `"Yuanti SC", YouYuan` |
+| Handwritten / brush | avoid relying on it: coverage is inconsistent | `"Kaiti SC", STKaiti, KaiTi` |
+
+A system stack is a choice with a voice, not a fallback - and it costs nothing
+to load.
+
 ## Chinese and Mixed-Script Text
 
 - **Fonts and licences**: use open-licence faces (Source Han / Noto CJK,

@@ -47,6 +47,9 @@ Known traps:
   iframe (the script does), or use a tool with real device emulation.
 - A tall window to fake a full-page capture breaks `vh`-based layouts; use a
   true full-page capture.
+- A translucent fixed overlay (toolbar, switcher, cookie bar) lets the controls
+  beneath it show through and read as ghost buttons in a still. Make fixed
+  overlays opaque, or check them over busy content.
 - Web fonts may not have loaded when the capture fires. Wait for
   `document.fonts.ready` or a time budget, then **confirm in the image that
   the intended face rendered** - a silent fallback ruins a layout.

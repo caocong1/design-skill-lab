@@ -76,7 +76,8 @@
 
 - `analysis/10-overall-design-synthesis.md`（跨来源总综合，快速阅读路径第一站）
 - `analysis/02-ai-design-skills-survey.md`（同类项目横评）
-- `analysis/11-distilled-skill-design.md`（套件取舍、非目标、已知自我违反）
+- `analysis/11-distilled-skill-design.md`（套件取舍、角色边界、非目标、已知自我违反）
+- `analysis/12-dogfooding-the-lab-page.md`（套件第一次用于真实任务的过程记录：十种方向的页面）
 - `skills/design-studio/SKILL.md`（入口与路由）
 - `skills/design-studio/references/source-map.md`（逐文件证据等级）
 - `catalog/sections.json`（目录的分类法与各分节使用建议）

@@ -2,7 +2,7 @@
 name: explore-design-directions
 description: Turn a fuzzy request into a design brief, then produce two to four genuinely different design directions, present them fairly as a rendered options board, recommend one, and converge with the user. Use when the user asks for several schemes or options, a complete design from requirements, a new look and feel, a concept or moodboard, or when the right aesthetic is not yet decided. 出几套方案、多个风格、设计方向、概念稿、需求梳理。
 metadata:
-  version: 0.1.0
+  version: 0.2.0
   short-description: Brief, diverge, present options, converge
 ---
 
@@ -88,12 +88,22 @@ One self-contained HTML file: `.design/directions/<round>/index.html`.
 - **Same fidelity and same viewport** for each. Polish disparity biases the
   choice.
 - Each direction carries a card: name, concept sentence, why it fits the
-  brief, where it could fail, palette with roles, type families and scale,
+  brief, **where it will fail**, palette with roles, type families and scale,
   shape / depth / imagery / motion notes, references.
 - Neutral labels (A / B / C) beside the names; a switcher or side-by-side
   layout; light and dark if the brief needs both.
 - Tokens per direction live in a scoped block (`[data-direction="a"] { --… }`)
   so the chosen one can be lifted straight into `system/tokens.css`.
+- When the deliverable is itself a page, the strongest board is **the page
+  with a live switcher**: one DOM, and each direction re-maps the tokens and
+  re-composes the layout under its own `[data-direction]` scope. Layout
+  grammar can change a great deal with CSS alone (grid re-arrangement,
+  `order`, `writing-mode`, list versus card grid); if a direction needs
+  different markup, it is asking for different content, which the board does
+  not allow.
+- **Thumbnail test**: shrink the rendered directions to about 600 px wide and
+  put them side by side. If two thumbnails are hard to tell apart, they are
+  one direction - the difference was only colour.
 - Render and inspect the board (`../design-studio/references/render-and-look.md`)
   before showing it. Check each direction against
   `../design-studio/references/anti-slop.md` - if two directions would be

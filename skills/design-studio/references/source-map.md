@@ -19,7 +19,7 @@ lower-evidence file with the official source or the user's knowledge.
 
 | File | Level | Notes |
 | --- | --- | --- |
-| `typography.md` | digest + practice | Latin body-text numbers and CJK typesetting rules are digest-backed; font-selection advice is practice |
+| `typography.md` | digest + practice + measured | Latin body-text numbers and CJK typesetting rules are digest-backed; font-selection advice is practice; the system font stacks were rendered on macOS only |
 | `color.md` | digest + measured | step-to-role mapping is digest-backed; contrast and scales are computed by `scripts/color_tools.py`; APCA thresholds are practice and APCA itself is draft |
 | `layout-and-spacing.md` | digest + practice | numeric craft rules are digest-backed; window classes and density values are practice |
 | `anti-slop.md` | digest | all three dated lists and the "cures decay" timeline come from fetched sources; the test itself is the durable part |
@@ -54,6 +54,7 @@ lower-evidence file with the official source or the user's knowledge.
 | `analysis/09-ai-ux-patterns.md` | `ai-ux.md` |
 | `analysis/10-overall-design-synthesis.md` | the core rules in `../SKILL.md`; the durable / perishable split |
 | `analysis/11-distilled-skill-design.md` | suite shape, the designer / implementer boundary, non-goals, known self-violations |
+| `analysis/12-dogfooding-the-lab-page.md` | the first real run of the suite (the lab's own ten-direction page): what looking caught, what the suite lacked; informs `explore-design-directions`, `typography.md`, `render-and-look.md` |
 
 ## Digests and Upstream Links
 

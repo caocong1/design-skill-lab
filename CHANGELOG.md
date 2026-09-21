@@ -12,6 +12,34 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.4.0] - 2026-09-21
+
+套件**第一次用在真实任务上**：给本仓库自己做页面。用户的要求是配好 LICENSE、写清楚 README、完善 Pages，并用套件自己的方法设计一个可切换至少九种风格的页面。过程、看图抓到的问题、套件缺了什么，记录在 `analysis/12-dogfooding-the-lab-page.md`。
+
+### 新增
+
+- **`LICENSE`**：MIT。理由：仓库的主体是要被复制进别人 skill 目录里使用的 Markdown 指令与几个小脚本，MIT 最短、最被广泛理解、与几乎所有项目兼容；没有需要 Apache-2.0 专利条款保护的东西；用 CC 系列许可会让附带的脚本处于尴尬位置。许可后附"范围与第三方材料"说明：只覆盖原创内容；目录里的站点名称与商标归各自所有者；`raw/docs/` 下的摘要是学习笔记而非原文再分发，其中 `raw/docs/shape-of-ai.md` 的原文为 CC BY-NC-SA，已在摘要头部写明。
+- **在线页面（十种设计方向）**：`docs/index.html` + `docs/app.js` + `docs/base.css` + `docs/styles/` 下九个风格文件。同一份内容、同一套 DOM，十个方向（色卡、瑞士、书目、终端、蓝图、卡片柜、展签、控制台、贴纸、素页）在字体气质、色彩策略、版式语法、密度、形状、层次六条轴上拉开，而不是换配色；每个方向在页眉带一张说明卡（概念、各轴取值、会在哪里失败）。风格在首次绘制前应用，保存在地址栏与 localStorage，数字键 1–0 切换，切换使用 View Transitions 并尊重"减少动态效果"。**只用系统字体**，离线与字体 CDN 不可用的网络下都能正常显示。十种风格全部经渲染查看，所有文字/背景对经 `color_tools.py` 计算均 ≥ 4.5:1。
+- `docs/.nojekyll` 与 `docs/assets/styles.jpg`（十种风格的缩略图拼版，README 使用）；GitHub Pages 从 `main` 分支的 `/docs` 目录发布。
+- `analysis/12-dogfooding-the-lab-page.md`（1.0）。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.3.0 → **0.4.0**（suite 版本；入口 skill 正文未变，变化在共享 reference）。
+- `skills/explore-design-directions/SKILL.md` 0.1.0 → **0.2.0**：方案板新增"页面即方案板"（交付物本身是页面时，同一 DOM + 实时切换器，各方向在自己的作用域里重写 token 并重排布局；需要不同标记的方向其实是在要不同的内容）；新增**缩略图测试**（缩到约 600 px 并排看，分不清的两个就是同一个方向）；方向卡必须写"会在哪里失败"。
+- `skills/design-studio/references/typography.md`：新增 `System Font Stacks by Voice`——十一种字体气质的系统字体栈与中文搭配；系统字体栈是一个有气质的选择，不是降级。
+- `skills/design-studio/references/render-and-look.md`：Known traps 增加"半透明的固定浮层会把底下的控件透成幽灵按钮"。
+- `skills/design-studio/references/source-map.md`：登记 `analysis/12-dogfooding-the-lab-page.md`；`typography.md` 的证据等级注明系统字体栈只在 macOS 上渲染查看过。
+
+### 文档
+
+- `README.md` 重写：英文摘要、在线页面链接与十种风格拼版图、30 秒安装、角色边界、skill 表、目录字段、仓库结构、脚本、非目标、已知局限、许可说明、维护清单。
+
+### 已知未做
+
+- 十种风格的自评由作者本人完成，没有独立的新眼光评审；字体只在 macOS 上看过，Windows / Android / Linux 下的回落字形未验证。
+- 没有可用性验证：哪种风格真的更好找东西，没有数据。
+
 ## [0.3.0] - 2026-09-21
 
 一次**方向修正**，由用户的两句话触发。第一句是质问：你的核心是设计，像 UI/UX 屏幕设计师那样出设计图，为什么会被前端技术局限——这些按理说是 coding agent 的事。第二句是补充：HTML / CSS 本来就是很多前端共通的语法，设计出 Web 形态的界面，agent 有能力把它转成对应的前端页面；更准确的语言特性指导只是锦上添花。
