@@ -24,6 +24,7 @@ while [ $# -gt 0 ]; do
     --full) full=1 ;;
     --wait) wait="$2"; shift ;;
     [0-9]*x[0-9]*) sizes+=("$1") ;;
+    --*) echo "shot.sh: unknown option $1" >&2; sed -n '5p' "$0" >&2; exit 2 ;;
     *) if [ -z "$target" ]; then target="$1"; else out="$1"; fi ;;
   esac
   shift

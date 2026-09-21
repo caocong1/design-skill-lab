@@ -12,6 +12,17 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.4.1] - 2026-09-21
+
+### 修复
+
+- `skills/design-studio/scripts/shot.sh`：未知的 `--选项` 现在直接报错并打印用法。此前它会被当成输出目录，随后的数字参数又覆盖它，结果在当前目录下悄悄建出 `1280/`、`390/` 这样的文件夹——核验线上页面时我自己踩到了。`skills/design-studio/SKILL.md` 0.4.0 → **0.4.1**。
+
+### 发布核验
+
+- GitHub Pages 已从 `main` 分支的 `/docs` 发布；全部 14 个资源返回 200；对线上地址渲染查看了"控制台"（1280 宽，带 `?domain=motion` 深链）与"书目"（390 宽）。
+- `LICENSE` 保持纯 MIT 文本后，GitHub 的许可识别从 NOASSERTION 变为 MIT。
+
 ## [0.4.0] - 2026-09-21
 
 套件**第一次用在真实任务上**：给本仓库自己做页面。用户的要求是配好 LICENSE、写清楚 README、完善 Pages，并用套件自己的方法设计一个可切换至少九种风格的页面。过程、看图抓到的问题、套件缺了什么，记录在 `analysis/12-dogfooding-the-lab-page.md`。
