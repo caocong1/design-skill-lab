@@ -22,7 +22,7 @@ lower-evidence file with the official source or the user's knowledge.
 | `typography.md` | digest + practice | Latin body-text numbers and CJK typesetting rules are digest-backed; font-selection advice is practice |
 | `color.md` | digest + measured | step-to-role mapping is digest-backed; contrast and scales are computed by `scripts/color_tools.py`; APCA thresholds are practice and APCA itself is draft |
 | `layout-and-spacing.md` | digest + practice | numeric craft rules are digest-backed; window classes and density values are practice |
-| `anti-slop.md` | digest | both dated lists come from fetched sources; the test itself is the durable part |
+| `anti-slop.md` | digest | all three dated lists and the "cures decay" timeline come from fetched sources; the test itself is the durable part |
 | `render-and-look.md` | measured + practice | the colour-scheme and 500 px minimum-width traps were observed while building `scripts/shot.sh` and the lab's docs page |
 | `quality-rubric.md` | practice | anchors are untested against real reviews |
 | `licensing.md` | practice + digest | specific licence facts in the catalogue were read at the source; this file is general guidance, not legal advice |
@@ -57,7 +57,8 @@ lower-evidence file with the official source or the user's knowledge.
 
 | Digest (`raw/docs/`) | Upstream | Fetched |
 | --- | --- | --- |
-| `anthropic-frontend-design-skill.md` | https://github.com/anthropics/skills/tree/main/skills/frontend-design | 2026-09-20 |
+| `anthropic-frontend-design-skill.md` | https://github.com/anthropics/skills/tree/main/skills/frontend-design · https://claude.com/blog/improving-frontend-design-through-skills | 2026-09-20 / 21 |
+| `impeccable-slop-rules.md` | https://impeccable.style · https://impeccable.cn/slop · https://github.com/pbakaus/impeccable | 2026-09-21 |
 | `vercel-web-interface-guidelines.md` | https://vercel.com/design/guidelines · https://github.com/vercel-labs/web-interface-guidelines | 2026-09-21 |
 | `emil-kowalski-animation.md` | https://emilkowal.ski/ui/great-animations · https://emilkowal.ski/ui/7-practical-animation-tips | 2026-09-21 |
 | `material-motion-tokens.md` | https://github.com/material-components/material-components-android/blob/master/docs/theming/Motion.md · https://m3.material.io/styles/motion/overview | 2026-09-21 |

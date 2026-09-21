@@ -42,7 +42,8 @@ character), including inside wide containers.
   tracking -0.01 to -0.03em). As size goes down, both go up. All-caps and small
   caps take +5-12% tracking and are for less than a line.
 - Build hierarchy from size **and** weight **and** colour (three text colours:
-  primary, secondary, tertiary). Neighbouring levels must differ clearly: a
+  primary, secondary, tertiary). Neighbouring levels must differ clearly -
+  at least about 1.25x in size unless weight or colour carries the step: a
   15/16 px distinction is noise.
 - Two or three weights. Avoid weights under 400 for body on low-density
   screens. Do not combine bold and italic. Underline means link.
@@ -88,7 +89,7 @@ character), including inside wide containers.
   licence directory in `resources/type.md` > Chinese type.
 - **Stack order**: Latin face first, then CJK, then generic, so Latin glyphs
   come from the Latin font:
-  `"Inter", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif`.
+  `"<Latin face>", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif`.
   On HarmonyOS prefer HarmonyOS Sans; in WeChat mini-programs follow the
   system font.
 - **Web fonts**: a full Chinese font is megabytes. Use the system stack, or

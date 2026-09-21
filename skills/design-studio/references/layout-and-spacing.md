@@ -36,7 +36,9 @@ they hold on every platform. Evidence: `source-map.md`.
 - Use few steps per screen. Neighbouring steps should be visibly different;
   12 vs 14 is a mistake, 12 vs 24 is a decision.
 - Container padding is at least as large as the gaps between its children
-  (outer >= inner).
+  (outer >= inner). Text inside a bordered or filled container needs at least
+  8 px, normally 12-16 px; body text never touches the viewport edge (16 px
+  minimum gutter).
 - Buttons: horizontal padding about twice the vertical.
 - Section spacing on marketing pages: roughly 96-160 px desktop, 56-96 px
   mobile; heading-to-content spacing is much smaller than section-to-section.
@@ -89,8 +91,10 @@ touch use. Offer a setting when both audiences exist.
 
 ## Shape, Border, Elevation
 
-- One radius logic: small for controls, medium for cards, large for overlays,
-  full for pills. **Nested radius = outer radius - the gap between them**, so
+- One radius logic: small for controls, medium for cards (about 8-16 px;
+  small cards rounded to 24 px and more turn into soft blobs), large for
+  overlays, full for pills and tags only. A thick accent border fights a large
+  radius: choose one. **Nested radius = outer radius - the gap between them**, so
   curves stay concentric.
 - A container's border must contrast with both the container and what is
   behind it.

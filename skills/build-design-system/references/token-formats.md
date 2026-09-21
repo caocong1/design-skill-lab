@@ -72,7 +72,7 @@ typed objects, not strings:
   },
   "text": {
     "body": { "$type": "typography", "$value": {
-      "fontFamily": ["Inter", "PingFang SC", "sans-serif"], "fontSize": { "value": 1, "unit": "rem" },
+      "fontFamily": ["<text face>", "PingFang SC", "sans-serif"], "fontSize": { "value": 1, "unit": "rem" },
       "fontWeight": 400, "lineHeight": 1.5, "letterSpacing": { "value": 0, "unit": "px" } } }
   }
 }
@@ -107,8 +107,8 @@ colors:
   on-accent: "#FFFFFF"
   surface: "#FFFFFF"
 typography:
-  body-md: { fontFamily: Inter, fontSize: 1rem, fontWeight: 400, lineHeight: 1.5 }
-  title-lg: { fontFamily: Inter, fontSize: 1.75rem, fontWeight: 600, lineHeight: 1.2, letterSpacing: -0.01em }
+  body-md: { fontFamily: "<text face>", fontSize: 1rem, fontWeight: 400, lineHeight: 1.5 }
+  title-lg: { fontFamily: "<display face>", fontSize: 1.75rem, fontWeight: 600, lineHeight: 1.2, letterSpacing: -0.01em }
 rounded: { sm: 4px, md: 8px, lg: 12px }
 spacing: { sm: 8px, md: 16px, lg: 24px }
 components:

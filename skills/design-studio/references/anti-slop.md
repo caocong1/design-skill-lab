@@ -68,14 +68,46 @@ template chrome - tracked-out all-caps eyebrows, meta strings joined by middle
 dots, labels built as "WORD - fragment", tinted near-black standing in for
 black, monospace for small data labels, an arrow appended to every link.
 
+**Flagged by a deterministic detector in 2026** (Impeccable's rule catalogue,
+see `source-map.md`): a thick coloured bar on one side of a card; a thick
+accent border on a rounded element; a hairline border stacked with a wide soft
+shadow; small cards rounded to 24 px and beyond; an icon in a rounded tile
+above every heading; an oversized italic-serif hero headline; a whole sentence
+set at display size; the hero "metrics" block (big number, small label, three
+supporting stats, a gradient accent); identical icon-title-text card grids;
+cards nested in cards; one spacing value everywhere; gradient text; grey text
+on coloured backgrounds; coloured glow shadows on dark; bounce or elastic
+easing on ordinary UI; images that zoom or rotate on hover; hand-drawn SVG
+mascots; and in copy - em-dash overuse, marketing filler ("streamline",
+"empower", "supercharge"), and an aphorism closing every section. Its list of
+worn-out typefaces names Inter, Geist, Space Grotesk and Instrument Serif.
+
+**Cures decay too.** In November 2025 Anthropic's own guidance recommended
+Space Grotesk-style "distinctive" fonts, editorial serifs, atmospheric
+gradient backgrounds and a staggered page-load reveal as the way out of the
+Inter-and-purple default, and already warned that the model was converging on
+Space Grotesk. Within a year each of those remedies appears on a detector's
+list. Any specific font, palette or effect recommended as "not generic" has a
+shelf life of months. Recommend a **way of choosing**, never a fixed answer.
+
 **Domain-specific defaults**: Chinese big-screen dashboards - deep blue,
 cyan glow, neon borders, a rotating globe; enterprise admin - the untouched
 component-library theme; AI products - sparkle icons and violet gradients;
 developer tools - dark mode with one green accent and mono everything.
 
-Note what the second list shows: the "tasteful" reaction to the first list
+Note what the lists show in sequence: the "tasteful" reaction to one wave
 became the next default. Avoiding a list is not a design method. The test at
 the top of this file is.
+
+## Mechanical Help
+
+Part of this can be checked without judgement. Deterministic detectors exist
+for many of the tells above and for plain quality faults (contrast, line
+length, tight line-height, tiny body text, skipped heading levels, layout
+properties being animated, clipped overlays); see
+`resources/code.md` > AI design skills. If the host project already runs one,
+read its report before a critique. A clean report means the known tells are
+absent - it does not mean the design fits its subject.
 
 ## When Convention Is the Right Answer
 
