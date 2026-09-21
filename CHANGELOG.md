@@ -18,7 +18,7 @@
 
 ### 新增
 
-- **`LICENSE`**：MIT。理由：仓库的主体是要被复制进别人 skill 目录里使用的 Markdown 指令与几个小脚本，MIT 最短、最被广泛理解、与几乎所有项目兼容；没有需要 Apache-2.0 专利条款保护的东西；用 CC 系列许可会让附带的脚本处于尴尬位置。许可后附"范围与第三方材料"说明：只覆盖原创内容；目录里的站点名称与商标归各自所有者；`raw/docs/` 下的摘要是学习笔记而非原文再分发，其中 `raw/docs/shape-of-ai.md` 的原文为 CC BY-NC-SA，已在摘要头部写明。
+- **`LICENSE`**：MIT。理由：仓库的主体是要被复制进别人 skill 目录里使用的 Markdown 指令与几个小脚本，MIT 最短、最被广泛理解、与几乎所有项目兼容；没有需要 Apache-2.0 专利条款保护的东西；用 CC 系列许可会让附带的脚本处于尴尬位置。另附 `NOTICE` 写明范围与第三方材料（`LICENSE` 保持纯 MIT 文本，否则 GitHub 识别不出许可类型，会显示 NOASSERTION）：只覆盖原创内容；目录里的站点名称与商标归各自所有者；`raw/docs/` 下的摘要是学习笔记而非原文再分发，其中 `raw/docs/shape-of-ai.md` 的原文为 CC BY-NC-SA，已在摘要头部写明。
 - **在线页面（十种设计方向）**：`docs/index.html` + `docs/app.js` + `docs/base.css` + `docs/styles/` 下九个风格文件。同一份内容、同一套 DOM，十个方向（色卡、瑞士、书目、终端、蓝图、卡片柜、展签、控制台、贴纸、素页）在字体气质、色彩策略、版式语法、密度、形状、层次六条轴上拉开，而不是换配色；每个方向在页眉带一张说明卡（概念、各轴取值、会在哪里失败）。风格在首次绘制前应用，保存在地址栏与 localStorage，数字键 1–0 切换，切换使用 View Transitions 并尊重"减少动态效果"。**只用系统字体**，离线与字体 CDN 不可用的网络下都能正常显示。十种风格全部经渲染查看，所有文字/背景对经 `color_tools.py` 计算均 ≥ 4.5:1。
 - `docs/.nojekyll` 与 `docs/assets/styles.jpg`（十种风格的缩略图拼版，README 使用）；GitHub Pages 从 `main` 分支的 `/docs` 目录发布。
 - `analysis/12-dogfooding-the-lab-page.md`（1.0）。

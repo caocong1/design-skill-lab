@@ -168,7 +168,7 @@ scripts/check-lab-invariants.sh     # 提交前必须干净退出的机械闸
 
 skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.4.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
 
-原创内容（skill、脚本、目录条目、分析、页面）以 [MIT](LICENSE) 许可发布。目录中出现的站点名称、商标归各自所有者；`raw/docs/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `raw/docs/shape-of-ai.md` 随其来源以 CC BY-NC-SA 提供。
+原创内容（skill、脚本、目录条目、分析、页面）以 [MIT](LICENSE) 许可发布；许可范围与第三方材料的说明在 [NOTICE](NOTICE)。目录中出现的站点名称、商标归各自所有者；`raw/docs/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `raw/docs/shape-of-ai.md` 随其来源以 CC BY-NC-SA 提供。
 
 ### 维护检查清单
 
