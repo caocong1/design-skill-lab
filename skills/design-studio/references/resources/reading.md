@@ -27,7 +27,7 @@ Why models produce generic design and what changes that; design in AI-era produc
 
 | Resource | Best for | How to use | Access | Tier |
 | --- | --- | --- | --- | --- |
-| [Improving frontend design through Skills](https://claude.com/blog/improving-frontend-design-through-skills) | Anthropic on why models converge on generic design and how targeted prompting and skills counter it | Foundational for anyone writing design guidance for agents | free · static | S |
+| [Improving frontend design through Skills](https://claude.com/blog/improving-frontend-design-through-skills) | Anthropic on why models converge on generic design (distributional convergence), which prompt axes move output (typography, themes, motion, backgrounds) and a ~400-token aesthetics prompt; published 2025-11-12 | Read with the current skill: several remedies it recommended in 2025 are flagged as tells by 2026 detectors | free · static | S |
 | [Prompting for frontend aesthetics](https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb) | Cookbook showing which prompt levers change front-end aesthetics (typography, themes, motion, backgrounds) | Evidence for which instructions actually move output | free · static | A |
 | [Design for the AI age](https://linear.app/now/design-for-the-ai-age) | Linear's view on designing software where AI agents are users and collaborators | Framing for AI-product briefs | free · static | A |
 | [AI and design systems](https://bradfrost.com/blog/post/ai-and-design-systems/) | How design systems become the constraint layer for AI-generated UI | Argument for investing in tokens before generation | free · static | A |

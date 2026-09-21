@@ -125,9 +125,12 @@ def main():
         lines += [f'## redirected to another host ({len(moved)})', '', '| id | from | to |', '| --- | --- | --- |']
         lines += [f"| {r['id']} | {r['url']} | {r['final']} |" for r in moved]
         lines.append('')
-    out = ROOT / '.planning' / 'link-checks' / f'{today}.md'
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text('\n'.join(lines))
+    # Only a full run is a review worth keeping; a partial run must not overwrite the day's report.
+    out = None
+    if len(todo) == len(entries):
+        out = ROOT / '.planning' / 'link-checks' / f'{today}.md'
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text('\n'.join(lines))
 
     if args.write:
         for e in entries:
@@ -141,7 +144,11 @@ def main():
         CATALOG.write_text(''.join(json.dumps(e, ensure_ascii=False) + '\n' for e in entries))
 
     print(f'{len(results)} checked: ' + ', '.join(f'{k}={v}' for k, v in sorted(counts.items())))
-    print(f'report: {out.relative_to(ROOT)}')
+    if out:
+        print(f'report: {out.relative_to(ROOT)}')
+    else:
+        for r in results:
+            print(f"  {r['id']}: {r['access']} (http {r['code']}) {r['final'] if r['final'] != r['url'] else ''}".rstrip())
 
 
 if __name__ == '__main__':
