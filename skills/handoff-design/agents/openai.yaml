@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff Design"
+  short_description: "Design package a coding agent can build from"
+  default_prompt: "Use $handoff-design to package this design for the implementer: acceptance shots, tokens, spec and translation notes."

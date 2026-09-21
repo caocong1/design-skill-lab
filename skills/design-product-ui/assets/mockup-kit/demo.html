@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup kit demo: one design, five targets</title>
+<link rel="stylesheet" href="kit.css">
+<style>
+/* The design's own tokens. Everything below the frame chrome uses only these. */
+.design {
+  --c-bg: oklch(0.975 0.004 200); --c-surface: #fff; --c-line: oklch(0.91 0.006 200);
+  --c-text: oklch(0.24 0.015 220); --c-muted: oklch(0.47 0.015 220);
+  --c-accent: oklch(0.5 0.105 172); --c-on-accent: #fff; --c-accent-subtle: oklch(0.95 0.03 172);
+  --c-ok: oklch(0.5 0.12 150); --c-warn: oklch(0.55 0.13 70); --c-crit: oklch(0.52 0.19 27);
+  --c-ok-bg: oklch(0.95 0.04 150); --c-warn-bg: oklch(0.95 0.05 80); --c-crit-bg: oklch(0.95 0.04 27);
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-6: 24px;
+  --r-control: 10px; --r-card: 14px;
+  --fs-num: 28px; --fs-title: 16px; --fs-body: 15px; --fs-meta: 13px; --fs-label: 12px;
+  background: var(--c-bg); color: var(--c-text);
+}
+.design .mk-status, .design .mk-home { color: var(--c-text); }
+.bar { background: var(--c-bg); }
+.bar-bottom { background: var(--c-surface); border-top: 1px solid var(--c-line); color: var(--c-muted); }
+.bar-bottom [aria-current] { color: var(--c-accent); font-weight: 600; }
+.bar-bottom [aria-current] .mk-glyph { opacity: 1; background: var(--c-accent-subtle); }
+.mk-m3-navbar [aria-current] .mk-pill { background: var(--c-accent-subtle); }
+
+[data-component="Content"] { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-2) var(--sp-4) var(--sp-4); }
+[data-component="Summary"] { display: flex; gap: var(--sp-3); }
+[data-component="Stat"] { flex: 1; display: flex; flex-direction: column; gap: var(--sp-1); padding: var(--sp-3) var(--sp-4); background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-card); }
+[data-component="Stat"] strong { font-size: var(--fs-num); font-weight: 650; line-height: 1.1; font-variant-numeric: tabular-nums; }
+[data-component="Stat"] strong small { font-size: var(--fs-body); font-weight: 400; color: var(--c-muted); }
+[data-component="Stat"] span { font-size: var(--fs-meta); line-height: 1.45; color: var(--c-muted); }
+[data-component="Stat"][data-tone="crit"] strong { color: var(--c-crit); }
+[data-component="DeviceList"] { display: flex; flex-direction: column; background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-card); overflow: hidden; }
+[data-component="DeviceRow"] { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); min-height: 64px; box-sizing: border-box; }
+[data-component="DeviceRow"] + [data-component="DeviceRow"] { border-top: 1px solid var(--c-line); }
+[data-component="DeviceRow"] > div { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+[data-component="DeviceRow"] b { font-size: var(--fs-title); font-weight: 600; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+[data-component="DeviceRow"] span { font-size: var(--fs-meta); line-height: 1.45; color: var(--c-muted); }
+[data-component="Status"] { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 12px; font-size: var(--fs-label); font-weight: 600; }
+[data-component="Status"]::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+[data-status="ok"] { color: var(--c-ok); background: var(--c-ok-bg); }
+[data-status="warn"] { color: var(--c-warn); background: var(--c-warn-bg); }
+[data-status="crit"] { color: var(--c-crit); background: var(--c-crit-bg); }
+[data-component="PrimaryButton"] { height: 48px; border: 0; border-radius: var(--r-control); background: var(--c-accent); color: var(--c-on-accent); font-size: 16px; font-weight: 600; font-family: inherit; }
+
+/* desktop */
+.side { width: 208px; flex: none; background: var(--c-bg); border-right: 1px solid var(--c-line); padding: var(--sp-3); display: flex; flex-direction: column; gap: 2px; }
+.side a { padding: 7px 10px; border-radius: 7px; color: var(--c-muted); }
+.side a[aria-current] { background: var(--c-accent-subtle); color: var(--c-accent); font-weight: 600; }
+.main { flex: 1; min-width: 0; padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-4); background: var(--c-surface); }
+.main h1 { margin: 0; font-size: 20px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th { text-align: left; font-weight: 500; color: var(--c-muted); padding: 8px 12px; border-bottom: 1px solid var(--c-line); }
+td { padding: 9px 12px; border-bottom: 1px solid var(--c-line); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<template id="content">
+  <div data-component="Content">
+    <div data-component="Summary">
+      <div data-component="Stat"><strong>18<small> / 24</small></strong><span>今日已巡检</span></div>
+      <div data-component="Stat" data-tone="crit"><strong>3</strong><span>待处理告警，1 条严重</span></div>
+    </div>
+    <div data-component="DeviceList">
+      <div data-component="DeviceRow"><div><b>核心交换机 SW-Core-01</b><span>A 机房 · 3 列 12 柜 · 08:30 已巡检</span></div><span data-component="Status" data-status="ok">正常</span></div>
+      <div data-component="DeviceRow"><div><b>精密空调 CRAC-A-02</b><span>A 机房 · 回风温度 27.4 ℃</span></div><span data-component="Status" data-status="warn">关注</span></div>
+      <div data-component="DeviceRow"><div><b>UPS-B-01 蓄电池组</b><span>B 机房 · 电池内阻超限</span></div><span data-component="Status" data-status="crit">严重</span></div>
+      <div data-component="DeviceRow"><div><b>存储阵列 SAN-02</b><span>B 机房 · 5 列 03 柜 · 待巡检</span></div><span data-component="Status" data-status="ok">正常</span></div>
+    </div>
+    <button data-component="PrimaryButton">开始巡检</button>
+  </div>
+</template>
+
+<div class="mk-stage">
+  <div class="mk-item">
+    <div class="mk-device design" data-platform="ios">
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <div class="mk-ios-large-title bar">设备巡检</div>
+        <div class="mk-scroll" data-slot></div>
+        <div class="mk-tabbar bar-bottom"><span><i class="mk-glyph"></i>总览</span><span aria-current="page"><i class="mk-glyph"></i>巡检</span><span><i class="mk-glyph"></i>告警</span><span><i class="mk-glyph"></i>我的</span></div>
+      </div>
+      <div class="mk-home" style="background:var(--c-surface)"></div>
+    </div>
+    <div class="mk-caption">iOS<small>393 × 852 pt · 大标题 + 标签栏</small></div>
+  </div>
+
+  <div class="mk-item">
+    <div class="mk-device design" data-platform="android">
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <div class="mk-m3-appbar bar">设备巡检</div>
+        <div class="mk-scroll" data-slot></div>
+        <div class="mk-m3-navbar bar-bottom"><span><i class="mk-pill"><i class="mk-glyph"></i></i>总览</span><span aria-current="page"><i class="mk-pill"><i class="mk-glyph"></i></i>巡检</span><span><i class="mk-pill"><i class="mk-glyph"></i></i>告警</span><span><i class="mk-pill"><i class="mk-glyph"></i></i>我的</span></div>
+      </div>
+      <div class="mk-home" style="background:var(--c-surface)"></div>
+    </div>
+    <div class="mk-caption">Android · Material 3<small>412 × 915 dp · 顶部应用栏 + 导航栏</small></div>
+  </div>
+
+  <div class="mk-item">
+    <div class="mk-device design" data-platform="harmony">
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <div class="mk-hm-titlebar bar">设备巡检</div>
+        <div class="mk-scroll" data-slot></div>
+        <div class="mk-hm-tabs bar-bottom"><span><i class="mk-glyph"></i>总览</span><span aria-current="page"><i class="mk-glyph"></i>巡检</span><span><i class="mk-glyph"></i>告警</span><span><i class="mk-glyph"></i>我的</span></div>
+      </div>
+      <div class="mk-home" style="background:var(--c-surface)"></div>
+    </div>
+    <div class="mk-caption">HarmonyOS<small>360 × 780 vp（近似值，出规格前核对官方）</small></div>
+  </div>
+
+  <div class="mk-item">
+    <div class="mk-device design" data-platform="wechat">
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <div class="mk-wx-nav bar">设备巡检<i class="mk-wx-capsule mk-wx-keepout"></i></div>
+        <div class="mk-scroll" data-slot></div>
+        <div class="mk-tabbar bar-bottom"><span><i class="mk-glyph"></i>总览</span><span aria-current="page"><i class="mk-glyph"></i>巡检</span><span><i class="mk-glyph"></i>告警</span><span><i class="mk-glyph"></i>我的</span></div>
+      </div>
+      <div class="mk-home" style="background:var(--c-surface)"></div>
+    </div>
+    <div class="mk-caption">微信小程序<small>375 px = 750 rpx · 红色虚线是胶囊避让区</small></div>
+  </div>
+
+  <div class="mk-item">
+    <div class="mk-window design" data-os="macos">
+      <div class="mk-titlebar bar" style="border-bottom:1px solid var(--c-line)"><span class="mk-traffic"><i></i><i></i><i></i></span><b>设备巡检</b></div>
+      <div class="mk-body">
+        <nav class="side"><a>总览</a><a aria-current="page">巡检</a><a>告警</a><a>报表</a><a>设置</a></nav>
+        <div class="main">
+          <h1>今日巡检 <span style="color:var(--c-muted);font-weight:400;font-size:14px">18 / 24 已完成，3 条告警待处理</span></h1>
+          <table>
+            <thead><tr><th>设备</th><th>位置</th><th class="num">回风温度</th><th>最近巡检</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>核心交换机 SW-Core-01</td><td>A 机房 · 3 列 12 柜</td><td class="num">22.1 ℃</td><td>08:30</td><td><span data-component="Status" data-status="ok">正常</span></td></tr>
+              <tr><td>精密空调 CRAC-A-02</td><td>A 机房</td><td class="num">27.4 ℃</td><td>08:42</td><td><span data-component="Status" data-status="warn">关注</span></td></tr>
+              <tr><td>UPS-B-01 蓄电池组</td><td>B 机房</td><td class="num">24.0 ℃</td><td>09:05</td><td><span data-component="Status" data-status="crit">严重</span></td></tr>
+              <tr><td>存储阵列 SAN-02</td><td>B 机房 · 5 列 03 柜</td><td class="num">23.3 ℃</td><td>待巡检</td><td><span data-component="Status" data-status="ok">正常</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="mk-caption">桌面窗口（macOS；Windows 用 data-os="windows"）<small>1200 × 760 · 同一套 token，结构换成侧栏 + 表格</small></div>
+  </div>
+</div>
+
+<script>
+  // Demo only: the same content is stamped into each phone frame. A real mockup is plain, static HTML.
+  document.querySelectorAll('[data-slot]').forEach((slot) => slot.append(document.getElementById('content').content.cloneNode(true)));
+</script>
+</body>
+</html>
