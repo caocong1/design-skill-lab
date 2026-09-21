@@ -2,6 +2,7 @@
 
 > Source: https://www.shapeof.ai ｜ Author: Emily Campbell ｜ Published: living library ｜ Fetched: 2026-09-21 ｜ Method: curl + text extraction of the index page
 > This file is a **paraphrased structured digest**, not a verbatim copy. Each pattern page has examples and guidance that were not fetched.
+> Licence of this digest: the source is shared under CC BY-NC-SA. This summary of its taxonomy is offered under the same terms, not under the repository's MIT licence.
 
 ## Key rules / claims
 
