@@ -47,7 +47,7 @@ Single-idea composition under a fixed frame.
 | Resource | Best for | How to use | Access | Tier |
 | --- | --- | --- | --- | --- |
 | [Coverjunkie](https://coverjunkie.com) | Magazine covers chosen for their ideas | Reference for single-image, single-headline composition | free · js · slow | A |
-| [Dieline](https://thedieline.com) | Leading packaging-design publication | Browse by category for shelf conventions | free · blocked | A |
+| [Dieline](https://thedieline.com) | Leading packaging-design publication | Browse by category for shelf conventions | free · static | A |
 | [Packaging of the World](https://packagingoftheworld.com) | Large packaging gallery by category and country | Scan a product category quickly | free · js | A |
 | [Spine](https://spinemagazine.co) | Book-cover design process and interviews | See how cover concepts are developed and rejected | free · static | B |
 

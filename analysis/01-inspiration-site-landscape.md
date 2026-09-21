@@ -32,7 +32,7 @@
 | 趋势聚合 | Recent、Posts Design、Sidebar、Codrops Collective | 此刻流行什么 | 高度易腐，极易导致跟风 |
 | 代码与开源项目 | shadcn/ui、Motion、Style Dictionary、Satori、cn-font-split | agent 的设计媒介是代码，需要知道有哪些砖 | API 随版本变化 |
 
-agent 可达性（2026-09-21 实测，599 条）：约 73% 可直接抓取（static），约 17% 需要真实浏览器（js），约 7% 有反爬或登录墙（blocked），约 3% 在维护者网络下不可达（unknown）。高价值来源恰恰集中在后两类（Mobbin、Land-book、Lapa、Siteinspire、Game UI Database、WCAG 速查均返回 403/429），所以 skill 必须教会 agent 在被拦时**换源或把链接交给用户**，而不是绕过防护。
+agent 可达性（2026-09-21 实测，599 条）：433 条可直接抓取（static，72%），112 条需要真实浏览器（js，19%），40 条有反爬或登录墙（blocked，7%），14 条在维护者网络下始终不可达（unknown，2%）。高价值来源恰恰集中在后两类（Mobbin、Land-book、Lapa、Siteinspire、Game UI Database、WCAG 速查均返回 403/429），所以 skill 必须教会 agent 在被拦时**换源或把链接交给用户**，而不是绕过防护。
 
 ## 易腐与耐久
 

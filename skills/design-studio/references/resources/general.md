@@ -37,7 +37,7 @@ Trend radar. Date what you take; fashion expires.
 | Resource | Best for | How to use | Access | Tier |
 | --- | --- | --- | --- | --- |
 | [Posts Design](https://posts.design) | Aggregated popular design posts and templates, updated daily | Trend radar; treat as fashion, date what you take from it | free · static | A |
-| [Sidebar](https://sidebar.io) | Five good design links a day | Low-noise reading feed | free · unknown | A |
+| [Sidebar](https://sidebar.io) | Five good design links a day | Low-noise reading feed | free · static | A |
 | [Dense Discovery](https://www.densediscovery.com) | Thoughtful weekly newsletter across design, tech and culture | Breadth beyond the UI bubble | free · js | A |
 | [Codrops Collective](https://tympanus.net/codrops/collective/) | Weekly round-up of web design and front-end finds | Web-specific trend radar | free · static | A |
 | [TLDR Design](https://tldr.tech/design) | Daily design and tooling news digest | Keeping up with tool releases | free · static | B |

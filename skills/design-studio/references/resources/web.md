@@ -82,7 +82,7 @@ Ambition, motion and WebGL. Juries reward spectacle; usability and conversion ar
 | --- | --- | --- | --- | --- |
 | [Awwwards](https://www.awwwards.com) | Jury-scored showcase of ambitious web work; strongest for motion, WebGL and art direction, weakest for usability | Use /websites/<category>/ and the Collections (transitions, scrolling, microinteractions); read the scores critically | freemium · static | S |
 | [The FWA](https://thefwa.com) | Long-running award for cutting-edge digital experiences | Use for immersive and campaign-style references | free · js | A |
-| [CSS Design Awards](https://www.cssdesignawards.com) | Award gallery scored on UI, UX and innovation | Second opinion after Awwwards | free · unknown | A |
+| [CSS Design Awards](https://www.cssdesignawards.com) | Award gallery scored on UI, UX and innovation | Second opinion after Awwwards | free · js | A |
 
 ## Conversion and copy
 

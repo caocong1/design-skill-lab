@@ -40,7 +40,7 @@ Open three guidelines from a similar industry and compare their contents before 
 
 | Resource | Best for | How to use | Access | Tier |
 | --- | --- | --- | --- | --- |
-| [Brand Guidelines](https://brandguidelines.net) | Collection of official brand guideline documents (Twitch, Instacart, Asana and more) | Open three from a similar industry and compare their table of contents | free · static | A |
+| [Brand Guidelines](https://brandguidelines.net) | Collection of official brand guideline documents (Twitch, Instacart, Asana and more) | Open three from a similar industry and compare their table of contents | free · js | A |
 | [Branding Style Guides](https://brandingstyleguides.com) | Large archive of brand manuals and style guides, many as PDFs | Filter by category under /category/style-guides/ | free · static | A |
 | [Standards](https://standards.site) | Platform for web-native brand guidelines with public examples | Study how a living guideline site is structured | freemium · static | A |
 | [Standards Manual](https://standardsmanual.com) | Reissues of landmark graphics standards manuals (NASA, NYCTA, EPA) | Previews show how rigorous systems were specified | paid · static | A |
@@ -53,7 +53,7 @@ Read how the problem is framed and how the work is presented in application.
 | Resource | Best for | How to use | Access | Tier |
 | --- | --- | --- | --- | --- |
 | [Pentagram](https://www.pentagram.com/work) | Case studies from the most influential identity partnership | Filter work by discipline (brand identity) and sector | free · static | S |
-| [COLLINS](https://www.wearecollins.com/work) | Strategy-led identity case studies with strong narrative | Read how each case frames the problem | free · js | A |
+| [COLLINS](https://www.wearecollins.com/work) | Strategy-led identity case studies with strong narrative | Read how each case frames the problem | free · static | A |
 | [Koto](https://koto.com/work) | Optimistic tech and start-up identities | Reference for digital-first brand systems | free · static | A |
 | [Wolff Olins](https://www.wolffolins.com/work) | Large-scale corporate rebrands | See how a system scales across a large organisation | free · static | A |
 | [Ragged Edge](https://raggededge.com/work) | Challenger-brand identities with bold voice | Reference for tone of voice paired with visuals | free · static | A |

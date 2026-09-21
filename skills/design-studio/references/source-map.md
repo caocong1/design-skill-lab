@@ -23,7 +23,7 @@ lower-evidence file with the official source or the user's knowledge.
 | `color.md` | digest + measured | step-to-role mapping is digest-backed; contrast and scales are computed by `scripts/color_tools.py`; APCA thresholds are practice and APCA itself is draft |
 | `layout-and-spacing.md` | digest + practice | numeric craft rules are digest-backed; window classes and density values are practice |
 | `anti-slop.md` | digest | both dated lists come from fetched sources; the test itself is the durable part |
-| `render-and-look.md` | measured + practice | the colour-scheme and `vh` traps were observed while building `scripts/shot.sh` |
+| `render-and-look.md` | measured + practice | the colour-scheme and 500 px minimum-width traps were observed while building `scripts/shot.sh` and the lab's docs page |
 | `quality-rubric.md` | practice | anchors are untested against real reviews |
 | `licensing.md` | practice + digest | specific licence facts in the catalogue were read at the source; this file is general guidance, not legal advice |
 | `resources/*.md` | measured | generated from the catalogue; `agent_access` is observed by `scripts/check-links.py` |

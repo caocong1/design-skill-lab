@@ -61,7 +61,7 @@ Evidence to cite instead of opinion.
 | [Growth.Design case studies](https://growth.design/case-studies) | Product UX teardowns told as comics, tied to psychology principles | Read a teardown of a comparable flow | free · static | A |
 | [LukeW](https://www.lukew.com/ff/) | Luke Wroblewski's notes on forms, mobile and input design with data | Search for form-design evidence | free · static | A |
 | [GOV.UK design principles](https://www.gov.uk/guidance/government-design-principles) | Ten principles for user-centred services | Start with user needs; do the hard work to make it simple | free · static | A |
-| [Microsoft Inclusive Design](https://inclusive.microsoft.design) | Toolkit framing disability as permanent, temporary and situational | Use the persona spectrum in briefs | free · js | A |
+| [Microsoft Inclusive Design](https://inclusive.microsoft.design) | Toolkit framing disability as permanent, temporary and situational | Use the persona spectrum in briefs | free · static | A |
 | [A11Y Project checklist](https://www.a11yproject.com/checklist/) | Plain-language WCAG checklist | Run before hand-off | free · static | A |
 | [UX Myths](https://uxmyths.com) | Common UX misconceptions with research that refutes them | Settle arguments such as the three-click rule | free · blocked · archived | B |
 
@@ -76,7 +76,7 @@ Briefs, critique formats, and explaining decisions to stakeholders.
 | [13 ways designers screw up client presentations](https://medium.com/@monteiro/13-ways-designers-screw-up-client-presentations-51aaee11e28c) | Mike Monteiro on presenting design work with authority | Read before presenting options | free · blocked · archived | A |
 | [Articulating Design Decisions](https://tomgreever.com/book) | Tom Greever's book on explaining and defending design decisions | The method behind rationale sections | paid · unknown | A |
 | [Shape Up](https://basecamp.com/shapeup) | Basecamp's free book: shaping work, breadboarding and fat-marker sketches | Use breadboards to settle flow before visuals | free · static · archived | A |
-| [The Dribbblisation of Design](https://www.intercom.com/blog/the-dribbblisation-of-design/) | The classic critique of surface-first design and the four layers of product design | Antidote to styling before understanding | free · unknown · archived | A |
+| [The Dribbblisation of Design](https://www.intercom.com/blog/the-dribbblisation-of-design/) | The classic critique of surface-first design and the four layers of product design | Antidote to styling before understanding | free · static · archived | A |
 | [9 rules for running a productive design critique](https://library.gv.com/9-rules-for-running-a-productive-design-critique-1d7ee6fb1ca9) | Concise critique ground rules from GV | Share before a critique | free · unknown · archived | B |
 
 ## Books
@@ -87,7 +87,7 @@ The canon. Paid unless noted.
 | --- | --- | --- | --- | --- |
 | [Don't Make Me Think](https://sensible.com/dont-make-me-think/) | Steve Krug's short classic on web usability | First usability book to read | paid · static | S |
 | [The Design of Everyday Things](https://www.basicbooks.com/titles/don-norman/the-design-of-everyday-things/9780465050659/) | Don Norman on affordances, signifiers, mapping and feedback | The vocabulary of interaction design | paid · static | S |
-| [Grid Systems in Graphic Design](https://www.niggli.ch/en/grid-systems-in-graphic-design.html) | Mueller-Brockmann's definitive manual on grids | Reference for poster, editorial and deck layout | paid · static | S |
+| [Grid Systems in Graphic Design](https://www.niggli.ch/en/grid-systems-in-graphic-design.html) | Mueller-Brockmann's definitive manual on grids | Reference for poster, editorial and deck layout | paid · js | S |
 | [The Elements of Typographic Style](https://en.wikipedia.org/wiki/The_Elements_of_Typographic_Style) | Bringhurst's typographer's bible | Depth behind every typography rule | paid · static | S |
 | [The Visual Display of Quantitative Information](https://www.edwardtufte.com/book/the-visual-display-of-quantitative-information/) | Tufte on data-ink, chartjunk and graphical integrity | Principles for any chart or dashboard | paid · static | S |
 | [Interaction of Color](https://yalebooks.yale.edu/book/9780300179354/interaction-of-color/) | Albers on how colours change each other | Why a colour looks wrong in context | paid · static | A |
@@ -104,7 +104,7 @@ Worth their price for building real skill.
 | --- | --- | --- | --- | --- |
 | [Smart Interface Design Patterns](https://smart-interface-design-patterns.com) | Vitaly Friedman's video course and checklists on complex UI patterns | Tables, filters, navigation, forms at depth | paid · static · login | A |
 | [Learn UI Design](https://www.learnui.design) | Erik Kennedy's comprehensive visual UI course | For engineers building real visual skill | paid · static · login | A |
-| [Shift Nudge](https://shiftnudge.com) | Matt D. Smith's interface design course | Alternative with strong typography and layout modules | paid · static · login | A |
+| [Shift Nudge](https://shiftnudge.com) | Matt D. Smith's interface design course | Alternative with strong typography and layout modules | paid · js · login | A |
 | [CSS for JavaScript Developers](https://css-for-js.dev) | Josh Comeau's course that builds a real mental model of CSS | When layout bugs block design fidelity | paid · static · login | A |
 | [web.dev: Learn Responsive Design](https://web.dev/learn/design) | Free course on modern responsive design techniques | Container queries, fluid type, theming | free · static | A |
 | [Google UX Design Certificate](https://www.coursera.org/professional-certificates/google-ux-design) | Structured introduction to the UX process | Process fundamentals for newcomers | paid · static · login | B |

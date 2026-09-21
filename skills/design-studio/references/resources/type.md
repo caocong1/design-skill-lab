@@ -55,7 +55,7 @@ See a typeface set in real context before choosing it.
 | --- | --- | --- | --- | --- |
 | [Fonts In Use](https://fontsinuse.com) | Archive of typography in real use, indexed by typeface, format and industry | Search a typeface to see it set in context; search an industry to see its conventions | free · static | S |
 | [Typewolf](https://www.typewolf.com) | Type on real websites, plus trusted lists: best fonts by category and free alternatives to commercial faces | Use the alternatives lists when a commercial face is out of budget; /cheatsheet for typographic punctuation | free · unknown | S |
-| [Beautiful Web Type](https://beautifulwebtype.com) | Showcase of the best open-source typefaces set beautifully | Shortlist of open fonts worth using | free · static · slow | A |
+| [Beautiful Web Type](https://beautifulwebtype.com) | Showcase of the best open-source typefaces set beautifully | Shortlist of open fonts worth using | free · js · slow | A |
 | [Variable Fonts](https://v-fonts.com) | Catalogue of variable fonts with live axis sliders | Test axes before choosing | free · unknown | A |
 | [Fontjoy](https://fontjoy.com) | Machine-learned font pairing generator | Idea generator only; judge pairings by eye | free · static · slow | B |
 

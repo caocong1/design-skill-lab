@@ -32,6 +32,10 @@ Known traps:
 - Headless Chrome inherits the operating system's colour scheme. Force the
   scheme explicitly (the script does), or "light" captures on a dark-mode
   machine are dark.
+- Headless Chrome will not make a window narrower than 500 px: asking for a
+  390 px window lays the page out at 500 px and crops the image, which looks
+  like a broken mobile layout. Render narrow viewports inside an exactly sized
+  iframe (the script does), or use a tool with real device emulation.
 - A tall window to fake a full-page capture breaks `vh`-based layouts; use a
   true full-page capture.
 - Web fonts may not have loaded when the capture fires. Wait for

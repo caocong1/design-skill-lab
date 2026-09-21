@@ -133,7 +133,11 @@ def main():
         for e in entries:
             if e['id'] in by_id:
                 seen = by_id[e['id']]['access']
-                e['agent_access'] = 'unknown' if seen in ('dead', 'unreachable') else seen
+                if seen in ('dead', 'unreachable'):
+                    # A failed fetch is not an observation: keep what was last seen.
+                    e.setdefault('agent_access', 'unknown')
+                else:
+                    e['agent_access'] = seen
         CATALOG.write_text(''.join(json.dumps(e, ensure_ascii=False) + '\n' for e in entries))
 
     print(f'{len(results)} checked: ' + ', '.join(f'{k}={v}' for k, v in sorted(counts.items())))
