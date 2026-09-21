@@ -1,7 +1,7 @@
 # Anthropic `frontend-design` skill
 
 > Source: https://github.com/anthropics/skills (skills/frontend-design/SKILL.md; also shipped as a Claude Code plugin) ｜ Publisher: Anthropic ｜ Published: first released late 2025, substantially rewritten by mid-2026 ｜ Fetched: 2026-09-20 ｜ Method: fetched by a research agent with curl; three snapshots (2025-12, 2026-06, current) were compared
-> Companion article: https://claude.com/blog/improving-frontend-design-through-skills (not re-fetched)
+> Companion article: https://claude.com/blog/improving-frontend-design-through-skills ｜ Anthropic Applied AI team ｜ Published: 2025-11-12 ｜ Fetched: 2026-09-21 ｜ Method: curl + text extraction
 > This file is a **paraphrased structured digest**, not a verbatim copy.
 
 ## Summary
@@ -21,9 +21,19 @@ A single, short skill that casts the model as the design lead of a studio whose 
 9. **Restraint**: spend boldness in one place; keep the rest quiet; remove one accessory. Meet a quality floor without announcing it: responsive, visible focus, reduced motion, accessible, harmonious colour. Critique your own work with screenshots if the environment allows; keep notes of what was tried.
 10. **Writing**: words are design content. Write from the user's perspective in plain, specific language; active voice; a CTA says exactly what happens and keeps its name through the flow; errors explain what happened and how to fix it without apologising; empty states invite action; sentence case; each element does one job.
 
+## The companion article (2025-11-12)
+
+1. **Mechanism**: *distributional convergence*. Safe choices that offend no one dominate web training data, so without direction the model samples from that high-probability centre: Inter, purple gradients on white, minimal animation.
+2. **Steerability**: the model responds strongly to targeted guidance, but the guidance spans many dimensions; packing it into the system prompt taxes every unrelated request. Skills load that context only when the task needs it.
+3. **Altitude**: think about design the way a front-end engineer would - map aesthetic intent onto things that can be written as code. Four axes respond well: typography, themes, motion, backgrounds. Improving one (fonts) tended to lift the others.
+4. **The typography prompt** bans Inter, Roboto, Open Sans, Lato and system fonts; suggests alternatives by mood (code, editorial, technical, distinctive); asks for high-contrast pairing, weight extremes (100-200 against 800-900) and size jumps of 3x or more rather than 1.5x.
+5. **A general prompt of about 400 tokens** covers typography, colour and theme (commit to a cohesive aesthetic, CSS variables, dominant colours with sharp accents), motion (CSS-first; one well-orchestrated page load with staggered reveals beats scattered micro-interactions) and backgrounds (atmosphere and depth instead of flat colour). It ends by warning that the model still converges on a new favourite - it names Space Grotesk - and asks for variation.
+6. **Tooling is part of design quality**: a separate `web-artifacts-builder` skill lets the model use multiple files, React, Tailwind and shadcn/ui and bundle to a single file, which visibly raises the ceiling of what gets built.
+7. **The method, generalised**: identify convergent defaults, provide concrete alternatives, structure guidance at the right altitude, make it reusable as a skill.
+
 ## What is perishable vs durable
 
-Durable: subject-grounded choices, plan-then-review-then-build, one bold move, writing as design, screenshots as self-critique. Perishable: the list of clusters in rule 7 - it describes model output at a moment in time and had already changed between the 2025 and 2026 versions (the earlier tells were generic fonts and purple gradients). A list of tells is a dated observation, not a rule.
+Durable: subject-grounded choices, plan-then-review-then-build, one bold move, writing as design, screenshots as self-critique. Perishable: the list of clusters in rule 7 - it describes model output at a moment in time and had already changed between the 2025 and 2026 versions (the earlier tells were generic fonts and purple gradients). The article shows the same decay from the other side: remedies it recommended in 2025 - Space Grotesk, editorial serifs, atmospheric gradient backgrounds, staggered page-load reveals - are flagged as tells by 2026 (see `raw/docs/impeccable-slop-rules.md` and rule 6 above). A list of tells is a dated observation, not a rule, and so is a list of cures.
 
 ## Notes for the skill
 
