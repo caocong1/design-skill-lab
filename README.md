@@ -1,6 +1,8 @@
 # Design Skill Lab
 
-这个项目沉淀设计类的学习资料、经过筛选和标记的设计资源目录，以及一套可复用的 agent skill —— 让 Claude Code / Codex 这类编码 agent 能像一位资深设计师那样工作：覆盖 Web 前端、移动与桌面 App、动效、图标、品牌与平面设计。结构沿用姊妹项目 `ai-agent-skill-lab`：原始资料 → 分析 → skill → 可视化索引，外加机械校验。
+这个项目沉淀设计类的学习资料、经过筛选和标记的设计资源目录，以及一套可复用的 agent skill —— 让 Claude Code / Codex 这类 agent 能像一位资深设计师那样工作：覆盖 Web、移动与桌面 App（含 Flutter、鸿蒙、小程序、Electron / Tauri）、动效、图标、品牌与平面设计。
+
+**套件的角色是设计师，不是前端工程师**：它负责决定、出图、写规格、交接与验收；在目标技术栈里实现是 coding agent 的事。画图的媒介永远是 HTML / CSS / SVG 渲染成 PNG（就像人类设计师用同一个画布工具画所有平台），这同时也是任何 coding agent 都读得懂、能翻译成 Flutter / SwiftUI / ArkUI / 小程序的描述。目标平台只改变画框、惯例与约束，不改变媒介、方法与质量标准。结构沿用姊妹项目 `ai-agent-skill-lab`：原始资料 → 分析 → skill → 可视化索引，外加机械校验。
 
 它支持的用途：
 
@@ -41,11 +43,12 @@
 | `design-brand-identity` | 一页纸策略、概念方向、SVG 标志与测试、识别系统、品牌规范、重塑 |
 | `design-graphics` | 海报、社媒图、OG 图、演示文稿、印刷物、生成式背景；从代码渲染到 PNG / PDF |
 | `critique-design` | 带证据与分级的中文评审报告；设计验收；也是套件自身产出的新眼光把关 |
-| `implement-design` | 在宿主技术栈里落地：读宿主、映射 token、构建顺序、截图比对、交接文档 |
+| `handoff-design` | 设计 → 开发的交接契约：验收图、可移植 HTML/CSS 样稿、token、带全部状态的规格、切图、动效、平台注意事项；之后只凭截图验收 |
+| `implement-design` | （给实现者用的）在具体技术栈里忠实落地：读宿主、映射 token、构建顺序、截图比对 |
 
 套件的三个支点：
 
-- **渲染并查看。** agent 的设计媒介是代码，眼睛是截图；没有渲染并看过的设计只是猜测，没验证的要如实说没验证（`skills/design-studio/references/render-and-look.md`）。
+- **渲染并查看。** 设计媒介是标记语言，眼睛是截图，目标可以是任何平台；没有渲染并看过的设计只是猜测，没验证的要如实说没验证（`skills/design-studio/references/render-and-look.md`）。各平台的画框由样机套件提供：`skills/design-product-ui/assets/mockup-kit/kit.css`（示例 `skills/design-product-ui/assets/mockup-kit/demo.html`）。
 - **能算的不估。** 对比度与色阶由 `skills/design-studio/scripts/color_tools.py` 计算，多视口截图由 `skills/design-studio/scripts/shot.sh` 完成。
 - **耐久与易腐分开。** 感知、层级、排版、无障碍、流程写在 `SKILL.md` 与基础参考里；平台规格、库 API、社媒尺寸、"生成感"特征清单放在带日期的参考文件里，登记在 `iterate-design-lab` 的 Perishable Register，定期复核。
 
@@ -66,7 +69,8 @@
 
 - **不是用户研究套件**：不组织访谈、问卷与可用性测试。
 - **不替代商标检索与法律意见**：skill 会明确提示做专业检索；授权说明是常见模式，不是法律结论。
-- **不驱动 Figma 等设计工具**（除非宿主环境提供了桥接）：媒介是代码，产物是 HTML / CSS / SVG / token / 文档。
+- **不驱动 Figma 等设计工具**（除非宿主环境提供了桥接）：媒介是标记语言，产物是 HTML / CSS / SVG 样稿及其 PNG、token、规格文档。
+- **不负责在目标技术栈里实现与测试**：那是 coding agent 的工作；套件交出的是一份让实现变得容易的契约，并凭截图验收。（同一个 agent 被要求顺便实现时，用 `implement-design`。）
 - **不承诺易腐内容的时效**：平台像素规格、库 API、社媒尺寸、AI 界面模式都标了复核日期，使用前以官方页面为准。
 - **不做自动化来源摄取**：判断什么值得收、放在哪、给什么档位，是这个仓库的全部价值。
 - **不发布为可安装包**：安装方式就是软链到 skills 目录。
@@ -83,7 +87,7 @@
 
 ## 版本与变更
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.2.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）。`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.3.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）。`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
 
 ## 使用方式
 
@@ -124,6 +128,10 @@ for d in <repo-path>/skills/*/; do ln -sfn "$d" "$HOME/.codex/skills/$(basename 
 
 ```text
 用 design-motion 给这个抽屉和列表增删设计动效，要有可以慢放的演示页。
+```
+
+```text
+用 design-product-ui 给我们的 Flutter 巡检 App 设计设备列表页，手机和平板各一版；再用 handoff-design 打包给开发。
 ```
 
 ```text

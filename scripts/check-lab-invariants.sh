@@ -114,13 +114,13 @@ for f in scan:
             v('C6', f'{f.relative_to(root)}: references missing path `{hit}`')
 
 # --- C7: relative links between skill files resolve --------------------------------
-REL = re.compile(r'`((?:\.\./)+[A-Za-z0-9_./-]+\.(?:md|py|sh))`')
+REL = re.compile(r'`((?:\.\./)+[A-Za-z0-9_./-]+\.(?:md|py|sh|css|html))`')
 for f in sorted((root / 'skills').rglob('*.md')):
     for hit in sorted(set(REL.findall(f.read_text()))):
         if not (f.parent / hit).resolve().exists():
             v('C7', f'{f.relative_to(root)}: relative path `{hit}` does not resolve')
 # bare references inside a skill (e.g. `references/platforms.md`, `scripts/shot.sh`)
-LOCAL = re.compile(r'`((?:references|scripts|resources)/[A-Za-z0-9_./-]+\.(?:md|py|sh))`')
+LOCAL = re.compile(r'`((?:references|scripts|resources|assets)/[A-Za-z0-9_./-]+\.(?:md|py|sh|css|html))`')
 for f in sorted((root / 'skills').rglob('*.md')):
     for hit in sorted(set(LOCAL.findall(f.read_text()))):
         if not any((base / hit).exists() for base in (*skill_bases(f), root)):

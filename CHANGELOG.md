@@ -12,6 +12,39 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.3.0] - 2026-09-21
+
+一次**方向修正**，由用户的两句话触发。第一句是质问：你的核心是设计，像 UI/UX 屏幕设计师那样出设计图，为什么会被前端技术局限——这些按理说是 coding agent 的事。第二句是补充：HTML / CSS 本来就是很多前端共通的语法，设计出 Web 形态的界面，agent 有能力把它转成对应的前端页面；更准确的语言特性指导只是锦上添花。
+
+根因记录在 `analysis/11-distilled-skill-design.md`（1.1）：我把画图的媒介当成了设计的目标平台，把设计师的活滑成了实现者的活，并继承了同类项目"设计 = 生成前端代码"的框架。当时正在做的 Flutter golden test 脚手架已作废，未进入仓库。
+
+### 新增
+
+- **`skills/handoff-design/SKILL.md`**（0.1.0）：设计 → 开发的交接契约。交付验收图（按目标的逻辑尺寸、每个屏幕 × 状态 × 目标 × 主题一张）、可移植的 HTML/CSS 样稿、token、带全部状态的规格、切图清单、动效规格、平台注意事项与验收标准；之后**只凭截图**验收实现，并把偏差分为实现缺陷、规格缺口、平台差异三类。它刻意不包含任何目标技术栈的写法。
+- **`skills/design-studio/references/portable-mockups.md`**：HTML/CSS 作为各目标通用的设计语言。哪些随目标变、哪些不变；**按目标的逻辑尺寸作画，单位一一对应**（1 CSS px = 1 pt = 1 dp = 1 vp = 1 个 Flutter 逻辑像素；375 宽小程序里 = 2 rpx）；可移植子集（flex 布局、一切取值 token 化、组件与状态在标记里具名、固定栏放在滚动区之外、哪些 CSS 写法会让实现者只能猜）；样稿概念到 Flutter / SwiftUI / Compose / ArkUI / 小程序的映射表；需要如实说明的保真度边界。
+- **样机套件** `skills/design-product-ui/assets/mockup-kit/kit.css` 与示例 `skills/design-product-ui/assets/mockup-kit/demo.html`：iOS、Android（Material 3）、HarmonyOS、微信小程序（含胶囊与避让区标注）的设备框与系统栏结构，macOS / Windows 桌面窗口，固定画布等比缩放的数据大屏。边框画在盒子之外，屏幕保持精确的逻辑尺寸。示例用同一套 token 把一个"设备巡检"设计分别排进五个目标，经渲染查看；过程中抓到并修掉两个真实问题（中文状态标签因 `<i>` 被渲染成伪斜体；`font` 简写里用 `inherit` 作字体族导致整条声明失效）。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.2.0 → **0.3.0**：新增 `## Role and Medium`（套件是设计师；媒介永远是 HTML/CSS/SVG；目标平台只改变画框、惯例与约束；技术栈知识是优化项）；路由表加入 `handoff-design` 与 `portable-mockups.md`，`implement-design` 标注为"给实现者"；新增 `handoff` 模式，`full` 流水线以交接包收尾，`implement` 先交接再实现；核心规则改为"媒介是标记语言，眼睛是截图，目标可以是任何平台"，并新增"设计与实现是两份工作，不要滑进实现者的构建与测试问题"；产出目录加入 `handoff/<feature>/`。
+- `skills/design-product-ui/SKILL.md` 0.1.0 → **0.2.0**：工作流第 0 步"点名目标"（平台与逻辑尺寸；用什么技术栈实现与作画无关）；产出改为"画在目标画框里、用可移植子集写、按目标 / 主题 / 状态出 PNG，多目标并排"；反模式加入"把非 Web 目标当成够不着"与"把重画的系统栏当自绘组件交出去"。
+- `skills/implement-design/SKILL.md` 0.1.0 → **0.2.0**：重新定位为**实现者指南**；原"交接文档"一节移交给 `handoff-design`，换成"把样稿翻译到非 Web 技术栈"的五步；截图由实现者自己想办法产出。`references/stacks.md` 开头注明这些内容不是设计的前提。
+- `skills/critique-design/SKILL.md` 0.1.0 → **0.1.1**：`qa` 模式接受任意来源的实现截图（浏览器、模拟器、真机、golden test、用户贴图），偏差三分类。
+- `skills/design-studio/references/render-and-look.md`：拆成"看设计稿"（任何目标都只需要浏览器）与"验收实现"（只需要截图，怎么来是实现者的事）；设计用的工具阶梯里去掉了原生技术栈。
+- `skills/design-product-ui/references/platforms.md`：说明这些惯例塑造的是**图**，平台怎么写代码不构成设计的限制。
+- `skills/iterate-design-lab/SKILL.md` 0.1.0 → **0.1.1**：Perishable Register 加入 `portable-mockups.md` 与样机套件（画框尺寸与栏高会随设备和系统变化）。
+
+### 文档与工具
+
+- `README.md`：开头写明"套件的角色是设计师，不是前端工程师"；skill 表加入 `handoff-design`；非目标加入"不负责在目标技术栈里实现与测试"；加了一个 Flutter 目标的使用示例。
+- `docs/index.html`：套件导览加入 `handoff-design` 与角色说明。
+- `scripts/check-lab-invariants.sh`：skill 内的 `assets/` 路径与 `.css` / `.html` 引用也纳入存在性检查。
+- `analysis/11-distilled-skill-design.md` 1.0 → **1.1**：补记第 6 条自我违反与"角色边界"一节。
+
+### 已知局限
+
+样机框里的系统栏是结构示意而不是官方 UI kit；HarmonyOS 的画框与栏高为近似值（已在文件内标注），小程序胶囊为 iOS 上的典型值（运行时应读取真实矩形）。Windows 窗口样式未单独渲染查看。
+
 ## [0.2.0] - 2026-09-21
 
 由用户的一个追问和两个新站点触发：用户问"taste-skill 和 UI UX Pro Max 学了，那 Claude 的 frontend design skill 学过吗"，并补充了 v0.app 与 impeccable.cn。

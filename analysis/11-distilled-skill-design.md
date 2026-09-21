@@ -1,6 +1,6 @@
 # skill 套件的设计取舍与自评
 
-> 分析版本：1.0 ｜ 最后更新：2026-09-21 ｜ 覆盖来源：本仓库自身（元层文件，非来源分析）｜ 版本见 `analysis/SOURCE_INDEX.md`
+> 分析版本：1.1 ｜ 最后更新：2026-09-21 ｜ 覆盖来源：本仓库自身（元层文件，非来源分析）｜ 版本见 `analysis/SOURCE_INDEX.md`
 
 这篇记录"为什么套件长成这样"，以及它目前**违反自己规则的地方**。它是一份自评，恰好处在"agent 会自信地夸奖自己的产出"这一失败模式的正中央，应当被当作待复核的材料。
 
@@ -49,6 +49,16 @@
 4. **目录的档位是单人判断**，没有第二意见，也没有使用反馈；国内资源覆盖薄于英文资源。
 5. **docs 页面是设计类仓库的门面，却只经过了一轮自评**，没有外部评审。
 
+6. **（1.1 补记）首版把"设计师"做成了"懂设计的前端工程师"。** 用户问"Flutter、Tauri、鸿蒙、小程序、原生桌面怎么办"时，我的第一反应是去打通各技术栈的渲染与测试工具（甚至开始写 Flutter golden test 脚手架），被用户叫停并反问：你的核心是设计，为什么会被前端技术局限？根因有三：①把**画图的媒介**（HTML/CSS/SVG）当成了**设计的目标平台**——Web 是唯一两者重合的平台，这个巧合掩盖了区别；②把**设计师的活**（决定、出图、写规格、交接、验收）滑成了**实现者的活**（在目标栈里搭出来并验证）——这是 coding agent 的职业本能；③调研的同类项目全是前端代码生成器，连带继承了"设计 = 生成前端代码"的框架，而用户最初给的 15 个站点其实全是设计师世界的资源。用户随后补了关键一点：HTML/CSS 本身就是各前端通用的语言，设计出 Web 形态的界面，coding agent 有能力把它转成对应的前端页面；更精确的语言特性指导只是优化项。0.3.0 据此修正，见下方"角色边界"。
+
+## 角色边界（1.1 新增）
+
+- **设计师（本套件）**：决定、出图、写规格、交接、凭截图验收。媒介永远是 HTML / CSS / SVG → PNG。
+- **实现者（coding agent 或开发者）**：在目标技术栈里实现，并自己想办法产出实现截图。
+- **目标平台**只改变三样东西：画框（尺寸、安全区、系统栏）、惯例（导航结构、手势、系统组件）、约束（字体、图标体系、最小点击区、输入方式）。不改变媒介、方法与质量标准。
+- 由此补上的两块真实短板：各平台的**样机框**（`skills/design-product-ui/assets/mockup-kit/kit.css`，让图看起来像那个平台）；以及**交接契约**（`skills/handoff-design/SKILL.md` 与 `skills/design-studio/references/portable-mockups.md`：以目标的逻辑尺寸作画使单位一一对应、可移植的 HTML/CSS 子集、组件与状态在标记里具名、区分"系统组件"与"自绘组件"、验收只需要截图）。
+- `implement-design` 与 `stacks.md` 保留，但明确标注为"给实现者的、让翻译更准的优化项"，不是设计的前提。
+
 ## 可证伪条件
 
 如果以下任一成立，说明套件设计有问题，应当修改而不是辩护：
@@ -65,3 +75,4 @@
 - `README.md`：同等醒目的"这个项目不做什么"与"已知局限"。
 - `.planning/seeds/SEED-001-freshness-and-evidence.md`：补齐平台规范等一手摘要、建立最小验证集。
 - `.planning/seeds/SEED-002-design-lint.md`：确定性设计检测脚本。
+- （1.1）`skills/design-studio/SKILL.md` 新增 `## Role and Medium`、`handoff` 模式与相应核心规则；新增 `skills/handoff-design/SKILL.md`、`skills/design-studio/references/portable-mockups.md`、样机套件 `skills/design-product-ui/assets/mockup-kit/kit.css`；`skills/design-studio/references/render-and-look.md` 拆分"看设计稿"与"验收实现"；`skills/implement-design/SKILL.md` 重新定位为实现者指南；`skills/critique-design/SKILL.md` 的 `qa` 改为接受任意来源的截图并把偏差分为实现缺陷 / 规格缺口 / 平台差异。
