@@ -12,6 +12,43 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.2.0] - 2026-09-21
+
+由用户的一个追问和两个新站点触发：用户问"taste-skill 和 UI UX Pro Max 学了，那 Claude 的 frontend design skill 学过吗"，并补充了 v0.app 与 impeccable.cn。
+
+### 新增
+
+- **资源目录** 新增 2 条（共 601 条）：`v0`（Vercel 的提示词到应用生成器，含设计模式、设计系统与社区模板库）与 `impeccable-cn`（Impeccable 中文站），均标记 `origin: user-2026-09-21`。同时更新 `impeccable`（指向 `/slop` 规则目录与 `npx impeccable detect`）、`anthropic-frontend-design`、`anthropic-frontend-blog` 三条。
+- **一手摘要** `raw/docs/impeccable-slop-rules.md`：约 46 条反模式规则分八类，逐条标注检测方式（CLI / 浏览器 / 仅 LLM / 可选），区分"AI 痕迹"与"基本质量"，含 2022 对 2026 的年代对照。
+- `raw/docs/anthropic-frontend-design-skill.md` 补入配套文章（发布 2025-11-12，本次抓到全文）：分布收敛机制、四个可提示的轴、约 400 token 的审美提示、`web-artifacts-builder`。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.1.0 → **0.2.0**（其 references 发生了指导性变化）：
+  - `references/anti-slop.md`：新增第三份带日期的清单（来自 Impeccable 的确定性检测规则）、"Cures decay too"一段（2025-11 被推荐的解药——Space Grotesk 一类"有特色的字体"、衬线、氛围渐变背景、错峰入场——在 2026 年逐条成为被检测的痕迹，因此只推荐**选择的方法**，不推荐具体答案），以及 `Mechanical Help` 一节。
+  - `references/typography.md`：相邻字号层级约 1.25 倍；字体栈示例里的具体字体名改为占位符。
+  - `references/layout-and-spacing.md`：卡片圆角约 8–16 px、粗强调边与大圆角二选一；带边框或底色的容器内文字至少 8 px（通常 12–16 px）内边距，正文不贴视口边缘。
+  - `references/source-map.md`：登记新摘要与上游链接。
+- `skills/build-design-system/SKILL.md` 0.1.0 → **0.1.1**：`references/token-formats.md` 的 DTCG 与 DESIGN.md 示例不再写具体字体名，避免示例被照抄成新的默认。
+
+### 分析
+
+- `analysis/02-ai-design-skills-survey.md` 1.0 → **1.1**：新增"解药也会过期"一节（三份带日期材料排成的时间线）、v0 的定位、如实记录的各项目阅读深度（Anthropic 的 skill 是读得最完整的一个），以及 impeccable.cn 与官方仓库的关系。
+- `analysis/SOURCE_INDEX.md`：Anthropic 一行推进到 1.1，新增 Impeccable `/slop` 行。
+- `.planning/seeds/SEED-002-design-lint.md`：补入规则来源与"CLI / 浏览器 / 仅 LLM"三分法，并记下"先评估直接使用现成检测器"。
+
+### 文档与工具
+
+- `docs/index.html`：**按新学到的规则自查后修改**——去掉每一行左侧的彩色竖条（与"卡片侧边粗色条"这一痕迹相邻，且同一分节内不承载额外信息），改为只在分节标题上放一个域色块并让标题吸顶；字体栈去掉 Inter；修复授权信息里长字符串不换行、被视口裁切的问题。均经重新渲染确认。
+- `scripts/check-links.py`：局部验链（`--ids` / `--only`）不再覆盖当天的全量报告，改为把结果打印到终端。
+
+### 来源版本与最后更新
+
+| 来源 | 来源版本 | 分析 | 最后更新 |
+| --- | --- | --- | --- |
+| Anthropic `frontend-design` skill + 配套文章 | skill 三个快照（抓取 2026-09-20）；文章发布 2025-11-12 / 抓取 2026-09-21 | `analysis/02` 1.1 | 2026-09-21 |
+| Impeccable `/slop` 规则目录 | 持续更新，中文站抓取 2026-09-21 | `analysis/02` 1.1 | 2026-09-21 |
+
 ## [0.1.0] - 2026-09-21
 
 首版。用户给出 15 个设计站点作为样例，要求建立一个结构类似 `ai-agent-skill-lab` 的设计类 skill 项目：能按需求出完整设计、设计单个页面或组件、针对网站给灵感、同时做几套方案，并尽量想到资深设计师会做的其他用途。
