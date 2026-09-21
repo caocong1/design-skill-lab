@@ -1,0 +1,62 @@
+/* 8 · 控制台 Control Console
+   Concept: the desk in a data-centre control room. Dark panels, corner ticks, gauge bars
+   and tabular figures; the distribution of the current result set stays on the rail.
+   Axes: condensed sans + tabular numerals | dark slate + one calm cyan | panelled, rail
+   carries live distribution | high density | squared | surface-lightness layers, NO glow. */
+html[data-style="console"] {
+  --bg: oklch(0.19 0.014 245); --surface: oklch(0.225 0.016 245); --sunken: oklch(0.265 0.018 245);
+  --line: oklch(0.33 0.02 245); --line-strong: oklch(0.45 0.025 245);
+  --text: oklch(0.92 0.008 245); --muted: oklch(0.74 0.015 245); --faint: oklch(0.64 0.018 245);
+  --ink: oklch(0.8 0.085 205); --on-ink: oklch(0.19 0.014 245); --accent: oklch(0.8 0.085 205);
+  --ok: oklch(0.78 0.13 150); --warn: oklch(0.82 0.13 85);
+  --hue-l: 0.74; --hue-c: 0.1;
+  --font-body: "DIN Alternate", "Bahnschrift", "Avenir Next Condensed", "Roboto Condensed", "Arial Narrow", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --fs: 15px; --lh: 1.5; --display-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.4rem); --display-weight: 600; --display-track: 0.02em;
+  --r1: 2px; --r2: 2px; --page: 1500px; --rail: 270px;
+  color-scheme: dark;
+}
+html[data-style="console"] body { font-variant-numeric: tabular-nums; }
+/* a panel: one step lighter than the floor, with corner ticks instead of a glow */
+html[data-style="console"] .stylenote, html[data-style="console"] .rail, html[data-style="console"] .tools, html[data-style="console"] .about .cols > div {
+  background: linear-gradient(var(--accent), var(--accent)) 0 0 / 12px 1px no-repeat, linear-gradient(var(--accent), var(--accent)) 0 0 / 1px 12px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) 100% 0 / 12px 1px no-repeat, linear-gradient(var(--accent), var(--accent)) 100% 0 / 1px 12px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) 0 100% / 12px 1px no-repeat, linear-gradient(var(--accent), var(--accent)) 0 100% / 1px 12px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) 100% 100% / 12px 1px no-repeat, linear-gradient(var(--accent), var(--accent)) 100% 100% / 1px 12px no-repeat, var(--surface);
+  border: 1px solid var(--line); border-radius: 0; padding: var(--s4); }
+html[data-style="console"] .masthead { border-bottom: 1px solid var(--line); padding: var(--s6) 0; align-items: center; }
+html[data-style="console"] .brand { display: flex; align-items: baseline; gap: var(--s4); flex-wrap: wrap; }
+html[data-style="console"] .brand h1 { text-transform: uppercase; }
+html[data-style="console"] .brand h1::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 12px; border-radius: 50%; background: var(--ok); vertical-align: 0.12em; }
+html[data-style="console"] .brand .cn { margin: 0; letter-spacing: 0.3em; }
+html[data-style="console"] .deck { height: 4px; border-radius: 0; gap: 3px; background: none; }
+html[data-style="console"] .facts strong { color: var(--accent); }
+html[data-style="console"] .jump a { text-decoration: none; color: var(--accent); } html[data-style="console"] .jump a:hover { text-decoration: underline; }
+html[data-style="console"] .layout { gap: var(--s6); padding-top: var(--s6); }
+html[data-style="console"] .rail { top: var(--s4); max-height: calc(100vh - var(--s8)); }
+html[data-style="console"] .rail h2, html[data-style="console"] .stats h2 { text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; color: var(--faint); }
+/* each domain row is a gauge: the fill length is its share of the current result set */
+html[data-style="console"] .domains button { border-radius: 0; padding: 5px var(--s2); background: linear-gradient(90deg, oklch(var(--hue-l) var(--hue-c) var(--h) / 0.22), oklch(var(--hue-l) var(--hue-c) var(--h) / 0.22)) 0 0 / calc(var(--v) * 100%) 100% no-repeat; }
+html[data-style="console"] .domains .chip { width: 3px; height: 16px; border-radius: 0; }
+html[data-style="console"] .domains button:hover { outline: 1px solid var(--line-strong); outline-offset: -1px; }
+html[data-style="console"] .domains button[aria-pressed="true"] { outline: 1px solid var(--accent); outline-offset: -1px; color: var(--accent); }
+html[data-style="console"] .domains .n { color: var(--text); }
+html[data-style="console"] .stats { display: block; margin-top: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+html[data-style="console"] .bar i { background: var(--bg); border-radius: 0; height: 8px; } html[data-style="console"] .bar i::after { background: var(--accent); }
+html[data-style="console"] .tools { border-bottom: 1px solid var(--line); }
+html[data-style="console"] .search input, html[data-style="console"] .filters select, html[data-style="console"] .btn { background: var(--bg); border-color: var(--line-strong); border-radius: 0; }
+html[data-style="console"] .btn:hover { border-color: var(--accent); color: var(--accent); }
+html[data-style="console"] .group > h3 { background: var(--bg); text-transform: uppercase; letter-spacing: 0.06em; font-size: 1rem; border-bottom: 1px solid var(--line-strong); }
+html[data-style="console"] .group > h3 .chip { width: 3px; height: 14px; border-radius: 0; }
+html[data-style="console"] .group > h3 .n { margin-left: auto; color: var(--accent); font-size: 1rem; }
+html[data-style="console"] .rows { border-top: 0; }
+html[data-style="console"] .row { padding: 9px var(--s3); border-bottom: 1px solid var(--line); }
+html[data-style="console"] .row:hover { background: var(--surface); }
+html[data-style="console"] .row h4 { letter-spacing: 0.02em; } html[data-style="console"] .row h4 a { text-decoration: none; } html[data-style="console"] .row h4 a:hover { color: var(--accent); }
+html[data-style="console"] .meta { font-size: 12px; grid-template-columns: 34px 1fr; }
+/* tier as a three-segment level meter */
+html[data-style="console"] .tier { all: unset; grid-row: span 3; font-size: 0; width: 30px; height: 18px; background: linear-gradient(90deg, var(--lv1) 0 8px, transparent 8px 11px, var(--lv2) 11px 19px, transparent 19px 22px, var(--lv3) 22px 30px); --lv1: var(--accent); --lv2: var(--line-strong); --lv3: var(--line-strong); }
+html[data-style="console"] .tier[data-t="A"] { --lv2: var(--accent); } html[data-style="console"] .tier[data-t="S"] { --lv2: var(--accent); --lv3: var(--accent); }
+html[data-style="console"] .meta .user { color: var(--warn); }
+html[data-style="console"] section.about { border-top: 1px solid var(--line); }
+html[data-style="console"] .about h2 { text-transform: uppercase; letter-spacing: 0.08em; font-size: 1.2rem; }
+html[data-style="console"] pre, html[data-style="console"] code { background: var(--bg); border-color: var(--line); }

@@ -1,0 +1,53 @@
+/* 9 · 贴纸 Sticker
+   Concept: a wall of stickers. Rounded type, thick black outlines, hard offset shadows,
+   a bright colour for each of the twelve domains; things go "click" when pressed.
+   Axes: rounded heavy | vivid multi-hue | colour-block navigation + sticker rows |
+   medium-low density | large radius / pills | hard drop shadow.
+   Dated on purpose: this is the neo-brutalist look of the early 2020s. */
+html[data-style="sticker"] {
+  --bg: oklch(0.965 0.035 95); --surface: #fff; --sunken: oklch(0.94 0.04 95);
+  --line: #141414; --line-strong: #141414; --text: #141414; --muted: oklch(0.34 0.01 90); --faint: oklch(0.42 0.01 90);
+  --ink: #141414; --on-ink: #fff; --accent: oklch(0.72 0.19 45);
+  --hue-l: 0.84; --hue-c: 0.13; --tint-l: 0.84; --tint-c: 0.13;
+  --font-body: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "Yuanti SC", YouYuan, "Arial Rounded MT Bold", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --fs: 15.5px; --lh: 1.6; --display-weight: 800; --display-track: -0.03em;
+  --r1: 10px; --r2: 16px; --bw: 2.5px; --page: 1280px; --rail: 250px;
+  --shadow: 5px 5px 0 #141414; --dur: 140ms; --ease: cubic-bezier(0.3, 1.5, 0.5, 1);
+  color-scheme: light;
+}
+html[data-style="sticker"] .masthead { border-bottom: 0; }
+html[data-style="sticker"] .brand h1 { display: inline-block; background: oklch(0.86 0.15 95); border: 3px solid #141414; border-radius: 20px; padding: 6px 22px 10px; box-shadow: 6px 6px 0 #141414; transform: rotate(-1.5deg); }
+html[data-style="sticker"] .brand .cn { margin-top: var(--s4); font-weight: 700; color: var(--text); }
+html[data-style="sticker"] .lede { font-size: 1.05rem; color: var(--text); }
+html[data-style="sticker"] .deck { height: 22px; border: 2.5px solid #141414; border-radius: 999px; box-shadow: var(--shadow); }
+html[data-style="sticker"] .stylenote { border-width: 2.5px; border-color: #141414; transform: rotate(1deg); }
+html[data-style="sticker"] .jump a { text-decoration: none; background: #fff; border: 2.5px solid #141414; border-radius: 999px; padding: 4px 16px; font-weight: 700; box-shadow: 3px 3px 0 #141414; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+html[data-style="sticker"] .jump { gap: var(--s3); }
+html[data-style="sticker"] .jump a:hover, html[data-style="sticker"] .btn:hover, html[data-style="sticker"] .domains button:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 #141414; }
+html[data-style="sticker"] .jump a:active, html[data-style="sticker"] .btn:active, html[data-style="sticker"] .domains button:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #141414; }
+html[data-style="sticker"] .rail { padding: 6px 8px 8px 2px; }
+html[data-style="sticker"] .domains { gap: 9px; }
+html[data-style="sticker"] .domains button { background: oklch(var(--hue-l) var(--hue-c) var(--h)); border: 2.5px solid #141414; border-radius: 999px; padding: 6px 14px; grid-template-columns: 1fr auto; font-weight: 700; box-shadow: 3px 3px 0 #141414; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+html[data-style="sticker"] .domains li:first-child button:not([aria-pressed="true"]) { background: #fff; }
+html[data-style="sticker"] .domains .chip, html[data-style="sticker"] .domains button > span:first-child:empty { display: none; }
+html[data-style="sticker"] .domains .n { color: #141414; font-weight: 800; }
+html[data-style="sticker"] .domains button[aria-pressed="true"] { background: #141414; color: #fff; box-shadow: 0 0 0 #141414; transform: translate(3px, 3px); } html[data-style="sticker"] .domains button[aria-pressed="true"] .n { color: #fff; }
+html[data-style="sticker"] .tools { border-bottom: 0; }
+html[data-style="sticker"] .search input { height: 50px; border-radius: 999px; padding: 0 22px; box-shadow: var(--shadow); font-weight: 600; }
+html[data-style="sticker"] .btn { border-radius: 999px; font-weight: 700; box-shadow: 3px 3px 0 #141414; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease); } html[data-style="sticker"] .search .btn { height: 50px; padding: 0 22px; }
+html[data-style="sticker"] .filters select { border-radius: 999px; padding: 0 10px; font-weight: 600; }
+html[data-style="sticker"] .group > h3 { font-size: 1.45rem; font-weight: 800; }
+html[data-style="sticker"] .group > h3 .chip { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid #141414; }
+html[data-style="sticker"] .rows { border: 0; display: grid; gap: 14px; padding: 4px 8px 8px 0; }
+html[data-style="sticker"] .row { background: #fff; border: 2.5px solid #141414; border-radius: var(--r2); padding: var(--s3) var(--s4); box-shadow: var(--shadow); }
+html[data-style="sticker"] .row h4 { font-size: 1.1rem; font-weight: 800; } html[data-style="sticker"] .row h4 a { text-decoration-color: var(--accent); text-decoration-thickness: 3px; }
+html[data-style="sticker"] .tier { width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid #141414; background: #fff; color: #141414; font-weight: 800; }
+html[data-style="sticker"] .tier[data-t="S"] { background: oklch(0.86 0.15 95); color: #141414; } html[data-style="sticker"] .tier[data-t="A"] { background: oklch(0.88 0.1 160); } html[data-style="sticker"] .tier[data-t="B"] { border-color: #141414; color: #141414; font-weight: 800; }
+html[data-style="sticker"] .meta { grid-template-columns: 34px 1fr; }
+html[data-style="sticker"] section.about { border-top: 0; }
+html[data-style="sticker"] .about h2 { font-weight: 800; font-size: 2rem; }
+html[data-style="sticker"] .about .cols > div { background: #fff; border: 2.5px solid #141414; border-radius: var(--r2); padding: var(--s4); box-shadow: var(--shadow); }
+html[data-style="sticker"] pre { border-width: 2.5px; }
+html[data-style="sticker"] .skills th, html[data-style="sticker"] .skills td { border-bottom-width: 2px; }
+html[data-style="sticker"] footer { border-top: 0; }
+@media (prefers-reduced-motion: reduce) { html[data-style="sticker"] .brand h1, html[data-style="sticker"] .stylenote { transform: none; } }

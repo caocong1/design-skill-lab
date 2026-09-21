@@ -1,0 +1,52 @@
+/* 7 · 展签 Museum Label
+   Concept: wall text in a gallery. One narrow column, a great deal of white, a humanist
+   sans; each resource reads like the label beside an exhibit.
+   Axes: humanist sans | near-white + charcoal | single narrow column | lowest density |
+   no shapes | no lines, no boxes - whitespace only. */
+html[data-style="label"] {
+  --bg: oklch(0.99 0.001 90); --surface: oklch(0.99 0.001 90); --sunken: oklch(0.965 0.002 90);
+  --line: oklch(0.9 0.002 90); --line-strong: oklch(0.72 0.003 90);
+  --text: oklch(0.27 0.005 90); --muted: oklch(0.45 0.005 90); --faint: oklch(0.52 0.005 90);
+  --ink: oklch(0.27 0.005 90); --on-ink: #fff;
+  --font-body: Optima, "Avenir Next", Seravek, Candara, "Gill Sans Nova", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --fs: 15.5px; --lh: 1.8; --display-size: clamp(1.9rem, 1.5rem + 1.4vw, 2.6rem); --display-weight: 400; --display-track: 0.01em;
+  --r1: 0; --r2: 0; --page: 760px;
+  color-scheme: light;
+}
+html[data-style="label"] .sheet { padding-top: 8vh; }
+html[data-style="label"] .masthead { grid-template-columns: minmax(0, 1fr); border-bottom: 0; gap: var(--s4); padding-bottom: var(--s12); }
+html[data-style="label"] .brand .cn { letter-spacing: 0.35em; font-size: 0.9rem; }
+html[data-style="label"] .stylenote { grid-column: 1; grid-row: auto; border: 0; padding: 0; margin-top: var(--s6); background: none; font-size: 13px; }
+html[data-style="label"] .stylenote h2 { font-weight: 500; letter-spacing: 0.04em; }
+html[data-style="label"] .stylenote .risk { border-top: 0; padding-top: 0; }
+html[data-style="label"] .deck { height: 2px; margin-top: var(--s8); }
+html[data-style="label"] .jump a, html[data-style="label"] a { text-decoration-color: var(--line); }
+html[data-style="label"] .layout { display: block; padding-top: 0; }
+html[data-style="label"] .rail { position: static; max-height: none; overflow: visible; margin-bottom: var(--s8); }
+html[data-style="label"] .rail h2 { display: none; }
+html[data-style="label"] .domains { display: flex; flex-wrap: wrap; gap: 2px var(--s4); }
+html[data-style="label"] .domains button { width: auto; display: inline-flex; gap: 6px; padding: 2px 0; border-radius: 0; border-bottom: 1px solid transparent; }
+html[data-style="label"] .domains .chip { width: 6px; height: 6px; border-radius: 50%; align-self: center; } html[data-style="label"] .domains button > span:first-child:empty { display: none; }
+html[data-style="label"] .domains button:hover { background: none; border-bottom-color: var(--line-strong); }
+html[data-style="label"] .domains button[aria-pressed="true"] { background: none; border-bottom-color: var(--ink); font-weight: 500; }
+html[data-style="label"] .tools { border-bottom: 0; gap: var(--s2); }
+html[data-style="label"] .search input { border: 0; border-bottom: 1px solid var(--line-strong); padding: 0; background: none; font-size: 1.1rem; }
+html[data-style="label"] .search .btn, html[data-style="label"] .btn { border: 0; background: none; text-decoration: underline; text-decoration-color: var(--line-strong); padding: 0 var(--s2); }
+html[data-style="label"] .filters { gap: 2px var(--s4); } html[data-style="label"] .filters label { font-size: 12.5px; }
+html[data-style="label"] .filters select { border: 0; background: none; height: 26px; padding: 0; color: var(--muted); font-size: 12.5px; }
+html[data-style="label"] .group { margin-top: 96px; }
+html[data-style="label"] .group > h3 { position: static; font-size: 1.5rem; font-weight: 400; letter-spacing: 0.01em; flex-wrap: wrap; }
+html[data-style="label"] .group > h3 .chip { width: 8px; height: 8px; border-radius: 50%; }
+html[data-style="label"] .group > p { margin-bottom: var(--s8); }
+html[data-style="label"] .rows { border-top: 0; }
+html[data-style="label"] .row { grid-template-columns: minmax(0, 1fr); border-bottom: 0; padding: 0 0 var(--s12); }
+html[data-style="label"] .row h4 { font-size: 1.12rem; font-weight: 500; } html[data-style="label"] .row h4 a { text-decoration: none; } html[data-style="label"] .row h4 a:hover { text-decoration: underline; }
+html[data-style="label"] .meta { grid-column: 1; grid-row: auto; display: flex; flex-wrap: wrap; gap: 0 var(--s4); margin-top: var(--s2); font-size: 12.5px; }
+/* tier as one to three dots */
+html[data-style="label"] .tier { all: unset; font-size: 0; letter-spacing: 3px; color: var(--ink); } html[data-style="label"] .tier::after { font-size: 9px; }
+html[data-style="label"] .tier[data-t="S"]::after { content: "●●●"; } html[data-style="label"] .tier[data-t="A"]::after { content: "●●○"; } html[data-style="label"] .tier[data-t="B"]::after { content: "●○○"; }
+html[data-style="label"] section.about { border-top: 0; padding: 96px 0 0; }
+html[data-style="label"] .about h2 { font-weight: 400; font-size: 1.5rem; }
+html[data-style="label"] .about .cols { grid-template-columns: minmax(0, 1fr); gap: var(--s8); }
+html[data-style="label"] .skills th, html[data-style="label"] .skills td { border-bottom: 0; padding-bottom: var(--s3); } html[data-style="label"] .skills td:first-child { white-space: normal; }
+html[data-style="label"] footer { border-top: 0; padding-top: 96px; }

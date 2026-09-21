@@ -1,0 +1,44 @@
+/* 0 · 素页 Plain HTML
+   Concept: almost no design. The browser's serif, blue links, table rules. The fastest,
+   most durable and most accessible pole - and the baseline every other style must beat.
+   Axes: system serif | black, white, link blue | single document column | medium density |
+   no shapes | no depth. */
+html[data-style="plain"] {
+  --bg: #fff; --surface: #fff; --sunken: #f2f2f2; --line: #999; --line-strong: #666;
+  --text: #000; --muted: #222; --faint: #444; --ink: #000; --on-ink: #fff;
+  --font-body: Georgia, "Times New Roman", "Songti SC", SimSun, serif; --font-display: var(--font-body);
+  --fs: 16px; --lh: 1.5; --display-size: 2em; --display-weight: 700; --display-track: 0;
+  --r1: 0; --r2: 0; --page: 900px; --dur: 0ms;
+  color-scheme: light;
+}
+html[data-style="plain"] a { color: #0000ee; text-decoration: underline; text-decoration-color: currentColor; } html[data-style="plain"] a:visited { color: #551a8b; }
+html[data-style="plain"] .masthead { grid-template-columns: minmax(0, 1fr); border-bottom: 1px solid #999; padding: var(--s6) 0 var(--s4); gap: var(--s2); }
+html[data-style="plain"] .brand .cn { letter-spacing: 0; margin: 0; }
+html[data-style="plain"] .stylenote { grid-column: 1; grid-row: auto; border: 1px solid #999; background: none; font-size: 14px; }
+html[data-style="plain"] .deck { display: none; }
+html[data-style="plain"] .lede, html[data-style="plain"] .facts { color: #000; }
+html[data-style="plain"] .layout { display: block; padding-top: var(--s4); }
+html[data-style="plain"] .rail { position: static; max-height: none; overflow: visible; margin-bottom: var(--s4); }
+html[data-style="plain"] .rail h2 { display: inline; font-size: 1em; color: #000; } html[data-style="plain"] .rail h2::after { content: "："; }
+html[data-style="plain"] .domains { display: inline; }
+html[data-style="plain"] .domains li { display: inline; } html[data-style="plain"] .domains li + li::before { content: " | "; color: #666; }
+html[data-style="plain"] .domains button { display: inline; width: auto; padding: 0; color: #0000ee; text-decoration: underline; }
+html[data-style="plain"] .domains .chip, html[data-style="plain"] .domains button > span:first-child:empty { display: none; }
+html[data-style="plain"] .domains .n::before { content: " ("; } html[data-style="plain"] .domains .n::after { content: ")"; } html[data-style="plain"] .domains .n { color: #444; font-size: 1em; }
+html[data-style="plain"] .domains button:hover { background: none; } html[data-style="plain"] .domains button[aria-pressed="true"] { background: none; color: #000; font-weight: 700; text-decoration: none; }
+html[data-style="plain"] .tools { border: 1px solid #999; padding: var(--s3); }
+html[data-style="plain"] .search input, html[data-style="plain"] .filters select, html[data-style="plain"] .btn { border: 1px solid #666; background: #fff; height: 30px; font-size: 15px; }
+html[data-style="plain"] .btn { background: #e9e9ed; }
+html[data-style="plain"] .group > h3 { position: static; font-size: 1.35em; background: none; } html[data-style="plain"] .group > h3 .chip { display: none; }
+html[data-style="plain"] .group > h3 .dom, html[data-style="plain"] .group > h3 .n { font-family: inherit; font-size: 0.7em; }
+html[data-style="plain"] .rows { border-top: 1px solid #999; }
+html[data-style="plain"] .row { grid-template-columns: minmax(0, 1fr); border-bottom: 1px solid #ccc; padding: var(--s2) 0; }
+html[data-style="plain"] .row h4 { font-size: 1.05em; }
+html[data-style="plain"] .meta { grid-column: 1; grid-row: auto; display: block; font-size: 14px; color: #333; }
+html[data-style="plain"] .meta span + span::before { content: " · "; } html[data-style="plain"] .meta span:empty { display: none; }
+html[data-style="plain"] .tier { all: unset; font-weight: 700; } html[data-style="plain"] .tier::before { content: "档位 "; font-weight: 400; }
+html[data-style="plain"] section.about { border-top: 1px solid #999; padding: var(--s6) 0; }
+html[data-style="plain"] .about h2 { font-size: 1.5em; letter-spacing: 0; }
+html[data-style="plain"] .about .cols { display: block; } html[data-style="plain"] .about .cols > div { margin-top: var(--s4); }
+html[data-style="plain"] .skills { border: 1px solid #999; } html[data-style="plain"] .skills th, html[data-style="plain"] .skills td { border: 1px solid #999; padding: 4px 8px; }
+html[data-style="plain"] footer { border-top: 1px solid #999; }

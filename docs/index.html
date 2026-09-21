@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN" data-style="swatch">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Design Skill Lab · 设计资源目录与 skill 套件</title>
+<meta name="description" content="经过筛选和标记的设计资源目录，以及让 agent 像资深设计师一样工作的 skill 套件。同一份内容，十种设计方向。">
+<script>
+  // Apply the chosen style before first paint. Order: ?style= > last choice > default.
+  (function () {
+    var known = ['swatch', 'swiss', 'songban', 'terminal', 'blueprint', 'cards', 'label', 'console', 'sticker', 'plain'];
+    var s = new URLSearchParams(location.search).get('style');
+    try { s = s || localStorage.getItem('dsl-style'); } catch (e) {}
+    if (known.indexOf(s) > -1) document.documentElement.dataset.style = s;
+  })();
+</script>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles/swiss.css">
+<link rel="stylesheet" href="styles/songban.css">
+<link rel="stylesheet" href="styles/terminal.css">
+<link rel="stylesheet" href="styles/blueprint.css">
+<link rel="stylesheet" href="styles/cards.css">
+<link rel="stylesheet" href="styles/label.css">
+<link rel="stylesheet" href="styles/console.css">
+<link rel="stylesheet" href="styles/sticker.css">
+<link rel="stylesheet" href="styles/plain.css">
+</head>
+<body>
+<a class="skip" href="#catalog">跳到资源目录</a>
+<div class="sheet">
+  <header class="masthead">
+    <div class="brand">
+      <h1>Design Skill Lab</h1>
+      <p class="cn">设计技能实验室</p>
+    </div>
+    <p class="lede">经过筛选和标记的设计资源目录，加上一套让 agent 像资深设计师一样工作的 skill：决定、出图、写规格、交接、验收。覆盖 Web、移动与桌面 App、动效、图标、品牌、平面。</p>
+    <p class="facts" id="summary" aria-live="polite"></p>
+    <nav class="jump" aria-label="页面导航">
+      <a href="#catalog">资源目录</a><a href="#suite">skill 套件</a><a href="#start">怎么用</a><a href="#method">方法与局限</a><a href="https://github.com/caocong1/design-skill-lab">GitHub</a>
+    </nav>
+    <aside class="stylenote" id="stylenote" aria-label="当前页面风格说明"></aside>
+    <div class="deck" id="deck" aria-hidden="true"></div>
+  </header>
+
+  <main class="layout" id="catalog">
+    <aside class="rail" aria-label="按域筛选">
+      <h2>域</h2>
+      <ul class="domains" id="domains"></ul>
+      <div class="stats" id="stats" aria-label="当前结果的分布"></div>
+    </aside>
+    <div class="content">
+      <form class="tools" id="tools" role="search" onsubmit="return false">
+        <div class="search">
+          <input id="q" type="search" placeholder="搜索名称、用途、标签、授权…" title="按 / 聚焦搜索框，Esc 清空" autocomplete="off" spellcheck="false" aria-label="搜索资源">
+          <button class="btn" type="button" id="reset">重置</button>
+        </div>
+        <div class="filters">
+          <label>档位 <select id="tier"><option value="">全部</option><option value="S">S 首选</option><option value="A">A 可靠</option><option value="B">B 备选</option></select></label>
+          <label>类型 <select id="kind"><option value="">全部</option></select></label>
+          <label>收费 <select id="access"><option value="">全部</option><option value="free">免费</option><option value="freemium">部分免费</option><option value="paid">付费</option></select></label>
+          <label>agent 可达 <select id="reach"><option value="">全部</option><option value="static">可直接抓取</option><option value="js">需要浏览器</option><option value="blocked">有防护或需登录</option><option value="unknown">未能核验</option></select></label>
+          <label>语言 <select id="lang"><option value="">全部</option><option value="en">英文</option><option value="zh">中文</option><option value="ja">日文</option></select></label>
+          <label>来源 <select id="origin"><option value="">全部</option><option value="user">用户提供</option><option value="research">调研发现</option></select></label>
+        </div>
+        <div class="status"><span><strong id="count">0</strong> 条匹配</span><span>筛选条件与页面风格都保存在地址栏，可直接分享。</span></div>
+      </form>
+      <div id="results" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <section class="about" id="suite" aria-labelledby="suite-h">
+    <h2 id="suite-h">skill 套件</h2>
+    <p>套件的角色是设计师：决定、出图、写规格、交接、验收；在 Flutter、鸿蒙、小程序、Tauri 等目标技术栈里实现是 coding agent 的事。画图的媒介永远是 HTML / CSS / SVG，目标平台只改变画框与惯例。入口 skill 读懂任务并路由到最少的子 skill；共享的排版、色彩、布局、反套路、渲染查看、评分量表与授权参考放在入口 skill 下。</p>
+    <table class="skills">
+      <thead><tr><th scope="col">skill</th><th scope="col">做什么</th></tr></thead>
+      <tbody id="skills"></tbody>
+    </table>
+  </section>
+
+  <section class="about" id="start" aria-labelledby="start-h">
+    <h2 id="start-h">怎么用</h2>
+    <div class="cols">
+      <div>
+        <h3>安装</h3>
+        <p>子 skill 之间用相对路径互相引用，所以要装就装整套。</p>
+<pre><code>git clone https://github.com/caocong1/design-skill-lab
+cd design-skill-lab
+for d in skills/*/; do
+  ln -sfn "$PWD/$d" "$HOME/.claude/skills/$(basename "$d")"
+done   # Codex 用 ~/.codex/skills</code></pre>
+      </div>
+      <div>
+        <h3>然后直接说需求</h3>
+        <ul>
+          <li>"用 design-studio 给设备运维后台出一套完整设计，先给三个方向让我选。"</li>
+          <li>"这是我们的官网，用 find-design-inspiration 找参考，告诉我首屏和导航怎么改。"</li>
+          <li>"给 Flutter 巡检 App 设计设备列表页，手机和平板各一版，再用 handoff-design 打包给开发。"</li>
+          <li>"用 critique-design 走查这个页面，给带证据和优先级的评审报告。"</li>
+        </ul>
+      </div>
+      <div>
+        <h3>随套件附带的脚本</h3>
+<pre><code>color_tools.py contrast "#6b7280" "#fff"   # WCAG 比值 + APCA
+color_tools.py scale "#3b82f6" --name blue  # OKLCH 11 级色阶
+shot.sh page.html out/ --dark               # 多视口截图</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="method" aria-labelledby="method-h">
+    <h2 id="method-h">方法与局限</h2>
+    <div class="cols">
+      <div><h3>目录怎么来的</h3><p>用户提供的样例站点加上按学科的调研，逐条写明"适合查什么、怎么直达、授权、档位"。存活与 agent 可达性由脚本机械核验：一次全量验链约两分钟，不消耗模型额度；重定向到其他主机会被单独列出，用来发现并购与改名。</p></div>
+      <div><h3>三个支点</h3><ul><li>渲染并查看：没看过的设计只是猜测，没验证的要如实说。</li><li>能算的不估：对比度与色阶由脚本计算。</li><li>耐久与易腐分开：平台规格、库 API、尺寸表、"生成感"清单都带复核日期。</li></ul></div>
+      <div><h3>已知局限</h3><ul><li>这套 skill 还没有被系统评测过；这个页面是它第一次用在真实任务上。</li><li>证据等级不均：排版、色彩、动效、token、图标有一手摘要；平台规范、品牌、平面、数据大屏主要来自通识。</li><li>档位是单人判断；标为"未能核验"的站点是维护者网络不可达，不代表站点已下线。</li></ul></div>
+      <div><h3>关于这十种风格</h3><p>同一份内容、同一套 DOM，十个方向在字体气质、色彩策略、版式语法、密度、形状、层次上拉开，而不是换配色。全部只用系统字体，离线和字体 CDN 不可用的网络下都能正常显示。页眉里的说明卡就是"方案板"上每个方向该带的那张卡：概念、各轴取值、以及它会在哪里失败。</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span id="foot"></span>
+    <span>原创内容以 <a href="https://github.com/caocong1/design-skill-lab/blob/main/LICENSE">MIT</a> 许可发布；第三方名称、商标与被摘要的原文归各自所有者。</span>
+  </footer>
+</div>
+
+<div class="switcher" id="switcher" role="group" aria-label="页面风格（数字键 1–0 切换）"><span class="label">风格</span></div>
+
+<script src="catalog.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

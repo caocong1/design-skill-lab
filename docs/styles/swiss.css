@@ -1,0 +1,58 @@
+/* 2 · 瑞士 Swiss Grid
+   Concept: set the catalogue like a poster. Strict grid, enormous numerals, black and
+   white plus one red; scale contrast does the talking.
+   Axes: bold grotesque | black-white + one red | horizontal numeric index + 3-col rows |
+   medium density | zero radius | thick rules, no shadow. */
+html[data-style="swiss"] {
+  --bg: #fff; --surface: #fff; --sunken: oklch(0.96 0 0); --line: #111; --line-strong: #111;
+  --text: #111; --muted: oklch(0.36 0 0); --faint: oklch(0.46 0 0); --ink: #111; --on-ink: #fff;
+  --accent: oklch(0.56 0.22 27);
+  --font-body: "Helvetica Neue", Helvetica, "Arial Nova", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --display-size: clamp(3.2rem, 1rem + 10vw, 9.5rem); --display-weight: 700; --display-track: -0.045em;
+  --r1: 0; --r2: 0; --bw: 2px; --page: 1440px; --meta: 200px;
+  color-scheme: light;
+}
+html[data-style="swiss"] .masthead { border-bottom-width: 6px; padding-top: var(--s8); gap: var(--s4) var(--s8); }
+html[data-style="swiss"] .brand { grid-column: 1 / -1; }
+html[data-style="swiss"] .brand h1 { line-height: 0.92; }
+html[data-style="swiss"] .brand .cn { color: var(--accent); font-weight: 700; letter-spacing: 0.3em; font-size: 1.1rem; }
+html[data-style="swiss"] .stylenote { grid-row: 2 / span 3; border-width: 0 0 0 6px; border-color: var(--accent); padding: 0 0 0 var(--s4); }
+html[data-style="swiss"] .lede { font-size: 1.15rem; color: var(--text); }
+html[data-style="swiss"] .jump a { font-weight: 700; text-decoration: none; border-bottom: 3px solid var(--accent); }
+html[data-style="swiss"] .deck { display: none; }
+
+html[data-style="swiss"] .layout { grid-template-columns: minmax(0, 1fr); gap: var(--s8); }
+html[data-style="swiss"] .rail { position: static; max-height: none; overflow: visible; }
+html[data-style="swiss"] .rail h2 { display: none; }
+html[data-style="swiss"] .domains { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0; border-top: 2px solid #111; border-left: 2px solid #111; }
+html[data-style="swiss"] .domains button { grid-template-columns: 1fr; gap: 0; padding: var(--s3); border-right: 2px solid #111; border-bottom: 2px solid #111; height: 100%; align-content: start; }
+html[data-style="swiss"] .domains .chip, html[data-style="swiss"] .domains button > span:first-child { display: none; }
+html[data-style="swiss"] .domains .n { order: -1; font-size: 2.6rem; line-height: 1; font-weight: 700; letter-spacing: -0.04em; color: var(--text); }
+html[data-style="swiss"] .domains button:hover { background: var(--sunken); }
+html[data-style="swiss"] .domains button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+html[data-style="swiss"] .domains button[aria-pressed="true"] .n { color: #fff; }
+
+html[data-style="swiss"] .tools { border-bottom-width: 6px; }
+html[data-style="swiss"] .search input { height: 52px; font-size: 1.25rem; border-width: 2px; }
+html[data-style="swiss"] .search .btn { height: 52px; border-width: 2px; font-weight: 700; }
+html[data-style="swiss"] .group { margin-top: var(--s12); }
+html[data-style="swiss"] .group > h3 { font-size: 2rem; letter-spacing: -0.03em; border-top: 6px solid #111; padding-top: var(--s2); }
+html[data-style="swiss"] .group > h3 .chip { display: none; }
+html[data-style="swiss"] .group > h3 .dom { color: var(--accent); font-weight: 700; }
+html[data-style="swiss"] .rows { border-top-width: 2px; }
+html[data-style="swiss"] .row { grid-template-columns: minmax(180px, 1fr) minmax(0, 2.4fr) var(--meta); gap: 0 var(--s6); border-bottom-width: 1px; }
+html[data-style="swiss"] .row h4 { grid-column: 1; grid-row: 1 / span 2; font-size: 1.1rem; font-weight: 700; }
+html[data-style="swiss"] .row h4 a { text-decoration: none; }
+html[data-style="swiss"] .row h4 a:hover { color: var(--accent); }
+html[data-style="swiss"] .row .best, html[data-style="swiss"] .row .how { grid-column: 2; margin-top: 0; }
+html[data-style="swiss"] .meta { grid-column: 3; grid-row: 1 / span 2; }
+html[data-style="swiss"] .tier { border-width: 2px; }
+html[data-style="swiss"] .tier[data-t="S"] { background: var(--accent); border-color: var(--accent); }
+html[data-style="swiss"] section.about { border-top-width: 6px; }
+html[data-style="swiss"] .about h2 { font-size: 2.6rem; letter-spacing: -0.035em; }
+@media (max-width: 900px) {
+  html[data-style="swiss"] .row { grid-template-columns: minmax(0, 1fr); }
+  html[data-style="swiss"] .row h4, html[data-style="swiss"] .row .best, html[data-style="swiss"] .row .how, html[data-style="swiss"] .meta { grid-column: 1; grid-row: auto; }
+  html[data-style="swiss"] .domains { display: grid; overflow: visible; }
+  html[data-style="swiss"] .stylenote { grid-row: auto; }
+}
