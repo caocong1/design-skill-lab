@@ -2,7 +2,7 @@
 name: build-design-system
 description: Build or extend a design system - design tokens (primitive, semantic, component tiers), colour system with light and dark modes, type scale, spacing, radius, elevation and motion tokens, component specifications with anatomy, variants and states, theming of an existing component library, an agent-readable DESIGN.md, a living preview page, and a token-drift audit of an existing codebase. Use when the user wants a complete visual system, a theme, dark mode, brand theming for Ant Design / Element Plus / shadcn / MUI / Flutter, or wants scattered colours and sizes consolidated. 设计系统、设计规范、design token、主题、暗色模式、配色体系、字体层级。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Tokens, foundations, components, theming
 ---
 

@@ -12,7 +12,7 @@
 
 ## 目录
 
-- `catalog/resources.jsonl`：**资源目录的单一事实来源**，599 条，每条标记了学科域、分节、类型、标签、"适合查什么"、"怎么直达"、收费与登录、agent 可达性、授权、档位（S/A/B）、活跃度、语言、来源（用户提供 / 调研发现）。
+- `catalog/resources.jsonl`：**资源目录的单一事实来源**，601 条，每条标记了学科域、分节、类型、标签、"适合查什么"、"怎么直达"、收费与登录、agent 可达性、授权、档位（S/A/B）、活跃度、语言、来源（用户提供 / 调研发现）。
 - `catalog/sections.json`：目录的分类法，以及每个分节"资深设计师怎么用这类资源"的一句话。
 - `skills/design-studio/`：skill 套件入口（路由、模式、核心规则、共享基础参考、目录的运行时视图、脚本）。
 - `skills/<其余 11 个>/`：专注的子 skill，见下表。
@@ -51,11 +51,11 @@
 
 ## 当前资料集
 
-**资源目录**（599 条；S 131 / A 372 / B 96）按 12 个域组织：`web` 网站、`app-ui` 产品界面、`motion` 动效、`icons` 图标、`assets` 素材、`brand` 品牌、`graphic` 平面、`type` 字体（含中文字体与排版）、`color` 色彩、`code` 开源项目与以代码为媒介的工具、`reading` 文章书籍课程、`general` 社区与聚合。用户 2026-09-20 提供的 15 个站点全部收录并标记 `origin: user-2026-09-20`。
+**资源目录**（601 条；S 131 / A 374 / B 96）按 12 个域组织：`web` 网站、`app-ui` 产品界面、`motion` 动效、`icons` 图标、`assets` 素材、`brand` 品牌、`graphic` 平面、`type` 字体（含中文字体与排版）、`color` 色彩、`code` 开源项目与以代码为媒介的工具、`reading` 文章书籍课程、`general` 社区与聚合。用户提供的站点全部收录并标记来源：2026-09-20 的 15 个（`origin: user-2026-09-20`）与 2026-09-21 补充的 v0、Impeccable 中文站（`origin: user-2026-09-21`）。
 
-**一手摘要与分析**（15 份摘要，11 篇分析）：
+**一手摘要与分析**（16 份摘要，11 篇分析）：
 
-- Anthropic `frontend-design` skill、Vercel Web Interface Guidelines、Emil Kowalski 的动效文章、Material 3 动效 token（含 M3 Expressive 弹簧）、Lucide 图标设计原则、Radix 12 级色阶、Practical Typography、Hobday 的视觉规则、Laws of UX、Shape of AI。
+- Anthropic `frontend-design` skill 及其配套文章、Impeccable 的反模式规则目录、Vercel Web Interface Guidelines、Emil Kowalski 的动效文章、Material 3 动效 token（含 M3 Expressive 弹簧）、Lucide 图标设计原则、Radix 12 级色阶、Practical Typography、Hobday 的视觉规则、Laws of UX、Shape of AI。
 - 规范类：W3C DTCG《Design Tokens Format Module 2025.10》、Google Labs DESIGN.md（alpha）、W3C《中文排版需求》。
 - 中文语境：《中文文案排版指北》、微信《小程序设计指南》。
 - 同类项目横评：Anthropic skill、taste-skill、UI UX Pro Max、Impeccable、Vercel 准则、DESIGN.md（`analysis/02-ai-design-skills-survey.md`）。
@@ -83,7 +83,7 @@
 
 ## 版本与变更
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.1.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）。`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.2.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）。`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
 
 ## 使用方式
 
