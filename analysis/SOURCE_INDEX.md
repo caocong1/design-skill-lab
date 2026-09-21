@@ -1,6 +1,6 @@
 # Source Index
 
-更新时间：2026-09-21（首版：15 份一手摘要、11 篇分析、599 条资源目录；2026-09-20 的并行调研在产出交付物之前中断，本轮改为主 agent 筛选 + 脚本机械核验）。
+更新时间：2026-09-21（首版：16 份一手摘要、11 篇分析、601 条资源目录；2026-09-20 的并行调研在产出交付物之前中断，本轮改为主 agent 筛选 + 脚本机械核验）。
 
 本仓库有两类"来源"，分开登记：
 
@@ -13,7 +13,8 @@
 
 | 来源 | 快照路径 | 来源版本 | 分析版本 | 最后更新 | 学习重点 |
 | --- | --- | --- | --- | --- | --- |
-| Anthropic `frontend-design` skill | `raw/docs/anthropic-frontend-design-skill.md` | 2025-12 / 2026-06 / 当前 三个快照，抓取 2026-09-20 | 1.0 | 2026-09-21 | 从主题取材、计划→对照 brief 自查→实现的两遍式流程、"生成感"特征清单及其半年一换、大胆只花一处、文案即设计 |
+| Anthropic `frontend-design` skill + 配套文章 | `raw/docs/anthropic-frontend-design-skill.md` | skill：2025-12 / 2026-06 / 当前 三个快照，抓取 2026-09-20；文章：发布 2025-11-12 / 抓取 2026-09-21 | 1.1 | 2026-09-21 | 从主题取材、计划→对照 brief 自查→实现的两遍式流程、"生成感"特征清单及其半年一换、大胆只花一处、文案即设计 ｜ 1.1：分布收敛机制、约 400 token 的审美提示、四个可提示的轴、"解药也会过期" |
+| Impeccable `/slop` 规则目录 | `raw/docs/impeccable-slop-rules.md` | 持续更新，中文站抓取 2026-09-21（英文站当日不可达） | 1.1 | 2026-09-21 | 约 46 条规则分八类，逐条标注 CLI / 浏览器 / 仅 LLM / 可选；区分 AI 痕迹与基本质量；2022 对 2026 的年代对照；一批可直接复用的数值阈值 |
 | Vercel Web Interface Guidelines | `raw/docs/vercel-web-interface-guidelines.md` | 持续更新文档，抓取 2026-09-21 | 1.0 | 2026-09-21 | 交互、动画、布局、内容、表单、性能、设计七类工艺规则与数值；附 AGENTS.md 与审查 skill |
 | Emil Kowalski, Great Animations / 7 Practical Animation Tips | `raw/docs/emil-kowalski-animation.md` | 页面未标日期，抓取 2026-09-21 | 1.0 | 2026-09-21 | < 300 ms、ease-out、按下 0.97、不从 scale(0)、origin-aware、高频与键盘操作不做动画、可打断 |
 | Material 3 motion tokens（含 M3 Expressive 弹簧） | `raw/docs/material-motion-tokens.md` | material-components-android `docs/theming/Motion.md`，抓取 2026-09-21 | 1.0 | 2026-09-21 | 缓动与时长刻度、空间/效果两类弹簧 × 三档速度、按覆盖面积选速度 |
@@ -38,8 +39,8 @@
 
 | 来源 | 快照路径 | 来源版本 | 分析版本 | 最后更新 | 学习重点 |
 | --- | --- | --- | --- | --- | --- |
-| 设计灵感与资源站点版图 | `catalog/resources.jsonl` | 599 条；用户提供 15 条（2026-09-20）+ 调研；验链 2026-09-21 | 1.0 | 2026-09-21 | 按粒度 × 真实度 × 易腐度选源；agent 可达性分布；站点腐烂的实例 |
-| AI 设计 skill 横评 | `raw/docs/anthropic-frontend-design-skill.md` 等 | 六个项目，读数日期 2026-09-20/21 | 1.0 | 2026-09-21 | 四个流派；反套路清单自身易腐；`PRODUCT.md` 与确定性检测 |
+| 设计灵感与资源站点版图 | `catalog/resources.jsonl` | 601 条；用户提供 17 条（2026-09-20 的 15 条 + 2026-09-21 的 2 条）+ 调研；验链 2026-09-21 | 1.0 | 2026-09-21 | 按粒度 × 真实度 × 易腐度选源；agent 可达性分布；站点腐烂的实例 |
+| AI 设计 skill 横评 | `raw/docs/anthropic-frontend-design-skill.md` 等 | 六个项目 + v0，读数日期 2026-09-20/21 | 1.1 | 2026-09-21 | 四个流派；反套路清单自身易腐，解药同样易腐；`PRODUCT.md` 与确定性检测 |
 
 ## Repositories
 
