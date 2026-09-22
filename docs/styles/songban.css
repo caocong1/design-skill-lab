@@ -10,10 +10,10 @@ html[data-style="songban"] {
   --rule: #d8cbae;
   --zhu: #b93426;
   --zhu-deep: #9c2b1f;
-  --serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
-  --kai: "Kaiti SC", "KaiTi", "STKaiti", serif;
-  --latin: Georgia, "Times New Roman", serif;
-  --num: Palatino, "Palatino Linotype", Georgia, serif;
+  --serif: "Source Han Serif CN VF", "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+  --kai: "LXGW WenKai", "Kaiti SC", "KaiTi", "STKaiti", serif;
+  --latin: "EB Garamond Variable", Georgia, "Times New Roman", serif;
+  --num: "EB Garamond Variable", Palatino, "Palatino Linotype", Georgia, serif;
   color-scheme: light;
   background: var(--paper);
   color: var(--ink);

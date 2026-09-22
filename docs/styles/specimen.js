@@ -12,18 +12,18 @@
 
   /* 十二种气质，按域顺序分配。stack 是真实的系统字体栈：拉丁在前，中文伴随其后。 */
   const VOICES = [
-    { zh: '中性黑体', en: 'Neutral grotesque', stack: '"Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "Microsoft YaHei", sans-serif', w: 500 },
+    { zh: '中性黑体', en: 'Neutral grotesque', stack: '"Inter Variable", "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "Microsoft YaHei", sans-serif', w: 500 },
     { zh: '原生界面', en: 'Native UI', stack: 'system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif', w: 600 },
-    { zh: '人文无衬线', en: 'Humanist sans', stack: 'Optima, "Avenir Next", Seravek, Candara, "Gill Sans Nova", "PingFang SC", "Hiragino Sans GB", sans-serif', w: 500 },
-    { zh: '工业窄体', en: 'Industrial condensed', stack: '"DIN Alternate", Bahnschrift, "Avenir Next Condensed", "Roboto Condensed", "Arial Narrow", "PingFang SC", "Microsoft YaHei", sans-serif', w: 700 },
-    { zh: '圆体', en: 'Rounded', stack: 'ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Yuanti SC", YouYuan, "PingFang SC", sans-serif', w: 700 },
-    { zh: '现代衬线', en: 'Didone display', stack: 'Didot, "Bodoni 72", "Bodoni MT", "Songti SC", "Noto Serif CJK SC", SimSun, serif', w: 700 },
-    { zh: '旧式衬线', en: 'Old-style serif', stack: '"Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", STSong, "Noto Serif CJK SC", SimSun, serif', w: 400 },
-    { zh: '过渡衬线', en: 'Transitional serif', stack: 'Charter, "Bitstream Charter", "Sitka Text", Cambria, "Songti SC", "Noto Serif CJK SC", SimSun, serif', w: 400 },
-    { zh: '打字机粗衬线', en: 'Slab / typewriter', stack: '"American Typewriter", Rockwell, "Courier New", STFangsong, FangSong, "Songti SC", serif', w: 600 },
-    { zh: '等宽', en: 'Monospace', stack: 'ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Sarasa Mono SC", "PingFang SC", monospace', w: 500 },
-    { zh: '楷体', en: 'Kai / brush', stack: '"Kaiti SC", STKaiti, KaiTi, "AR PL UKai CN", "Noto Serif CJK SC", serif', w: 400 },
-    { zh: '几何无衬线', en: 'Geometric sans', stack: '"Avenir Next", Futura, "Century Gothic", "Trebuchet MS", "PingFang SC", "Microsoft YaHei", sans-serif', w: 600 },
+    { zh: '人文无衬线', en: 'Humanist sans', stack: '"Source Sans 3 Variable", Optima, "Avenir Next", Seravek, Candara, "Gill Sans Nova", "PingFang SC", "Hiragino Sans GB", sans-serif', w: 500 },
+    { zh: '工业窄体', en: 'Industrial condensed', stack: '"Roboto Condensed Variable", "DIN Alternate", Bahnschrift, "Avenir Next Condensed", "Roboto Condensed", "Arial Narrow", "PingFang SC", "Microsoft YaHei", sans-serif', w: 700 },
+    { zh: '圆体', en: 'Rounded', stack: '"Nunito Variable", "MaokenZhuyuanTi", ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Yuanti SC", YouYuan, "PingFang SC", sans-serif', w: 700 },
+    { zh: '现代衬线', en: 'Didone display', stack: '"Playfair Display Variable", Didot, "Bodoni 72", "Bodoni MT", "Source Han Serif CN VF", "Songti SC", "Noto Serif CJK SC", SimSun, serif', w: 700 },
+    { zh: '旧式衬线', en: 'Old-style serif', stack: '"EB Garamond Variable", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Source Han Serif CN VF", "Songti SC", STSong, "Noto Serif CJK SC", SimSun, serif', w: 400 },
+    { zh: '过渡衬线', en: 'Transitional serif', stack: '"Libre Baskerville", Charter, "Bitstream Charter", "Sitka Text", Cambria, "Source Han Serif CN VF", "Songti SC", "Noto Serif CJK SC", SimSun, serif', w: 400 },
+    { zh: '打字机粗衬线', en: 'Slab / typewriter', stack: '"Courier Prime", "American Typewriter", Rockwell, "Courier New", STFangsong, FangSong, "Source Han Serif CN VF", "Songti SC", serif', w: 600 },
+    { zh: '等宽', en: 'Monospace', stack: '"JetBrains Mono Variable", ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, "Sarasa Mono SC", "PingFang SC", monospace', w: 500 },
+    { zh: '楷体', en: 'Kai / brush', stack: '"LXGW WenKai", "Kaiti SC", STKaiti, KaiTi, "AR PL UKai CN", "Noto Serif CJK SC", serif', w: 400 },
+    { zh: '几何无衬线', en: 'Geometric sans', stack: '"Jost Variable", "Avenir Next", Futura, "Century Gothic", "Trebuchet MS", "PingFang SC", "Microsoft YaHei", sans-serif', w: 600 },
   ];
   const voice = (ctx, id) => VOICES[Math.max(0, ctx.domains.findIndex((d) => d.id === id)) % VOICES.length];
   const face = (v) => `font-family:${v.stack};font-weight:${v.w}`;
@@ -59,9 +59,9 @@
           <table class="sp-meta"><tbody>
             <tr><th>资源</th><td>${ctx.totals.resources}</td><th>域 / 字体气质</th><td>${ctx.totals.domains}</td></tr>
             <tr><th>S 首选</th><td>${ctx.totals.s}</td><th>截图</th><td>${ctx.totals.shots}</td></tr>
-            <tr><th>skill</th><td>${ctx.totals.skills}</td><th>Web 字体</th><td>0 · 全部系统字体</td></tr>
+            <tr><th>skill</th><td>${ctx.totals.skills}</td><th>在线字体</th><td>${(ctx.board().fonts || []).length} 包 · 系统回落</td></tr>
           </tbody></table>
-          <p class="sp-note">十二个域各用一种系统字体气质排出——这正是套件 <code>typography.md</code> 里"按气质选系统字体栈"那张表。实际落到哪款字体取决于你的系统：macOS 最全，Windows 与 Linux 会有几行落到同一款。</p>
+          <p class="sp-note">十二个域各用一种字体气质排出——这正是套件 <code>typography.md</code> 里"按气质选字体栈"那张表。字体来自公用 CDN（中文网字计划分包 + fontsource），网络不通时按栈落回系统字体，那时 Windows 与 Linux 会有几行落到同一款。</p>
         </div>
       </section>
 

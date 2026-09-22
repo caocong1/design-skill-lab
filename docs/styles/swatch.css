@@ -9,7 +9,7 @@ html[data-style="swatch"] {
   --faint: oklch(0.6 0.01 250);
   --line: oklch(0.905 0.004 250);
   --line-strong: oklch(0.75 0.008 250);
-  --sans: "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --sans: "Inter Variable", "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   --r: 6px;
   color-scheme: light;

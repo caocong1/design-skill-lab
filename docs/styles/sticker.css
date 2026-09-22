@@ -12,7 +12,9 @@ html[data-style="sticker"] {
   /* 拉丁圆体在前，紧接简体圆体；不要把 Hiragino Maru Gothic（日文圆体）放在中文字体前面——
      它会用日文字形接管大部分汉字，只把它没有的简体字（设、认、这……）漏给下一款字体，
      结果同一行里字形、粗细、基线全不一致。 */
-  --round: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Yuanti SC", YouYuan, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+  --round: "Nunito Variable", "MaokenZhuyuanTi", ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Yuanti SC", YouYuan, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+  /* 猫啃珠圆体只有一个字重：不让浏览器合成加粗把它抹糊；有真字重的回落字体不受影响。 */
+  font-synthesis-weight: none;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --bd: 3px solid var(--ink);
   --sh: 6px 6px 0 var(--ink);

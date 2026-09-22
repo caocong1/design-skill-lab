@@ -8,7 +8,7 @@ html[data-style="cards"] {
   --ink: #2c2620; --muted: #5c5344; --faint: #7a6f5c;
   --red: #b04236; --redline: #c0564a; --blueline: #7d8ba0;
   --brass: #b98a2f;
-  --type: "Courier New", Courier, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", monospace;
+  --type: "Courier Prime", "Courier New", Courier, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", monospace;
   color-scheme: light;
   background: var(--desk);
   color: var(--ink);

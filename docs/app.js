@@ -34,6 +34,29 @@
     return loading[id];
   }
 
+  /* ---- web fonts ------------------------------------------------------------
+     每个风格声明要用的字体包；挂载前注入 <link>。字体栈里 CDN 字体排在系统字体前，
+     加载失败或网络不通时文字仍由系统字体渲染，页面不会因此不可用。 */
+  const fontLinks = {};
+  function ensureFonts(id) {
+    const s = CONTENT.styles.find((x) => x.id === id);
+    const F = CONTENT.fonts;
+    if (!s || !F) return;
+    (s.fonts || []).forEach((key) => {
+      const pack = F.packs[key];
+      if (!pack) return;
+      pack.css.forEach((path) => {
+        const href = F.cdn + path;
+        if (fontLinks[href]) return;
+        const l = document.createElement('link');
+        l.rel = 'stylesheet'; l.href = href;
+        l.onerror = () => console.warn(`字体未能加载，已落回系统字体：${href}`);
+        document.head.appendChild(l);
+        fontLinks[href] = l;
+      });
+    });
+  }
+
   /* ---- data ---------------------------------------------------------------- */
   const CAT = window.CATALOG || { domains: {}, resources: [] };
   const ZH = window.CATALOG_ZH || {};
@@ -156,6 +179,7 @@
     state.style = id;
     writeUrl();
     try { localStorage.setItem('dsl-style', id); } catch (e) {}
+    ensureFonts(id);
     const swap = () => {
       if (mods[id]) mount(id);
       else { waiting = id; load(id).catch((e) => { waiting = null; console.error(e); }); }
@@ -204,6 +228,7 @@
   const p0 = new URLSearchParams(location.search);
   state.style = CONTENT.styles.some((s) => s.id === p0.get('style')) ? p0.get('style') : root.dataset.style;
   waiting = state.style;
+  ensureFonts(state.style);
   load(state.style).catch((e) => {
     waiting = null;
     console.error(e);

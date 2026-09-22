@@ -8,7 +8,7 @@ html[data-style="terminal"] {
   --amber-dim: #9c7a2e;
   --amber-faint: #6b5626;
   --line: #3d3a1c;
-  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Sarasa Mono SC", "PingFang SC", monospace;
+  --mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, "Sarasa Mono SC", "PingFang SC", monospace;
   color-scheme: dark;
   background: var(--desk);
   color: var(--amber);

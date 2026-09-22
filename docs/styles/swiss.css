@@ -6,7 +6,7 @@ html[data-style="swiss"] {
   --red: #e30613;
   --gray: #767676;
   --line: #111111;
-  --sans: "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+  --sans: "Archivo Variable", "Helvetica Neue", "Arial Nova", Arial, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: light;
   background: var(--paper);

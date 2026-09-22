@@ -12,8 +12,8 @@ html[data-style="console"] {
   --cyan: #38c8d8;
   --green: #4cc38a;
   --amber-dim: #c8a24a;
-  --cond: "Avenir Next Condensed", "Arial Narrow", "Helvetica Neue", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
-  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --cond: "Roboto Condensed Variable", "Avenir Next Condensed", "Arial Narrow", "Helvetica Neue", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+  --mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   color-scheme: dark;
   background: var(--floor);
   color: var(--text);
