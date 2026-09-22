@@ -3,10 +3,13 @@
 // Usage:
 //   node scripts/shoot-catalog.mjs [--tiers S,A,B] [--ids id1,id2] [--force]
 //                                  [--concurrency 6] [--wait 3500] [--timeout 20000]
+//                                  [--headed]            # 反爬墙站点用有头浏览器再试
 // Output: docs/assets/shots/<id>.jpg (1200x750, jpeg q60) + manifest.json + .failed.txt
 // Dependency: playwright (npx). Re-runnable: existing files are skipped unless --force.
+// 反爬墙检测：截到"验证中/403/Access Denied"这类墙页时不保存（记进 .failed.txt），
+// 页面会退回首字符占位图——展示一张错误页比没有截图更糟。
 import { chromium } from 'playwright';
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -22,9 +25,26 @@ const opt = (name, dflt) => {
 const tiers = (opt('tiers', 'S')).split(',');
 const onlyIds = opt('ids', '').split(',').filter(Boolean);
 const force = args.includes('--force');
+const headed = args.includes('--headed');
 const CONC = Number(opt('concurrency', 6));
 const WAIT = Number(opt('wait', 3500));
 const TIMEOUT = Number(opt('timeout', 20000));
+
+// 墙页/错误页特征：命中则视为失败（保存一张错误页没有意义）。
+const WALL = [
+  /please wait while your request is being verified/i,
+  /performing security verification/i,
+  /verifying your browser|we'?re verifying/i,
+  /checking your browser|check if the site connection is secure/i,
+  /sorry,? you have been blocked|you are unable to access/i,
+  /access denied|access verification|403.{0,8}forbidden|403 error/i,
+  /the request could not be satisfied/i,
+  /confirm you are human|verify you are human|are you a robot/i,
+  /just a moment|attention required/i,
+  /internal server error|500 internal/i,
+  /请在帮蚕室采集|安全验证|访问验证/,
+];
+const REAL_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
 
 const rows = readFileSync(join(ROOT, 'catalog/resources.jsonl'), 'utf8')
   .split('\n').filter(Boolean).map((l) => JSON.parse(l));
@@ -37,7 +57,11 @@ console.log(`shoot-catalog: ${todo.length} to capture (tiers=${tiers} ids=${only
 const failed = [];
 let done = 0;
 
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await chromium.launch({
+  channel: 'chrome',
+  headless: !headed,
+  args: ['--disable-blink-features=AutomationControlled'],
+});
 async function shoot(r) {
   const file = join(OUT, r.id + '.jpg');
   const ctx = await browser.newContext({
@@ -45,6 +69,7 @@ async function shoot(r) {
     deviceScaleFactor: 1,
     ignoreHTTPSErrors: true,
     locale: 'en-US',
+    userAgent: REAL_UA,
   });
   const page = await ctx.newPage();
   try {
@@ -56,12 +81,18 @@ async function shoot(r) {
       if (page.url() === 'about:blank') throw e;
     });
     await page.waitForTimeout(WAIT);
+    // 挑战页会自动跳转：先等一小段，命中墙特征就再多等一轮给它放行的时间。
+    const text = () => page.evaluate(() => document.body ? document.body.innerText.slice(0, 4000) : '').catch(() => '');
+    const walled = (t) => WALL.some((re) => re.test(t));
+    if (walled(await text())) await page.waitForTimeout(Math.min(WAIT * 2, 12000));
+    if (walled(await text())) throw new Error('anti-bot wall / error page');
     // Dismiss the most common full-screen cookie/consent overlays by keyboard.
     await page.keyboard.press('Escape').catch(() => {});
     await page.screenshot({ path: file, type: 'jpeg', quality: 60 });
     done++;
     if (done % 10 === 0 || done === todo.length) console.log(`  ${done}/${todo.length}`);
   } catch (e) {
+    try { unlinkSync(file); } catch {} // 有就删掉旧的坏图；没有也不影响
     failed.push(`${r.id}\t${r.url}\t${String(e.message || e).split('\n')[0]}`);
   } finally {
     await ctx.close().catch(() => {});

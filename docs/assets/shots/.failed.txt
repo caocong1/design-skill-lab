@@ -1,68 +1,62 @@
-navbar-gallery	https://navbar.gallery	page.goto: net::ERR_TIMED_OUT at https://navbar.gallery/
-landing-love	https://www.landing.love	page.screenshot: Timeout 30000ms exceeded.
-commercecream	https://commercecream.com	page.goto: Timeout 35000ms exceeded.
-bestfolios	https://www.bestfolios.com	page.screenshot: Timeout 30000ms exceeded.
-sankoudesign	https://sankoudesign.com	page.screenshot: Timeout 30000ms exceeded.
-demandcurve	https://www.demandcurve.com/playbooks	page.screenshot: Timeout 30000ms exceeded.
-pageflows	https://pageflows.com	page.goto: net::ERR_TIMED_OUT at https://pageflows.com/
-paywallscreens	https://www.paywallscreens.com	page.goto: net::ERR_TIMED_OUT at https://www.paywallscreens.com/
-inclusive-components	https://inclusive-components.design	page.goto: net::ERR_TIMED_OUT at https://inclusive-components.design/
-apple-design-resources	https://developer.apple.com/design/resources/	page.screenshot: Timeout 30000ms exceeded.
-checklist-design	https://www.checklist.design	page.screenshot: Timeout 30000ms exceeded.
-windows-app-design	https://learn.microsoft.com/en-us/windows/apps/design/	page.screenshot: Timeout 30000ms exceeded.
-android-design	https://developer.android.com/design	page.screenshot: Timeout 30000ms exceeded.
-flutter-design	https://docs.flutter.dev/ui/design	page.goto: net::ERR_TIMED_OUT at https://docs.flutter.dev/ui/design
-polaris	https://shopify.dev/docs/api/polaris	page.goto: net::ERR_TIMED_OUT at https://shopify.dev/docs/api/polaris
-arco-design	https://arco.design	page.screenshot: Timeout 30000ms exceeded.
-siemens-ix	https://ix.siemens.io	page.screenshot: Timeout 30000ms exceeded.
-iib-awards	https://www.informationisbeautifulawards.com	page.screenshot: Timeout 30000ms exceeded.
-grafana-dashboards	https://grafana.com/grafana/dashboards/	page.screenshot: Timeout 30000ms exceeded.
-hax-toolkit	https://www.microsoft.com/en-us/haxtoolkit/	page.screenshot: Timeout 30000ms exceeded.
-cloudscape-genai	https://cloudscape.design/gen-ai/patterns/generative-ai-chat/	page.screenshot: Timeout 30000ms exceeded.
-view-transitions-demos	https://view-transitions.chrome.dev	page.goto: net::ERR_CONNECTION_CLOSED at https://view-transitions.chrome.dev/
-lottie-docs	https://lottiefiles.github.io/lottie-docs/	page.goto: net::ERR_TIMED_OUT at https://lottiefiles.github.io/lottie-docs/
-wcag-animation-interactions	https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html	page.goto: net::ERR_TIMED_OUT at https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html
-ant-motion	https://motion.ant.design	page.goto: net::ERR_TIMED_OUT at https://motion.ant.design/
-webdev-animations-guide	https://web.dev/articles/animations-guide	page.goto: Timeout 35000ms exceeded.
-icones	https://icones.js.org	page.goto: net::ERR_TIMED_OUT at https://icones.js.org/
-open-doodles	https://www.opendoodles.com	page.screenshot: Timeout 30000ms exceeded.
-mockuphone	https://mockuphone.com	page.goto: net::ERR_TIMED_OUT at https://mockuphone.com/
-hero-patterns	https://heropatterns.com	page.goto: net::ERR_TIMED_OUT at https://heropatterns.com/
-logo-archive	https://logo-archive.org	page.goto: net::ERR_TIMED_OUT at https://logo-archive.org/
-identity-designed	https://identitydesigned.com	page.screenshot: Timeout 30000ms exceeded.
-gtn9	https://www.gtn9.com	page.screenshot: Timeout 30000ms exceeded.
-brandguidelines-net	https://brandguidelines.net	page.screenshot: Timeout 30000ms exceeded.
-brandingstyleguides	https://brandingstyleguides.com	page.screenshot: Timeout 30000ms exceeded.
-standards-site	https://standards.site	page.goto: net::ERR_TIMED_OUT at https://standards.site/
-best-pitch-decks	https://bestpitchdecks.com	page.goto: net::ERR_CONNECTION_CLOSED at https://bestpitchdecks.com/
-collletttivo	https://www.collletttivo.it	page.goto: net::ERR_TIMED_OUT at https://www.collletttivo.it/
-free-faces	https://www.freefaces.gallery	page.goto: net::ERR_TIMED_OUT at https://www.freefaces.gallery/
-monaspace	https://monaspace.githubnext.com	page.goto: net::ERR_TIMED_OUT at https://monaspace.githubnext.com/
-grilli-type	https://www.grillitype.com	page.screenshot: Timeout 30000ms exceeded.
-adobe-fonts	https://fonts.adobe.com	page.screenshot: Timeout 30000ms exceeded.
-capsize	https://seek-oss.github.io/capsize/	page.goto: net::ERR_CONNECTION_CLOSED at https://seek-oss.github.io/capsize/
-smiley-sans	https://github.com/atelier-anchor/smiley-sans	page.goto: net::ERR_TIMED_OUT at https://github.com/atelier-anchor/smiley-sans
-huemint	https://huemint.com	page.goto: net::ERR_TIMED_OUT at https://huemint.com/
-adobe-color	https://color.adobe.com	page.goto: net::ERR_TIMED_OUT at https://color.adobe.com/
-contrast-grid	https://contrast-grid.eightshapes.com	page.goto: net::ERR_CONNECTION_CLOSED at https://contrast-grid.eightshapes.com/
-material-theme-builder	https://material-foundation.github.io/material-theme-builder/	page.goto: net::ERR_TIMED_OUT at https://material-foundation.github.io/material-theme-builder/
-learnui-color	https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html	page.goto: net::ERR_TIMED_OUT at https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html
-taste-skill	https://tasteskill.dev	page.goto: net::ERR_TIMED_OUT at https://tasteskill.dev/
-tweakcn	https://tweakcn.com	page.goto: net::ERR_TIMED_OUT at https://tweakcn.com/
-playwright-mcp	https://github.com/microsoft/playwright-mcp	page.goto: Timeout 35000ms exceeded.
-colorjs	https://colorjs.io	page.goto: net::ERR_TIMED_OUT at https://colorjs.io/
-resvg	https://github.com/linebender/resvg	page.goto: net::ERR_TIMED_OUT at https://github.com/linebender/resvg
-pagedjs	https://pagedjs.org	page.goto: net::ERR_TIMED_OUT at https://pagedjs.org/
-graphite	https://graphite.art	page.goto: net::ERR_TIMED_OUT at https://graphite.art/
-inkscape	https://inkscape.org	page.goto: Timeout 35000ms exceeded.
-awesome-web-animation	https://awesome-web-animation.netlify.app	page.screenshot: Timeout 30000ms exceeded.
-frontend-aesthetics-cookbook	https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb	page.screenshot: Timeout 30000ms exceeded.
-learn-ui-7-rules	https://www.learnui.design/blog/7-rules-for-creating-gorgeous-ui-part-1.html	page.screenshot: Timeout 30000ms exceeded.
-gv-critique-rules	https://library.gv.com/9-rules-for-running-a-productive-design-critique-1d7ee6fb1ca9	page.goto: net::ERR_CONNECTION_CLOSED at https://library.gv.com/9-rules-for-running-a-productive-design-critique-1d7ee6fb1ca9
-magic-ink	https://worrydream.com/MagicInk/	page.screenshot: Timeout 30000ms exceeded.
-learn-ui-design	https://www.learnui.design	page.screenshot: Timeout 30000ms exceeded.
-tencent-cdc	https://cdc.tencent.com	page.screenshot: Timeout 30000ms exceeded.
-behance	https://www.behance.net	page.goto: net::ERR_HTTP_RESPONSE_CODE_FAILURE at https://www.behance.net/
-alibaba-design	https://www.alibabadesign.com	page.screenshot: Timeout 30000ms exceeded.
-designspiration	https://www.designspiration.com	page.screenshot: Timeout 30000ms exceeded.
-codrops-collective	https://tympanus.net/codrops/collective/	page.screenshot: Timeout 30000ms exceeded.
+alibaba-design	https://www.alibabadesign.com	unreachable / anti-bot / timeout
+ant-design	https://ant.design	unreachable / anti-bot / timeout
+ant-motion	https://motion.ant.design	unreachable / anti-bot / timeout
+apg-patterns	https://www.w3.org/WAI/ARIA/apg/patterns/	unreachable / anti-bot / timeout
+apple-hig-motion	https://developer.apple.com/design/human-interface-guidelines/motion	unreachable / anti-bot / timeout
+apple-sf-symbols-hig	https://developer.apple.com/design/human-interface-guidelines/sf-symbols	unreachable / anti-bot / timeout
+arco-design	https://arco.design	unreachable / anti-bot / timeout
+atkinson-hyperlegible	https://www.brailleinstitute.org/freefont/	unreachable / anti-bot / timeout
+awesome-shadcn-ui	https://awesomeshadcn.dev	unreachable / anti-bot / timeout
+best-pitch-decks	https://bestpitchdecks.com	unreachable / anti-bot / timeout
+brandguidelines-net	https://brandguidelines.net	unreachable / anti-bot / timeout
+brandingstyleguides	https://brandingstyleguides.com	unreachable / anti-bot / timeout
+codrops-collective	https://tympanus.net/codrops/collective/	unreachable / anti-bot / timeout
+collletttivo	https://www.collletttivo.it	unreachable / anti-bot / timeout
+commercecream	https://commercecream.com	unreachable / anti-bot / timeout
+contrast-grid	https://contrast-grid.eightshapes.com	unreachable / anti-bot / timeout
+dribbble	https://dribbble.com	unreachable / anti-bot / timeout
+figma-community	https://www.figma.com/community	unreachable / anti-bot / timeout
+free-faces	https://www.freefaces.gallery	unreachable / anti-bot / timeout
+frontend-aesthetics-cookbook	https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb	unreachable / anti-bot / timeout
+grafana-dashboards	https://grafana.com/grafana/dashboards/	unreachable / anti-bot / timeout
+grainy-gradients	https://css-tricks.com/grainy-gradients/	unreachable / anti-bot / timeout
+grilli-type	https://www.grillitype.com	unreachable / anti-bot / timeout
+gtn9	https://www.gtn9.com	unreachable / anti-bot / timeout
+gv-critique-rules	https://library.gv.com/9-rules-for-running-a-productive-design-critique-1d7ee6fb1ca9	unreachable / anti-bot / timeout
+haikei	https://haikei.app	unreachable / anti-bot / timeout
+inkscape	https://inkscape.org	unreachable / anti-bot / timeout
+interface-in-game	https://interfaceingame.com	unreachable / anti-bot / timeout
+jitter	https://jitter.video	unreachable / anti-bot / timeout
+landing-love	https://www.landing.love	unreachable / anti-bot / timeout
+layers	https://layers.to	unreachable / anti-bot / timeout
+learn-ui-design	https://www.learnui.design	unreachable / anti-bot / timeout
+learnui-color	https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html	unreachable / anti-bot / timeout
+logo-archive	https://logo-archive.org	unreachable / anti-bot / timeout
+lottie-docs	https://lottiefiles.github.io/lottie-docs/	unreachable / anti-bot / timeout
+material-dark-theme	https://m2.material.io/design/color/dark-theme.html	unreachable / anti-bot / timeout
+mockuphone	https://mockuphone.com	unreachable / anti-bot / timeout
+motion	https://motion.dev	unreachable / anti-bot / timeout
+nng-design-critiques	https://www.nngroup.com/articles/design-critiques/	unreachable / anti-bot / timeout
+open-doodles	https://www.opendoodles.com	unreachable / anti-bot / timeout
+paywallscreens	https://www.paywallscreens.com	unreachable / anti-bot / timeout
+porto-rocha	https://portorocha.com	unreachable / anti-bot / timeout
+rams-ten-principles	https://www.vitsoe.com/us/about/good-design	unreachable / anti-bot / timeout
+resvg	https://github.com/linebender/resvg	unreachable / anti-bot / timeout
+saaslandingpage	https://saaslandingpage.com	unreachable / anti-bot / timeout
+scroll-driven-animations	https://scroll-driven-animations.style	unreachable / anti-bot / timeout
+shadcn-flutter	https://sunarya-thito.github.io/shadcn_flutter/	unreachable / anti-bot / timeout
+siemens-ix	https://ix.siemens.io	unreachable / anti-bot / timeout
+smiley-sans	https://github.com/atelier-anchor/smiley-sans	unreachable / anti-bot / timeout
+standards-site	https://standards.site	unreachable / anti-bot / timeout
+style-dictionary	https://styledictionary.com	unreachable / anti-bot / timeout
+tencent-cdc	https://cdc.tencent.com	unreachable / anti-bot / timeout
+thinking-with-type	https://thinkingwithtype.com	unreachable / anti-bot / timeout
+utopia	https://utopia.fyi	unreachable / anti-bot / timeout
+view-transitions-demos	https://view-transitions.chrome.dev	unreachable / anti-bot / timeout
+wcag-animation-interactions	https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html	unreachable / anti-bot / timeout
+webdev-animations-guide	https://web.dev/articles/animations-guide	unreachable / anti-bot / timeout
+webtypography-net	https://webtypography.net	unreachable / anti-bot / timeout
+windows-app-design	https://learn.microsoft.com/en-us/windows/apps/design/	unreachable / anti-bot / timeout
+wipo-brand-db	https://branddb.wipo.int	unreachable / anti-bot / timeout
+wise-design	https://wise.design	unreachable / anti-bot / timeout
+youworkforthem	https://www.youworkforthem.com	unreachable / anti-bot / timeout
