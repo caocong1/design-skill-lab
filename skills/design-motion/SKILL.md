@@ -2,7 +2,7 @@
 name: design-motion
 description: Design interface motion - micro-interactions, state transitions, enter and exit animations, page and view transitions, scroll-driven and gesture-driven motion, loading and skeleton behaviour, and a product's motion system - then specify and prototype it in code for web (CSS, WAAPI, Motion, GSAP), Flutter, SwiftUI and Compose. Use when the user asks for animation, 动效, transitions, a hover or press effect, a loading animation, scroll effects, a motion spec, or wants an interface to feel smoother or more alive. 动效、过渡动画、微交互、缓动、弹簧动画、加载动画。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Purposeful motion, specified and prototyped
 ---
 
@@ -139,6 +139,20 @@ implicit / explicit animations, SwiftUI `withAnimation` and springs, Compose
 - Bounce on non-gestural UI; infinite loops that draw the eye from content.
 - Animating `width` / `height` / `top` / `left` / `box-shadow` on many nodes.
 - Fixed keyframes on hover targets that snap when interrupted.
+- Keyframes that leave an animated property out of the last frame. The
+  browser interpolates it back to the element's underlying value - typically
+  the `opacity: 0` of a "waiting" class - so the element fades out again
+  before the script removes the class, and the entrance reads as playing
+  twice. Write every animated property in every keyframe, and prefer
+  `animation-fill-mode: both` so the end frame holds until cleanup.
+- Rotating inside `transform` on an element that also sets the `rotate`
+  property (or translating on top of `translate`): the two compose, so the
+  final frame lands at twice the intended tilt and snaps when the animation
+  ends. Animate the same property you rest on.
+- A second class that replaces the `animation` shorthand (a hover wiggle)
+  while an entrance is still running: it cancels the entrance, and removing
+  the class later restarts it from zero. Skip the secondary animation while
+  the first is active, or put them on different elements.
 - Motion as the only indicator of a state change.
 - Ignoring reduced motion, or removing all feedback under it.
 - A loader that flashes for 80 ms.

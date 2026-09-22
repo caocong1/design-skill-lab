@@ -2,7 +2,7 @@
 name: design-studio
 description: Senior-designer entrypoint and router for any design task - web front-end, mobile and desktop app UI, motion, icons, brand identity, and graphic design (posters, social graphics, decks). Use to turn requirements into a complete design (brief, directions, design system, key screens), design a single page or component, find and deconstruct inspiration for a site or app, present several distinct design options, critique or redesign an existing interface, and land a design in code with visual QA. 设计、UI、界面、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案。
 metadata:
-  version: 0.4.1
+  version: 0.4.2
   short-description: Route design work to focused skills
 ---
 

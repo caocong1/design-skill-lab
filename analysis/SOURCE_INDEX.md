@@ -1,6 +1,6 @@
 # Source Index
 
-更新时间：2026-09-21（首版：16 份一手摘要、11 篇分析、601 条资源目录；2026-09-20 的并行调研在产出交付物之前中断，本轮改为主 agent 筛选 + 脚本机械核验）。
+更新时间：2026-09-22（首版：16 份一手摘要、11 篇分析、601 条资源目录；2026-09-20 的并行调研在产出交付物之前中断，本轮改为主 agent 筛选 + 脚本机械核验）。
 
 本仓库有两类"来源"，分开登记：
 
@@ -77,7 +77,7 @@
 - `analysis/10-overall-design-synthesis.md`（跨来源总综合，快速阅读路径第一站）
 - `analysis/02-ai-design-skills-survey.md`（同类项目横评）
 - `analysis/11-distilled-skill-design.md`（套件取舍、角色边界、非目标、已知自我违反）
-- `analysis/12-dogfooding-the-lab-page.md`（套件第一次用于真实任务的过程记录：十种方向的页面）
+- `analysis/12-dogfooding-the-lab-page.md`（套件第一次用于真实任务的过程记录：十种方向的页面，第二轮扩到十五种并修两个线上 bug）
 - `skills/design-studio/SKILL.md`（入口与路由）
 - `skills/design-studio/references/source-map.md`（逐文件证据等级）
 - `catalog/sections.json`（目录的分类法与各分节使用建议）
