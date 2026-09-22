@@ -37,10 +37,10 @@ html[data-style="metro"] ::selection { background: var(--ink); color: var(--pape
 .mt-transfer { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; max-width: 640px; justify-content: flex-end; }
 .mt-transfer-l { font-size: 11.5px; color: var(--sec); margin-right: 4px; flex-basis: 100%; text-align: right; }
 .mt-tbadge { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px 0 0; border: 2px solid var(--rule); border-radius: 7px; text-decoration: none; color: var(--ink); font-size: 12px; background: var(--paper); }
-.mt-tbadge b { height: 100%; display: grid; place-items: center; padding: 0 6px; background: var(--c); color: #fff; border-radius: 4px 0 0 4px; font-size: 11px; font-weight: 800; }
+.mt-tbadge b { height: 100%; display: grid; place-items: center; padding: 0 6px; background: #fff; color: var(--ink); border-right: 3px solid var(--c); border-radius: 4px 0 0 4px; font-size: 11px; font-weight: 800; }
 .mt-tbadge:hover { border-color: var(--ink); }
 .mt-tbadge[aria-current="page"] { border-color: var(--ink); background: var(--ink); color: #fff; }
-.mt-tbadge[aria-current="page"] b { background: #fff; color: var(--ink); }
+.mt-tbadge[aria-current="page"] b { background: var(--ink); color: #fff; border-right-color: #fff; }
 
 /* ---- 须知条 / 图例 ---- */
 .mt-notice-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--rule); }

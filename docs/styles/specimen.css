@@ -62,7 +62,7 @@ html[data-style="specimen"] ::selection { background: var(--ink); color: var(--p
 .sp-q { flex: 1 1 300px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--ink); padding: 4px 0; }
 .sp-q span { font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
 .sp-q input { flex: 1; min-width: 0; border: 0; background: none; outline: 0; font-size: 16px; color: var(--ink); font-family: inherit; }
-.sp-q input::placeholder { color: #9a9892; }
+.sp-q input::placeholder { color: #6f6d66; }
 .sp-tools select, #sp-reset { border: 1px solid var(--ink); background: var(--paper); color: var(--ink); border-radius: 0; padding: 6px 10px; font-size: 12.5px; font-family: var(--mono); }
 #sp-reset:hover { background: var(--ink); color: var(--paper); }
 
