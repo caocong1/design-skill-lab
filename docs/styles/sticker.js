@@ -181,19 +181,24 @@
   /* ---- 动效：弹簧砸入 + 抖动 ------------------------------------------------ */
   function slam(el, ctx) {
     if (ctx.reduced) return;
-    slamIn(el, ctx, true);
-    // hover 抖动：用 JS 触发以重置动画
+    slamIn(el, ctx);
+    // hover 抖动：用 JS 触发以重置动画。正在砸入的贴纸不抖——
+    // 抖动会顶掉 animation 简写，抖完再把 st-slam 露出来就等于重播一遍。
     el.addEventListener('mouseover', (e) => {
       const t = e.target.closest('.st-domain, .st-row, .st-skill, .st-bubble, .st-mini');
-      if (!t || t.dataset.wig) return;
+      if (!t || t.dataset.wig || t.classList.contains('st-slam')) return;
       t.dataset.wig = '1';
       t.classList.add('st-wig');
-      setTimeout(() => { t.classList.remove('st-wig'); delete t.dataset.wig; }, 450);
+      const done = () => { t.classList.remove('st-wig'); delete t.dataset.wig; clearTimeout(tid); };
+      const tid = setTimeout(done, 700);   // 只是兜底：标签页不可见时动画事件不会来
+      t.addEventListener('animationend', done, { once: true });
     });
   }
-  function slamIn(scope, ctx, first) {
+  function slamIn(scope, ctx) {
     if (ctx.reduced) return;
-    const items = scope.querySelectorAll('.st-pop:not(.st-done)');
+    // paint() 已经给目录区挂过观察者；整页那次只接手还没人观察的元素，避免同一元素被两个观察者触发。
+    const items = scope.querySelectorAll('.st-pop:not(.st-await):not(.st-done)');
+    if (!items.length) return;
     const io = new IntersectionObserver((es) => {
       es.forEach((en) => {
         if (!en.isIntersecting) return;
@@ -203,11 +208,14 @@
         const sibs = [...n.parentElement.children].indexOf(n);
         n.style.animationDelay = Math.min(sibs * 45, 500) + 'ms';
         n.classList.add('st-slam');
-        // 动画播完摘掉等待态，让元素停在最终状态（否则回到 opacity:0）。
-        n.addEventListener('animationend', () => {
+        // 动画播完摘掉等待态；只认自己的 st-slam，不接子元素冒泡上来的事件。
+        const end = (e) => {
+          if (e.target !== n || e.animationName !== 'st-slam') return;
+          n.removeEventListener('animationend', end);
           n.classList.remove('st-await', 'st-slam');
           n.style.animationDelay = '';
-        }, { once: true });
+        };
+        n.addEventListener('animationend', end);
       });
     }, { threshold: 0.05 });
     items.forEach((n) => { n.classList.add('st-await'); io.observe(n); });

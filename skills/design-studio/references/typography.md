@@ -99,11 +99,23 @@ OS, so check the rendering on each platform the audience uses.
 | Didone display | `Didot, "Bodoni 72", "Bodoni MT"` | `"Songti SC"` (bold) |
 | Slab / typewriter | `"American Typewriter", Rockwell, "Courier New"` | `STFangsong, FangSong, "Songti SC"` |
 | Monospace | `ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas` | `"Sarasa Mono SC", "PingFang SC"` |
-| Rounded | `ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "Arial Rounded MT Bold"` | `"Yuanti SC", YouYuan` |
+| Rounded | `ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold"` | `"Yuanti SC", YouYuan` |
 | Handwritten / brush | avoid relying on it: coverage is inconsistent | `"Kaiti SC", STKaiti, KaiTi` |
 
 A system stack is a choice with a voice, not a fallback - and it costs nothing
 to load.
+
+**Trap: a Japanese face ahead of the Chinese companion.** Fonts fall back per
+character, so any face with CJK coverage that sits before the Chinese companion
+takes over the Han characters it has and leaks only the rest. `"Hiragino Maru
+Gothic ProN"` (the Japanese rounded face on macOS) is the usual offender in a
+rounded stack: most characters render in Japanese glyph forms and its single
+weight gets synthetic-bolded, while the simplified-only characters it lacks
+(设、认、这…) drop to Yuanti or PingFang with real weights and a different
+baseline - one line of text, two shapes, two weights, two baselines. Keep
+Japanese faces out of a `zh-CN` stack (or after the Chinese companion) unless
+the text really is Japanese. Same rule for `"Hiragino Sans"` / `"Yu Gothic"`
+in humanist or neutral stacks.
 
 ## Chinese and Mixed-Script Text
 

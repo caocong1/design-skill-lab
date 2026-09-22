@@ -9,7 +9,10 @@ html[data-style="sticker"] {
   --blue: #7cc7ff;
   --green: #9ee493;
   --red: #ff5d5d;
-  --round: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "Yuanti SC", YouYuan, "Arial Rounded MT Bold", "PingFang SC", "Microsoft YaHei", sans-serif;
+  /* 拉丁圆体在前，紧接简体圆体；不要把 Hiragino Maru Gothic（日文圆体）放在中文字体前面——
+     它会用日文字形接管大部分汉字，只把它没有的简体字（设、认、这……）漏给下一款字体，
+     结果同一行里字形、粗细、基线全不一致。 */
+  --round: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Yuanti SC", YouYuan, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --bd: 3px solid var(--ink);
   --sh: 6px 6px 0 var(--ink);
@@ -203,11 +206,14 @@ html[data-style="sticker"] ::selection { background: var(--ink); color: var(--ye
 
 /* ---- 动效 ---- */
 .st-await { opacity: 0; }
-.st-slam { animation: st-slam .55s cubic-bezier(.2, 1.4, .35, 1) backwards; }
+/* 砸入：每一帧都写全 opacity，并且只动 rotate 属性、不在 transform 里再转一次——
+   否则 100% 帧会插值回 .st-await 的 opacity:0，落地后再跳回来，看起来像播了两遍；
+   rotate 叠加 transform 也会让贴纸落在两倍角度上再猛地弹回。 */
+.st-slam { animation: st-slam .55s cubic-bezier(.2, 1.4, .35, 1) both; }
 @keyframes st-slam {
-  0% { opacity: 0; transform: translateY(-46px) rotate(calc(var(--r, 0deg) * 3)) scale(1.12); }
-  60% { opacity: 1; transform: translateY(6px) rotate(calc(var(--r, 0deg) * -1.2)) scale(.97); }
-  100% { transform: translateY(0) rotate(var(--r, 0deg)) scale(1); }
+  0% { opacity: 0; transform: translateY(-46px) scale(1.12); rotate: calc(var(--r, 0deg) * 3); }
+  60% { opacity: 1; transform: translateY(6px) scale(.97); rotate: calc(var(--r, 0deg) * -1.2); }
+  100% { opacity: 1; transform: translateY(0) scale(1); rotate: var(--r, 0deg); }
 }
 .st-pop { rotate: var(--r, 0deg); }
 .st-wig { animation: st-wig .45s ease !important; animation-delay: 0s !important; }
