@@ -14,6 +14,8 @@
   const mods = {};      // id -> module
   const loading = {};   // id -> Promise
   window.DSL = {
+    // 给核验脚本用：拿到已注册的风格模块（例如小岛的离屏快照）。
+    module: (id) => mods[id] || null,
     register(id, mod) {
       mods[id] = mod;
       // 模块可能在注册时还没执行完自身作用域（模块级 const 的 TDZ），挂载推迟到微任务。
