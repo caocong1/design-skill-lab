@@ -1,0 +1,302 @@
+{
+ "klikkentheke": {
+  "d": "收录平面设计师自己做、给同行看的网站，字体驱动、反模板；brief 要编辑感或艺术学院气质时翻它。"
+ },
+ "webdesignmuseum": {
+  "d": "1991–2006 年网页设计史档案馆，可按年份或站点时间线浏览；做复古、Y2K 或早期互联网美学时来取证。"
+ },
+ "landingfolio": {
+  "d": "落地页灵感库，可按 hero、定价、FAQ、CTA 等组件拆开对比；灵感页免费，模板付费。"
+ },
+ "cta-gallery": {
+  "d": "真实网站的 CTA 区块与按钮合集；打磨收尾段时对照别人的构图和文案写法。"
+ },
+ "brutalistwebsites": {
+  "d": "粗野主义网站档案，附设计师短访谈；要做生糙、反精致的方向时来这里找参照。"
+ },
+ "muuuuu": {
+  "d": "日本长滚动网站精选，以工艺见长；研究纵向节奏和日英混排字体时的第一站。"
+ },
+ "fwa": {
+  "d": "老牌数字体验奖项，偏实验与沉浸式；做活动站或 campaign 类项目时来找前沿参照。"
+ },
+ "swipefile": {
+  "d": "广告、落地页与文案的大型 swipe file，附点评；卡在文案表达时按格式检索。"
+ },
+ "saasframe": {
+  "d": "按类目整理 SaaS 界面：仪表盘、设置、弹窗、表格、邮件加落地页；部分库内容需付费。"
+ },
+ "collectui": {
+  "d": "按组件归类的概念稿合集，好看但大多没上线；只取视觉处理灵感，别当落地依据。"
+ },
+ "open-ui": {
+  "d": "W3C 社区的组件解剖研究，横向对比各系统的命名与行为；给部件和状态起名时查它的矩阵。"
+ },
+ "material-3": {
+  "d": "Google 的设计系统，含 M3 Expressive、动态取色、色彩角色、字阶、形状与动效；按 Foundations、Styles、Components 顺序读。"
+ },
+ "wechat-miniprogram-design": {
+  "d": "微信小程序官方设计规范：导航与胶囊按钮、反馈、触控热区、字体与色彩；动手画界面前必读。"
+ },
+ "ant-design": {
+  "d": "中文企业级后台的事实标准：设计价值观、布局、数据录入与展示、反馈加组件库；MIT 协议。"
+ },
+ "cloudscape": {
+  "d": "AWS 的控制台设计系统，讲资源表格、创建流程、仪表盘与生成式 AI 模式；Apache-2.0。"
+ },
+ "tdesign": {
+  "d": "腾讯的设计体系，一套价值观横跨 Web、移动端、小程序和 Flutter；多端同发时选它；MIT。"
+ },
+ "datavizproject": {
+  "d": "图表类型大目录，可按功能、输入和形状筛选；想找不那么俗套的图表形式时用它。"
+ },
+ "material-2-dataviz": {
+  "d": "Material 2 的数据可视化指南，图表选型、样式、行为与仪表盘布局讲得最清楚的入门之一。"
+ },
+ "easyv": {
+  "d": "国产大屏与数字孪生案例库；做数据墙排版布局时的第二参照来源。"
+ },
+ "cloudscape-genai": {
+  "d": "Cloudscape 的生成式 AI 模式：对话、加载态、输出标注与用户授权操作；给企业控制台加助手时照它做。"
+ },
+ "hudsandguis": {
+  "d": "影视与游戏里的幻想 UI 合集；做控制室式科幻视觉时参考，可用性别当真。"
+ },
+ "awwwards-transitions": {
+  "d": "Awwwards 官方策划的获奖站动效合集：页面转场、滚动与微交互，按专题翻看。"
+ },
+ "lottiefiles": {
+  "d": "最大的 Lottie 动画库加配套工具；筛选免费素材，每个动画上线前单独核对许可。"
+ },
+ "cubic-bezier": {
+  "d": "经典缓动曲线编辑器，支持并排对比；调自定义曲线时和预设对照手感。"
+ },
+ "lottie-docs": {
+  "d": "Lottie JSON 格式的人读版参考文档；要用代码生成或手工修改 Lottie 文件时离不开它。"
+ },
+ "wwdc-animate-with-springs": {
+  "d": "Apple 用 duration 和 bounce 讲弹簧动画，取代质量刚度阻尼那套；写任何平台的动效标注都可借用它的词汇。"
+ },
+ "webdev-reduced-motion": {
+  "d": "web.dev 讲如何在网页上正确实现 prefers-reduced-motion；推荐按 no-motion-first 模式，先保证无动画可用再加动效。"
+ },
+ "family-values": {
+  "d": "Family 钱包团队讲简洁、流畅与愉悦的动效原则，配实例；核心一条：每个元素都应从某处来。"
+ },
+ "open-swiftui-animations": {
+  "d": "开源的 SwiftUI 动画示例大合集，覆盖常见动效；找到相近效果直接读它的源码；MIT。"
+ },
+ "tabler-icons": {
+  "d": "24px 网格上的六千多个图标，描边粗细可调，是免费图标里覆盖面最广的一套；MIT。"
+ },
+ "iconpark": {
+  "d": "字节跳动的 2600+ 图标，描边、四种主题和拐角都是参数；全产品一次配好；Apache-2.0。"
+ },
+ "streamline": {
+  "d": "多风格图标与插画大库，家族内部风格统一；选定一套用到底，免费版需署名回链，付费可免。"
+ },
+ "animated-lucide": {
+  "d": "用 Motion 给 Lucide 图标加动效的 React 组件，复制粘贴即用；只点缀关键瞬间，别全用；MIT。"
+ },
+ "lobe-icons": {
+  "d": "AI 模型与厂商的 SVG 和 React logo 库；要正确的 AI 厂商标志走这条捷径，代码 MIT、商标归原主。"
+ },
+ "apple-sf-symbols-hig": {
+  "d": "Apple 官方讲 SF Symbols 的渲染模式、可变色彩、字重与缩放；为 Apple 平台画自定义符号前必读。"
+ },
+ "realfavicongenerator": {
+  "d": "生成并校验一整套符合现行标准的 favicon 的工具；站点部署上线后跑一遍它的 checker。"
+ },
+ "vtracer": {
+  "d": "支持彩色图像的位图转矢量工具；描完草图要重绘干净，别直接交原始描摹；MIT。"
+ },
+ "storyset": {
+  "d": "可自定义配色、可设动画的插画概念库；免费档使用必须署名，介意就付费。"
+ },
+ "unsplash": {
+  "d": "高质量免费摄影库；避开被用滥的图，照片处理风格要统一；可商用但不得转售原图，Unsplash+ 付费。"
+ },
+ "shots-so": {
+  "d": "浏览器里的设备与浏览器样机工具，默认就好看；丢截图、选边框、导出，三步完事。"
+ },
+ "grainient": {
+  "d": "颗粒渐变背景、动态渐变与 shader 工具；当美术方向参考，再用代码复刻以掌控细节；有免费和付费包。"
+ },
+ "shadergradient": {
+  "d": "动态 3D 渐变定制器，可导出 React、Figma 和 Framer 三种形态；记得导一张静帧给 reduced-motion 场景兜底；MIT。"
+ },
+ "uigradients": {
+  "d": "带名字的两色、三色 CSS 渐变库；审美已经偏旧，只当快速起步的起点；MIT。"
+ },
+ "emblemetric": {
+  "d": "用商标数据量化分析 logo 趋势；想知道某种颜色或造型在某行业多常见时查它。"
+ },
+ "mindsparkle": {
+  "d": "每日更新的品牌、网页与动效策展杂志；横向扫一遍当下 identity 作品用它。"
+ },
+ "standards-site": {
+  "d": "网页版品牌指南平台，附公开范例；研究一份\"活的\"品牌手册该怎么搭结构。"
+ },
+ "wolff-olins": {
+  "d": "大型公司品牌重塑案例集；看一套识别系统如何在庞大组织里铺开。"
+ },
+ "cnipa-trademark": {
+  "d": "中国商标网，官方商标检索；面向大陆市场起名定稿前，先来这里查重。"
+ },
+ "poster-house": {
+  "d": "纽约海报博物馆，带历届展览档案；补海报史与流派背景知识的地方。"
+ },
+ "deck-gallery": {
+  "d": "知名公司的演示文稿与品牌手册灵感库；对照标题、宣言、数据、图片等页面系统。"
+ },
+ "spine-magazine": {
+  "d": "专注书籍封面设计的杂志，讲过程与访谈；看封面方案如何被发展又被否决。"
+ },
+ "abduzeedo": {
+  "d": "老牌每日更新的灵感博客，覆盖面横跨品牌、3D 和 UI；适合泛泛扫图找感觉。"
+ },
+ "fontshare": {
+  "d": "Indian Type Foundry 的专业级免费字体（Satoshi、Clash 等）；跳出 Inter/Roboto 默认的最快路径，可商用、不可转售。"
+ },
+ "league-of-moveable-type": {
+  "d": "开源字体界的鼻祖级字厂，League Gothic、Raleway 都出自这里；想要经典可靠的免费字体时用它，SIL OFL。"
+ },
+ "monaspace": {
+  "d": "GitHub 出的五声部等宽字体超族，带 texture healing 排印微调；代码密集型界面优先用它；SIL OFL。"
+ },
+ "commercial-type": {
+  "d": "编辑设计圈的重炮字厂（Graphik、Canela、Publico）；做 editorial 排版时当字体搭配参照；商业授权。"
+ },
+ "adobe-fonts": {
+  "d": "Creative Cloud 捆绑的大型商业字体库；网页只能走 Adobe 嵌入、不能自托管，客户项目需客户自己的订阅。"
+ },
+ "v-fonts": {
+  "d": "可变字体目录，带实时轴滑杆；选定字体前先把各轴拉一遍试试。"
+ },
+ "capsize": {
+  "d": "按字体度量把文本框精确裁到 cap height 与基线的工具；在 text-box-trim 普及之前都靠它；MIT。"
+ },
+ "thinking-with-type": {
+  "d": "Ellen Lupton 的字体入门经典，讲字母、文本与网格，网站附课程；做重排版设计前先读 Grid 章。"
+ },
+ "source-han-sans": {
+  "d": "开源泛 CJK 标准字体，七个字重，等同 Noto Sans/Serif CJK；中文默认开源选择，上线记得子集化；SIL OFL。"
+ },
+ "maoken": {
+  "d": "免费商用中文字体目录，每款附授权证据；别处找到的中文字体先来这核对再用。"
+ },
+ "heti": {
+  "d": "中文排版增强 CSS 库：标点挤压、中西文混排间距、阅读节奏；用在正文页上；MIT。"
+ },
+ "huemint": {
+  "d": "机器学习生成配色，直接在品牌和网页样机上预览；在最接近交付物的样机上生成。"
+ },
+ "poline": {
+  "d": "在极坐标色彩空间里锚点连线生成配色的工具；做生成式、插画感配色用；MIT。"
+ },
+ "tailwind-colors": {
+  "d": "广泛使用的 11 级色阶，用 OKLCH 定义；参考其明度与彩度曲线，安全但因此常见；MIT。"
+ },
+ "atmos": {
+  "d": "LCH 调色板构建器，带色阶曲线和对比度检查；想要更可视化的曲线编辑用它。"
+ },
+ "viz-palette": {
+  "d": "把数据配色放进真实图表、并在色盲模拟下检验的工具；发图表前查分类色板。"
+ },
+ "least-wrong-colors": {
+  "d": "讲用算法生成保持区分的分类配色的文章；图表系列很多时照它做。"
+ },
+ "ui-ux-pro-max": {
+  "d": "可检索的风格、配色、字体搭配与 UX 规则知识库，附设计系统生成器；当查询表用，缺真实 brief 时建议偏泛；MIT。"
+ },
+ "interface-design-skill": {
+  "d": "专注让跨会话设计决策保持一致的 skill，面向仪表盘和应用；可借鉴的思路：把决策存进系统文件；MIT。"
+ },
+ "magic-mcp": {
+  "d": "21st.dev 的 MCP，从社区组件库里生成 UI 组件；输出只当草稿，再用项目 token 重设样式；ISC。"
+ },
+ "base-ui": {
+  "d": "Radix、Floating UI 和 MUI 的作者们做的无样式 React 组件库，现已稳定；是 headless 组件的现代默认选择；MIT。"
+ },
+ "mantine": {
+  "d": "大而全、文档写得好的 React 组件与 hooks 库；给团队做内部工具时的务实选择；MIT。"
+ },
+ "vant": {
+  "d": "轻量移动端 Vue 组件库，有微信小程序版；中文生态做移动 H5 的默认选择；MIT。"
+ },
+ "ai-elements": {
+  "d": "Vercel 的 AI 界面组件：对话、消息、推理、来源、工具调用、输入框；做聊天 UI 从它开始而非从零。"
+ },
+ "animate-ui": {
+  "d": "常见组件的动画版本合集；做状态过渡打磨时的参考；许可见仓库。"
+ },
+ "rive-runtimes": {
+  "d": "让交互式 Rive 动画跑在各平台的运行时；一份动画资产跨 Web、Flutter 和原生；MIT。"
+ },
+ "echarts": {
+  "d": "功能全的图表库，中文仪表盘与大屏项目的事实主力；定义一次主题对象，别逐图改样式；Apache-2.0。"
+ },
+ "style-dictionary": {
+  "d": "把 design token 源文件编译成 CSS、iOS、Android、Flutter 等各平台代码的标配构建工具，做跨端主题时默认选它，支持 W3C DTCG 格式；Apache-2.0。"
+ },
+ "colorjs": {
+  "d": "CSS Color 规范作者写的色彩科学库；要参考 CSS 色彩空间的实现行为时用它；MIT。"
+ },
+ "sharp": {
+  "d": "Node 里高性能的图像缩放、格式转换与合成库；生成响应式图片集和 AVIF/WebP 用它；Apache-2.0。"
+ },
+ "revealjs": {
+  "d": "HTML 演示文稿框架的标杆；要做完全掌控版式的设计感幻灯片用它；MIT。"
+ },
+ "penpot": {
+  "d": "开源设计工具，建立在 SVG 和 CSS 概念之上，自带 token 与 MCP server；可自托管的设计源头文件；MPL-2.0。"
+ },
+ "awesome-design-systems": {
+  "d": "公开设计系统清单，附组件、文案语调与源码链接；找同类域的系统来对照。"
+ },
+ "awesome-agent-skills": {
+  "d": "各家 agent skill 的汇总目录，其中包含设计类条目；想跟踪新出现的设计 skill 时定期翻它；MIT。"
+ },
+ "every-layout": {
+  "d": "讲算法化 CSS 布局原语的书，不靠断点自适应；基础篇免费，会改变你写响应式的方式。"
+ },
+ "linear-design-ai-age": {
+  "d": "Linear 谈\"AI 是用户也是协作者\"时代的软件设计；接 AI 产品 brief 前用它校准框架。"
+ },
+ "laws-of-ux": {
+  "d": "设计师常引用的感知与认知定律合集（Fitts、Hick、Jakob、Miller 等），附出处；给决策找依据时报定律名。"
+ },
+ "nng-articles": {
+  "d": "Nielsen Norman Group 几十年来基于研究的 UX 文章库；要下任何可用性断言之前先来这里搜一遍。"
+ },
+ "inclusive-design-microsoft": {
+  "d": "微软包容性设计工具包，把残障分为永久、临时与情境三种；写 brief 时用它的 persona spectrum。"
+ },
+ "monteiro-presentations": {
+  "d": "Mike Monteiro 讲设计师向客户提案的 13 个翻车点；给客户讲方案之前读一遍。"
+ },
+ "grid-systems": {
+  "d": "Mueller-Brockmann 的网格系统圣经；做海报、编辑版式和幻灯片排版时的案头参照。"
+ },
+ "microcopy-guide": {
+  "d": "Kinneret Yifrah 写的界面文案指南；写报错提示、空状态和按钮文案时翻它准没错。"
+ },
+ "webdev-learn-design": {
+  "d": "web.dev 的免费响应式设计课程：容器查询、流式字体、主题化；把设计落地前端前补一遍。"
+ },
+ "ant-design-yuque": {
+  "d": "Ant Design 团队关于企业级产品设计的长文专栏；想理解 Ant 模式背后的深度读这里。"
+ },
+ "pinterest": {
+  "d": "跨全学科的视觉搜索引擎，情绪板主力；拿参考图做以图搜图找同类。"
+ },
+ "eagle": {
+  "d": "本地素材管理器，收集参考图并打标签管理；建个人灵感库用；付费。"
+ },
+ "codrops-collective": {
+  "d": "Codrops 出品的网页设计与前端发现周报；盯网页趋势用的周更雷达。"
+ },
+ "figma-community": {
+  "d": "Figma 社区的文件、UI kit 与插件库，含大量中文设计系统套件；看系统怎么搭而非只看外表；许可逐文件定。"
+ }
+}

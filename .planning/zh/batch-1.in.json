@@ -1,0 +1,1682 @@
+[
+ {
+  "id": "minimal-gallery",
+  "name": "Minimal Gallery",
+  "url": "https://minimal.gallery",
+  "domain": "web",
+  "section": "site-galleries",
+  "kind": "gallery",
+  "tags": [
+   "minimal",
+   "portfolio",
+   "studio"
+  ],
+  "best_for": "Minimal websites: whitespace, type-led layouts, quiet palettes",
+  "how_to_use": "Category filters in the header (portfolio, agency, e-commerce, etc.)",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "seesaw",
+  "name": "Seesaw",
+  "url": "https://www.seesaw.website",
+  "domain": "web",
+  "section": "site-galleries",
+  "kind": "gallery",
+  "tags": [
+   "saas",
+   "portfolio",
+   "agency"
+  ],
+  "best_for": "Fast-moving curation of new sites, tagged by type, style and even typeface",
+  "how_to_use": "Filter by tag including fonts and frameworks",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "lapa-ninja",
+  "name": "Lapa Ninja",
+  "url": "https://www.lapa.ninja",
+  "domain": "web",
+  "section": "landing-saas",
+  "kind": "gallery",
+  "tags": [
+   "landing",
+   "saas",
+   "full-page"
+  ],
+  "best_for": "Landing pages with full-page screenshots, grouped by industry and by colour",
+  "how_to_use": "Use /category/<industry>/ pages; full-length captures show section order",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "navbar-gallery",
+  "name": "Navbar Gallery",
+  "url": "https://navbar.gallery",
+  "domain": "web",
+  "section": "section-galleries",
+  "kind": "gallery",
+  "tags": [
+   "nav",
+   "menu",
+   "sidebar"
+  ],
+  "best_for": "Navigation only: navbars, mega menus, dropdowns, sidebars, mobile menus",
+  "how_to_use": "Filter by navigation type; compare how sites handle many links and the CTA",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "404s-design",
+  "name": "404s",
+  "url": "https://www.404s.design",
+  "domain": "web",
+  "section": "section-galleries",
+  "kind": "gallery",
+  "tags": [
+   "404",
+   "empty-state"
+  ],
+  "best_for": "404 pages: a good source for brand voice in error and empty states",
+  "how_to_use": "Skim for tone and illustration approach",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "ecomm-design",
+  "name": "Ecomm.design",
+  "url": "https://ecomm.design",
+  "domain": "web",
+  "section": "niche-galleries",
+  "kind": "gallery",
+  "tags": [
+   "ecommerce"
+  ],
+  "best_for": "E-commerce sites filterable by platform, category and tech stack",
+  "how_to_use": "Filter by vertical (fashion, food, beauty)",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "responsive-jp",
+  "name": "Responsive Web Design JP",
+  "url": "https://responsive-jp.com",
+  "domain": "web",
+  "section": "niche-galleries",
+  "kind": "gallery",
+  "tags": [
+   "japan",
+   "responsive"
+  ],
+  "best_for": "Shows each site at desktop, tablet and phone widths side by side",
+  "how_to_use": "Use to study how a composition is re-arranged across breakpoints",
+  "tier": "A",
+  "lang": "ja"
+ },
+ {
+  "id": "marketingexamples",
+  "name": "Marketing Examples",
+  "url": "https://marketingexamples.com",
+  "domain": "web",
+  "section": "conversion",
+  "kind": "blog",
+  "tags": [
+   "copywriting",
+   "landing"
+  ],
+  "best_for": "Short, concrete teardowns of copy, landing pages and conversion tactics",
+  "how_to_use": "Read the copywriting and landing-page sections before writing a hero",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "mobbin",
+  "name": "Mobbin",
+  "url": "https://mobbin.com",
+  "domain": "app-ui",
+  "section": "screens-flows",
+  "kind": "pattern-library",
+  "tags": [
+   "ios",
+   "android",
+   "web",
+   "flows",
+   "paywall"
+  ],
+  "best_for": "Largest library of real app screens and flows across iOS, Android and web, searchable by screen type, UI element and flow",
+  "how_to_use": "Free tier is small and needs sign-in; filter by platform then Screens, UI Elements or Flows (onboarding, checkout, settings)",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "screensdesign",
+  "name": "ScreensDesign",
+  "url": "https://screensdesign.com",
+  "domain": "app-ui",
+  "section": "screens-flows",
+  "kind": "pattern-library",
+  "tags": [
+   "mobile",
+   "onboarding",
+   "paywall",
+   "video"
+  ],
+  "best_for": "Mobile app flows as videos with onboarding and paywall focus",
+  "how_to_use": "Use for subscription-app onboarding and paywall sequences; /store-screenshots/ holds App Store screenshot designs (it absorbed Scrnshts)",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "component-gallery",
+  "name": "The Component Gallery",
+  "url": "https://component.gallery",
+  "domain": "app-ui",
+  "section": "components",
+  "kind": "pattern-library",
+  "tags": [
+   "components",
+   "design-systems"
+  ],
+  "best_for": "Every common UI component with its names and implementations across dozens of design systems, linked to their docs and code",
+  "how_to_use": "Open /components/<name> to compare anatomy, naming and behaviour across systems; /design-systems lists the sources",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "uiplaybook",
+  "name": "UI Playbook",
+  "url": "https://uiplaybook.dev",
+  "domain": "app-ui",
+  "section": "components",
+  "kind": "pattern-library",
+  "tags": [
+   "components",
+   "best-practice"
+  ],
+  "best_for": "Documented collection of component best practices",
+  "how_to_use": "Quick reminder of do and don't per component",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "fluent-2",
+  "name": "Fluent 2",
+  "url": "https://fluent2.microsoft.design",
+  "domain": "app-ui",
+  "section": "platform-guidelines",
+  "kind": "guideline",
+  "tags": [
+   "windows",
+   "web",
+   "microsoft"
+  ],
+  "best_for": "Microsoft's cross-platform design system: tokens, components, motion, accessibility",
+  "how_to_use": "Use for Microsoft-ecosystem products",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "clig",
+  "name": "Command Line Interface Guidelines",
+  "url": "https://clig.dev",
+  "domain": "app-ui",
+  "section": "platform-guidelines",
+  "kind": "guideline",
+  "tags": [
+   "cli",
+   "tui",
+   "developer-tools"
+  ],
+  "best_for": "Human-first principles for CLI design: output, errors, help, flags, interactivity",
+  "how_to_use": "Use when the product surface is a terminal",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "polaris",
+  "name": "Shopify Polaris",
+  "url": "https://shopify.dev/docs/api/polaris",
+  "domain": "app-ui",
+  "section": "design-systems",
+  "kind": "design-system",
+  "tags": [
+   "commerce",
+   "admin",
+   "content"
+  ],
+  "best_for": "Shopify's admin UI system, now delivered as web components; still a reference for merchant-admin patterns and content guidance",
+  "how_to_use": "polaris.shopify.com now redirects here; the legacy React site polaris-react.shopify.com keeps the older content and pattern guidance",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "uswds",
+  "name": "U.S. Web Design System",
+  "url": "https://designsystem.digital.gov",
+  "domain": "app-ui",
+  "section": "design-systems",
+  "kind": "design-system",
+  "tags": [
+   "public-sector",
+   "accessibility"
+  ],
+  "best_for": "Accessible public-sector components, tokens and patterns",
+  "how_to_use": "Use for trust-first, regulated contexts",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "siemens-ix",
+  "name": "Siemens Industrial Experience",
+  "url": "https://ix.siemens.io",
+  "domain": "app-ui",
+  "section": "design-systems",
+  "kind": "design-system",
+  "tags": [
+   "industrial",
+   "dashboard"
+  ],
+  "best_for": "Open industrial design system for plant and device software",
+  "how_to_use": "Reference for industrial and IoT applications",
+  "license": "MIT",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "dashboard-design-patterns",
+  "name": "Dashboard Design Patterns",
+  "url": "https://dashboarddesignpatterns.github.io",
+  "domain": "app-ui",
+  "section": "dataviz-dashboards",
+  "kind": "guideline",
+  "tags": [
+   "dashboard",
+   "research"
+  ],
+  "best_for": "Research-based taxonomy of dashboard structures, page layouts, interactions and genres",
+  "how_to_use": "Use to choose a dashboard genre and layout before drawing",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "datawrapper-blog",
+  "name": "Datawrapper blog and academy",
+  "url": "https://www.datawrapper.de/blog",
+  "domain": "app-ui",
+  "section": "dataviz-dashboards",
+  "kind": "blog",
+  "tags": [
+   "dataviz",
+   "colour"
+  ],
+  "best_for": "Working knowledge on chart design, especially colour for data",
+  "how_to_use": "Read the colour series",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "pair-guidebook",
+  "name": "People + AI Guidebook",
+  "url": "https://pair.withgoogle.com/guidebook",
+  "domain": "app-ui",
+  "section": "ai-ux",
+  "kind": "guideline",
+  "tags": [
+   "ai",
+   "human-centred"
+  ],
+  "best_for": "Google PAIR's research-based guidance: mental models, explainability and trust, feedback and control, errors and graceful failure",
+  "how_to_use": "Use the chapter worksheets during the brief",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "ant-design-x",
+  "name": "Ant Design X",
+  "url": "https://x.ant.design",
+  "domain": "app-ui",
+  "section": "ai-ux",
+  "kind": "design-system",
+  "tags": [
+   "ai",
+   "chat",
+   "components",
+   "china"
+  ],
+  "best_for": "AI-interface component system with a published design paradigm for roles, intention, conversation and hybrid UI",
+  "how_to_use": "Read the design section before composing a chat UI from the components",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "zh"
+ },
+ {
+  "id": "designspells",
+  "name": "Design Spells",
+  "url": "https://www.designspells.com",
+  "domain": "app-ui",
+  "section": "details-offbeat",
+  "kind": "gallery",
+  "tags": [
+   "details",
+   "delight",
+   "microinteraction"
+  ],
+  "best_for": "Small delightful details and easter eggs from shipped products, as short videos",
+  "how_to_use": "Use when a product needs one memorable moment",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "motion-examples",
+  "name": "Motion examples",
+  "url": "https://motion.dev/examples",
+  "domain": "motion",
+  "section": "showcases",
+  "kind": "gallery",
+  "tags": [
+   "motion-library",
+   "react",
+   "js",
+   "vue"
+  ],
+  "best_for": "Live, copyable examples for the Motion library: gestures, layout animation, scroll, springs",
+  "how_to_use": "Filter by platform (JS, React, Vue); some examples require Motion+",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "nan-fyi",
+  "name": "nan.fyi",
+  "url": "https://www.nan.fyi",
+  "domain": "motion",
+  "section": "showcases",
+  "kind": "blog",
+  "tags": [
+   "interactive-essay",
+   "svg"
+  ],
+  "best_for": "Interactive essays on SVG paths, layout animation and how motion works under the hood",
+  "how_to_use": "Read before hand-writing path or FLIP animation",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "scroll-driven-animations",
+  "name": "Scroll-driven Animations",
+  "url": "https://scroll-driven-animations.style",
+  "domain": "motion",
+  "section": "tools",
+  "kind": "tool",
+  "tags": [
+   "scroll",
+   "css",
+   "demos"
+  ],
+  "best_for": "Demos and visual tools for CSS scroll-driven animations (timeline ranges, view progress)",
+  "how_to_use": "Use the range visualiser when specifying animation-range",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "m3-motion",
+  "name": "Material 3 motion",
+  "url": "https://m3.material.io/styles/motion/overview",
+  "domain": "motion",
+  "section": "guidelines",
+  "kind": "guideline",
+  "tags": [
+   "tokens",
+   "easing",
+   "duration",
+   "spring"
+  ],
+  "best_for": "Motion system with easing and duration tokens, transition patterns and the expressive spring-based motion scheme",
+  "how_to_use": "JS app: use a browser tool; read easing-and-duration tokens and transitions",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "fluent-motion",
+  "name": "Fluent 2 motion",
+  "url": "https://fluent2.microsoft.design/motion",
+  "domain": "motion",
+  "section": "guidelines",
+  "kind": "guideline",
+  "tags": [
+   "windows"
+  ],
+  "best_for": "Microsoft's motion principles and timing guidance",
+  "how_to_use": "Use for Windows-native feel",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "ant-motion",
+  "name": "Ant Motion",
+  "url": "https://motion.ant.design",
+  "domain": "motion",
+  "section": "guidelines",
+  "kind": "guideline",
+  "tags": [
+   "china",
+   "enterprise"
+  ],
+  "best_for": "Ant Design's motion language and React motion components",
+  "how_to_use": "Reference for enterprise motion principles in Chinese",
+  "tier": "B",
+  "lang": "zh"
+ },
+ {
+  "id": "spring-physics-heckel",
+  "name": "The physics behind spring animations",
+  "url": "https://blog.maximeheckel.com/posts/the-physics-behind-spring-animations/",
+  "domain": "motion",
+  "section": "learning",
+  "kind": "article",
+  "tags": [
+   "spring",
+   "physics"
+  ],
+  "best_for": "Clear derivation of mass, stiffness and damping with interactive examples",
+  "how_to_use": "Read when tuning springs numerically",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "flutter-animations",
+  "name": "Flutter animations",
+  "url": "https://docs.flutter.dev/ui/animations",
+  "domain": "motion",
+  "section": "native",
+  "kind": "guideline",
+  "tags": [
+   "flutter"
+  ],
+  "best_for": "Implicit versus explicit animation, hero, staggered and physics-based animation in Flutter",
+  "how_to_use": "Pick implicit widgets first; go explicit only when needed",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "sf-symbols",
+  "name": "SF Symbols",
+  "url": "https://developer.apple.com/sf-symbols/",
+  "domain": "icons",
+  "section": "families",
+  "kind": "assets",
+  "tags": [
+   "apple",
+   "ios",
+   "macos",
+   "variable"
+  ],
+  "best_for": "Apple's symbol system aligned with San Francisco: weights, scales, rendering modes, animation",
+  "how_to_use": "Use natively in Apple apps; never ship them on the web or Android",
+  "license": "Apple licence: only for apps on Apple platforms; not for web, other platforms or logos",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "fluent-system-icons",
+  "name": "Fluent System Icons",
+  "url": "https://github.com/microsoft/fluentui-system-icons",
+  "domain": "icons",
+  "section": "families",
+  "kind": "assets",
+  "tags": [
+   "microsoft",
+   "regular",
+   "filled"
+  ],
+  "best_for": "Microsoft's icon family in regular and filled at many sizes",
+  "how_to_use": "Use for Microsoft-ecosystem or Windows-native products",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "radix-icons",
+  "name": "Radix Icons",
+  "url": "https://www.radix-ui.com/icons",
+  "domain": "icons",
+  "section": "families",
+  "kind": "assets",
+  "tags": [
+   "15px",
+   "compact"
+  ],
+  "best_for": "Crisp 15 px icons for compact interfaces",
+  "how_to_use": "Use when 16 px sets feel heavy in dense UI",
+  "license": "MIT",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "iconify",
+  "name": "Iconify",
+  "url": "https://iconify.design",
+  "domain": "icons",
+  "section": "search-apis",
+  "kind": "tool",
+  "tags": [
+   "api",
+   "aggregator",
+   "200k-icons"
+  ],
+  "best_for": "One API and tooling layer over 150+ open icon sets",
+  "how_to_use": "SVG: https://api.iconify.design/<prefix>/<name>.svg; search: https://api.iconify.design/search?query=<q>; browse sets at icon-sets.iconify.design",
+  "license": "Each set keeps its own licence (shown per set)",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "svgl",
+  "name": "SVGL",
+  "url": "https://svgl.app",
+  "domain": "icons",
+  "section": "brand-logos",
+  "kind": "assets",
+  "tags": [
+   "brands",
+   "colour",
+   "api"
+  ],
+  "best_for": "Full-colour brand SVG logos with light and dark variants and an API",
+  "how_to_use": "API: https://api.svgl.app?search=<name>",
+  "license": "MIT for the project; marks belong to their owners",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "macos-icons",
+  "name": "macOSicons",
+  "url": "https://macosicons.com",
+  "domain": "icons",
+  "section": "app-icons",
+  "kind": "gallery",
+  "tags": [
+   "app-icon",
+   "macos"
+  ],
+  "best_for": "Huge community gallery of macOS-style app icons",
+  "how_to_use": "Reference for the macOS icon idiom",
+  "license": "Community-made; personal use",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "svgomg",
+  "name": "SVGOMG",
+  "url": "https://jakearchibald.github.io/svgomg/",
+  "domain": "icons",
+  "section": "svg-tools",
+  "kind": "tool",
+  "tags": [
+   "svg",
+   "optimise"
+  ],
+  "best_for": "Visual front end for SVGO with a live diff",
+  "how_to_use": "Keep viewBox; lower precision until the shape changes, then step back",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "undraw",
+  "name": "unDraw",
+  "url": "https://undraw.co",
+  "domain": "assets",
+  "section": "illustrations",
+  "kind": "assets",
+  "tags": [
+   "flat",
+   "recolour"
+  ],
+  "best_for": "Open-source flat illustrations recolourable to a brand hue",
+  "how_to_use": "Set the brand colour on site before download; overused, so restyle or use sparingly",
+  "license": "unDraw licence: free commercial use without attribution; no redistribution as a pack",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "3dicons",
+  "name": "3dicons",
+  "url": "https://3dicons.co",
+  "domain": "assets",
+  "section": "3d",
+  "kind": "assets",
+  "tags": [
+   "3d-icons"
+  ],
+  "best_for": "Open-source 3D icons rendered in several angles and colours",
+  "how_to_use": "PNG and Blender sources",
+  "license": "CC0",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "coverr",
+  "name": "Coverr",
+  "url": "https://coverr.co",
+  "domain": "assets",
+  "section": "photo-video",
+  "kind": "assets",
+  "tags": [
+   "video"
+  ],
+  "best_for": "Stock video made for website backgrounds",
+  "how_to_use": "Compress and provide a poster frame",
+  "license": "Free licence for most clips",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "mockuuups",
+  "name": "Mockuuups Studio",
+  "url": "https://mockuuups.studio",
+  "domain": "assets",
+  "section": "mockups",
+  "kind": "tool",
+  "tags": [
+   "scene-mockup"
+  ],
+  "best_for": "Thousands of photographic device scenes",
+  "how_to_use": "Use sparingly; clean frames usually present UI better",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "fffuel",
+  "name": "fffuel",
+  "url": "https://www.fffuel.co",
+  "domain": "assets",
+  "section": "backgrounds",
+  "kind": "tool",
+  "tags": [
+   "svg",
+   "noise",
+   "patterns"
+  ],
+  "best_for": "Collection of SVG generators: noise, grain, organic shapes, patterns, gradients",
+  "how_to_use": "nnnoise and gggrain for texture; ooorganize for grids",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "shadertoy",
+  "name": "Shadertoy",
+  "url": "https://www.shadertoy.com",
+  "domain": "assets",
+  "section": "backgrounds",
+  "kind": "community",
+  "tags": [
+   "glsl",
+   "shader"
+  ],
+  "best_for": "Community of GLSL shaders; unmatched for learning techniques",
+  "how_to_use": "Learn from it; do not copy a shader into commercial work without checking its licence",
+  "license": "Default licence is CC BY-NC-SA unless the author states otherwise",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "logo-archive",
+  "name": "Logo Archive",
+  "url": "https://logo-archive.org",
+  "domain": "brand",
+  "section": "logo-archives",
+  "kind": "archive",
+  "tags": [
+   "logo",
+   "mid-century"
+  ],
+  "best_for": "Mid-century modernist marks documented with designer and year",
+  "how_to_use": "Reference for reductive, geometric construction",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "brand-new",
+  "name": "Brand New",
+  "url": "https://www.underconsideration.com/brandnew/",
+  "domain": "brand",
+  "section": "identity-publications",
+  "kind": "blog",
+  "tags": [
+   "rebrand",
+   "review"
+  ],
+  "best_for": "The definitive chronicle and critique of identity work and rebrands; low-cost subscription",
+  "how_to_use": "Search the archive by industry before starting a rebrand",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "logonews",
+  "name": "Logo News (标志情报局)",
+  "url": "https://www.logonews.cn",
+  "domain": "brand",
+  "section": "identity-publications",
+  "kind": "blog",
+  "tags": [
+   "china",
+   "rebrand",
+   "news"
+  ],
+  "best_for": "The leading Chinese-language chronicle of logo changes and new identities worldwide and in China",
+  "how_to_use": "Search a Chinese brand's name for its identity history",
+  "tier": "S",
+  "lang": "zh"
+ },
+ {
+  "id": "brandfetch",
+  "name": "Brandfetch",
+  "url": "https://brandfetch.com",
+  "domain": "brand",
+  "section": "guidelines-collections",
+  "kind": "tool",
+  "tags": [
+   "brand-assets",
+   "api"
+  ],
+  "best_for": "Logos, colours and fonts of companies via search and API",
+  "how_to_use": "Quick way to collect a competitor line-up",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "porto-rocha",
+  "name": "Porto Rocha",
+  "url": "https://portorocha.com",
+  "domain": "brand",
+  "section": "studios",
+  "kind": "gallery",
+  "tags": [
+   "identity",
+   "culture",
+   "motion"
+  ],
+  "best_for": "Culture- and motion-forward identity systems",
+  "how_to_use": "Reference for identities designed to move",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "igor-naming-guide",
+  "name": "Igor Naming Guide",
+  "url": "https://www.igorinternational.com/process/igor-naming-guide.php",
+  "domain": "brand",
+  "section": "naming-trademark",
+  "kind": "article",
+  "tags": [
+   "naming",
+   "taxonomy"
+  ],
+  "best_for": "Taxonomy of name types (functional, invented, experiential, evocative) with evaluation criteria",
+  "how_to_use": "Classify candidate names before judging them",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "peoples-gd-archive",
+  "name": "People's Graphic Design Archive",
+  "url": "https://peoplesgdarchive.org",
+  "domain": "graphic",
+  "section": "archives",
+  "kind": "archive",
+  "tags": [
+   "vernacular",
+   "crowd-sourced"
+  ],
+  "best_for": "Crowd-sourced archive including everyday and under-documented graphic design",
+  "how_to_use": "Find vernacular references outside the canon",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "pitch-deck-hunt",
+  "name": "Pitch Deck Hunt",
+  "url": "https://www.pitchdeckhunt.com",
+  "domain": "graphic",
+  "section": "decks",
+  "kind": "archive",
+  "tags": [
+   "pitch-deck"
+  ],
+  "best_for": "Collection of notable pitch decks",
+  "how_to_use": "Second source for deck structure",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "packaging-of-the-world",
+  "name": "Packaging of the World",
+  "url": "https://packagingoftheworld.com",
+  "domain": "graphic",
+  "section": "covers-packaging",
+  "kind": "gallery",
+  "tags": [
+   "packaging"
+  ],
+  "best_for": "Large packaging gallery by category and country",
+  "how_to_use": "Scan a product category quickly",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "topys",
+  "name": "TOPYS",
+  "url": "https://www.topys.cn",
+  "domain": "graphic",
+  "section": "publications",
+  "kind": "blog",
+  "tags": [
+   "china",
+   "creative-culture"
+  ],
+  "best_for": "Chinese creative-culture publication covering design, advertising and art",
+  "how_to_use": "Read for cultural context of Chinese visual trends",
+  "tier": "A",
+  "lang": "zh"
+ },
+ {
+  "id": "uncut",
+  "name": "Uncut",
+  "url": "https://uncut.wtf",
+  "domain": "type",
+  "section": "free-fonts",
+  "kind": "assets",
+  "tags": [
+   "contemporary",
+   "display"
+  ],
+  "best_for": "Catalogue of contemporary free typefaces with character",
+  "how_to_use": "Filter by style; verify each font's licence link",
+  "license": "Licence per font, mostly OFL",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "free-faces",
+  "name": "Free Faces",
+  "url": "https://www.freefaces.gallery",
+  "domain": "type",
+  "section": "free-fonts",
+  "kind": "gallery",
+  "tags": [
+   "free",
+   "curated"
+  ],
+  "best_for": "Curated gallery of free typefaces from around the web",
+  "how_to_use": "Check personal-only versus commercial use per font",
+  "license": "Licences vary per font; read each",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "noto",
+  "name": "Noto",
+  "url": "https://fonts.google.com/noto",
+  "domain": "type",
+  "section": "free-fonts",
+  "kind": "assets",
+  "tags": [
+   "multi-script",
+   "fallback"
+  ],
+  "best_for": "Harmonised families for nearly every script",
+  "how_to_use": "Fallback for multilingual products",
+  "license": "SIL OFL",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "pangram-pangram",
+  "name": "Pangram Pangram",
+  "url": "https://pangrampangram.com",
+  "domain": "type",
+  "section": "foundries",
+  "kind": "assets",
+  "tags": [
+   "free-to-try",
+   "display"
+  ],
+  "best_for": "Fashion-forward families that are free to try",
+  "how_to_use": "A common licensing trap: personal-use files must not ship commercially",
+  "license": "Free for personal use; commercial licence required",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "youworkforthem",
+  "name": "YouWorkForThem",
+  "url": "https://www.youworkforthem.com",
+  "domain": "type",
+  "section": "foundries",
+  "kind": "assets",
+  "tags": [
+   "fonts",
+   "graphics",
+   "perpetual"
+  ],
+  "best_for": "Independent shop for fonts and graphic assets (display faces, vector shape packs, textures)",
+  "how_to_use": "Useful for distinctive display type and Y2K-style vector packs",
+  "license": "Perpetual licences, no subscription",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "utopia",
+  "name": "Utopia",
+  "url": "https://utopia.fyi",
+  "domain": "type",
+  "section": "tools",
+  "kind": "tool",
+  "tags": [
+   "fluid-type",
+   "fluid-space",
+   "clamp"
+  ],
+  "best_for": "Fluid type and space scales that interpolate between a small and a large viewport, output as CSS clamp()",
+  "how_to_use": "Define min and max scale, copy the custom properties",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "glyphhanger",
+  "name": "glyphhanger",
+  "url": "https://github.com/zachleat/glyphhanger",
+  "domain": "type",
+  "section": "tools",
+  "kind": "library",
+  "tags": [
+   "subsetting"
+  ],
+  "best_for": "Finds the glyphs a site uses and subsets fonts accordingly",
+  "how_to_use": "Use for Latin subsetting in build pipelines",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "better-web-type",
+  "name": "Better Web Type",
+  "url": "https://betterwebtype.com",
+  "domain": "type",
+  "section": "guides",
+  "kind": "course",
+  "tags": [
+   "web-typography"
+  ],
+  "best_for": "Web typography course and articles for developers",
+  "how_to_use": "Short, practical lessons",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "harmonyos-sans",
+  "name": "HarmonyOS Sans",
+  "url": "https://developer.huawei.com/consumer/cn/design/resource/",
+  "domain": "type",
+  "section": "cjk",
+  "kind": "assets",
+  "tags": [
+   "cjk",
+   "harmonyos",
+   "free-commercial"
+  ],
+  "best_for": "Huawei's system typeface covering Simplified and Traditional Chinese, Latin and more",
+  "how_to_use": "Use for HarmonyOS apps and as a neutral UI face",
+  "license": "Free commercial use under the HarmonyOS Sans licence agreement",
+  "tier": "A",
+  "lang": "zh"
+ },
+ {
+  "id": "foundertype",
+  "name": "方正字库",
+  "url": "https://www.foundertype.com",
+  "domain": "type",
+  "section": "cjk",
+  "kind": "assets",
+  "tags": [
+   "cjk",
+   "commercial"
+  ],
+  "best_for": "China's largest commercial type library",
+  "how_to_use": "Never use FounderType or Hanyi fonts commercially without a purchased licence",
+  "license": "Commercial licence required per use; enforcement is active",
+  "tier": "B",
+  "lang": "zh"
+ },
+ {
+  "id": "autocorrect",
+  "name": "AutoCorrect",
+  "url": "https://github.com/huacnlee/autocorrect",
+  "domain": "type",
+  "section": "cjk",
+  "kind": "library",
+  "tags": [
+   "cjk",
+   "lint",
+   "copy"
+  ],
+  "best_for": "Linter and formatter for CJK copy: spacing, punctuation, full-width rules",
+  "how_to_use": "Put it in CI to keep product copy consistent",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "zh"
+ },
+ {
+  "id": "color-hunt",
+  "name": "Color Hunt",
+  "url": "https://colorhunt.co",
+  "domain": "color",
+  "section": "palettes",
+  "kind": "gallery",
+  "tags": [
+   "palettes",
+   "trending"
+  ],
+  "best_for": "Community palettes sorted by popularity and tag",
+  "how_to_use": "Treat as a trend indicator",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "oklch-picker",
+  "name": "OKLCH Color Picker",
+  "url": "https://oklch.com",
+  "domain": "color",
+  "section": "system-tools",
+  "kind": "tool",
+  "tags": [
+   "oklch",
+   "p3",
+   "converter"
+  ],
+  "best_for": "Picker and converter for OKLCH with gamut visualisation (sRGB, P3, Rec2020)",
+  "how_to_use": "See where a colour leaves the sRGB gamut before building a scale",
+  "license": "MIT",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "tints-dev",
+  "name": "tints.dev",
+  "url": "https://www.tints.dev",
+  "domain": "color",
+  "section": "system-tools",
+  "kind": "tool",
+  "tags": [
+   "tailwind",
+   "scale"
+  ],
+  "best_for": "Generates an 11-step Tailwind-style scale from one hex with tweakable curves",
+  "how_to_use": "Quick brand scale; verify with contrast checks",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "who-can-use",
+  "name": "Who Can Use",
+  "url": "https://www.whocanuse.com",
+  "domain": "color",
+  "section": "contrast",
+  "kind": "tool",
+  "tags": [
+   "vision-simulation",
+   "wcag"
+  ],
+  "best_for": "Shows how a colour pair performs across vision types",
+  "how_to_use": "Use to make contrast findings concrete for stakeholders",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "stripe-accessible-colors",
+  "name": "Designing accessible color systems",
+  "url": "https://stripe.com/blog/accessible-color-systems",
+  "domain": "color",
+  "section": "guides",
+  "kind": "article",
+  "tags": [
+   "perceptual",
+   "scales"
+  ],
+  "best_for": "How Stripe built a palette with predictable contrast using a perceptual colour space",
+  "how_to_use": "The reasoning behind step-number contrast guarantees",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "anthropic-frontend-design",
+  "name": "Anthropic frontend-design skill",
+  "url": "https://github.com/anthropics/skills/tree/main/skills/frontend-design",
+  "domain": "code",
+  "section": "ai-design-skills",
+  "kind": "skill",
+  "tags": [
+   "claude",
+   "aesthetics",
+   "anti-slop"
+  ],
+  "best_for": "Anthropic's own short skill for distinctive front-end aesthetics: commit to a bold direction, avoid generic AI looks, mind typography, colour, motion, composition",
+  "how_to_use": "Read it as the minimal baseline any design skill must beat; the companion post (2025-11-12) explains the mechanism, distributional convergence, and ships a ~400-token aesthetics prompt",
+  "license": "See repository licence",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "v0",
+  "name": "v0 by Vercel",
+  "url": "https://v0.app",
+  "domain": "code",
+  "section": "ai-design-skills",
+  "kind": "tool",
+  "tags": [
+   "ai-generation",
+   "templates",
+   "shadcn",
+   "nextjs",
+   "design-mode"
+  ],
+  "best_for": "Prompt-to-app generator that builds and deploys full-stack web apps, with a visual design mode, reusable design systems and a large community template gallery (apps, landing pages, components, dashboards)",
+  "how_to_use": "Use for fast throwaway variants, then apply this suite's brief, direction and critique discipline to the output; browse /templates to see what current AI-generated UI looks like, which is also the look to diverge from",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "superdesign",
+  "name": "Superdesign",
+  "url": "https://superdesign.dev",
+  "domain": "code",
+  "section": "ai-design-skills",
+  "kind": "tool",
+  "tags": [
+   "ide",
+   "design-agent",
+   "variants"
+  ],
+  "best_for": "Open-source design agent that lives in the IDE and generates UI variants side by side",
+  "how_to_use": "Reference for the parallel-variants workflow",
+  "license": "See repository (github.com/superdesigndev/superdesign)",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "chrome-devtools-mcp",
+  "name": "Chrome DevTools MCP",
+  "url": "https://developer.chrome.com/docs/devtools/agents",
+  "domain": "code",
+  "section": "ai-design-skills",
+  "kind": "tool",
+  "tags": [
+   "browser",
+   "screenshots",
+   "performance"
+  ],
+  "best_for": "Gives an agent a real Chrome: screenshots, DOM, computed styles, performance traces",
+  "how_to_use": "The eyes for the render-and-look loop",
+  "license": "Apache-2.0",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "ark-ui",
+  "name": "Ark UI",
+  "url": "https://ark-ui.com",
+  "domain": "code",
+  "section": "components",
+  "kind": "library",
+  "tags": [
+   "react",
+   "vue",
+   "solid",
+   "svelte",
+   "headless"
+  ],
+  "best_for": "Headless components for several frameworks built on state machines",
+  "how_to_use": "One behaviour layer across React, Vue and Solid",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "ant-design-lib",
+  "name": "Ant Design (React)",
+  "url": "https://ant.design/components/overview",
+  "domain": "code",
+  "section": "components",
+  "kind": "library",
+  "tags": [
+   "react",
+   "enterprise",
+   "china"
+  ],
+  "best_for": "The enterprise React library behind most Chinese admin systems; themable through design tokens",
+  "how_to_use": "Theme with ConfigProvider tokens and algorithms, not CSS overrides",
+  "license": "MIT",
+  "tier": "S",
+  "lang": "zh"
+ },
+ {
+  "id": "forui",
+  "name": "Forui",
+  "url": "https://forui.dev",
+  "domain": "code",
+  "section": "components",
+  "kind": "library",
+  "tags": [
+   "flutter",
+   "minimal"
+  ],
+  "best_for": "Minimalist, platform-agnostic Flutter widget library",
+  "how_to_use": "A way out of stock Material look in Flutter",
+  "license": "See repository licence",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "magic-ui",
+  "name": "Magic UI",
+  "url": "https://magicui.design",
+  "domain": "code",
+  "section": "animated-components",
+  "kind": "library",
+  "tags": [
+   "react",
+   "marketing",
+   "animated"
+  ],
+  "best_for": "Animated marketing components (marquees, beams, bento, text effects) for shadcn projects",
+  "how_to_use": "Use one or two with intent; a page made of these looks like every other",
+  "license": "MIT for the open set",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "motion",
+  "name": "Motion",
+  "url": "https://motion.dev",
+  "domain": "code",
+  "section": "motion-libs",
+  "kind": "library",
+  "tags": [
+   "js",
+   "react",
+   "vue",
+   "springs",
+   "layout"
+  ],
+  "best_for": "The standard animation library for the web (formerly Framer Motion): springs, gestures, layout and scroll animation",
+  "how_to_use": "Import from motion/react in React; check the installed major version",
+  "license": "MIT",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "lenis",
+  "name": "Lenis",
+  "url": "https://lenis.dev",
+  "domain": "code",
+  "section": "motion-libs",
+  "kind": "library",
+  "tags": [
+   "smooth-scroll"
+  ],
+  "best_for": "Smooth-scroll library used on many award sites",
+  "how_to_use": "Use cautiously: scroll hijacking has accessibility costs",
+  "license": "MIT",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "remotion",
+  "name": "Remotion",
+  "url": "https://www.remotion.dev",
+  "domain": "code",
+  "section": "motion-libs",
+  "kind": "library",
+  "tags": [
+   "video",
+   "react"
+  ],
+  "best_for": "Programmatic video in React: motion graphics and product videos from code",
+  "how_to_use": "Check the company licence threshold before commercial use",
+  "license": "Remotion licence: free for individuals and small teams, paid company licence above a threshold",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "tokens-studio",
+  "name": "Tokens Studio",
+  "url": "https://tokens.studio",
+  "domain": "code",
+  "section": "tokens-theming",
+  "kind": "tool",
+  "tags": [
+   "figma",
+   "tokens",
+   "sync"
+  ],
+  "best_for": "Figma plugin to author tokens and sync them to Git",
+  "how_to_use": "Bridge when designers live in Figma",
+  "license": "MIT for the plugin",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "takumi",
+  "name": "Takumi",
+  "url": "https://takumi.kane.tw",
+  "domain": "code",
+  "section": "render-export",
+  "kind": "library",
+  "tags": [
+   "og-image",
+   "rust",
+   "fast"
+  ],
+  "best_for": "Rust image-rendering engine for JSX layouts, a faster Satori alternative",
+  "how_to_use": "For high-volume image generation",
+  "license": "MIT or Apache-2.0",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "pagedjs",
+  "name": "Paged.js",
+  "url": "https://pagedjs.org",
+  "domain": "code",
+  "section": "render-export",
+  "kind": "library",
+  "tags": [
+   "css-paged-media",
+   "print"
+  ],
+  "best_for": "Polyfill for CSS Paged Media: page size, margins, running headers, bleed and crop marks in the browser",
+  "how_to_use": "HTML to print-ready PDF through a browser",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "pptxgenjs",
+  "name": "PptxGenJS",
+  "url": "https://gitbrent.github.io/PptxGenJS/",
+  "domain": "code",
+  "section": "render-export",
+  "kind": "library",
+  "tags": [
+   "pptx",
+   "editable"
+  ],
+  "best_for": "Generates editable PowerPoint files from JavaScript",
+  "how_to_use": "When the recipient must edit in PowerPoint or Keynote",
+  "license": "MIT",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "tldraw",
+  "name": "tldraw",
+  "url": "https://www.tldraw.com",
+  "domain": "code",
+  "section": "design-tools",
+  "kind": "tool",
+  "tags": [
+   "canvas",
+   "sdk"
+  ],
+  "best_for": "Infinite canvas and SDK",
+  "how_to_use": "For building canvas-style tools",
+  "license": "tldraw licence (SDK requires a licence for commercial use)",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "awesome-design-tools",
+  "name": "Awesome Design Tools",
+  "url": "https://github.com/goabstract/Awesome-Design-Tools",
+  "domain": "code",
+  "section": "awesome-lists",
+  "kind": "archive",
+  "tags": [
+   "tools"
+  ],
+  "best_for": "Categorised design-tool list; no longer updated",
+  "how_to_use": "Historical map of tool categories",
+  "license": "MIT",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "rauno-invisible-details",
+  "name": "Invisible Details of Interaction Design",
+  "url": "https://rauno.me/craft/interaction-design",
+  "domain": "reading",
+  "section": "interface-craft",
+  "kind": "article",
+  "tags": [
+   "interaction",
+   "metaphor",
+   "kinetics"
+  ],
+  "best_for": "Essay on the reasoning behind great interactions: metaphors, kinetic physics, responsiveness, frequency and novelty",
+  "how_to_use": "Read before designing any gesture",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "defensive-css",
+  "name": "Defensive CSS",
+  "url": "https://defensivecss.dev",
+  "domain": "reading",
+  "section": "interface-craft",
+  "kind": "guideline",
+  "tags": [
+   "css",
+   "robustness"
+  ],
+  "best_for": "Patterns that keep layouts from breaking with real content",
+  "how_to_use": "Checklist for long text, missing images, overflow",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "refactoring-ui-7-tips",
+  "name": "7 Practical Tips for Cheating at Design",
+  "url": "https://medium.com/refactoring-ui/7-practical-tips-for-cheating-at-design-40c736799886",
+  "domain": "reading",
+  "section": "visual-fundamentals",
+  "kind": "article",
+  "tags": [
+   "hierarchy",
+   "tips"
+  ],
+  "best_for": "The most effective short article on making developer-built UI look designed",
+  "how_to_use": "Apply all seven before anything fancier",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "rams-ten-principles",
+  "name": "Dieter Rams: ten principles for good design",
+  "url": "https://www.vitsoe.com/us/about/good-design",
+  "domain": "reading",
+  "section": "visual-fundamentals",
+  "kind": "article",
+  "tags": [
+   "principles"
+  ],
+  "best_for": "The ten principles, from the source",
+  "how_to_use": "A yardstick for restraint",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "baymard",
+  "name": "Baymard Institute",
+  "url": "https://baymard.com/blog",
+  "domain": "reading",
+  "section": "ux-evidence",
+  "kind": "blog",
+  "tags": [
+   "ecommerce",
+   "forms",
+   "research"
+  ],
+  "best_for": "Large-scale e-commerce and form usability research; articles free, full database paid",
+  "how_to_use": "Check before designing checkout, search, filters or forms",
+  "tier": "S",
+  "lang": "en"
+ },
+ {
+  "id": "ux-myths",
+  "name": "UX Myths",
+  "url": "https://uxmyths.com",
+  "domain": "reading",
+  "section": "ux-evidence",
+  "kind": "archive",
+  "tags": [
+   "myths",
+   "evidence"
+  ],
+  "best_for": "Common UX misconceptions with research that refutes them",
+  "how_to_use": "Settle arguments such as the three-click rule",
+  "tier": "B",
+  "lang": "en"
+ },
+ {
+  "id": "shape-up",
+  "name": "Shape Up",
+  "url": "https://basecamp.com/shapeup",
+  "domain": "reading",
+  "section": "process-critique",
+  "kind": "book",
+  "tags": [
+   "shaping",
+   "breadboard",
+   "fat-marker"
+  ],
+  "best_for": "Basecamp's free book: shaping work, breadboarding and fat-marker sketches",
+  "how_to_use": "Use breadboards to settle flow before visuals",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "interaction-of-color",
+  "name": "Interaction of Color",
+  "url": "https://yalebooks.yale.edu/book/9780300179354/interaction-of-color/",
+  "domain": "reading",
+  "section": "books",
+  "kind": "book",
+  "tags": [
+   "colour",
+   "perception"
+  ],
+  "best_for": "Albers on how colours change each other",
+  "how_to_use": "Why a colour looks wrong in context",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "smart-interface-patterns",
+  "name": "Smart Interface Design Patterns",
+  "url": "https://smart-interface-design-patterns.com",
+  "domain": "reading",
+  "section": "courses",
+  "kind": "course",
+  "tags": [
+   "patterns",
+   "checklists"
+  ],
+  "best_for": "Vitaly Friedman's video course and checklists on complex UI patterns",
+  "how_to_use": "Tables, filters, navigation, forms at depth",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "uisdc",
+  "name": "优设网",
+  "url": "https://www.uisdc.com",
+  "domain": "reading",
+  "section": "zh-reading",
+  "kind": "blog",
+  "tags": [
+   "china",
+   "tutorials",
+   "news"
+  ],
+  "best_for": "The largest Chinese design learning site: tutorials, trend reports, tool news",
+  "how_to_use": "Search a topic in Chinese; quality varies by author",
+  "tier": "A",
+  "lang": "zh"
+ },
+ {
+  "id": "uxren",
+  "name": "UXRen",
+  "url": "https://www.uxren.cn",
+  "domain": "reading",
+  "section": "zh-reading",
+  "kind": "community",
+  "tags": [
+   "china",
+   "ux",
+   "translations"
+  ],
+  "best_for": "Chinese UX community with translations of international articles",
+  "how_to_use": "Find Chinese translations of canonical articles",
+  "tier": "B",
+  "lang": "zh"
+ },
+ {
+  "id": "cosmos",
+  "name": "Cosmos",
+  "url": "https://www.cosmos.so",
+  "domain": "general",
+  "section": "moodboards",
+  "kind": "community",
+  "tags": [
+   "moodboard",
+   "curation"
+  ],
+  "best_for": "Ad-free visual bookmarking for creatives with strong aesthetic curation",
+  "how_to_use": "Follow clusters for art-direction references",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "posts-design",
+  "name": "Posts Design",
+  "url": "https://posts.design",
+  "domain": "general",
+  "section": "feeds",
+  "kind": "feed",
+  "tags": [
+   "daily",
+   "aggregated",
+   "templates"
+  ],
+  "best_for": "Aggregated popular design posts and templates, updated daily",
+  "how_to_use": "Trend radar; treat as fashion, date what you take from it",
+  "tier": "A",
+  "lang": "en"
+ },
+ {
+  "id": "zcool",
+  "name": "站酷 ZCOOL",
+  "url": "https://www.zcool.com.cn",
+  "domain": "general",
+  "section": "zh-communities",
+  "kind": "community",
+  "tags": [
+   "china",
+   "portfolio"
+  ],
+  "best_for": "The largest Chinese designer community across every discipline",
+  "how_to_use": "Search in Chinese by category; the domestic equivalent of Behance",
+  "tier": "S",
+  "lang": "zh"
+ }
+]
