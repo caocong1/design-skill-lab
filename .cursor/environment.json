@@ -1,0 +1,11 @@
+{
+  "name": "Design Skill Lab",
+  "install": "./.cursor/install.sh",
+  "terminals": [
+    {
+      "name": "docs-preview",
+      "command": "cd docs && python3 -m http.server 8000"
+    }
+  ],
+  "ports": [8000]
+}
