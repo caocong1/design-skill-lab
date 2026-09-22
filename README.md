@@ -2,9 +2,9 @@
 
 > A curated, tagged catalogue of 600+ design resources, plus an agent skill suite that makes a coding agent (Claude Code, Codex…) work like a senior designer: brief, references, several real directions, a design system, screens with every state, motion, icons, brand and graphics - then a handoff any implementer can build from, in any stack. Skills are written in English; analysis and this README are in Chinese.
 
-**在线页面**：https://caocong1.github.io/design-skill-lab/ （可筛选的资源目录 + 套件导览；同一份内容可切换十五种设计方向）
+**在线页面**：https://caocong1.github.io/design-skill-lab/ （可筛选的资源目录 + 套件导览；同一份内容可切换十六种设计方向）
 
-[![同一个页面的十五种设计方向](docs/assets/styles.jpg)](https://caocong1.github.io/design-skill-lab/)
+[![同一个页面的十六种设计方向](docs/assets/styles.jpg)](https://caocong1.github.io/design-skill-lab/)
 
 这个仓库做三件事：
 
@@ -138,15 +138,15 @@ scripts/check-lab-invariants.sh     # 提交前必须干净退出的机械闸
 
 全部只依赖 Python 标准库、curl 和一个 Chromium 系浏览器。
 
-## 在线页面的十五种风格
+## 在线页面的十六种风格
 
-页面是用套件自己的流程做的（brief → 选轴 → 方向 → 渲染 → 看图修正），过程记录在 `analysis/12-dogfooding-the-lab-page.md`。同一份内容，十五个方向在**字体气质、色彩策略、版式语法、密度、形状、层次**上拉开，而不是换配色；每个方向在页面里带一张说明卡，就是"方案板"上每个方向该带的那张卡：概念、各轴取值、以及它会在哪里失败。
+页面是用套件自己的流程做的（brief → 选轴 → 方向 → 渲染 → 看图修正），过程记录在 `analysis/12-dogfooding-the-lab-page.md`。同一份内容，十六个方向在**字体气质、色彩策略、版式语法、密度、形状、层次**上拉开，而不是换配色；每个方向在页面里带一张说明卡，就是"方案板"上每个方向该带的那张卡：概念、各轴取值、以及它会在哪里失败。
 
-`1 色卡` `2 瑞士` `3 书目` `4 终端` `5 蓝图` `6 卡片柜` `7 展签` `8 控制台` `9 贴纸` `0 素页` `11 后台` `12 画板` `13 对话` `14 字样` `15 线路图` —— 每个风格把入口画进自己的版式里（色签条、编号索引、书目签条、`style --list`、图幅栏、导卡、展厅导览、按键面板、贴纸条、纯链接、侧栏"外观"菜单、检查器里的"本地样式"、会话列表、样张目录、换乘徽标），前十个可直接按数字键，`[` `]` 前后切换；风格与筛选条件都保存在地址栏。
+`1 色卡` `2 瑞士` `3 书目` `4 终端` `5 蓝图` `6 卡片柜` `7 展签` `8 控制台` `9 贴纸` `0 素页` `11 后台` `12 画板` `13 对话` `14 字样` `15 线路图` `16 小岛` —— 每个风格把入口画进自己的版式里（色签条、编号索引、书目签条、`style --list`、图幅栏、导卡、展厅导览、按键面板、贴纸条、纯链接、侧栏"外观"菜单、检查器里的"本地样式"、会话列表、样张目录、换乘徽标、HUD 里的"传送"），前十个可直接按数字键，`[` `]` 前后切换；风格与筛选条件都保存在地址栏。
 
-第二轮追加的五个方向仍从这个主题的世界里取材：套件本来就要设计**后台**（把熟悉的东西做到最好：导航树、面包屑、可排序可翻页的数据表）、活在**设计工具**里（图层面板、画框、选框与尺寸标注）和**对话框**里（资源成为回答里的引注）、研究**字体**（十二个域各用一种系统字体气质，把 `typography.md` 里那张表变成页面）、做**导视**（十二条线路从"目录"枢纽扇出，S 首选是换乘站）。
+第二轮追加的五个方向仍从这个主题的世界里取材：套件本来就要设计**后台**（把熟悉的东西做到最好：导航树、面包屑、可排序可翻页的数据表）、活在**设计工具**里（图层面板、画框、选框与尺寸标注）和**对话框**里（资源成为回答里的引注）、研究**字体**（十二个域各用一种系统字体气质，把 `typography.md` 里那张表变成页面）、做**导视**（十二条线路从"目录"枢纽扇出，S 首选是换乘站）。第十六个方向**小岛**是一座 WebGPU 从零写的可爱 3D 小岛：十二座小屋是十二个域，滚过去按 E 进屋翻目录；没有 WebGPU 时退化成 2D 地图。
 
-全部只用系统字体：离线、以及字体 CDN 不可用的网络下都能正常显示。每种风格的文字对比度都经脚本实测达到 WCAG AA。
+字体来自公用 CDN（jsDelivr 上的中文网字计划分包字体与 fontsource，全部 OFL），字体栈把系统字体留在后面：离线或 CDN 不可达时落回系统字体，页面照样可用。每种风格的文字对比度都经脚本实测达到 WCAG AA。
 
 ## 这个项目不做什么
 
@@ -164,7 +164,7 @@ scripts/check-lab-invariants.sh     # 提交前必须干净退出的机械闸
 - **证据等级不均。** 排版、色彩、动效、token、图标规则有一手摘要支撑；平台规范（Apple HIG、Material 3、HarmonyOS）、品牌、平面、营销站点、数据大屏主要来自通识，未经本仓库核验。逐文件的证据等级见 `skills/design-studio/references/source-map.md`。
 - **目录档位是单人判断**；国内资源覆盖薄于英文资源；少数站点在维护者网络下 TLS 不可达，标为 `unknown`，不代表已下线。
 - **样机框是结构示意**，不是官方 UI kit；鸿蒙的画框与栏高为近似值。
-- **页面的字体效果只在 macOS 上看过**；Windows 与 Linux 会落到各自的系统字体，气质相近但不相同。
+- **页面的在线字体依赖 jsDelivr 可达**；不可达时落回系统字体，那时 Windows 与 Linux 的字形与 macOS 不同。小岛的 WebGPU 场景只在 Linux 无头 Chrome 上离屏回读核对过。
 
 ## 版本与许可
 
