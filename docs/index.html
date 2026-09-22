@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Design Skill Lab · 设计资源目录与 skill 套件</title>
-<meta name="description" content="601 条逐条标记的设计资源，加上一套让 agent 像资深设计师一样工作的 skill。同一份内容，十种完全不同的设计方向。">
+<meta name="description" content="601 条逐条标记的设计资源，加上一套让 agent 像资深设计师一样工作的 skill。同一份内容，十五种完全不同的设计方向。">
 <script>
   // 首帧前应用风格：?style= > 上次选择 > 默认色卡。
   (function () {
-    var known = ['swatch', 'swiss', 'songban', 'terminal', 'blueprint', 'cards', 'label', 'console', 'sticker', 'plain'];
+    var known = ['swatch', 'swiss', 'songban', 'terminal', 'blueprint', 'cards', 'label', 'console', 'sticker', 'plain', 'admin', 'canvas', 'chat', 'specimen', 'metro'];
     var s = new URLSearchParams(location.search).get('style');
     try { s = s || localStorage.getItem('dsl-style'); } catch (e) {}
     if (known.indexOf(s) > -1) document.documentElement.dataset.style = s;
@@ -26,6 +26,11 @@
 <link rel="stylesheet" href="styles/console.css">
 <link rel="stylesheet" href="styles/sticker.css">
 <link rel="stylesheet" href="styles/plain.css">
+<link rel="stylesheet" href="styles/admin.css">
+<link rel="stylesheet" href="styles/canvas.css">
+<link rel="stylesheet" href="styles/chat.css">
+<link rel="stylesheet" href="styles/specimen.css">
+<link rel="stylesheet" href="styles/metro.css">
 </head>
 <body>
 <main id="app" aria-live="off"></main>

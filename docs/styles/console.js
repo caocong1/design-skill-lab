@@ -80,7 +80,7 @@
           </section>
 
           <section class="cc-panel cc-style-panel" aria-label="版式选择">
-            <h2>STYLE <span>版式 · 1–0</span></h2>
+            <h2>STYLE <span>版式 · 1–0 · [ ]</span></h2>
             <div class="cc-bank">
               ${ctx.content.styles.map((s) => `<a class="cc-key" href="?style=${s.id}" data-goto="${s.id}"${s.id === b.id ? ' aria-current="page"' : ''} title="${esc(s.name)} · ${esc(s.en)}"><i aria-hidden="true"></i><b>${pad(s.num)}</b><span>${esc(s.name)}</span></a>`).join('')}
             </div>

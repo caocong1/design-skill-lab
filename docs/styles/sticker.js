@@ -24,7 +24,7 @@
 
       <nav class="st-strip" aria-label="页面风格">
         <span class="st-strip-label">换皮→</span>
-        ${ctx.content.styles.map((s, i) => `<a class="st-stk s-${'ypbgr'[i % 5]} st-pop" style="--r:${rot(i, 3)}deg" href="?style=${s.id}" data-goto="${s.id}"${s.id === b.id ? ' aria-current="page"' : ''} title="${esc(s.name)} · ${esc(s.en)}"><b>${s.num % 10}</b>${esc(s.name)}</a>`).join('')}
+        ${ctx.content.styles.map((s, i) => `<a class="st-stk s-${'ypbgr'[i % 5]} st-pop" style="--r:${rot(i, 3)}deg" href="?style=${s.id}" data-goto="${s.id}"${s.id === b.id ? ' aria-current="page"' : ''} title="${esc(s.name)} · ${esc(s.en)}"><b>${s.num > 10 ? s.num : s.num % 10}</b>${esc(s.name)}</a>`).join('')}
       </nav>
 
       <section class="st-hero" id="top">

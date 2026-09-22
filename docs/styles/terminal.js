@@ -40,8 +40,8 @@
             <p><span class="tm-key">risk</span>   ${esc(b.risk)}</p>
           </section>
           <section class="tm-sec" data-cmd="style --list">
-            ${ctx.content.styles.map((s) => `<p><a class="tm-link tm-sty" href="?style=${s.id}" data-goto="${s.id}"${s.id === b.id ? ' aria-current="page"' : ''}>${s.id === b.id ? '<span class="tm-key">*</span>' : ' '} [${s.num % 10}] ${s.id}</a><span class="tm-dim">  # ${esc(s.name)} ${esc(s.en)}</span></p>`).join('')}
-            <p class="tm-dim"># 切换：点上面任意一行，或输入 style &lt;编号|id&gt;，或直接按数字键 1–0</p>
+            ${ctx.content.styles.map((s) => `<p><a class="tm-link tm-sty" href="?style=${s.id}" data-goto="${s.id}"${s.id === b.id ? ' aria-current="page"' : ''}>${s.id === b.id ? '<span class="tm-key">*</span>' : ' '} [${s.num > 10 ? s.num : s.num % 10}] ${s.id}</a><span class="tm-dim">  # ${esc(s.name)} ${esc(s.en)}</span></p>`).join('')}
+            <p class="tm-dim"># 切换：点上面任意一行，或输入 style &lt;编号|id&gt;，或直接按数字键 1–0（11 起用 [ ] 前后切换）</p>
           </section>
           <section class="tm-sec" data-cmd="cat suite.txt">
             <p class="tm-dim"># 套件的角色是设计师：决定、出图、写规格、交接、验收。实现是 coding agent 的事。</p>
@@ -141,7 +141,7 @@
     ['access free|freemium|paid', '按收费过滤'],
     ['lang zh|en|ja', '按语言过滤'],
     ['reset', '清除全部条件'],
-    ['style <1-0>', '切换页面风格'],
+    ['style <编号|id>', '切换页面风格'],
     ['github', '打开仓库'],
   ];
   function run(cmdRaw) {
@@ -168,7 +168,7 @@
     else if (head === 'reach') ctx.set({ reach: arg });
     else if (head === 'lang') ctx.set({ lang: arg });
     else if (head === 'reset' || head === 'clear') { if (head === 'clear') { clearLog(); return; } ctx.reset(); }
-    else if (head === 'style') { const s = ctx.content.styles.find((x) => x.num % 10 === Number(arg) || x.id === arg); if (s) ctx.goto(s.id); }
+    else if (head === 'style') { const s = ctx.content.styles.find((x) => x.id === arg || (x.num <= 10 ? x.num % 10 : x.num) === Number(arg)); if (s) ctx.goto(s.id); }
     else if (head === 'github') window.open(ctx.content.site.repo, '_blank');
     else ctx.set({ q: cmd });   // 裸词 = 搜索
     scrollBottom();

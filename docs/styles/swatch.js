@@ -23,7 +23,7 @@
 
       <nav class="sw-styles" aria-label="页面版式">
         <span class="sw-styles-label">版式</span>
-        ${ctx.content.styles.map((s, i) => `<a class="sw-sty" href="?style=${s.id}" data-goto="${s.id}" style="--h:${i * 36}"${s.id === b.id ? ' aria-current="page"' : ''} title="${esc(s.name)} · ${esc(s.en)}"><i class="sw-sty-chip" aria-hidden="true"></i><b>${s.num % 10}</b><span>${esc(s.name)}</span></a>`).join('')}
+        ${ctx.content.styles.map((s, i) => `<a class="sw-sty" href="?style=${s.id}" data-goto="${s.id}" style="--h:${i * 36}"${s.id === b.id ? ' aria-current="page"' : ''} title="${esc(s.name)} · ${esc(s.en)}"><i class="sw-sty-chip" aria-hidden="true"></i><b>${s.num > 10 ? s.num : s.num % 10}</b><span>${esc(s.name)}</span></a>`).join('')}
       </nav>
 
       <section class="sw-hero">

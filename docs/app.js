@@ -178,8 +178,13 @@
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const typing = /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName);
     if (!typing && /^[0-9]$/.test(e.key)) {
-      const s = CONTENT.styles.find((x) => x.num % 10 === Number(e.key));
+      // 数字键只覆盖前十个方向（1–9、0）；之后的用 [ ] 前后切换。
+      const s = CONTENT.styles.find((x) => x.num <= 10 && x.num % 10 === Number(e.key));
       if (s) setStyle(s.id);
+    } else if (!typing && (e.key === '[' || e.key === ']')) {
+      const n = CONTENT.styles.length;
+      const i = CONTENT.styles.findIndex((x) => x.id === state.style);
+      setStyle(CONTENT.styles[(i + (e.key === ']' ? 1 : n - 1)) % n].id);
     } else if (e.key === '/' && !typing) {
       e.preventDefault();
       if (currentId && mods[currentId].focusSearch) mods[currentId].focusSearch();
