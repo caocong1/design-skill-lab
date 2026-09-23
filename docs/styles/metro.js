@@ -88,8 +88,8 @@
 
   /* ---- 总览：SVG 线路图 + 线路表 --------------------------------------------------- */
   function renderMap(ctx) {
-    const L = ctx.domains, n = L.length, gap = 46, top = 34;
-    const H = top * 2 + (n - 1) * gap, cy = H / 2, hubX = 74, endX = 900, W = 1120;
+    const L = ctx.domains, n = L.length, gap = 46, top = 40, bottom = 72;
+    const H = top + bottom + (n - 1) * gap, cy = top + (n - 1) * gap / 2, hubX = 74, endX = 900, W = 1120;
     const lines = L.map((d, i) => {
       const y = top + i * gap;
       const dx = Math.max(24, Math.abs(y - cy));
@@ -104,16 +104,18 @@
     <section class="mt-map-wrap" aria-label="线路图">
       <div class="mt-map-scroll">
         <svg class="mt-map" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="十二条线路从目录枢纽扇出，每条线上的车站是小节">
-          ${lines.map(({ d, i, path }) => `<path id="mt-p-${d.id}" class="mt-l-bg" d="${path}"/>`).join('')}
-          ${lines.map(({ d, i, y, path, secs }) => `
+          ${lines.map(({ d, path }) => `
             <g class="mt-line" data-domain="${d.id}" style="--c:${color(d)}" tabindex="0" role="link" aria-label="${esc(d.zh)}，${d.count} 站">
               <path class="mt-l" d="${path}"/>
               <path class="mt-l-hit" d="${path}"/>
-              ${secs.map(({ s, x }) => `<circle class="mt-st" cx="${x.toFixed(1)}" cy="${y}" r="6" data-domain="${d.id}" data-sec="${s.id}"><title>${esc(s.zh)} · ${s.items.length} 站</title></circle>`).join('')}
-              <circle class="mt-term-c" cx="${endX}" cy="${y}" r="8"/>
-              <text class="mt-tl" x="${endX + 18}" y="${y + 5}">${esc(d.zh)}</text>
+            </g>`).join('')}
+          ${lines.map(({ d, i, y, path, secs }) => `
+            <g class="mt-stops" data-domain="${d.id}" style="--c:${color(d)}">
+              ${secs.map(({ s, x }) => `<circle class="mt-st" cx="${x.toFixed(1)}" cy="${y}" r="6.5" data-domain="${d.id}" data-sec="${s.id}"><title>${esc(s.zh)} · ${s.items.length} 站</title></circle>`).join('')}
+              <circle class="mt-term-c" cx="${endX}" cy="${y}" r="8" data-domain="${d.id}"/>
+              <text class="mt-tl" x="${endX + 18}" y="${y + 5}" data-domain="${d.id}">${esc(d.zh)}</text>
               <text class="mt-tn" x="${endX + 18 + d.zh.length * 15 + 6}" y="${y + 5}">${d.count}</text>
-              ${ctxRef.reduced ? '' : `<circle class="mt-train" r="5" opacity="0"><set attributeName="opacity" to="1" begin="${(i * 0.9).toFixed(1)}s" fill="freeze"/><animateMotion dur="${(16 + i * 1.3).toFixed(1)}s" begin="${(i * 0.9).toFixed(1)}s" repeatCount="indefinite"><mpath href="#mt-p-${d.id}" xlink:href="#mt-p-${d.id}"/></animateMotion></circle>`}
+              ${ctxRef.reduced ? '' : `<circle class="mt-train" r="5" style="--track: path('${path}'); animation-duration: ${(16 + i * 1.3).toFixed(1)}s; animation-delay: ${(i * 0.9).toFixed(1)}s"/>`}
             </g>`).join('')}
           <circle class="mt-hub" cx="${hubX}" cy="${cy}" r="17"/>
           <text class="mt-hub-t" x="${hubX}" y="${cy + 4}" text-anchor="middle">目录</text>

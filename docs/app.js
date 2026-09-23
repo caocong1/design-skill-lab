@@ -163,6 +163,13 @@
 
   /* ---- mounting ------------------------------------------------------------ */
   let currentId = null;
+  // 换风格从页顶开始。上一个方向的滚动位置不能留下来，否则新页面的滚动条停在中段。
+  function pinTop() {
+    const se = document.scrollingElement;
+    if (se) se.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
   function mount(id) {
     const mod = mods[id];
     if (!mod) return;
@@ -175,6 +182,7 @@
     root.dataset.style = id;
     document.title = `Design Skill Lab · ${ctx.board().name} ${ctx.board().en}`;
     mod.mount(appEl, ctx);
+    pinTop();
   }
   function setStyle(id) {
     if (!CONTENT.styles.some((s) => s.id === id) || id === state.style && currentId === id) return;
@@ -186,8 +194,11 @@
       if (mods[id]) mount(id);
       else { waiting = id; load(id).catch((e) => { waiting = null; console.error(e); }); }
     };
-    if (document.startViewTransition && !REDUCED && currentId) document.startViewTransition(swap);
-    else swap();
+    if (document.startViewTransition && !REDUCED && currentId) {
+      const vt = document.startViewTransition(swap);
+      // 过渡结束时有的浏览器会把旧滚动位置写回来。
+      vt.finished.then(pinTop, pinTop);
+    } else swap();
   }
 
   /* ---- 页内风格入口 ----------------------------------------------------------

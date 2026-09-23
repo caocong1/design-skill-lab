@@ -64,21 +64,32 @@ html[data-style="metro"] ::selection { background: var(--ink); color: var(--pape
 
 /* ---- 线路图 ---- */
 .mt-map-wrap { padding: 22px 0 8px; }
-.mt-map-scroll { overflow-x: auto; scrollbar-width: thin; }
+/* overflow-x 不是 visible 时，另一轴会变成 auto，横向滚动条会压住最底下那条线。
+   线画完之后再留出滚动条的高度，车站始终在线上面。 */
+.mt-map-scroll { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; padding-bottom: 16px; }
 .mt-map { display: block; min-width: 860px; width: 100%; height: auto; }
 .mt-l-bg { fill: none; stroke: none; }
 .mt-l { fill: none; stroke: var(--c); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; transition: stroke-width .15s; }
 .mt-l-hit { fill: none; stroke: transparent; stroke-width: 22; cursor: pointer; }
 .mt-line:hover .mt-l, .mt-line:focus-visible .mt-l { stroke-width: 12; }
 .mt-line:focus-visible { outline: none; }
-.mt-line:focus-visible .mt-tl { text-decoration: underline; }
+.mt-stops { pointer-events: none; }
+.mt-st, .mt-term-c, .mt-tl, .mt-tn { pointer-events: auto; }
 .mt-st { fill: #fff; stroke: var(--c); stroke-width: 3.5; cursor: pointer; transition: r .15s; }
 .mt-st:hover { r: 9; stroke: var(--ink); }
 .mt-term-c { fill: #fff; stroke: var(--ink); stroke-width: 4; }
 .mt-tl { font-family: var(--sign); font-size: 15px; font-weight: 700; fill: var(--ink); cursor: pointer; }
 .mt-tn { font-family: var(--mono); font-size: 11.5px; fill: var(--sec); }
-.mt-line:hover .mt-tl { text-decoration: underline; }
-.mt-train { fill: var(--ink); }
+.mt-stops:hover .mt-tl { text-decoration: underline; }
+.mt-train {
+  fill: var(--ink); pointer-events: none; opacity: 0;
+  offset-path: var(--track); offset-rotate: 0deg;
+  animation-name: mt-run; animation-timing-function: linear; animation-iteration-count: infinite;
+}
+@keyframes mt-run {
+  0% { offset-distance: 0%; opacity: 1; }
+  100% { offset-distance: 100%; opacity: 1; }
+}
 .mt-hub { fill: #fff; stroke: var(--ink); stroke-width: 5; }
 .mt-hub-t { font-family: var(--sign); font-size: 11px; font-weight: 800; fill: var(--ink); }
 .mt-map-hint { margin: 6px 0 0; font-size: 12px; color: var(--sec); }
@@ -109,21 +120,31 @@ html[data-style="metro"] ::selection { background: var(--ink); color: var(--pape
 .mt-rnav a { font-size: 12px; color: var(--ink); text-decoration: none; border: 1.5px solid var(--rule); border-radius: 999px; padding: 3px 10px; }
 .mt-rnav a:hover { border-color: var(--ink); }
 
-.mt-strip { list-style: none; margin: 0; padding: 0 0 0 64px; position: relative; }
-.mt-strip::before { content: ""; position: absolute; left: 22px; top: 18px; bottom: 18px; width: 10px; border-radius: 5px; background: var(--c); }
+.mt-strip { list-style: none; margin: 0; padding: 0 0 0 64px; position: relative; --stop: 22px; --reach: 8px; }
+/* 线路按每一站分段。站标用 --stop 对齐站名（不再取整行中点，否则点掉进说明里、
+   看起来在线下面）；线的起止盖住首尾站标全身，不让半个点露在线外。 */
 .mt-strip > li { position: relative; padding: 10px 0; }
-.mt-strip > li > i { position: absolute; left: -64px; top: 50%; translate: 0 -50%; display: block; background: #fff; border-radius: 50%; margin-left: 22px; }
+.mt-strip > li::before {
+  content: ""; position: absolute; z-index: 0; left: -42px; width: 10px; top: 0; bottom: 0;
+  background: var(--c);
+}
+.mt-strip > li:first-child::before { top: calc(var(--stop) - var(--reach)); border-radius: 5px 5px 0 0; }
+.mt-strip > li:last-child::before { bottom: calc(100% - var(--stop) - var(--reach)); border-radius: 0 0 5px 5px; }
+.mt-strip > li:only-child::before { top: calc(var(--stop) - var(--reach)); height: calc(var(--reach) * 2); bottom: auto; border-radius: 5px; }
+.mt-strip > li > i { position: absolute; z-index: 1; left: -64px; top: var(--stop); translate: 0 -50%; display: block; background: #fff; border-radius: 50%; margin-left: 22px; }
 /* 站标：大站方圆角 / S 双环 / A 圆 / B 小点 */
-.mt-major { padding: 22px 0 12px !important; }
-.mt-major > i { width: 26px; height: 26px; margin-left: 14px !important; border: 4px solid var(--ink); border-radius: 8px; top: calc(50% + 5px) !important; }
+.mt-major { --stop: 37px; --reach: 13px; padding: 22px 0 12px !important; }
+.mt-major > i { width: 26px; height: 26px; margin-left: 14px !important; border: 4px solid var(--ink); border-radius: 8px; }
 .mt-major h3 { margin: 0; font-size: 20px; font-weight: 800; display: flex; align-items: baseline; gap: 10px; }
 .mt-major h3 small { font-family: var(--mono); font-size: 12px; color: var(--sec); font-weight: 400; }
 .mt-major p { margin: 2px 0 0; font-size: 12.5px; color: var(--sec); }
 .mt-stop { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 16px; align-items: start; border-bottom: 1px solid var(--rule); }
 .mt-stop:last-child { border-bottom: 0; }
 .mt-stop > i { width: 16px; height: 16px; border: 3px solid var(--c); margin-left: 19px !important; }
+.mt-tS { --reach: 11px; }
 .mt-tS > i { width: 22px; height: 22px; margin-left: 16px !important; border: 3px solid var(--ink); box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 6px var(--c); }
-.mt-tB > i { width: 10px; height: 10px; border: 0; background: var(--c); margin-left: 22px !important; }
+.mt-tB { --stop: 22px; --reach: 9px; }
+.mt-tB > i { width: 14px; height: 14px; border: 3px solid #fff; background: var(--c); box-shadow: 0 0 0 2px var(--c); margin-left: 20px !important; }
 .mt-stop-a { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .mt-stop-n { font-weight: 700; font-size: 15.5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .mt-tS .mt-stop-n { font-size: 17px; }
@@ -138,6 +159,7 @@ html[data-style="metro"] ::selection { background: var(--ink); color: var(--pape
 /* skill 线 */
 .mt-strip-k > li { padding: 10px 0; border-bottom: 1px solid var(--rule); }
 .mt-stop-k > i { width: 16px; height: 16px; border: 3px solid var(--ink); margin-left: 19px !important; }
+.mt-stop-k.mt-term { --reach: 11px; }
 .mt-stop-k.mt-term > i { width: 22px; height: 22px; margin-left: 16px !important; border-width: 4px; }
 .mt-stop-k code { font-family: var(--mono); font-size: 14px; font-weight: 700; }
 .mt-stop-k a { color: var(--ink); text-decoration: none; }
@@ -177,12 +199,17 @@ html[data-style="metro"] ::selection { background: var(--ink); color: var(--pape
 .mt-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 20px; border-top: 6px solid var(--ink); margin-top: 20px; font-size: 12px; color: var(--sec); }
 .mt-foot a { color: var(--ink); font-weight: 700; }
 
-/* ---- 动效：站点点亮 ---- */
-.mt-stop, .mt-major { opacity: .35; transition: opacity .4s ease var(--d, 0ms); }
-.mt-stop.mt-on, .mt-major.mt-on, .mt-strip-k .mt-stop { opacity: 1; }
+/* ---- 动效：站点点亮。只淡内容，不淡 ::before 线路，否则线会一段段消失。 ---- */
+.mt-stop > i, .mt-stop > .mt-stop-a, .mt-stop > .mt-shot, .mt-stop > div,
+.mt-major > i, .mt-major > div { opacity: .35; transition: opacity .4s ease var(--d, 0ms); }
+.mt-stop.mt-on > i, .mt-stop.mt-on > .mt-stop-a, .mt-stop.mt-on > .mt-shot, .mt-stop.mt-on > div,
+.mt-major.mt-on > i, .mt-major.mt-on > div,
+.mt-strip-k .mt-stop > i, .mt-strip-k .mt-stop > div { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
-  .mt-stop, .mt-major { opacity: 1 !important; transition: none !important; }
+  .mt-stop > i, .mt-stop > .mt-stop-a, .mt-stop > .mt-shot, .mt-stop > div,
+  .mt-major > i, .mt-major > div { opacity: 1 !important; transition: none !important; }
   .mt-l, .mt-st { transition: none; }
+  .mt-train { animation: none !important; opacity: 0 !important; }
 }
 
 /* ---- 响应式 ---- */
@@ -199,12 +226,12 @@ html[data-style="metro"] ::selection { background: var(--ink); color: var(--pape
   .mt-lines { grid-template-columns: 1fr; }
   .mt-legend { grid-template-columns: 1fr 1fr; }
   .mt-strip { padding-left: 46px; }
-  .mt-strip::before { left: 14px; width: 8px; }
+  .mt-strip > li::before { left: -31px; width: 8px; }
   .mt-strip > li > i { left: -46px; margin-left: 14px; }
   .mt-major > i { margin-left: 6px !important; }
   .mt-stop > i { margin-left: 11px !important; }
   .mt-tS > i { margin-left: 8px !important; }
-  .mt-tB > i { margin-left: 14px !important; }
+  .mt-tB > i { margin-left: 13px !important; }
   .mt-stop-k > i { margin-left: 11px !important; }
   .mt-stop-k.mt-term > i { margin-left: 8px !important; }
   .mt-stop { grid-template-columns: 1fr; }
