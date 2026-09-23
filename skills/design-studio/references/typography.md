@@ -103,7 +103,11 @@ OS, so check the rendering on each platform the audience uses.
 | Handwritten / brush | avoid relying on it: coverage is inconsistent | `"Kaiti SC", STKaiti, KaiTi` |
 
 A system stack is a choice with a voice, not a fallback - and it costs nothing
-to load.
+to load. When a hosted face is added later, put it **first** and keep this
+stack behind it, so an unreachable CDN renders the previous design instead of
+breaking the page. Subset CJK to the unicode ranges the page actually uses.
+A single-weight CJK face needs `font-synthesis-weight: none`, or the browser
+synthetic-bolds it and one line looks like mixed weights.
 
 **Trap: a Japanese face ahead of the Chinese companion.** Fonts fall back per
 character, so any face with CJK coverage that sits before the Chinese companion

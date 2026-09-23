@@ -58,6 +58,18 @@ Known traps:
 - Lazy-loaded images below the fold need scrolling before a full-page capture.
 - Device scale factor 2 is the right default; 1x hides hairline problems,
   while a low-density check matters for Windows audiences.
+- A horizontal scrollbar covers the bottom of a graphic. Scroll that graphic
+  fully into view and look at the last row, not only the middle. `overflow-x:
+  auto` is what puts the bar there: the other axis stops being `visible`.
+- After switching a variant (direction, theme, route), confirm the page is at
+  the top. A variant that sets `overflow: hidden` hides a stale scroll offset
+  until the next variant reveals it mid-page.
+- Canvas and WebGPU frames are often a blank rectangle in a screenshot. If
+  the page can render offscreen and read the pixels back, use that; otherwise
+  say the canvas was not seen.
+- Do not treat a caption of a screenshot as a measurement. For "is this mark
+  on the line", compare the mark's box to the stroke and to the label. A
+  summary that says the alignment looks fine has been wrong on this page.
 
 ## What to Capture
 

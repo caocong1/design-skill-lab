@@ -2,7 +2,7 @@
 name: critique-design
 description: Review an existing design or implementation like a senior design lead - website, app screen, component library, brand, deck or graphic - through purpose fit, information architecture, hierarchy, typography, colour and contrast, spacing and consistency, states, interaction and motion, content, accessibility, platform fit and craft; produce an evidence-backed findings table with severity, a prioritised fix plan, and optionally a redesign brief. Also used as the fresh-eye quality gate for the suite's own output and for design QA of a build against its design. 设计评审、走查、UI 审查、体验走查、设计验收、视觉还原检查、这个页面哪里不好看。
 metadata:
-  version: 0.1.1
+  version: 0.1.2
   short-description: Evidence-backed design review and QA
 ---
 
@@ -68,6 +68,10 @@ Work top-down; upstream problems make downstream polish irrelevant.
    `../design-product-ui/SKILL.md` - which states are missing or improvised?
 8. **Interaction and motion**: feedback latency, affordance, modality,
    undo vs confirm, motion purpose and speed, interruption, reduced motion.
+   If the page has several full views, scroll down and switch: the new view
+   must start at the top, not in the middle of the previous one. An entrance
+   that seems to play twice needs a frame-by-frame look at the animated
+   property, not a count of `animationstart`.
 9. **Content**: headlines that say something, labels as verbs, error quality,
    empty states, terminology consistency, localisation quality.
 10. **Accessibility**: keyboard path and focus visibility, names and roles,
@@ -84,6 +88,9 @@ Work top-down; upstream problems make downstream polish irrelevant.
     flag the opposite: novelty that hurts usability.
 14. **Craft**: optical alignment, icon sizing and baseline, radius nesting,
     image quality and cropping, border and shadow stacking, truncation.
+    On a diagram, a glance is not enough: compare each mark's centre to the
+    stroke and to the first line of its label. A mark buried in the
+    paragraph, or a last row eaten by a scrollbar, is a finding.
 
 Heuristic frames to cross-check: the ten usability heuristics, the core
 perception laws (proximity, similarity, common region, Fitts, Hick, Jakob,

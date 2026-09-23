@@ -54,7 +54,7 @@ lower-evidence file with the official source or the user's knowledge.
 | `analysis/09-ai-ux-patterns.md` | `ai-ux.md` |
 | `analysis/10-overall-design-synthesis.md` | the core rules in `../SKILL.md`; the durable / perishable split |
 | `analysis/11-distilled-skill-design.md` | suite shape, the designer / implementer boundary, non-goals, known self-violations |
-| `analysis/12-dogfooding-the-lab-page.md` | the first real run of the suite (the lab's own page, ten directions then fifteen): what looking caught, what the suite lacked, and two shipped bugs the suite's own references had invited (a Japanese face ahead of the Chinese companion; keyframes that omit a property at 100%); informs `explore-design-directions`, `typography.md`, `render-and-look.md`, `design-motion` |
+| `analysis/12-dogfooding-the-lab-page.md` | the suite's own page, three rounds (ten directions, then sixteen, then the metro-and-scroll fixes). 1.2 folds the whole run into rules: measure marks against the stroke and the label, same content may use a different instrument, reset scroll on a full-view switch, path motion stays on the path at frame zero, hosted fonts keep the system stack behind them. Informs `explore-design-directions`, `typography.md`, `render-and-look.md`, `design-motion`, `design-graphics`, `implement-design`, `critique-design` |
 
 ## Digests and Upstream Links
 

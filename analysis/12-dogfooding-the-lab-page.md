@@ -1,6 +1,6 @@
 # 第一次实战：用套件给自己做页面（十种方向，第二轮扩到十六种）
 
-> 分析版本：1.1 ｜ 最后更新：2026-09-22 ｜ 覆盖来源：本仓库自身（实战记录，非来源分析）；产物为 `docs/index.html`、`docs/base.css`、`docs/app.js` 与 `docs/styles/` 下的风格文件 ｜ 版本见 `analysis/SOURCE_INDEX.md`
+> 分析版本：1.2 ｜ 最后更新：2026-09-23 ｜ 覆盖来源：本仓库自身（实战记录，非来源分析）；产物为 `docs/index.html`、`docs/base.css`、`docs/app.js` 与 `docs/styles/` 下的风格文件 ｜ 版本见 `analysis/SOURCE_INDEX.md`
 
 `analysis/11-distilled-skill-design.md` 记下的第一条自我违反是"这套 skill 从没在真实任务上跑过"。这一篇是第一条真实记录：用户要求用套件自己的方法，给仓库做一个适合自己的页面，能切换至少九种风格。它不是评测（没有对照组、评审者就是作者），但它是第一份可以核对的过程证据。
 
@@ -88,7 +88,25 @@
 
 **外壳的边界**：数字键只有十个。前十个方向仍绑 1–9、0，`[` `]` 前后切换全部；此前几处直接打印 `num % 10` 的入口在编号超过十时会显示 1、2、3，已改。这是"十种方向"这个假设写死在三处的代价。
 
+## 第三轮（2026-09-23）：整页过程收成可执行的规则
+
+线上页面从十个方向做到十六个，中间修过贴纸动画、中文字体、线路图和切换滚动。把三轮放在一起看，重复出现的不是某一处 CSS，而是几类判断。这一节只记还没写进 skill 的部分；已经写过的（缩略图测试、方案板上的失败卡、系统字体栈、日文字体陷阱、关键帧末帧、半透明浮层）不重复。
+
+**看图要量，不要信转述。** 线路图的站标在几何上距线路不到 2px，但竖向路线里它们对齐的是"站名 + 说明"整行的中点，比站名低大约 30px，读起来就是点掉到线下面、被说明挡住。只看一张总览截图、或听一段"看起来都在线上"的描述，都会放过它。数 `animationstart` 也放过了贴纸"播两遍"——那次是逐帧读不透明度才看见 0→1→0→1。规则：对齐问题比较标记的盒子和笔画、和标签的第一行；动效问题看被动画的属性在每一帧的值。
+
+**图上的点是标注，不是行的装饰。** 站标对齐它命名的那一行字。线要盖住首尾站标的全身，停在圆心会把半个点留在线外。所有点画在所有线之后，否则后画的线盖住先画的点；点和线同粗同色时，点会消失在线里。把 `opacity` 设在整行上，会把行上的 `::before` 线路一起淡掉。`overflow-x: auto` 会把另一轴从 `visible` 算成 `auto`，横向滚动条切掉最底下一行。
+
+**换一个整页视图，滚动必须回到起点。** 终端和小岛把 `body` 设成 `overflow: hidden`，滚动条不见了，`scrollY` 还在；切回普通长页，人就停在中段。View Transitions 还会在过渡结束时把旧的滚动位置写回来，所以要在更新里设一次，在 `finished` 里再设一次。方向数一旦超过十，数字键和 `n % 10` 的标签都会说谎。
+
+**同一份内容，不必永远同一份 DOM。** 前十个方向用一套 DOM 加重排 CSS 是对的：它们是同一份列表的不同版式。后六个（后台、画板、对话、字样、线路图、小岛）的比喻是另一种器具，硬共用 DOM 会把器具做假。允许单独挂载，条件是仍读同一份内容、仍能完成查找、筛选、进入一个域。说明卡上写明它会在哪里失败。
+
+**约束降级，不翻转。** 第一轮禁止 Web 字体，因为 CDN 在维护者的网络里不可靠。用户后来要求用在线字体。正确做法不是删掉系统栈，而是托管字体放最前、系统栈留在后面：CDN 不通时页面回到上一轮的样子。只下页面用到的 unicode 区段；单字重的中文面要关 `font-synthesis-weight`，否则浏览器合成加粗，一行里又出现两种粗细。
+
+**沿路径运动不要用 SMIL 当唯一手段。** 线路图的列车在 `animateMotion` 开始前停在 SVG 原点。`offset-path` 让第一帧就在线上。
+
 ## 对最终 skill 的影响
+
+第一轮（1.0）：
 
 - `skills/explore-design-directions/SKILL.md`（0.1.0 → 0.2.0）：Build the Options Board 增加"页面即方案板：同一 DOM + 实时切换器"与"缩略图测试"；方向卡必须写"会在哪里失败"。
 - `skills/design-studio/references/typography.md`：新增 `System Font Stacks by Voice`，含中文搭配与"字体 CDN 不可用时系统字体栈是正确答案"。
@@ -102,3 +120,14 @@
 - `skills/design-motion/SKILL.md`（0.1.0 → 0.1.1）：反模式新增末帧漏写属性、`transform` 与 `rotate` 叠加、第二个动画类顶掉入场三条。
 - `docs/styles/`：新增 `admin`、`canvas`、`chat`、`specimen`、`metro`、`island` 六对文件；`docs/app.js` 支持十个以上方向（`[` `]` 切换）、按风格注入在线字体、`DSL.module(id)`。
 - `docs/content.js`：`fonts` 字体包清单（全部 OFL，jsDelivr）。
+
+第三轮（1.2）把上面这一页收进会在下次任务里被读到的位置：
+
+- `skills/design-studio/SKILL.md` 0.4.2 → **0.4.4**（共享 reference 有新增规则；0.4.3 只修了页面，没有改 suite 版本，因此序号从 0.4.2 跳到 0.4.4）。
+- `skills/design-studio/references/render-and-look.md`：Known traps 增加滚动条切掉末行、切换变体后确认在页顶、画布截图是空白、不要用截图转述代替测量。
+- `skills/design-studio/references/typography.md`：托管字体放最前、系统栈留作回落；子集化 CJK；单字重面关闭 `font-synthesis-weight`。
+- `skills/explore-design-directions/SKILL.md` 0.2.0 → **0.2.1**：同一内容可以换器具单独挂载；切换回页顶；不要把"十个"写死。
+- `skills/design-motion/SKILL.md` 0.1.1 → **0.1.2**：沿路径运动用 `offset-path`；换整页视图时重置滚动，并防 View Transitions 把旧位置写回。
+- `skills/design-graphics/SKILL.md` 0.1.0 → **0.1.1**：线上的标记对齐名称、盖住全身、画在笔画之上，滚动条不切最后一行。
+- `skills/implement-design/SKILL.md` 0.2.0 → **0.2.1**：四条会在正确稿面上仍然发生的布局陷阱。
+- `skills/critique-design/SKILL.md` 0.1.1 → **0.1.2**：切换前先滚动再看是否回顶；图上的点要和笔画、和标签的第一行比，不凭一眼。

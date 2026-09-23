@@ -2,7 +2,7 @@
 name: design-graphics
 description: Design static and print-style graphics produced from code - posters, covers, social media graphics, Open Graph and README banners, app-store screenshots, presentation and pitch decks, one-pagers, infographics, business cards, and generative backgrounds (gradients, grain, patterns, shaders) - with real typographic composition and a render pipeline to PNG, SVG or PDF. Use when the user asks for a poster, banner, cover, slide deck, PPT, social post image, OG image, infographic, print piece or background artwork. 海报、平面设计、封面、社媒配图、PPT、演示文稿、信息图、背景图。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Posters, social, decks, print from code
 ---
 
@@ -101,6 +101,18 @@ Start from the question the graphic answers. Choose the chart by the
 comparison being made, not by novelty. Annotate the insight on the graphic.
 Use a colour-blind-safe palette. Cite the data source on the piece.
 
+A mark that sits on a line — a station, a timeline dot, a route stop — is
+aligned with the **name** it labels, not with the vertical centre of the
+whole text block. Centring it on a title-plus-paragraph drops it into the
+paragraph, and it reads as having fallen off the line. Draw every mark
+**after** every stroke, or a later line covers an earlier dot. A mark the
+same thickness and colour as the stroke disappears into it; give it a ring
+or a larger size. The stroke must cover the whole mark at the first and last
+stop: ending the line at the mark's centre leaves half the mark past the
+end. A horizontal scroller (`overflow-x: auto`) computes the other axis to
+`auto` as well, and the bar then covers the last row — pad the bottom, and
+set `overflow-y: hidden` when the graphic should not scroll vertically.
+
 ### Generative backgrounds
 
 Gradients, meshes, grain, patterns and shaders are legitimate code-native
@@ -133,6 +145,8 @@ fallback and pause when off-screen or under reduced motion.
 - CSS imitations of photographs; stock 3D blobs as the concept.
 - Sending print work with RGB-only assumptions, no bleed, or unlicensed fonts.
 - Exporting without checking that fonts loaded.
+- Diagram marks centred on the whole row, or drawn under the stroke that is
+  supposed to pass through them.
 
 ## Deliverables
 

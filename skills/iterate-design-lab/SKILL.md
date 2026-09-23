@@ -2,7 +2,7 @@
 name: iterate-design-lab
 description: Maintain the design-skill-lab repository - add or correct entries in the curated design resource catalogue, absorb a new authoritative source (article, guideline, book, open-source project, another AI design skill) as a digest plus analysis, refresh a source against its new version, run the link and freshness check, or apply a skill-only improvement to the design-studio suite. Codifies the catalogue schema, tiering rules, generated views, versioning, CHANGELOG, SOURCE_INDEX metadata, analysis format, commit cadence and the invariants gate. Use only inside this lab repository.
 metadata:
-  version: 0.1.1
+  version: 0.1.2
   short-description: Iterate the design skill lab
 ---
 
@@ -170,7 +170,9 @@ references and should change rarely.
    `skills/design-studio/references/source-map.md`.
 6. **Docs**: `docs/index.html` reads versions and counts from generated data;
    touch it only for structural changes. Update `README.md` when the source
-   list, skill list or usage changes.
+   list, skill list or usage changes. The public page is GitHub Pages from
+   `main`'s `/docs`. A page fix is not done until that branch contains it and
+   the Pages build for that commit is `built`.
 
 ## Versioning
 

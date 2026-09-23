@@ -2,7 +2,7 @@
 name: design-motion
 description: Design interface motion - micro-interactions, state transitions, enter and exit animations, page and view transitions, scroll-driven and gesture-driven motion, loading and skeleton behaviour, and a product's motion system - then specify and prototype it in code for web (CSS, WAAPI, Motion, GSAP), Flutter, SwiftUI and Compose. Use when the user asks for animation, 动效, transitions, a hover or press effect, a loading animation, scroll effects, a motion spec, or wants an interface to feel smoother or more alive. 动效、过渡动画、微交互、缓动、弹簧动画、加载动画。
 metadata:
-  version: 0.1.1
+  version: 0.1.2
   short-description: Purposeful motion, specified and prototyped
 ---
 
@@ -105,6 +105,7 @@ animation:
 | Complex sequenced timelines, SVG morphing, text splitting | GSAP-style timeline tooling |
 | Designer-authored vector animation | Lottie / dotLottie playback; interactive state machines -> Rive |
 | Canvas / WebGL backgrounds | a shader or particle layer, paused when off-screen and under reduced motion |
+| Motion along a path (a marker travelling a route, a chart cursor) | CSS `offset-path` and `offset-distance`. The object must already be on the path at the first painted frame |
 
 Check the installed version and the browser support table before relying on a
 newer API; give every progressive feature a fallback. Native stacks (Flutter
@@ -153,6 +154,16 @@ implicit / explicit animations, SwiftUI `withAnimation` and springs, Compose
   while an entrance is still running: it cancels the entrance, and removing
   the class later restarts it from zero. Skip the secondary animation while
   the first is active, or put them on different elements.
+- SVG `animateMotion` as the only way to ride a path. Until the animation
+  begins, the object sits at the SVG origin, so a visible dot piles up in the
+  corner — and in some browsers the motion never attaches, so it stays there.
+  Use `offset-path`, and keep the resting position on the path.
+- Replacing a view (a direction, a route, a full-page tab) without moving
+  scroll back to the start. A view that sets `overflow: hidden` on the body
+  hides the scrollbar but keeps `scrollY`, so the next view opens in the
+  middle. The View Transitions API can also write the old scroll position
+  back when the transition finishes: set scroll to the start inside the
+  update, and again when `finished` resolves.
 - Motion as the only indicator of a state change.
 - Ignoring reduced motion, or removing all feedback under it.
 - A loader that flashes for 80 ms.

@@ -12,6 +12,21 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.4.4] - 2026-09-23
+
+把实验室页面从创建到三轮修改的过程收成 skill 里的规则。过程记在 `analysis/12-dogfooding-the-lab-page.md`（1.2）。suite 契约不变。0.4.3 只修了页面、没有改 suite 版本，所以这一条从 0.4.2 计到 0.4.4。
+
+### 变更（skill）
+
+- `skills/design-studio/references/render-and-look.md`：看图时要核对末行是否被滚动条切掉、切换变体后是否在页顶、画布截图是否其实是空白；截图的文字转述不能代替测量。
+- `skills/design-studio/references/typography.md`：托管字体放在系统栈之前，CDN 失败时回到上一版渲染；CJK 只下用到的区段；单字重面关闭 `font-synthesis-weight`。
+- `skills/explore-design-directions/SKILL.md` 0.2.0 → **0.2.1**：同一份内容可以换成另一种器具单独挂载；切换方向回到页顶；不要把方向数量写死成十。
+- `skills/design-motion/SKILL.md` 0.1.1 → **0.1.2**：沿路径运动用 `offset-path`，第一帧就在线上；换整页视图时重置滚动，并在 View Transitions 的 `finished` 里再钉一次。
+- `skills/design-graphics/SKILL.md` 0.1.0 → **0.1.1**：线上的标记对齐名称、线路盖住标记全身、标记画在笔画之上，横向滚动条不切最后一行。
+- `skills/implement-design/SKILL.md` 0.2.0 → **0.2.1**：四条稿面正确时仍然会发生的布局陷阱（溢出轴联动、粘性表头的包含块、行透明度淡掉线路、换视图不重置滚动）。
+- `skills/critique-design/SKILL.md` 0.1.1 → **0.1.2**：先滚到中段再切换，确认新视图从顶开始；图上的点要和笔画、和标签第一行比较。
+- `skills/iterate-design-lab/SKILL.md` 0.1.1 → **0.1.2**：页面修复要等 `main` 的 `/docs` 对应的 Pages 构建变成 `built` 才算完成。
+
 ## [0.4.3] - 2026-09-23
 
 页面修复。suite 契约没有变。
