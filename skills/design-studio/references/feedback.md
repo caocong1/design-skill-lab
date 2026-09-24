@@ -54,8 +54,9 @@ user pointed you at the lab by path ("用 ~/Workspace/design-skill-lab 做…")
 or the skills are symlinked into `~/.claude/skills` / `~/.codex/skills`:
 
 ```sh
-LAB=$(cd "$(dirname "$(readlink -f "<path to any SKILL.md you loaded>")")/.." && pwd)
-# inbox: $LAB/feedback/inbox/
+# <skill>/SKILL.md sits two levels below the lab root
+LAB=$(cd "$(dirname "$(readlink -f "<path to any SKILL.md you loaded>")")/../.." && pwd)
+test -d "$LAB/feedback/inbox" && echo "inbox: $LAB/feedback/inbox/"
 ```
 
 - If that resolves, write one file per event to `feedback/inbox/` in the lab:
