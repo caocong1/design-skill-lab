@@ -18,7 +18,7 @@
 
 ### 修复（skill）
 
-- `skills/design-studio/references/feedback.md`：定位本仓库根目录的命令少上跳一级（`SKILL.md` 在根目录下两层），解析到的是 `skills/` 而不是仓库根，写入 `feedback/inbox/` 会失败。改为 `../..`，并加一行 `test -d` 确认 inbox 存在。本地路径使用与符号链接安装两种方式已实测。0.5.0 起就存在，可能也是首个宿主项目没写成反馈的原因之一。
+- `skills/design-studio/references/feedback.md`：定位本仓库根目录的命令少上跳一级（`SKILL.md` 在根目录下两层），解析到的是 `skills/` 而不是仓库根，写入 `feedback/inbox/` 会失败。改为 `../..`，并加一行 `test -d` 确认 inbox 存在。本地路径使用与符号链接安装两种方式已实测。0.5.0 起就存在；首个宿主项目的 agent 没走到写入这一步，所以当时没暴露。
 - `skills/design-studio/SKILL.md` 0.6.0 → **0.6.1**。
 
 ## [0.6.0] - 2026-09-24
