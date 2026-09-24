@@ -83,7 +83,7 @@ for d in skills/*/; do ln -sfn "$PWD/$d" "$HOME/.claude/skills/$(basename "$d")"
 - **能算的不估。** 对比度与色阶由 `skills/design-studio/scripts/color_tools.py` 计算，多视口截图由 `skills/design-studio/scripts/shot.sh` 完成。
 - **耐久与易腐分开。** 感知、层级、排版、无障碍、流程写在 `SKILL.md` 与基础参考里；平台规格、库 API、社媒尺寸、"生成感"特征清单放在带复核日期的参考文件里。
 
-它也覆盖资深设计师会做、但需求里通常不写的事：保留资产的重设计、竞品拆解、状态矩阵、token 漂移审计、中文排版与字体授权、平台适配、授权台账、设计决策记录。完整说明见 `analysis/11-distilled-skill-design.md`。
+它也覆盖资深设计师会做、但需求里通常不写的事：从功能拆解出发、摆脱旧界面先入印象的重设计、竞品拆解、状态矩阵、token 漂移审计、中文排版与字体授权、平台适配、授权台账、设计决策记录。完整说明见 `analysis/11-distilled-skill-design.md`。
 
 ## 使用反馈与自我迭代
 
@@ -181,7 +181,7 @@ scripts/evolve.sh                   # 无头自我迭代：聚合 + 让 agent �
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.6.1），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.7.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
 
 原创内容（skill、脚本、目录条目、分析、页面）以 [MIT](LICENSE) 许可发布；许可范围与第三方材料的说明在 [NOTICE](NOTICE)。目录中出现的站点名称、商标归各自所有者；`raw/docs/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `raw/docs/shape-of-ai.md` 随其来源以 CC BY-NC-SA 提供。
 

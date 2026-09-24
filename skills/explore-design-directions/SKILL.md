@@ -2,7 +2,7 @@
 name: explore-design-directions
 description: Turn a fuzzy request into a design brief, then produce two to four genuinely different design directions, present them fairly as a rendered options board, recommend one, and converge with the user. Use when the user asks for several schemes or options, a complete design from requirements, a new look and feel, a concept or moodboard, or when the right aesthetic is not yet decided. 出几套方案、多个风格、设计方向、概念稿、需求梳理。
 metadata:
-  version: 0.2.4
+  version: 0.3.0
   short-description: Brief, diverge, present options, converge
 ---
 
@@ -41,10 +41,40 @@ A design read is the one-line version and is always stated out loud:
 "Reading this as a B2B ops console for on-call engineers: calm, dense,
 keyboard-first, dark-capable; convention over novelty."
 
+For a redesign, the brief is followed by a function map, and the directions
+start from that map, not from the current screens (section 1b).
+
 Translate vague taste words before designing. "高级感 / premium" usually means
 restraint: fewer colours, more whitespace, finer type, slower motion.
 "科技感 / techy" is not neon blue by default - ask what the audience trusts.
 "Clean" means hierarchy and alignment, not emptiness.
+
+## 1b. Function Map (redesign)
+
+The current UI is the strongest anchor in the room. Map what the product
+**does** before studying how it looks today, from routes, API, data model,
+permissions, docs and the user's words - not from screenshots:
+
+- **Objects** the user works with, their volumes (tens or tens of thousands)
+  and how they relate.
+- **Actions** on each object: who does it, how often, from where, what they
+  need to see while doing it.
+- **Flows** end to end for the top jobs, with the moments where the user
+  decides, waits or switches context.
+
+Write it to `.design/function-map.md` (short tables, not prose). Then, per top
+job, answer from first principles, as if nothing existed yet:
+
+- the entry point (dashboard, inbox, search or command, workspace);
+- the container (full page, list + detail split, drawer, modal, inline,
+  command palette);
+- the presentation (table, list, cards, board, timeline, tree, map, canvas);
+- the flow shape (wizard, single form, inline edit, conversational, batch).
+
+Look at the current screens only after the directions are sketched: to audit
+the equity users actually rely on (learned locations, shortcuts, the data
+they scan) and to plan the migration. The current layout is not equity by
+itself.
 
 ## 2. Choose the Axes
 
@@ -61,6 +91,13 @@ axes, then place directions far apart in that space:
 | Depth model | flat / hairline-outlined / layered shadow / translucent material |
 | Imagery strategy | product UI / photography / illustration / 3D / type only / data as art |
 | Motion personality | still / calm / snappy / playful / cinematic |
+| Navigation model (product UI) | sidebar tree / top tabs / workspace home / search- or command-first / hub and spoke |
+| Task container (product UI) | full page / list + detail split / drawer / modal / inline / command palette |
+| Data presentation (product UI) | table / list / cards / board / timeline / tree / map / canvas |
+| Flow shape (product UI) | wizard / single form / inline edit / conversational / batch |
+
+For product UI, at least two of the chosen axes are structural (the last four
+rows). Visual axes alone produce the same product in different clothes.
 
 A direction is a **coherent position on all axes**, summed up by an evocative
 name and a one-sentence concept. The name is a tool: every later decision can
@@ -72,6 +109,12 @@ already expects), **confident modern** (the recommendation in most cases),
 fourth is a wildcard from outside the category (editorial, architecture,
 print, game UI). Never more than four. Every direction must be one you would
 be willing to ship: no strawmen.
+
+In a **redesign**, refining the current structure is not a direction: the
+critique's detail fixes apply to every direction as a shared baseline. At
+least two directions re-architect - they differ from the current UI on two or
+more structural axes, and one may be a completely different page
+organisation. An evolution direction is optional, and at most one.
 
 Ground each direction in references: two to four per direction, found through
 `../find-design-inspiration/SKILL.md`, cited with what is being taken from each.
@@ -120,10 +163,11 @@ End with a comparison and a recommendation:
 
 | Criterion (from the brief) | A | B | C |
 | --- | --- | --- | --- |
+| Effort for the top jobs (steps, context switches, what is visible while acting) | | | |
 | Fits the audience's expectations | | | |
 | Distinctive among competitors | | | |
 | Works with the available content / imagery | | | |
-| Implementation cost in the host stack | | | |
+| Implementation and migration cost in the host stack | | | |
 | Accessibility and longevity risk | | | |
 
 Recommend one, say why, and say what would change your mind. A designer who
@@ -134,12 +178,14 @@ presents options without a point of view is delegating the design.
 - Let the user pick, reject or mix. When mixing ("A's typography with C's
   colour"), check the hybrid for coherence: name what conflicts (a playful
   palette on a severe type system) and resolve it rather than averaging.
-- When the user wants the runners-up too, directions that can be expressed
-  in tokens may ship as switchable themes. Say what a theme keeps: colour
-  alone keeps little of a direction whose identity was layout, density or
-  table style. Carry the features that define it (density, header
-  treatment, type voice) as theme tokens, or label it a palette variant;
-  record which in `decisions.md`.
+- When the user wants several switchable themes, a theme may differ in
+  structure, not only in tokens - but only at a few **declared variant
+  points**: app shell and navigation, collection presentation (table / list /
+  cards), detail container (page / drawer / split), density. One data and
+  state layer serves every theme; each variant point is a component switch
+  driven by the theme, so a new feature implements the declared points, not
+  N pages. A theme that changes only colour is a palette variant; label it
+  so. Token mechanics: `../build-design-system/SKILL.md` > Theme Families.
 - When the reaction is "none of these", find out which axis is wrong before
   producing more. Changing values on the same axes yields the same rejection.
 - Record the outcome in `.design/decisions.md`: chosen direction, rejected
@@ -150,6 +196,8 @@ presents options without a point of view is delegating the design.
 ## Anti-Patterns
 
 - Palette-swap options: same layout, same type, different accent colour.
+- In a redesign, directions that all keep the current page structure, or
+  directions sketched after studying the current screens.
 - One real option and two strawmen.
 - Different content or different fidelity per option.
 - Lorem ipsum, fake logos, fake metrics.

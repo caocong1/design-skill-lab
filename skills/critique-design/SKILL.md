@@ -2,7 +2,7 @@
 name: critique-design
 description: Review an existing design or implementation like a senior design lead - website, app screen, component library, brand, deck or graphic - through purpose fit, information architecture, hierarchy, typography, colour and contrast, spacing and consistency, states, interaction and motion, content, accessibility, platform fit and craft; produce an evidence-backed findings table with severity, a prioritised fix plan, and optionally a redesign brief. Also used as the fresh-eye quality gate for the suite's own output and for design QA of a build against its design. 设计评审、走查、UI 审查、体验走查、设计验收、视觉还原检查、这个页面哪里不好看。
 metadata:
-  version: 0.1.5
+  version: 0.1.6
   short-description: Evidence-backed design review and QA
 ---
 
@@ -25,7 +25,11 @@ Rubric: `../design-studio/references/quality-rubric.md`. Look-first protocol:
   and theme, the components that changed, and the P0 / P1 items to re-check
   first.
 - `qa`: compare a build against its design or spec.
-- `redesign-brief`: turn findings into a brief and direction input.
+- `redesign-brief`: turn findings into a brief and direction input. Judge
+  structure too - is each job in the right container and presentation? - and
+  keep the detail fixes as the baseline every direction inherits. Equity is
+  what users rely on (learned locations, shortcuts, the data they scan), not
+  the current layout.
 
 ## 1. Get Eyes on It
 
@@ -181,7 +185,8 @@ owner's default):
 `.design/critique/<date>-<target>.md` with screenshots referenced, scores,
 findings, grouped plan and the list of unchecked areas; for `qa`, the
 deviation list; for `redesign-brief`, a brief ready for
-`../explore-design-directions/SKILL.md` including the equity to preserve.
+`../explore-design-directions/SKILL.md` with the structural findings, the
+baseline fixes and the equity users rely on.
 
 ## Feedback
 

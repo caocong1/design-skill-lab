@@ -12,6 +12,19 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.7.0] - 2026-09-24
+
+主人纠正：两个宿主项目的整体 UI 优化都只打磨细节、结构不动，多主题只换配色。根因在 skill：方向的差异轴全是视觉轴；redesign 先看旧界面再出方向；"保留有效部分""现有系统是约束"等措辞把 agent 推向保守。本版把 redesign 改为从功能出发重新设计。**契约变更**：redesign 模式的流水线与交付物调整，新增产出 `.design/function-map.md`。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.6.1 → **0.7.0**：redesign = 功能拆解 -> 脱离旧界面出方向 -> 评审与资产盘点 -> 收敛 -> 系统 -> 迁移；"整体 UI 优化 / 全站优化 / 重新设计"默认按 redesign，细节修复是所有方向的共享基线；基线第一步写明 redesign 质疑页面结构、导航、容器和数据呈现；删去 0.6.0 的"保守重设计可省灵感步骤"；产出目录加 `function-map.md`。
+- `skills/explore-design-directions/SKILL.md` 0.2.4 → **0.3.0**：新增 1b 功能拆解；四条结构轴（导航模式、任务容器、数据呈现、流程形态），产品界面至少选两条；redesign 至少两个重构方向，可以是完全不同的页面组织，精修最多一个；对比表首行改为"主要任务的操作成本"；多主题可结构化，但只在声明的变体点上切换，共用一套数据与状态层。
+- `skills/build-design-system/SKILL.md` 0.1.4 → **0.2.0**：新增 Theme Families——主题是个性不是色相；全局 -> 族结构 -> 族 x 明暗颜色三层 token，按属性限定作用域；`:root` 上 `var()` 派生的 token 不随嵌套作用域变化。
+- `skills/critique-design/SKILL.md` 0.1.5 → **0.1.6**：redesign-brief 也评结构；资产指用户依赖的东西，不是当前布局。
+- `skills/design-product-ui/SKILL.md` 0.3.0 → **0.3.1**：redesign 时"先建模"就是功能拆解，且先于研究旧界面。
+- `skills/design-studio/references/render-and-look.md`：工具梯级加"登录应用"截图做法（保存登录态，线上后端 + 本地前端）；截图陷阱加"每张截图带构建标记"。
+
 ## [0.6.1] - 2026-09-24
 
 修反馈写入路径。suite 契约不变。

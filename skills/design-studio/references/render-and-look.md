@@ -33,6 +33,12 @@ are perishable - check what the host really offers.
 4. **Nothing available**: say so, deliver the artefact marked *unverified*,
    and tell the user exactly what to open and look for.
 
+A **logged-in app** whose local dev server cannot reach the real backend:
+with Playwright, sign in once and save the storage state; capture "before"
+from the deployed frontend, and "after" from the same origin with its
+frontend assets routed to the local build (`context.route`). Both sides then
+share the same backend, data and session.
+
 Then **read the PNG** with an image-capable tool. A screenshot that was not
 looked at verifies nothing.
 
@@ -91,6 +97,10 @@ Sweeping a running app, the capture itself can lie:
   state, is not evidence of that route.
 - Before and after come from the same environment (both deployed or both
   local). Dev-only chrome and broken fixtures otherwise read as regressions.
+- Stamp every capture with the build it shows (a version string, a hashed
+  asset name or a DOM data attribute) and check it before looking. A re-run
+  that silently captured the old build looks exactly like "the fix did
+  nothing".
 - Same viewport and device scale factor on both sides; record them in the
   filename or a manifest.
 - Take sizes from the brief's declared target widths, not only the defaults

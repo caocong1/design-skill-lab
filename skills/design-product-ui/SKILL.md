@@ -2,7 +2,7 @@
 name: design-product-ui
 description: Design product interfaces - screens, components, flows and all their states - for web apps, mobile apps (iOS, Android, HarmonyOS, mini-programs), desktop apps (Electron, Tauri, native), Office / WPS add-in task panes and other embedded panes, enterprise admin systems, dashboards and big-screen data walls, and AI product UI. Use when designing or redesigning an app screen, a component, a form, a table, navigation, an onboarding or checkout flow, empty / loading / error states, responsive or adaptive behaviour, or platform-appropriate UI. 页面设计、组件设计、后台管理、表单、表格、数据大屏、App 界面、小程序、桌面端、Office/WPS 加载项。
 metadata:
-  version: 0.3.0
+  version: 0.3.1
   short-description: Screens, components, flows and states
 ---
 
@@ -33,7 +33,9 @@ web app conventions), `references/data-dense-ui.md`
 1. **Model before pixels.** List the objects the user cares about (order,
    device, case, document), their attributes, the actions on them and how they
    relate. Navigation and screens fall out of this model; skipping it produces
-   screens that look fine and do not connect.
+   screens that look fine and do not connect. In a redesign this is the
+   function map (`../explore-design-directions/SKILL.md` > Function Map), made
+   before studying the current screens.
 2. **Pick the archetype** for each screen: list-detail, table-centric CRUD,
    dashboard, feed, form or wizard, canvas / editor, settings, conversation.
    Use the platform's standard structure for that archetype before inventing.

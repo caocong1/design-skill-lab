@@ -2,7 +2,7 @@
 name: design-studio
 description: Senior-designer entrypoint and router for any design task - web front-end, mobile and desktop app UI, motion, icons, brand identity, and graphic design (posters, social graphics, decks). Use to turn requirements into a complete design (brief, directions, design system, key screens), design a single page or component, find and deconstruct inspiration for a site or app, present several distinct design options, critique or redesign an existing interface, and land a design in code with visual QA. 设计、UI、界面、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案。
 metadata:
-  version: 0.6.1
+  version: 0.7.0
   short-description: Route design work to focused skills
 ---
 
@@ -67,18 +67,28 @@ Shared fundamentals every child skill relies on (read on demand, not up front):
 | `options` | Several schemes to choose from | `explore-design-directions`; combine with any other mode |
 | `inspire` | Ideas and references, including for an existing site | `find-design-inspiration` |
 | `critique` | An honest review and a fix plan | `critique-design` |
-| `redesign` | A better version that keeps what works | critique -> equity audit -> directions -> system -> migration plan |
+| `redesign` | The product rethought from what it does, not from its current screens | function map -> directions (clean slate) -> critique + equity audit -> converge -> system -> migration plan |
 | `handoff` | A package an implementer can build from, in any stack | `handoff-design`; afterwards accept the build from screenshots |
 | `implement` | The same agent is also asked to build it | `handoff-design` first, then `implement-design`, with `critique-design` as QA |
 
 `options` is a modifier, not a separate job: any deliverable can be produced as
 2-4 alternatives when the decision is genuinely the user's to make.
 
+A request to optimise or redesign a product's UI as a whole ("整体 UI 优化",
+"全站优化", "重新设计") is `redesign`, not a polish pass. Only a named page or
+component with a bounded change is `piece`. In `redesign` the critique's
+detail fixes are the baseline every direction inherits, not the goal; the
+goal is a better structure, and a direction may be a completely different
+page organisation.
+
 ## Baseline Workflow
 
 1. **Inspect the host first.** Existing brand, tokens, component library, fonts,
    icon set and conventions are constraints, not suggestions. Extend the
-   existing system; do not fork it. Note the **targets** (platforms and sizes)
+   existing system; do not fork it. In `redesign`, brand and platform stay
+   constraints, but page structure, navigation, task containers and data
+   presentation are what is being questioned: derive them from the function
+   map, never inherit them from the current screens. Note the **targets** (platforms and sizes)
    the design must serve; the stack they are built in does not limit the
    design.
 2. **State a design read** before producing anything: what this is, for whom,
@@ -162,6 +172,7 @@ project already has a convention (check for `design/`, `docs/design/`,
 ```text
 .design/
   brief.md                      design read, brief, assumptions
+  function-map.md               redesign: objects, actions, frequency, flows
   decisions.md                  decision log: chosen, rejected, why
   inspiration/<topic>.md        references with deconstruction
   directions/<round>/index.html options board (one file, same content per option)
@@ -181,8 +192,7 @@ a themed component library - update it in place instead of creating
 `.design/system/`; two systems drift. When the same agent designs and
 implements, `handoff` shrinks to the acceptance-shot list and the tokens
 landing in the host source; the full handoff folder is for a separate
-implementer. A conservative redesign that preserves the product's equity may
-skip the inspiration step; say so in `brief.md`.
+implementer.
 
 Production code, when this agent is also asked to implement, goes into the
 project's real source tree, following its structure. Do not generate reports nobody asked for: `brief.md` and
@@ -227,7 +237,8 @@ may reshape it; breaking changes are still called out in `CHANGELOG.md`.
 - `inspire`: an inspiration brief with links, deconstruction and proposed
   moves.
 - `critique` / `redesign`: findings table with evidence and severity,
-  prioritised plan, and for `redesign` the equity audit and migration plan.
+  prioritised plan, and for `redesign` the function map, the options board
+  of re-architected directions, the equity audit and the migration plan.
 - `handoff`: the handoff folder (spec, acceptance shots, portable mockups,
   tokens, assets, motion) and, after the build, an acceptance report.
 - `implement`: the handoff, then code in the host stack, design/build
