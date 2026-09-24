@@ -12,6 +12,21 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.5.1] - 2026-09-24
+
+修反馈捕获。0.5.0 上线后第一个宿主项目完整跑了一轮 UI 优化，agent 多次读到各 skill 末尾的 `## Feedback` 段，却一条都没记。原因有三：规则只说"遇到就记"，靠 agent 在任务中途自觉；有意偏离指引（并已写进宿主 `decisions.md`）不在触发条件里；完成定义里没有这一项。suite 契约不变。
+
+### 变更（skill）
+
+- `skills/design-studio/references/feedback.md`：新增**收尾复盘**（必做）——三问：被纠正 / 偏离或绕开了指引 / skill 缺失或出错，每个"是"记一条；最终回复以 `Skill feedback: N entries` 或 `none` 结尾。有意偏离按 `missing` / `friction` 记。明确按本地路径使用时同样写回本仓库，且写入本仓库 inbox 是预期行为。
+- `skills/design-studio/SKILL.md` 0.5.0 → **0.5.1**：基线流程加第 10 步"复盘再收尾"，Definition of Done 加一条。
+- 其余 12 个设计 skill 的 `## Feedback` 段改为"收尾复盘是完成的一部分"，各 PATCH 升一位。
+- `skills/iterate-design-lab/SKILL.md` 0.2.0 → **0.2.1**：evolve 模式加第 0 步"补录"——主人指定宿主项目时，从其 `decisions.md`、评审、本轮提交和会话记录提炼条目，先给主人过目。
+
+### 修复（文档）
+
+- `feedback/README.md`：propose-only 开关的名字写错（应为 `PROPOSE_ONLY=1`）；补"补录"用法与收尾复盘说明。
+
 ## [0.5.0] - 2026-09-23
 
 新增**使用反馈与自我迭代闭环**：套件在各个项目里被使用时，agent 把遇到的纠正、缺陷、别扭、能力缺口和偏好按统一格式写回本仓库 `feedback/inbox/`；`scripts/collect-feedback.py` 聚合成 `feedback/report.md`；`iterate-design-lab` 新增 `evolve` 模式按 Tier A/B/C 分流消化——措辞与事实修正直接应用，结构性改动进入 `feedback/proposals.md` 等主人确认。`scripts/evolve.sh` 可挂 launchd 每周自动跑一轮。闭环说明见 `feedback/README.md`。

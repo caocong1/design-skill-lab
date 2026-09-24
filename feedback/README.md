@@ -19,7 +19,9 @@
 
 - **捕获**：agent 在使用任何套件 skill 时遵循
   `skills/design-studio/references/feedback.md`——遇到问题就地写一条
-  条目进 `feedback/inbox/`（通过符号链接解析回本仓库）。拷贝安装、解析
+  条目进 `feedback/inbox/`（按本地路径或符号链接解析回本仓库）；每轮收尾
+  **必须**跑一次三问复盘（被纠正 / 偏离了指引 / skill 缺失或出错），最后一句
+  写 `Skill feedback: N entries` 或 `none`。拷贝安装、解析
   不到本仓库时写到宿主项目的 `.design/skill-feedback/`，之后用
   `scripts/collect-feedback.py --import <路径>` 收进来。
 - **条目格式**：一个事件一个文件，`YYYY-MM-DD-<slug>.md`，头部字段
@@ -35,6 +37,12 @@
 - **自动化**：`scripts/evolve.sh` 是无头执行入口，可挂 launchd（示例
   `scripts/com.design-skill-lab.evolve.plist`）或 cron，定期聚合并让 agent
   自动消化 Tier A/B 条目。
+
+## 补录：会话里没记下来时
+
+在本仓库对 agent 说"用 iterate-design-lab 的 evolve 模式，从 <宿主项目> 补录
+反馈"。它会读宿主的 `.design/decisions.md`、评审报告、这一轮的提交和会话记录，
+提炼条目写进 inbox，先给你过目再分流。
 
 ## 手动跑一轮
 
@@ -56,7 +64,7 @@ launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.design-skill-lab.evolve.
 默认每周一 09:00 跑；日志在 `feedback/evolve.log`。自动模式只应用 Tier A
 （措辞、事实性错误、失效路径）和 Tier B（现有章节内的补充指导）改动，
 结构性的 Tier C 一律写进 `feedback/proposals.md` 等人工确认。不想让
-agent 直接改 skill 时，把 `scripts/evolve.sh` 里的 `--propose-only`
+agent 直接改 skill 时，把 `scripts/evolve.sh` 里的 `PROPOSE_ONLY=1`
 取消注释即可——全自动聚合，全部改动都走提案。
 
 ## 边界

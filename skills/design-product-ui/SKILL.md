@@ -2,7 +2,7 @@
 name: design-product-ui
 description: Design product interfaces - screens, components, flows and all their states - for web apps, mobile apps (iOS, Android, HarmonyOS, mini-programs), desktop apps (Electron, Tauri, native), enterprise admin systems, dashboards and big-screen data walls, and AI product UI. Use when designing or redesigning an app screen, a component, a form, a table, navigation, an onboarding or checkout flow, empty / loading / error states, responsive or adaptive behaviour, or platform-appropriate UI. 页面设计、组件设计、后台管理、表单、表格、数据大屏、App 界面、小程序、桌面端。
 metadata:
-  version: 0.2.1
+  version: 0.2.2
   short-description: Screens, components, flows and states
 ---
 
@@ -170,4 +170,6 @@ behaviour of panes, and multi-window rules.
 
 When this skill causes friction, gets corrected, fails, or lacks something you
 needed, log one entry per `../design-studio/references/feedback.md` and return
-to the task. Log, don't fix: skills are edited only inside the lab.
+to the task. Before the final message of the round, run that file's close-out
+retro and end with its `Skill feedback:` line - the retro is part of done.
+Log, don't fix: skills are edited only inside the lab.

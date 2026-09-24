@@ -1,9 +1,29 @@
 # Feedback: Log What Hurts, Keep Working
 
-Every skill in this suite is iteratively improved from real usage. While you
-work in a host project, log friction the moment it happens - cheaply, without
-breaking flow. Logging takes under a minute; do it *after* the current step
-finishes, not instead of it.
+Every skill in this suite is iteratively improved from real usage. Two
+moments produce entries:
+
+1. **During the work** - log friction when it happens, after the current step
+   finishes, not instead of it. Useful, but easy to forget mid-task.
+2. **At close-out - required.** Before the final message of a round (the
+   step that writes `decisions.md`, or the last reply of a `piece`), run the
+   retro below. This is the step that must not be skipped: a round that used
+   the suite and logged nothing loses its lessons.
+
+## Close-out retro
+
+Answer three questions from memory of this round:
+
+1. Where did the user correct, override or redirect a choice you made?
+2. Where did you deviate from, work around, or quietly ignore a skill's
+   guidance because it did not fit? A deviation you justified in
+   `decisions.md` is still an entry: the skill did not cover the case.
+3. Where was a skill silent, wrong, slow to follow, or pointing at something
+   that failed (a path, a command, a tool)?
+
+Each "yes" is one entry. Then end the final message with one line:
+`Skill feedback: N entries -> <lab>/feedback/inbox/` or
+`Skill feedback: none`. The line keeps the step visible to the user.
 
 ## When to log
 
@@ -21,13 +41,17 @@ Log an entry whenever one of these happens:
 - **preference** - the user expressed a taste the skill should learn
   ("我们团队不用渐变").
 
+A deliberate deviation from a skill's guidance is logged as `missing` (the
+skill lacked the case) or `friction` (the guidance was too costly here).
+
 Do not log: one-off facts about the host project, praise, or things you fixed
 locally in a second. When in doubt, log it - triage is the lab's job.
 
 ## Where to write
 
-Resolve the lab root from this file's real location (skills are usually
-symlinked into `~/.claude/skills` / `~/.codex/skills`):
+Resolve the lab root from this file's real location. It works whether the
+user pointed you at the lab by path ("用 ~/Workspace/design-skill-lab 做…")
+or the skills are symlinked into `~/.claude/skills` / `~/.codex/skills`:
 
 ```sh
 LAB=$(cd "$(dirname "$(readlink -f "<path to any SKILL.md you loaded>")")/.." && pwd)
@@ -40,7 +64,9 @@ LAB=$(cd "$(dirname "$(readlink -f "<path to any SKILL.md you loaded>")")/.." &&
   file to `.design/skill-feedback/` in the host project instead, and mention
   once to the user that feedback is parked locally for import.
 
-Never edit the lab's skills from a host project. Log, don't fix.
+Writing into the lab's `feedback/inbox/` from a host project is expected,
+even though it is outside the host repository. Never edit the lab's skills
+from a host project. Log, don't fix.
 
 ## Entry format
 

@@ -2,7 +2,7 @@
 name: design-studio
 description: Senior-designer entrypoint and router for any design task - web front-end, mobile and desktop app UI, motion, icons, brand identity, and graphic design (posters, social graphics, decks). Use to turn requirements into a complete design (brief, directions, design system, key screens), design a single page or component, find and deconstruct inspiration for a site or app, present several distinct design options, critique or redesign an existing interface, and land a design in code with visual QA. 设计、UI、界面、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案。
 metadata:
-  version: 0.5.0
+  version: 0.5.1
   short-description: Route design work to focused skills
 ---
 
@@ -104,6 +104,10 @@ Shared fundamentals every child skill relies on (read on demand, not up front):
    subagents, the critic should not be the context that made the work.
 9. **Deliver with rationale**: what was decided, why, what was rejected, what
    remains open, and the licence of every third-party asset used.
+10. **Retro the skills, then close.** Run the close-out retro in
+    `references/feedback.md`: corrections, deviations and gaps become entries
+    in the lab inbox, and the final message ends with the `Skill feedback:`
+    line.
 
 ## Core Rules
 
@@ -235,9 +239,13 @@ may reshape it; breaking changes are still called out in `CHANGELOG.md`.
 - Third-party assets have recorded licences; nothing fabricated is presented
   as real.
 - A fresh-eye critique ran and its P0/P1 findings were fixed or disclosed.
+- The skill retro ran: entries are in the lab inbox, or the final message
+  says `Skill feedback: none`.
 
 ## Feedback
 
 When this skill causes friction, gets corrected, fails, or lacks something you
 needed, log one entry per `../design-studio/references/feedback.md` and return
-to the task. Log, don't fix: skills are edited only inside the lab.
+to the task. Before the final message of the round, run that file's close-out
+retro and end with its `Skill feedback:` line - the retro is part of done.
+Log, don't fix: skills are edited only inside the lab.

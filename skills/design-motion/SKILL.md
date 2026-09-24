@@ -2,7 +2,7 @@
 name: design-motion
 description: Design interface motion - micro-interactions, state transitions, enter and exit animations, page and view transitions, scroll-driven and gesture-driven motion, loading and skeleton behaviour, and a product's motion system - then specify and prototype it in code for web (CSS, WAAPI, Motion, GSAP), Flutter, SwiftUI and Compose. Use when the user asks for animation, 动效, transitions, a hover or press effect, a loading animation, scroll effects, a motion spec, or wants an interface to feel smoother or more alive. 动效、过渡动画、微交互、缓动、弹簧动画、加载动画。
 metadata:
-  version: 0.1.3
+  version: 0.1.4
   short-description: Purposeful motion, specified and prototyped
 ---
 
@@ -178,4 +178,6 @@ host stack when asked, and notes on performance and fallbacks.
 
 When this skill causes friction, gets corrected, fails, or lacks something you
 needed, log one entry per `../design-studio/references/feedback.md` and return
-to the task. Log, don't fix: skills are edited only inside the lab.
+to the task. Before the final message of the round, run that file's close-out
+retro and end with its `Skill feedback:` line - the retro is part of done.
+Log, don't fix: skills are edited only inside the lab.

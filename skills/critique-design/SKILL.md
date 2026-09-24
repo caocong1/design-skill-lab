@@ -2,7 +2,7 @@
 name: critique-design
 description: Review an existing design or implementation like a senior design lead - website, app screen, component library, brand, deck or graphic - through purpose fit, information architecture, hierarchy, typography, colour and contrast, spacing and consistency, states, interaction and motion, content, accessibility, platform fit and craft; produce an evidence-backed findings table with severity, a prioritised fix plan, and optionally a redesign brief. Also used as the fresh-eye quality gate for the suite's own output and for design QA of a build against its design. 设计评审、走查、UI 审查、体验走查、设计验收、视觉还原检查、这个页面哪里不好看。
 metadata:
-  version: 0.1.3
+  version: 0.1.4
   short-description: Evidence-backed design review and QA
 ---
 
@@ -181,4 +181,6 @@ deviation list; for `redesign-brief`, a brief ready for
 
 When this skill causes friction, gets corrected, fails, or lacks something you
 needed, log one entry per `../design-studio/references/feedback.md` and return
-to the task. Log, don't fix: skills are edited only inside the lab.
+to the task. Before the final message of the round, run that file's close-out
+retro and end with its `Skill feedback:` line - the retro is part of done.
+Log, don't fix: skills are edited only inside the lab.

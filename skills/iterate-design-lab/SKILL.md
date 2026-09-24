@@ -2,7 +2,7 @@
 name: iterate-design-lab
 description: Maintain the design-skill-lab repository - add or correct entries in the curated design resource catalogue, absorb a new authoritative source (article, guideline, book, open-source project, another AI design skill) as a digest plus analysis, refresh a source against its new version, run the link and freshness check, digest usage feedback from feedback/inbox into skill improvements (evolve mode), or apply a skill-only improvement to the design-studio suite. Codifies the catalogue schema, tiering rules, generated views, versioning, CHANGELOG, SOURCE_INDEX metadata, analysis format, commit cadence and the invariants gate. Use only inside this lab repository.
 metadata:
-  version: 0.2.0
+  version: 0.2.1
   short-description: Iterate the design skill lab
 ---
 
@@ -131,6 +131,15 @@ mode turns them into skill improvements. It runs interactively when the owner
 asks, and unattended from `scripts/evolve.sh` (launchd / cron), so the tiers
 below are the authority on what may be applied without the owner.
 
+0. **Harvest, when the owner names a host project** whose round logged
+   little or nothing (in-session capture is unreliable). Read its
+   `.design/decisions.md` (deviations, rejections, open items), its critique
+   reports, the round's commits (fix-ups after "done" are evidence), and the
+   session transcript under `~/.claude/projects/<dir>/` or `~/.codex/sessions/`
+   when present: user corrections, deviations from skill guidance, retries,
+   failed commands. Write one inbox entry per finding with generic wording -
+   no client names or business data. Interactive only; show the owner the
+   entries before step 3.
 1. `scripts/collect-feedback.py`. If the inbox is empty, stop. Read
    `feedback/report.md`, then the raw entries - the report is an index, the
    entries are the evidence.
