@@ -2,7 +2,7 @@
 name: design-brand-identity
 description: Design a brand identity - positioning and personality, concept territories, logo exploration (wordmark, lettermark, symbol, combination, emblem) drawn as clean SVG, colour and typography for the brand, a graphic language, applications, and a brand guidelines document - or plan a rebrand that keeps the equity that matters. Use when the user asks for a logo, a name lockup, brand colours and fonts, a visual identity, a brand book or style guide, or a brand refresh. 品牌设计、Logo 设计、标志、VI、品牌规范、品牌升级。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Logo, identity system, guidelines, rebrand
 ---
 
@@ -148,3 +148,9 @@ colour modes; test sheet (small sizes, one-colour, line-up, contexts) rendered
 and inspected; colour and type specification with licences; application
 mock-ups; guidelines document; for `rebrand`, the equity audit and rollout
 plan; and the explicit note that legal clearance is outstanding.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

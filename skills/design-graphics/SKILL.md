@@ -2,7 +2,7 @@
 name: design-graphics
 description: Design static and print-style graphics produced from code - posters, covers, social media graphics, Open Graph and README banners, app-store screenshots, presentation and pitch decks, one-pagers, infographics, business cards, and generative backgrounds (gradients, grain, patterns, shaders) - with real typographic composition and a render pipeline to PNG, SVG or PDF. Use when the user asks for a poster, banner, cover, slide deck, PPT, social post image, OG image, infographic, print piece or background artwork. 海报、平面设计、封面、社媒配图、PPT、演示文稿、信息图、背景图。
 metadata:
-  version: 0.1.1
+  version: 0.1.2
   short-description: Posters, social, decks, print from code
 ---
 
@@ -153,3 +153,9 @@ fallback and pause when off-screen or under reduced motion.
 Source (HTML / SVG / typesetting file), exported PNG / SVG / PDF at the right
 size, a contact sheet for series, asset and font licences, and for print a
 list of what remains to be verified with the printer.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

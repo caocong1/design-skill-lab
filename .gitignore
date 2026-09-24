@@ -11,3 +11,6 @@ raw/repos/*
 # Local render output from skill scripts
 .design/
 *.shot.png
+
+# evolve 运行日志（本地）
+feedback/evolve.log

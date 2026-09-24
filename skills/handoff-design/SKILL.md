@@ -2,7 +2,7 @@
 name: handoff-design
 description: Package a finished design so that any implementer - a coding agent or a developer, in any stack (web frameworks, Flutter, SwiftUI, Compose, HarmonyOS ArkUI, mini-programs, Electron, Tauri, native desktop) - can build it faithfully without guessing. Produces acceptance screenshots at the target's logical size, portable HTML/CSS mockups, platform-neutral tokens, a measured spec with every state, the asset list, the motion spec, platform notes and acceptance criteria; then reviews the implementation against them from screenshots alone. Use when a design needs to be handed to development, when the target is not the web, or when the user asks for 设计稿交付、标注、切图、设计规格、给开发的设计说明、验收标准.
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Design package a coding agent can build from
 ---
 
@@ -153,3 +153,9 @@ user) is the implementer's business.
 The handoff folder above, complete for every target in scope; and after the
 build, an acceptance report with deviations classified and the final list of
 accepted compromises.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

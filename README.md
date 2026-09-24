@@ -85,6 +85,16 @@ for d in skills/*/; do ln -sfn "$PWD/$d" "$HOME/.claude/skills/$(basename "$d")"
 
 它也覆盖资深设计师会做、但需求里通常不写的事：保留资产的重设计、竞品拆解、状态矩阵、token 漂移审计、中文排版与字体授权、平台适配、授权台账、设计决策记录。完整说明见 `analysis/11-distilled-skill-design.md`。
 
+## 使用反馈与自我迭代
+
+套件在各个项目里被使用时，agent 会把遇到的问题（被用户纠正、指引出错、流程别扭、能力缺口、风格偏好）按统一格式写回本仓库 `feedback/inbox/`——各 skill 的 `## Feedback` 段与 `skills/design-studio/references/feedback.md` 约定捕获协议，符号链接安装时零配置直达。之后：
+
+- `scripts/collect-feedback.py` 校验、按 skill × 类型分组、按严重度加权排序，生成 `feedback/report.md`；
+- `iterate-design-lab` 的 `evolve` 模式消化：措辞与事实修正（Tier A）、现有章节内的补充（Tier B）直接改，结构性改动（Tier C）进 `feedback/proposals.md` 等确认；
+- `scripts/evolve.sh` 可挂 launchd 每周自动跑一轮（示例 `scripts/com.design-skill-lab.evolve.plist`），日志在 `feedback/evolve.log`。
+
+完整约定见 `feedback/README.md`。
+
 ## 资源目录
 
 `catalog/resources.jsonl` 是单一事实来源（601 条；S 131 / A 374 / B 96），分 12 个域：网站、产品界面、动效、图标、视觉素材、品牌、平面、字体与排版（含中文字体与排版）、色彩、代码与开源项目、阅读、社区与聚合。
@@ -112,7 +122,8 @@ raw/docs/         一手资料的转述式结构化摘要（带来源 URL 与抓
 raw/research/     调研简报、候选数据 schema、首轮调研留下的候选域名
 analysis/         12 篇中文分析 + SOURCE_INDEX.md（来源版本与新鲜度审查）
 docs/             在线页面：index.html、app.js、base.css、styles/*.css、生成的 catalog.js
-scripts/          build-catalog.py、check-links.py、check-lab-invariants.sh
+scripts/          build-catalog.py、check-links.py、check-lab-invariants.sh、collect-feedback.py、evolve.sh
+feedback/         使用反馈闭环：inbox（待消化）、report.md（聚合报告）、proposals.md、log.md、archive/
 .planning/        验链报告与触发式 seed
 ```
 
@@ -134,6 +145,8 @@ skills/design-studio/scripts/shot.sh page.html .design/shots
 scripts/build-catalog.py            # 从目录生成 skill 参考文件与页面数据（--check 校验是否过期）
 scripts/check-links.py --write      # 机械验链并写入 agent_access；约两分钟，不消耗模型额度
 scripts/check-lab-invariants.sh     # 提交前必须干净退出的机械闸
+scripts/collect-feedback.py         # 聚合 feedback/inbox 生成 report.md（--check/--archive/--import）
+scripts/evolve.sh                   # 无头自我迭代：聚合 + 让 agent 跑 evolve 模式（可挂 launchd 定时）
 ```
 
 全部只依赖 Python 标准库、curl 和一个 Chromium 系浏览器。
@@ -168,7 +181,7 @@ scripts/check-lab-invariants.sh     # 提交前必须干净退出的机械闸
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.4.4），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` suite 当前 0.5.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代记录在 `CHANGELOG.md`；逐来源的版本与新鲜度审查在 `analysis/SOURCE_INDEX.md`。
 
 原创内容（skill、脚本、目录条目、分析、页面）以 [MIT](LICENSE) 许可发布；许可范围与第三方材料的说明在 [NOTICE](NOTICE)。目录中出现的站点名称、商标归各自所有者；`raw/docs/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `raw/docs/shape-of-ai.md` 随其来源以 CC BY-NC-SA 提供。
 

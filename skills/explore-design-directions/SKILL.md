@@ -2,7 +2,7 @@
 name: explore-design-directions
 description: Turn a fuzzy request into a design brief, then produce two to four genuinely different design directions, present them fairly as a rendered options board, recommend one, and converge with the user. Use when the user asks for several schemes or options, a complete design from requirements, a new look and feel, a concept or moodboard, or when the right aesthetic is not yet decided. 出几套方案、多个风格、设计方向、概念稿、需求梳理。
 metadata:
-  version: 0.2.1
+  version: 0.2.2
   short-description: Brief, diverge, present options, converge
 ---
 
@@ -161,3 +161,9 @@ presents options without a point of view is delegating the design.
 - `.design/directions/<round>/index.html` options board, rendered and checked.
 - Comparison table, recommendation and the decision recorded in
   `.design/decisions.md`.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

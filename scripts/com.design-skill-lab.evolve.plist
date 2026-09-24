@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Weekly self-iteration for design-skill-lab. Install:
+       cp scripts/com.design-skill-lab.evolve.plist ~/Library/LaunchAgents/
+       launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.design-skill-lab.evolve.plist
+     Trigger now:
+       launchctl kickstart gui/$UID/com.design-skill-lab.evolve
+     Adjust the repo path below if the lab does not live at
+     /Users/dongli/Workspace/design-skill-lab. -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.design-skill-lab.evolve</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/dongli/Workspace/design-skill-lab/scripts/evolve.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>/Users/dongli/Workspace/design-skill-lab/feedback/evolve.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/dongli/Workspace/design-skill-lab/feedback/evolve.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+  </dict>
+</dict>
+</plist>

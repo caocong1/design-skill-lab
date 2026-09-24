@@ -12,6 +12,23 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.5.0] - 2026-09-23
+
+新增**使用反馈与自我迭代闭环**：套件在各个项目里被使用时，agent 把遇到的纠正、缺陷、别扭、能力缺口和偏好按统一格式写回本仓库 `feedback/inbox/`；`scripts/collect-feedback.py` 聚合成 `feedback/report.md`；`iterate-design-lab` 新增 `evolve` 模式按 Tier A/B/C 分流消化——措辞与事实修正直接应用，结构性改动进入 `feedback/proposals.md` 等主人确认。`scripts/evolve.sh` 可挂 launchd 每周自动跑一轮。闭环说明见 `feedback/README.md`。
+
+### 新增
+
+- `skills/design-studio/references/feedback.md`：反馈捕获协议（何时记、写到哪、条目格式），全部设计 skill 共享。
+- `feedback/`：`README.md`（闭环说明）、`TEMPLATE.md`（条目模板）、`inbox/`、`archive/`、`proposals.md`（待确认提案）、`log.md`（处置日志，只追加）。
+- `scripts/collect-feedback.py`：校验、聚合、加权排序、生成报告；支持 `--check` / `--archive` / `--import`（从宿主项目收回 `.design/skill-feedback/`）。
+- `scripts/evolve.sh` + `scripts/com.design-skill-lab.evolve.plist`：无头自动迭代入口与 launchd 周任务示例。
+
+### 变更（skill）
+
+- 全部 12 个设计 skill 末尾新增 `## Feedback` 段，指向捕获协议；各 PATCH 升一位。
+- `skills/iterate-design-lab/SKILL.md` 0.1.2 → **0.2.0**：新增 `evolve` 模式与分级自动应用策略（Tier A 直接改、Tier B 改完标记、Tier C 仅提案）。
+- `skills/design-studio/SKILL.md` 0.4.4 → **0.5.0**（suite 版本）。
+
 ## [0.4.4] - 2026-09-23
 
 把实验室页面从创建到三轮修改的过程收成 skill 里的规则。过程记在 `analysis/12-dogfooding-the-lab-page.md`（1.2）。suite 契约不变。0.4.3 只修了页面、没有改 suite 版本，所以这一条从 0.4.2 计到 0.4.4。

@@ -2,7 +2,7 @@
 name: design-marketing-sites
 description: Design landing pages, product and SaaS marketing sites, portfolios, editorial pages and storefront pages that persuade and do not look templated. Covers page narrative, hero strategy, section rhythm, conversion structure, art direction, scroll choreography, responsive behaviour and performance as design. Use for a landing page, homepage, product page, pricing page, portfolio, launch page, or any single section such as hero, navbar, pricing, testimonials, footer. 落地页、官网、首页、Hero 首屏、导航栏、定价页、作品集。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Persuasive, non-templated web pages
 ---
 
@@ -145,3 +145,9 @@ responsive notes, and screenshots at the four widths.
 - Fake product UI, fake logos, fake numbers.
 - A desktop composition simply stacked for mobile with the image pushed below
   the fold.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

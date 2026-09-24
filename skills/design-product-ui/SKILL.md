@@ -2,7 +2,7 @@
 name: design-product-ui
 description: Design product interfaces - screens, components, flows and all their states - for web apps, mobile apps (iOS, Android, HarmonyOS, mini-programs), desktop apps (Electron, Tauri, native), enterprise admin systems, dashboards and big-screen data walls, and AI product UI. Use when designing or redesigning an app screen, a component, a form, a table, navigation, an onboarding or checkout flow, empty / loading / error states, responsive or adaptive behaviour, or platform-appropriate UI. 页面设计、组件设计、后台管理、表单、表格、数据大屏、App 界面、小程序、桌面端。
 metadata:
-  version: 0.2.0
+  version: 0.2.1
   short-description: Screens, components, flows and states
 ---
 
@@ -165,3 +165,9 @@ behaviour of panes, and multi-window rules.
   them.
 - Skeletons that do not match the loaded layout; spinners for whole pages.
 - Designing only the populated, error-free, English, light-mode screen.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

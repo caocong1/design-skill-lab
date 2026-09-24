@@ -2,7 +2,7 @@
 name: build-design-system
 description: Build or extend a design system - design tokens (primitive, semantic, component tiers), colour system with light and dark modes, type scale, spacing, radius, elevation and motion tokens, component specifications with anatomy, variants and states, theming of an existing component library, an agent-readable DESIGN.md, a living preview page, and a token-drift audit of an existing codebase. Use when the user wants a complete visual system, a theme, dark mode, brand theming for Ant Design / Element Plus / shadcn / MUI / Flutter, or wants scattered colours and sizes consolidated. 设计系统、设计规范、design token、主题、暗色模式、配色体系、字体层级。
 metadata:
-  version: 0.1.1
+  version: 0.1.2
   short-description: Tokens, foundations, components, theming
 ---
 
@@ -182,3 +182,9 @@ Record changes; deprecate before removing.
 - A component library re-skinned through deep CSS overrides and `!important`.
 - A `DESIGN.md` that describes aspirations instead of the values in use.
 - Building a system for a one-page site: tokens yes, component bureaucracy no.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

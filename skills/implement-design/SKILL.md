@@ -2,7 +2,7 @@
 name: implement-design
 description: Land a design in a real codebase with fidelity - inspect the host stack and its existing tokens, components and conventions; map design tokens onto the project's theming mechanism; build pages and components in the host framework (React, Vue, Next, Nuxt, Tailwind, Ant Design, Element Plus, Flutter, SwiftUI, Compose, ArkUI, mini-programs, Electron, Tauri); verify with a render-compare-fix loop and visual regression tests. This is the implementer's companion to the design suite, which hands designs over through handoff-design. Use when the user wants a design implemented, a screenshot or mock-up turned into code, UI polish in an existing project, pixel-level restoration, or 设计稿还原、切图、标注、前端实现、UI 落地.
 metadata:
-  version: 0.2.1
+  version: 0.2.2
   short-description: Design to code with visual verification
 ---
 
@@ -160,3 +160,9 @@ Code in the host stack following its conventions; new or updated tokens;
 reachable states; before / after or design / build screenshots; visual test
 baseline when the project has the tooling; a short list of deviations, spec
 gaps, unverified areas and follow-ups.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

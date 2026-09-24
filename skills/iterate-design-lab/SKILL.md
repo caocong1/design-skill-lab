@@ -1,8 +1,8 @@
 ---
 name: iterate-design-lab
-description: Maintain the design-skill-lab repository - add or correct entries in the curated design resource catalogue, absorb a new authoritative source (article, guideline, book, open-source project, another AI design skill) as a digest plus analysis, refresh a source against its new version, run the link and freshness check, or apply a skill-only improvement to the design-studio suite. Codifies the catalogue schema, tiering rules, generated views, versioning, CHANGELOG, SOURCE_INDEX metadata, analysis format, commit cadence and the invariants gate. Use only inside this lab repository.
+description: Maintain the design-skill-lab repository - add or correct entries in the curated design resource catalogue, absorb a new authoritative source (article, guideline, book, open-source project, another AI design skill) as a digest plus analysis, refresh a source against its new version, run the link and freshness check, digest usage feedback from feedback/inbox into skill improvements (evolve mode), or apply a skill-only improvement to the design-studio suite. Codifies the catalogue schema, tiering rules, generated views, versioning, CHANGELOG, SOURCE_INDEX metadata, analysis format, commit cadence and the invariants gate. Use only inside this lab repository.
 metadata:
-  version: 0.1.2
+  version: 0.2.0
   short-description: Iterate the design skill lab
 ---
 
@@ -23,6 +23,9 @@ Pick the mode first:
 - `update-source`: an analysed source has a new version.
 - `link-check`: periodic liveness and freshness review of the whole catalogue.
 - `skill-only`: improve skill guidance with no source change.
+- `evolve`: digest usage feedback from `feedback/inbox/` into skill
+  improvements. Runs unattended on a schedule, so its triage tiers decide
+  what may be applied without the owner. See `## Evolve: Feedback Digestion`.
 
 ## Kickoff
 
@@ -119,6 +122,48 @@ weak, tier it `B` and say why in `best_for`.
    changes. Demote or annotate.
 4. Re-verify the dated, perishable reference files listed below.
 5. Record the review in `analysis/SOURCE_INDEX.md` under `## 新鲜度审查`.
+
+## Evolve: Feedback Digestion
+
+The suite logs its own friction: agents in host projects drop entries into
+`feedback/inbox/` per `skills/design-studio/references/feedback.md`. This
+mode turns them into skill improvements. It runs interactively when the owner
+asks, and unattended from `scripts/evolve.sh` (launchd / cron), so the tiers
+below are the authority on what may be applied without the owner.
+
+1. `scripts/collect-feedback.py`. If the inbox is empty, stop. Read
+   `feedback/report.md`, then the raw entries - the report is an index, the
+   entries are the evidence.
+2. **Cluster** entries by root cause, not by skill: one bad shared reference
+   surfaces as friction in several skills. An entry that duplicates a
+   `feedback/log.md` "won't fix" decision is archived with a pointer to it.
+3. **Tier each cluster:**
+   - **Tier A - apply directly.** Wording that misled, factual errors, dead or
+     wrong paths, contradictions between two files. Bounded edits with clear
+     evidence.
+   - **Tier B - apply and flag.** New guidance that fits an existing section
+     or perishable reference: a platform fact, an anti-pattern, a missing
+     state. Apply it, and list every Tier B change prominently in the run
+     summary so the owner can veto after the fact.
+   - **Tier C - propose only.** New sections, modes, skills or references;
+     contract changes (deliverables, output layout); feedback that conflicts
+     between entries; single `nit` / `preference` entries with no
+     corroboration. Append to `feedback/proposals.md` with the evidence and a
+     concrete plan; do not apply. Unattended runs never touch Tier C.
+4. **Apply** A/B edits following the existing rules: guidance goes to the
+   focused skill that owns the topic, perishable specifics go to dated
+   references, `SKILL.md` files stay under the line limit. Bump each touched
+   skill's version, write the CHANGELOG entry, run
+   `scripts/check-lab-invariants.sh` and fix what it catches.
+5. **Record and archive.** Append one section to `feedback/log.md` per run:
+   date, entries processed, per-cluster action (fixed in X.Y.Z / proposed /
+     won't fix + reason). Then `scripts/collect-feedback.py --archive`.
+6. One commit for the whole digestion (`skill: evolve from N feedback
+   entries`), on a branch when running unattended.
+
+Discipline: act only on logged evidence - never invent problems to fix. When
+evidence is thin (one `minor` entry), prefer `feedback/proposals.md` over a
+guess. A correction entry from the owner outweighs any inference.
 
 ## Perishable Register
 

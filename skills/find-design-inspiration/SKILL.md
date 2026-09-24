@@ -2,7 +2,7 @@
 name: find-design-inspiration
 description: Research design references the way a senior designer does - choose the right galleries, pattern libraries and archives from the curated catalogue, browse them, deconstruct what makes each reference work, and turn that into applicable moves. Use for inspiration requests, ideas to improve an existing website or app, competitor teardowns, extracting a reference site's style DNA into tokens, moodboards, and trend scans. 找灵感、参考案例、竞品分析、风格提取、这个网站怎么改更好看。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Find, deconstruct and apply references
 ---
 
@@ -147,3 +147,9 @@ trends only where they serve the brief; note the expected shelf life.
 the question, sources used and why, deconstructed references with links and
 dates, synthesis (table stakes / design space / whitespace), proposed moves
 mapped to the user's case, and access problems encountered.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.

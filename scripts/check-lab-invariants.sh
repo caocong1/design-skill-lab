@@ -99,7 +99,7 @@ def skill_bases(f):
 
 # --- C6: lab-owned paths mentioned in backticks exist ------------------------------
 OWNED = ('analysis/', 'skills/', 'raw/docs/', 'raw/research/', 'scripts/', 'catalog/',
-         '.planning/', 'docs/index.html', 'docs/catalog.js')
+         'feedback/', '.planning/', 'docs/index.html', 'docs/catalog.js')
 PATH = re.compile(r'`([A-Za-z0-9_./*-]+\.(?:md|html|sh|py|json|jsonl|js|css|yaml))`')
 scan = [root / 'README.md', root / 'CHANGELOG.md']
 for sub in ('analysis', 'skills', '.planning', 'raw/docs'):
@@ -149,6 +149,14 @@ for hit in re.findall(r'^- `(skills/[^`]+\.md)`', register, re.M):
 reports = sorted((root / '.planning/link-checks').glob('*.md'))
 if not reports:
     w('C10', 'no link-check report yet: run scripts/check-links.py --write')
+
+# --- C11: feedback inbox entries are well-formed ------------------------------------
+r = subprocess.run([sys.executable, str(root / 'scripts/collect-feedback.py'), '--check'],
+                   capture_output=True, text=True)
+if r.returncode:
+    for line in (r.stdout + r.stderr).splitlines():
+        if line.startswith('FAIL'):
+            v('C11', line[5:].strip())
 
 for line in warnings:
     print(f'WARN  {line}')

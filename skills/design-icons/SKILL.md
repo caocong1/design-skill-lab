@@ -2,7 +2,7 @@
 name: design-icons
 description: Choose, extend or draw icons - select an existing open-source icon family that fits the product, design custom icons that match a family's grid and stroke rules, draw a coherent custom icon set as clean SVG, and design app icons, favicons and adaptive / maskable icons for iOS, Android, HarmonyOS, macOS, Windows and the web. Use when the user needs an icon, an icon set, a logo-like app icon, a favicon package, SVG cleanup, or consistency fixes across mixed icons. 图标、图标集、应用图标、App Icon、favicon、SVG。
 metadata:
-  version: 0.1.0
+  version: 0.1.1
   short-description: Icon families, custom SVG icons, app icons
 ---
 
@@ -155,3 +155,9 @@ The mark must survive 16-60 px and a crowded home screen.
 SVG files (clean, named), the set rules, a rendered preview sheet with
 screenshots, platform export packages when requested, usage notes and the
 licence record.
+
+## Feedback
+
+When this skill causes friction, gets corrected, fails, or lacks something you
+needed, log one entry per `../design-studio/references/feedback.md` and return
+to the task. Log, don't fix: skills are edited only inside the lab.
