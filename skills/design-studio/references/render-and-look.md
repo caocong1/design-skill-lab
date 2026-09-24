@@ -84,6 +84,18 @@ Known traps:
 Make states reachable: a query parameter or a small toolbar in prototypes,
 stories or fixtures in products.
 
+Sweeping a running app, the capture itself can lie:
+
+- Assert the landing URL or a "ready" element per route instead of a fixed
+  wait. A silent redirect to another page, or a shot still showing a loading
+  state, is not evidence of that route.
+- Before and after come from the same environment (both deployed or both
+  local). Dev-only chrome and broken fixtures otherwise read as regressions.
+- Same viewport and device scale factor on both sides; record them in the
+  filename or a manifest.
+- Take sizes from the brief's declared target widths, not only the defaults
+  above.
+
 ## How to Look
 
 Look in passes; each pass has one question.

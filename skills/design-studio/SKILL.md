@@ -2,7 +2,7 @@
 name: design-studio
 description: Senior-designer entrypoint and router for any design task - web front-end, mobile and desktop app UI, motion, icons, brand identity, and graphic design (posters, social graphics, decks). Use to turn requirements into a complete design (brief, directions, design system, key screens), design a single page or component, find and deconstruct inspiration for a site or app, present several distinct design options, critique or redesign an existing interface, and land a design in code with visual QA. 设计、UI、界面、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案。
 metadata:
-  version: 0.5.1
+  version: 0.6.0
   short-description: Route design work to focused skills
 ---
 
@@ -175,6 +175,14 @@ project already has a convention (check for `design/`, `docs/design/`,
   brand/  graphics/             identity and artwork, with sources
   critique/<date>-<target>.md   review reports
 ```
+
+When the host already keeps a system of record - a `DESIGN.md`, a token file,
+a themed component library - update it in place instead of creating
+`.design/system/`; two systems drift. When the same agent designs and
+implements, `handoff` shrinks to the acceptance-shot list and the tokens
+landing in the host source; the full handoff folder is for a separate
+implementer. A conservative redesign that preserves the product's equity may
+skip the inspiration step; say so in `brief.md`.
 
 Production code, when this agent is also asked to implement, goes into the
 project's real source tree, following its structure. Do not generate reports nobody asked for: `brief.md` and

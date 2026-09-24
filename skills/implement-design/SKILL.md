@@ -2,7 +2,7 @@
 name: implement-design
 description: Land a design in a real codebase with fidelity - inspect the host stack and its existing tokens, components and conventions; map design tokens onto the project's theming mechanism; build pages and components in the host framework (React, Vue, Next, Nuxt, Tailwind, Ant Design, Element Plus, Flutter, SwiftUI, Compose, ArkUI, mini-programs, Electron, Tauri); verify with a render-compare-fix loop and visual regression tests. This is the implementer's companion to the design suite, which hands designs over through handoff-design. Use when the user wants a design implemented, a screenshot or mock-up turned into code, UI polish in an existing project, pixel-level restoration, or 设计稿还原、切图、标注、前端实现、UI 落地.
 metadata:
-  version: 0.2.3
+  version: 0.2.4
   short-description: Design to code with visual verification
 ---
 
@@ -98,7 +98,9 @@ snapshot tests, a preview tool. Then:
 3. Compare side by side (or overlay / pixel-diff). List deviations as
    `expected -> actual`.
 4. Fix, re-capture, repeat until remaining differences are intentional and
-   documented.
+   documented. A P0 / P1 critique finding is fixed only when its own evidence
+   shot, re-captured at the same size, theme and state, shows it fixed;
+   update the critique after that, never before.
 5. Walk the states, dark mode, the narrow and wide breakpoints, keyboard
    navigation, reduced motion, and one screen-reader pass on the primary flow
    when tools allow.
@@ -151,6 +153,9 @@ Writing the handoff itself is the designer's job: `../handoff-design/SKILL.md`.
 - Magic numbers; one-off colours; z-index wars.
 - Building only the happy path shown in the mock-up.
 - Declaring fidelity without a screenshot comparison.
+- A global style for native controls (select arrows, checkboxes) added
+  without searching for scoped CSS that resets the same property: a
+  `background:` or `border:` shorthand on one page silently erases it.
 - Refactoring or "improving" unrelated code while implementing a design.
 - Shipping trial fonts or unlicensed assets that came with the mock-up.
 

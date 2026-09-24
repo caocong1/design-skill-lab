@@ -2,7 +2,7 @@
 name: critique-design
 description: Review an existing design or implementation like a senior design lead - website, app screen, component library, brand, deck or graphic - through purpose fit, information architecture, hierarchy, typography, colour and contrast, spacing and consistency, states, interaction and motion, content, accessibility, platform fit and craft; produce an evidence-backed findings table with severity, a prioritised fix plan, and optionally a redesign brief. Also used as the fresh-eye quality gate for the suite's own output and for design QA of a build against its design. 设计评审、走查、UI 审查、体验走查、设计验收、视觉还原检查、这个页面哪里不好看。
 metadata:
-  version: 0.1.4
+  version: 0.1.5
   short-description: Evidence-backed design review and QA
 ---
 
@@ -20,7 +20,10 @@ Rubric: `../design-studio/references/quality-rubric.md`. Look-first protocol:
 - `review`: audit an existing product, site, brand or artefact.
 - `self-check`: the gate before presenting the suite's own work. Run it from
   a fresh context when the host supports subagents: give the critic only the
-  brief and the rendered output, not the author's reasoning.
+  brief and the rendered output, not the author's reasoning. Brief it with a
+  manifest, not a folder glob: each before / after pair with its route, size
+  and theme, the components that changed, and the P0 / P1 items to re-check
+  first.
 - `qa`: compare a build against its design or spec.
 - `redesign-brief`: turn findings into a brief and direction input.
 
@@ -169,6 +172,9 @@ owner's default):
   would ship and why.
 - Scores are for tracking before / after, not for grading people. Anchor them
   to the rubric descriptors and show the evidence.
+- An issued finding or recommendation is not rewritten afterwards to match
+  what was built. The implementer answers it: fixed (with the new shot), or a
+  deviation recorded in `decisions.md`.
 
 ## Deliverables
 

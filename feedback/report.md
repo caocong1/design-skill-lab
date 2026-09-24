@@ -1,6 +1,6 @@
 # 反馈聚合报告
 
-> 生成物，勿手改。`scripts/collect-feedback.py` 生成于 2026-09-23；inbox 共 0 条。处理流程见 `feedback/README.md`。
+> 生成物，勿手改。`scripts/collect-feedback.py` 生成于 2026-09-24；inbox 共 0 条。处理流程见 `feedback/README.md`。
 
 inbox 为空，没有待处理的反馈。
 

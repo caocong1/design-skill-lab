@@ -1,8 +1,8 @@
 ---
 name: design-product-ui
-description: Design product interfaces - screens, components, flows and all their states - for web apps, mobile apps (iOS, Android, HarmonyOS, mini-programs), desktop apps (Electron, Tauri, native), enterprise admin systems, dashboards and big-screen data walls, and AI product UI. Use when designing or redesigning an app screen, a component, a form, a table, navigation, an onboarding or checkout flow, empty / loading / error states, responsive or adaptive behaviour, or platform-appropriate UI. 页面设计、组件设计、后台管理、表单、表格、数据大屏、App 界面、小程序、桌面端。
+description: Design product interfaces - screens, components, flows and all their states - for web apps, mobile apps (iOS, Android, HarmonyOS, mini-programs), desktop apps (Electron, Tauri, native), Office / WPS add-in task panes and other embedded panes, enterprise admin systems, dashboards and big-screen data walls, and AI product UI. Use when designing or redesigning an app screen, a component, a form, a table, navigation, an onboarding or checkout flow, empty / loading / error states, responsive or adaptive behaviour, or platform-appropriate UI. 页面设计、组件设计、后台管理、表单、表格、数据大屏、App 界面、小程序、桌面端、Office/WPS 加载项。
 metadata:
-  version: 0.2.2
+  version: 0.3.0
   short-description: Screens, components, flows and states
 ---
 
@@ -19,7 +19,8 @@ Drawing for a target (frame sizes, units, the portable subset):
 `../design-studio/references/portable-mockups.md` and the mockup kit in
 `assets/mockup-kit/kit.css` (demo: `assets/mockup-kit/demo.html`).
 Load on demand: `references/platforms.md` (iOS, Android, HarmonyOS,
-mini-programs, desktop, web app conventions), `references/data-dense-ui.md`
+mini-programs, desktop, embedded host panes such as Office / WPS add-ins,
+web app conventions), `references/data-dense-ui.md`
 (forms, tables, admin, dashboards, big-screen), `references/ai-ux.md`
 (chat, copilot and agent interfaces).
 

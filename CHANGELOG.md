@@ -12,6 +12,20 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
 
+## [0.6.0] - 2026-09-24
+
+第一次 evolve：从第一个宿主项目（一个带 Office/WPS 加载项的 Web 业务系统，完整 UI 优化一轮）补录 11 条反馈，应用 8 条，2 条进提案，1 条已在 0.5.1 修复。处置明细见 `feedback/log.md`。suite 契约新增一条澄清：宿主已有设计系统时以它为准。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.5.1 → **0.6.0**：Output Location 写明宿主已有 `DESIGN.md` / token 文件时原地更新、不另建 `.design/system/`；同一 agent 实现时 handoff 缩减为验收截图清单；保守的重设计可省灵感步骤。
+- `skills/design-studio/references/render-and-look.md`：扫运行中应用时的截图陷阱——断言落地 URL 或就绪元素、前后同一环境、记录视口与倍率、尺寸取自 brief。
+- `skills/design-product-ui/SKILL.md` 0.2.2 → **0.3.0**：`references/platforms.md` 新增"嵌入宿主的窗格"（Office/WPS 加载项、扩展侧栏、IDE 面板）；`references/data-dense-ui.md` 写明高密度界面字号下限；路由与描述同步。
+- `skills/implement-design/SKILL.md` 0.2.3 → **0.2.4**：P0/P1 问题必须重拍证据截图后才算修复；全局控件样式被局部简写属性冲掉的反模式。
+- `skills/critique-design/SKILL.md` 0.1.4 → **0.1.5**：独立评审要给截图清单而不是目录通配；已发出的建议不事后改写。
+- `skills/build-design-system/SKILL.md` 0.1.3 → **0.1.4**：大量写死颜色时认可两阶段迁移（先机械迁到色阶类，再逐区换语义名），写明色阶重映射主题的局限。
+- `skills/explore-design-directions/SKILL.md` 0.2.3 → **0.2.4**：落选方向做成可切换主题时，说明主题保留了什么，否则标为配色变体。
+
 ## [0.5.1] - 2026-09-24
 
 修反馈捕获。0.5.0 上线后第一个宿主项目完整跑了一轮 UI 优化，agent 多次读到各 skill 末尾的 `## Feedback` 段，却一条都没记。原因有三：规则只说"遇到就记"，靠 agent 在任务中途自觉；有意偏离指引（并已写进宿主 `decisions.md`）不在触发条件里；完成定义里没有这一项。suite 契约不变。

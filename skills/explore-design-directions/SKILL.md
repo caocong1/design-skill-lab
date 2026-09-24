@@ -2,7 +2,7 @@
 name: explore-design-directions
 description: Turn a fuzzy request into a design brief, then produce two to four genuinely different design directions, present them fairly as a rendered options board, recommend one, and converge with the user. Use when the user asks for several schemes or options, a complete design from requirements, a new look and feel, a concept or moodboard, or when the right aesthetic is not yet decided. 出几套方案、多个风格、设计方向、概念稿、需求梳理。
 metadata:
-  version: 0.2.3
+  version: 0.2.4
   short-description: Brief, diverge, present options, converge
 ---
 
@@ -134,6 +134,12 @@ presents options without a point of view is delegating the design.
 - Let the user pick, reject or mix. When mixing ("A's typography with C's
   colour"), check the hybrid for coherence: name what conflicts (a playful
   palette on a severe type system) and resolve it rather than averaging.
+- When the user wants the runners-up too, directions that can be expressed
+  in tokens may ship as switchable themes. Say what a theme keeps: colour
+  alone keeps little of a direction whose identity was layout, density or
+  table style. Carry the features that define it (density, header
+  treatment, type voice) as theme tokens, or label it a palette variant;
+  record which in `decisions.md`.
 - When the reaction is "none of these", find out which axis is wrong before
   producing more. Changing values on the same axes yields the same rejection.
 - Record the outcome in `.design/decisions.md`: chosen direction, rejected

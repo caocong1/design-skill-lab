@@ -39,6 +39,10 @@ Create / edit: drawer for short forms, page for long ones, wizard only for depen
   actions column when scrolling horizontally.
 - Row height by density: compact 32-36, default 40-48, comfortable 52-56.
   Offer a density control for heavy users.
+- Density comes from row height and padding, not from shrinking type: cells
+  13-14 px (Chinese 14), and a 12 px floor for meta text, badges and
+  footnotes - Chinese strokes break up below it. Going under the floor is a
+  deviation to record in `decisions.md`, not a density setting.
 - Dividers **or** zebra striping, not both; hover highlight; clear selected
   state.
 - Two or three inline actions at most, then an overflow menu; the row's main

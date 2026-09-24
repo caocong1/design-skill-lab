@@ -134,6 +134,32 @@ on an otherwise native iOS screen.
   area, system materials for window backgrounds, snap layouts - a resizable,
   responsive window is mandatory.
 
+## Embedded Host Panes: Office / WPS Add-ins, Extension Side Panels, IDE Panels
+
+A web UI living inside another application's window. The host owns the
+chrome and the user's attention; the pane is a guest.
+
+- **Width**: narrow and user-resizable, roughly 320-480 px (perishable; check
+  the host's docs). Design the narrowest width first; no horizontal scroll.
+- **Follow the host's appearance**: match its light or dark chrome. No
+  saturated or dark header bar fighting the host UI; the brand shows in
+  accents and content, not in a heavy frame.
+- **Separate origin and storage**: the pane is usually a different origin from
+  the product's web app, so settings chosen on the web (theme, density) do
+  not carry over. Fix the pane's appearance, or sync through the backend -
+  and say which.
+- **One token source** with the web app, and a test that asserts the pane's
+  values match, so the two do not drift.
+- **Engine and fonts**: an embedded Chromium or WebView whose version depends
+  on the host and OS; fonts are the user's OS fonts (on Windows, Microsoft
+  YaHei and SimSun). Check type and CJK rendering against those.
+- **Context-driven content**: when the pane reacts to the document selection,
+  design the "nothing selected" state; insert actions say what goes where;
+  long operations never block the document.
+- **Verification**: the real host often cannot run on the design machine.
+  Render in a harness page at pane widths, and list the real-host check as
+  unverified.
+
 ## Web Apps
 
 - The browser is the platform: real links, working back and forward, URL as
