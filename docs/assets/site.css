@@ -1,0 +1,533 @@
+/* Design Skill Lab: site design system (direction C, 字架 / Composing room).
+   One file shared by every page: tokens, base, shell (header + footer), controls, marks, the case, cards, entries,
+   the proof-note pane (校样批注), tables and the routing key. Page-only layout lives in each page's own CSS.
+
+   Rules of the direction:
+   - Ink on cool paper, type-metal greys for structure, proof-red ONLY for marks (search hits, critique marks, 0.8.0 carets).
+   - The one heavy line is the 3px case rule (--rule). Nothing else is outlined heavily; nothing is rounded except key caps.
+   - Serif = names and headings (Latin: Source Serif 4; CJK: system Songti / Noto Serif CJK / SimSun). Sans = everything you read.
+   - Status never relies on colour: tiers are letters on a sort, agent access has glyphs (● ◐ × ○).
+
+   Contrast (WCAG 2.x, measured with skills/design-studio/scripts/color_tools.py):
+     light  ink 16.7 · ink-2 9.2 · ink-3 6.8 · red 6.4 on paper;  ink-3 5.6 / red 5.3 on paper-3 (the darkest well)
+     dark   ink 14.8 · ink-2 10.5 · ink-3 7.4 · red 7.9 on paper;  ink-3 5.6 / red 6.0 on paper-3
+     metal (rules, UI boundaries) ≥ 4.8 on paper in both themes.
+
+   Font budget: ONE webfont file, Source Serif 4 Variable (wght 200–900), Latin subset, 50,824 bytes woff2, from jsDelivr.
+   CJK is never a webfont here (a sliced CJK serif costs 31–72 KB of CSS before the first glyph). */
+
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/source-serif-4@5.3.0/files/source-serif-4-latin-wght-normal.woff2") format("woff2-variations"),
+       url("https://cdn.jsdelivr.net/npm/@fontsource-variable/source-serif-4@5.3.0/files/source-serif-4-latin-wght-normal.woff2") format("woff2");
+  /* Latin only. Curly double quotes, em dash and ellipsis are left to the CJK face so Chinese headings keep full-width
+     punctuation; the apostrophe (U+2019) stays Latin because English names use it. */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2013, U+2018-2019, U+20AC, U+2122, U+2212;
+}
+
+/* ============================== tokens ============================== */
+:root {
+  color-scheme: light dark;
+
+  /* colour roles */
+  --paper:   light-dark(#f5f7f8, #151719);   /* page: cool white, never cream */
+  --paper-2: light-dark(#e7ebed, #1e2124);   /* wells: search stick, placeholders, 常用字盘, selected row */
+  --paper-3: light-dark(#dde2e5, #2a2e32);   /* fill: sorts, hover on wells */
+  --ink:     light-dark(#14171a, #ece9e3);   /* text, primary button */
+  --ink-2:   light-dark(#3d444b, #c9c5bd);   /* secondary text */
+  --ink-3:   light-dark(#50575e, #aaa69e);   /* sub-labels, meta (still ≥ 5.6:1 everywhere) */
+  --metal:   light-dark(#555c63, #7d858c);   /* the case rule, stick knee, selected-row knee */
+  --red:     light-dark(#b3141b, #ff8a7d);   /* proof marks only */
+  --line:    color-mix(in srgb, var(--ink) 16%, transparent);  /* hairline inside a compartment */
+  --scrim:   light-dark(rgb(20 23 26 / .38), rgb(0 0 0 / .55));
+  --on-ink:  var(--paper);                   /* text on an ink fill */
+
+  /* type */
+  /* CJK display: a Song face on every major system before any sans (macOS/iOS Songti, Linux/Android Noto Serif CJK,
+     Windows SimSun/NSimSun); YaHei only where none exists */
+  --f-cjk:  "Songti SC", "STSong", "Noto Serif CJK SC", "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", "SimSun", "NSimSun", "Microsoft YaHei", serif;
+  --f-disp: "Source Serif 4", "Songti SC", "STSong", "Noto Serif CJK SC", "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", "SimSun", "NSimSun", "Microsoft YaHei", Georgia, serif;
+  --f-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", system-ui, sans-serif;
+  --f-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  /* five sizes, each step at least 1.2x the last; roles that share a size differ by weight, colour or face */
+  --fs-1: 0.78125rem;  /* 12.5  meta, labels, key caps, dense indexes */
+  --fs-2: 0.9375rem;   /* 15    body, captions you read, facet options, entry names on phones */
+  --fs-3: 1.1875rem;   /* 19    ledes, compartment names, h3, entry names */
+  --fs-4: 1.625rem;    /* 26    h2, mobile h1 */
+  --fs-5: 2.375rem;    /* 38    h1 */
+  --lh-body: 1.65;
+  --lh-head: 1.3;
+
+  /* space (4-based) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  /* shape: square by rule; key caps are the one rounded thing (they are physical keys) */
+  --rule: 3px;
+  --hair: 1px;
+  --r-key: 3px;
+
+  /* motion: still by default; the pane and the sheet move, nothing reveals on scroll */
+  --t-fast: 120ms;
+  --t-mid: 200ms;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+
+  /* layout */
+  --page: 1440px;
+  --gut: 32px;
+  --hd-h: 64px;
+  --z-hd: 10; --z-sheet: 40; --z-skip: 50;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+/* browsers without light-dark(): the light palette, always readable */
+@supports not (color: light-dark(#000, #fff)) {
+  :root {
+    color-scheme: light;
+    --paper: #f5f7f8; --paper-2: #e7ebed; --paper-3: #dde2e5; --ink: #14171a; --ink-2: #3d444b; --ink-3: #50575e;
+    --metal: #555c63; --red: #b3141b; --scrim: rgb(20 23 26 / .38);
+  }
+}
+@media (max-width: 720px) { :root { --gut: 16px; } }
+
+/* ============================== base ============================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+  background: var(--paper); color: var(--ink);
+  font: var(--fs-2)/var(--lh-body) var(--f-body); font-kerning: normal;
+}
+main { flex: 1 0 auto; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; }
+h1, h2, h3, h4 { font-weight: 600; line-height: var(--lh-head); }
+p, li, dd { text-wrap: pretty; }             /* no one-character last line in CJK paragraphs */
+h1, h2, h3 { text-wrap: balance; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+code, kbd, pre { font-family: var(--f-mono); }
+[hidden] { display: none !important; }
+::selection { background: color-mix(in srgb, var(--metal) 35%, transparent); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+/* text the build prints in both UI languages: .in-zh shows on the zh page, .in-en on the en page */
+.in-en { display: none; }
+:root:lang(en) .in-en { display: inline; }
+:root:lang(en) .in-zh { display: none; }
+/* without JavaScript the language and theme switches cannot work: they are not shown */
+html:not(.js) .tool[data-act] { display: none; }
+
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.skip {
+  position: absolute; left: var(--sp-2); top: -80px; z-index: var(--z-skip);
+  background: var(--ink); color: var(--on-ink); padding: var(--sp-2) var(--sp-3); text-decoration: none;
+}
+.skip:focus { top: var(--sp-2); }
+.wrap { width: 100%; max-width: var(--page); margin: 0 auto; padding: 0 var(--gut); }  /* width: a flex child with auto margins would not stretch */
+.num { font-family: var(--f-disp); font-variant-numeric: lining-nums tabular-nums; }
+.muted { color: var(--ink-3); }
+
+/* ============================== shell: header ==============================
+   One row at ≥ 1100: mark · search · nav · tools. 721–1099: search drops to its own row. ≤ 720: mark + tools,
+   nav, then a full-width search row. Nav labels never wrap. On /catalog/ the header field is the query input. */
+.hd { position: relative; z-index: var(--z-hd); }
+.hd-in {
+  max-width: var(--page); margin: 0 auto; padding: var(--sp-3) var(--gut);
+  display: grid; align-items: center; column-gap: var(--sp-5); row-gap: var(--sp-2);
+  grid-template-columns: auto minmax(12rem, 26rem) 1fr auto;
+  grid-template-areas: "mark search nav tools";
+}
+.hd-mark { grid-area: mark; display: flex; align-items: baseline; gap: 10px; text-decoration: none; white-space: nowrap; }
+.hd-mark b { font: 600 var(--fs-3)/1.2 var(--f-disp); }
+.hd-mark span { font-size: var(--fs-1); color: var(--ink-2); }
+.hd-search { grid-area: search; }
+.hd-nav { grid-area: nav; display: flex; justify-content: flex-end; gap: 22px; }
+.hd-nav a { white-space: nowrap; text-decoration: none; font-size: var(--fs-2); color: var(--ink-2); padding: 10px 0; }
+.hd-nav a:hover { color: var(--ink); text-decoration: underline; }
+.hd-nav a[aria-current="page"] { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-thickness: var(--rule); text-underline-offset: 8px; text-decoration-color: var(--metal); }
+.hd-tools { grid-area: tools; display: flex; align-items: center; gap: var(--sp-1); }
+.tool {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; min-width: 40px; justify-content: center; padding: 0 var(--sp-2);
+  white-space: nowrap; font-size: var(--fs-1); color: var(--ink-2); text-decoration: none;
+}
+.tool:hover { color: var(--ink); background: var(--paper-2); }
+.tool svg { width: 18px; height: 18px; flex: none; }
+
+@media (max-width: 1099px) {
+  .hd-in { grid-template-columns: auto 1fr auto; grid-template-areas: "mark nav tools" "search search search"; }
+  .hd-mark span { display: none; }
+}
+@media (max-width: 720px) {
+  .hd-in { grid-template-columns: 1fr auto; grid-template-areas: "mark tools" "nav nav" "search search"; column-gap: var(--sp-3); row-gap: 2px; padding-top: var(--sp-2); padding-bottom: var(--sp-3); }
+  .hd-nav { justify-content: flex-start; gap: 18px; }
+  .hd-nav a { padding: 8px 0 10px; }
+  .hd-nav a[aria-current="page"] { text-underline-offset: 7px; }
+  .tool span { display: none; }            /* GitHub keeps its icon and aria-label */
+  .hd-search { margin-top: var(--sp-1); }
+}
+
+/* ============================== the composing stick (search field) ============================== */
+.stick { position: relative; display: flex; align-items: stretch; height: 40px; background: var(--paper-2); }
+.stick::before { content: ""; flex: 0 0 var(--rule); background: var(--metal); }  /* the stick's knee */
+.stick:focus-within { box-shadow: inset 0 0 0 2px var(--ink); }
+.stick input {
+  flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); outline: none;
+  font-size: var(--fs-2); padding: 0 var(--sp-3);
+}
+.stick input::placeholder { color: var(--ink-3); opacity: 1; }
+.stick input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }  /* one clear control: .stick-x */
+.stick-x { display: grid; place-items: center; width: 32px; color: var(--ink-2); }
+.stick-x:hover { color: var(--ink); background: var(--paper-3); }
+.stick-x svg { width: 12px; height: 12px; }
+.stick > kbd { align-self: center; margin-right: var(--sp-1); }
+.stick-go { display: grid; place-items: center; width: 40px; color: var(--ink-2); }
+.stick-go:hover { color: var(--ink); background: var(--paper-3); }
+.stick-go svg { width: 18px; height: 18px; }
+.stick.lg { height: 52px; }
+.stick.lg input { font-size: var(--fs-2); padding: 0 var(--sp-4); }
+.stick.lg .stick-go { width: auto; padding: 0 22px; background: var(--ink); color: var(--on-ink); font-weight: 600; white-space: nowrap; }
+.stick.lg .stick-go:hover { background: var(--ink-2); }
+@media (max-width: 720px) {
+  .stick { height: 44px; }
+  .stick input { font-size: 16px; }         /* ≥ 16px: iOS does not zoom on focus */
+  .stick > kbd { display: none; }
+  .stick-go { width: 44px; }
+}
+
+/* ============================== controls ============================== */
+kbd {
+  display: inline-grid; place-items: center; min-width: 1.6em; height: 1.6em; padding: 0 .35em;
+  font: 500 var(--fs-1)/1 var(--f-mono); color: var(--ink-2);
+  background: var(--paper); border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent); border-bottom-width: 2px; border-radius: var(--r-key);
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: 40px; padding: 0 var(--sp-4);
+  background: var(--ink); color: var(--on-ink); font-weight: 600; font-size: var(--fs-2); text-decoration: none; white-space: nowrap;
+}
+.btn:hover { background: var(--ink-2); text-decoration: none; }
+.btn kbd { background: transparent; color: inherit; border-color: color-mix(in srgb, var(--on-ink) 45%, transparent); }
+.btn-quiet {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 var(--sp-2);
+  color: var(--ink-2); font-size: var(--fs-1); text-decoration: none; white-space: nowrap;
+}
+.btn-quiet:hover { color: var(--ink); background: var(--paper-2); }
+.btn-quiet[disabled] { opacity: .45; cursor: default; background: none; }
+.copy { min-height: 32px; padding: 0 var(--sp-3); font-size: var(--fs-1); color: var(--ink-2); white-space: nowrap; }
+.copy:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* segmented view switch: 列表 / 图版 / 登记 */
+.seg { display: inline-flex; background: var(--paper-2); padding: 2px; gap: 2px; }
+.seg button { min-height: 32px; padding: 0 var(--sp-3); font-size: var(--fs-1); color: var(--ink-2); white-space: nowrap; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--paper); color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--metal); }
+
+/* facets: checkbox rows with counts; zero counts stay visible and go grey; no internal scrolling */
+.facet { border: 0; margin: 0 0 var(--sp-5); padding: 0; min-width: 0; }
+.facet legend { padding: 0; margin-bottom: var(--sp-2); font: 600 var(--fs-1)/1.3 var(--f-body); color: var(--ink); }
+.opt { display: flex; align-items: center; gap: var(--sp-2); min-height: 28px; font-size: var(--fs-2); line-height: 1.4; color: var(--ink-2); cursor: pointer; }
+.opt input { margin: 0; width: 15px; height: 15px; accent-color: var(--ink); flex: none; }
+.opt .n { margin-left: auto; font-size: var(--fs-1); color: var(--ink-3); }
+.opt:hover { color: var(--ink); }
+.opt.zero { color: var(--ink-3); }                                 /* no hits under the current query: still readable */
+.opt:has(input:disabled) { color: color-mix(in srgb, var(--ink-3) 65%, var(--paper)); cursor: default; }  /* inactive: exempt from contrast */
+.opt:has(input:disabled) .n, .opt.zero .n { color: inherit; }
+
+/* chips: 已选 filters, removable; 清除全部 at the end */
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 var(--sp-1) 0 var(--sp-3);
+  background: var(--paper-2); font-size: var(--fs-1); color: var(--ink); white-space: nowrap;
+}
+.chip b { font-weight: 400; color: var(--ink-3); }
+.chip button { display: grid; place-items: center; width: 24px; height: 24px; color: var(--ink-2); }
+.chip button:hover { color: var(--ink); background: var(--paper-3); }
+.chip button svg { width: 12px; height: 12px; }
+.chip-clear { font-size: var(--fs-1); color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; min-height: 30px; }
+.chip-clear:hover { color: var(--ink); }
+
+/* ============================== marks ============================== */
+/* proof mark on a search match: the proofreader's underline */
+mark.pm { background: color-mix(in srgb, var(--red) 13%, transparent); color: inherit; padding: 0 1px; border-radius: 0; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+/* the insertion caret ⁁ in front of an insertion (0.8.0 additions); always paired with words */
+.caret { display: inline-block; width: 1.1em; height: .95em; margin-right: .3em; vertical-align: -.08em; color: var(--red); flex: none; }
+.todo { color: var(--red); font-weight: 600; }
+/* a sort: the tier printed on a block of type metal */
+.sort {
+  display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 4px; flex: none;
+  font: 700 var(--fs-1)/1 var(--f-disp); background: var(--paper-3); color: var(--ink);
+}
+.sort.S { background: var(--ink); color: var(--on-ink); }
+.sort.B { background: var(--paper-2); color: var(--ink-2); }
+/* agent access: glyph + words, never colour alone. data-a = static | js | blocked | unknown */
+.ag { white-space: nowrap; }
+.ag::before { display: inline-block; width: 1.1em; margin-right: .2em; text-align: center; font-family: var(--f-body); }
+.ag[data-a="static"]::before  { content: "●"; }
+.ag[data-a="js"]::before      { content: "◐"; }
+.ag[data-a="blocked"]::before { content: "×"; font-weight: 700; }
+.ag[data-a="unknown"]::before { content: "○"; }
+/* domain hue: a small square tick; decoration next to words, never the only signal */
+.tick { display: inline-block; width: 9px; height: 9px; flex: none; vertical-align: 0; background: oklch(0.6 0.1 var(--h, 240)); }
+@supports (color: light-dark(#000, #fff)) { .tick { background: light-dark(oklch(0.6 0.1 var(--h, 240)), oklch(0.72 0.09 var(--h, 240))); } }
+.path { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+
+/* ============================== the case (字架) ==============================
+   Compartments in rows; widths follow entry count (flex-grow = count, with a floor). Two cells are not sized by count:
+   .tray (常用字盘, the S picks at arm's reach) and .proof (校样). Every rule between compartments is the 3px metal. */
+.case { background: var(--metal); padding: var(--rule); display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, 25%); gap: var(--rule); }
+.case-rows { display: flex; flex-direction: column; gap: var(--rule); min-width: 0; container-type: inline-size; }
+.case .row { display: flex; gap: var(--rule); min-height: 0; flex: 1 0 auto; }  /* rows share any height the proof column adds */
+.cell, .tray, .proof { background: var(--paper); min-width: 0; overflow: hidden; padding: var(--sp-3) 14px; }
+/* the floor grows with the case (English names are longer) and never below 7.75rem */
+.cell { flex: var(--n, 1) 1 0px; min-width: max(7.75rem, 14cqi); display: flex; flex-direction: column; container-type: inline-size; }
+:lang(en) .cell { min-width: max(7.75rem, 17.5cqi); }
+.cell:hover { background: color-mix(in srgb, var(--paper-2) 55%, var(--paper)); }
+/* head: the name gets the full width; the count sits right on the sub-label line, so nothing wraps or drops */
+.c-head { position: relative; }
+.c-name { display: block; min-width: 0; text-decoration: none; }
+.c-name b { display: block; font: 600 var(--fs-3)/1.2 var(--f-cjk); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c-name small { display: block; margin-top: 2px; margin-right: 2.4em; font: 400 var(--fs-1)/1.4 var(--f-disp); color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+:lang(en) .c-name b { font-family: var(--f-disp); }
+.c-name:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.c-count { position: absolute; right: 0; bottom: 0; font: 400 var(--fs-3)/1 var(--f-disp); font-variant-numeric: lining-nums tabular-nums; color: var(--ink-2); }
+.c-secs { list-style: none; margin-top: 10px; column-width: 10rem; column-gap: 18px; font-size: var(--fs-1); line-height: 1.45; }
+.c-secs li { break-inside: avoid; }
+.c-secs a { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-2); min-height: 24px; text-decoration: none; color: var(--ink-2); }
+.c-secs a > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.c-secs a:hover { color: var(--ink); text-decoration: underline; }
+.c-secs .num { font-size: var(--fs-1); color: var(--ink-3); flex: none; }
+.c-secs .more a { color: var(--ink-3); }
+.c-bar { display: none; }
+/* narrow compartments keep the same head layout (name left, count right) at a smaller size; nothing wraps */
+@container (max-width: 170px) {
+  :lang(en) .c-name b { font-size: var(--fs-2); }
+  .c-secs .num { display: none; }
+}
+.tray { background: var(--paper-2); display: flex; flex-direction: column; flex: 0 0 var(--w, 40%); }
+.tray-top, .proof-top { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-2); }
+.tray h3, .proof h3 { font: 600 var(--fs-3)/1.2 var(--f-cjk); }
+.tray-cap, .proof-cap { font-size: var(--fs-1); color: var(--ink-2); }
+.picks { list-style: none; columns: 2; column-gap: 22px; }
+.picks li { break-inside: avoid; display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); }
+.picks a { min-width: 0; padding: 3px 0; font: 500 var(--fs-2)/1.3 var(--f-disp); text-decoration: none; overflow-wrap: anywhere; }  /* ≥ 24px targets */
+.picks a:hover { text-decoration: underline; }
+.picks span { font-size: var(--fs-1); color: var(--ink-3); white-space: nowrap; max-width: 8.5em; overflow: hidden; text-overflow: ellipsis; flex: none; }
+.proof { display: flex; flex-direction: column; gap: var(--sp-4); }
+.case-cap { margin-top: var(--sp-2); font-size: var(--fs-1); line-height: 1.5; color: var(--ink-3); }
+
+/* ≤ 720: the case becomes a ranked list (never a squashed treemap). Order: 校样, 常用字盘, then domains by count. */
+@media (max-width: 720px) {
+  .case { display: flex; flex-direction: column; background: none; padding: 0; gap: 0; }
+  .case-rows, .case .row { display: contents; }
+  .cell, .tray, .proof { order: var(--rank, 9); flex: none; padding: 14px 0; }
+  .proof { order: 0; }
+  .tray { order: 1; }
+  .tray, .proof { padding: 14px; background: var(--paper-2); margin-bottom: 10px; }
+  .cell { border-top: var(--hair) solid var(--line); }
+  .cell:hover { background: none; }
+  .c-name { display: flex; align-items: baseline; gap: var(--sp-2); padding-right: 3em; }
+  .c-name small { margin-right: 0; }
+  .c-count { bottom: 2px; }
+  .c-bar { display: block; height: 6px; margin-top: var(--sp-2); background: var(--metal); width: var(--bar, 50%); }
+  .c-secs { columns: auto; display: flex; flex-wrap: wrap; gap: 0 14px; margin-top: 6px; }
+  .c-secs a { display: inline-flex; gap: 4px; min-height: 32px; }
+  .c-secs .num { display: inline; }
+  .picks { columns: 1; }
+}
+
+/* ============================== cards: thumbnail frame and the set card ==============================
+   .shot frames a checked screenshot (16:10, never enlarged past its source, no hover zoom). Until the file arrives the
+   slot is the paper well (never a white slab in the dark theme); the image fades in once loaded (.in, set by script).
+   .card is the designed placeholder when there is none: kind, the zh line, domain tick + host. The name is printed
+   next to it (caption or heading), never twice. */
+.shot, .card { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--paper-2); }
+.shot { padding: 4px; }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; background: var(--paper-2); }
+.js .shot img { opacity: 0; transition: opacity var(--t-mid) var(--ease); }
+.js .shot img.in { opacity: 1; }
+.card {
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; row-gap: 6px; min-width: 0;
+  padding: var(--sp-3) 14px 10px; color: var(--ink); text-decoration: none;
+}
+.card .ck { display: flex; align-items: center; gap: 7px; font: 600 var(--fs-2)/1.3 var(--f-cjk); color: var(--ink); }
+:lang(en) .card .ck { font-family: var(--f-disp); }
+.card .cz { font-size: var(--fs-1); line-height: 1.6; color: var(--ink-2); overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; align-self: start; }
+.card .cf { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-2); min-width: 0; padding-top: 7px; font-size: var(--fs-1); color: var(--ink-2); box-shadow: inset 0 1px 0 var(--line); }
+.card .cf > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ============================== entries (catalogue rows): the galley ==============================
+   Type only. Name + tier; the primary line (zh on the zh page, best_for on the en page); 怎么直达 (one line on wide
+   screens); the meta line: domain tick + path, kind, host, agent glyph, cost. Screenshots live in the 图版 view and in
+   the proof note, never in the list (at list size their text is illegible and they halve the density).
+   ≤ 720: name, two lines of the primary line, meta; 怎么直达 waits for the sheet. */
+.entries { list-style: none; }
+.entry { position: relative; padding: 12px var(--sp-4) 13px 18px; border-bottom: var(--hair) solid var(--line); }
+.entry[aria-current="true"] { background: var(--paper-2); }
+.entry[aria-current="true"]::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--rule); background: var(--metal); }
+.entry-name { font: 600 var(--fs-3)/1.3 var(--f-disp); }
+.entry-name a { text-decoration: none; overflow-wrap: anywhere; }
+.entry-name a:hover { text-decoration: underline; }
+.entry-name a::after { content: ""; position: absolute; inset: 0; }  /* the whole row opens the note */
+.entry-name .sort { margin-left: 8px; vertical-align: 3px; }        /* inline after the last word, also when the name wraps */
+.entry-zh { margin-top: 3px; color: var(--ink); }
+.entry-how { margin-top: 3px; font-size: var(--fs-1); color: var(--ink-2); }
+.entry-how b { font-weight: 600; color: var(--ink); margin-right: .5em; }
+.entry-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; margin-top: 5px; font-size: var(--fs-1); color: var(--ink-3); }
+.entry-meta a, .entry-meta button { position: relative; z-index: 1; }  /* above the row link */
+@media (max-width: 720px) {
+  .entry { padding: var(--sp-3) 0 var(--sp-3) var(--sp-2); }
+  .entry-name { font-size: var(--fs-2); }
+  .entry-zh { margin-top: 2px; line-height: 1.55; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+  .entry-how { display: none; }
+  .entry-meta { margin-top: 3px; gap: 0 10px; }
+  .entry-meta .opt-m { display: none; }  /* secondary meta (cost, status) moves into the sheet */
+}
+
+/* ============================== the proof note (校样批注): detail pane / sheet ==============================
+   Desktop: a non-modal pane in the page grid (the page decides where; scope any sticky/position rule to ≥ 721px),
+   a 3px metal rule on its left. ≤ 720: a bottom sheet over .scrim, both opened with [data-open]; the page moves focus
+   into it and back, and closes it on Esc / scrim click. */
+.note { background: var(--paper); border-left: var(--rule) solid var(--metal); min-width: 0; display: flex; flex-direction: column; }
+.note-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); flex-wrap: wrap;
+  padding: var(--sp-2) var(--sp-3) var(--sp-2) var(--sp-4); background: var(--paper-2);
+}
+.note-pos { font-size: var(--fs-1); color: var(--ink-2); white-space: nowrap; }
+.note-pos b { font: 600 var(--fs-2) var(--f-disp); color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+.note-nav { display: flex; align-items: center; gap: 2px; }
+.note-body { padding: var(--sp-4) var(--sp-4) var(--sp-5) var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-3); overflow-y: auto; }
+.note-body > * { flex-shrink: 0; }                 /* the card (overflow: hidden) must not collapse in the column */
+.note-body > .shot, .note-body > .card { max-width: 320px; }
+.note-name { font: 600 var(--fs-4)/1.2 var(--f-disp); overflow-wrap: anywhere; display: flex; align-items: baseline; gap: 10px; }
+.note-name .sort { align-self: center; }
+.note-path { font-size: var(--fs-1); color: var(--ink-2); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.note-zh { font-size: var(--fs-2); line-height: 1.7; }
+.note-en { font: 400 var(--fs-2)/1.6 var(--f-disp); color: var(--ink-2); }
+.note-fields { display: grid; grid-template-columns: 7em minmax(0, 1fr); gap: var(--sp-2) var(--sp-4); align-items: baseline; padding-top: var(--sp-3); border-top: var(--hair) solid var(--line); font-size: var(--fs-2); line-height: 1.6; }
+:lang(en) .note-fields { grid-template-columns: 9em minmax(0, 1fr); }
+.note-fields dt { color: var(--ink-3); font-size: var(--fs-1); }
+.note-fields dd { color: var(--ink); min-width: 0; overflow-wrap: anywhere; }
+.note-fields ul { list-style: none; display: grid; gap: 2px; }
+.note-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); padding-top: var(--sp-1); }
+/* provenance log: dated proof marks, newest first */
+.log { list-style: none; border-top: var(--hair) solid var(--line); padding-top: var(--sp-3); display: grid; gap: 6px; font-size: var(--fs-1); }
+.log-h { font-size: var(--fs-1); font-weight: 600; margin-bottom: 2px; }
+.log li { display: grid; grid-template-columns: 6.2em 5em minmax(0, 1fr); gap: var(--sp-3); align-items: baseline; }
+:lang(en) .log li { grid-template-columns: 6.2em 6.5em minmax(0, 1fr); }
+.log time { font-family: var(--f-disp); font-variant-numeric: lining-nums tabular-nums; color: var(--ink-2); white-space: nowrap; }
+.log .k { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.log .v { color: var(--ink-2); min-width: 0; }
+.note-empty { padding: var(--sp-5) var(--sp-5); display: grid; gap: var(--sp-3); color: var(--ink-2); font-size: var(--fs-2); }
+.note-empty h2 { font: 600 var(--fs-3)/1.2 var(--f-cjk); color: var(--ink); }
+/* keyboard legend */
+.keys { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: var(--fs-1); color: var(--ink-2); }
+.keys li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+
+/* touch screens have no keys: key caps on buttons are hidden, the icons stay */
+@media (hover: none) { .btn kbd, .note-nav kbd { display: none; } }
+
+.scrim { display: none; }
+@media (max-width: 720px) {
+  .note { position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-sheet); max-height: 88dvh; border-left: 0; border-top: var(--rule) solid var(--metal); box-shadow: 0 -10px 30px rgb(0 0 0 / .22); transform: translateY(0); transition: transform var(--t-mid) var(--ease); }
+  .note:not([data-open]) { transform: translateY(105%); visibility: hidden; }
+  .note-bar { padding-left: var(--sp-3); }
+  .note-nav .lbl { display: none; }       /* keep k / j / Esc caps and the icons; labels stay as aria-label */
+  .note-body { padding: var(--sp-4) var(--sp-4) calc(var(--sp-5) + env(safe-area-inset-bottom)); }
+  .note-name { font-size: var(--fs-3); }
+  .scrim { display: block; position: fixed; inset: 0; z-index: calc(var(--z-sheet) - 1); background: var(--scrim); }
+  .scrim:not([data-open]) { display: none; }
+}
+
+/* ============================== the marked proof (校样): a real critique mark on this site ==============================
+   The screenshot is evidence and always light, so the mark uses the light-theme proof red in both themes. On /skills/
+   the box draws itself once when it comes into view (skills.js adds .wait, then .on); without script, or with reduced
+   motion, it is simply drawn. */
+.mark-fig { margin: 0; min-width: 0; }
+.mark-img { position: relative; background: var(--paper-2); padding: 4px; }
+.mark-img img { width: 100%; height: auto; }
+.marks { position: absolute; left: 4px; top: 4px; width: calc(100% - 8px); height: calc(100% - 8px); overflow: visible; }
+.marks .draw { fill: none; stroke: #b3141b; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.marks.wait .draw { stroke-dasharray: 1 1; stroke-dashoffset: 1; }
+.marks.wait.on .draw { stroke-dashoffset: 0; transition: stroke-dashoffset 900ms var(--ease); }
+.mark-fig figcaption { display: flex; gap: 8px; align-items: baseline; margin-top: 6px; text-wrap: pretty; font-size: var(--fs-1); line-height: 1.6; color: var(--ink-2); }
+.pm-tag { flex: none; display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 4px; border: 1.5px solid var(--red); color: var(--red); font: 700 var(--fs-1)/1 var(--f-cjk); }
+.pm-tag.ok { border-color: var(--metal); color: var(--ink); }
+.mark-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); margin-top: var(--sp-4); }
+@media (max-width: 720px) { .mark-pair { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============================== tables (登记 view, scoreboards) ============================== */
+.tbl { width: 100%; border-collapse: collapse; font-size: var(--fs-1); }
+.tbl caption { text-align: left; padding-bottom: var(--sp-2); color: var(--ink-2); }
+.tbl th { text-align: left; font-weight: 600; color: var(--ink); padding: var(--sp-2) var(--sp-3); border-bottom: var(--rule) solid var(--metal); white-space: nowrap; vertical-align: bottom; }
+.tbl td { padding: var(--sp-2) var(--sp-3); border-bottom: var(--hair) solid var(--line); vertical-align: top; }
+.tbl td.num, .tbl th.num { text-align: right; }
+.tbl tbody tr:hover { background: color-mix(in srgb, var(--paper-2) 60%, transparent); }
+.tbl-wrap { overflow-x: auto; position: relative; }  /* wide tables scroll inside their own box; give it tabindex="0" role="region" aria-label.
+                                                        relative: keeps absolutely positioned .vh text inside the scroll clip */
+
+/* ============================== routing key (检索表 as a proofreader's routing slip) ==============================
+   <ol class="route"><li><span class="rk">1a</span><span class="rq">question…</span><span class="ra">answer</span></li></ol> */
+.route { list-style: none; border-top: var(--rule) solid var(--metal); border-bottom: var(--rule) solid var(--metal); }
+.route li { display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto; align-items: baseline; column-gap: var(--sp-3); padding: 10px 0; border-bottom: var(--hair) solid var(--line); }
+.route li:last-child { border-bottom: 0; }
+.route .rk { font: 600 var(--fs-2) var(--f-disp); color: var(--ink-2); font-variant-numeric: lining-nums tabular-nums; }
+.route .rq { color: var(--ink); overflow: hidden; }
+/* dot leader from the end of the question's last line to the answer (clipped by .rq) */
+.route .rq::after { content: ""; display: inline-block; width: 100vw; margin-right: -100vw; margin-left: .6em; height: .7em; border-bottom: 2px dotted color-mix(in srgb, var(--ink) 35%, transparent); }
+.route .ra { white-space: nowrap; text-align: right; }
+.route .ra b { font: 600 var(--fs-2) var(--f-cjk); margin-right: 8px; }
+.route .ra code { font-size: var(--fs-1); color: var(--ink-2); }
+.route .ra a { text-decoration: none; }
+.route .ra a:hover code { text-decoration: underline; }
+@media (max-width: 720px) {
+  .route li { grid-template-columns: 2.2em minmax(0, 1fr); row-gap: 2px; }
+  .route .rq::after { display: none; }
+  .route .ra { grid-column: 2; text-align: left; }
+}
+
+/* ============================== install: the two plugin commands, with copy ==============================
+   <div class="install"><h2/><ol class="cmds"><li><code/><button class="copy"/></li></ol><p class="first"/></div> */
+.install { min-width: 0; padding-top: 6px; }       /* top-aligned with the h1's cap height */
+.install h2 { margin-bottom: 10px; font: 600 var(--fs-2)/1.3 var(--f-body); }
+.first { margin-top: 10px; font-size: var(--fs-2); color: var(--ink-2); }
+.first a { color: var(--ink); }
+.cmds { list-style: none; display: grid; gap: 6px; }
+.cmds li { display: flex; align-items: stretch; min-width: 0; background: var(--paper-2); min-height: 40px; }
+.cmds li::before { content: ""; flex: 0 0 var(--rule); background: var(--metal); }
+.cmds code { flex: 1; min-width: 0; align-self: center; padding: var(--sp-2) var(--sp-3); font-size: var(--fs-1); line-height: 1.5; white-space: nowrap; overflow-x: auto; }
+.cmds .copy { align-self: stretch; }
+pre.block { margin: 0; padding: var(--sp-3) 14px; background: var(--paper-2); font-size: var(--fs-1); line-height: 1.6; overflow-x: auto; }
+/* disclosure for secondary install recipes: <details class="alt"><summary/><div class="block-wrap"><pre class="block"/><button class="copy"/></div> */
+.alt { margin-top: 6px; font-size: var(--fs-1); }
+.alt summary { cursor: pointer; color: var(--ink-2); width: max-content; max-width: 100%; min-height: 32px; display: flex; align-items: center; gap: 6px; list-style: none; }
+.alt summary::-webkit-details-marker { display: none; }
+.alt summary::before { content: ""; flex: none; width: 0; height: 0; border-style: solid; border-width: 4.5px 0 4.5px 7px; border-color: transparent transparent transparent currentColor; transition: transform var(--t-fast) var(--ease); }
+.alt[open] > summary::before { transform: rotate(90deg); }   /* display:flex drops the native marker; this puts one back */
+.alt summary:hover { color: var(--ink); }
+.alt .block-wrap { position: relative; margin-top: 6px; }
+.alt .block-wrap .copy { position: absolute; top: 4px; right: 4px; background: var(--paper-2); }
+@media (max-width: 720px) {
+  .cmds code { white-space: normal; }
+  .cmds code span { white-space: nowrap; }  /* break between tokens, never inside a name; "a@<wbr>b" is two spans */
+}
+
+/* ============================== shell: footer ============================== */
+.ft { margin-top: var(--sp-8); border-top: var(--rule) solid var(--metal); }
+.ft-in { max-width: var(--page); margin: 0 auto; padding: var(--sp-5) var(--gut) var(--sp-7); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-3) var(--sp-6); font-size: var(--fs-1); color: var(--ink-2); }
+.ft nav { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); }
+.ft a { color: var(--ink-2); white-space: nowrap; }
+.ft a:hover { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+@media print {
+  .hd-search, .hd-tools, .skip, .copy, .note-nav { display: none !important; }
+  body { background: #fff; color: #000; }
+}

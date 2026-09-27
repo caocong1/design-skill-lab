@@ -1,0 +1,214 @@
+/* Catalogue only: the bench (facet rail · results · proof-note pane), the three result views (列表 / 图版 / 登记),
+   the filter drawer under 961 px, the note as a right-hand drawer between 721 and 1199 px and in the 登记 view
+   (≤ 720 it is the bottom sheet from site.css), and the no-script list. Every component (facets, chips, entries, cards,
+   note, tables, marks) comes from site.css. */
+
+/* ---------- band ---------- */
+.wb-band { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-5); padding: var(--sp-4) 0 var(--sp-5); }
+.wb-band h1 { font: 600 var(--fs-4)/1.2 var(--f-cjk); }
+:lang(en) .wb-band h1 { font-family: var(--f-disp); }
+.wb-lede { max-width: 62em; font-size: var(--fs-2); color: var(--ink-2); }
+
+/* ---------- the bench ---------- */
+.bench { display: grid; grid-template-columns: 14.5rem minmax(0, 1fr) clamp(21rem, 27vw, 26rem); column-gap: var(--sp-6); align-items: start; }
+.rail-toggle, .rail-head, .rail-done { display: none; }
+.rail {
+  position: sticky; top: var(--sp-4); max-height: calc(100vh - 2 * var(--sp-4)); overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; padding: 2px var(--sp-2) var(--sp-5) 2px;
+}
+.results { min-width: 0; }
+.results:focus { outline: none; }
+@media (min-width: 1200px) { .note { position: sticky; top: var(--sp-4); max-height: calc(100vh - 2 * var(--sp-4)); } }
+.bench.failed .rail, .bench.failed .rail-toggle, .bench.failed .note { display: none; }
+
+/* ---------- no script: the static list, full width (the rail, the note and the controls need the script) ---------- */
+html:not(.js) .bench { display: block; }
+html:not(.js) .rail, html:not(.js) .note, html:not(.js) .res-head { display: none; }
+.static-list { max-width: 52rem; }
+.static-list .nojs { margin: var(--sp-2) 0 var(--sp-5); padding: var(--sp-4); background: var(--paper-2); }
+.sl-dom { margin-top: var(--sp-6); }
+.sl-dom h2 { font: 600 var(--fs-4)/1.3 var(--f-cjk); padding-bottom: var(--sp-2); border-bottom: var(--rule) solid var(--metal); }
+.sl-dom h2 small, .sl-dom h3 small { font: 400 var(--fs-1) var(--f-disp); color: var(--ink-2); }
+.sl-dom h2 .num { font-size: var(--fs-3); font-weight: 400; color: var(--ink-2); }
+.sl-dom h3 { margin-top: var(--sp-4); font: 600 var(--fs-3)/1.3 var(--f-cjk); }
+.sl-dom ol { list-style: none; }
+.sl-dom li { padding: 6px 0; border-bottom: var(--hair) solid var(--line); color: var(--ink-2); }
+.sl-dom li a { font: 600 var(--fs-2) var(--f-disp); color: var(--ink); margin-right: .3em; }
+.sl-dom li b { font: 700 var(--fs-1) var(--f-disp); color: var(--ink); margin-right: .3em; }
+.sl-dom li em { font-style: normal; color: var(--ink-3); margin-right: .3em; }
+.sl-dom li small { font-size: var(--fs-1); color: var(--ink-3); }
+
+/* ---------- facets (site.css .facet / .opt) ---------- */
+.facet .opt-l { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.facet .opt-l small { font-size: var(--fs-1); color: var(--ink-3); }
+.facet .opt .sort { min-width: 20px; height: 20px; }
+.facet-sec { margin-top: calc(-1 * var(--sp-3)); padding-left: var(--sp-3); box-shadow: inset var(--hair) 0 0 var(--line); }
+.facet-sec legend { font-weight: 400; color: var(--ink-2); }
+.facet-sub { margin: var(--sp-2) 0 2px; font-size: var(--fs-1); color: var(--ink-3); }
+.facet-more { min-height: 28px; font-size: var(--fs-1); color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; }
+.facet-more:hover { color: var(--ink); }
+
+/* ---------- results head: [筛选] count · sort · view in one row, then the 已选 chips ---------- */
+.res-head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4);
+  padding-bottom: 10px; border-bottom: var(--rule) solid var(--metal);
+}
+.count { font-size: var(--fs-2); color: var(--ink-2); min-height: 32px; display: flex; align-items: center; }
+.count b { font: 600 var(--fs-3)/1 var(--f-disp); font-variant-numeric: lining-nums tabular-nums; color: var(--ink); margin: 0 .2em; }
+.count .wb-wait { color: var(--ink-3); }
+.count .wb-err { color: var(--ink); }
+.res-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); }
+.sortby { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-1); color: var(--ink-2); }
+.sortby select { min-height: 32px; padding: 0 var(--sp-2); border: 0; border-radius: 0; background: var(--paper-2); color: var(--ink); font-size: var(--fs-1); cursor: pointer; }
+.chips { padding: var(--sp-3) 0 var(--sp-1); }
+
+/* ---------- 列表: site.css .entry; dense on wide screens: 怎么直达 keeps one line, the note has it in full ---------- */
+@media (min-width: 721px) {
+  .entries .entry-how { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1; overflow: hidden; }
+}
+.entries .entry:hover { background: color-mix(in srgb, var(--paper-2) 55%, var(--paper)); }
+.entries .entry[aria-current="true"]:hover { background: var(--paper-2); }
+.entry-meta .ag { color: var(--ink-2); }
+
+/* ---------- 图版: thumbnail-first plates; the set card stands in where no image passed QA ---------- */
+.plates { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: var(--sp-5) var(--sp-4); padding-top: var(--sp-4); }
+.plate { position: relative; min-width: 0; }
+.plate-media { container-type: inline-size; }
+.plate-media.card { row-gap: 5px; padding: 10px 12px 8px; }
+.plate-media.card .cz { -webkit-line-clamp: 3; line-clamp: 3; }
+.plate-media.card .cf { padding-top: 5px; }
+.plate-name { display: flex; align-items: baseline; gap: var(--sp-2); margin-top: var(--sp-2); font: 600 var(--fs-2)/1.35 var(--f-disp); }
+.plate-name a { min-width: 0; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plate-name a::after { content: ""; position: absolute; inset: 0; }   /* the whole plate opens the note */
+.plate-name .sort { margin-left: auto; align-self: center; }
+.plate:hover .plate-name a { text-decoration: underline; }
+.plate-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; margin-top: 2px; font-size: var(--fs-1); color: var(--ink-3); }
+.plate[aria-current="true"] .plate-media { box-shadow: 0 0 0 var(--rule) var(--metal); }
+@container (max-width: 190px) {
+  .plate-media.card .cz { -webkit-line-clamp: 2; line-clamp: 2; }
+}
+
+/* ---------- 登记: the dense register (site.css .tbl); fixed columns so a long name never folds into a sliver ---------- */
+.reg { min-width: 52rem; table-layout: fixed; }
+.reg td { padding-top: 6px; padding-bottom: 6px; }
+.reg th:nth-child(1) { width: 21%; } .reg th:nth-child(2) { width: 33%; } .reg th:nth-child(3) { width: 17%; }
+.reg th:nth-child(4) { width: 9%; }  .reg th:nth-child(5) { width: 5%; }  .reg th:nth-child(6) { width: 6%; } .reg th:nth-child(7) { width: 9%; }
+.reg .t-name a { font: 600 var(--fs-2)/1.3 var(--f-disp); text-decoration: none; overflow-wrap: anywhere; }
+.reg .t-name a:hover { text-decoration: underline; }
+.reg .t-host { display: block; font-size: var(--fs-1); color: var(--ink-3); overflow-wrap: anywhere; }
+.reg .t-desc { color: var(--ink-2); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.reg .path { display: inline; }
+.reg .path .tick { margin-right: 6px; }
+.reg tr[aria-current="true"] { background: var(--paper-2); box-shadow: inset var(--rule) 0 0 var(--metal); }
+
+/* ---------- empty result: the query struck through with the proofreader's delete mark ---------- */
+.empty { display: grid; gap: var(--sp-3); padding: var(--sp-6) 0 var(--sp-5); color: var(--ink-2); }
+.empty-h { font: 600 var(--fs-3)/1.4 var(--f-cjk); color: var(--ink); }
+del.pm { color: var(--ink); text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+.empty-try { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-4); }
+.empty-try span { font-size: var(--fs-1); color: var(--ink-3); }
+.lnk { display: inline-flex; align-items: center; min-height: 28px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.lnk:hover { text-decoration-thickness: 2px; }
+.more-btn { display: block; margin: var(--sp-5) auto 0; min-height: 40px; padding: 0 var(--sp-5); background: var(--paper-2); font-size: var(--fs-1); color: var(--ink); }
+.more-btn:hover { background: var(--paper-3); }
+
+/* ---------- the proof note: what site.css leaves to the page ---------- */
+.note-nav svg { display: none; width: 18px; height: 18px; }
+@media (hover: none) { .note-nav svg { display: block; } .note-nav .btn-quiet { min-width: 44px; min-height: 44px; justify-content: center; } }
+.note-name:focus { outline: none; }                     /* focused by script when the sheet opens; not operable */
+.note-namezh { margin-top: 2px; font-size: var(--fs-2); color: var(--ink-2); }
+.note-path a { color: var(--ink-2); }
+.note-fields p + p { margin-top: 4px; }
+.note-fields .dd-2 { color: var(--ink-2); }
+.dd-code { font-size: var(--fs-1); overflow-wrap: anywhere; background: var(--paper-2); padding: 1px 4px; }
+.tags { display: flex; flex-wrap: wrap; gap: 0 12px; }
+.tags a { display: inline-flex; min-height: 24px; align-items: center; }
+.sib { border-top: var(--hair) solid var(--line); padding-top: var(--sp-3); }
+.sib .muted { font-weight: 400; }
+.sib ul { list-style: none; display: grid; margin-top: var(--sp-1); }
+.sib li { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); font-size: var(--fs-1); }
+.sib li a { display: inline-flex; align-items: center; min-height: 28px; min-width: 0; text-decoration: none; overflow-wrap: anywhere; }
+.sib li a:hover { text-decoration: underline; }
+.sib li .sort { min-width: 18px; height: 18px; }
+.sib-all { margin-top: var(--sp-1); font-size: var(--fs-1); }
+.note-empty .keys { margin-top: var(--sp-2); }
+
+/* ≥ 1200, nothing selected: the pane is a narrow key strip beside the list, so the plates get a fourth column */
+@media (min-width: 1200px) {
+  .bench.no-sel:not(.v-table) { grid-template-columns: 14.5rem minmax(0, 1fr) 11.5rem; }
+  .bench.no-sel .note-empty { padding: var(--sp-4) var(--sp-4) var(--sp-5); gap: var(--sp-2); }
+  .bench.no-sel .note-empty p { font-size: var(--fs-1); line-height: 1.6; }
+  .bench.no-sel .note-empty .keys { flex-direction: column; gap: 6px; }
+}
+
+/* ---------- no pane below 1200 px, nor in the 登记 view (.v-table): rail + results; the note slides in from the right.
+   ≤ 720 it is site.css's bottom sheet. The script opens it as a dialog in exactly these cases. ---------- */
+@media (max-width: 1199px) { .bench { grid-template-columns: 14.5rem minmax(0, 1fr); } }
+.bench.v-table { grid-template-columns: 14.5rem minmax(0, 1fr); }
+@media (min-width: 721px) and (max-width: 1199px) {
+  .note {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--z-sheet); width: min(27rem, 92vw); max-height: none;
+    box-shadow: -10px 0 30px rgb(0 0 0 / .2); transition: transform var(--t-mid) var(--ease);
+  }
+  .note:not([data-open]) { transform: translateX(105%); visibility: hidden; }
+}
+@media (min-width: 1200px) {
+  .bench.v-table .note {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--z-sheet); width: min(27rem, 92vw); max-height: none;
+    box-shadow: -10px 0 30px rgb(0 0 0 / .2); transition: transform var(--t-mid) var(--ease);
+  }
+  .bench.v-table .note:not([data-open]) { transform: translateX(105%); visibility: hidden; }
+}
+@media (min-width: 721px) {
+  .scrim[data-open] { display: block; position: fixed; inset: 0; z-index: calc(var(--z-sheet) - 1); background: var(--scrim); }
+}
+html.sheet-open { overflow: hidden; }
+
+/* ---------- ≤ 960: one column; the filters open as a drawer from the results head ---------- */
+@media (max-width: 960px) {
+  .bench { display: block; }
+  .rail-toggle {
+    display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 40px; padding: 0 var(--sp-3) 0 0;
+    background: var(--paper-2); font-weight: 600; white-space: nowrap;
+  }
+  .rail-toggle::before { content: ""; flex: 0 0 var(--rule); align-self: stretch; margin-right: var(--sp-1); background: var(--metal); }
+  .rail-on { font-weight: 400; font-size: var(--fs-1); color: var(--ink-2); }
+  .rail { display: none; }
+  .rail.open {
+    display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: var(--z-sheet);
+    width: min(22rem, 88vw); max-height: none; padding: 0; background: var(--paper); border-right: var(--rule) solid var(--metal);
+    box-shadow: 10px 0 30px rgb(0 0 0 / .2);
+  }
+  .rail-head {
+    display: flex; align-items: center; justify-content: space-between; flex: none;
+    padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4); background: var(--paper-2);
+  }
+  .rail-head h2 { font: 600 var(--fs-3)/1.2 var(--f-cjk); }
+  .rail-x { min-width: 44px; min-height: 44px; justify-content: center; }
+  .rail-x svg { width: 18px; height: 18px; }
+  #facets { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: var(--sp-4) var(--sp-4) var(--sp-2); }
+  .rail-done { display: flex; flex: none; margin: 0 var(--sp-4) calc(var(--sp-4) + env(safe-area-inset-bottom)); }
+  .scrim[data-open] { display: block; position: fixed; inset: 0; z-index: calc(var(--z-sheet) - 1); background: var(--scrim); }
+}
+
+/* ---------- ≤ 720: the header sticks with only its search row showing (catalogue only); the band is for screen
+   readers; count, sort, view and 筛选 share one row ---------- */
+@media (max-width: 720px) {
+  .pg-catalog .hd { position: sticky; top: var(--hd-stick, -90px); background: var(--paper); box-shadow: 0 1px 0 var(--line); }
+  .wb-band { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; padding: 0; }
+  .note-nav kbd { display: none; }                       /* phones: icons, not key caps */
+  .note-nav svg { display: block; }
+  .note-nav .btn-quiet { min-width: 44px; min-height: 44px; justify-content: center; }
+  .res-head { gap: var(--sp-2); padding: var(--sp-2) 0; }        /* wraps: the controls drop under the count rather than clip it */
+  .count { flex: 1 0 auto; white-space: nowrap; }
+  .count b { font-size: var(--fs-2); }
+  .res-ctl { flex-wrap: nowrap; gap: var(--sp-1); margin-left: auto; }
+  .sortby > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .seg button { padding: 0 var(--sp-2); }
+  .seg [data-view="table"] { display: none; }            /* the register never squeezes into a phone */
+  .chips { padding-top: var(--sp-2); }
+  .plates { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4) 10px; }
+  .plate-media.card { padding: 8px 10px; }
+  .plate-name { font-size: var(--fs-2); }
+  .plate-meta .path { display: none; }
+}

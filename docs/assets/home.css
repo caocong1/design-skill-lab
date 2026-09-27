@@ -1,0 +1,77 @@
+/* Home only: the lid (outcome, what it is, install), the desk (case + 校样), the shop (loop + routing key). */
+
+/* ---------- lid ---------- */
+.lid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); column-gap: var(--sp-8); row-gap: var(--sp-5);
+  align-items: start; padding-top: var(--sp-5); padding-bottom: var(--sp-2);
+}
+.lid h1 { font: 600 var(--fs-5)/1.28 var(--f-disp); max-width: 21em; }
+.lid h1 .ph { display: inline-block; }
+@media (min-width: 721px) { .lid h1:lang(en) { max-width: 24em; } }
+.lede { margin-top: var(--sp-3); max-width: 36em; font-size: var(--fs-3); line-height: 1.7; color: var(--ink-2); }  /* 36em: inside the CJK measure */
+/* .install (the two plugin commands) and .alt (the symlink recipe) live in site.css: the skills page uses them too */
+
+/* ---------- desk: the case with the proof column ---------- */
+.desk { padding-top: var(--sp-6); }
+.case-head { display: flex; align-items: baseline; gap: var(--sp-2) var(--sp-5); flex-wrap: wrap; margin-bottom: 10px; }
+.case-head h2 { font: 600 var(--fs-3)/1.2 var(--f-cjk); }
+.case-head .case-cap { margin: 0; }
+.case .row { flex-basis: 10.5rem; }
+.case .row.mid { flex-basis: auto; min-height: 12.5rem; }
+.case .cell.mid-cell .c-secs { column-width: 11rem; }
+
+/* 校样: this round's dated artifacts, one critique mark on this site, the accession ledger */
+.proofs { list-style: none; display: grid; gap: 10px; }
+.proofs li { display: grid; grid-template-columns: 5.6em minmax(0, 1fr); column-gap: 10px; align-items: baseline; }
+.proofs time, .ledger time { font: 400 var(--fs-1) var(--f-disp); font-variant-numeric: lining-nums tabular-nums; color: var(--ink-2); white-space: nowrap; }
+.proofs a { font-weight: 600; text-decoration: none; }
+.proofs a:hover { text-decoration: underline; }
+.proofs p { font-size: var(--fs-1); line-height: 1.5; color: var(--ink-2); margin-top: 1px; }
+.ledger-box h4 { font: 600 var(--fs-2)/1.3 var(--f-cjk); margin-bottom: 4px; }
+.ledger { list-style: none; font-size: var(--fs-1); }
+.ledger > li { padding: 6px 0; border-top: var(--hair) solid var(--line); }
+.ledger time { display: block; margin-bottom: 2px; color: var(--ink); font-weight: 600; }
+.ledger dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 2px 12px; }
+.ledger dt { color: var(--ink-3); white-space: nowrap; }
+.ledger dd { color: var(--ink); }
+.reach { list-style: none; display: flex; flex-wrap: wrap; gap: 0 14px; }
+.reach a { display: inline-flex; align-items: baseline; gap: 4px; min-height: 24px; text-decoration: none; color: var(--ink-2); }
+.reach a:hover { color: var(--ink); text-decoration: underline; }
+.reach b { font-weight: 600; color: var(--ink); }
+
+/* ---------- shop: the loop as a composing room, and the routing key ---------- */
+.shop { padding-top: var(--sp-8); }
+.shop > h2 { font: 600 var(--fs-4)/1.3 var(--f-cjk); margin-bottom: var(--sp-4); }
+.shop-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--sp-6); align-items: start; }
+.stations { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--rule); padding: var(--rule); background: var(--metal); }
+.stations li { background: var(--paper); padding: var(--sp-4) 18px 18px; }
+.stations b { display: block; font: 700 var(--fs-4)/1.2 var(--f-cjk); }
+.stations code { display: block; margin-top: 2px; font: 400 var(--fs-1)/1.3 var(--f-mono); color: var(--ink-2); }
+.stations p { margin-top: 10px; font-size: var(--fs-2); line-height: 1.7; color: var(--ink-2); }
+.which h3 { font: 600 var(--fs-3)/1.3 var(--f-cjk); margin-bottom: 10px; }
+.route-note { margin-top: 10px; font-size: var(--fs-2); color: var(--ink-2); }
+.lab-line { margin-top: var(--sp-7); padding-top: var(--sp-4); border-top: var(--hair) solid var(--line); font-size: var(--fs-2); color: var(--ink-2); }
+.lab-line a { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 1100px) {
+  .lid { grid-template-columns: minmax(0, 1fr); }
+  .install { max-width: 36rem; padding-top: 0; }
+  .shop-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) and (min-width: 721px) {
+  .case { grid-template-columns: minmax(0, 1fr); }  /* proof column drops under the case */
+}
+@media (max-width: 720px) {
+  .lid { padding-top: var(--sp-3); row-gap: var(--sp-4); }
+  .lid h1 { font-size: var(--fs-4); line-height: 1.36; }
+  .lede { font-size: var(--fs-2); line-height: 1.7; margin-top: 10px; }
+  .desk { padding-top: var(--sp-5); }
+  .case-head { display: none; }                     /* the ranked list carries its own heading */
+  .case .row, .case .row.mid { min-height: 0; }
+  .list-h { order: 2; margin: 18px 0 4px; font: 600 var(--fs-3)/1.3 var(--f-cjk); }
+  .shop { padding-top: var(--sp-7); }
+  .shop > h2 { font-size: var(--fs-3); }
+  .stations li { padding: 14px; }
+  .stations b { font-size: var(--fs-3); }
+}
+@media (min-width: 721px) { .list-h { display: none; } }

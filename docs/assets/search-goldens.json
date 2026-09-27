@@ -1,0 +1,22 @@
+[
+  {"q": "font", "expect_domain": "type", "top": 3, "note": "Latin prefix match: fonts, Fontsource; Font Awesome (icons) must not lead"},
+  {"q": "配色", "expect_domain": "color", "top": 5, "min": 4, "note": "palette tools; the glossary (palette, colour) only boosts rows that contain 配色"},
+  {"q": "配色", "expect_section": ["color:palettes", "color:system-tools", "color:guides", "dataviz:palettes-tools"], "top": 8, "note": "every top hit is about palettes"},
+  {"q": "动效曲线", "expect_domain": "motion", "top": 5, "note": "glossary segmentation 动效 + 曲线, no junk bigram 效曲"},
+  {"q": "动效曲线", "expect_section": ["motion:tools"], "top": 2, "note": "curve editors lead"},
+  {"q": "figma mcp", "expect_id_contains": "figma", "top": 1},
+  {"q": "figma mcp", "expect_id": "figma-mcp", "top": 1, "note": "both words in the name, official server first"},
+  {"q": "figma", "expect_id": "figma-mcp", "top": 3, "note": "Figma itself may lead; the MCP server stays in the top three"},
+  {"q": "图标", "expect_domain": "icons", "top": 5},
+  {"q": "icon", "expect_domain": "icons", "top": 5},
+  {"q": "字体", "expect_domain": "type", "top": 5},
+  {"q": "中文字体", "expect_section": ["type:cjk"], "top": 5, "min": 4},
+  {"q": "对比度", "expect_section": ["color:contrast", "color:system-tools", "a11y:testing-tools"], "top": 5},
+  {"q": "easing", "expect_section": ["motion:tools"], "top": 3},
+  {"q": "无障碍", "expect_domain": "a11y", "top": 5},
+  {"q": "图表", "expect_domain": "dataviz", "top": 5},
+  {"q": "dashboard", "expect_domain": "dataviz", "top": 3},
+  {"q": "mcp", "expect_section": ["ai:design-mcp-servers", "ai:ai-product-guidelines"], "top": 5},
+  {"q": "ai", "expect_domain": "ai", "top": 5, "note": "two-letter terms match whole words only"},
+  {"q": "ai", "expect_word": "ai", "note": "every hit holds 'ai' as a whole word in a searched field (never tailwind, email, detail)"}
+]

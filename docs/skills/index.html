@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<script>
+/* Language (?lang= > saved > browser) and theme (saved > OS), before first paint. Same snippet on every page. */
+(function (d) { var l = (/[?&]lang=(zh|en)\b/.exec(location.search) || [])[1], t; try { l = l || localStorage.getItem('dsl-lang'); t = localStorage.getItem('dsl-theme'); } catch (e) {} if (l !== 'zh' && l !== 'en') { var n = (navigator.languages && navigator.languages[0]) || navigator.language || 'zh'; l = /^zh\b/i.test(n) ? 'zh' : 'en'; } d.lang = l === 'en' ? 'en' : 'zh-CN'; d.classList.add('js'); if (t === 'dark' || t === 'light') d.setAttribute('data-theme', t); })(document.documentElement);
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill 套件 · Design Skill Lab</title>
+<meta name="description" content="给设计师和设计工程师的三件 skill：design-studio、critique-design、implement-design。agent 当设计师，实现者照交接包搭建。工单、模式与力度、产出目录、评测和安装。">
+<link rel="canonical" href="https://caocong1.github.io/design-skill-lab/skills/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Skill 套件 · Design Skill Lab">
+<meta property="og:description" content="agent 当设计师：从需求到交接，再请一个新会话评审；实现者照交接包搭建，用截图验收。">
+<meta property="og:url" content="https://caocong1.github.io/design-skill-lab/skills/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314171a'/%3E%3Cpath d='M0 29h32v3H0z' fill='%23555c63'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%23f5f7f8' font-family='serif'%3E%E5%AD%97%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.jsdelivr.net/npm/@fontsource-variable/source-serif-4@5.3.0/files/source-serif-4-latin-wght-normal.woff2">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/skills.css">
+</head>
+<body data-root="../">
+<a class="skip" href="#main" data-i18n="skip">跳到正文</a>
+
+<header class="hd">
+  <div class="hd-in">
+    <a class="hd-mark" href="../"><b lang="en">Design Skill Lab</b><span lang="zh-CN">设计技能实验室</span></a>
+    <form class="hd-search stick" action="../catalog/" method="get" role="search">
+      <label class="vh" for="q" data-i18n="search_label">搜索资源</label>
+      <input id="q" name="q" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="搜索资源：配色、动效曲线、font…" data-i18n-placeholder="search_ph">
+      <kbd aria-hidden="true">/</kbd>
+      <input type="hidden" name="open" value="1">
+      <button type="submit" class="stick-go" aria-label="搜索" data-i18n-aria="search_go"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="2.2"/></svg></button>
+    </form>
+    <nav class="hd-nav" aria-label="站点" data-i18n-aria="nav_label">
+      <a href="../" data-i18n="nav_home">首页</a>
+      <a href="../catalog/" data-i18n="nav_catalog">资源目录</a>
+      <a href="./" aria-current="page" data-i18n="nav_skills">Skill 套件</a>
+    </nav>
+    <div class="hd-tools">
+      <button type="button" class="tool" data-act="lang" lang="en" aria-label="Switch to English">EN</button>
+      <button type="button" class="tool" data-act="theme">暗色</button>
+      <a class="tool" href="https://github.com/caocong1/design-skill-lab" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span lang="en">GitHub</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- 1. what the suite is: the designer / implementer boundary -->
+  <section class="sk-lid wrap" aria-labelledby="h1">
+    <div class="sk-say">
+      <h1 id="h1" data-i18n="h1">让 agent 当设计师，把搭建留给实现者</h1>
+      <p class="sk-lede" data-i18n="lede">给设计师和设计工程师的三件 skill，按一间设计工作室分工：design-studio 读需求、出方向、定系统、画出每一种状态，渲染出来自己看；critique-design 在全新的上下文里挑错、打分、验收；implement-design 只在设计已经存在时上场，把它在你的技术栈里做出来。</p>
+    </div>
+    <div class="install">
+      <h2 data-i18n="inst_cc">装进 Claude Code</h2>
+      <ol class="cmds">
+        <li><code id="cmd1" lang="en"><span>/plugin marketplace add</span> <span>caocong1/design-skill-lab</span></code><button type="button" class="copy" data-copy="#cmd1" data-i18n="copy">复制</button></li>
+        <li><code id="cmd2" lang="en"><span>/plugin install</span> <span>design-skill-lab@</span><wbr><span>design-skill-lab</span></code><button type="button" class="copy" data-copy="#cmd2" data-i18n="copy">复制</button></li>
+      </ol>
+      <p class="first" data-i18n="inst_first">装好后直接说需求，不用点名哪件 skill；下面每张卡片里的例句都可以直接用。</p>
+      <p class="first"><a href="#install" data-i18n="inst_more">Codex 或手动安装、从 0.7.x 升级</a></p>
+    </div>
+    <div class="bound">
+      <div class="b-part">
+        <p class="b-k" data-i18n="b1_k">设计师</p>
+        <p class="b-who"><a href="#design-studio"><code>design-studio</code></a> <a href="#critique-design"><code>critique-design</code></a></p>
+        <p class="b-do" data-i18n="b1_do">决定、绘制、规定、交接、评审。懂技术栈能让交接更好做，但不是前提。</p>
+      </div>
+      <div class="b-part b-line">
+        <p class="b-k" data-i18n="b2_k">交接包：边界在这里</p>
+        <p class="b-do" data-i18n="b2_do">规格、handoff.json、按状态截的图、token、验收标准。实现者照它搭建，不必猜。</p>
+      </div>
+      <div class="b-part">
+        <p class="b-k" data-i18n="b3_k">实现者</p>
+        <p class="b-who"><a href="#implement-design"><code>implement-design</code></a> <span data-i18n="b3_or">或你的开发者</span></p>
+        <p class="b-do" data-i18n="b3_do">在目标技术栈里搭建，用构建截图证明还原度；稿子有缺口就退回设计师，不自己发挥。</p>
+      </div>
+    </div>
+    <p class="medium" data-i18n="medium">稿子用 HTML/CSS/SVG 按目标的逻辑尺寸画，渲染成 PNG 再看；Web、iOS、Android、鸿蒙、小程序、桌面都用这一种媒介。宿主有图像模型时，可以另走一条出图通道（方向草图、照片级素材），但要记下模型、提示词、日期和授权，契约仍是 HTML。</p>
+    <nav class="toc" aria-label="本页目录" data-i18n-aria="toc_label">
+      <a href="#map" data-i18n="toc_map">工单</a>
+      <a href="#skills" data-i18n="toc_skills">三件 skill</a>
+      <a href="#modes" data-i18n="toc_modes">模式与力度</a>
+      <a href="#output" data-i18n="toc_output">产出目录</a>
+      <a href="#evals" data-i18n="toc_evals">评测</a>
+      <a href="#install" data-i18n="toc_install">其他装法与升级</a>
+    </nav>
+  </section>
+
+  <!-- 2. the route map: design-studio as the interchange -->
+  <section class="sk-sec wrap" id="map" aria-labelledby="map-h">
+    <div class="sec-head">
+      <h2 id="map-h" data-i18n="map_h">工单</h2>
+      <p class="sec-cap" data-i18n="map_cap">一件活在 design-studio 里走的工序：主线是设计循环，细线通向参考文件；第 9 道转交 critique-design 校对，第 11 道转交 implement-design 付印。</p>
+    </div>
+    <div class="eff" role="group" aria-labelledby="eff-l">
+      <span class="eff-l" id="eff-l" data-i18n="eff_l">按力度看</span>
+      <div class="seg" id="eff-seg">
+        <button type="button" data-effort="quick" aria-pressed="false" lang="en">quick</button>
+        <button type="button" data-effort="standard" aria-pressed="false" lang="en">standard</button>
+        <button type="button" data-effort="deep" aria-pressed="true" lang="en">deep</button>
+      </div>
+      <p class="eff-cap" id="eff-cap" aria-live="polite" data-i18n="eff_deep">deep：full、redesign、多个界面或平台。跑满整个循环，方向和评审交给互相隔离的子代理。</p>
+    </div>
+    <figure class="map" id="route" data-effort="deep">
+      <div class="map-box">
+<!-- map:start -->
+<svg class="map-svg" viewBox="0 0 1240 780" width="1240" height="780" role="img" aria-labelledby="map-t map-d" xmlns="http://www.w3.org/2000/svg">
+<title id="map-t" data-i18n="map_t">design-studio 的工单</title>
+<desc id="map-d" data-i18n="map_d">一件活在 design-studio 里走的工序，顺时针：1 看宿主、2 真相文件、3 调研、4 发散、5 收敛、6 系统、7 绘制、8 渲染与底线检查（打样）、9 新会话评审（校对）、10 拔高、11 交付或交接（付印）、12 复盘，复盘回到入口。细线通向参考文件：第 1 站到 process，第 6 站到 fundamentals，第 7 站到 disciplines 和 platforms。第 9 道转交 critique-design（证据、判断、实测、复核、定论）；第 11 道转交 implement-design（看宿主、落 token、搭建、截图核对、验收），验收再转交 critique-design。下方的工序表列出同样的内容和每道工序要读的文件。</desc>
+<g class="m-spurs">
+<path class="ln-spur" d="M 240 209 V 108"/>
+<path class="ln-spur" d="M 865 209 V 108"/>
+<path class="ln-spur" d="M 865 491 V 520 H 990 M 966 520 V 311 H 990"/>
+</g>
+<rect class="m-term" x="16" y="16" width="520" height="92"/>
+<text class="m-m" x="32" y="43">references/process/</text>
+<g class="t-zh">
+<text class="m-zs" x="32" y="68">每一步怎么做：真相文件、调研、方向、重设计、系统、渲染核对、交接、出图</text>
+<text class="m-e" x="32" y="87" lang="en">How each step runs</text>
+</g><g class="t-en">
+<text class="m-zs" x="32" y="68" lang="en">How each step runs: truth files, research, directions, redesign,</text>
+<text class="m-zs" x="32" y="88" lang="en">system, token formats, render and look, handoff, the image lane</text>
+</g>
+<rect class="m-term" x="576" y="16" width="648" height="92"/>
+<text class="m-m" x="592" y="43">references/fundamentals/</text>
+<g class="t-zh">
+<text class="m-zs" x="592" y="68">不会过时的底子：排版、中文排版、色彩、布局、材质、现代 CSS、无障碍、去套路、授权</text>
+<text class="m-e" x="592" y="87" lang="en">The durable basics that outlast any trend</text>
+</g><g class="t-en">
+<text class="m-zs" x="592" y="68" lang="en">The durable basics: type, CJK type, colour, layout and spacing, materials,</text>
+<text class="m-zs" x="592" y="88" lang="en">modern CSS, accessibility, anti-slop, licences, portable mockups</text>
+</g>
+<rect class="m-term" x="990" y="236" width="234" height="150"/>
+<text class="m-m" x="1006" y="263">references/disciplines/</text>
+<g class="t-zh">
+<text class="m-zs" x="1006" y="288">画的是什么：界面、</text>
+<text class="m-zs" x="1006" y="308">数据密集界面、AI 体验、</text>
+<text class="m-zs" x="1006" y="328">官网、动效、图标、品牌、平面</text>
+<text class="m-e" x="1006" y="347" lang="en">What you are drawing</text>
+</g><g class="t-en">
+<text class="m-zs" x="1006" y="288" lang="en">What you are drawing:</text>
+<text class="m-zs" x="1006" y="308" lang="en">product UI, data-dense UI,</text>
+<text class="m-zs" x="1006" y="328" lang="en">AI experience, marketing</text>
+<text class="m-zs" x="1006" y="348" lang="en">sites, motion, icons, brand,</text>
+<text class="m-zs" x="1006" y="368" lang="en">graphics</text>
+</g>
+<rect class="m-term" x="990" y="404" width="234" height="150"/>
+<text class="m-m" x="1006" y="431">references/platforms/</text>
+<g class="t-zh">
+<text class="m-zs" x="1006" y="456">跑在哪里：iOS、Android、</text>
+<text class="m-zs" x="1006" y="476">鸿蒙、小程序、桌面、Web、</text>
+<text class="m-zs" x="1006" y="496">嵌入式宿主</text>
+<text class="m-e" x="1006" y="515" lang="en">Where it runs</text>
+</g><g class="t-en">
+<text class="m-zs" x="1006" y="456" lang="en">Where it runs:</text>
+<text class="m-zs" x="1006" y="476" lang="en">iOS, Android, HarmonyOS,</text>
+<text class="m-zs" x="1006" y="496" lang="en">mini-programs, desktop,</text>
+<text class="m-zs" x="1006" y="516" lang="en">web, embedded hosts</text>
+</g>
+<g class="m-line" data-e="sd">
+<path class="ln-crit" d="M 615 491 V 630 H 1125"/>
+<text class="m-m" x="629" y="540">critique-design</text>
+<text class="m-e" x="629" y="557" lang="en">fresh-eye review</text>
+<rect class="m-sub" x="737" y="622" width="16" height="16"/>
+<text class="m-z" x="745" y="592" text-anchor="middle">证据</text>
+<text class="m-e" x="745" y="608" text-anchor="middle" lang="en">Evidence</text>
+<rect class="m-sub" x="832" y="622" width="16" height="16"/>
+<text class="m-z" x="840" y="592" text-anchor="middle">判断</text>
+<text class="m-e" x="840" y="608" text-anchor="middle" lang="en">Judge (A)</text>
+<rect class="m-sub" x="927" y="622" width="16" height="16"/>
+<text class="m-z" x="935" y="592" text-anchor="middle">实测</text>
+<text class="m-e" x="935" y="608" text-anchor="middle" lang="en">Measure (B)</text>
+<rect class="m-sub" x="1022" y="622" width="16" height="16"/>
+<text class="m-z" x="1030" y="592" text-anchor="middle">复核</text>
+<text class="m-e" x="1030" y="608" text-anchor="middle" lang="en">Vet</text>
+<rect class="m-sub" x="1117" y="622" width="16" height="16"/>
+<text class="m-z" x="1125" y="592" text-anchor="middle">定论</text>
+<text class="m-e" x="1125" y="608" text-anchor="middle" lang="en">Verdict</text>
+</g>
+<g class="m-line" data-e="qsd">
+<path class="ln-impl" d="M 365 491 V 720 H 745"/>
+<text class="m-m" x="379" y="540">implement-design</text>
+<text class="m-e" x="379" y="557" lang="en">build from the handoff</text>
+<path class="ln-xfer" d="M 745 711 V 639"/>
+<text class="m-zs" x="759" y="686">验收转交 critique-design</text>
+<text class="m-e" x="759" y="703" lang="en">acceptance mode</text>
+<rect class="m-sub" x="357" y="712" width="16" height="16"/>
+<text class="m-z" x="365" y="752" text-anchor="middle">看宿主</text>
+<text class="m-e" x="365" y="768" text-anchor="middle" lang="en">Inspect host</text>
+<rect class="m-sub" x="452" y="712" width="16" height="16"/>
+<text class="m-z" x="460" y="752" text-anchor="middle">落 token</text>
+<text class="m-e" x="460" y="768" text-anchor="middle" lang="en">Land tokens</text>
+<rect class="m-sub" x="547" y="712" width="16" height="16"/>
+<text class="m-z" x="555" y="752" text-anchor="middle">搭建</text>
+<text class="m-e" x="555" y="768" text-anchor="middle" lang="en">Build</text>
+<rect class="m-sub" x="642" y="712" width="16" height="16"/>
+<text class="m-z" x="650" y="752" text-anchor="middle">截图核对</text>
+<text class="m-e" x="650" y="768" text-anchor="middle" lang="en">Verify by looking</text>
+<rect class="m-sub" x="737" y="712" width="16" height="16"/>
+<text class="m-z" x="745" y="752" text-anchor="middle">验收</text>
+<text class="m-e" x="745" y="768" text-anchor="middle" lang="en">Acceptance</text>
+</g>
+<path class="ln-main" d="M 120 230 H 945 V 470 H 120 Z"/>
+<text class="m-title" x="552" y="346" text-anchor="middle">工单</text>
+<text class="m-e" x="552" y="372" text-anchor="middle" lang="en">Job ticket: the loop, clockwise</text>
+<g class="st" data-e="qsd">
+<rect class="m-cp" x="223" y="209" width="34" height="42"/>
+<rect class="m-cp-band" x="223" y="209" width="34" height="8"/>
+<text class="m-n" x="240" y="241" text-anchor="middle">1</text>
+<text class="m-z" x="240" y="274" text-anchor="middle">看宿主</text>
+<text class="m-e" x="240" y="291" text-anchor="middle" lang="en">Inspect host</text>
+</g>
+<g class="st" data-e="qsd">
+<rect class="m-cp" x="348" y="209" width="34" height="42"/>
+<rect class="m-cp-band" x="348" y="209" width="34" height="8"/>
+<text class="m-n" x="365" y="241" text-anchor="middle">2</text>
+<text class="m-z" x="365" y="274" text-anchor="middle">真相文件</text>
+<text class="m-e" x="365" y="291" text-anchor="middle" lang="en">Truth files</text>
+</g>
+<g class="st" data-e="sd">
+<rect class="m-cp" x="473" y="209" width="34" height="42"/>
+<rect class="m-cp-band" x="473" y="209" width="34" height="8"/>
+<text class="m-n" x="490" y="241" text-anchor="middle">3</text>
+<text class="m-z" x="490" y="274" text-anchor="middle">调研</text>
+<text class="m-e" x="490" y="291" text-anchor="middle" lang="en">Research</text>
+</g>
+<g class="st" data-e="d">
+<rect class="m-cp" x="598" y="209" width="34" height="42"/>
+<rect class="m-cp-band" x="598" y="209" width="34" height="8"/>
+<text class="m-n" x="615" y="241" text-anchor="middle">4</text>
+<text class="m-z" x="615" y="274" text-anchor="middle">发散</text>
+<text class="m-e" x="615" y="291" text-anchor="middle" lang="en">Diverge</text>
+</g>
+<g class="st" data-e="d">
+<rect class="m-cp" x="723" y="209" width="34" height="42"/>
+<rect class="m-cp-band" x="723" y="209" width="34" height="8"/>
+<text class="m-n" x="740" y="241" text-anchor="middle">5</text>
+<text class="m-z" x="740" y="274" text-anchor="middle">收敛</text>
+<text class="m-e" x="740" y="291" text-anchor="middle" lang="en">Converge</text>
+</g>
+<g class="st" data-e="sd">
+<rect class="m-cp" x="848" y="209" width="34" height="42"/>
+<rect class="m-cp-band" x="848" y="209" width="34" height="8"/>
+<text class="m-n" x="865" y="241" text-anchor="middle">6</text>
+<text class="m-z" x="865" y="274" text-anchor="middle">系统</text>
+<text class="m-e" x="865" y="291" text-anchor="middle" lang="en">System</text>
+</g>
+<g class="st" data-e="qsd">
+<rect class="m-cp" x="848" y="449" width="34" height="42"/>
+<rect class="m-cp-band" x="848" y="449" width="34" height="8"/>
+<text class="m-n" x="865" y="481" text-anchor="middle">7</text>
+<text class="m-z" x="865" y="422" text-anchor="middle">绘制</text>
+<text class="m-e" x="865" y="439" text-anchor="middle" lang="en">Draw</text>
+</g>
+<g class="st" data-e="qsd">
+<rect class="m-cp" x="723" y="449" width="34" height="42"/>
+<rect class="m-cp-band" x="723" y="449" width="34" height="8"/>
+<text class="m-n" x="740" y="481" text-anchor="middle">8</text>
+<text class="m-z" x="740" y="422" text-anchor="middle">渲染·底线</text>
+<text class="m-e" x="740" y="439" text-anchor="middle" lang="en">Render + floor</text>
+<text class="m-shop" x="763" y="507"><tspan class="t-zh">打样</tspan><tspan class="t-en" lang="en">Proof</tspan></text>
+</g>
+<g class="st m-proof" data-e="sd">
+<rect class="m-cp" x="598" y="449" width="34" height="42"/>
+<rect class="m-cp-band" x="598" y="449" width="34" height="8"/>
+<text class="m-n" x="615" y="481" text-anchor="middle">9</text>
+<path class="m-caret" d="M 607 446 L 615 437 L 623 446"/>
+<text class="m-z" x="615" y="408" text-anchor="middle">新会话评审</text>
+<text class="m-e" x="615" y="425" text-anchor="middle" lang="en">Fresh critique</text>
+<text class="m-shop" x="638" y="507"><tspan class="t-zh">校对</tspan><tspan class="t-en" lang="en">Correct</tspan></text>
+</g>
+<g class="st" data-e="sd">
+<rect class="m-cp" x="473" y="449" width="34" height="42"/>
+<rect class="m-cp-band" x="473" y="449" width="34" height="8"/>
+<text class="m-n" x="490" y="481" text-anchor="middle">10</text>
+<text class="m-z" x="490" y="422" text-anchor="middle">拔高</text>
+<text class="m-e" x="490" y="439" text-anchor="middle" lang="en">Elevate</text>
+</g>
+<g class="st m-hand" data-e="qsd">
+<rect class="m-cp" x="348" y="449" width="34" height="42"/>
+<rect class="m-cp-band" x="348" y="449" width="34" height="8"/>
+<text class="m-n" x="365" y="481" text-anchor="middle">11</text>
+<text class="m-z" x="365" y="422" text-anchor="middle">交付·交接</text>
+<text class="m-e" x="365" y="439" text-anchor="middle" lang="en">Deliver, hand off</text>
+<text class="m-shop" x="388" y="507"><tspan class="t-zh">付印</tspan><tspan class="t-en" lang="en">Print</tspan></text>
+</g>
+<g class="st" data-e="qsd">
+<rect class="m-cp" x="223" y="449" width="34" height="42"/>
+<rect class="m-cp-band" x="223" y="449" width="34" height="8"/>
+<text class="m-n" x="240" y="481" text-anchor="middle">12</text>
+<text class="m-z" x="240" y="422" text-anchor="middle">复盘</text>
+<text class="m-e" x="240" y="439" text-anchor="middle" lang="en">Retro</text>
+</g>
+<g class="m-hub">
+<rect class="m-hub-box" x="36" y="300" width="168" height="100"/>
+<text class="m-hub-name" x="120" y="330" text-anchor="middle">design-studio</text>
+<text class="m-shop" x="120" y="354" text-anchor="middle"><tspan class="t-zh">排字</tspan><tspan class="t-en" lang="en">Compose</tspan></text>
+<text class="m-zs" x="120" y="374" text-anchor="middle">入口：定模式与力度</text>
+<text class="m-e" x="120" y="391" text-anchor="middle" lang="en">Entry: mode and effort</text>
+</g>
+</svg>
+<!-- map:end -->
+      </div>
+      <figcaption class="map-legend">
+        <span class="lg"><i class="lg-main" aria-hidden="true"></i><span data-i18n="lg_main">主线：design-studio 的设计循环</span></span>
+        <span class="lg"><i class="lg-cp" aria-hidden="true"></i><span data-i18n="lg_cp">一道工序，数字是顺序</span></span>
+        <span class="lg"><i class="lg-crit" aria-hidden="true"></i><span data-i18n="lg_crit">转交后的另一件 skill</span></span>
+        <span class="lg"><i class="lg-spur" aria-hidden="true"></i><span data-i18n="lg_spur">细线：参考文件</span></span>
+        <span class="lg"><i class="lg-proof" aria-hidden="true"></i><span data-i18n="lg_proof">校对：转交 critique-design</span></span>
+        <span class="lg lg-skip-k"><i class="lg-skip" aria-hidden="true"></i><span data-i18n="lg_skip">当前力度跳过的工序</span></span>
+      </figcaption>
+    </figure>
+
+    <h3 class="sub-h" data-i18n="idx_h">工序</h3>
+    <ol class="stns" id="stns" data-effort="deep">
+      <li data-e="qsd"><span class="stop">1</span><div><h4 data-i18n="s1">看宿主</h4><p data-i18n="s1d">品牌、token、组件库、字体、图标、惯例、目标平台。宿主已有的设计系统就是系统。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/truth-files.md">truth-files</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="qsd"><span class="stop">2</span><div><h4 data-i18n="s2">真相文件</h4><p data-i18n="s2d">PRODUCT.md、带设计判读的 brief、每个界面一份契约。重设计时先写功能图，再看现有界面。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/truth-files.md">truth-files</a> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/redesign.md">redesign</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="sd"><span class="stop">3</span><div><h4 data-i18n="s3">调研</h4><p data-i18n="s3d">收集、截图、拼联系表、看、拆成能用的招式；资源从目录里查。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/research.md">research</a> <a href="../catalog/" data-i18n="catalog_link">资源目录</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="d"><span class="stop">4</span><div><h4 data-i18n="s4">发散</h4><p data-i18n="s4d">点破这一类产品的套路和它的反面，找它自己世界里的参照，按种子抽签，每个方向一个子代理，拼成方案板。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/directions.md">directions</a></p><p class="skip-note" data-i18n="skipped_opt">这一档跳过；加 options 时补上</p></div></li>
+      <li data-e="d"><span class="stop">5</span><div><h4 data-i18n="s5">收敛</h4><p data-i18n="s5d">用户挑一个、混搭或全部否掉；连同种子记进 decisions.md。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/directions.md">directions</a></p><p class="skip-note" data-i18n="skipped_opt">这一档跳过；加 options 时补上</p></div></li>
+      <li data-e="sd"><span class="stop">6</span><div><h4 data-i18n="s6">系统</h4><p data-i18n="s6d">DESIGN.md 和 token；宿主已有设计系统就原地更新，不另起一份。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/system.md">system</a> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/token-formats.md">token-formats</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="qsd"><span class="stop">7</span><div><h4 data-i18n="s7">绘制</h4><p data-i18n="s7d">按界面契约、按逻辑尺寸画，适用的每一种状态都画出来。</p><p class="reads"><span data-i18n="reads">读</span> <a href="#g-disciplines">disciplines</a> <a href="#g-platforms">platforms</a> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/portable-mockups.md">portable-mockups</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="qsd"><span class="stop">8</span><div><h4 data-i18n="s8">渲染与底线检查</h4><p data-i18n="s8d">截图、lint、算对比度，按有限的轮次核对。没看过的如实写“未验证”。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/render-and-look.md">render-and-look</a> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/accessibility.md">accessibility</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="sd" class="proof-step"><span class="stop">9</span><div><h4 data-i18n="s9">新会话评审</h4><p data-i18n="s9d">critique-design 在子代理里评审：只拿 brief、契约和截图清单，拿不到作者的推理。</p><p class="xfer"><span data-i18n="xfer">转交</span> <a href="#critique-design"><code>critique-design</code></a></p><p class="skip-note" data-i18n="skipped_q">quick 只做底线和启发式自查</p></div></li>
+      <li data-e="sd"><span class="stop">10</span><div><h4 data-i18n="s10">拔高</h4><p data-i18n="s10d">先修 P0 和 P1；再把契约里那个值得记住的点做两版加强，让评审挑。</p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="qsd"><span class="stop">11</span><div><h4 data-i18n="s11">交付或交接</h4><p data-i18n="s11d">理由、被否掉的方案、这份设计不打算做什么、授权清单；要交给别人实现就出交接包。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/handoff.md">handoff</a></p><p class="xfer"><span data-i18n="xfer">转交</span> <a href="#implement-design"><code>implement-design</code></a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+      <li data-e="qsd"><span class="stop">12</span><div><h4 data-i18n="s12">复盘</h4><p data-i18n="s12d">静默收尾：被纠正、失败或缺东西时记一条反馈，回到入口，下一轮更准。</p><p class="reads"><span data-i18n="reads">读</span> <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/feedback.md">feedback</a></p><p class="skip-note" data-i18n="skipped">这一档跳过</p></div></li>
+    </ol>
+
+    <h3 class="sub-h" data-i18n="grp_h">细线的终点：参考文件</h3>
+    <p class="sub-cap" data-i18n="grp_cap">开工前只读 SKILL.md 加至多两份参考：这个模式的 process 文件，和这个界面需要的那一份 discipline 或 platform 文件。其余的到了用它的那一站再读。</p>
+    <div class="grps">
+      <section class="grp" id="g-process" aria-labelledby="g-process-h">
+        <h4 id="g-process-h"><code>process/</code> <span data-i18n="g_process">每一步怎么做</span></h4>
+        <ul>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/truth-files.md">truth-files</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/research.md">research</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/directions.md">directions</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/redesign.md">redesign</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/system.md">system</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/token-formats.md">token-formats</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/render-and-look.md">render-and-look</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/handoff.md">handoff</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/process/image-generation.md">image-generation</a></li>
+        </ul>
+      </section>
+      <section class="grp" id="g-disciplines" aria-labelledby="g-disciplines-h">
+        <h4 id="g-disciplines-h"><code>disciplines/</code> <span data-i18n="g_disciplines">画的是什么</span></h4>
+        <ul>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/product-ui.md">product-ui</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/data-dense-ui.md">data-dense-ui</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/ai-experience.md">ai-experience</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/marketing-sites.md">marketing-sites</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/motion.md">motion</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/motion-tokens.md">motion-tokens</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/icons.md">icons</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/app-icons.md">app-icons</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/brand.md">brand</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/disciplines/graphics.md">graphics</a></li>
+        </ul>
+      </section>
+      <section class="grp" id="g-platforms" aria-labelledby="g-platforms-h">
+        <h4 id="g-platforms-h"><code>platforms/</code> <span data-i18n="g_platforms">跑在哪里</span></h4>
+        <ul>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/README.md">README</a> <span class="gl" data-i18n="gl_posture">取向表与跨平台清单</span></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/ios.md">ios</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/android.md">android</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/harmonyos.md">harmonyos</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/mini-programs.md">mini-programs</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/desktop.md">desktop</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/web.md">web</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/platforms/embedded-hosts.md">embedded-hosts</a></li>
+        </ul>
+      </section>
+      <section class="grp" id="g-fundamentals" aria-labelledby="g-fundamentals-h">
+        <h4 id="g-fundamentals-h"><code>fundamentals/</code> <span data-i18n="g_fundamentals">不会过时的底子</span></h4>
+        <ul>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/typography.md">typography</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/cjk-typography.md">cjk-typography</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/color.md">color</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/layout-and-spacing.md">layout-and-spacing</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/materials.md">materials</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/modern-css.md">modern-css</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/accessibility.md">accessibility</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/anti-slop.md">anti-slop</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/licensing.md">licensing</a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/fundamentals/portable-mockups.md">portable-mockups</a></li>
+        </ul>
+      </section>
+    </div>
+    <p class="grp-more" data-i18n-html="grp_more">另有 <a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/references/casebook.md">casebook</a>（渲染出了错、又没有哪条规则能解释时查）和 <a href="https://github.com/caocong1/design-skill-lab/tree/main/skills/design-studio/references/catalog">catalog/</a>（由资源目录生成，用 <code>scripts/catalog.py</code> 查）。</p>
+  </section>
+
+  <!-- 3. the three skills -->
+  <section class="sk-sec wrap" id="skills" aria-labelledby="skills-h">
+    <div class="sec-head">
+      <h2 id="skills-h" data-i18n="skills_h">三件 skill</h2>
+      <p class="sec-cap" data-i18n="skills_cap">拿不准交给哪一件，就直接说需求：design-studio 是入口，需要评审时它会另开会话交给 critique-design。</p>
+    </div>
+    <div class="cards">
+      <article class="sk-card" id="design-studio" aria-labelledby="c1-h">
+        <header class="sk-top">
+          <p class="sk-role" data-i18n="st1">排字</p>
+          <h3 id="c1-h"><code>design-studio</code></h3>
+          <p class="sk-tag" data-i18n="c1_tag">所有设计需求的入口，从需求一路做到交接。</p>
+        </header>
+        <dl class="sk-dl">
+          <dt data-i18n="use">用在</dt>
+          <dd><ul>
+            <li data-i18n="c1_u1">新做或重做：整个产品、一页、一屏、一个组件或流程</li>
+            <li data-i18n="c1_u2">动效、图标、App 图标、Logo、海报、社交图、演示稿</li>
+            <li data-i18n="c1_u3">要几套方案来挑，要灵感和参考拆解，要交接规格、标注和切图</li>
+          </ul></dd>
+          <dt data-i18n="makes">产出</dt>
+          <dd data-i18n="c1_m">PRODUCT.md、brief、方案板、DESIGN.md 与 token、各种状态的界面稿、交接包；每一版都渲染过、看过。</dd>
+          <dt data-i18n="not">不用于</dt>
+          <dd data-i18n="c1_n">评审已有的设计或实现（交给 critique-design）；照已有的稿子写代码（交给 implement-design）；不涉及设计决定的前端 bug。</dd>
+          <dt data-i18n="ops">迭代口令</dt>
+          <dd class="ops" lang="en"><span>bolder</span><span>quieter</span><span>distill</span><span>harden</span><span>clarify</span><span>typeset</span><span>recompose</span><span>colorize</span><span>delight</span></dd>
+        </dl>
+        <div class="try">
+          <p class="try-h" data-i18n="try">可以这样说</p>
+          <p class="say" lang="zh-CN">“给这个运维后台出三套方向，我挑一套，再做成设计系统和交接包。”</p>
+          <p class="say" lang="en">“Redesign our settings flow for iOS 26. Start from what it does, not from the current screens.”</p>
+        </div>
+        <p class="sk-src"><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/design-studio/SKILL.md" data-i18n="read_skill">读 SKILL.md（GitHub）</a></p>
+      </article>
+
+      <article class="sk-card" id="critique-design" aria-labelledby="c2-h">
+        <header class="sk-top">
+          <p class="sk-role" data-i18n="st3">校对</p>
+          <h3 id="c2-h"><code>critique-design</code></h3>
+          <p class="sk-tag" data-i18n="c2_tag">新鲜眼光的评审、打分和验收，最好在全新的子会话里跑。</p>
+        </header>
+        <dl class="sk-dl">
+          <dt data-i18n="use">用在</dt>
+          <dd><ul>
+            <li data-i18n="c2_u1">评审网站、界面、流程、组件、品牌物料或演示稿；截图、URL、mockup、Figma 导出都行</li>
+            <li data-i18n="c2_u2">无障碍（WCAG 2.2）检查、体验走查、设计 QA</li>
+            <li data-i18n="c2_u3">拿交接截图验收一个实现，查还原度</li>
+            <li data-i18n="c2_u4">design-studio 第 9 站派出来的新会话评审</li>
+          </ul></dd>
+          <dt data-i18n="makes">产出</dt>
+          <dd data-i18n="c2_m">按严重程度（P0–P3）和证据等级排好的问题，每条写成 Before | After | Why，附截图；评分表分数；处置：ship、fix、rebuild 或 recapture。</dd>
+          <dt data-i18n="flow">流程</dt>
+          <dd data-i18n="c2_f">证据 → 判断（先凭眼睛）→ 实测（lint、对比度、截图）→ 复核 → 定论</dd>
+          <dt data-i18n="not">不用于</dt>
+          <dd data-i18n="c2_n">新做或重做设计（design-studio）；在代码里修（implement-design）；没有视觉问题的代码评审。</dd>
+        </dl>
+        <div class="try">
+          <p class="try-h" data-i18n="try">可以这样说</p>
+          <p class="say" lang="zh-CN">“评审一下这个页面，按严重程度列问题，每条附截图证据。”</p>
+          <p class="say" lang="en">“Check this build against the handoff screenshots and tell me whether it can ship.”</p>
+        </div>
+        <p class="sk-src"><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/critique-design/SKILL.md" data-i18n="read_skill">读 SKILL.md（GitHub）</a></p>
+      </article>
+
+      <article class="sk-card" id="implement-design" aria-labelledby="c3-h">
+        <header class="sk-top">
+          <p class="sk-role" data-i18n="st4">付印</p>
+          <h3 id="c3-h"><code>implement-design</code></h3>
+          <p class="sk-tag" data-i18n="c3_tag">设计已经存在时，把它在你的技术栈里做出来，用截图证明做对了。</p>
+        </header>
+        <dl class="sk-dl">
+          <dt data-i18n="use">用在</dt>
+          <dd><ul>
+            <li data-i18n="c3_u1">手上有交接包、HTML/CSS mockup、Figma 画板或定稿 PNG，要落进项目</li>
+            <li data-i18n="c3_u2">React、Vue、Tailwind、Ant Design、uni-app、Flutter、SwiftUI、Compose、ArkUI、小程序等</li>
+            <li data-i18n="c3_u3">实现跑偏了，要照设计稿修回来</li>
+          </ul></dd>
+          <dt data-i18n="makes">产出</dt>
+          <dd data-i18n="c3_m">落进宿主主题的 token 和映射表、每种状态都能打开的实现、和设计截图并排的构建截图、验收报告、视觉回归基线，以及偏差和规格缺口清单。</dd>
+          <dt data-i18n="flow">流程</dt>
+          <dd data-i18n="c3_f">看宿主 → 落 token → 搭建 → 截图核对 → 验收（交给 critique-design，不自己给自己打分）</dd>
+          <dt data-i18n="not">不用于</dt>
+          <dd data-i18n="c3_n">决定或改进设计、UI 润色、整体优化、从零先设计再实现、切图标注（design-studio）；只出报告不修（critique-design）。</dd>
+        </dl>
+        <div class="try">
+          <p class="try-h" data-i18n="try">可以这样说</p>
+          <p class="say" lang="zh-CN">“按 .design/handoff/orders 的交接包，用 Next.js 和 Tailwind 实现，再按截图验收。”</p>
+          <p class="say" lang="en">“Build this Figma frame in SwiftUI and prove it matches the handoff shots.”</p>
+        </div>
+        <p class="sk-src"><a href="https://github.com/caocong1/design-skill-lab/blob/main/skills/implement-design/SKILL.md" data-i18n="read_skill">读 SKILL.md（GitHub）</a></p>
+      </article>
+    </div>
+    <section class="arts-row" aria-labelledby="arts-h">
+      <h3 class="sub-h" id="arts-h" data-i18n="arts_h">真实产物</h3>
+      <p class="sub-cap" data-i18n="arts_cap">这套方法用在本站自己身上时交出的东西，都标日期。implement-design 还没有公开的实例。</p>
+      <div class="arts-grid">
+          <div class="arts">
+            <h4 class="arts-h"><a href="#design-studio"><code>design-studio</code></a></h4>
+            <ol class="art-list">
+              <li><time datetime="2026-09-27">2026-09-27</time><div><a href="../assets/showcase/2026-09-27-site/brief.md" data-i18n="pf_brief">本站设计 brief</a><p data-i18n="pf_brief_n">读者、任务、使用场景、约束，以及必须避开的套路。</p></div></li>
+              <li><time datetime="2026-09-27">2026-09-27</time><div><a href="../assets/showcase/2026-09-27-site/directions.md" data-i18n="pf_board">方向板：按种子抽出的三个方向</a><p data-i18n="pf_board_n">同一份数据排三次；缩到 600px 宽，结构仍各不相同。</p></div></li>
+            </ol>
+            <a class="art-fig" href="../assets/showcase/2026-09-27-site/board.webp"><img src="../assets/showcase/2026-09-27-site/board.webp" width="1896" height="467" loading="lazy" decoding="async" alt="三个方向的首页首屏并排：A 标本馆、B 选型表、C 字架" data-i18n-alt="board_alt"></a>
+          </div>
+          <div class="arts">
+            <h4 class="arts-h"><a href="#critique-design"><code>critique-design</code></a></h4>
+            <ol class="art-list">
+              <li><time datetime="2026-09-27">2026-09-27</time><div><a href="../assets/showcase/2026-09-27-site/critique.md" data-i18n="pf_crit">新会话评审本站：没过门槛</a><p data-i18n="pf_crit_n2">5 个 P1，工艺、排版、无障碍各 2 分；这一版照它改。</p></div></li>
+              <li><time datetime="2026-09-27">2026-09-27</time><div><a href="../assets/showcase/2026-09-27-site/decisions.md" data-i18n="pf_dec">盲评与决定：C 字架胜出</a><p data-i18n="pf_dec_n">抽签领先的 B 身份感只得 1 分，出局。</p></div></li>
+            </ol>
+  <!-- mark:start -->
+<div class="mark-pair">
+<figure class="mark-fig">
+  <div class="mark-img">
+    <img src="../assets/showcase/2026-09-27-site/list-before.webp" width="420" height="406" loading="lazy" decoding="async" alt="评审截下的旧资源列表：每条左边一张 120px 宽的网站截图" data-i18n-alt="mk_alt">
+    <svg class="marks" viewBox="0 0 420 406" preserveAspectRatio="none" aria-hidden="true" focusable="false"><rect class="draw" x="11" y="5" width="142" height="397" pathLength="1"/></svg>
+  </div>
+  <figcaption><b class="pm-tag" data-i18n="mk_tag">删</b><span data-i18n="mk_before">改前，评审的截图：每条带一张 120px 宽的截图，一屏三条半。</span></figcaption>
+</figure>
+<figure class="mark-fig">
+  <div class="mark-img"><img src="../assets/showcase/2026-09-27-site/list-after.webp" width="420" height="406" loading="lazy" decoding="async" alt="改后的资源列表：只排字，同样的高度放下三条多" data-i18n-alt="mk_alt_after"></div>
+  <figcaption><b class="pm-tag ok" data-i18n="mk_done">改</b><span data-i18n="mk_after">改后：列表只排字，截图留在图版和批注里。</span></figcaption>
+</figure>
+</div>
+<!-- mark:end -->
+          </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- 4. modes x effort -->
+  <section class="sk-sec wrap" id="modes" aria-labelledby="modes-h">
+    <div class="sec-head">
+      <h2 id="modes-h" data-i18n="modes_h">模式与力度</h2>
+      <p class="sec-cap" data-i18n="modes_cap">design-studio 先判断你要的是哪种模式，再按范围挑力度，并在设计判读里说出来。</p>
+    </div>
+    <div class="modes-grid">
+      <div class="tbl-wrap" tabindex="0" role="region" aria-labelledby="modes-t">
+        <table class="tbl modes">
+          <caption id="modes-t" data-i18n="modes_t">模式 × 力度</caption>
+          <thead>
+            <tr><th scope="col" data-i18n="th_mode">模式</th><th scope="col" data-i18n="th_want">用户要的</th><th scope="col" data-i18n="th_eff">力度</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><code>full</code></th><td><span data-i18n="m_full">从需求做出完整设计</span><span class="m-start"><span data-i18n="start_with">先读：</span><code>truth-files</code></span></td><td class="eff-c"><span class="etag" lang="en">deep</span></td></tr>
+            <tr><th scope="row"><code>piece</code></th><td><span data-i18n="m_piece">一页、一屏、一个组件、流程、动效、图标或一张图</span><span class="m-start"><span data-i18n="start_with">先读：</span><span data-i18n="m_piece_s">对应的 discipline 文件</span></span></td><td class="eff-c"><span class="etag" lang="en">quick</span><span class="etag" lang="en">standard</span></td></tr>
+            <tr><th scope="row"><code>options</code></th><td><span data-i18n="m_options">几套方案来挑；可以叠加在任何模式上</span><span class="m-start"><span data-i18n="start_with">先读：</span><code>directions</code></span></td><td class="eff-c"><span data-i18n="m_options_e">在当前力度上加第 4、5 站</span></td></tr>
+            <tr><th scope="row"><code>inspire</code></th><td><span data-i18n="m_inspire">参考、拆解、风格 DNA，给现有产品找点子</span><span class="m-start"><span data-i18n="start_with">先读：</span><code>research</code></span></td><td class="eff-c"><span class="etag" lang="en">standard</span></td></tr>
+            <tr><th scope="row"><code>critique</code></th><td><span data-i18n="m_critique">诚实的评审和修改计划</span><span class="m-start"><span data-i18n="start_with">先读：</span><code>critique-design</code></span></td><td class="eff-c"><span data-i18n="m_critique_e">交给 critique-design</span></td></tr>
+            <tr><th scope="row"><code>redesign</code></th><td><span data-i18n="m_redesign">从产品做什么出发，整个重想</span><span class="m-start"><span data-i18n="start_with">先读：</span><code>redesign</code></span></td><td class="eff-c"><span class="etag" lang="en">deep</span></td></tr>
+            <tr><th scope="row"><code>handoff</code></th><td><span data-i18n="m_handoff">任何实现者都能照着做的交接包</span><span class="m-start"><span data-i18n="start_with">先读：</span><code>handoff</code></span></td><td class="eff-c"><span class="etag" lang="en">standard</span></td></tr>
+            <tr><th scope="row"><code>implement</code></th><td><span data-i18n="m_implement">同一个 agent 接着把它做出来</span><span class="m-start"><span data-i18n="start_with">先读：</span><span data-i18n-html="m_implement_s">精简交接（截图 + token），再 <code>implement-design</code></span></span></td><td class="eff-c"><span class="etag" lang="en">standard</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ladder">
+        <h3 class="sub-h" data-i18n="ladder_h">力度阶梯</h3>
+        <ol class="rungs">
+          <li>
+            <p class="rung-n"><span lang="en">quick</span> <span class="rung-s" data-i18n="r_q_s">一个组件、图标、小改、单张图</span></p>
+            <p class="rung-d" data-i18n="r_q_d">读 → 画 → 渲染 → 底线 → 交付。至多读一份参考，不主动出多套方案。</p>
+            <ol class="pips" aria-label="包含第 1、2、7、8、11、12 站" data-i18n-aria="r_q_a"><li class="on">1</li><li class="on">2</li><li>3</li><li>4</li><li>5</li><li>6</li><li class="on">7</li><li class="on">8</li><li>9</li><li>10</li><li class="on">11</li><li class="on">12</li></ol>
+          </li>
+          <li>
+            <p class="rung-n"><span lang="en">standard</span> <span class="rung-s" data-i18n="r_s_s">一屏、一页、一个流程、品牌物料、inspire、交接</span></p>
+            <p class="rung-d" data-i18n="r_s_d">quick 之上加：看过参考、一片系统（token）、新会话评审、一轮拔高。</p>
+            <ol class="pips" aria-label="包含除第 4、5 站以外的全部站" data-i18n-aria="r_s_a"><li class="on">1</li><li class="on">2</li><li class="on">3</li><li>4</li><li>5</li><li class="on">6</li><li class="on">7</li><li class="on">8</li><li class="on">9</li><li class="on">10</li><li class="on">11</li><li class="on">12</li></ol>
+          </li>
+          <li>
+            <p class="rung-n"><span lang="en">deep</span> <span class="rung-s" data-i18n="r_d_s">full、redesign、多个界面或平台</span></p>
+            <p class="rung-d" data-i18n="r_d_d">跑满整个循环；方向和评审交给互相隔离的子代理。</p>
+            <ol class="pips" aria-label="包含全部站" data-i18n-aria="r_d_a"><li class="on">1</li><li class="on">2</li><li class="on">3</li><li class="on">4</li><li class="on">5</li><li class="on">6</li><li class="on">7</li><li class="on">8</li><li class="on">9</li><li class="on">10</li><li class="on">11</li><li class="on">12</li></ol>
+          </li>
+        </ol>
+        <p class="ladder-note" data-i18n="ladder_up">用户要多套方案、或改动碰到导航和多个界面时往上走一档；用户说要快、或宿主的设计系统已经替你定了大部分时往下走。</p>
+        <p class="ladder-note" data-i18n="ladder_bv">核对有上限：先全部做完，然后一轮批量截图、一批修复、至多一轮确认；到此为止，剩下的如实说明。</p>
+      </div>
+    </div>
+    <p class="modes-note" data-i18n="modes_note">“整体 UI 优化”“全站优化”“改版”“重新设计”是 redesign，不是润色；只有点名的一页或一个组件、改动有边界，才算 piece。</p>
+  </section>
+
+  <!-- 5. output layout -->
+  <section class="sk-sec wrap" id="output" aria-labelledby="output-h">
+    <div class="sec-head">
+      <h2 id="output-h" data-i18n="output_h">产出目录</h2>
+      <p class="sec-cap" data-i18n="output_cap">产物都放进项目里的 .design/，每个文件都有一份模板可抄：抄结构，不抄里面的值。</p>
+    </div>
+    <div class="tree-box">
+      <div class="tree-col">
+      <p class="tr-root">.design/</p>
+      <ul class="tree" aria-label=".design/ 目录" data-i18n-aria="tree_label">
+        <li><span class="tr-p"><code>PRODUCT.md</code><span class="ins"><svg class="caret" viewBox="0 0 22 18" aria-hidden="true"><path d="M2 17 L10 3 L18 17" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span data-i18n="new">0.8.0 新增</span></span></span><span class="tr-d" data-i18n="o_product">产品的长期事实</span><span class="tr-t">templates/PRODUCT.md</span></li>
+        <li><span class="tr-p"><code>brief.md</code></span><span class="tr-d" data-i18n="o_brief">设计判读、参照、约束</span><span class="tr-t">templates/brief.md</span></li>
+        <li><span class="tr-p"><code>function-map.md</code></span><span class="tr-d" data-i18n="o_fmap">对象、动作、频率</span><span class="tr-t">templates/function-map.md</span></li>
+        <li><span class="tr-p"><code>decisions.md</code></span><span class="tr-d" data-i18n="o_dec">决定、方案、理由、种子</span><span class="tr-t">templates/decisions.md</span></li>
+        <li><span class="tr-p"><code>surfaces/&lt;surface&gt;.md</code><span class="ins"><svg class="caret" viewBox="0 0 22 18" aria-hidden="true"><path d="M2 17 L10 3 L18 17" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span data-i18n="new">0.8.0 新增</span></span></span><span class="tr-d" data-i18n="o_surf">每个界面一份契约</span><span class="tr-t">templates/surface-contract.md</span></li>
+        <li><span class="tr-p"><code>inspiration/&lt;topic&gt;/</code></span><span class="tr-d" data-i18n="o_insp">笔记、截图、联系表</span></li>
+        <li><span class="tr-p"><code>directions/&lt;round&gt;/</code></span><span class="tr-d" data-i18n="o_dir">方案板 index.html 和方向卡</span><span class="tr-t">templates/options-board.html, direction-card.md</span></li>
+        <li><span class="tr-p"><code>system/</code></span><span class="tr-d" data-i18n="o_sys">DESIGN.md、token、preview.html</span><span class="tr-t">templates/DESIGN.md, tokens.css, tokens.resolver.json</span></li>
+        <li><span class="tr-p"><code>screens/ motion/ icons/ brand/ graphics/</code></span><span class="tr-d" data-i18n="o_arts">各类产物，附源文件</span></li>
+        <li><span class="tr-p"><code>handoff/&lt;feature&gt;/</code></span><span class="tr-d" data-i18n="o_hand">规格、handoff.json、截图、mockup、素材、验收报告</span><span class="tr-t">templates/handoff-spec.md, handoff.json, acceptance-report.md</span></li>
+        <li><span class="tr-p"><code>critique/&lt;date&gt;-&lt;target&gt;/</code><span class="ins"><svg class="caret" viewBox="0 0 22 18" aria-hidden="true"><path d="M2 17 L10 3 L18 17" fill="none" stroke="currentColor" stroke-width="2.2"/></svg><span data-i18n="new">0.8.0 新增</span></span></span><span class="tr-d" data-i18n="o_crit">评审报告和精选的证据截图，入库</span></li>
+        <li><span class="tr-p"><code>shots/</code></span><span class="tr-d" data-i18n="o_shots">批量截图，不入库（gitignore）</span></li>
+      </ul>
+      </div>
+      <div class="tree-rules">
+        <p data-i18n-html="o_rule1">宿主已有的约定优先：<code>design/</code>、<code>docs/design/</code>、<code>.stitch/</code>，或 AGENTS.md、CLAUDE.md 里的说明。</p>
+        <p data-i18n="o_rule2">宿主已有的设计系统（DESIGN.md、token 文件、主题化的组件库）原地更新，不在 .design/system/ 里另起一份。</p>
+        <p data-i18n="o_rule3">brief 和 decisions 写短；quick 的活可以直接在对话里交。</p>
+        <p><a href="https://github.com/caocong1/design-skill-lab/tree/main/skills/design-studio/templates" data-i18n="o_tpl">看全部模板（GitHub）</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. eval scoreboard: filled from ../assets/showcase/showcase.json "runs"; absent => in progress -->
+  <section class="sk-sec wrap" id="evals" aria-labelledby="evals-h">
+    <div class="sec-head">
+      <h2 id="evals-h" data-i18n="evals_h">评测</h2>
+      <p class="sec-cap" data-i18n="evals_cap">同一个模型、同一组固定 brief，三组对照：不装 skill、装 0.7.0、装 0.8.0。评审看不到来源，只凭 brief 和统一渲染的 PNG 打分、两两比较；对比度、点击区域这类能量的，由脚本量好交给评审。输掉的也照样公布。</p>
+    </div>
+    <div class="ev-pending" id="ev-pending">
+      <p class="ev-state" data-i18n-html="ev_state">评测方案已定：固定 brief、盲评规则、结果格式都在 <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>；尚未开跑，这里还没有分数。</p>
+      <div class="ev-briefs">
+        <h3 class="sub-h" data-i18n="ev_briefs_h">固定 brief</h3>
+        <ol class="briefs">
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/briefs/01-ops-console-zh.md"><span class="b-id num">01</span><span data-i18n="bf1">设备运维工单：列表、详情和空、加载、出错状态（中文后台，桌面）</span></a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/briefs/02-devtool-landing-en.md"><span class="b-id num">02</span><span data-i18n="bf2">本地优先数据库的落地页，不许编造社会证明（桌面和手机）</span></a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/briefs/03-ios-consumer-screen.md"><span class="b-id num">03</span><span data-i18n="bf3">阅读习惯 App：今日、书籍详情、首次使用的空状态（iOS 26）</span></a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/briefs/04-miniprogram-list-zh.md"><span class="b-id num">04</span><span data-i18n="bf4">社区上门服务预约：列表、筛选和空状态（微信小程序）</span></a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/briefs/05-agent-approvals.md"><span class="b-id num">05</span><span data-i18n="bf5">记账应用里的一次 agent 运行：计划、进度、审批、出错、结果（桌面）</span></a></li>
+          <li><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/briefs/06-redesign-legacy.md"><span class="b-id num">06</span><span data-i18n="bf6">老旧诊所排班系统的重设计：前台的日视图（桌面）</span></a></li>
+        </ol>
+      </div>
+    </div>
+    <div class="ev-board" id="ev-board" hidden></div>
+    <p class="ev-links" data-i18n-html="ev_links"><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/README.md">评测方法</a>、<a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/judging.md">评审规则</a>、<a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/results.schema.json">结果格式</a></p>
+  </section>
+
+  <!-- 7. install -->
+  <section class="sk-sec wrap" id="install" aria-labelledby="install-h">
+    <div class="sec-head">
+      <h2 id="install-h" data-i18n="install_h">其他装法与升级</h2>
+      <p class="sec-cap" data-i18n="install_cap">Claude Code 插件的两行命令在页首。三件最好整套装：critique-design 和 implement-design 会读 design-studio 的参考文件和脚本；单独装时，它们的 SKILL.md 也能独立用。</p>
+    </div>
+    <div class="inst-grid">
+      <div class="inst">
+        <details class="alt" open>
+          <summary data-i18n="inst_alt">Codex 或手动安装：软链接整套 skill</summary>
+          <div class="block-wrap">
+<pre class="block" lang="en" tabindex="0"><code id="cmd3">git clone --depth 1 https://github.com/caocong1/design-skill-lab
+cd design-skill-lab
+mkdir -p ~/.claude/skills        # Codex: ~/.codex/skills
+for d in skills/*/; do
+  ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
+done</code></pre>
+            <button type="button" class="copy" data-copy="#cmd3" data-i18n="copy">复制</button>
+          </div>
+        </details>
+      </div>
+      <div class="inst">
+        <details class="alt" open>
+          <summary data-i18n="inst_up">从 0.7.x 升级：旧的子 skill 去哪了</summary>
+          <p class="up-p" data-i18n="up_p">0.8.0 把原来的子 skill 都并进了 design-studio 的参考文件，入口只剩三件。旧名字的去向：</p>
+          <div class="tbl-wrap" tabindex="0" role="region" aria-labelledby="up-t">
+            <table class="tbl up">
+              <caption id="up-t" class="vh" data-i18n="up_t">旧 skill 与新位置</caption>
+              <thead><tr><th scope="col" data-i18n="up_old">旧 skill</th><th scope="col" data-i18n="up_new">现在在</th></tr></thead>
+              <tbody>
+                <tr><td><code>explore-design-directions</code></td><td><code>references/process/directions.md</code></td></tr>
+                <tr><td><code>find-design-inspiration</code></td><td><code>references/process/research.md</code></td></tr>
+                <tr><td><code>build-design-system</code></td><td><code>references/process/system.md</code></td></tr>
+                <tr><td><code>handoff-design</code></td><td><code>references/process/handoff.md</code></td></tr>
+                <tr><td><code>design-product-ui</code></td><td><code>references/disciplines/product-ui.md</code></td></tr>
+                <tr><td><code>design-marketing-sites</code></td><td><code>references/disciplines/marketing-sites.md</code></td></tr>
+                <tr><td><code>design-motion</code></td><td><code>references/disciplines/motion.md</code></td></tr>
+                <tr><td><code>design-icons</code></td><td><code>references/disciplines/icons.md</code>, <code>app-icons.md</code></td></tr>
+                <tr><td><code>design-brand-identity</code></td><td><code>references/disciplines/brand.md</code></td></tr>
+                <tr><td><code>design-graphics</code></td><td><code>references/disciplines/graphics.md</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="up-p" data-i18n="up_rm">删掉旧的软链接（只删软链接，不碰真实目录）：</p>
+          <div class="block-wrap">
+<pre class="block" lang="en" tabindex="0"><code id="cmd4">for n in explore-design-directions find-design-inspiration build-design-system \
+  handoff-design design-product-ui design-marketing-sites design-motion \
+  design-icons design-brand-identity design-graphics; do
+  [ -L ~/.claude/skills/$n ] &amp;&amp; rm ~/.claude/skills/$n
+done</code></pre>
+            <button type="button" class="copy" data-copy="#cmd4" data-i18n="copy">复制</button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ft">
+  <div class="ft-in">
+    <p data-i18n="foot_note">三件 skill 的正文在 GitHub 上。</p>
+    <nav aria-label="数据与源码" data-i18n-aria="foot_nav">
+      <a href="../lab/" data-i18n="nav_lab">设计方向实验室</a>
+      <a href="../data/llms.txt" lang="en">llms.txt</a>
+      <a href="../data/catalog.json" lang="en">catalog.json</a>
+      <a href="https://github.com/caocong1/design-skill-lab" lang="en">GitHub</a>
+      <span data-i18n="foot_licence">MIT 许可</span>
+    </nav>
+  </div>
+</footer>
+
+<script src="../assets/site.js" defer></script>
+<script src="../assets/skills.js" defer></script>
+</body>
+</html>

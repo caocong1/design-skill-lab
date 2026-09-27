@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<script>
+/* Language (?lang= > saved > browser) and theme (saved > OS), before first paint. Same snippet on every page. */
+(function (d) { var l = (/[?&]lang=(zh|en)\b/.exec(location.search) || [])[1], t; try { l = l || localStorage.getItem('dsl-lang'); t = localStorage.getItem('dsl-theme'); } catch (e) {} if (l !== 'zh' && l !== 'en') { var n = (navigator.languages && navigator.languages[0]) || navigator.language || 'zh'; l = /^zh\b/i.test(n) ? 'zh' : 'en'; } d.lang = l === 'en' ? 'en' : 'zh-CN'; d.classList.add('js'); if (t === 'dark' || t === 'light') d.setAttribute('data-theme', t); })(document.documentElement);
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>资源目录 · Design Skill Lab</title>
+<meta name="description" content="逐条标注的设计资源目录：怎么直达、什么授权、要不要登录、agent 能不能读到。可搜索、可筛选，中英双语。">
+<link rel="canonical" href="https://caocong1.github.io/design-skill-lab/catalog/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="资源目录 · Design Skill Lab">
+<meta property="og:description" content="逐条标注的设计资源目录：怎么直达、什么授权、agent 能不能读到。">
+<meta property="og:url" content="https://caocong1.github.io/design-skill-lab/catalog/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314171a'/%3E%3Cpath d='M0 29h32v3H0z' fill='%23555c63'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%23f5f7f8' font-family='serif'%3E%E5%AD%97%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.jsdelivr.net/npm/@fontsource-variable/source-serif-4@5.3.0/files/source-serif-4-latin-wght-normal.woff2">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/catalog.css">
+<script src="../assets/site.js" defer></script>
+<script src="../assets/catalog.js" defer></script>
+<script src="../data/catalog.js" defer></script>
+<script src="../data/thumbs.js" defer></script>
+</head>
+<body data-root="../" class="pg-catalog">
+<a class="skip" href="#results" data-i18n="skip_results">跳到检索结果</a>
+
+<header class="hd">
+  <div class="hd-in">
+    <a class="hd-mark" href="../"><b lang="en">Design Skill Lab</b><span lang="zh-CN">设计技能实验室</span></a>
+    <!-- On this page the header field IS the catalogue query (no second search field). -->
+    <form class="hd-search stick" id="qform" action="./" method="get" role="search">
+      <label class="vh" for="q" data-i18n="search_label">搜索资源</label>
+      <input id="q" name="q" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" placeholder="搜索资源：配色、动效曲线、font…" data-i18n-placeholder="search_ph" aria-controls="results">
+      <button type="button" class="stick-x" id="q-clear" aria-label="清除搜索" data-i18n-aria="q_clear" hidden><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      <kbd aria-hidden="true">/</kbd>
+      <button type="submit" class="stick-go" aria-label="搜索" data-i18n-aria="search_go"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 13l5 5" stroke="currentColor" stroke-width="2.2"/></svg></button>
+    </form>
+    <nav class="hd-nav" aria-label="站点" data-i18n-aria="nav_label">
+      <a href="../" data-i18n="nav_home">首页</a>
+      <a href="./" aria-current="page" data-i18n="nav_catalog">资源目录</a>
+      <a href="../skills/" data-i18n="nav_skills">Skill 套件</a>
+    </nav>
+    <div class="hd-tools">
+      <button type="button" class="tool" data-act="lang" lang="en" aria-label="Switch to English">EN</button>
+      <button type="button" class="tool" data-act="theme">暗色</button>
+      <a class="tool" href="https://github.com/caocong1/design-skill-lab" aria-label="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span lang="en">GitHub</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="wb-band">
+    <h1 data-i18n="h1">资源目录</h1>
+    <p class="wb-lede" data-i18n-html="lede">每一条都写明怎么直达、什么授权、要不要登录、agent 能不能读到。给 agent 的纯文本：<a href="../data/llms.txt" lang="en">llms.txt</a> 和 <a href="../data/catalog.json" lang="en">catalog.json</a>。</p>
+  </div>
+
+  <div class="bench" id="bench">
+    <aside class="rail" id="rail" aria-labelledby="rail-h">
+      <div class="rail-head">
+        <h2 id="rail-h" data-i18n="filters">筛选</h2>
+        <button type="button" class="btn-quiet rail-x" id="rail-x" aria-label="收起筛选" data-i18n-aria="filters_close"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 4l10 10M14 4L4 14" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+      </div>
+      <div id="facets"></div>
+      <button type="button" class="btn rail-done" id="rail-done"></button>
+    </aside>
+
+    <section class="results" id="results" aria-labelledby="res-h" tabindex="-1">
+      <h2 class="vh" id="res-h" data-i18n="results_h">检索结果</h2>
+      <div class="res-head">
+        <!-- under 961 px the facet rail is a drawer, opened from here -->
+        <button type="button" class="rail-toggle" id="rail-toggle" aria-expanded="false" aria-controls="rail"><span data-i18n="filters">筛选</span><span class="rail-on" id="rail-on"></span></button>
+        <p class="count" id="count"><span class="wb-wait" data-i18n="loading">正在载入目录数据…</span></p>
+        <div class="res-ctl" id="res-ctl" hidden>
+          <label class="sortby"><span data-i18n="sort">排序</span>
+            <select id="sort">
+              <option value="best" data-i18n="sort_best">最佳匹配</option>
+              <option value="tier" data-i18n="sort_tier">分级</option>
+              <option value="name" data-i18n="sort_name">名称</option>
+              <option value="domain" data-i18n="sort_domain">按域</option>
+            </select>
+          </label>
+          <div class="seg" role="group" aria-label="视图" data-i18n-aria="view">
+            <button type="button" data-view="list" aria-pressed="true" data-i18n="v_list">列表</button>
+            <button type="button" data-view="grid" aria-pressed="false" data-i18n="v_grid">图版</button>
+            <button type="button" data-view="table" aria-pressed="false" data-i18n="v_table">登记</button>
+          </div>
+        </div>
+      </div>
+      <div class="chips" id="chips" hidden></div>
+      <div id="out"></div>
+      <button type="button" class="more-btn" id="more" hidden></button>
+      <noscript>
+        <div class="static-list">
+          <p class="nojs">检索、筛选和批注需要 JavaScript；下面是不用脚本的全表，按域和小节排，名称直接链到原站。给 agent 的纯文本：<a href="../data/llms.txt" lang="en">llms.txt</a> 和 <a href="../data/catalog.json" lang="en">catalog.json</a>。</p>
+<!-- gen:list -->
+<section class="sl-dom" aria-labelledby="sl-web"><h2 id="sl-web">网站设计 <small lang="en">Websites</small> <span class="num">59</span></h2>
+<h3>精选网站画廊 <small lang="en">Curated site galleries</small></h3><ol>
+<li id="r-siteinspire"><a href="https://www.siteinspire.com" lang="en">Siteinspire</a> <b>S</b> 克制耐看的网站画廊（2008 年起 1 万+ 站），偏字体与编辑排版；另有免登录的只读 MCP，智能体可直接检索。 <small lang="en">siteinspire.com</small></li>
+<li id="r-a1-gallery"><a href="https://a1.gallery" lang="en">A1 Gallery</a> <b>S</b> 标签齐全的当代网站画廊，每站拆成内页与区块并附实测配色、字体与间距；另有 MCP 供智能体取结构化数据。 <small lang="en">a1.gallery</small></li>
+<li id="r-recent-design"><a href="https://recent.design" lang="en">Recent Design</a> <b>S</b> 每日人工策展的灵感站，Godly 的继承者；除分类网站外还收 OG 图、应用商店截图、应用图标，并有按安装量排的设计 skills 榜。 <small lang="en">recent.design</small></li>
+<li id="r-minimal-gallery"><a href="https://minimal.gallery" lang="en">Minimal Gallery</a> 极简网站灵感库，专收留白、字体主导的安静页面；找低饱和、排版驱动的参考时按分类筛选。 <small lang="en">minimal.gallery</small></li>
+<li id="r-httpster"><a href="https://httpster.net" lang="en">Httpster</a> 收录风格各异、有性格的网站画廊，专门对冲 SaaS 同质化；想跳出模板感时按类型翻找。 <small lang="en">httpster.net</small></li>
+<li id="r-hoverstates"><a href="https://www.hoverstat.es" lang="en">Hover States</a> 收录以交互为创意的实验性网站画廊，先看录屏短片筛选，再打开原站体验真实行为。 <small lang="en">hoverstat.es</small></li>
+<li id="r-klikkentheke"><a href="https://klikkentheke.com" lang="en">Klikkentheke</a> 收录平面设计师自己做、给同行看的网站，字体驱动、反模板；brief 要编辑感或艺术学院气质时翻它。 <small lang="en">klikkentheke.com</small></li>
+<li id="r-curated-design"><a href="https://www.curated.design" lang="en">Curated Design</a> 分类齐整的网站画廊，全页截图规格统一；适合按类目快速横向扫一遍找方向。 <small lang="en">curated.design</small></li>
+<li id="r-seesaw"><a href="https://www.seesaw.website" lang="en">Seesaw</a> 更新快的新站收录，标签细到风格、字体和框架；想找用某种字体的真实网站时来这里筛。 <small lang="en">seesaw.website</small></li>
+<li id="r-bestwebsite-gallery"><a href="https://bestwebsite.gallery" lang="en">Best Website Gallery</a> 一位策展人长期维护的优质网站选集，可按颜色和标签筛选；找特定色调或门类的参考时用。 <small lang="en">bestwebsite.gallery</small></li>
+<li id="r-maxibestof"><a href="https://maxibestof.one" lang="en">Maxibestof</a> 偏工作室与作品集的网站库，另拆出区块库（数百个 hero、页脚、功能区）与在用字体库；查单一区块或字体搭配时用。 <small lang="en">maxibestof.one</small></li>
+<li id="r-siiimple"><a href="https://siiimple.com" lang="en">Siiimple</a> <em>更新放缓</em> 极简主义网站档案馆，按分类浏览；找简约风格时当 Minimal Gallery 之外的第二来源用。 <small lang="en">siiimple.com</small></li>
+<li id="r-webdesignmuseum"><a href="https://www.webdesignmuseum.org" lang="en">Web Design Museum</a> 1991–2006 年网页设计史档案馆，可按年份或站点时间线浏览；做复古、Y2K 或早期互联网美学时来取证。 <small lang="en">webdesignmuseum.org</small></li>
+<li id="r-whimsical-club"><a href="https://whimsical.club" lang="en">The Whimsical Web</a> 收录有趣、有个性的个人小站；想给产品加点“人味”和惊喜时挑一个有趣的交互来学，别照搬整站。 <small lang="en">whimsical.club</small></li>
+</ol>
+<h3>落地页与 SaaS 官网 <small lang="en">Landing pages and SaaS marketing</small></h3><ol>
+<li id="r-onepagelove"><a href="https://onepagelove.com" lang="en">One Page Love</a> <b>S</b> 2008 年起人工精选的单页站与落地页（9000+），每站有整页截图、点评和体裁、风格、平台、字体、区块标签；另有免费免密钥 MCP。 <small lang="en">onepagelove.com</small></li>
+<li id="r-land-book"><a href="https://land-book.com" lang="en">Land-book</a> 筛选最细、每日更新的落地页画廊，另有从入选站点裁出的区块库（hero、定价、FAQ、CTA、页脚）；做营销页时的主力参考。 <small lang="en">land-book.com</small></li>
+<li id="r-lapa-ninja"><a href="https://www.lapa.ninja" lang="en">Lapa Ninja</a> 落地页截图库，整页长图能看出区块顺序；按行业和配色分组，写 landing page 结构前先翻。 <small lang="en">lapa.ninja</small></li>
+<li id="r-saaslandingpage"><a href="https://saaslandingpage.com" lang="en">SaaS Landing Page</a> 只收 SaaS 落地页的图库，可按定价、功能、关于等页面类型筛选，横向对比同类页面的做法。 <small lang="en">saaslandingpage.com</small></li>
+<li id="r-saaspo"><a href="https://saaspo.com" lang="en">Saaspo</a> SaaS 站点库，按页面、区块类型与风格索引；写 hero、定价、页脚时直接查对应区块。 <small lang="en">saaspo.com</small></li>
+<li id="r-landingfolio"><a href="https://www.landingfolio.com" lang="en">Landingfolio</a> 落地页灵感库，可按 hero、定价、FAQ、CTA 等组件拆开对比；灵感页免费，模板付费。 <small lang="en">landingfolio.com</small></li>
+<li id="r-landing-love"><a href="https://www.landing.love" lang="en">Landing Love</a> 专收动效出色的落地页，以视频录屏展示；滚动与加载编排是关键时来这里看。 <small lang="en">landing.love</small></li>
+<li id="r-lp-archive-jp"><a href="https://rdlp.jp/lp-archive" lang="ja">LP Archive (LPアーカイブ)</a> 4.6 万+ 日本长落地页（LP），每日更新，可按行业、颜色、调性筛；研究日式竖长营销页，但别原样搬给欧美用户。 <small lang="en">rdlp.jp</small></li>
+</ol>
+<h3>版块与元素画廊 <small lang="en">Section and element galleries</small></h3><ol>
+<li id="r-reallygoodemails"><a href="https://reallygoodemails.com" lang="en">Really Good Emails</a> <b>S</b> 邮件设计的标杆参考，按场景分类且每封附 HTML 源码；做 onboarding、收据、newsletter 邮件时查它。 <small lang="en">reallygoodemails.com</small></li>
+<li id="r-navbar-gallery"><a href="https://navbar.gallery" lang="en">Navbar Gallery</a> 只收导航：导航栏、超级菜单、下拉、侧边栏和移动端菜单；链接多又带 CTA 时来这里对照。 <small lang="en">navbar.gallery</small></li>
+<li id="r-supahero"><a href="https://supahero.io" lang="en">Supahero</a> 只收 Hero 首屏的专门库；定首屏策略（产品图、大字排版、视频、交互）之前先扫一遍。 <small lang="en">supahero.io</small></li>
+<li id="r-bentogrids"><a href="https://bentogrids.com" lang="en">Bento Grids</a> 真实网站的 bento 网格布局合集，风潮已过；确定要用时再参考它的模块尺寸与节奏。 <small lang="en">bentogrids.com</small></li>
+<li id="r-footer-design"><a href="https://www.footer.design" lang="en">Footer</a> 只收页脚的灵感站，看导航结构、法律信息、newsletter 与收尾大字排版的做法。 <small lang="en">footer.design</small></li>
+<li id="r-cta-gallery"><a href="https://www.cta.gallery" lang="en">CTA Gallery</a> 真实网站的 CTA 区块与按钮合集；打磨收尾段时对照别人的构图和文案写法。 <small lang="en">cta.gallery</small></li>
+<li id="r-pricingpages"><a href="https://pricingpages.design" lang="en">Pricing Pages</a> 定价页与方案表的专项画廊；对比方案数量、推荐方案的强调手法和切换开关的样式。 <small lang="en">pricingpages.design</small></li>
+<li id="r-404s-design"><a href="https://www.404s.design" lang="en">404s</a> 404 页面合集，错误页和空状态是品牌语气露脸的地方；找文案调性和插画路子时刷一遍。 <small lang="en">404s.design</small></li>
+<li id="r-emaillove"><a href="https://emaillove.com" lang="en">Email Love</a> 按类型与品牌标签整理的邮件设计精选库；做邮件模板时翻，Really Good Emails 之外的第二来源。 <small lang="en">emaillove.com</small></li>
+<li id="r-unsection"><a href="https://www.unsection.com" lang="en">Unsection</a> 按区块分类的网站画廊（首屏、功能、定价、FAQ、页脚等，5000+ 站）；只纠结某一个区块时横向对比十个同类解法。 <small lang="en">unsection.com</small></li>
+</ol>
+<h3>细分与地区画廊 <small lang="en">Niche and regional galleries</small></h3><ol>
+<li id="r-sankoudesign"><a href="https://sankoudesign.com" lang="en">SANKOU!</a> <b>S</b> 日本网站画廊，行业、页面、颜色、版式筛选很细；做中文排版时最接近的高质量参照。 <small lang="en">sankoudesign.com</small></li>
+<li id="r-darkmodedesign"><a href="https://www.darkmodedesign.com" lang="en">Dark Mode Design</a> 只收深色主题网站，研究暗色界面的表面层级与克制的强调色；要打开原站读真实色值。 <small lang="en">darkmodedesign.com</small></li>
+<li id="r-brutalistwebsites"><a href="https://brutalistwebsites.com" lang="en">Brutalist Websites</a> <em>更新放缓</em> 粗野主义网站档案，附设计师短访谈；要做生糙、反精致的方向时来这里找参照。 <small lang="en">brutalistwebsites.com</small></li>
+<li id="r-commercecream"><a href="https://commercecream.com" lang="en">Commerce Cream</a> 好看电商店面的画廊，多为 Shopify；用来研究真实约束下的商品页与购物车模式。 <small lang="en">commercecream.com</small></li>
+<li id="r-ecomm-design"><a href="https://ecomm.design" lang="en">Ecomm.design</a> 电商网站灵感库，可按平台、品类和技术栈筛选；做时尚、食品、美妆等垂直电商时按类目翻。 <small lang="en">ecomm.design</small></li>
+<li id="r-bestfolios"><a href="https://www.bestfolios.com" lang="en">Bestfolios</a> 设计师作品集、案例研究与简历的精选库；搭作品集结构、学案例叙事时参考。 <small lang="en">bestfolios.com</small></li>
+<li id="r-personalsites"><a href="https://personalsit.es" lang="en">personalsit.es</a> 个人网站目录，全是不商业、有个性的排版与布局；想找非商业版式灵感时随手翻。 <small lang="en">personalsit.es</small></li>
+<li id="r-muuuuu"><a href="https://muuuuu.org" lang="en">MUUUUU.ORG</a> 日本长滚动网站精选，以工艺见长；研究纵向节奏和日英混排字体时的第一站。 <small lang="en">muuuuu.org</small></li>
+<li id="r-81-web"><a href="https://81-web.com" lang="en">81-web.com</a> 日本网页设计画廊，可按类目与颜色筛选；CJK 排版参考的第二来源。 <small lang="en">81-web.com</small></li>
+<li id="r-responsive-jp"><a href="https://responsive-jp.com" lang="en">Responsive Web Design JP</a> 日本网站三端同屏展示，桌面、平板、手机排版并排对照；研究跨断点重排构图时用它。 <small lang="en">responsive-jp.com</small></li>
+<li id="r-made-in-webflow"><a href="https://webflow.com/made-in-webflow" lang="en">Made in Webflow</a> Webflow 社区作品库，含可克隆项目；质量参差，主要用来拆开看交互效果的实现方式。 <small lang="en">webflow.com</small></li>
+<li id="r-framer-gallery"><a href="https://www.framer.com/community/gallery/" lang="en">Framer Gallery</a> Framer 官方作品画廊，反映无代码圈当下的流行风向；当趋势指标看，别当标准。 <small lang="en">framer.com</small></li>
+<li id="r-io3000"><a href="https://io3000.com" lang="en">I/O 3000</a> 老牌日本网站画廊，可按类目、标签和颜色筛；看日企官网、招聘站的中日文标题字号与行长。 <small lang="en">io3000.com</small></li>
+<li id="r-webdesignclip"><a href="https://webdesignclip.com" lang="en">Web Design Clip</a> 收录 6000+ 日本网站，可按行业（企业、招聘、地产…）与技术标签筛；对比日本站点如何排布密集的中日文内容。 <small lang="en">webdesignclip.com</small></li>
+<li id="r-s5-style"><a href="https://www.s5-style.com" lang="en">S5-Style</a> 高品质日本网站画廊，企业官网、招聘站、服务站居多；判断中日文排版精致度时的第三参考。 <small lang="en">s5-style.com</small></li>
+<li id="r-korea-web-design"><a href="https://koreawebdesign.com" lang="en">Korea Web Design</a> 精选韩国网站，桌面与移动分开收录；研究韩文排版最好的公开参考，定 CJK 字号行高前与中日站点对照。 <small lang="en">koreawebdesign.com</small></li>
+</ol>
+<h3>获奖站点 <small lang="en">Award sites</small></h3><ol>
+<li id="r-awwwards"><a href="https://www.awwwards.com" lang="en">Awwwards</a> <b>S</b> 网页设计奖项站点，看动效与视觉的野心天花板；评审不管可用性与转化，只当野心参考。 <small lang="en">awwwards.com</small></li>
+<li id="r-fwa"><a href="https://thefwa.com" lang="en">The FWA</a> 老牌数字体验奖项，偏实验与沉浸式；做活动站或 campaign 类项目时来找前沿参照。 <small lang="en">thefwa.com</small></li>
+<li id="r-cssda"><a href="https://www.cssdesignawards.com" lang="en">CSS Design Awards</a> 按 UI、UX 与创新三个维度打分的设计奖项站；拿它做 Awwwards 之外的第二意见。 <small lang="en">cssdesignawards.com</small></li>
+<li id="r-webby-awards"><a href="https://winners.webbyawards.com" lang="en">The Webby Awards gallery</a> Webby 奖获奖与提名作品库，覆盖网站、应用、社媒、视频与 AI 类别；按年份和类别看业界奖励了什么。 <small lang="en">winners.webbyawards.com</small></li>
+<li id="r-gdweb"><a href="https://www.gdweb.co.kr/main/" lang="en">GDWEB Design Awards</a> 韩国网页设计奖与作品库（지디웹），本地代理商常用的企业与品牌站参考；看韩文企业站时与 Korea Web Design 对照。 <small lang="en">gdweb.co.kr</small></li>
+</ol>
+<h3>转化与文案 <small lang="en">Conversion and copy</small></h3><ol>
+<li id="r-marketingexamples"><a href="https://marketingexamples.com" lang="en">Marketing Examples</a> <b>S</b> 营销拆解博客，用短篇幅分析文案、落地页和转化手法；动笔写 hero 区标题前先读几篇。 <small lang="en">marketingexamples.com</small></li>
+<li id="r-julian-landing-pages"><a href="https://www.julian.com/guide/startup/landing-pages" lang="en">Julian Shapiro: Landing Pages</a> <em>更新放缓</em> 讲落地页结构最清楚的指南：Hero、社会证明、特性、异议、CTA；当页面叙事的检查清单用。 <small lang="en">julian.com</small></li>
+<li id="r-demandcurve"><a href="https://www.demandcurve.com/frontier-library" lang="en">Demand Curve: The Frontier library</a> 增长团队的实操 playbook 合集，含首屏与落地页拆解；起草 hero 区前先看首屏那一篇。 <small lang="en">demandcurve.com</small></li>
+<li id="r-goodui"><a href="https://goodui.org" lang="en">GoodUI</a> 带 A/B 测试结果的 UI 模式库，连输掉的方案也公开；提案前先查它有没有证据。 <small lang="en">goodui.org</small></li>
+<li id="r-swipefile"><a href="https://swipefile.com" lang="en">Swipe File</a> 广告、落地页与文案的大型 swipe file，附点评；卡在文案表达时按格式检索。 <small lang="en">swipefile.com</small></li>
+<li id="r-mailchimp-content-style-guide"><a href="https://styleguide.mailchimp.com" lang="en">Mailchimp Content Style Guide</a> Mailchimp 公开的内容风格指南：写作原则、语气语调、语法、网页元素、邮件与社媒写法；按钮、报错、标题文案的默认规则。 <small lang="en">styleguide.mailchimp.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-app-ui"><h2 id="sl-app-ui">产品界面 <small lang="en">Product UI</small> <span class="num">61</span></h2>
+<h3>真实产品界面与流程 <small lang="en">Real-product screens and flows</small></h3><ol>
+<li id="r-mobbin"><a href="https://mobbin.com" lang="en">Mobbin</a> <b>S</b> 真实 App 界面与流程的最大图库，按页面类型、组件和流程检索；免费额度少且需登录。 <small lang="en">mobbin.com</small></li>
+<li id="r-refero"><a href="https://refero.design" lang="en">Refero</a> 真实产品的网页与 iOS 界面截图库，按页面类型、模式、元素可搜；做 SaaS 界面先搜它，部分内容需付费。 <small lang="en">refero.design</small></li>
+<li id="r-pageflows"><a href="https://pageflows.com" lang="en">Page Flows</a> 录屏加标注的真实用户流程库，覆盖引导、升级、退订；问题是流程顺序而非单屏时查，多为付费。 <small lang="en">pageflows.com</small></li>
+<li id="r-nicelydone"><a href="https://nicelydone.club" lang="en">Nicelydone</a> 按页面和组件整理的 SaaS 产品截图库，做仪表盘、设置页、引导流程时直接翻。 <small lang="en">nicelydone.club</small></li>
+<li id="r-saasframe"><a href="https://www.saasframe.io" lang="en">SaaSFrame</a> 按类目整理 SaaS 界面：仪表盘、设置、弹窗、表格、邮件加落地页；部分库内容需付费。 <small lang="en">saasframe.io</small></li>
+<li id="r-uinotes"><a href="https://uinotes.com" lang="en">UI Notes</a> 收录国内应用的界面与流程截图，相当于本土版 Mobbin；用来看国内用户习惯的模式。 <small lang="en">uinotes.com</small></li>
+<li id="r-screensdesign"><a href="https://screensdesign.com" lang="en">ScreensDesign</a> 移动端流程录屏库，主打订阅制 App 的引导页和付费墙；另收 App Store 截图设计。 <small lang="en">screensdesign.com</small></li>
+<li id="r-paywallscreens"><a href="https://www.paywallscreens.com" lang="en">Paywall Screens</a> 订阅制 App 付费墙截图库；比较套餐布局、试用话术与法务文案摆放位置时用。 <small lang="en">paywallscreens.com</small></li>
+<li id="r-reallygoodux"><a href="https://goodux.appcues.com" lang="en">Really Good UX</a> 带批注的产品 UX 案例库，引导与激活类最强；按模式筛选，每条都解释为什么好。 <small lang="en">goodux.appcues.com</small></li>
+<li id="r-useronboard"><a href="https://www.useronboard.com" lang="en">UserOnboard</a> <em>更新放缓</em> 各家产品新手引导的逐屏拆解加点评，做首次启动体验前先读一两篇找反面教材。 <small lang="en">useronboard.com</small></li>
+<li id="r-collectui"><a href="https://collectui.com" lang="en">Collect UI</a> 按组件归类的概念稿合集，好看但大多没上线；只取视觉处理灵感，别当落地依据。 <small lang="en">collectui.com</small></li>
+<li id="r-deceptive-design"><a href="https://deceptive.design" lang="en">Deceptive Patterns</a> 暗黑模式的分类学与耻辱柱，附法律案例；增长点子上线前先对照类型表查一遍。 <small lang="en">deceptive.design</small></li>
+</ol>
+<h3>组件参考 <small lang="en">Component references</small></h3><ol>
+<li id="r-component-gallery"><a href="https://component.gallery" lang="en">The Component Gallery</a> <b>S</b> 组件横向对照表，同一个组件在几十个设计系统里的命名、结构和实现并排可查。 <small lang="en">component.gallery</small></li>
+<li id="r-checklist-design"><a href="https://www.checklist.design" lang="en">Checklist Design</a> 组件、页面、流程各自该包含什么的清单库；交付前拿对应清单逐项核对，防漏项。 <small lang="en">checklist.design</small></li>
+<li id="r-uiguideline"><a href="https://www.uiguideline.com" lang="en">UI Guideline</a> 汇总各大设计系统的组件规范，讲清部件结构、属性与状态；命名和列状态时来查。 <small lang="en">uiguideline.com</small></li>
+<li id="r-open-ui"><a href="https://open-ui.org" lang="en">Open UI</a> W3C 社区的组件解剖研究，横向对比各系统的命名与行为；给部件和状态起名时查它的矩阵。 <small lang="en">open-ui.org</small></li>
+<li id="r-uiplaybook"><a href="https://uiplaybook.dev" lang="en">UI Playbook</a> <em>更新放缓</em> 组件最佳实践速查，按组件列出该做和不该做；画稿前花两分钟过一遍避免低级错误。 <small lang="en">uiplaybook.dev</small></li>
+<li id="r-uxpatterns-dev"><a href="https://uxpatterns.dev" lang="en">UX Patterns for Developers</a> 92 个以上 UI 模式，每个都写了结构、最佳实践、无障碍与测试，并提供 MCP 与 llms.txt；实现陌生模式前先查。 <small lang="en">uxpatterns.dev</small></li>
+</ol>
+<h3>平台规范 <small lang="en">Platform guidelines</small></h3><ol>
+<li id="r-apple-hig"><a href="https://developer.apple.com/design/human-interface-guidelines" lang="en">Apple Human Interface Guidelines</a> <b>S</b> Apple 各平台界面的权威规范，含 Liquid Glass 材质、布局、字体与导航；站点是 JS 应用，需用浏览器工具读。 <small lang="en">developer.apple.com</small></li>
+<li id="r-material-3"><a href="https://m3.material.io" lang="en">Material Design 3</a> <b>S</b> Google 的设计系统，含 M3 Expressive、动态取色、色彩角色、字阶、形状与动效；按 Foundations、Styles、Components 顺序读。 <small lang="en">m3.material.io</small></li>
+<li id="r-harmonyos-design"><a href="https://developer.huawei.com/consumer/cn/design/" lang="en">HarmonyOS Design</a> <b>S</b> 华为 HarmonyOS 官方设计规范，含多设备自适应布局、HarmonyOS Sans、图标与动效，附资源下载。 <small lang="en">developer.huawei.com</small></li>
+<li id="r-wechat-miniprogram-design"><a href="https://developers.weixin.qq.com/miniprogram/design/" lang="en">WeChat Mini Program Design Guidelines</a> <b>S</b> 微信小程序官方设计规范：导航与胶囊按钮、反馈、触控热区、字体与色彩；动手画界面前必读。 <small lang="en">developers.weixin.qq.com</small></li>
+<li id="r-apple-design-resources"><a href="https://developer.apple.com/design/resources/" lang="en">Apple Design Resources</a> Apple 官方 UI 套件、设备边框、SF Symbols 与字体下载；按目标系统版本选包，授权限做 Apple 平台设计。 <small lang="en">developer.apple.com</small></li>
+<li id="r-android-design"><a href="https://developer.android.com/design" lang="en">Android design guidance</a> Android 官方设计指南，补 Material 没覆盖的部分：系统栏、边到边、大屏折叠屏、Wear、TV 等。 <small lang="en">developer.android.com</small></li>
+<li id="r-fluent-2"><a href="https://fluent2.microsoft.design" lang="en">Fluent 2</a> 微软跨平台设计系统，含 token、组件、动效和无障碍规范；做微软生态产品时照它对齐。 <small lang="en">fluent2.microsoft.design</small></li>
+<li id="r-windows-app-design"><a href="https://learn.microsoft.com/en-us/windows/apps/design/" lang="en">Windows app design</a> Windows 11 桌面应用设计规范：标题栏、导航、材质、字体、输入；做 Electron 或 Tauri 应用要原生感时读。 <small lang="en">learn.microsoft.com</small></li>
+<li id="r-gnome-hig"><a href="https://developer.gnome.org/hig/" lang="en">GNOME HIG</a> GNOME 的桌面应用规范，写得清楚紧凑；就算不在 Linux 做设计，patterns 章的通用桌面建议也值得读。 <small lang="en">developer.gnome.org</small></li>
+<li id="r-alipay-miniprogram-design"><a href="https://opendocs.alipay.com/mini/design" lang="en">Alipay Mini Program design</a> 支付宝小程序的设计规范与组件指引；同时上微信和支付宝时配合微信规范一起用。 <small lang="en">opendocs.alipay.com</small></li>
+<li id="r-clig"><a href="https://clig.dev" lang="en">Command Line Interface Guidelines</a> 命令行界面设计准则，讲输出、报错、帮助和参数的以人为本原则；产品界面是终端时读。 <small lang="en">clig.dev</small></li>
+<li id="r-flutter-design"><a href="https://docs.flutter.dev/ui/design" lang="en">Flutter UI design docs</a> Flutter 中 Material 与 Cupertino 的落地方式及自适应、响应式指引；配合目标平台的规范一起看。 <small lang="en">docs.flutter.dev</small></li>
+<li id="r-dingtalk-design"><a href="https://open.dingtalk.com/document/design">DingTalk design resources (钉钉设计开放资源)</a> 钉钉开放平台的设计资源：合作方应用上钉体验指南与审核、酷应用体验设计指南、应用图标规范与资源下载。 <small lang="en">open.dingtalk.com</small></li>
+<li id="r-feishu-design"><a href="https://open.feishu.cn/document/tools-and-resources/design-specification/message-card-design-specifications">Feishu design specifications (飞书设计规范)</a> 飞书开放平台设计规范，消息卡片（机器人与通知）部分最有用，另有网页应用与图标指引。 <small lang="en">open.feishu.cn</small></li>
+<li id="r-douyin-miniapp-design"><a href="https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/design/design-specification/Design-Principles/Design-Principles">Douyin Mini App design guidelines (抖音小程序设计规范)</a> 抖音小程序的设计原则与分行业规范；同一小程序要上多个宿主时，与微信、支付宝规范一起读。 <small lang="en">developer.open-douyin.com</small></li>
+</ol>
+<h3>公开的设计系统 <small lang="en">Published design systems</small></h3><ol>
+<li id="r-carbon"><a href="https://carbondesignsystem.com" lang="en">Carbon Design System</a> <b>S</b> IBM 的设计系统，高密度企业界面、数据表格与数据可视化的最佳公开参考；Apache-2.0 协议。 <small lang="en">carbondesignsystem.com</small></li>
+<li id="r-govuk-design-system"><a href="https://design-system.service.gov.uk" lang="en">GOV.UK Design System</a> <b>S</b> 英国政府设计系统，表单、报错与分步流程的模式都有研究背书；清晰与无障碍的标杆，MIT。 <small lang="en">design-system.service.gov.uk</small></li>
+<li id="r-ant-design"><a href="https://ant.design" lang="en">Ant Design</a> <b>S</b> 中文企业级后台的事实标准：设计价值观、布局、数据录入与展示、反馈加组件库；MIT 协议。 <small lang="en">ant.design</small></li>
+<li id="r-atlassian-design"><a href="https://atlassian.design" lang="en">Atlassian Design System</a> 复杂产品套件的设计系统，token、组件与内容文案指引都写得扎实；重点看基础与内容两章。 <small lang="en">atlassian.design</small></li>
+<li id="r-polaris"><a href="https://shopify.dev/docs/apps/design" lang="en">Shopify Polaris and app design guidelines</a> Shopify 应用设计指南（Built for Shopify 要求、移动优先、与后台一致）与改为 Web Components 的 Polaris；做商家后台类界面时读。 <small lang="en">shopify.dev</small></li>
+<li id="r-primer"><a href="https://primer.style" lang="en">GitHub Primer</a> GitHub 的设计系统，导航、列表、代码类组件齐全且逐个附无障碍说明；做开发者工具产品时参考；MIT。 <small lang="en">primer.style</small></li>
+<li id="r-spectrum"><a href="https://spectrum.adobe.com" lang="en">Adobe Spectrum</a> Adobe 面向专业创意工具的设计系统，密度、色彩与多语言排版讲得深；新版是 Spectrum 2。 <small lang="en">spectrum.adobe.com</small></li>
+<li id="r-geist"><a href="https://vercel.com/geist/introduction" lang="en">Vercel Geist</a> Vercel 的极简设计系统，颜色、字体、栅格、图标、组件俱全；做开发者工具界面时的克制范本。 <small lang="en">vercel.com</small></li>
+<li id="r-cloudscape"><a href="https://cloudscape.design" lang="en">AWS Cloudscape</a> AWS 的控制台设计系统，讲资源表格、创建流程、仪表盘与生成式 AI 模式；Apache-2.0。 <small lang="en">cloudscape.design</small></li>
+<li id="r-pajamas"><a href="https://design.gitlab.com" lang="en">GitLab Pajamas</a> GitLab 完全开放的设计系统，用法指引异常坦诚，还含 AI 与人交互的模式；MIT。 <small lang="en">design.gitlab.com</small></li>
+<li id="r-uswds"><a href="https://designsystem.digital.gov" lang="en">U.S. Web Design System</a> 美国联邦政府网站设计系统，组件和模式以无障碍为底线；政务、受监管场景的信任感参考。 <small lang="en">designsystem.digital.gov</small></li>
+<li id="r-wise-design"><a href="https://wise.design" lang="en">Wise Design</a> Wise 的消费金融设计系统，品牌表达与内容规范都出彩；做有性格又好用的 C 端产品时参考。 <small lang="en">wise.design</small></li>
+<li id="r-arco-design"><a href="https://arco.design" lang="en">Arco Design</a> 字节跳动的企业级设计系统，含设计规范与风格定制平台；比 Ant Design 视觉更轻，MIT。 <small lang="en">arco.design</small></li>
+<li id="r-semi-design"><a href="https://semi.design" lang="en">Semi Design</a> 抖音团队的设计系统，带设计转代码工具与主题商店；做内容平台后台可参考，MIT 协议。 <small lang="en">semi.design</small></li>
+<li id="r-tdesign"><a href="https://tdesign.tencent.com" lang="en">TDesign</a> 腾讯的设计体系，一套价值观横跨 Web、移动端、小程序和 Flutter；多端同发时选它；MIT。 <small lang="en">tdesign.tencent.com</small></li>
+<li id="r-astro-uxds"><a href="https://www.astrouxds.com" lang="en">Astro UX Design System</a> 面向航天运控台的设计系统：状态语义、暗色控制室界面、监控模式；做监控大屏可参考。 <small lang="en">astrouxds.com</small></li>
+<li id="r-siemens-ix"><a href="https://ix.siemens.io" lang="en">Siemens Industrial Experience</a> 西门子开源的工业设计系统，面向工厂和设备软件界面；做工业、IoT 产品时参考。MIT。 <small lang="en">ix.siemens.io</small></li>
+<li id="r-designsystemsrepo"><a href="https://designsystemsrepo.com/design-systems/" lang="en">Design Systems Repo</a> 公开设计系统的目录，附文档、代码与工具链接；找同行业可比系统时从这里入手。 <small lang="en">designsystemsrepo.com</small></li>
+<li id="r-digital-agency-ds"><a href="https://design.digital.go.jp/dads/" lang="ja">Digital Agency Design System (デジタル庁デザインシステム)</a> 日本数字厅的政府设计系统（v2.18 测试版）：设计语言、组件、指南与无障碍，附 Figma、HTML 与 React 示例，全站也提供 Markdown 版。 <small lang="en">design.digital.go.jp</small></li>
+<li id="r-smarthr-design"><a href="https://smarthr.design" lang="en">SmartHR Design System</a> 日本 B2B SaaS 的设计系统，日文写作规范与无障碍指南尤其扎实；做高密度日文业务界面时读。 <small lang="en">smarthr.design</small></li>
+<li id="r-krds"><a href="https://www.krds.go.kr" lang="en">KRDS (Korea Design System)</a> 韩国政府设计系统：原则、组件、服务模式、代码与 Figma；韩文公共服务或表单密集场景参考，可与 GOV.UK 对照。 <small lang="en">krds.go.kr</small></li>
+<li id="r-line-design-system"><a href="https://designsystem.line.me" lang="en">LINE Design System</a> LINE 超级 App 的设计系统，覆盖日本、台湾、泰国市场；以聊天为中心的东亚移动产品参考。 <small lang="en">designsystem.line.me</small></li>
+</ol>
+<h3>细节与跨界来源 <small lang="en">Details and out-of-category sources</small></h3><ol>
+<li id="r-game-ui-database"><a href="https://www.gameuidatabase.com" lang="en">Game UI Database</a> 数万张游戏界面截图库，可按画面类型、控件、配色筛选；做 HUD、浮层或高密度满屏界面时翻。 <small lang="en">gameuidatabase.com</small></li>
+<li id="r-interface-in-game"><a href="https://interfaceingame.com" lang="en">Interface In Game</a> 按游戏和界面元素归档的游戏 UI 截图与视频库，做 HUD 或游戏化界面时看动效表现。 <small lang="en">interfaceingame.com</small></li>
+<li id="r-hudsandguis"><a href="https://www.hudsandguis.com" lang="en">HUDS+GUIS</a> <em>更新放缓</em> 影视与游戏里的幻想 UI 合集；做控制室式科幻视觉时参考，可用性别当真。 <small lang="en">hudsandguis.com</small></li>
+<li id="r-scifi-interfaces"><a href="https://scifiinterfaces.com" lang="en">Sci-fi Interfaces</a> <em>更新放缓</em> 对科幻电影界面做严肃批判分析的博客；想从电影 UI 借点子之前先读它。 <small lang="en">scifiinterfaces.com</small></li>
+<li id="r-designspells"><a href="https://www.designspells.com" lang="en">Design Spells</a> 收录已上线产品里讨巧的小细节和彩蛋，短视频呈现；产品缺一个记忆点时来翻。 <small lang="en">designspells.com</small></li>
+<li id="r-little-big-details"><a href="https://littlebigdetails.com" lang="en">Little Big Details</a> <em>已归档</em> 收集产品中贴心小细节的档案馆；想给界面加点便宜又讨喜的东西时翻一翻。 <small lang="en">littlebigdetails.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-dataviz"><h2 id="sl-dataviz">数据可视化 <small lang="en">Data visualisation</small> <span class="num">46</span></h2>
+<h3>图表选择与设计指引 <small lang="en">Chart choice and design guides</small></h3><ol>
+<li id="r-ft-visual-vocabulary"><a href="https://ft-interactive.github.io/visual-vocabulary/" lang="en">FT Visual Vocabulary</a> <b>S</b> FT 的图表选择器，按数据里的关系（偏差、相关、排名、分布、随时间变化等）分类；先定关系再选图。 <small lang="en">ft-interactive.github.io</small></li>
+<li id="r-data-to-viz"><a href="https://www.data-to-viz.com" lang="en">From Data to Viz</a> <b>S</b> 从数据类型到图表的决策树，附常见错误清单；定稿任何图表前先读它的 Caveats 页。 <small lang="en">data-to-viz.com</small></li>
+<li id="r-urban-dataviz-guide"><a href="https://urbaninstitute.github.io/graphics-styleguide/" lang="en">Urban Institute Data Visualization Style Guide</a> <b>S</b> <em>更新放缓</em> 最完整的公开图表风格指南：带色值的配色、字体层级、标注与逐类图表规则，全部在一个静态页面上。 <small lang="en">urbaninstitute.github.io</small></li>
+<li id="r-datavizproject"><a href="https://datavizproject.com" lang="en">Data Viz Project</a> 图表类型大目录，可按功能、输入和形状筛选；想找不那么俗套的图表形式时用它。 <small lang="en">datavizproject.com</small></li>
+<li id="r-carbon-dataviz"><a href="https://carbondesignsystem.com/data-visualization/getting-started/" lang="en">Carbon data visualization</a> IBM Carbon 的企业图表规范：配色板、坐标轴、图例、仪表盘与无障碍规则，做后台图表照它执行。 <small lang="en">carbondesignsystem.com</small></li>
+<li id="r-material-2-dataviz"><a href="https://m2.material.io/design/communication/data-visualization.html" lang="en">Material 2 data visualization</a> <em>已归档</em> Material 2 的数据可视化指南，图表选型、样式、行为与仪表盘布局讲得最清楚的入门之一。 <small lang="en">m2.material.io</small></li>
+<li id="r-chartability"><a href="https://chartability.fizz.studio" lang="en">Chartability</a> 数据可视化的无障碍审计启发式清单；任何承载关键信息的图表都该过一遍。 <small lang="en">chartability.fizz.studio</small></li>
+<li id="r-datawrapper-blog"><a href="https://www.datawrapper.de/blog" lang="en">Datawrapper blog and Academy</a> Datawrapper 团队的博客与 Academy：图表设计实操，数据配色系列最值得读，Academy 按图表类型讲惯例，也可直接用它的免费工具快速试图。 <small lang="en">datawrapper.de</small></li>
+<li id="r-visual-display-quantitative"><a href="https://www.edwardtufte.com/book/the-visual-display-of-quantitative-information/" lang="en">The Visual Display of Quantitative Information</a> Tufte 的量化信息视觉呈现，讲数据墨水比、chartjunk 与图形诚信；做任何图表仪表盘的原理书。 <small lang="en">edwardtufte.com</small></li>
+<li id="r-storytelling-with-data"><a href="https://www.storytellingwithdata.com/books" lang="en">Storytelling with Data</a> 讲商业图表设计与数据叙事的实用书；给管理层做汇报和仪表盘时读，付费。 <small lang="en">storytellingwithdata.com</small></li>
+<li id="r-ons-dataviz"><a href="https://service-manual.ons.gov.uk/data-visualisation" lang="en">ONS data visualisation guidance</a> 英国国家统计局的图表、表格与配色指南：选图、无障碍配色、标题与标注；面向公众的统计数据，清晰和可访问优先于新奇。 <small lang="en">service-manual.ons.gov.uk</small></li>
+<li id="r-dataviz-catalogue"><a href="https://datavizcatalogue.com" lang="en">The Data Visualisation Catalogue</a> 按功能（比较、分布、占比、关系）检索的图表类型目录，每种图附结构说明、适用场景与工具；与 FT Visual Vocabulary 搭配找不常见的图表。 <small lang="en">datavizcatalogue.com</small></li>
+<li id="r-fundamentals-of-dataviz"><a href="https://clauswilke.com/dataviz/" lang="en">Fundamentals of Data Visualization</a> Claus Wilke 的完整在线免费书：选图、配色与常见陷阱、比例墨水原则、点重叠与图形设计；设计图表前先读配色与陷阱章节。 <small lang="en">clauswilke.com</small></li>
+</ol>
+<h3>图表库 <small lang="en">Chart libraries</small></h3><ol>
+<li id="r-echarts"><a href="https://echarts.apache.org" lang="en">Apache ECharts</a> <b>S</b> 功能全的图表库，中文仪表盘与大屏项目的事实主力；定义一次主题对象，别逐图改样式；Apache-2.0。 <small lang="en">echarts.apache.org</small></li>
+<li id="r-vega-lite"><a href="https://vega.github.io/vega-lite/" lang="en">Vega-Lite</a> <b>S</b> 声明式 JSON 交互图表语法，附公开的 JSON Schema；agent 可以把图表当数据输出并在渲染前校验。 <small lang="en">vega.github.io</small></li>
+<li id="r-antv"><a href="https://antv.antgroup.com" lang="en">AntV</a> 蚂蚁集团的可视化技术栈与数据图形设计原则；先读设计原则，再翻 G2、G6、L7 的图表示例，MIT。 <small lang="en">antv.antgroup.com</small></li>
+<li id="r-tremor"><a href="https://tremor.so" lang="en">Tremor</a> <em>更新放缓</em> 面向仪表盘与图表的 React 组件库，搭分析类界面很快；默认样式记得重塑，Apache-2.0。 <small lang="en">tremor.so</small></li>
+<li id="r-d3"><a href="https://d3js.org" lang="en">D3</a> 定制数据可视化的底层工具箱；标准图表交给 Observable Plot，非标定制才上 D3；ISC。 <small lang="en">d3js.org</small></li>
+<li id="r-observable-plot"><a href="https://observablehq.com/plot/" lang="en">Observable Plot</a> D3 团队出品的图形语法图表库（mark、scale、facet），默认值出色；探索性和编辑型图表首选，D3 太底层时用它。 <small lang="en">observablehq.com</small></li>
+<li id="r-visx"><a href="https://visx.airbnb.tech" lang="en">visx</a> Airbnb 基于 D3 的底层 React 可视化原语（比例尺、图形、坐标轴、提示框）；需要与设计系统完全一致的定制 React 图表时用。 <small lang="en">visx.airbnb.tech</small></li>
+<li id="r-visactor"><a href="https://www.visactor.io" lang="en">VisActor</a> 字节跳动可视化方案：VChart（叙事图表）、VTable（超大表格）、VMind（AI 生成图表），带 Semi、Arco 主题；已用 Semi/Arco 的项目首选。 <small lang="en">visactor.io</small></li>
+<li id="r-chartjs"><a href="https://www.chartjs.org" lang="en">Chart.js</a> 简单、与框架无关的 Canvas 图表库（八种基础图表），默认值好、插件多；任何技术栈里做少量标准图表时用。 <small lang="en">chartjs.org</small></li>
+<li id="r-recharts"><a href="https://recharts.github.io" lang="en">Recharts</a> 基于 SVG 的可组合 React 图表组件，也是 shadcn/ui 图表的底层，因此是大多数 AI 生成仪表盘的默认；注意 v3 有破坏性变更。 <small lang="en">recharts.github.io</small></li>
+<li id="r-highcharts"><a href="https://www.highcharts.com" lang="en">Highcharts</a> 成熟的商业图表库，内置无障碍模块最完善（键盘、声音化、读屏描述），另有股票、地图、甘特图产品；商用必须购买授权。 <small lang="en">highcharts.com</small></li>
+</ol>
+<h3>仪表盘与大屏 <small lang="en">Dashboards and big-screen</small></h3><ol>
+<li id="r-dashboard-design-patterns"><a href="https://dashboarddesignpatterns.github.io" lang="en">Dashboard Design Patterns</a> 基于研究的仪表盘模式分类学，梳理页面布局、交互和类型；动手画之前先选定仪表盘类型。 <small lang="en">dashboarddesignpatterns.github.io</small></li>
+<li id="r-grafana-dashboards"><a href="https://grafana.com/grafana/dashboards/" lang="en">Grafana dashboards</a> 数千个真实运维监控面板仓库，看值班工程师实际在用什么数据墙；配 play.grafana.org 看实时行为。 <small lang="en">grafana.com</small></li>
+<li id="r-datav-aliyun"><a href="https://datav.aliyun.com/portal" lang="en">Alibaba Cloud DataV</a> 国内大屏数据可视化的参照系产品，模板体现主流惯例；学布局可以，霓虹光效那套要避开。 <small lang="en">datav.aliyun.com</small></li>
+<li id="r-easyv"><a href="https://easyv.cloud" lang="en">EasyV</a> 国产大屏与数字孪生案例库；做数据墙排版布局时的第二参照来源。 <small lang="en">easyv.cloud</small></li>
+<li id="r-big-book-dashboards"><a href="https://www.bigbookofdashboards.com" lang="en">The Big Book of Dashboards</a> 真实业务仪表盘按场景归类，逐个附专家点评讲清什么有效、为什么；从相近场景选仪表盘类型与布局。 <small lang="en">bigbookofdashboards.com</small></li>
+<li id="r-datav-geoatlas"><a href="https://datav.aliyun.com/portal/school/atlas/area_selector" lang="en">DataV.GeoAtlas</a> 阿里云 DataV 的中国行政区划 GeoJSON（可到区县），国内地图图表的常用数据源。 <small lang="en">datav.aliyun.com</small></li>
+<li id="r-goview"><a href="https://gitee.com/dromara/go-view" lang="en">GoView</a> Dromara 社区开源的拖拽式大屏搭建工具（Vue3 + ECharts + VChart）；用来快速搭大屏布局原型，真正的信息层级仍要手工设计。 <small lang="en">gitee.com</small></li>
+<li id="r-isqqw-echarts"><a href="https://www.isqqw.com" lang="en">ECharts community gallery (isqqw)</a> ECharts Gallery 与 Make A Pie 关停后的社区示例站，可搜索、在线改配置；找相近示例再换成项目配色。 <small lang="en">isqqw.com</small></li>
+<li id="r-dataease"><a href="https://dataease.io" lang="en">DataEase</a> 飞致云开源 BI 工具，可做仪表盘与数据大屏；设计前看它的模板与演示，了解国内企业 BI 用户习惯的结构（筛选、下钻、大屏模式）。 <small lang="en">dataease.io</small></li>
+</ol>
+<h3>优秀作品与数据新闻 <small lang="en">Exemplary work and data journalism</small></h3><ol>
+<li id="r-dataviz-inspiration"><a href="https://www.dataviz-inspiration.com" lang="en">Dataviz Inspiration</a> 真实数据可视化作品的策展画廊，可按图表类型筛；重点看专业人士怎么做标注与标签。 <small lang="en">dataviz-inspiration.com</small></li>
+<li id="r-iib-awards"><a href="https://www.informationisbeautifulawards.com" lang="en">Information is Beautiful Awards</a> <em>更新放缓</em> 数据可视化与信息图的奖项画廊；做编辑级数据叙事时来这里找野心参考。 <small lang="en">informationisbeautifulawards.com</small></li>
+<li id="r-our-world-in-data"><a href="https://ourworldindata.org" lang="en">Our World in Data</a> 数千张风格统一、有标注的交互图表，附来源与数据下载；学标题、副标题、注释和来源行如何让图表自解释。 <small lang="en">ourworldindata.org</small></li>
+<li id="r-the-pudding"><a href="https://pudding.cool" lang="en">The Pudding</a> 用数据讲道理的视觉长文，滚动叙事与编辑型交互的标杆；注意每一步滚动只改变一件事。 <small lang="en">pudding.cool</small></li>
+<li id="r-thepaper-meishuke"><a href="https://www.thepaper.cn/list_25635">The Paper: Meishuke (澎湃新闻·美数课)</a> 国内最稳定的数据新闻栏目之一：围绕新闻做解释性图表、信息图和数据故事；学中文标题、标注与竖屏手机阅读的版式。 <small lang="en">thepaper.cn</small></li>
+</ol>
+<h3>数据配色与工具 <small lang="en">Palettes and colour for data</small></h3><ol>
+<li id="r-colorbrewer"><a href="https://colorbrewer2.org" lang="en">ColorBrewer</a> <b>S</b> 研究背书的地图与图表配色工具，分顺序、发散、定性三类；记得勾选色盲安全，Apache-2.0。 <small lang="en">colorbrewer2.org</small></li>
+<li id="r-viz-palette"><a href="https://projects.susielu.com/viz-palette" lang="en">Viz Palette</a> 把数据配色放进真实图表、并在色盲模拟下检验的工具；发图表前查分类色板。 <small lang="en">projects.susielu.com</small></li>
+<li id="r-least-wrong-colors"><a href="https://mattstromawn.com/writing/how-to-pick-the-least-wrong-colors/" lang="en">How to pick the least wrong colors</a> 讲用算法生成保持区分的分类配色的文章；图表系列很多时照它做。 <small lang="en">mattstromawn.com</small></li>
+<li id="r-learnui-data-colors"><a href="https://www.learnui.design/tools/data-color-picker.html" lang="en">Data Color Picker (Learn UI Design)</a> 生成间隔均匀的图表配色、单色或发散色阶；图表配色从这里起步，再用 Viz Palette 查色觉问题。 <small lang="en">learnui.design</small></li>
+<li id="r-chroma-palette-helper"><a href="https://gka.github.io/palettes/" lang="en">chroma.js palette helper</a> <em>更新放缓</em> 生成带明度校正与色盲检查的顺序和发散配色；多色相顺序色阶要保持感知均匀时用。 <small lang="en">gka.github.io</small></li>
+<li id="r-coloring-for-colorblindness"><a href="https://davidmathlogic.com/colorblind/" lang="en">Coloring for Colorblindness</a> 模拟色觉缺陷下的配色效果，并提供经过验证的安全分类配色（Okabe-Ito、Wong、IBM）；分类配色上线前在这里检查。 <small lang="en">davidmathlogic.com</small></li>
+<li id="r-iwanthue"><a href="https://medialab.github.io/iwanthue/" lang="en">iWantHue</a> 在限定的色相、彩度、明度范围内生成并优化“彼此最可区分”的分类色，可开启色盲优化；类别多的图表用。 <small lang="en">medialab.github.io</small></li>
+<li id="r-crameri-colour-maps"><a href="https://www.fabiocrameri.ch/colourmaps/" lang="en">Scientific colour maps (Fabio Crameri)</a> 感知均匀、色盲友好的科学色阶（batlow 等），用来替代彩虹色和 jet；热力图、地图与连续色阶时用。 <small lang="en">fabiocrameri.ch</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-ai"><h2 id="sl-ai">AI 设计 <small lang="en">AI design</small> <span class="num">56</span></h2>
+<h3>AI 交互模式与组件 <small lang="en">AI UX patterns and components</small></h3><ol>
+<li id="r-shape-of-ai"><a href="https://www.shapeof.ai" lang="en">Shape of AI</a> <b>S</b> AI 产品交互模式库：导航、输入、调节、约束、信任标识等，附真实案例与适用场景说明。 <small lang="en">shapeof.ai</small></li>
+<li id="r-aiverse"><a href="https://www.aiverse.design" lang="en">Aiverse</a> AI 交互案例库，取自已上线产品并按模式归类；做 AI 功能时按交互类型查当下惯例。 <small lang="en">aiverse.design</small></li>
+<li id="r-ant-design-x"><a href="https://x.ant.design" lang="en">Ant Design X</a> 蚂蚁的 AI 界面组件体系，附带角色、意图、对话与混合界面的设计范式；搭聊天 UI 前读。MIT。 <small lang="en">x.ant.design</small></li>
+<li id="r-ai-elements"><a href="https://elements.ai-sdk.dev" lang="en">Vercel AI Elements</a> Vercel 的 AI 界面组件：对话、消息、推理、来源、工具调用、输入框；做聊天 UI 从它开始而非从零。 <small lang="en">elements.ai-sdk.dev</small></li>
+<li id="r-prompt-kit"><a href="https://www.prompt-kit.com" lang="en">prompt-kit</a> <em>更新放缓</em> shadcn 风格的 AI 应用积木组件库，聊天界面件齐全；AI Elements 之外的另一个替代选择；MIT。 <small lang="en">prompt-kit.com</small></li>
+<li id="r-assistant-ui"><a href="https://www.assistant-ui.com" lang="en">assistant-ui</a> AI 聊天与 agent 界面的 React 基础组件：会话、流式输出、工具调用 UI、附件、分支与人工确认；别手搓聊天状态，可与 AI Elements 对比。 <small lang="en">assistant-ui.com</small></li>
+<li id="r-json-render"><a href="https://json-render.dev" lang="en">json-render</a> Vercel Labs 的生成式 UI 框架：模型只能输出受你的组件目录约束的 JSON，校验后流式渲染为界面；agent 只允许用批准组件拼 UI 时用。 <small lang="en">json-render.dev</small></li>
+<li id="r-matechat"><a href="https://matechat.gitcode.com" lang="en">MateChat</a> 华为 DevUI 团队的生成式 AI 体验设计系统与 Vue 对话组件，面向研发工具与 IDE 助手；React 项目对应的是 Ant Design X。 <small lang="en">matechat.gitcode.com</small></li>
+<li id="r-smashing-agentic-ux"><a href="https://www.smashingmagazine.com/2026/02/designing-agentic-ai-practical-ux-patterns/" lang="en">Designing for agentic AI (Smashing Magazine, 2026)</a> Smashing 2026 年文章：agent 代用户行动时的控制、授权与问责模式；AI 会“做事”而不只是“回答”的功能都拿它做评审清单。 <small lang="en">smashingmagazine.com</small></li>
+</ol>
+<h3>AI 产品指引 <small lang="en">AI product guidelines</small></h3><ol>
+<li id="r-pair-guidebook"><a href="https://pair.withgoogle.com/guidebook" lang="en">People + AI Guidebook</a> Google PAIR 的 AI 产品设计指南，讲心智模型、可解释性、信任与容错；立项期用章节练习。 <small lang="en">pair.withgoogle.com</small></li>
+<li id="r-hax-toolkit"><a href="https://www.microsoft.com/en-us/haxtoolkit/" lang="en">Microsoft HAX Toolkit</a> 微软的人机 AI 交互十八条指南，附案例库与规划工作簿；评审 AI 功能时当检查清单用。 <small lang="en">microsoft.com</small></li>
+<li id="r-carbon-for-ai"><a href="https://carbondesignsystem.com/guidelines/carbon-for-ai/" lang="en">Carbon for AI</a> IBM 的 AI 界面规范：如何标注 AI 生成内容、如何呈现可解释性；做 AI 标签和说明弹层时参考。 <small lang="en">carbondesignsystem.com</small></li>
+<li id="r-cloudscape-genai"><a href="https://cloudscape.design/gen-ai/patterns/generative-ai-chat/" lang="en">Cloudscape generative AI patterns</a> Cloudscape 的生成式 AI 模式：对话、加载态、输出标注与用户授权操作；给企业控制台加助手时照它做。 <small lang="en">cloudscape.design</small></li>
+<li id="r-apple-hig-genai"><a href="https://developer.apple.com/design/human-interface-guidelines/generative-ai" lang="en">Apple HIG: Generative AI</a> Apple 关于负责任地设计生成式 AI 功能的官方指引；配合写作与隐私章节一起读。 <small lang="en">developer.apple.com</small></li>
+<li id="r-openai-apps-design"><a href="https://developers.openai.com/plugins/concepts/ui-guidelines" lang="en">OpenAI UI guidelines for ChatGPT apps (Plugins)</a> 在 ChatGPT 里做应用界面的规范：展示模式（内联卡片、内联轮播、全屏、画中画）各自何时用、卡片布局与操作，并附 @openai/apps-sdk-ui 组件库；时效性强。 <small lang="en">developers.openai.com</small></li>
+<li id="r-mcp-apps"><a href="https://modelcontextprotocol.io/extensions/apps/overview" lang="en">MCP Apps</a> MCP 官方扩展：工具可返回在聊天宿主内沙箱 iframe 中渲染的交互界面（ui:// 资源），取代了 MCP-UI 实验；设计内嵌工具界面前读。 <small lang="en">modelcontextprotocol.io</small></li>
+<li id="r-a2ui"><a href="https://a2ui.org" lang="en">A2UI</a> Google 发起的开放协议：agent 以声明式组件目录（而非代码）下发界面，由客户端在 Web、移动与桌面原生渲染；规范迭代快，注意版本。 <small lang="en">a2ui.org</small></li>
+<li id="r-cn-ai-content-labelling"><a href="https://www.cac.gov.cn/2025-03/14/c_1743654684782215.htm">China: Measures for Labelling AI-Generated Synthetic Content (人工智能生成合成内容标识办法)</a> 国家网信办等四部门《人工智能生成合成内容标识办法》，2025-09-01 起施行：生成的文本、图片、音频、视频、虚拟场景须加显式标识（内容或交互界面中用户可感知的文字、声音、图形）与隐式标识（元数据）。 <small lang="en">cac.gov.cn</small></li>
+<li id="r-eu-ai-act-art50"><a href="https://artificialintelligenceact.eu/article/50/" lang="en">EU AI Act Article 50: transparency obligations</a> 欧盟《人工智能法》第 50 条透明义务：与 AI 系统交互时须告知用户，合成内容须以机器可读、可检测的方式标记；2026-08-02 起适用。 <small lang="en">artificialintelligenceact.eu</small></li>
+</ol>
+<h3>AI 设计工具与生成器 <small lang="en">AI design tools and generators</small></h3><ol>
+<li id="r-v0"><a href="https://v0.app" lang="en">v0 by Vercel</a> Vercel 的提示词生成应用工具，带可视化设计模式和海量社区模板；快速出可弃方案，再按自己的流程改。 <small lang="en">v0.app</small></li>
+<li id="r-superdesign"><a href="https://superdesign.dev" lang="en">Superdesign</a> <em>更新放缓</em> 开源设计 agent，住在 IDE 里并排生成多个 UI 变体；参考它并行出稿的工作流。 <small lang="en">superdesign.dev</small></li>
+<li id="r-stitch"><a href="https://stitch.withgoogle.com" lang="en">Google Stitch</a> Google Labs 的 AI 界面设计工具：按提示生成界面与变体、读写 DESIGN.md，并通过 MCP 把项目开放给 agent；快速出变体后再落到代码并评审。 <small lang="en">stitch.withgoogle.com</small></li>
+<li id="r-figma-make"><a href="https://www.figma.com/make/" lang="en">Figma Make</a> Figma 的提示词生成应用工具，可把提示与现有画板变成可运行的 React 原型；团队常驻 Figma 时用来出可点击原型。 <small lang="en">figma.com</small></li>
+<li id="r-relume"><a href="https://www.relume.ai" lang="en">Relume</a> AI 生成营销站的站点地图与线框，背后是面向 Figma、Webflow、React 的大型组件库；做视觉前先用它定信息架构和区块顺序。 <small lang="en">relume.ai</small></li>
+<li id="r-lovart"><a href="https://www.lovart.ai" lang="en">Lovart</a> 无限画布上的 AI 设计 agent，产出 Logo、品牌套件、海报、社媒图与视频；适合探索品牌和活动物料，仍需人工艺术指导。 <small lang="en">lovart.ai</small></li>
+<li id="r-jimeng"><a href="https://jimeng.jianying.com">Jimeng AI (即梦)</a> 字节跳动的图片与视频生成工具（含智能画布），中文提示理解与图中中文文字表现较好；用于情绪图、主视觉草稿与短动效。 <small lang="en">jimeng.jianying.com</small></li>
+<li id="r-liblib"><a href="https://www.liblib.art">LiblibAI (哩布哩布)</a> 国内大型图像生成模型与风格 LoRA 社区，可在线生成；找统一插画风格的模型，逐个核对模型授权。 <small lang="en">liblib.art</small></li>
+</ol>
+<h3>agent skill 与规则集 <small lang="en">Agent skills and rule sets</small></h3><ol>
+<li id="r-anthropic-frontend-design"><a href="https://github.com/anthropics/skills/tree/main/skills/frontend-design" lang="en">Anthropic frontend-design skill</a> <b>S</b> Anthropic 官方前端审美 skill：选定大胆方向、避开 AI 套路脸、盯字体色彩动效构图；当底线基准读。 <small lang="en">github.com</small></li>
+<li id="r-impeccable"><a href="https://impeccable.style" lang="en">Impeccable</a> <b>S</b> 单个设计技能含二十四条命令与一份 AI 味规则目录，规则可无 LLM 确定性检测；Apache-2.0。 <small lang="en">impeccable.style</small></li>
+<li id="r-web-interface-guidelines"><a href="https://vercel.com/design/guidelines" lang="en">Vercel Web Interface Guidelines</a> <b>S</b> Vercel 的网页界面规则集，覆盖交互、动效、表单与性能；仓库里的 AGENTS.md 可当评审清单，MIT。 <small lang="en">vercel.com</small></li>
+<li id="r-taste-skill"><a href="https://tasteskill.dev" lang="en">taste-skill</a> 流行的反模板化前端技能：读简报、三个拨杆（变化、动效、密度）、真实设计系统加交付前检查；MIT。 <small lang="en">tasteskill.dev</small></li>
+<li id="r-ui-ux-pro-max"><a href="https://www.uupm.cc" lang="en">UI UX Pro Max</a> 可检索的风格、配色、字体搭配与 UX 规则知识库，附设计系统生成器；当查询表用，缺真实 brief 时建议偏泛；MIT。 <small lang="en">uupm.cc</small></li>
+<li id="r-ui-skills"><a href="https://www.ui-skills.com" lang="en">UI Skills</a> 给构建界面的 agent 用的强硬约束清单，拿它和自己的规则对照查漏补缺；MIT。 <small lang="en">ui-skills.com</small></li>
+<li id="r-interface-design-skill"><a href="https://interface-design.dev" lang="en">interface-design</a> 专注让跨会话设计决策保持一致的 skill，面向仪表盘和应用；可借鉴的思路：把决策存进系统文件；MIT。 <small lang="en">interface-design.dev</small></li>
+<li id="r-stitch-skills"><a href="https://github.com/google-labs-code/stitch-skills" lang="en">Stitch skills</a> Google Stitch 的 agent 技能集：提示词增强、综合生成 DESIGN.md、经 MCP 出高保真界面稿；做快速视觉变体时用；Apache-2.0。 <small lang="en">github.com</small></li>
+<li id="r-awesome-agent-skills"><a href="https://github.com/VoltAgent/awesome-agent-skills" lang="en">awesome-agent-skills</a> 各家 agent skill 的汇总目录，其中包含设计类条目；想跟踪新出现的设计 skill 时定期翻它；MIT。 <small lang="en">github.com</small></li>
+<li id="r-emil-skills"><a href="https://github.com/emilkowalski/skills" lang="en">Emil Kowalski&#x27;s skills</a> Sonner、Vaul 作者的设计工程 skill 集，含可在 UI 代码上运行的动效评审 review-animations；动效评审可直接借用。 <small lang="en">github.com</small></li>
+<li id="r-motion-ai-kit"><a href="https://motion.dev/docs/ai-kit" lang="en">Motion AI Kit</a> Motion 官方 skill 与 MCP：让 agent 查最新 Motion 文档，另有 CSS 弹簧生成、过渡编辑器与 MotionScore 性能审计（后几项需 Motion+）。 <small lang="en">motion.dev</small></li>
+<li id="r-rams"><a href="https://www.rams.ai" lang="en">Rams</a> 商业化设计评审引擎：按 348 条公开规则（九类，含一类 AI 套路）给 UI 改动打 0-100 分，可作 skill、MCP 或 GitHub App；拿它的规则分类对标自己的评审量表。 <small lang="en">rams.ai</small></li>
+<li id="r-skills-sh"><a href="https://skills.sh" lang="en">skills.sh</a> Vercel 运营的开放 agent skill 目录，带安装量排行与 npx skills 安装器；看安装量判断哪些设计 skill 真有人用。 <small lang="en">skills.sh</small></li>
+</ol>
+<h3>面向 agent 的格式 <small lang="en">Agent-readable formats</small></h3><ol>
+<li id="r-design-md"><a href="https://github.com/google-labs-code/design.md" lang="en">DESIGN.md specification</a> <b>S</b> Google Labs 的开放格式，用一个 Markdown 文件向 AI 代理描述设计系统；按此产出 DESIGN.md 供 Stitch 等消费；Apache-2.0。 <small lang="en">github.com</small></li>
+<li id="r-awesome-design-md"><a href="https://getdesign.md" lang="en">awesome-design-md</a> 收集知名产品视觉体系的 DESIGN.md 合集，可当风格基因研究材料；学方法可以，照抄品牌不行。 <small lang="en">getdesign.md</small></li>
+<li id="r-refero-styles"><a href="https://styles.refero.design" lang="en">Refero Styles</a> 从 2000+ 个真实产品网站提取的设计风格（颜色、字体、间距、组件），每套附 DESIGN.md；当风格基因研究材料，别用来克隆品牌。 <small lang="en">styles.refero.design</small></li>
+<li id="r-llms-txt"><a href="https://llmstxt.org" lang="en">llms.txt</a> 在站点根目录放 /llms.txt（Markdown 索引，常配 llms-full.txt）为 agent 指路的约定；不少设计系统已提供。 <small lang="en">llmstxt.org</small></li>
+<li id="r-agents-md"><a href="https://agents.md" lang="en">AGENTS.md</a> 给 coding agent 的仓库说明文件开放约定（写给 agent 的 README），现由 Linux 基金会下的 Agentic AI Foundation 管理。 <small lang="en">agents.md</small></li>
+<li id="r-agent-skills-spec"><a href="https://agentskills.io" lang="en">Agent Skills specification</a> 本套件所用的开放 SKILL.md 格式：一个文件夹包含 SKILL.md（名称、描述、指令）及可选的脚本、参考资料与模板；发布 skill 前对照检查。 <small lang="en">agentskills.io</small></li>
+</ol>
+<h3>设计相关 MCP 服务 <small lang="en">Design MCP servers</small></h3><ol>
+<li id="r-chrome-devtools-mcp"><a href="https://developer.chrome.com/docs/devtools/agents" lang="en">Chrome DevTools MCP</a> <b>S</b> 给 agent 一只真 Chrome：截图、DOM、计算样式和性能轨迹都能取；渲染-查看闭环的眼睛。Apache-2.0。 <small lang="en">developer.chrome.com</small></li>
+<li id="r-figma-mcp"><a href="https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server" lang="en">Figma MCP server</a> Figma 官方 MCP：为生成代码提供设计上下文、变量、组件与截图；2026 年起新增 use_figma，可创建和编辑 Figma 设计稿、FigJam 与 Slides。 <small lang="en">help.figma.com</small></li>
+<li id="r-framelink-figma-mcp"><a href="https://www.framelink.ai" lang="en">Framelink Figma MCP</a> 社区版 Figma MCP 服务，给 AI agent 喂简化后的布局数据；官方 MCP 不可用时的替代方案，MIT 协议。 <small lang="en">framelink.ai</small></li>
+<li id="r-shadcn-mcp"><a href="https://ui.shadcn.com/docs/mcp" lang="en">shadcn/ui registry and MCP</a> 通过 MCP 让 agent 浏览并安装 shadcn 兼容注册表里的真实组件，避免凭空编造不存在的组件；MIT。 <small lang="en">ui.shadcn.com</small></li>
+<li id="r-magic-mcp"><a href="https://21st.dev/mcp" lang="en">21st MCP and CLI (formerly Magic MCP)</a> 21st.dev 的 CLI 与 MCP：检索社区组件库、读真实代码、连同依赖一起安装，或用 AI 草拟变体；装进来后按项目 token 重设样式。 <small lang="en">21st.dev</small></li>
+<li id="r-playwright-mcp"><a href="https://github.com/microsoft/playwright-mcp" lang="en">Playwright MCP</a> 让代理通过 Playwright 操控浏览器的 MCP；当另一双眼睛用，适合多视口截图；Apache-2.0。 <small lang="en">github.com</small></li>
+<li id="r-storybook-mcp"><a href="https://storybook.js.org/docs/ai/mcp/overview" lang="en">Storybook MCP</a> Storybook 官方 MCP 插件：把组件清单、文档与 stories 开放给 agent，让它复用项目里的真实组件而不是新造。 <small lang="en">storybook.js.org</small></li>
+<li id="r-mobbin-mcp"><a href="https://mobbin.com/mcp" lang="en">Mobbin MCP</a> 让 agent 用自然语言检索 Mobbin 上 60 万+ 真实产品界面与流程；研究阶段先拉三个已上线的先例再动笔。 <small lang="en">mobbin.com</small></li>
+<li id="r-mastergo-magic-mcp"><a href="https://github.com/mastergo-design/mastergo-magic-mcp" lang="en">MasterGo Magic MCP</a> MasterGo 官方 MCP：把设计稿转成结构化 DSL 交给 coding agent；国内团队用 MasterGo 时接入。 <small lang="en">github.com</small></li>
+<li id="r-mcp-registry"><a href="https://registry.modelcontextprotocol.io" lang="en">Official MCP Registry</a> MCP 协议项目官方的服务器注册表，带公开 JSON API；找厂商 MCP 时先查这里，再信第三方列表。 <small lang="en">registry.modelcontextprotocol.io</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-a11y"><h2 id="sl-a11y">无障碍 <small lang="en">Accessibility</small> <span class="num">26</span></h2>
+<h3>标准与法规 <small lang="en">Standards and law</small></h3><ol>
+<li id="r-wcag-quickref"><a href="https://www.w3.org/WAI/WCAG22/quickref/" lang="en">WCAG 2.2 Quick Reference</a> <b>S</b> 可按等级筛选的 WCAG 2.2 全部成功准则与技法速查；做无障碍评审时引用准则编号说话。 <small lang="en">w3.org</small></li>
+<li id="r-gb-t-37668"><a href="https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=35ECC696805C1A67C93B74FB6D0D8EFB">GB/T 37668-2019 Internet content accessibility (信息技术 互联网内容无障碍可访问性技术要求与测试方法)</a> 中国互联网网页与移动应用无障碍的国家标准（2020-03-01 实施，现行）：可感知、可操作、可理解、兼容四类要求加测试方法，与 WCAG 2.0 基本对应。 <small lang="en">openstd.samr.gov.cn</small></li>
+<li id="r-china-age-friendly-a11y"><a href="http://wza.isc.org.cn">China Internet age-friendly and accessibility platform (适老化及无障碍公共服务平台)</a> 工信部适老化通用设计规范（网站与 APP）、相关标准（GB/T 37668、T/ISC 0007-2021）与认证的官方平台；面向国内用户的产品上线前必查。 <small lang="en">wza.isc.org.cn</small></li>
+<li id="r-eaa-en-301-549"><a href="https://commission.europa.eu/strategy-and-policy/policies/justice-and-fundamental-rights/disability/european-accessibility-act-eaa_en" lang="en">European Accessibility Act and EN 301 549</a> 欧盟《无障碍法案》（2025-06-28 起适用于电商、银行、电子书、交通票务等）与其协调标准 EN 301 549（网页部分对应 WCAG 2.1 AA）。 <small lang="en">commission.europa.eu</small></li>
+<li id="r-section-508"><a href="https://www.section508.gov" lang="en">Section508.gov</a> 美国联邦 ICT 无障碍官方站：修订版 508 标准（引用 WCAG 2.0 AA）、测试方法与采购指引；面向美国联邦客户时读。 <small lang="en">section508.gov</small></li>
+<li id="r-ada-title-ii-web-rule"><a href="https://www.ada.gov/resources/2024-03-08-web-rule/" lang="en">ADA Title II web and mobile rule (US DOJ)</a> 美国司法部 ADA 第二章规则：州与地方政府的网站和移动应用须达到 WCAG 2.1 AA，含合规期限。 <small lang="en">ada.gov</small></li>
+</ol>
+<h3>检测工具 <small lang="en">Testing tools</small></h3><ol>
+<li id="r-axe-core"><a href="https://github.com/dequelabs/axe-core" lang="en">axe-core and axe DevTools</a> <b>S</b> 嵌入最广的无障碍规则引擎（axe DevTools、Lighthouse 与大量 CI 工具都基于它），可在任意页面或测试中运行。 <small lang="en">github.com</small></li>
+<li id="r-wave"><a href="https://wave.webaim.org" lang="en">WAVE</a> WebAIM 的可视化检测工具，把错误、对比度问题和结构（标题、地标、ARIA）直接标在页面上。 <small lang="en">wave.webaim.org</small></li>
+<li id="r-accessibility-insights"><a href="https://accessibilityinsights.io" lang="en">Accessibility Insights</a> 微软免费的无障碍工具（Web、Windows、Android），Assessment 模式会引导完成自动化测不到的人工检查。 <small lang="en">accessibilityinsights.io</small></li>
+<li id="r-colour-contrast-analyser"><a href="https://vispero.com/lp/color-contrast-checker/" lang="en">Colour Contrast Analyser (CCA)</a> 免费桌面对比度检测器，吸管可取屏幕任意像素（照片上的文字、渐变、截图、设计稿）；颜色不在代码里时用。 <small lang="en">vispero.com</small></li>
+<li id="r-pa11y"><a href="https://pa11y.org" lang="en">Pa11y</a> 开源命令行无障碍检测工具（可选 HTML_CodeSniffer 或 axe 引擎），pa11y-ci 可批量检查 URL 列表。 <small lang="en">pa11y.org</small></li>
+<li id="r-stark"><a href="https://www.getstark.co" lang="en">Stark</a> 设计工具与代码中的无障碍套件：对比度、色觉模拟、焦点顺序与替代文本标注；交付前在 Figma 里标好焦点顺序。 <small lang="en">getstark.co</small></li>
+<li id="r-nvda"><a href="https://www.nvaccess.org" lang="en">NVDA screen reader</a> 免费开源的 Windows 读屏软件，手动测试最常用（苹果设备用系统自带的 VoiceOver）。 <small lang="en">nvaccess.org</small></li>
+</ol>
+<h3>无障碍模式与指引 <small lang="en">Accessible patterns and guidance</small></h3><ol>
+<li id="r-apg-patterns"><a href="https://www.w3.org/WAI/ARIA/apg/patterns/" lang="en">ARIA Authoring Practices Guide</a> <b>S</b> W3C 官方交互模式指南，给出每种组件的键盘行为与 ARIA 角色；写自定义交互组件规格前必读。 <small lang="en">w3.org</small></li>
+<li id="r-inclusive-components"><a href="https://inclusive-components.design" lang="en">Inclusive Components</a> <em>已归档</em> 深入讲解无障碍组件模式：开关、菜单、标签页、卡片、通知；动手做组件前先读对应文章。 <small lang="en">inclusive-components.design</small></li>
+<li id="r-a11y-project-checklist"><a href="https://www.a11yproject.com/checklist/" lang="en">A11Y Project checklist</a> 大白话写成的 WCAG 无障碍检查清单；设计正式交付前先逐项过一遍。 <small lang="en">a11yproject.com</small></li>
+<li id="r-sara-soueidan"><a href="https://www.sarasoueidan.com" lang="en">Sara Soueidan and Practical Accessibility</a> Sara Soueidan 关于无障碍前端（可访问名称、自定义控件、SVG、CSS 生成内容）的深度文章，以及面向设计与开发的 Practical Accessibility 课程。 <small lang="en">sarasoueidan.com</small></li>
+<li id="r-mdn-accessibility"><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility" lang="en">MDN Accessibility and ARIA reference</a> 面向 agent 也易读的无障碍 HTML 与 ARIA 角色、状态、属性参考，附浏览器支持说明。 <small lang="en">developer.mozilla.org</small></li>
+<li id="r-adrian-roselli"><a href="https://adrianroselli.com" lang="en">Adrian Roselli</a> 对真实组件模式（表格、折叠、开关、对话框）做严格无障碍测试，并给出各浏览器与读屏软件的实际结果；自创 ARIA 模式前先搜。 <small lang="en">adrianroselli.com</small></li>
+<li id="r-freee-a11y-guidelines"><a href="https://a11y-guidelines.freee.co.jp" lang="en">freee Accessibility Guidelines</a> 日本 freee 公司按版本发布的无障碍指南与检查项，逐条对应 WCAG；WCAG 条文太抽象时用它落地。 <small lang="en">a11y-guidelines.freee.co.jp</small></li>
+<li id="r-webaim-million"><a href="https://webaim.org/projects/million/" lang="en">The WebAIM Million</a> WebAIM 每年对百万个网站首页的自动检测报告：哪些错误最常见，评审时先查哪里。 <small lang="en">webaim.org</small></li>
+</ol>
+<h3>包容性设计 <small lang="en">Inclusive design</small></h3><ol>
+<li id="r-inclusive-design-microsoft"><a href="https://inclusive.microsoft.design" lang="en">Microsoft Inclusive Design</a> 微软包容性设计工具包，把残障分为永久、临时与情境三种；写 brief 时用它的 persona spectrum。 <small lang="en">inclusive.microsoft.design</small></li>
+<li id="r-homeoffice-a11y-posters"><a href="https://github.com/UKHomeOffice/posters" lang="en">UK Home Office accessibility posters</a> <em>更新放缓</em> 英国内政部无障碍设计海报：针对自闭症、低视力、读写障碍、焦虑、行动与听力障碍及读屏用户的宜与忌；评审时对照。 <small lang="en">github.com</small></li>
+<li id="r-inclusive-design-principles"><a href="https://inclusivedesignprinciples.info" lang="en">Inclusive Design Principles</a> <em>更新放缓</em> 七条包容性设计原则（体验可比、考虑情境、保持一致、给予控制、提供选择、内容优先、增加价值），可当评审提问清单。 <small lang="en">inclusivedesignprinciples.info</small></li>
+<li id="r-cambridge-inclusive-toolkit"><a href="https://www.inclusivedesigntoolkit.com" lang="en">Inclusive Design Toolkit (University of Cambridge)</a> <em>更新放缓</em> 剑桥大学的包容性设计工具包：用能力数据、排除计算器和障碍模拟估算一个设计会排除多少人，适老化论证尤其有用。 <small lang="en">inclusivedesigntoolkit.com</small></li>
+<li id="r-coga-usable"><a href="https://w3c.github.io/coga/content-usable/" lang="en">Making Content Usable for People with Cognitive and Learning Disabilities (W3C)</a> W3C 关于认知与学习障碍的指南和设计模式：目的清晰、帮助可找、防错、减轻记忆负担、简明语言；设计表单与多步骤任务前读。 <small lang="en">w3c.github.io</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-motion"><h2 id="sl-motion">动效 <small lang="en">Motion</small> <span class="num">57</span></h2>
+<h3>上线产品动效实录 <small lang="en">Motion in shipped products</small></h3><ol>
+<li id="r-60fps"><a href="https://60fps.design" lang="en">60fps.design</a> <b>S</b> 头部 App 界面动效的录屏库，按应用与交互类型筛选；移动端动效参考首选，放慢速度逐帧看。 <small lang="en">60fps.design</small></li>
+<li id="r-spottedinprod"><a href="https://spottedinprod.com" lang="en">Spotted in Prod</a> <b>S</b> 只收 iOS：上线 App 里出色交互细节的短录屏，可按应用和风格标签浏览；移植到安卓或网页前先转换平台习惯。 <small lang="en">spottedinprod.com</small></li>
+<li id="r-ripplix"><a href="https://www.ripplix.com" lang="en">Ripplix</a> 7000+ 条真实 App 与网站的界面动效录屏，覆盖移动、网页、手表与 AR/VR，可按元素（引导、成功、下拉、图表等）和行业筛选。 <small lang="en">ripplix.com</small></li>
+<li id="r-apple-design-awards"><a href="https://developer.apple.com/design/awards/" lang="en">Apple Design Awards</a> 苹果设计大奖历年获奖与入围作品，每个都有上线 App 的视频；「交互」与「趣味」类别就是原生动效的精选合集。 <small lang="en">developer.apple.com</small></li>
+<li id="r-detail-design"><a href="https://detail.design" lang="en">Detail</a> 收录让产品显得用心的细小设计决策，每条配短录屏，分设计、交互、动效、文案、无障碍、彩蛋六类；有中文版。 <small lang="en">detail.design</small></li>
+</ol>
+<h3>网页动效秀场与素材库 <small lang="en">Web motion showcases and asset libraries</small></h3><ol>
+<li id="r-codrops"><a href="https://tympanus.net/codrops/" lang="en">Codrops</a> <b>S</b> 实验性网页动效博客，附源码与教程：滚动、页面过渡、WebGL、字体动画；演示授权逐个确认。 <small lang="en">tympanus.net</small></li>
+<li id="r-madewithgsap"><a href="https://madewithgsap.com" lang="en">Made With GSAP</a> 付费的 GSAP 网页动效合集（2026 年 9 月共 118 个，每周新增），附讲解与可复制代码，另有站点展示页；找滚动、鼠标、拖拽类效果的灵感。 <small lang="en">madewithgsap.com</small></li>
+<li id="r-lottiefiles"><a href="https://lottiefiles.com" lang="en">LottieFiles</a> 最大的 Lottie 动画库加配套工具；筛选免费素材，每个动画上线前单独核对许可。 <small lang="en">lottiefiles.com</small></li>
+<li id="r-olivier-larose"><a href="https://blog.olivierlarose.com" lang="en">Olivier Larose blog</a> 逐步复刻获奖网站动效的教程博客；找到想要的效果，照着搭建过程做。 <small lang="en">blog.olivierlarose.com</small></li>
+<li id="r-nan-fyi"><a href="https://www.nan.fyi" lang="en">nan.fyi</a> 交互式技术随笔，把 SVG 路径、布局动画的底层原理讲到能动手；手写 path 或 FLIP 前读。 <small lang="en">nan.fyi</small></li>
+<li id="r-codepen"><a href="https://codepen.io" lang="en">CodePen</a> 最大的前端演示集合，几乎每种交互、CSS 与 SVG 动画技巧都有可运行的示例可 fork；站点拦截爬虫，把链接发给用户。 <small lang="en">codepen.io</small></li>
+</ol>
+<h3>曲线与弹簧工具 <small lang="en">Easing, spring and animation tools</small></h3><ol>
+<li id="r-easing-wizard"><a href="https://easingwizard.com" lang="en">Easing Wizard</a> <b>S</b> 缓动曲线生成器，可视调 bezier、弹簧、回弹等效果并实时预览，直接导出含 linear() 的 CSS；调动画手感时用。 <small lang="en">easingwizard.com</small></li>
+<li id="r-easings-net"><a href="https://easings.net" lang="en">Easing Functions Cheat Sheet</a> 具名缓动函数的图解速查，附曲线形状与 cubic-bezier 值；挑好曲线直接抄参数。 <small lang="en">easings.net</small></li>
+<li id="r-linear-easing-generator"><a href="https://linear-easing-generator.netlify.app" lang="en">Linear easing generator</a> 把 JS 缓动函数或 SVG 路径转成 CSS linear() 的小工具；想用纯 CSS 做弹簧与回弹动画时直接抄结果。 <small lang="en">linear-easing-generator.netlify.app</small></li>
+<li id="r-cubic-bezier"><a href="https://cubic-bezier.com" lang="en">cubic-bezier.com</a> 经典缓动曲线编辑器，支持并排对比；调自定义曲线时和预设对照手感。 <small lang="en">cubic-bezier.com</small></li>
+<li id="r-css-springs"><a href="https://www.kvin.me/css-springs" lang="en">CSS Spring Easing Generator</a> 把以感知时长与回弹度描述的弹簧（SwiftUI、Motion 用的同一模型）转成 CSS linear() 缓动和对应的实际时长两个变量；在网页上还原原生弹簧手感时用。 <small lang="en">kvin.me</small></li>
+<li id="r-scroll-driven-animations"><a href="https://scroll-driven-animations.style" lang="en">Scroll-driven Animations</a> CSS 滚动驱动动画的演示与可视化工具；写 animation-range 时用它的区间可视化器校准。 <small lang="en">scroll-driven-animations.style</small></li>
+<li id="r-view-transitions-demos"><a href="https://view-transitions.chrome.dev" lang="en">View Transitions demos</a> View Transitions 官方演示集，同文档与跨文档都有；照抄最接近你要做的导航过渡的模式。 <small lang="en">view-transitions.chrome.dev</small></li>
+<li id="r-jitter"><a href="https://jitter.video" lang="en">Jitter</a> 浏览器里的动效设计工具，可导出 Lottie、视频与 GIF；适合做营销动画，不主攻产品内界面。 <small lang="en">jitter.video</small></li>
+<li id="r-rive"><a href="https://rive.app" lang="en">Rive</a> 状态机驱动的交互式矢量动画编辑器加多端运行时；动画需要响应用户输入、跨平台复用时选它。 <small lang="en">rive.app</small></li>
+<li id="r-lottie-docs"><a href="https://lottiefiles.github.io/lottie-docs/" lang="en">Lottie format docs</a> Lottie JSON 格式的人读版参考（图层、形状、关键帧、缓动），正式规范由 Lottie Animation Community 发布；用代码生成或修改 Lottie 时必备。 <small lang="en">lottiefiles.github.io</small></li>
+<li id="r-animista"><a href="https://animista.net" lang="en">Animista</a> <em>更新放缓</em> CSS 关键帧预设库，直接生成代码；只当起点，时长与缓动都要自己重调。 <small lang="en">animista.net</small></li>
+<li id="r-protopie"><a href="https://www.protopie.io" lang="en">ProtoPie</a> 无需写代码的高保真交互原型工具：变量、条件、手机传感器与多屏联动，可在真机上运行；国内外车机与硬件团队常用。 <small lang="en">protopie.io</small></li>
+<li id="r-devtools-animations"><a href="https://developer.chrome.com/docs/devtools/css/animations" lang="en">Chrome DevTools: Animations panel</a> 在任何线上页面检查、慢放（25% 或 10%）、拖动并修改 CSS 与 Web Animations 的时间参数；量参考网站动效最快的办法。 <small lang="en">developer.chrome.com</small></li>
+<li id="r-lottielab"><a href="https://www.lottielab.com" lang="en">Lottielab</a> 浏览器里的 Lottie 动画编辑器：从 Figma 或 SVG 导入、时间轴编排，导出 Lottie、GIF、MP4，不必用 After Effects。 <small lang="en">lottielab.com</small></li>
+</ol>
+<h3>官方动效指引与无障碍 <small lang="en">Official motion guidance and accessibility</small></h3><ol>
+<li id="r-wwdc-fluid-interfaces"><a href="https://developer.apple.com/videos/play/wwdc2018/803/" lang="en">WWDC18: Designing Fluid Interfaces</a> <b>S</b> <em>已归档</em> WWDC18 经典演讲，讲手势驱动、可中断、可改向的界面；做拖拽、抽屉、滑动交互前先看。 <small lang="en">developer.apple.com</small></li>
+<li id="r-wwdc-animate-with-springs"><a href="https://developer.apple.com/videos/play/wwdc2023/10158/" lang="en">WWDC23: Animate with springs</a> <b>S</b> Apple 用 duration 和 bounce 讲弹簧动画，取代质量刚度阻尼那套；写任何平台的动效标注都可借用它的词汇。 <small lang="en">developer.apple.com</small></li>
+<li id="r-m3-motion"><a href="https://m3.material.io/styles/motion/overview" lang="en">Material 3 motion</a> Material 3 的动效体系，缓动与时长 token、转场模式和弹簧动效方案；定动效规范时读。 <small lang="en">m3.material.io</small></li>
+<li id="r-m2-motion-speed"><a href="https://m2.material.io/design/motion/speed.html" lang="en">Material 2: Speed</a> <em>已归档</em> Material 2 讲时长与缓动如何随尺寸、距离、平台变化，至今最清楚；道理比版本长寿。 <small lang="en">m2.material.io</small></li>
+<li id="r-apple-hig-motion"><a href="https://developer.apple.com/design/human-interface-guidelines/motion" lang="en">Apple HIG: Motion</a> Apple 的动效准则：有目的、简短、可关闭，尊重减弱动态效果设置；给动效定原则时先读。 <small lang="en">developer.apple.com</small></li>
+<li id="r-carbon-motion"><a href="https://carbondesignsystem.com/elements/motion/overview/" lang="en">Carbon motion</a> IBM Carbon 的双模式动效：效率型（克制、不打扰）与表现型（只留给少数重要时刻），公开 cubic-bezier 曲线与 70–700ms 六档时长 token；搭自家动效 token 的范本。 <small lang="en">carbondesignsystem.com</small></li>
+<li id="r-fluent-motion"><a href="https://fluent2.microsoft.design/motion" lang="en">Fluent 2 motion</a> 微软 Fluent 2 的动效原则与时间指引，讲动画在界面里的职责；要做出 Windows 原生手感时参考。 <small lang="en">fluent2.microsoft.design</small></li>
+<li id="r-nng-animation-duration"><a href="https://www.nngroup.com/articles/animation-duration/" lang="en">NN/g: Animation duration</a> NN/g 用证据回答界面动画该持续多久；要顶回拖慢的动画方案时引用它。 <small lang="en">nngroup.com</small></li>
+<li id="r-nng-animation-purpose"><a href="https://www.nngroup.com/articles/animation-purpose-ux/" lang="en">NN/g: Animation purpose</a> NN/g 文章，讲清动效何时有用：反馈、状态变化、导航隐喻、指示线索；给每个动画找理由时用。 <small lang="en">nngroup.com</small></li>
+<li id="r-wcag-animation-interactions"><a href="https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html" lang="en">WCAG: Animation from Interactions</a> WCAG 条文：交互触发的动画必须能让用户关闭；做动效无障碍的规范性依据，配 2.2.2 一起读。 <small lang="en">w3.org</small></li>
+<li id="r-webdev-reduced-motion"><a href="https://web.dev/articles/prefers-reduced-motion" lang="en">web.dev: prefers-reduced-motion</a> web.dev 讲如何在网页上正确实现 prefers-reduced-motion；推荐按 no-motion-first 模式，先保证无动画可用再加动效。 <small lang="en">web.dev</small></li>
+<li id="r-ala-safer-animation"><a href="https://alistapart.com/article/designing-safer-web-animation-for-motion-sensitivity/" lang="en">Designing Safer Web Animation For Motion Sensitivity</a> <em>已归档</em> 讲清哪些动效会诱发前庭不适、如何规避；做视差、缩放和大面积运动前对照检查。 <small lang="en">alistapart.com</small></li>
+<li id="r-ant-motion"><a href="https://motion.ant.design" lang="en">Ant Motion</a> <em>更新放缓</em> Ant Design 的动效语言与 React 动效组件；做国内企业级产品时用中文读它的动效原则。 <small lang="en">motion.ant.design</small></li>
+<li id="r-harmonyos-motion"><a href="https://developer.huawei.com/consumer/cn/doc/design-guides/animation-design-principles-0000001750237392" lang="en">HarmonyOS motion design principles</a> 华为 HarmonyOS 动效设计原则：自然流畅、简洁高效、快速响应、运动一致、隐藏等待、凸显品牌，并给出长距离 350ms、短距离 250ms、较短 150ms 的时长上限。 <small lang="en">developer.huawei.com</small></li>
+</ol>
+<h3>动效写作与课程 <small lang="en">Writing and courses on motion craft</small></h3><ol>
+<li id="r-emil-kowalski"><a href="https://emilkowal.ski" lang="en">Emil Kowalski</a> <b>S</b> 网页动效工艺最实用的博客，讲缓动、时长、可打断与何时不动；写动效前读他的几篇代表作。 <small lang="en">emilkowal.ski</small></li>
+<li id="r-animations-dev"><a href="https://animations.dev" lang="en">animations.dev</a> Emil Kowalski 的网页动效课程，兼顾理论与手感；团队要统一动效水准时值得买，付费。 <small lang="en">animations.dev</small></li>
+<li id="r-josh-comeau"><a href="https://www.joshwcomeau.com" lang="en">Josh W. Comeau</a> 用可交互示例讲透 CSS 过渡、关键帧与弹簧物理的博客，想真正弄懂网页动效原理就读它。 <small lang="en">joshwcomeau.com</small></li>
+<li id="r-family-values"><a href="https://benji.org/family-values" lang="en">Family Values</a> Family 钱包团队讲简洁、流畅与愉悦的动效原则，配实例；核心一条：每个元素都应从某处来。 <small lang="en">benji.org</small></li>
+<li id="r-devouring-details"><a href="https://devouringdetails.com" lang="en">Devouring Details</a> Rauno Freiberg 的交互工艺互动手册：23 章，每章附可下载的 React 组件，演示均录自真实代码；付费。 <small lang="en">devouringdetails.com</small></li>
+<li id="r-spring-physics-heckel"><a href="https://blog.maximeheckel.com/posts/the-physics-behind-spring-animations/" lang="en">The physics behind spring animations</a> 弹簧动画的物理推导长文，质量、刚度、阻尼三个参数配交互例子讲透；数值调弹簧时读。 <small lang="en">blog.maximeheckel.com</small></li>
+<li id="r-webdev-animations-guide"><a href="https://web.dev/articles/animations-guide" lang="en">web.dev: animations guide</a> web.dev 的动画性能指南，讲哪些属性动起来便宜、如何留在合成层；动非常规属性前查表。 <small lang="en">web.dev</small></li>
+<li id="r-ux-in-motion-manifesto"><a href="https://medium.com/ux-in-motion/creating-usability-with-motion-the-ux-in-motion-manifesto-a87a4584ddc" lang="en">UX in Motion Manifesto</a> <em>已归档</em> 提出动效支持可用性的十二条原则：缓动、错时延迟、父子关系等；用它的术语描述动画编排。 <small lang="en">medium.com</small></li>
+<li id="r-animation-performance-tier-list"><a href="https://motion.dev/magazine/web-animation-performance-tier-list" lang="en">The Web Animation Performance Tier List</a> Motion 作者 Matt Perry 按开销给网页动画属性分级（合成、重绘、布局、JS）并解释原因；写动效规格时逐个属性查它的等级。 <small lang="en">motion.dev</small></li>
+</ol>
+<h3>原生平台动效 <small lang="en">Native platform motion</small></h3><ol>
+<li id="r-swiftui-animation"><a href="https://developer.apple.com/documentation/swiftui/animation" lang="en">SwiftUI Animation</a> SwiftUI 动画官方文档，弹簧预设 smooth、snappy、bouncy 及参数都在这；写 iOS 动效、调手感时先查。 <small lang="en">developer.apple.com</small></li>
+<li id="r-open-swiftui-animations"><a href="https://github.com/amosgyamfi/open-swiftui-animations" lang="en">Open SwiftUI Animations</a> 开源的 SwiftUI 动画示例大合集，覆盖常见动效；找到相近效果直接读它的源码；Unlicense（公有领域）。 <small lang="en">github.com</small></li>
+<li id="r-compose-animation"><a href="https://developer.android.com/develop/ui/compose/animation/choose-api" lang="en">Compose: choose an animation API</a> Jetpack Compose 动画 API 的官方选型决策树；做任何 Android 动效工作都先从这页开始查。 <small lang="en">developer.android.com</small></li>
+<li id="r-flutter-animations"><a href="https://docs.flutter.dev/ui/animations" lang="en">Flutter animations</a> Flutter 官方动画文档，讲隐式与显式动画、hero、交错和物理动画；先用隐式组件兜底。 <small lang="en">docs.flutter.dev</small></li>
+<li id="r-flutter-animate"><a href="https://pub.dev/packages/flutter_animate" lang="en">flutter_animate</a> Flutter 的声明式链式动效库，时间参数合理；在 Flutter 里做界面动效的默认选择；BSD-3-Clause。 <small lang="en">pub.dev</small></li>
+<li id="r-arkui-animation"><a href="https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-animation" lang="en">ArkUI animation guide</a> HarmonyOS ArkUI 动画开发指南：属性动画、转场动画、弹簧等动画曲线与帧率要点；交付鸿蒙应用前，把动效 token 映射到这里的参数。 <small lang="en">developer.huawei.com</small></li>
+<li id="r-react-native-reanimated"><a href="https://docs.swmansion.com/react-native-reanimated/" lang="en">React Native Reanimated</a> React Native 的标准动画库：在 UI 线程运行，支持弹簧、布局动画与共享元素转场，配合 Gesture Handler 做跟手交互；MIT。 <small lang="en">docs.swmansion.com</small></li>
+<li id="r-wechat-miniprogram-animation"><a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html" lang="en">WeChat Mini Program animation docs</a> 微信小程序官方动画文档：CSS 过渡、this.animate 关键帧接口（基础库 2.9.0 起）与动画事件；写动效规格前先确认页面用的渲染引擎。 <small lang="en">developers.weixin.qq.com</small></li>
+<li id="r-wwdc-ui-animations-transitions"><a href="https://developer.apple.com/videos/play/wwdc2024/10145/" lang="en">Enhance your UI animations and transitions (WWDC24)</a> WWDC24 演讲：SwiftUI 与 UIKit 的缩放（zoom）导航转场、用 SwiftUI 动画驱动 UIKit 视图、保持连续的手势动画；设计卡片展开到详情页的转场前看。 <small lang="en">developer.apple.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-icons"><h2 id="sl-icons">图标 <small lang="en">Icons</small> <span class="num">61</span></h2>
+<h3>图标家族 <small lang="en">Icon families</small></h3><ol>
+<li id="r-lucide"><a href="https://lucide.dev" lang="en">Lucide</a> <b>S</b> Feather 的社区后继图标库，24px、2px 描边，各框架都有包、可直接取 SVG；中性产品界面的默认选择，ISC 协议。 <small lang="en">lucide.dev</small></li>
+<li id="r-phosphor"><a href="https://phosphoricons.com" lang="en">Phosphor Icons</a> <b>S</b> 六种字重（含 fill、duotone）的图标家族，几何亲和、覆盖广；一个产品只选一种字重，MIT。 <small lang="en">phosphoricons.com</small></li>
+<li id="r-material-symbols"><a href="https://fonts.google.com/icons" lang="en">Material Symbols</a> <b>S</b> Google 的可变图标字体，描边、圆角、锐利三种风格，填充、字重、灰度、视觉字号四轴可调；Apache-2.0。 <small lang="en">fonts.google.com</small></li>
+<li id="r-tabler-icons"><a href="https://tabler.io/icons" lang="en">Tabler Icons</a> 24px 网格上的六千多个图标，描边粗细可调，是免费图标里覆盖面最广的一套；MIT。 <small lang="en">tabler.io</small></li>
+<li id="r-sf-symbols"><a href="https://developer.apple.com/sf-symbols/" lang="en">SF Symbols</a> 苹果官方符号体系，与 San Francisco 字重对齐并支持动画；许可限定苹果平台，别用于 Web。 <small lang="en">developer.apple.com</small></li>
+<li id="r-heroicons"><a href="https://heroicons.com" lang="en">Heroicons</a> Tailwind 团队出品的小巧图标集，四种尺寸风格，画法讲究；可直接取 SVG 文件用；MIT。 <small lang="en">heroicons.com</small></li>
+<li id="r-remix-icon"><a href="https://remixicon.com" lang="en">Remix Icon</a> 中性风格的线性与面性成对图标，国内产品常用；2026 年起改用自有许可，商用免费但禁打包转售。 <small lang="en">remixicon.com</small></li>
+<li id="r-iconoir"><a href="https://iconoir.com" lang="en">Iconoir</a> 1600+ 枚描边风格的开源图标，线条气质比 Lucide 略柔和一点；前端各框架都有现成包，MIT 协议。 <small lang="en">iconoir.com</small></li>
+<li id="r-iconpark"><a href="https://iconpark.oceanengine.com" lang="en">IconPark</a> <em>已归档</em> 字节跳动的 2600+ 图标，描边、四种主题和拐角都是参数；Apache-2.0。GitHub 仓库 2023 年已归档，不再更新。 <small lang="en">iconpark.oceanengine.com</small></li>
+<li id="r-mingcute"><a href="https://www.mingcute.com" lang="en">MingCute</a> 三千多个线面成对、配比均衡的圆润风图标，提供 SVG、React、字体与 Figma 多种格式；Apache-2.0。 <small lang="en">mingcute.com</small></li>
+<li id="r-fluent-system-icons"><a href="https://github.com/microsoft/fluentui-system-icons" lang="en">Fluent System Icons</a> 微软开源图标族，regular 与 filled 两种风格多尺寸齐全；微软生态产品直接用。MIT。 <small lang="en">github.com</small></li>
+<li id="r-carbon-icons"><a href="https://carbondesignsystem.com/elements/icons/library/" lang="en">Carbon icons</a> IBM Carbon 的企业级图标与象形图，按 16/20/24/32px 四种精度设计；配密集型企业级界面用；Apache-2.0。 <small lang="en">carbondesignsystem.com</small></li>
+<li id="r-bootstrap-icons"><a href="https://icons.getbootstrap.com" lang="en">Bootstrap Icons</a> 两千多个通用图标，SVG 与图标字体两种形态；常规 Web 应用的稳妥选择，MIT 协议。 <small lang="en">icons.getbootstrap.com</small></li>
+<li id="r-hugeicons"><a href="https://hugeicons.com" lang="en">Hugeicons</a> 量级很大的多风格图标库，免费档只有一款圆角描边风格；商用前确认所需风格是否在免费档。 <small lang="en">hugeicons.com</small></li>
+<li id="r-streamline"><a href="https://www.streamlinehq.com" lang="en">Streamline</a> 多风格图标与插画大库，家族内部风格统一；选定一套用到底，免费版需署名回链，付费可免。 <small lang="en">streamlinehq.com</small></li>
+<li id="r-untitledui-icons"><a href="https://www.untitledui.com/free-icons" lang="en">Untitled UI Icons</a> 配合热门 UI kit 设计的 24px 描边图标集；免费档只有线性风格可商用，其余风格付费。 <small lang="en">untitledui.com</small></li>
+<li id="r-radix-icons"><a href="https://www.radix-ui.com/icons" lang="en">Radix Icons</a> <em>更新放缓</em> 15px 规格的紧凑图标集，密集界面里比 16px 图标更利落；数据表、工具栏场景适用。MIT。 <small lang="en">radix-ui.com</small></li>
+<li id="r-pixelarticons"><a href="https://pixelarticons.com" lang="en">Pixelarticons</a> 像素网格图标，走复古或俏皮方向时用；缩放保持基准网格整数倍；免费集 MIT。 <small lang="en">pixelarticons.com</small></li>
+<li id="r-health-icons"><a href="https://healthicons.org" lang="en">Health Icons</a> 医疗健康领域的公共版权图标集，补齐通用图标库没有的专科符号，CC0。 <small lang="en">healthicons.org</small></li>
+<li id="r-game-icons"><a href="https://game-icons.net" lang="en">Game-icons.net</a> 4000+ 游戏与奇幻题材图标，做游戏界面或桌游物料的素材库；CC BY，必须署名。 <small lang="en">game-icons.net</small></li>
+<li id="r-animated-lucide"><a href="https://lucide-animated.com" lang="en">lucide-animated</a> 用 Motion 给 Lucide 图标加动效的 React 组件，复制粘贴即用；只点缀关键瞬间，别全用；MIT。 <small lang="en">lucide-animated.com</small></li>
+<li id="r-lordicon"><a href="https://lordicon.com" lang="en">Lordicon</a> 数量很大的 Lottie 动画图标库，带悬停等交互触发；免费档使用需署名。 <small lang="en">lordicon.com</small></li>
+<li id="r-harmonyos-symbol"><a href="https://developer.huawei.com/consumer/cn/design/harmonyos-symbol" lang="en">HarmonyOS Symbol</a> 华为 HarmonyOS 系统图标库：具备字体属性、多层配色与分层动效，对应苹果的 SF Symbols；鸿蒙原生应用优先用它。 <small lang="en">developer.huawei.com</small></li>
+<li id="r-font-awesome"><a href="https://fontawesome.com" lang="en">Font Awesome</a> 无处不在的图标工具包（v7），免费提供 solid、regular 与品牌图标，付费风格很多；自绘图标可照它的 20px 画布与基本形指南。 <small lang="en">fontawesome.com</small></li>
+<li id="r-solar-icons"><a href="https://www.figma.com/community/file/1166831539721848736" lang="en">Solar Icons</a> 480 Design 出品的 8000+ 图标，六种风格（线性、线性双色、粗体、粗体双色、断线、轮廓），气质圆润；设计用 Figma 文件，代码走 Iconify 的 solar 前缀。 <small lang="en">figma.com</small></li>
+<li id="r-central-icons"><a href="https://iconists.co/central" lang="en">Central Icon System</a> 付费图标系统，2000+ 图形、每个约 30 种变体（粗细、圆角、线面）；图标圆角与粗细必须匹配界面 token 时用。 <small lang="en">iconists.co</small></li>
+<li id="r-fluent-emoji"><a href="https://github.com/microsoft/fluentui-emoji" lang="en">Fluent Emoji</a> 微软开源的 emoji 集，四种风格（3D、彩色、扁平、高对比），SVG 与 PNG 都有；也能当亲切的点缀插画用；MIT。 <small lang="en">github.com</small></li>
+<li id="r-noto-emoji"><a href="https://github.com/googlefonts/noto-emoji" lang="en">Noto Emoji</a> Google 开源的 emoji 字体与图片，另有按码位提供的动画版（Lottie、WebP、GIF）；需要会动的 emoji 时直接按码位取 lottie.json。 <small lang="en">github.com</small></li>
+<li id="r-ant-design-icons"><a href="https://ant.design/components/icon-cn" lang="en">Ant Design Icons</a> Ant Design 官方图标集，线框、实底、双色三种主题，国内中后台与企业产品最常见的图标；MIT。 <small lang="en">ant.design</small></li>
+</ol>
+<h3>搜索、聚合与 API <small lang="en">Search, aggregators and APIs</small></h3><ol>
+<li id="r-iconify"><a href="https://iconify.design" lang="en">Iconify</a> <b>S</b> 聚合 150 多个开源图标集的统一 API 和工具层；按需取 SVG，各图标集许可各自标注。 <small lang="en">iconify.design</small></li>
+<li id="r-icones"><a href="https://icones.js.org" lang="en">Icones</a> 快速浏览全部 Iconify 图标集的前端，可复制为 SVG、JSX、Vue 等格式；跨集搜索后选定一族用。 <small lang="en">icones.js.org</small></li>
+<li id="r-svgrepo"><a href="https://www.svgrepo.com" lang="en">SVG Repo</a> 五十多万个 SVG 与图标合集；各合集许可不同需逐个确认，优先整套取用保证风格统一。 <small lang="en">svgrepo.com</small></li>
+<li id="r-noun-project"><a href="https://thenounproject.com" lang="en">The Noun Project</a> 概念覆盖最广的象形图标库，冷僻概念也能找到；风格杂不宜混用，免费版需署名，付费免署名。 <small lang="en">thenounproject.com</small></li>
+<li id="r-iconfont"><a href="https://www.iconfont.cn" lang="en">iconfont</a> 国内最大的图标平台：海量上传图标、官方品牌与产品图标库、团队项目，可导出 SVG、字体图标或 Symbol 引用；国内团队的默认图标来源。 <small lang="en">iconfont.cn</small></li>
+<li id="r-yesicon"><a href="https://yesicon.app" lang="en">Yesicon</a> 支持中文等多语言关键词的 Iconify 图标搜索，覆盖 230+ 开源图标集、32 万+ 图标，并生成各框架代码；搜到后坚持用同一套。 <small lang="en">yesicon.app</small></li>
+<li id="r-flaticon"><a href="https://www.flaticon.com" lang="en">Flaticon</a> Freepik 旗下的海量图标素材站，搜索排名靠前；收录主要为了说清授权：免费下载必须署名，优先用本栏的开源图标家族。 <small lang="en">flaticon.com</small></li>
+</ol>
+<h3>品牌与厂商 logo <small lang="en">Brand and vendor logos</small></h3><ol>
+<li id="r-simple-icons"><a href="https://simpleicons.org" lang="en">Simple Icons</a> <b>S</b> 三千多个单色品牌图标，附官方色值，可走 CDN；SVG 为 CC0，商标权仍在各品牌方。 <small lang="en">simpleicons.org</small></li>
+<li id="r-lobe-icons"><a href="https://lobehub.com/icons" lang="en">Lobe Icons</a> AI 模型与厂商的 SVG 和 React logo 库；要正确的 AI 厂商标志走这条捷径，代码 MIT、商标归原主。 <small lang="en">lobehub.com</small></li>
+<li id="r-svgl"><a href="https://svgl.app" lang="en">SVGL</a> 全彩品牌 logo 的 SVG 库，含明暗两套变体和查询 API；做品牌墙时取用。项目 MIT，商标归原厂。 <small lang="en">svgl.app</small></li>
+<li id="r-devicon"><a href="https://devicon.dev" lang="en">Devicon</a> 编程语言与开发工具的 Logo 集，含原色、单色与线稿变体，SVG 与字体都有；技术栈展示区统一用一种变体，商标归原所有者；MIT。 <small lang="en">devicon.dev</small></li>
+<li id="r-logo-dev"><a href="https://www.logo.dev" lang="en">Logo.dev</a> 按域名获取公司 Logo 的 API，是已停用的 Clearbit Logo API 的常用替代；仪表盘里的客户 Logo 用它，需免费 token，免费档要署名。 <small lang="en">logo.dev</small></li>
+</ol>
+<h3>图标设计指引 <small lang="en">Icon design guidance</small></h3><ol>
+<li id="r-lucide-design-guide"><a href="https://lucide.dev/contribute/icons/design-principles" lang="en">Lucide icon design guide</a> <b>S</b> 24px 描边图标族的数字化设计规则：画布、留白、描边、圆角、视觉平衡；自建图标规范的模板。 <small lang="en">lucide.dev</small></li>
+<li id="r-material-icon-design"><a href="https://m3.material.io/styles/icons/designing-icons" lang="en">Material: designing icons</a> Material 的图标绘制规范：关键形状、网格、描边、视觉尺寸；用 keyline 统一整套图标的视觉重量。 <small lang="en">m3.material.io</small></li>
+<li id="r-apple-sf-symbols-hig"><a href="https://developer.apple.com/design/human-interface-guidelines/sf-symbols" lang="en">Apple HIG: SF Symbols</a> Apple 官方讲 SF Symbols 的渲染模式、可变色彩、字重与缩放；为 Apple 平台画自定义符号前必读。 <small lang="en">developer.apple.com</small></li>
+<li id="r-fluent-iconography"><a href="https://fluent2.microsoft.design/iconography" lang="en">Fluent 2: Iconography</a> 微软 Fluent 2 的图标规范：系统、产品与文件类型图标，按固定尺寸出图不缩放、48px 以下简化细节、按形状而非功能命名（盾牌而非安全）。 <small lang="en">fluent2.microsoft.design</small></li>
+<li id="r-ant-design-icon-spec"><a href="https://ant.design/docs/spec/icon-cn" lang="en">Ant Design icon design spec</a> Ant Design 图标设计规范：1024 画板、64px 出血位、分层、轮廓线模板，以及准确、简单、节奏、愉悦四原则（偶数原则、去小数点）；写中文图标规范的模板。 <small lang="en">ant.design</small></li>
+</ol>
+<h3>应用图标与 favicon <small lang="en">App icons and favicons</small></h3><ol>
+<li id="r-evilmartians-favicon"><a href="https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs" lang="en">How to Favicon in 2026</a> <b>S</b> 现代 favicon 最小方案（2026 年 1 月复核）：HTML 里只放 favicon.ico、icon.svg、apple-touch-icon.png，PWA 再加含 192、512 与 maskable 图标的 manifest。 <small lang="en">evilmartians.com</small></li>
+<li id="r-apple-app-icons"><a href="https://developer.apple.com/design/human-interface-guidelines/app-icons" lang="en">Apple HIG: App icons</a> Apple 官方应用图标规范：分层结构、深色/透明/染色外观与各平台形状；导出前对照，规则随系统更新。 <small lang="en">developer.apple.com</small></li>
+<li id="r-ios-icon-gallery"><a href="https://www.iosicongallery.com" lang="en">iOS Icon Gallery</a> 精选的 iOS、macOS、watchOS 应用图标画廊；按目标类目研究成熟作品的剪影与配色套路。 <small lang="en">iosicongallery.com</small></li>
+<li id="r-macos-icons"><a href="https://macosicons.com" lang="en">macOSicons</a> macOS 风格应用图标的社区画廊，体量很大；揣摩 macOS 图标语言时参考，仅限个人使用。 <small lang="en">macosicons.com</small></li>
+<li id="r-icon-composer"><a href="https://developer.apple.com/icon-composer/" lang="en">Apple Icon Composer</a> Apple 官方的分层图标制作工具，用 SVG/PNG 图层生成带材质的 App 图标；出苹果平台图标时用。 <small lang="en">developer.apple.com</small></li>
+<li id="r-icon-kitchen"><a href="https://icon.kitchen" lang="en">Icon Kitchen</a> 一份图稿生成 Android 自适应图标与 iOS、web、macOS 全套尺寸；出应用图标时省事，导出前先预览蒙版与单色层。 <small lang="en">icon.kitchen</small></li>
+<li id="r-maskable-app"><a href="https://maskable.app" lang="en">Maskable.app</a> 预览和编辑 PWA maskable 图标的工具，对照各种遮罩形状检查安全区，发 manifest 前用它过一遍。 <small lang="en">maskable.app</small></li>
+<li id="r-realfavicongenerator"><a href="https://realfavicongenerator.net" lang="en">RealFaviconGenerator</a> 生成并校验一整套符合现行标准的 favicon 的工具；站点部署上线后跑一遍它的 checker。 <small lang="en">realfavicongenerator.net</small></li>
+<li id="r-harmonyos-app-icons"><a href="https://developer.huawei.com/consumer/cn/doc/design-guides/application-icon-0000001953444009" lang="en">HarmonyOS app icon guidelines</a> 华为 HarmonyOS 应用图标规范：前后景分层、体量网格、自上而下光源、9 种推荐色彩方向与多设备适配；导出鸿蒙图标前逐项核对。 <small lang="en">developer.huawei.com</small></li>
+</ol>
+<h3>SVG 工具 <small lang="en">SVG tooling</small></h3><ol>
+<li id="r-svgomg"><a href="https://jakearchibald.github.io/svgomg/" lang="en">SVGOMG</a> <b>S</b> SVGO 的可视化前端，压缩 SVG 时实时对照前后差异；保留 viewBox，精度降到变形前回退。 <small lang="en">jakearchibald.github.io</small></li>
+<li id="r-svgo"><a href="https://svgo.dev" lang="en">SVGO</a> 多数流水线背后的 SVG 优化器；配置时保留 viewBox、别把描边路径合并掉；MIT。 <small lang="en">svgo.dev</small></li>
+<li id="r-svg-path-editor"><a href="https://yqnn.github.io/svg-path-editor/" lang="en">SVG Path Editor</a> 在线按数值编辑 SVG path 指令，实时预览取整、缩放、平移；把手写路径对齐到网格时用。 <small lang="en">yqnn.github.io</small></li>
+<li id="r-svg-viewer"><a href="https://www.svgviewer.dev" lang="en">SVG Viewer</a> 在线查看、优化并转换 SVG 的小工具，可导出 JSX、React Native、data URI 与 PNG；手写 SVG 代码后用它快速校验。 <small lang="en">svgviewer.dev</small></li>
+<li id="r-vtracer"><a href="https://www.visioncortex.org/vtracer/" lang="en">VTracer</a> 支持彩色图像的位图转矢量工具；描完草图要重绘干净，别直接交原始描摹；MIT。 <small lang="en">visioncortex.org</small></li>
+<li id="r-boxy-svg"><a href="https://boxy-svg.com" lang="en">Boxy SVG</a> 浏览器里的 SVG 编辑器，输出的标记干净；适合手工修整生成的 SVG 文件。 <small lang="en">boxy-svg.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-assets"><h2 id="sl-assets">视觉素材 <small lang="en">Visual assets</small> <span class="num">46</span></h2>
+<h3>插画 <small lang="en">Illustrations</small></h3><ol>
+<li id="r-undraw"><a href="https://undraw.co" lang="en">unDraw</a> 开源扁平插画库，可按品牌色一键换色后下载；用的人太多，需改造型再用。商用免费。 <small lang="en">undraw.co</small></li>
+<li id="r-open-peeps"><a href="https://www.openpeeps.com" lang="en">Open Peeps</a> 手绘人物插画库，头、身、姿势等部件可自由拼组；需要快速拼出人物配图时用；CC0。 <small lang="en">openpeeps.com</small></li>
+<li id="r-open-doodles"><a href="https://www.opendoodles.com" lang="en">Open Doodles</a> <em>已归档</em> 松散手绘风插画集，带配色生成器；想要随意亲切调性的页面时用，CC0 可商用。 <small lang="en">opendoodles.com</small></li>
+<li id="r-blush"><a href="https://blush.design" lang="en">Blush</a> 多位艺术家的可定制插画合集，配色和元素可调；同一项目只用一个合集保一致，SVG 和完整库付费。 <small lang="en">blush.design</small></li>
+<li id="r-storyset"><a href="https://storyset.com" lang="en">Storyset</a> 可自定义配色、可设动画的插画概念库；免费档使用必须署名，介意就付费。 <small lang="en">storyset.com</small></li>
+<li id="r-absurd-design"><a href="https://absurd.design" lang="en">Absurd Design</a> 超现实手绘墨水插画，跳出扁平矢量的同质化；适合想要怪一点人味儿的品牌；署名免费，会员更多。 <small lang="en">absurd.design</small></li>
+<li id="r-recraft"><a href="https://www.recraft.ai" lang="en">Recraft</a> 能输出可编辑矢量（SVG）插画与图标、并保存品牌风格的 AI 生成工具，带 API；补齐同风格素材后，在编辑器里清理路径再交付。 <small lang="en">recraft.ai</small></li>
+</ol>
+<h3>3D 素材 <small lang="en">3D</small></h3><ol>
+<li id="r-poly-haven"><a href="https://polyhaven.com" lang="en">Poly Haven</a> <b>S</b> 公共领域的 HDRI、PBR 贴图与模型库，质量高且带 API；做 3D 场景打光与材质时当默认来源用，CC0 可商用。 <small lang="en">polyhaven.com</small></li>
+<li id="r-3dicons"><a href="https://3dicons.co" lang="en">3dicons</a> 开源 3D 图标库，每个图标有多个角度和配色的渲染成品；提供 PNG 与 Blender 源文件。CC0。 <small lang="en">3dicons.co</small></li>
+<li id="r-ambientcg"><a href="https://ambientcg.com" lang="en">ambientCG</a> 公共领域（CC0）的 PBR 材质库，覆盖常见表面；做 3D 渲染找贴图时的常备第二来源。 <small lang="en">ambientcg.com</small></li>
+<li id="r-spline"><a href="https://spline.design" lang="en">Spline</a> 浏览器里的 3D 设计工具，支持状态、事件与网页导出，社区有大量可二次创作的场景；嵌入首屏前在中端手机上测体积与加载。 <small lang="en">spline.design</small></li>
+<li id="r-d-design"><a href="https://d.design" lang="en">D.Design</a> 阿里巴巴设计的堆友平台：原创 3D 头像、场景与元素，标注免费可商用，带在线渲染与 AI 设计工具；同一产品只用一种 3D 风格。 <small lang="en">d.design</small></li>
+<li id="r-kenney"><a href="https://kenney.nl" lang="en">Kenney</a> 数千个风格统一的 CC0 游戏素材：2D、3D、UI 套件与音效；趣味原型与游戏界面零授权风险。 <small lang="en">kenney.nl</small></li>
+<li id="r-sketchfab"><a href="https://sketchfab.com" lang="en">Sketchfab</a> 最大的 3D 模型平台，带可嵌入查看器、「可下载」筛选与大量 CC 授权模型；网页使用前查面数与贴图大小，CC BY 模型记下署名。 <small lang="en">sketchfab.com</small></li>
+</ol>
+<h3>摄影与视频 <small lang="en">Photography and video</small></h3><ol>
+<li id="r-unsplash"><a href="https://unsplash.com" lang="en">Unsplash</a> 高质量免费摄影库；避开被用滥的图，照片处理风格要统一；可商用但不得转售原图，Unsplash+ 付费。 <small lang="en">unsplash.com</small></li>
+<li id="r-pexels"><a href="https://www.pexels.com" lang="en">Pexels</a> 免费照片与素材视频库，带 API；拿来做短背景视频很顺手；可商用。 <small lang="en">pexels.com</small></li>
+<li id="r-coverr"><a href="https://coverr.co" lang="en">Coverr</a> 为网页背景而生的素材视频库；多数片段免费许可，使用时记得压缩并备好 poster 帧。 <small lang="en">coverr.co</small></li>
+<li id="r-mixkit"><a href="https://mixkit.co" lang="en">Mixkit</a> 免费视频、音乐与音效素材站；给界面配克制的音效时来这找；按素材类型各有许可。 <small lang="en">mixkit.co</small></li>
+<li id="r-lummi"><a href="https://www.lummi.ai" lang="en">Lummi</a> AI 生成的配图库，风格一致性较好，免费用；正式场合注意披露合成来源，并检查生成痕迹。 <small lang="en">lummi.ai</small></li>
+<li id="r-vcg"><a href="https://www.vcg.com" lang="en">Visual China Group</a> 国内最大的付费图库，版权管理严格、维权积极；做面向国内的项目别用网上随手找的图。 <small lang="en">vcg.com</small></li>
+<li id="r-openverse"><a href="https://openverse.org" lang="en">Openverse</a> WordPress 基金会的开放授权图片与音频搜索引擎，可按授权筛选，另有免登录的 JSON API；筛「可商用、可修改」并保存返回的署名字符串。 <small lang="en">openverse.org</small></li>
+<li id="r-met-open-access"><a href="https://metmuseum.github.io/" lang="en">The Met Open Access and Collection API</a> 大都会艺术博物馆的免密钥 JSON API，isPublicDomain 为真的藏品附高清 CC0 图片；做编辑、历史与纹理类配图零授权风险。 <small lang="en">metmuseum.github.io</small></li>
+<li id="r-smithsonian-open-access"><a href="https://www.si.edu/openaccess" lang="en">Smithsonian Open Access</a> 史密森尼学会数百万条 CC0 图像与档案（博物馆、档案馆、动物园），网站与 API 都能搜；编辑和历史类配图零授权风险。 <small lang="en">si.edu</small></li>
+<li id="r-wikimedia-commons"><a href="https://commons.wikimedia.org" lang="en">Wikimedia Commons</a> 最大的自由媒体库：照片、地图、示意图与历史图像，每个文件页写明授权与作者；照抄文件页的授权与署名。 <small lang="en">commons.wikimedia.org</small></li>
+<li id="r-tuchong-creative"><a href="https://stock.tuchong.com" lang="en">Tuchong Creative</a> 图虫创意：面向国内的正版商用图片、视频、音频素材库，Adobe Stock 中国区官方独家合作伙伴；国内维权积极，逐张保留授权记录。 <small lang="en">stock.tuchong.com</small></li>
+<li id="r-hellorf"><a href="https://www.hellorf.com" lang="en">Hellorf</a> 站酷海洛：站酷旗下的正版图片、视频、字体与音乐交易平台；国内第二个正版来源，逐张保留授权记录。 <small lang="en">hellorf.com</small></li>
+</ol>
+<h3>样机与截图工具 <small lang="en">Mock-ups and screenshot tools</small></h3><ol>
+<li id="r-shots-so"><a href="https://shots.so" lang="en">Shots</a> <b>S</b> 浏览器里的设备与浏览器样机工具，默认就好看；丢截图、选边框、导出，三步完事。 <small lang="en">shots.so</small></li>
+<li id="r-pika-style"><a href="https://pika.style" lang="en">Pika</a> 截图美化与社交分享图模板工具；营销页需要快速出产品展示图时用。 <small lang="en">pika.style</small></li>
+<li id="r-mockuuups"><a href="https://mockuuups.studio" lang="en">Mockuuups Studio</a> 数千个实拍设备场景样机，快速把界面放进手机电脑照片里；克制使用，干净画框更显设计。 <small lang="en">mockuuups.studio</small></li>
+<li id="r-ls-graphics"><a href="https://www.ls.graphics" lang="en">LS Graphics</a> 高端设备与印刷样机库；做品牌提案展示用；按产品付费，部分免费。 <small lang="en">ls.graphics</small></li>
+<li id="r-rotato"><a href="https://rotato.app" lang="en">Rotato</a> 3D 设备样机动画工具，把界面截图放进会动的手机电脑模型里；做发布视频与应用商店预览时用。 <small lang="en">rotato.app</small></li>
+<li id="r-mockuphone"><a href="https://mockuphone.com" lang="en">MockUPhone</a> 免费的扁平设备边框图，没有场景装饰，快速给截图套壳展示时用。 <small lang="en">mockuphone.com</small></li>
+<li id="r-screen-studio"><a href="https://screen.studio" lang="en">Screen Studio</a> macOS 录屏工具，自动缩放、平滑光标与构图，快速做出精致的产品演示视频；录已完成的界面用于发布与商店预览。 <small lang="en">screen.studio</small></li>
+</ol>
+<h3>背景、渐变与纹理 <small lang="en">Backgrounds, gradients, patterns and shaders</small></h3><ol>
+<li id="r-haikei"><a href="https://haikei.app" lang="en">Haikei</a> <b>S</b> 色块、波浪、层叠山峰、模糊渐变等背景生成器，导出 SVG 或 PNG；生成素材可免费使用。 <small lang="en">haikei.app</small></li>
+<li id="r-fffuel"><a href="https://www.fffuel.co" lang="en">fffuel</a> <b>S</b> SVG 生成器合集：噪点、颗粒、有机形状、图案和渐变；做纹理背景时按需挑选。 <small lang="en">fffuel.co</small></li>
+<li id="r-paper-shaders"><a href="https://shaders.paper.design" lang="en">Paper Shaders</a> <b>S</b> 零依赖 shader 组件库，含网格渐变、颗粒、抖动、形变；给网页加实时 shader 背景最干净的选择，Apache-2.0。 <small lang="en">shaders.paper.design</small></li>
+<li id="r-grainient"><a href="https://grainient.supply" lang="en">Grainient</a> 颗粒渐变背景、动态渐变与 shader 工具；当美术方向参考，再用代码复刻以掌控细节；有免费和付费包。 <small lang="en">grainient.supply</small></li>
+<li id="r-hero-patterns"><a href="https://heropatterns.com" lang="en">Hero Patterns</a> <em>已归档</em> 可调色的可平铺 SVG 背景图案库；给区块加纹理时压低不透明度用，需署名；CC BY 4.0。 <small lang="en">heropatterns.com</small></li>
+<li id="r-pattern-monster"><a href="https://pattern.monster" lang="en">Pattern Monster</a> 可调参数的 SVG 图案生成器，导出为 CSS 背景或 SVG 文件；给页面做纹理底纹时直接用。 <small lang="en">pattern.monster</small></li>
+<li id="r-shadergradient"><a href="https://shadergradient.co" lang="en">ShaderGradient</a> 动态 3D 渐变定制器，可导出 React、Figma 和 Framer 三种形态；记得导一张静帧给 reduced-motion 场景兜底；MIT。 <small lang="en">shadergradient.co</small></li>
+<li id="r-unicorn-studio"><a href="https://unicorn.studio" lang="en">Unicorn Studio</a> 无代码 WebGL 场景搭建工具，做首屏特效；注意运行时体积，离屏时记得暂停。 <small lang="en">unicorn.studio</small></li>
+<li id="r-shadertoy"><a href="https://www.shadertoy.com" lang="en">Shadertoy</a> GLSL shader 社区，学着色器技法的最佳现场，网页背景动效的灵感源；默认 CC BY-NC-SA，商用前逐条查许可。 <small lang="en">shadertoy.com</small></li>
+<li id="r-grainy-gradients"><a href="https://css-tricks.com/grainy-gradients/" lang="en">Grainy Gradients (CSS-Tricks)</a> CSS-Tricks 的教程，用 SVG 噪点滤镜加渐变在纯 CSS 里做出颗粒感；抄 feTurbulence 滤镜再调参数。 <small lang="en">css-tricks.com</small></li>
+<li id="r-gradient-style"><a href="https://gradient.style" lang="en">gradient.style</a> 现代 CSS 渐变生成器，支持广色域与色彩空间插值；用 oklch 或 oklab 插值可避免中间发灰。 <small lang="en">gradient.style</small></li>
+<li id="r-josh-gradient-generator"><a href="https://www.joshwcomeau.com/gradient-generator/" lang="en">Josh Comeau gradient generator</a> 按感知色彩模式生成多段渐变的工具，色层丰润；浏览器不支持 oklch 插值时的替代方案。 <small lang="en">joshwcomeau.com</small></li>
+<li id="r-uigradients"><a href="https://uigradients.com" lang="en">uiGradients</a> <em>已归档</em> 带名字的两色、三色 CSS 渐变库；审美已经偏旧，只当快速起步的起点；MIT。 <small lang="en">uigradients.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-brand"><h2 id="sl-brand">品牌 <small lang="en">Brand identity</small> <span class="num">36</span></h2>
+<h3>logo 档案 <small lang="en">Logo archives</small></h3><ol>
+<li id="r-logobook"><a href="https://www.logobook.com" lang="en">Logobook</a> <b>S</b> 世界经典标志档案馆，可按字母、形状、物体、设计师浏览；看某个形态前人是怎么解的。 <small lang="en">logobook.com</small></li>
+<li id="r-logo-archive"><a href="https://logo-archive.org" lang="en">Logo Archive</a> 5500+ 历史标志档案（以现代主义为主），每件注明设计师与年份；做几何化、减法造型时的参照系。 <small lang="en">logo-archive.org</small></li>
+<li id="r-logosystem"><a href="https://logosystem.co" lang="en">Logosystem</a> 当代标志库（1300+），可按类型、颜色、形状、行业筛，每件注明设计师；另有动态 logo 与 App 图标专区。 <small lang="en">logosystem.co</small></li>
+<li id="r-logopedia"><a href="https://logos.fandom.com/wiki/Logopedia" lang="en">Logopedia</a> 数千个品牌的 Logo 演变时间线档案馆；改版前盘点品牌资产时，看历次更迭留住了什么。 <small lang="en">logos.fandom.com</small></li>
+<li id="r-logo-design-love"><a href="https://www.logodesignlove.com" lang="en">Logo Design Love</a> <em>更新放缓</em> David Airey 写了多年的 logo 博客，讲工艺、流程与案例；给客户提方案前先读它的过程文章。 <small lang="en">logodesignlove.com</small></li>
+<li id="r-emblemetric"><a href="https://www.emblemetric.com" lang="en">Emblemetric</a> <em>更新放缓</em> 用商标数据量化分析 logo 趋势；想知道某种颜色或造型在某行业多常见时查它。 <small lang="en">emblemetric.com</small></li>
+<li id="r-logolounge"><a href="https://www.logolounge.com" lang="en">LogoLounge</a> 会员投稿的大型标志数据库；每年的免费趋势报告值得读，能知道哪些套路该避开。 <small lang="en">logolounge.com</small></li>
+</ol>
+<h3>品牌评审与重塑报道 <small lang="en">Identity reviews and rebrand coverage</small></h3><ol>
+<li id="r-bpando"><a href="https://bpando.org" lang="en">BP&amp;O</a> <b>S</b> 深度评测品牌识别与包装项目的博客，眼光挑剔；学识别设计批评的词汇。 <small lang="en">bpando.org</small></li>
+<li id="r-logonews"><a href="https://www.logonews.cn">Logo News (标志情报局)</a> <b>S</b> 中文标志资讯站，收录中外品牌换标与新形象；查某个品牌的标识演变史时直接搜名字。 <small lang="en">logonews.cn</small></li>
+<li id="r-brand-new"><a href="https://www.underconsideration.com/brandnew/" lang="en">Brand New</a> 品牌重塑案例的编年史与评论媒体；做 rebranding 前按行业搜档案，低价订阅制。 <small lang="en">underconsideration.com</small></li>
+<li id="r-the-brand-identity"><a href="https://the-brandidentity.com" lang="en">The Brand Identity</a> 当代品牌识别项目与新字体发布的在线刊物，摄影讲究；按项目搜索或看 /project 案例了解当下识别设计审美。 <small lang="en">the-brandidentity.com</small></li>
+<li id="r-identity-designed"><a href="https://identitydesigned.com" lang="en">Identity Designed</a> 由设计工作室亲自撰写的品牌识别案例库，看同行如何讲解和编排自己的作品。 <small lang="en">identitydesigned.com</small></li>
+<li id="r-mindsparkle"><a href="https://mindsparklemag.com" lang="en">Mindsparkle Mag</a> 每日更新的品牌、网页与动效策展杂志；横向扫一遍当下 identity 作品用它。 <small lang="en">mindsparklemag.com</small></li>
+<li id="r-rebrand-gallery"><a href="https://rebrand.gallery" lang="en">Rebrand Gallery</a> 品牌焕新案例库，附发布视频；按气质或行业筛，看揭幕短片是怎么编排的。 <small lang="en">rebrand.gallery</small></li>
+<li id="r-gtn9"><a href="https://www.gtn9.com">古田路9号</a> 国内品牌设计社区与作品集平台；校准本土品牌视觉品味与价位时看。 <small lang="en">gtn9.com</small></li>
+<li id="r-dandad"><a href="https://www.dandad.org" lang="en">D&amp;AD Awards archive</a> D&amp;AD 铅笔奖作品库，覆盖品牌、平面、数字与广告；在奖项档案里按类别和年份看评审奖励了什么。 <small lang="en">dandad.org</small></li>
+</ol>
+<h3>品牌规范合集 <small lang="en">Brand guideline collections</small></h3><ol>
+<li id="r-brandguidelines-net"><a href="https://brandguidelines.net" lang="en">Brand Guidelines</a> 官方品牌规范文档合集，收 Twitch、Asana 等；写自家规范前挑三个同行对比目录结构。 <small lang="en">brandguidelines.net</small></li>
+<li id="r-brandingstyleguides"><a href="https://brandingstyleguides.com" lang="en">Branding Style Guides</a> 品牌手册与视觉规范的大型档案馆，很多是 PDF 原文；按行业分类翻，写规范前先找参照。 <small lang="en">brandingstyleguides.com</small></li>
+<li id="r-standards-site"><a href="https://standards.site" lang="en">Standards</a> 网页版品牌指南平台，附公开范例；研究一份&quot;活的&quot;品牌手册该怎么搭结构。 <small lang="en">standards.site</small></li>
+<li id="r-standards-manual"><a href="https://standardsmanual.com" lang="en">Standards Manual</a> 复刻出版 NASA、纽约地铁等经典图形标准手册；预览页能看出严谨系统当年怎么写规范。 <small lang="en">standardsmanual.com</small></li>
+<li id="r-brandfetch"><a href="https://brandfetch.com" lang="en">Brandfetch</a> 按域名取 5000 万+ 公司的 logo、品牌色与字体，有免费 Logo API 与 MCP；凑竞品品牌墙或让智能体取 logo 时用。 <small lang="en">brandfetch.com</small></li>
+</ol>
+<h3>工作室案例 <small lang="en">Studio case studies</small></h3><ol>
+<li id="r-pentagram"><a href="https://www.pentagram.com/work" lang="en">Pentagram</a> <b>S</b> 最有影响力的设计合伙事务所的案例库；按门类与行业筛选品牌识别案例看。 <small lang="en">pentagram.com</small></li>
+<li id="r-collins"><a href="https://wearecollins.com/case-studies/" lang="en">COLLINS</a> 策略先行的品牌识别案例集，叙事性强；学它如何给每个案子定义问题，而不只看最终呈现。 <small lang="en">wearecollins.com</small></li>
+<li id="r-koto"><a href="https://koto.com/work" lang="en">Koto</a> 以乐观气质的科技与初创品牌识别见长的工作室，做数字优先的品牌系统时看它家的作品。 <small lang="en">koto.com</small></li>
+<li id="r-wolff-olins"><a href="https://www.wolffolins.com/work" lang="en">Wolff Olins</a> 大型公司品牌重塑案例集；看一套识别系统如何在庞大组织里铺开。 <small lang="en">wolffolins.com</small></li>
+<li id="r-ragged-edge"><a href="https://raggededge.com/partnerships" lang="en">Ragged Edge</a> 挑战者品牌的识别设计，语气大胆；参考文案调性与视觉怎么配合。 <small lang="en">raggededge.com</small></li>
+<li id="r-porto-rocha"><a href="https://portorocha.com" lang="en">Porto Rocha</a> 以文化和动效见长的品牌识别工作室；做为动而生的识别系统时对标它的案例。 <small lang="en">portorocha.com</small></li>
+<li id="r-studio-dumbar"><a href="https://studiodumbar.com" lang="en">Studio Dumbar/DEPT</a> 动态优先视觉识别的先行者；做生成式、动态识别系统时的参考。 <small lang="en">studiodumbar.com</small></li>
+</ol>
+<h3>命名与商标检索 <small lang="en">Naming and trademark search</small></h3><ol>
+<li id="r-wipo-brand-db"><a href="https://branddb.wipo.int" lang="en">WIPO Global Brand Database</a> WIPO 全球商标库，支持以图搜图查相似标；给候选 Logo 做初筛用，正式清权仍需律师。 <small lang="en">branddb.wipo.int</small></li>
+<li id="r-tmview"><a href="https://www.tmdn.org/tmview/" lang="en">TMview</a> 跨多国与地区商标局的检索工具，按类别交叉核对名称与图形；定名前先做排查。 <small lang="en">tmdn.org</small></li>
+<li id="r-cnipa-trademark"><a href="https://sbj.cnipa.gov.cn">中国商标网</a> 国家知识产权局商标局官方门户；“商标网上查询”是大陆名称与标志查重的权威来源，面向大陆市场定名前必查。 <small lang="en">sbj.cnipa.gov.cn</small></li>
+<li id="r-onym"><a href="https://guide.onym.co" lang="en">Onym</a> <em>更新放缓</em> 命名方法与工具的精选指南；需求里包含起名时按它的流程走。 <small lang="en">guide.onym.co</small></li>
+<li id="r-igor-naming-guide"><a href="https://www.igorinternational.com/process/i/Igor%20Naming%20Guide%202022A.pdf" lang="en">Igor Naming Guide (PDF)</a> <em>更新放缓</em> 命名方法论长文，把名字分成功能、生造、体验、唤起四类并给出评估标准；评审候选名前用它归类。 <small lang="en">igorinternational.com</small></li>
+<li id="r-uspto-trademark-search"><a href="https://tmsearch.uspto.gov" lang="en">USPTO Trademark Search</a> 美国商标局官方检索（2023 年取代 TESS）；面向美国市场的名称与标志做初筛，不等于法律意见。 <small lang="en">tmsearch.uspto.gov</small></li>
+<li id="r-tmkoo"><a href="https://www.tmkoo.com">Tmkoo (标库网)</a> 标库网：同步商标局数据的第三方商标检索，免费查近似、状态与公告；官方查询前先用它快速初筛。 <small lang="en">tmkoo.com</small></li>
+<li id="r-instant-domain-search"><a href="https://instantdomainsearch.com" lang="en">Instant Domain Search</a> 边输入边查各后缀域名是否可注册，并给替代建议；提案前把候选名过一遍，域名能否拿到会影响名字去留。 <small lang="en">instantdomainsearch.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-graphic"><h2 id="sl-graphic">平面 <small lang="en">Graphic design</small> <span class="num">40</span></h2>
+<h3>海报与字体排印 <small lang="en">Posters and typographic work</small></h3><ol>
+<li id="r-typographic-posters"><a href="https://www.typographicposters.com" lang="en">Typographic Posters</a> 数千张当代字体海报，按设计师、工作室、国家索引；按设计师通读，留意网格与尺度对比。 <small lang="en">typographicposters.com</small></li>
+<li id="r-trendlist"><a href="https://www.trendlist.org" lang="en">Trend List</a> <em>更新放缓</em> 给平面与海报设计潮流命名并打标签的档案站；用某个潮流元素前先查它流行多久了。 <small lang="en">trendlist.org</small></li>
+<li id="r-emuseum-gestaltung"><a href="https://www.emuseum.ch" lang="en">Museum fuer Gestaltung eMuseum</a> 苏黎世设计博物馆线上馆藏，含瑞士海报传统；按设计师搜 Mueller-Brockmann、Hofmann 看网格原作。 <small lang="en">emuseum.ch</small></li>
+<li id="r-poster-house"><a href="https://posterhouse.org" lang="en">Poster House</a> 纽约海报博物馆，带历届展览档案；补海报史与流派背景知识的地方。 <small lang="en">posterhouse.org</small></li>
+<li id="r-tokyo-tdc"><a href="https://tokyotypedirectorsclub.org/en/" lang="en">Tokyo TDC (Tokyo Type Directors Club)</a> 东京字体指导俱乐部年度奖，中日文字体海报、书籍与识别设计最好的档案；看汉字、假名与拉丁字在展示尺度下如何搭配。 <small lang="en">tokyotypedirectorsclub.org</small></li>
+<li id="r-tdc"><a href="https://tdc.org" lang="en">Type Directors Club (TDC)</a> 纽约字体指导俱乐部年度竞赛（传达设计与字体设计）及获奖作品；找有野心的字体设计参考。 <small lang="en">tdc.org</small></li>
+<li id="r-100-beste-plakate"><a href="https://100-beste-plakate.de" lang="en">100 Beste Plakate</a> 德奥瑞三国“年度 100 张最佳海报”竞赛，最能代表当年字体海报水准的年鉴；看网格、尺度与纯文字方案。 <small lang="en">100-beste-plakate.de</small></li>
+<li id="r-gdc-award"><a href="https://www.gdcaward.com" lang="en">GDC Award (Graphic Design in China)</a> GDC 设计奖（平面设计在中国）：深圳市平面设计协会 1992 年创办的国内最具影响力平面设计奖，海报、书籍、识别、包装都有；看当下中文字体与品牌设计水准。 <small lang="en">gdcaward.com</small></li>
+</ol>
+<h3>设计史档案 <small lang="en">Design history archives</small></h3><ol>
+<li id="r-letterform-archive"><a href="https://oa.letterformarchive.org" lang="en">Letterform Archive Online</a> <b>S</b> 高分辨率字体、字样与平面设计档案馆，免费注册；按年代、工艺、国家找真实的时代参考。 <small lang="en">oa.letterformarchive.org</small></li>
+<li id="r-peoples-gd-archive"><a href="https://peoplesgdarchive.org" lang="en">People&#x27;s Graphic Design Archive</a> 众包平面设计档案库，收日常与少被记录的民间设计；找经典正史之外的野生参考时来挖。 <small lang="en">peoplesgdarchive.org</small></li>
+<li id="r-aiga-design-archives"><a href="https://designarchives.aiga.org" lang="en">AIGA Design Archives</a> <em>已归档</em> AIGA 数十年评审入选的美国平面设计档案；按书籍、海报、识别等形制检索。 <small lang="en">designarchives.aiga.org</small></li>
+<li id="r-cooper-hewitt"><a href="https://www.si.edu/collections/cooper-hewitt" lang="en">Cooper Hewitt collection</a> Smithsonian 设计博物馆馆藏，可按年代、设计师、物件类型检索；不少图片 CC0，逐件确认。 <small lang="en">si.edu</small></li>
+<li id="r-paul-rand"><a href="https://www.paulrand.design" lang="en">Paul Rand</a> Paul Rand 作品与著述的完整档案站，他谈 logo 提案与呈现的随笔，给客户汇报前值得重读。 <small lang="en">paulrand.design</small></li>
+<li id="r-designreviewed"><a href="https://designreviewed.com" lang="en">Design Reviewed</a> 免费的平面设计史档案：1 万+ 扫描原件、500+ 设计师档案，跨越 150 年；按设计运动或杂志找真实时代参考，别做仿品。 <small lang="en">designreviewed.com</small></li>
+</ol>
+<h3>演示与路演文稿 <small lang="en">Presentations and pitch decks</small></h3><ol>
+<li id="r-deck-gallery"><a href="https://deck.gallery" lang="en">Deck Gallery</a> 精选演示文稿库：路演、品牌规范、报告、作品集与演讲，每页幻灯片单独成页；另有免费 JSON 目录供智能体读取。 <small lang="en">deck.gallery</small></li>
+<li id="r-best-pitch-decks"><a href="https://bestpitchdeck.com" lang="en">Best Pitch Deck</a> 1400+ 份已融资创业公司的路演 PPT，附轮次、金额与年份，可按阶段、行业、商业模式筛；先学叙事顺序再谈美化。 <small lang="en">bestpitchdeck.com</small></li>
+<li id="r-pitch-deck-hunt"><a href="https://www.pitchdeckhunt.com" lang="en">Pitch Deck Hunt</a> 知名融资路演 PPT 合集；搭路演结构时的第二参考源，看真实 deck 怎么排叙事。 <small lang="en">pitchdeckhunt.com</small></li>
+<li id="r-sequoia-business-plan"><a href="https://www.sequoiacap.com/article/writing-a-business-plan/" lang="en">Sequoia: Writing a Business Plan</a> <em>已归档</em> Sequoia 的商业计划书写法，路演叙事的经典大纲；做投资人 deck 时当默认故事骨架。 <small lang="en">sequoiacap.com</small></li>
+<li id="r-pitch-templates"><a href="https://pitch.com/templates" lang="en">Pitch templates</a> 专业设计的演示文稿模板库；搭建幻灯片版式体系时，参考它的栅格与信息层级。 <small lang="en">pitch.com</small></li>
+</ol>
+<h3>封面与包装 <small lang="en">Covers and packaging</small></h3><ol>
+<li id="r-cover-junkie"><a href="https://coverjunkie.com" lang="en">Coverjunkie</a> <em>更新放缓</em> 以创意取胜的杂志封面合集，做单一图像加单一标题的构图时来这找参照。 <small lang="en">coverjunkie.com</small></li>
+<li id="r-spine-magazine"><a href="https://spinemagazine.co" lang="en">Spine</a> 专注书籍封面设计的杂志，讲过程与访谈；看封面方案如何被发展又被否决。 <small lang="en">spinemagazine.co</small></li>
+<li id="r-the-dieline"><a href="https://thedieline.com" lang="en">Dieline</a> 包装设计领域的头部媒体；按类目浏览，摸清货架上的品类惯例。 <small lang="en">thedieline.com</small></li>
+<li id="r-packaging-of-the-world"><a href="https://packagingoftheworld.com" lang="en">Packaging of the World</a> 大型包装设计画廊，按品类和国家分类；接到包装案时先扫一遍同品类摸清常见套路。 <small lang="en">packagingoftheworld.com</small></li>
+<li id="r-magculture"><a href="https://magculture.com" lang="en">magCulture</a> Jeremy Leslie 的杂志设计期刊、播客与书店，持续记录独立杂志的封面与内页；编辑排版与封面字体参考。 <small lang="en">magculture.com</small></li>
+<li id="r-pentawards"><a href="https://pentawards.com" lang="en">Pentawards</a> 全球包装设计竞赛，按品类公布获奖作品并出年度趋势报告；接包装案前先看同品类获奖作品，摸清货架惯例再决定打破哪条。 <small lang="en">pentawards.com</small></li>
+<li id="r-casual-optimist"><a href="https://www.casualoptimist.com" lang="en">The Casual Optimist</a> 长期更新的书封设计博客，每月“值得一看的书封”与年度精选；看当下书封的字体与插画走向。 <small lang="en">casualoptimist.com</small></li>
+</ol>
+<h3>平面出版物 <small lang="en">Publications</small></h3><ol>
+<li id="r-its-nice-that"><a href="https://www.itsnicethat.com" lang="en">It&#x27;s Nice That</a> <b>S</b> 当代平面设计与插画领域最稳定的编辑声音；培养 UI 之外的 art direction 敏感度。 <small lang="en">itsnicethat.com</small></li>
+<li id="r-creative-boom"><a href="https://www.creativeboom.com" lang="en">Creative Boom</a> 每日更新的设计资讯站，覆盖平面、品牌与插画；扫一眼了解当下商业作品的水准与风向。 <small lang="en">creativeboom.com</small></li>
+<li id="r-eye-on-design"><a href="https://eyeondesign.aiga.org" lang="en">AIGA Eye on Design</a> <em>已归档</em> AIGA 旗下的设计评论媒体，2024 年 6 月停刊，旧文仍可读；读它换视角，别当素材库用。 <small lang="en">eyeondesign.aiga.org</small></li>
+<li id="r-abduzeedo"><a href="https://abduzeedo.com" lang="en">Abduzeedo</a> 老牌每日更新的灵感博客，覆盖面横跨品牌、3D 和 UI；适合泛泛扫图找感觉。 <small lang="en">abduzeedo.com</small></li>
+<li id="r-digitaling"><a href="https://www.digitaling.com">数英 DIGITALING</a> 国内广告与营销活动的案例库；按品牌或类目找本土 campaign 的参考。 <small lang="en">digitaling.com</small></li>
+<li id="r-topys"><a href="https://www.topys.cn" lang="en">TOPYS</a> 中文创意文化媒体，覆盖设计、广告和艺术；了解国内视觉趋势背后的文化语境时读。 <small lang="en">topys.cn</small></li>
+<li id="r-eye-magazine"><a href="https://www.eyemagazine.com" lang="en">Eye Magazine</a> 国际平面设计评论杂志《Eye》（1990 年创刊），深度评论字体、识别与设计史；按设计师或主题搜旧文，不少可免费读。 <small lang="en">eyemagazine.com</small></li>
+<li id="r-commarts"><a href="https://www.commarts.com" lang="en">Communication Arts</a> 老牌设计刊物《Communication Arts》：设计、广告、插画、摄影、交互、字体年鉴，另有 Exhibit 与 Webpicks 精选；看评审眼光。 <small lang="en">commarts.com</small></li>
+</ol>
+<h3>社媒图与平台尺寸 <small lang="en">Social cards and platform sizes</small></h3><ol>
+<li id="r-ogimage-gallery"><a href="https://www.ogimage.gallery" lang="en">OG Image Gallery</a> 收集真实网站 Open Graph 图的画廊；设计社交分享卡片系统之前先看一遍。 <small lang="en">ogimage.gallery</small></li>
+<li id="r-sprout-image-sizes"><a href="https://sproutsocial.com/insights/social-media-image-sizes-guide/" lang="en">Sprout Social: social image sizes</a> 持续更新的各社交平台图片尺寸清单；先在这里查，再去平台官方帮助页复核，数字会过期。 <small lang="en">sproutsocial.com</small></li>
+<li id="r-posts-design"><a href="https://posts.design" lang="en">Posts Design</a> 人工精选的真实社媒帖子与 OG 图画廊，每条链回原帖；做社媒图或分享卡片前看同行实际发了什么。 <small lang="en">posts.design</small></li>
+<li id="r-open-graph-protocol"><a href="https://ogp.me" lang="en">The Open Graph protocol</a> 链接预览背后的规范：og:title、og:image（含宽高与 alt）、og:type 等；做分享卡片时当检查清单，尺寸再以各平台文档为准。 <small lang="en">ogp.me</small></li>
+<li id="r-canva"><a href="https://www.canva.com" lang="en">Canva</a> 非设计师做社媒图、演示与印刷品的默认工具，带品牌套件、尺寸预设与 AI；客户要自己出物料时，把品牌套件和模板交付到这里。 <small lang="en">canva.com</small></li>
+<li id="r-gaoding"><a href="https://www.gaoding.com">Gaoding (稿定设计)</a> 稿定设计：国产 Canva 类平台，有小红书、公众号、电商图、海报的模板与尺寸预设；国内市场团队常在这里出图。 <small lang="en">gaoding.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-type"><h2 id="sl-type">字体排版 <small lang="en">Typography</small> <span class="num">86</span></h2>
+<h3>开源与免费字体 <small lang="en">Open and free font sources</small></h3><ol>
+<li id="r-google-fonts"><a href="https://fonts.google.com" lang="en">Google Fonts</a> <b>S</b> 最大的开源字体库，有可变字体、语言筛选和 API；建议通过 Fontsource 自托管而非热链，多为 SIL OFL。 <small lang="en">fonts.google.com</small></li>
+<li id="r-fontsource"><a href="https://fontsource.org" lang="en">Fontsource</a> <b>S</b> 把开源字体打包成 npm 包自托管，附 API；每个字体保留各自的开源协议。 <small lang="en">fontsource.org</small></li>
+<li id="r-fontshare"><a href="https://www.fontshare.com" lang="en">Fontshare</a> Indian Type Foundry 的专业级免费字体（Satoshi、Clash 等）；跳出 Inter/Roboto 默认的最快路径，可商用、不可转售。 <small lang="en">fontshare.com</small></li>
+<li id="r-uncut"><a href="https://uncut.wtf" lang="en">Uncut</a> 当代免费字体目录，专收有个性的展示字体；按风格筛选，逐款核对许可，多为 OFL。 <small lang="en">uncut.wtf</small></li>
+<li id="r-velvetyne"><a href="https://velvetyne.fr" lang="en">Velvetyne</a> 自由字体铸造厂，专出表现力强的实验性展示字；海报与识别要个性时用；SIL OFL。 <small lang="en">velvetyne.fr</small></li>
+<li id="r-open-foundry"><a href="https://open-foundry.com" lang="en">Open Foundry</a> <em>更新放缓</em> 精选开源字体站，展示做得讲究，重质不重量；逐款字体查看各自的开源许可。 <small lang="en">open-foundry.com</small></li>
+<li id="r-use-and-modify"><a href="https://usemodify.com" lang="en">Use &amp; Modify</a> 个人策展的自由字体选集，品味偏优雅与朋克；找不撞脸的开放字体来这，逐字体开源授权。 <small lang="en">usemodify.com</small></li>
+<li id="r-league-of-moveable-type"><a href="https://www.theleagueofmoveabletype.com" lang="en">The League of Moveable Type</a> <em>更新放缓</em> 开源字体界的鼻祖级字厂，League Gothic、Raleway 都出自这里；想要经典可靠的免费字体时用它，SIL OFL。 <small lang="en">theleagueofmoveabletype.com</small></li>
+<li id="r-collletttivo"><a href="https://www.collletttivo.it" lang="en">Collletttivo</a> 意大利的开源字体厂牌社区，展示字与正文字体都很有个性；SIL OFL。 <small lang="en">collletttivo.it</small></li>
+<li id="r-free-faces"><a href="https://www.freefaces.gallery" lang="en">Free Faces</a> 免费字体策展画廊，从全网挑出品相好的；逐款确认个人使用还是可商用，许可各不同。 <small lang="en">freefaces.gallery</small></li>
+<li id="r-inter"><a href="https://rsms.me/inter/" lang="en">Inter</a> UI 字体的劳模，极好也极滥；要有意识地用，发挥 tnum、cv11 等 OpenType 特性，别凭条件反射；SIL OFL。 <small lang="en">rsms.me</small></li>
+<li id="r-ibm-plex"><a href="https://github.com/IBM/plex" lang="en">IBM Plex</a> IBM 的超级字族，无衬线、衬线、等宽、窄体齐全且覆盖中日韩；一套字体撑起整个产品，OFL。 <small lang="en">github.com</small></li>
+<li id="r-geist-font"><a href="https://vercel.com/font" lang="en">Geist</a> Vercel 出的无衬线与等宽字体，为开发者产品设计；工具类产品里快成默认选了，SIL OFL。 <small lang="en">vercel.com</small></li>
+<li id="r-monaspace"><a href="https://monaspace.githubnext.com" lang="en">Monaspace</a> GitHub 出的五声部等宽字体超族，带 texture healing 排印微调；代码密集型界面优先用它；SIL OFL。 <small lang="en">monaspace.githubnext.com</small></li>
+<li id="r-atkinson-hyperlegible"><a href="https://www.brailleinstitute.org/freefont/" lang="en">Atkinson Hyperlegible</a> 盲人学院为低视力读者设计的字体，字形互不混淆；现有三版：原版、Next（2025，七个字重加可变版，支持 150+ 语言）和 Mono。无障碍优先的界面用 Next。 <small lang="en">brailleinstitute.org</small></li>
+<li id="r-noto"><a href="https://fonts.google.com/noto" lang="en">Noto</a> Google 的 Noto 家族覆盖几乎所有文字系统且风格统一；多语言产品的兜底字体。SIL OFL。 <small lang="en">fonts.google.com</small></li>
+<li id="r-gwfh"><a href="https://gwfh.mranftl.com/fonts" lang="en">google-webfonts-helper</a> 下载 Google Fonts 字体文件并生成自托管 @font-face CSS 的工具；只挑需要的字重与子集。 <small lang="en">gwfh.mranftl.com</small></li>
+<li id="r-google-sans-flex"><a href="https://fonts.google.com/specimen/Google+Sans+Flex" lang="en">Google Sans Flex</a> Google 品牌无衬线字体，2025 年底以 OFL 开源，六个可变轴：字重、宽度、视觉尺寸、倾斜、字级（grade）与圆角；一套字体撑起多种语气，但 Google 辨识度高。 <small lang="en">fonts.google.com</small></li>
+<li id="r-mona-sans"><a href="https://github.com/mona-sans" lang="en">Mona Sans and Hubot Sans</a> GitHub 开源的可变无衬线（Mona Sans 与 Hubot Sans），宽度轴跨度大；用宽度轴在同一家族里拉开标题对比，Hubot Sans 更偏技术感。 <small lang="en">github.com</small></li>
+<li id="r-maple-mono"><a href="https://font.subf.dev" lang="en">Maple Mono</a> 圆润的开源等宽字体，带连字与 Nerd Font 图标；CN 版中英文严格 2:1 对齐，覆盖简繁中文与日文；代码、终端、Markdown 表格中英混排时用。 <small lang="en">font.subf.dev</small></li>
+<li id="r-apple-fonts"><a href="https://developer.apple.com/fonts/" lang="en">Apple fonts (SF Pro, SF Compact, SF Mono, New York)</a> 苹果系统字体（SF Pro、SF Compact、SF Mono、New York）官方下载，做苹果平台界面稿时安装；网页请用 system-ui 字体栈，不要上传字体文件。 <small lang="en">developer.apple.com</small></li>
+<li id="r-bunny-fonts"><a href="https://fonts.bunny.net" lang="en">Bunny Fonts</a> 注重隐私的 Google Fonts 镜像，CSS 接口与 Google 兼容、不记录访客；做欧盟项目又不便自托管时，把 fonts.googleapis.com 换成 fonts.bunny.net。 <small lang="en">fonts.bunny.net</small></li>
+<li id="r-font-squirrel"><a href="https://www.fontsquirrel.com" lang="en">Font Squirrel</a> 精选可免费商用的字体，附老牌 Webfont Generator（子集化与格式转换）和字体识别；只转换你有嵌入授权的字体。 <small lang="en">fontsquirrel.com</small></li>
+</ol>
+<h3>商业字体厂商与市场 <small lang="en">Commercial foundries and marketplaces</small></h3><ol>
+<li id="r-klim"><a href="https://klim.co.nz" lang="en">Klim Type Foundry</a> 新西兰字厂，Soehne、Tiempos 等当代正文与无衬线标杆；付费商用，试用字体只能出稿不能上线。 <small lang="en">klim.co.nz</small></li>
+<li id="r-grilli-type"><a href="https://www.grillitype.com" lang="en">Grilli Type</a> 瑞士字厂，GT America、GT Walsheim 出自其手，每款字体配独立标本小站；商用付费，有试用字体。 <small lang="en">grillitype.com</small></li>
+<li id="r-commercial-type"><a href="https://commercialtype.com" lang="en">Commercial Type</a> 编辑设计圈的重炮字厂（Graphik、Canela、Publico）；做 editorial 排版时当字体搭配参照；商业授权。 <small lang="en">commercialtype.com</small></li>
+<li id="r-dinamo"><a href="https://abcdinamo.com" lang="en">ABC Dinamo</a> 当代可变字体厂牌，Diatype、Favorit 等定义潮流的那批；商用付费，可申请试用。 <small lang="en">abcdinamo.com</small></li>
+<li id="r-pangram-pangram"><a href="https://pangrampangram.com" lang="en">Pangram Pangram</a> 风格前卫的字体厂牌，可免费试用；个人版文件不能商用，正式项目需购买商业许可。 <small lang="en">pangrampangram.com</small></li>
+<li id="r-ohno"><a href="https://ohnotype.co" lang="en">OH no Type Co.</a> 出表现力展示字体的铸造厂，附一流的字体设计博客；博客里的笔画与字距课值得读；字体付费。 <small lang="en">ohnotype.co</small></li>
+<li id="r-future-fonts"><a href="https://www.futurefonts.com" lang="en">Future Fonts</a> 未完成字体的早鸟市场，低价买入、随更新升值；想用小众新面孔时逛这里，付费。 <small lang="en">futurefonts.com</small></li>
+<li id="r-typotheque"><a href="https://www.typotheque.com" lang="en">Typotheque</a> 多文种字体专家，研究文章质量高；做多语言排版先读它的 articles，商用授权。 <small lang="en">typotheque.com</small></li>
+<li id="r-adobe-fonts"><a href="https://fonts.adobe.com" lang="en">Adobe Fonts</a> Creative Cloud 捆绑的大型商业字体库；网页只能走 Adobe 嵌入、不能自托管，客户项目需客户自己的订阅。 <small lang="en">fonts.adobe.com</small></li>
+<li id="r-fontstand"><a href="https://fontstand.com" lang="en">Fontstand</a> 商用字体免费试一小时、按月租用；买之前先在真实版面里验货。 <small lang="en">fontstand.com</small></li>
+<li id="r-youworkforthem"><a href="https://www.youworkforthem.com" lang="en">YouWorkForThem</a> 独立字体与图形素材商店，展示字体和 Y2K 风矢量包有特色；买断制许可，无需订阅。 <small lang="en">youworkforthem.com</small></li>
+</ol>
+<h3>实际用例与搭配 <small lang="en">Type in use and pairing</small></h3><ol>
+<li id="r-fonts-in-use"><a href="https://fontsinuse.com" lang="en">Fonts In Use</a> <b>S</b> 真实使用中的字体档案，按字体、形制、行业索引；查一款字体的实际排印效果或某行业的用字惯例。 <small lang="en">fontsinuse.com</small></li>
+<li id="r-typewolf"><a href="https://www.typewolf.com" lang="en">Typewolf</a> 真实网站用字观察站，另有分类最佳字体与商用字体免费平替榜；预算不够时查平替清单。 <small lang="en">typewolf.com</small></li>
+<li id="r-beautiful-web-type"><a href="https://beautifulwebtype.com" lang="en">Beautiful Web Type</a> <em>更新放缓</em> 把最好的开源字体排出漂亮版式的展示站，等于一份值得用的开源字体短名单。 <small lang="en">beautifulwebtype.com</small></li>
+<li id="r-v-fonts"><a href="https://v-fonts.com" lang="en">Variable Fonts</a> 可变字体目录，带实时轴滑杆；选定字体前先把各轴拉一遍试试。 <small lang="en">v-fonts.com</small></li>
+<li id="r-fontjoy"><a href="https://fontjoy.com" lang="en">Fontjoy</a> <em>更新放缓</em> 机器学习生成字体搭配的工具；只当点子发生器，好不好看靠自己眼睛判。 <small lang="en">fontjoy.com</small></li>
+<li id="r-fonts-ninja"><a href="https://fonts.ninja" lang="en">Fonts Ninja</a> 浏览器扩展，可识别任意网页上用的字体，附一份网站实际用字的字体目录；看到好的参考站先用它查出字体与字重，再找授权或开源替代。 <small lang="en">fonts.ninja</small></li>
+<li id="r-fontpair"><a href="https://fontpair.co" lang="en">Fontpair</a> Google Fonts 字体搭配画廊，以标题加正文样张展示；拿来找起点，再用真实文案和字号验证，搭配偏稳妥、不出彩。 <small lang="en">fontpair.co</small></li>
+</ol>
+<h3>字体工具 <small lang="en">Type tools</small></h3><ol>
+<li id="r-utopia"><a href="https://utopia.fyi" lang="en">Utopia</a> <b>S</b> 流式字号与间距刻度生成器，在大小两个视口间插值并输出 CSS clamp()；定好最小最大刻度后抄走。 <small lang="en">utopia.fyi</small></li>
+<li id="r-modern-font-stacks"><a href="https://modernfontstacks.com" lang="en">Modern Font Stacks</a> <b>S</b> 按字体风格分类的系统字体栈，无需加载网络字体；要零成本原生感排版就抄一组，CC0。 <small lang="en">modernfontstacks.com</small></li>
+<li id="r-typescale"><a href="https://typescale.com" lang="en">Typescale</a> 可视化字号比例计算器，实时预览可导出；用真实字体比较不同比率。 <small lang="en">typescale.com</small></li>
+<li id="r-wakamai-fondue"><a href="https://wakamaifondue.com" lang="en">Wakamai Fondue</a> 把字体文件拖进去就能看特性、可变轴、支持语言并生成 CSS；用一款字体前先摸清它的底细。 <small lang="en">wakamaifondue.com</small></li>
+<li id="r-capsize"><a href="https://seek-oss.github.io/capsize/" lang="en">Capsize</a> 按字体度量把文本框精确裁到 cap height 与基线的工具；在 text-box-trim 普及之前都靠它；MIT。 <small lang="en">seek-oss.github.io</small></li>
+<li id="r-fallback-font-generator"><a href="https://screenspan.net/fallback" lang="en">Fallback font generator</a> 生成字体度量覆盖，让回退字体对齐网络字体、避免布局偏移；结果贴进回退的 @font-face。 <small lang="en">screenspan.net</small></li>
+<li id="r-glyphhanger"><a href="https://github.com/zachleat/glyphhanger" lang="en">glyphhanger</a> 找出页面实际用到的字形并按需裁剪字体的工具；构建管线里做拉丁子集化用。MIT。 <small lang="en">github.com</small></li>
+<li id="r-whatthefont"><a href="https://www.myfonts.com/pages/whatthefont" lang="en">WhatTheFont</a> 上传图片识别字体的工具；从一张截图里提取风格 DNA 时，这是第一步。 <small lang="en">myfonts.com</small></li>
+<li id="r-fontdrop"><a href="https://fontdrop.info" lang="en">FontDrop!</a> 拖入字体文件即可查看字形、度量、OpenType 特性、语言覆盖与 name 表元数据；采用字体前先看授权字段和语言覆盖。 <small lang="en">fontdrop.info</small></li>
+<li id="r-transfonter"><a href="https://transfonter.org" lang="en">Transfonter</a> 在线把字体转成 WOFF2，可子集化、修正垂直度量并生成 @font-face CSS；拉丁字体快速子集化用它，中文请用 cn-font-split。 <small lang="en">transfonter.org</small></li>
+</ol>
+<h3>排版指引 <small lang="en">Typography guides</small></h3><ol>
+<li id="r-practical-typography"><a href="https://practicaltypography.com" lang="en">Practical Typography</a> <b>S</b> Butterick 的在线排版书，单位时间收获最大的排版规则集；先读「十分钟排版」与规则摘要两章。 <small lang="en">practicaltypography.com</small></li>
+<li id="r-google-fonts-knowledge"><a href="https://fonts.google.com/knowledge" lang="en">Google Fonts Knowledge</a> Google 的字体知识库，结构化讲解选字、搭配与可变字体；查排版、可读性、OpenType 特性用它。 <small lang="en">fonts.google.com</small></li>
+<li id="r-thinking-with-type"><a href="https://papress.com/products/thinking-with-type-3-edition" lang="en">Thinking with Type (3rd edition)</a> Ellen Lupton 的字体入门经典（第三版），讲字母、文本与网格，新增非拉丁文字系统与字体设计内容；做重排版设计前先读网格一章。付费书。 <small lang="en">papress.com</small></li>
+<li id="r-webtypography-net"><a href="https://webtypography.net" lang="en">The Elements of Typographic Style Applied to the Web</a> <em>已归档</em> 把 Bringhurst 的经典排印原则逐条译成 CSS；查网页文字的节奏与比例规则时用。 <small lang="en">webtypography.net</small></li>
+<li id="r-better-web-type"><a href="https://betterwebtype.com" lang="en">Better Web Type</a> <em>更新放缓</em> 面向开发者的网页排版课程与短文，篇幅短、重实操；补字体排印基本功时按课学。 <small lang="en">betterwebtype.com</small></li>
+<li id="r-pimp-my-type"><a href="https://pimpmytype.com" lang="en">Pimp my Type</a> 字体评测、搭配与 UI 排印建议的博客；每周字体评测里常有判断可靠的开源字。 <small lang="en">pimpmytype.com</small></li>
+<li id="r-web-is-typography"><a href="https://ia.net/topics/the-web-is-all-about-typography-period" lang="en">Web Design is 95% Typography</a> <em>已归档</em> 经典檄文，主张网页设计九成是字体排印、要把文字当界面看；读一遍校准观念。 <small lang="en">ia.net</small></li>
+<li id="r-webdev-font-best-practices"><a href="https://web.dev/articles/font-best-practices" lang="en">web.dev: font best practices</a> web.dev 的字体最佳实践：加载、预载、子集化与 font-display 策略；给网页加任何字体前照做。 <small lang="en">web.dev</small></li>
+</ol>
+<h3>中日韩字体与排版 <small lang="en">CJK type and typesetting (Chinese, Japanese, Korean)</small></h3><ol>
+<li id="r-source-han-sans"><a href="https://github.com/adobe-fonts/source-han-sans">Source Han Sans / Serif (思源黑体 / 宋体)</a> <b>S</b> 开源泛 CJK 标准字体，七个字重，等同 Noto Sans/Serif CJK；中文默认开源选择，上线记得子集化；SIL OFL。 <small lang="en">github.com</small></li>
+<li id="r-maoken"><a href="https://www.maoken.com">猫啃网</a> <b>S</b> 免费商用中文字体目录，每款附授权证据；别处找到的中文字体先来这核对再用。 <small lang="en">maoken.com</small></li>
+<li id="r-chinese-webfont"><a href="https://chinese-font.netlify.app">中文网字计划</a> <b>S</b> 中文网字计划：免费的中文字体分片 CDN，配套 cn-font-split 可把任意中日韩字体切成 unicode-range 分片，浏览器只加载页面用到的字；Apache-2.0 工具，字体各自授权。 <small lang="en">chinese-font.netlify.app</small></li>
+<li id="r-clreq"><a href="https://www.w3.org/TR/clreq/">Requirements for Chinese Text Layout (中文排版需求)</a> <b>S</b> W3C 的中文排版需求文档：标点、断行、中西混排间距、强调、竖排；争论标点与行首禁则前查它。 <small lang="en">w3.org</small></li>
+<li id="r-chinese-copywriting-guidelines"><a href="https://github.com/sparanoid/chinese-copywriting-guidelines">中文文案排版指北</a> <b>S</b> 中文文案排版通行约定：空格、标点与专名的写法；产品里选定一套规则并配工具检查，MIT。 <small lang="en">github.com</small></li>
+<li id="r-alibaba-puhuiti"><a href="https://www.alibabafonts.com">Alibaba PuHuiTi (阿里巴巴普惠体)</a> 多字重的现代中文黑体，配西文；从官网下载以留授权记录；免费商用，不可转售字体文件。 <small lang="en">alibabafonts.com</small></li>
+<li id="r-harmonyos-sans"><a href="https://developer.huawei.com/consumer/cn/design/resource/" lang="en">HarmonyOS Sans</a> 华为系统字体，覆盖简繁中文与拉丁等多文种；鸿蒙应用标配，也可当中性 UI 字体。免费商用。 <small lang="en">developer.huawei.com</small></li>
+<li id="r-misans"><a href="https://hyperos.mi.com/font/" lang="en">MiSans</a> 小米的可变中文无衬线，字重范围宽；可变字重适合流动的 UI 层级；依小米协议免费商用。 <small lang="en">hyperos.mi.com</small></li>
+<li id="r-smiley-sans"><a href="https://github.com/atelier-anchor/smiley-sans">Smiley Sans (得意黑)</a> 得意黑：开源的窄体斜势中文标题字，性格鲜明；只适合标题场景，OFL 协议。 <small lang="en">github.com</small></li>
+<li id="r-lxgw-wenkai"><a href="https://github.com/lxgw/LxgwWenKai">LXGW WenKai (霞鹜文楷)</a> 开源楷体风格中文字体，气质温润，适合人文阅读类正文与编辑设计；SIL OFL 协议。 <small lang="en">github.com</small></li>
+<li id="r-foundertype"><a href="https://www.foundertype.com">方正字库</a> 国内最大的商业字库；商用须按用途购买授权，侵权追责活跃，别存侥幸心理。 <small lang="en">foundertype.com</small></li>
+<li id="r-the-type"><a href="https://www.thetype.com" lang="en">The Type</a> 中文圈最认真的字体与排印写作媒体，&#x27;孔雀计划&#x27;讲清标点宽度与间距；做中文排版必读。 <small lang="en">thetype.com</small></li>
+<li id="r-heti"><a href="https://github.com/sivan/heti">赫蹏 (heti)</a> <em>更新放缓</em> 中文排版增强 CSS 库：标点挤压、中西文混排间距、阅读节奏；用在正文页上；MIT。 <small lang="en">github.com</small></li>
+<li id="r-pangu-js"><a href="https://github.com/vinta/pangu.js" lang="en">pangu.js</a> 自动在中日韩与半角字符间加空格的库；能改源头文案就先改，用户生成内容靠它兜底；MIT。 <small lang="en">github.com</small></li>
+<li id="r-autocorrect"><a href="https://github.com/huacnlee/autocorrect" lang="en">AutoCorrect</a> 中文文案的 lint 工具，自动处理中英文间距、标点和全半角规则；接入 CI 保持文案一致。MIT。 <small lang="en">github.com</small></li>
+<li id="r-pretendard"><a href="https://github.com/orioncactus/pretendard" lang="en">Pretendard</a> 事实上的韩文界面字体：韩文基于思源黑体、拉丁字母源自 Inter，九个字重另有可变版，并有融合 M PLUS 1p 的日文版；韩文界面默认选它。 <small lang="en">github.com</small></li>
+<li id="r-line-seed"><a href="https://seed.line.me/index_en.html" lang="en">LINE Seed</a> LINE 开源品牌字体家族，含日文、韩文、泰文、繁体中文与拉丁版本；适合亲和的东亚多语产品，但在日本 LINE 联想很强。 <small lang="en">seed.line.me</small></li>
+<li id="r-noonnu"><a href="https://noonnu.cc" lang="ko">Noonnu (눈누)</a> 可免费商用的韩文字体目录，逐款标注授权范围；用别处找到的韩文字体前先来核对，注意印刷、网页、视频、嵌入各自的范围。 <small lang="en">noonnu.cc</small></li>
+<li id="r-hanyi"><a href="https://www.hanyi.com.cn">Hanyi Fonts (汉仪字库)</a> 国内主要商业字库之一，字库庞大、维权积极；没有购买授权绝不能商用，授权范围（网页、App、视频、印刷）要和用途一致。 <small lang="en">hanyi.com.cn</small></li>
+<li id="r-justfont"><a href="https://justfont.com" lang="en">justfont</a> 台湾字体公司与字体教育团队，出品金萱等繁体中文字体并提供网页字体服务；繁体中文产品选字、学中文排版都值得看。 <small lang="en">justfont.com</small></li>
+<li id="r-100font"><a href="https://www.100font.com" lang="en">100font.com</a> 免费商用字体大全，以中文为主，可按简繁、日韩与风格筛选，附授权说明与下载；猫啃网之后的第二道授权核对，上线前再到厂商官网确认。 <small lang="en">100font.com</small></li>
+<li id="r-hellofont"><a href="https://www.hellofont.cn">HelloFont (字由)</a> 字由：中文字体管理工具，标注授权、在设计软件里一键换字，并有 AI 字体识别；识别出结果后先核对授权再用。 <small lang="en">hellofont.cn</small></li>
+<li id="r-qiuziti"><a href="https://www.qiuziti.com">Qiuziti (求字体)</a> 上传图片识别字体，支持中、英、日、韩；中文圈的 WhatTheFont。识别后去猫啃网或字厂核对授权。 <small lang="en">qiuziti.com</small></li>
+<li id="r-douyin-sans"><a href="https://github.com/bytedance/fonts">Douyin Sans (抖音美好体)</a> 抖音品牌创意中心以 OFL 开源的粗体展示字体，收 6763 个汉字和 682 个数字西文符号；只用于标题与活动物料，抖音联想强。 <small lang="en">github.com</small></li>
+<li id="r-sarasa-gothic"><a href="https://github.com/be5invis/Sarasa-Gothic">Sarasa Gothic (更纱黑体)</a> 更纱黑体：由 Inter、Iosevka 与思源黑体合成的中日韩字体，含 UI 与等宽样式，中英文严格 2:1 对齐；代码、表格、终端中英混排时用。 <small lang="en">github.com</small></li>
+<li id="r-jlreq"><a href="https://www.w3.org/TR/jlreq/" lang="ja">Requirements for Japanese Text Layout (日本語組版処理の要件)</a> W3C 日文排版需求：断行、标点、注音（ruby）、混排与竖排；产品同时有日文和中文时与 clreq 一起查。 <small lang="en">w3.org</small></li>
+<li id="r-klreq"><a href="https://www.w3.org/TR/klreq/" lang="en">Requirements for Hangul Text Layout and Typography (klreq)</a> W3C 韩文排版需求：断行与单词分割规则、行首行尾禁则、标点、字距，以及韩文与拉丁字母混排；产品上韩文时查对应规则。 <small lang="en">w3.org</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-color"><h2 id="sl-color">色彩 <small lang="en">Colour</small> <span class="num">41</span></h2>
+<h3>色板灵感 <small lang="en">Palette inspiration</small></h3><ol>
+<li id="r-coolors"><a href="https://coolors.co" lang="en">Coolors</a> 快速配色生成器，可锁定单色、查对比度、逛灵感区；锁住品牌色往外生成，对比度另行验证。 <small lang="en">coolors.co</small></li>
+<li id="r-realtime-colors"><a href="https://www.realtimecolors.com" lang="en">Realtime Colors</a> 在真实页面版式上预览配色与字体搭配，可导出 token；给配色方案做体检的最快办法。 <small lang="en">realtimecolors.com</small></li>
+<li id="r-happy-hues"><a href="https://www.happyhues.co" lang="en">Happy Hues</a> <em>更新放缓</em> 把精选色板直接套在页面上展示并标注角色，学的是颜色分工，不只是抄色值。 <small lang="en">happyhues.co</small></li>
+<li id="r-huemint"><a href="https://huemint.com" lang="en">Huemint</a> 机器学习生成配色，直接在品牌和网页样机上预览；在最接近交付物的样机上生成。 <small lang="en">huemint.com</small></li>
+<li id="r-adobe-color"><a href="https://color.adobe.com" lang="en">Adobe Color</a> 配色和谐规则、从图片取色、对比度与色盲检查一体；拿参考照片提取色板。 <small lang="en">color.adobe.com</small></li>
+<li id="r-color-hunt"><a href="https://colorhunt.co" lang="en">Color Hunt</a> 社区配色方案库，按人气和标签排序；当成流行趋势风向标参考，别当最终方案。 <small lang="en">colorhunt.co</small></li>
+<li id="r-sanzo-wada"><a href="https://sanzo-wada.dmbk.io" lang="en">A Dictionary of Color Combinations (Sanzo Wada)</a> 和田三造 1930 年代 348 组配色组合的交互版；找不落俗套的成熟配色。 <small lang="en">sanzo-wada.dmbk.io</small></li>
+<li id="r-nippon-colors"><a href="https://nipponcolors.com" lang="en">Nippon Colors</a> <em>已归档</em> 日本传统色数据库，色名与色值俱全；做东方语境配色时，从这里取有出处的颜色。 <small lang="en">nipponcolors.com</small></li>
+<li id="r-zhongguose"><a href="https://zhongguose.com">中国色</a> 中国传统色网站：500 多种传统色的名称、拼音、CMYK、RGB 与十六进制值，注明依据中科院《色谱》标准；另提供 colors.json、llms.txt 与 MCP 接口。 <small lang="en">zhongguose.com</small></li>
+<li id="r-poline"><a href="https://meodai.github.io/poline/" lang="en">Poline</a> 在极坐标色彩空间里锚点连线生成配色的工具；做生成式、插画感配色用；MIT。 <small lang="en">meodai.github.io</small></li>
+<li id="r-brandcolors"><a href="https://brandcolors.net" lang="en">BrandColors</a> <em>更新放缓</em> 收录各品牌官方色值的档案站；用来查某个行业的用色惯例。 <small lang="en">brandcolors.net</small></li>
+</ol>
+<h3>色阶与系统生成 <small lang="en">Scale and system builders</small></h3><ol>
+<li id="r-oklch-picker"><a href="https://oklch.com" lang="en">OKLCH Color Picker</a> <b>S</b> OKLCH 取色与转换工具，可视化 sRGB、P3、Rec2020 色域边界；建色阶前先看颜色是否超色域。MIT。 <small lang="en">oklch.com</small></li>
+<li id="r-radix-colors"><a href="https://www.radix-ui.com/colors" lang="en">Radix Colors</a> <b>S</b> 十二级色阶，每级有明确 UI 用途，配暗色与透明阶；级别到角色的映射可迁移到任何配色；MIT。 <small lang="en">radix-ui.com</small></li>
+<li id="r-leonardo"><a href="https://leonardocolor.io" lang="en">Leonardo</a> <b>S</b> 按目标对比度反推色阶的工具，支持自适应主题；先定对比度再得颜色，与先选再验相反，Apache-2.0。 <small lang="en">leonardocolor.io</small></li>
+<li id="r-harmonizer"><a href="https://harmonizer.evilmartians.com" lang="en">Harmonizer</a> 基于 OKLCH 与 APCA 对比度的配色生成器，跨色相保持感知一致；搭整套色阶时用。 <small lang="en">harmonizer.evilmartians.com</small></li>
+<li id="r-tailwind-colors"><a href="https://tailwindcss.com/docs/colors" lang="en">Tailwind CSS colors</a> 广泛使用的 11 级色阶，用 OKLCH 定义；参考其明度与彩度曲线，安全但因此常见；MIT。 <small lang="en">tailwindcss.com</small></li>
+<li id="r-material-theme-builder"><a href="https://material-foundation.github.io/material-theme-builder/" lang="en">Material Theme Builder</a> 用 HCT 色调板从种子色生成一整套 Material 色彩角色，可导出 Compose、Flutter 与网页代码；Apache-2.0。 <small lang="en">material-foundation.github.io</small></li>
+<li id="r-tints-dev"><a href="https://www.tints.dev" lang="en">tints.dev</a> 输入一个 hex 生成 Tailwind 式 11 级色阶，曲线可调；快速起品牌色阶，再用对比度校验。 <small lang="en">tints.dev</small></li>
+<li id="r-uicolors"><a href="https://uicolors.app" lang="en">UI Colors</a> Tailwind 色阶生成器，边调色边在真实 UI 预览和对比度网格里检查；tints.dev 之外的替代。 <small lang="en">uicolors.app</small></li>
+<li id="r-huetone"><a href="https://huetone.ardov.me" lang="en">Huetone</a> <em>更新放缓</em> 在 LCH 空间搭建色板，每级同步显示 WCAG 与 APCA 对比度数值；边调整套色彩系统边盯可读性，MIT。 <small lang="en">huetone.ardov.me</small></li>
+<li id="r-accessible-palette"><a href="https://accessiblepalette.com" lang="en">Accessible Palette</a> 生成各色相亮度与对比度一致的色板，保证每个色相的同一阶（如 600）都过同样的对比度。 <small lang="en">accessiblepalette.com</small></li>
+<li id="r-atmos"><a href="https://atmos.style" lang="en">Atmos</a> LCH 调色板构建器，带色阶曲线和对比度检查；想要更可视化的曲线编辑用它。 <small lang="en">atmos.style</small></li>
+<li id="r-colorbox"><a href="https://colorbox.io" lang="en">ColorBox</a> <em>更新放缓</em> Lyft 出品的色阶生成器：用缓动曲线逐级调整色相、饱和度与明度，再导出；色阶需要手工调曲线而非套公式时用。 <small lang="en">colorbox.io</small></li>
+<li id="r-reasonable-colors"><a href="https://www.reasonable.work/colors/" lang="en">Reasonable Colors</a> <em>更新放缓</em> 开源调色板，每色 6 阶，色阶号差值即保证对比度：差 2 至少 3:1，差 3 至少 4.5:1；写颜色 token 时借用「级差即对比度」的规则。 <small lang="en">reasonable.work</small></li>
+<li id="r-ant-design-colors"><a href="https://ant.design/docs/spec/colors-cn" lang="en">Ant Design colour system</a> Ant Design 色彩体系：由主色按公开算法生成 10 阶基础色板、13 阶中性色与数据可视化色板；国内中后台产品最常见的色阶来源。 <small lang="en">ant.design</small></li>
+<li id="r-inclusivecolors"><a href="https://www.inclusivecolors.com" lang="en">InclusiveColors</a> 一次搭好整套品牌色板，手调色相、饱和度、明度曲线，同时看哪些前景背景组合通过 WCAG 或 APCA；可导出 Tailwind、CSS、Figma、Adobe。 <small lang="en">inclusivecolors.com</small></li>
+<li id="r-arco-palette"><a href="https://arco.design/palette/list" lang="en">Arco Design Palette</a> <em>更新放缓</em> 字节跳动 Arco Design 的色板工具：由一个颜色生成浅色与深色两套 10 阶色板，内置 14 组预设色；同一算法以 @arco-design/color 开源（MIT）。 <small lang="en">arco.design</small></li>
+</ol>
+<h3>对比度与色觉 <small lang="en">Contrast and colour vision</small></h3><ol>
+<li id="r-webaim-contrast"><a href="https://webaim.org/resources/contrastchecker/" lang="en">WebAIM Contrast Checker</a> <b>S</b> WCAG 对比度速查的事实标准工具，带 API；定文字与背景色时随手核对。 <small lang="en">webaim.org</small></li>
+<li id="r-who-can-use"><a href="https://www.whocanuse.com" lang="en">Who Can Use</a> 展示一对颜色在不同视觉类型下的表现；向需求方解释对比度问题时，用它把后果摆出来。 <small lang="en">whocanuse.com</small></li>
+<li id="r-apca-contrast"><a href="https://apcacontrast.com" lang="en">APCA Contrast Calculator</a> APCA 明度对比度的参考计算器，带字号查表；APCA 只是草案，交付时仍要并列 WCAG 2 比值。 <small lang="en">apcacontrast.com</small></li>
+<li id="r-contrast-grid"><a href="https://contrast-grid.directededges.com" lang="en">Contrast Grid</a> EightShapes 出品、现由 Directed Edges 维护的对比度矩阵：把色板里所有前景背景两两测对比度，截图贴进设计系统文档当搭配规则。 <small lang="en">contrast-grid.directededges.com</small></li>
+<li id="r-color-oracle"><a href="https://colororacle.org" lang="en">Color Oracle</a> <em>更新放缓</em> 免费的色盲模拟器（Windows、Mac、Linux），实时滤镜覆盖整个屏幕，任何软件与设计稿都能查；检查状态色、图表在各类色觉下是否仍可区分。 <small lang="en">colororacle.org</small></li>
+<li id="r-devtools-vision-deficiencies"><a href="https://developer.chrome.com/docs/devtools/rendering/apply-effects#emulate_vision_deficiencies" lang="en">Chrome DevTools: emulate vision deficiencies</a> Chrome 自带的视觉缺陷模拟：模糊、低对比、红色盲、绿色盲、蓝色盲、全色盲，可在任何线上页面切换；智能体可经 CDP 切换并逐一截图。 <small lang="en">developer.chrome.com</small></li>
+</ol>
+<h3>色彩指引 <small lang="en">Colour guides</small></h3><ol>
+<li id="r-oklch-article"><a href="https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl" lang="en">OKLCH in CSS: why we moved from RGB and HSL</a> <b>S</b> 讲清为什么该从 RGB、HSL 迁到 OKLCH：明度可预测、色板好生成、色域广；定色彩 token 前读。 <small lang="en">evilmartians.com</small></li>
+<li id="r-stripe-accessible-colors"><a href="https://stripe.com/blog/accessible-color-systems" lang="en">Designing accessible color systems</a> <em>已归档</em> Stripe 讲如何用感知色彩空间做出对比度可预测的色板；理解色阶编号保证对比度的原理。 <small lang="en">stripe.com</small></li>
+<li id="r-color-and-contrast"><a href="https://colorandcontrast.com" lang="en">Color &amp; Contrast</a> 面向 UI 设计师的交互式色彩科学指南；遇到同时对比等色彩外观效应时来查。 <small lang="en">colorandcontrast.com</small></li>
+<li id="r-learnui-color"><a href="https://www.learnui.design/blog/color-in-ui-design-a-practical-framework.html" lang="en">Why Color Theory Sucks (and what framework to use instead)</a> 讲界面配色变体推导的实操文章，基于 HSB 给出深浅变化的心智模型；调状态色时参考。 <small lang="en">learnui.design</small></li>
+<li id="r-refactoring-ui-color"><a href="https://www.refactoringui.com/previews/building-your-color-palette" lang="en">Building your color palette</a> Refactoring UI 的配色方法论：为什么 UI 需要灰、主色与强调色各八到十阶；产品色板的基线。 <small lang="en">refactoringui.com</small></li>
+<li id="r-material-dark-theme"><a href="https://m2.material.io/design/color/dark-theme.html" lang="en">Material 2: Dark theme</a> <em>已归档</em> 对暗色表面、海拔叠层、低饱和强调色讲得最清楚的指南；推导深色模式前先读。 <small lang="en">m2.material.io</small></li>
+<li id="r-hd-css-color-guide"><a href="https://developer.chrome.com/docs/css-ui/high-definition-css-color-guide" lang="en">High definition CSS color guide</a> Chrome 团队的 CSS Color 4/5 实用指南：oklch、oklab、display-p3 等新色彩空间、色域、渐变插值与 color-mix()；用 oklch 写颜色 token 前读。 <small lang="en">developer.chrome.com</small></li>
+<li id="r-apple-hig-color"><a href="https://developer.apple.com/design/human-interface-guidelines/color" lang="en">Apple HIG: Color</a> 苹果的色彩规范：系统色在浅色、深色、增强对比下的取值，Liquid Glass 色彩（2025 年 12 月更新）、色彩管理与各平台差异；有官方中文版。 <small lang="en">developer.apple.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-code"><h2 id="sl-code">设计工程 <small lang="en">Design engineering</small> <span class="num">101</span></h2>
+<h3>组件库与无头原语 <small lang="en">Component libraries and headless primitives</small></h3><ol>
+<li id="r-shadcn-ui"><a href="https://ui.shadcn.com" lang="en">shadcn/ui</a> <b>S</b> 复制进仓库的 React 组件库，底层是可访问性原语；别直接用默认主题上线，用 CSS 变量换肤，MIT。 <small lang="en">ui.shadcn.com</small></li>
+<li id="r-base-ui"><a href="https://base-ui.com" lang="en">Base UI</a> <b>S</b> Radix、Floating UI 与 Material UI 作者们做的无样式无障碍 React 组件；2026 年 7 月起是 shadcn/ui 的默认底层，新建 React 设计系统的首选行为层，MIT。 <small lang="en">base-ui.com</small></li>
+<li id="r-ant-design-lib"><a href="https://ant.design/components/overview" lang="en">Ant Design (React)</a> <b>S</b> 国内后台系统事实标准的 React 组件库；换主题走 ConfigProvider 的 token 与算法，别写 CSS 覆盖。MIT。 <small lang="en">ant.design</small></li>
+<li id="r-radix-primitives"><a href="https://www.radix-ui.com/primitives" lang="en">Radix Primitives</a> React 无样式无障碍组件原语，只管行为不管外观；做自定义设计时垫在下面的行为层，MIT。 <small lang="en">radix-ui.com</small></li>
+<li id="r-react-aria"><a href="https://react-aria.adobe.com" lang="en">React Aria</a> Adobe 的 headless React 组件库，无障碍与国际化做得最深；这两项是硬要求时选它；Apache-2.0。 <small lang="en">react-aria.adobe.com</small></li>
+<li id="r-ark-ui"><a href="https://ark-ui.com" lang="en">Ark UI</a> 基于状态机的无样式组件库，一套行为层覆盖 React、Vue、Solid 等多框架；换框架不换交互。MIT。 <small lang="en">ark-ui.com</small></li>
+<li id="r-reka-ui"><a href="https://reka-ui.com" lang="en">Reka UI</a> 相当于 Vue 版的 Radix：headless 无样式组件库，正适合给自己的 Vue 设计系统打地基；MIT。 <small lang="en">reka-ui.com</small></li>
+<li id="r-shadcn-vue"><a href="https://www.shadcn-vue.com" lang="en">shadcn-vue</a> shadcn/ui 的 Vue 移植版，同样把组件代码复制进项目由自己持有；技术栈是 Vue 或 Nuxt 时的选择，MIT 协议。 <small lang="en">shadcn-vue.com</small></li>
+<li id="r-nuxt-ui"><a href="https://ui.nuxt.com" lang="en">Nuxt UI</a> 为 Vue 与 Nuxt 准备的全套组件库，主题用 token 体系定制；做 Nuxt 项目快速起步的选择，MIT。 <small lang="en">ui.nuxt.com</small></li>
+<li id="r-mantine"><a href="https://mantine.dev" lang="en">Mantine</a> 大而全、文档写得好的 React 组件与 hooks 库；给团队做内部工具时的务实选择；MIT。 <small lang="en">mantine.dev</small></li>
+<li id="r-heroui"><a href="https://www.heroui.com" lang="en">HeroUI</a> HeroUI v3（原 NextUI）：基于 Tailwind CSS v4 与 React Aria 的 React 及 React Native 组件库，默认就好看；务必改主题，别和官方演示撞脸，Apache-2.0。 <small lang="en">heroui.com</small></li>
+<li id="r-ant-design-vue"><a href="https://antdv.com" lang="en">Ant Design Vue</a> Ant Design 的 Vue 实现，企业级组件一应俱全；搭 Vue 后台管理系统时的常用底座；MIT。 <small lang="en">antdv.com</small></li>
+<li id="r-element-plus"><a href="https://element-plus.org" lang="en">Element Plus</a> 国内最常见的 Vue 3 中后台组件库，做管理系统时的默认选项；通过 CSS 变量与 SCSS 变量定制主题，MIT。 <small lang="en">element-plus.org</small></li>
+<li id="r-naive-ui"><a href="https://www.naiveui.com" lang="en">Naive UI</a> Vue 3 组件库，TypeScript 写就，主题覆盖系统做得好；默认观感比多数后台模板干净，MIT。 <small lang="en">naiveui.com</small></li>
+<li id="r-vant"><a href="https://vant.pro/vant/" lang="en">Vant</a> 轻量移动端 Vue 组件库，有微信小程序版；中文生态做移动 H5 的默认选择；MIT。 <small lang="en">vant.pro</small></li>
+<li id="r-forui"><a href="https://forui.dev" lang="en">Forui</a> 极简、平台无关的 Flutter 组件库，样式克制；想让 Flutter 应用摆脱默认 Material 长相时的出路。 <small lang="en">forui.dev</small></li>
+<li id="r-shadcn-flutter"><a href="https://sunarya-thito.github.io/shadcn_flutter/" lang="en">shadcn_flutter</a> shadcn 风格的 Flutter 组件集，不是 Material 那副默认面孔；想给自己的 Flutter 应用换种气质时用；BSD-3-Clause。 <small lang="en">sunarya-thito.github.io</small></li>
+<li id="r-react-native-reusables"><a href="https://reactnativereusables.com" lang="en">React Native Reusables</a> 把 shadcn/ui 的复制进仓库做法搬到 React Native 的组件集；想让 Web 端与原生应用保持同一风格时用，MIT 协议。 <small lang="en">reactnativereusables.com</small></li>
+<li id="r-tailwind-plus"><a href="https://tailwindcss.com/plus" lang="en">Tailwind Plus</a> Tailwind 官方付费库（原 Tailwind UI）：UI 区块、站点模板与 Catalyst 应用套件，一次买断终身使用；比例与间距得当的默认布局参考，禁止把代码当套件再分发。 <small lang="en">tailwindcss.com</small></li>
+<li id="r-coss-ui"><a href="https://coss.com/ui" lang="en">coss ui</a> Cal.com 团队基于 Base UI 与 Tailwind 的大型复制粘贴 React 组件库（Origin UI 的后继），附 500 多个示例；shadcn 项目迁到 Base UI 时拿来参考。 <small lang="en">coss.com</small></li>
+<li id="r-untitledui-react"><a href="https://www.untitledui.com/react" lang="en">Untitled UI React</a> 与 Untitled UI Figma 套件一一对应的开源 React 组件（React Aria + Tailwind CSS v4），PRO 版另有大量区块；设计稿与代码想共用一套时的好默认，开源部分 MIT。 <small lang="en">untitledui.com</small></li>
+<li id="r-mui"><a href="https://mui.com" lang="en">MUI (Material UI and MUI X)</a> 使用最广的 React 组件套件：Material UI 加 MUI X 数据表格、日期选择与图表，团队也维护 Base UI；需要成熟表格与日期控件的数据型应用选它，记得去掉 Material 原味。 <small lang="en">mui.com</small></li>
+<li id="r-shadcn-svelte"><a href="https://www.shadcn-svelte.com" lang="en">shadcn-svelte</a> 社区维护的 shadcn/ui Svelte 移植版（基于 Bits UI）；Svelte 与 SvelteKit 项目的默认复制粘贴组件库，同样用 CSS 变量换肤，MIT。 <small lang="en">shadcn-svelte.com</small></li>
+<li id="r-nutui"><a href="https://nutui.jd.com" lang="en">NutUI</a> 京东风格的轻量移动端组件库，有 Vue 与 React 两个版本，均可通过 Taro 支持多端小程序；做电商类移动 H5 或 Taro 小程序时选，记得换掉京东红。 <small lang="en">nutui.jd.com</small></li>
+<li id="r-weui"><a href="https://weui.io" lang="en">WeUI</a> <em>更新放缓</em> 微信官方基础样式库，视觉与微信原生一致；在微信里打开的 H5 页面用它显得原生，配合微信小程序设计指南阅读，MIT。 <small lang="en">weui.io</small></li>
+<li id="r-antd-mobile"><a href="https://mobile.ant.design" lang="en">Ant Design Mobile</a> 蚂蚁集团的移动端 React 组件库，Ant Design 的移动版；支付宝或蚂蚁生态的 React H5 应用首选，用 CSS 变量换主题，MIT。 <small lang="en">mobile.ant.design</small></li>
+<li id="r-wot-ui"><a href="https://wot-ui.cn" lang="en">Wot UI</a> 流行的 uni-app 组件库（80+ 组件，暗色模式、国际化、自定义主题）；技术栈是 uni-app 时选，注意在各小程序宿主上分别验证。 <small lang="en">wot-ui.cn</small></li>
+<li id="r-floating-ui"><a href="https://floating-ui.com" lang="en">Floating UI</a> 提示框、弹出层、菜单、下拉的定位引擎：避让碰撞的定位加交互 hooks；自己造浮层组件时直接用，多数无头组件库已内置它，MIT。 <small lang="en">floating-ui.com</small></li>
+<li id="r-tanstack-table"><a href="https://tanstack.com/table/latest" lang="en">TanStack Table</a> 无头表格与数据网格逻辑库：排序、筛选、分组、分页，可配虚拟滚动，支持 React、Vue、Solid、Svelte；密集表格要贴合自家设计系统时用，标记与样式全由你定，MIT。 <small lang="en">tanstack.com</small></li>
+<li id="r-dnd-kit"><a href="https://dndkit.com" lang="en">dnd kit</a> 可访问的拖拽与排序工具包，支持键盘与指针传感器，覆盖 React、Vue、Svelte、Solid 与原生 TypeScript；做看板、可排序列表、搭建器时用，拖拽预览、落点提示与键盘说明都要专门设计，MIT。 <small lang="en">dndkit.com</small></li>
+<li id="r-sonner"><a href="https://sonner.emilkowal.ski" lang="en">Sonner</a> Emil Kowalski 的 React 通知（toast）组件，堆叠、滑动关闭与 promise 状态都很讲究，多数 shadcn 应用用的就是它；其他技术栈设计通知时也值得研究它的堆叠与节奏，MIT。 <small lang="en">sonner.emilkowal.ski</small></li>
+<li id="r-web-awesome"><a href="https://webawesome.com" lang="en">Web Awesome (formerly Shoelace)</a> Font Awesome 团队的框架无关 Web Components 组件库（Shoelace 的后继），带主题、设计 token 与 SSR；设计要跨框架或用在纯 HTML 里时选它，免费部分 MIT，Pro 付费。 <small lang="en">webawesome.com</small></li>
+</ol>
+<h3>动效组件与营销套件 <small lang="en">Animated and marketing component kits</small></h3><ol>
+<li id="r-magic-ui"><a href="https://magicui.design" lang="en">Magic UI</a> 面向 shadcn 项目的营销动效组件：跑马灯、光束、bento、文字特效；挑一两个点睛，整页都用就撞脸。MIT。 <small lang="en">magicui.design</small></li>
+<li id="r-react-bits"><a href="https://reactbits.dev" lang="en">React Bits</a> 大量动效文字、背景与交互组件的集合；适合取一件做页面的点睛时刻；授权见仓库。 <small lang="en">reactbits.dev</small></li>
+<li id="r-motion-primitives"><a href="https://motion-primitives.com" lang="en">Motion Primitives</a> 基于 Motion 的克制风动效组件集，比炫技类库更贴近产品界面的实际需要，MIT。 <small lang="en">motion-primitives.com</small></li>
+<li id="r-aceternity-ui"><a href="https://ui.aceternity.com" lang="en">Aceternity UI</a> 效果炫目的 React 组件库，一眼能看出是模板；当技法参考用，务必大幅改样式。 <small lang="en">ui.aceternity.com</small></li>
+<li id="r-animate-ui"><a href="https://animate-ui.com" lang="en">Animate UI</a> <em>更新放缓</em> 常见组件的动画版本合集；做状态过渡打磨时的参考；许可见仓库。 <small lang="en">animate-ui.com</small></li>
+<li id="r-inspira-ui"><a href="https://inspira-ui.com" lang="en">Inspira UI</a> Vue 与 Nuxt 的动画组件库，灵感来自 React 系套件；Vue 技术栈要那些效果时用它；MIT。 <small lang="en">inspira-ui.com</small></li>
+<li id="r-fancy-components"><a href="https://www.fancycomponents.dev" lang="en">Fancy Components</a> 开源的 React 组件与微交互库，偏实验性：动态文字、物理效果、光标效果；在整体克制的页面上只取一个效果做点睛，并检查移动端性能，MIT。 <small lang="en">fancycomponents.dev</small></li>
+</ol>
+<h3>动画与图形库 <small lang="en">Animation and graphics libraries</small></h3><ol>
+<li id="r-motion"><a href="https://motion.dev" lang="en">Motion</a> <b>S</b> Web 动画事实标准库（原 Framer Motion）：弹簧、手势、布局与滚动动画；React 从 motion/react 引入，留意大版本。MIT。 <small lang="en">motion.dev</small></li>
+<li id="r-threejs"><a href="https://threejs.org" lang="en">three.js</a> <b>S</b> Web 端 3D 图形的事实标准库，封装了 WebGL 的复杂度；做 3D 场景、产品可视化或创意网页时用，React 项目配 react-three-fiber，MIT 协议。 <small lang="en">threejs.org</small></li>
+<li id="r-gsap"><a href="https://gsap.com" lang="en">GSAP</a> 时间轴动画平台，带 ScrollTrigger、SplitText、MorphSVG；做编排式滚动叙事的首选；免费但非 OSI 开源。 <small lang="en">gsap.com</small></li>
+<li id="r-animejs"><a href="https://animejs.com" lang="en">Anime.js</a> 轻量 JS 动画引擎，支持时间线、交错动画与 SVG，v4 已重写；想要少依赖的 GSAP 替代时用，MIT。 <small lang="en">animejs.com</small></li>
+<li id="r-lottie-web"><a href="https://github.com/LottieFiles/dotlottie-web" lang="en">dotLottie web player (and lottie-web)</a> 网页端 Lottie 动画播放器：dotLottie 播放器（支持 .lottie 与 JSON，文件更小、可换主题、有状态机）和老牌 lottie-web；优先用 .lottie 与 dotLottie，MIT。 <small lang="en">github.com</small></li>
+<li id="r-rive-runtimes"><a href="https://rive.app/docs/runtimes/getting-started" lang="en">Rive runtimes</a> 让交互式 Rive 动画跑在各平台的运行时；一份动画资产跨 Web、Flutter 和原生；MIT。 <small lang="en">rive.app</small></li>
+<li id="r-auto-animate"><a href="https://auto-animate.formkit.com" lang="en">AutoAnimate</a> 一行接入的列表与布局自动过渡库；给后台界面低成本加精致感；MIT。 <small lang="en">auto-animate.formkit.com</small></li>
+<li id="r-lenis"><a href="https://lenis.dev" lang="en">Lenis</a> 许多获奖站用的平滑滚动库；劫持滚动有无障碍代价，非必要不上。MIT。 <small lang="en">lenis.dev</small></li>
+<li id="r-theatre-js"><a href="https://www.theatrejs.com" lang="en">Theatre.js</a> <em>更新放缓</em> 可视化动画编排序器，用来编排代码驱动的动效；做电影感首屏序列；Apache-2.0。 <small lang="en">theatrejs.com</small></li>
+<li id="r-react-three-fiber"><a href="https://r3f.docs.pmnd.rs" lang="en">react-three-fiber</a> three.js 的 React 渲染器，配 drei 助手库；要用声明式写法搭 3D 场景、做数字孪生可视化时选它，MIT。 <small lang="en">r3f.docs.pmnd.rs</small></li>
+<li id="r-remotion"><a href="https://www.remotion.dev" lang="en">Remotion</a> 用 React 以代码生成视频，动态图形和产品视频都能写；个人小团队免费，公司超阈值需付费授权。 <small lang="en">remotion.dev</small></li>
+<li id="r-motion-canvas"><a href="https://motioncanvas.io" lang="en">Motion Canvas</a> <em>更新放缓</em> 用 TypeScript 代码驱动的讲解视频动画库；做图表式演示动画的开源选择；MIT。 <small lang="en">motioncanvas.io</small></li>
+<li id="r-p5js"><a href="https://p5js.org" lang="en">p5.js</a> 创意编程库，做生成式视觉的入门标配；生成艺术海报与动态背景时上手最快，LGPL-2.1。 <small lang="en">p5js.org</small></li>
+<li id="r-pixijs"><a href="https://pixijs.com" lang="en">PixiJS</a> 高速 2D 渲染引擎（WebGL 与 WebGPU），用于游戏、互动叙事和复杂动画界面；DOM 与 SVG 动画撞到性能上限（大量精灵、粒子、滤镜）时换用，MIT。 <small lang="en">pixijs.com</small></li>
+</ol>
+<h3>design token 与色彩工具 <small lang="en">Design tokens and colour tooling</small></h3><ol>
+<li id="r-dtcg-spec"><a href="https://www.designtokens.org" lang="en">Design Tokens Format Module (DTCG 2025.10)</a> <b>S</b> W3C 社区组的 design token 文件格式，2025.10 为稳定版（2025 年 10 月 28 日终版报告），另有 Color 模块与处理主题和模式的 Resolver 模块；写 tokens.json 按它来。 <small lang="en">designtokens.org</small></li>
+<li id="r-style-dictionary"><a href="https://styledictionary.com" lang="en">Style Dictionary</a> <b>S</b> 把 design token 源文件编译成 CSS、iOS、Android、Flutter 等各平台代码的标配构建工具，做跨端主题时默认选它，支持 W3C DTCG 格式；Apache-2.0。 <small lang="en">styledictionary.com</small></li>
+<li id="r-tailwindcss"><a href="https://tailwindcss.com" lang="en">Tailwind CSS</a> <b>S</b> 原子化 CSS 框架，v4 的 @theme 变量就是大多数 AI 生成界面与 shadcn 项目的 token 层；把设计系统的 token 映射到 @theme 命名空间（--color-*、--font-*、--spacing、--radius-*），别在类名里写死数值，MIT。 <small lang="en">tailwindcss.com</small></li>
+<li id="r-tweakcn"><a href="https://tweakcn.com" lang="en">tweakcn</a> shadcn/ui 的可视化主题编辑器，导出 CSS 变量；让项目摆脱默认脸的最快路径；Apache-2.0。 <small lang="en">tweakcn.com</small></li>
+<li id="r-terrazzo"><a href="https://terrazzo.app" lang="en">Terrazzo</a> 原生支持 DTCG 的 token 构建工具链，带 lint 与插件机制；想要比 Style Dictionary 更轻的选择时用它；MIT。 <small lang="en">terrazzo.app</small></li>
+<li id="r-tokens-studio"><a href="https://tokens.studio" lang="en">Tokens Studio</a> 在 Figma 里编写 design token 并同步到 Git 的插件；设计师留在 Figma、代码库要单一来源时用它衔接。MIT。 <small lang="en">tokens.studio</small></li>
+<li id="r-open-props"><a href="https://open-props.style" lang="en">Open Props</a> 调好的 CSS 自定义属性集：尺寸、缓动、阴影、渐变、颜色；缓动与阴影阶可直接借走；MIT。 <small lang="en">open-props.style</small></li>
+<li id="r-material-color-utilities"><a href="https://github.com/material-foundation/material-color-utilities" lang="en">Material Color Utilities</a> Google 的取色算法库：HCT 色彩空间、色调色板与动态配色，多语言实现；构建脚本里生成主题，Apache-2.0。 <small lang="en">github.com</small></li>
+<li id="r-culori"><a href="https://culorijs.org" lang="en">Culori</a> 功能齐全的颜色处理库，支持 OKLCH、插值与色域映射；写 design token 构建脚本时的好帮手，MIT。 <small lang="en">culorijs.org</small></li>
+<li id="r-colorjs"><a href="https://colorjs.io" lang="en">Color.js</a> CSS Color 规范作者写的色彩科学库；要参考 CSS 色彩空间的实现行为时用它；MIT。 <small lang="en">colorjs.io</small></li>
+<li id="r-panda-css"><a href="https://panda-css.com" lang="en">Panda CSS</a> 类型安全、构建时生成的 CSS-in-JS 框架，原生支持 token、语义 token、文字样式与组件 recipe；设计系统想用 TypeScript 定义 token 与变体并编译成静态 CSS 时用，MIT。 <small lang="en">panda-css.com</small></li>
+</ol>
+<h3>渲染、导出与排版 <small lang="en">Rendering, export, typesetting and fonts</small></h3><ol>
+<li id="r-satori"><a href="https://github.com/vercel/satori" lang="en">Satori</a> <b>S</b> 把 HTML 与 CSS 的 flexbox 子集渲染成 SVG，是生成 OG 图的核心引擎；配 resvg 出位图，字体需自备；MPL-2.0。 <small lang="en">github.com</small></li>
+<li id="r-playwright"><a href="https://playwright.dev" lang="en">Playwright</a> <b>S</b> 浏览器自动化库，整页截图、导出 PDF、截图断言俱全；用 toHaveScreenshot() 做视觉回归的机械关卡，Apache-2.0。 <small lang="en">playwright.dev</small></li>
+<li id="r-takumi"><a href="https://takumi.kane.tw" lang="en">Takumi</a> Rust 写的 JSX 布局图片渲染引擎，定位是更快的 Satori 替代；大批量生成 OG 图时选它。MIT/Apache-2.0。 <small lang="en">takumi.kane.tw</small></li>
+<li id="r-resvg"><a href="https://github.com/linebender/resvg" lang="en">resvg</a> 精度可靠的 SVG 光栅化器，有 JS 绑定（resvg-js）；在构建脚本里确定性地把 SVG 转成 PNG；Apache-2.0 或 MIT。 <small lang="en">github.com</small></li>
+<li id="r-snapdom"><a href="https://snapdom.dev" lang="en">snapDOM</a> 浏览器内高速把 DOM 节点截成图片的库，给产品做客户端导出图片功能时用，MIT。 <small lang="en">snapdom.dev</small></li>
+<li id="r-sharp"><a href="https://sharp.pixelplumbing.com" lang="en">sharp</a> Node 里高性能的图像缩放、格式转换与合成库；生成响应式图片集和 AVIF/WebP 用它；Apache-2.0。 <small lang="en">sharp.pixelplumbing.com</small></li>
+<li id="r-typst"><a href="https://typst.app" lang="en">Typst</a> 现代标记式排版系统，编译 PDF 很快；用代码做报告、单页与印刷品的好选择；Apache-2.0。 <small lang="en">typst.app</small></li>
+<li id="r-pagedjs"><a href="https://pagedjs.org" lang="en">Paged.js</a> CSS Paged Media 的浏览器 polyfill：页面尺寸、页边距、页眉、出血和裁切标记；HTML 直接出印刷级 PDF。MIT。 <small lang="en">pagedjs.org</small></li>
+<li id="r-vivliostyle"><a href="https://vivliostyle.org" lang="en">Vivliostyle</a> CSS 排版引擎，中日文与竖排支持扎实；适合用 HTML 排中文、日文的书籍与文档；AGPL-3.0。 <small lang="en">vivliostyle.org</small></li>
+<li id="r-weasyprint"><a href="https://weasyprint.org" lang="en">WeasyPrint</a> Python 写的渲染库，把 HTML 与 CSS 直接排成分页 PDF；适合在服务端批量生成报告类文档，BSD-3-Clause 协议。 <small lang="en">weasyprint.org</small></li>
+<li id="r-slidev"><a href="https://sli.dev" lang="en">Slidev</a> 用 Markdown 和 Vue 写幻灯片，支持主题、实时组件与 PDF 导出；开发者的演示文稿工具，MIT。 <small lang="en">sli.dev</small></li>
+<li id="r-revealjs"><a href="https://revealjs.com" lang="en">reveal.js</a> HTML 演示文稿框架的标杆；要做完全掌控版式的设计感幻灯片用它；MIT。 <small lang="en">revealjs.com</small></li>
+<li id="r-marp"><a href="https://marp.app" lang="en">Marp</a> 把 Markdown 文稿直接转成幻灯片，可导出 PDF 与 PPTX；需要快速出朴素演示稿时用；MIT。 <small lang="en">marp.app</small></li>
+<li id="r-pptxgenjs"><a href="https://gitbrent.github.io/PptxGenJS/" lang="en">PptxGenJS</a> <em>更新放缓</em> 从 JavaScript 生成真正可编辑的 PowerPoint 文件的库；交付物必须让对方在 PowerPoint 或 Keynote 里继续改时用它。MIT。 <small lang="en">gitbrent.github.io</small></li>
+<li id="r-fonttools"><a href="https://github.com/fonttools/fonttools" lang="en">fontTools</a> 字体处理的 Python 库，pyftsubset 可按实际用到的字符裁剪字体；上线前做子集化减体积，MIT。 <small lang="en">github.com</small></li>
+<li id="r-opentype-js"><a href="https://opentype.js.org" lang="en">opentype.js</a> 在 JavaScript 里解析字体文件、把文字转成 SVG 路径的库；要用代码给字标转曲描边时用，MIT。 <small lang="en">opentype.js.org</small></li>
+</ol>
+<h3>开放设计工具 <small lang="en">Open design tools</small></h3><ol>
+<li id="r-penpot"><a href="https://penpot.app" lang="en">Penpot</a> 开源设计工具，建立在 SVG 和 CSS 概念之上，自带 token 与 MCP server；可自托管的设计源头文件；MPL-2.0。 <small lang="en">penpot.app</small></li>
+<li id="r-excalidraw"><a href="https://excalidraw.com" lang="en">Excalidraw</a> 手绘风格白板，画流程与线框；上像素之前的低保真思考工具；MIT。 <small lang="en">excalidraw.com</small></li>
+<li id="r-tldraw"><a href="https://www.tldraw.com" lang="en">tldraw</a> 无限画布与配套 SDK；自己造画布类工具时基于它搭，SDK 商用需购买授权。 <small lang="en">tldraw.com</small></li>
+<li id="r-graphite"><a href="https://graphite.art" lang="en">Graphite</a> 浏览器里的开源程序化矢量与位图编辑器；矢量工具的新候选；Apache-2.0。 <small lang="en">graphite.art</small></li>
+<li id="r-inkscape"><a href="https://inkscape.org" lang="en">Inkscape</a> 成熟的开源矢量编辑器，带命令行接口，可批量把 SVG 导出成 PNG 或 PDF；GPL 协议。 <small lang="en">inkscape.org</small></li>
+<li id="r-blender"><a href="https://www.blender.org" lang="en">Blender</a> 开源 3D 创作套件，建模、渲染、动画齐备且可用 Python 脚本化；批量渲染产品或图标场景用，GPL。 <small lang="en">blender.org</small></li>
+<li id="r-figma"><a href="https://www.figma.com" lang="en">Figma</a> 多数产品团队的主力设计工具：组件、变量（token 与模式）、Dev Mode 和 REST API；动手前先读团队已有的变量与组件，智能体通过 REST API 或 Figma MCP 取文件数据。 <small lang="en">figma.com</small></li>
+<li id="r-pen-dev"><a href="https://www.pen.dev" lang="en">pen.dev (formerly Pencil)</a> 原 Pencil，面向智能体的设计画布（桌面与 IDE），.pen 为开放格式、放在代码仓库里，可通过 MCP、WebMCP 与 CLI 接入；.pen 与代码放一起，像评审代码一样评审智能体的改动。 <small lang="en">pen.dev</small></li>
+<li id="r-paper-design"><a href="https://paper.design" lang="en">Paper</a> 画布基于 HTML 与 CSS 的设计工具，智能体可通过 MCP 读写画板；希望交付物直接是 CSS 时用，接上 MCP 让智能体排版或把选中画板转成代码。 <small lang="en">paper.design</small></li>
+<li id="r-mastergo"><a href="https://mastergo.com">MasterGo (莫高设计)</a> 国内领先的 Figma 级设计工具（蓝湖团队出品），含原型、研发模式、AI 功能与官方 MCP；国内团队常用它交付设计稿，研发模式里看组件与样式，智能体接 MasterGo Magic MCP。 <small lang="en">mastergo.com</small></li>
+<li id="r-jsdesign"><a href="https://js.design">JS Design (即时设计)</a> 国产在线 UI 设计工具，多人实时协作、原型交互、开发标注，兼容 Figma、Sketch、XD 文件；国内团队常见的源文件所在地，资源广场另有 UI 套件。 <small lang="en">js.design</small></li>
+<li id="r-pixso"><a href="https://pixso.cn" lang="en">Pixso</a> 国产协同 UI 设计与原型工具，画布内 AI 生成与优化设计稿，另有连接设计与代码的 Pixso MCP；交付前先确认对方用哪家国产工具。 <small lang="en">pixso.cn</small></li>
+<li id="r-modao"><a href="https://modao.cc">Modao (墨刀)</a> 国产原型与产研协作平台：交互原型、白板、带设计转代码的 UI 设计，以及 AI 生成；常见于产品经理的线框稿，把它当结构与流程参考，不当视觉设计。 <small lang="en">modao.cc</small></li>
+<li id="r-lanhu"><a href="https://lanhuapp.com">Lanhu (蓝湖)</a> 国内最主流的设计交付平台：自动生成标注、切图、可点击原型，并可在线展示 Axure；国内工程师多在这里看规范，从设计工具上传时命名要规范，标注与切图才好用。 <small lang="en">lanhuapp.com</small></li>
+<li id="r-storybook"><a href="https://storybook.js.org" lang="en">Storybook</a> 在隔离环境里开发、记录与测试 UI 组件的行业标准工作台，支持视觉、交互与无障碍测试；项目里有 Storybook 就先把新组件的各个状态写成 story，再拼页面，MIT。 <small lang="en">storybook.js.org</small></li>
+</ol>
+<h3>值得挖的清单 <small lang="en">Lists worth mining</small></h3><ol>
+<li id="r-awesome-design-systems"><a href="https://github.com/alexpate/awesome-design-systems" lang="en">awesome-design-systems</a> <em>更新放缓</em> 公开设计系统清单，附组件、文案语调与源码链接；找同类域的系统来对照。 <small lang="en">github.com</small></li>
+<li id="r-design-resources-for-developers"><a href="https://github.com/bradtraversy/design-resources-for-developers" lang="en">design-resources-for-developers</a> <em>更新放缓</em> 面向开发者的超大型分类设计资源清单；胜在广，质量自己把关；MIT。 <small lang="en">github.com</small></li>
+<li id="r-awesome-web-animation"><a href="https://awesome-web-animation.netlify.app" lang="en">awesome-web-animation</a> 网页动画相关的库、工具与文章的精选清单；找某个专项动画库时从这里翻起；CC0。 <small lang="en">awesome-web-animation.netlify.app</small></li>
+<li id="r-awesome-creative-coding"><a href="https://github.com/terkelg/awesome-creative-coding" lang="en">awesome-creative-coding</a> 生成艺术与创意编程的资源大清单，教程、工具、社区俱全；入门生成图形时当起点索引。 <small lang="en">github.com</small></li>
+<li id="r-awesome-shadcn-ui"><a href="https://github.com/birobirobiro/awesome-shadcn-ui" lang="en">awesome-shadcn/ui</a> shadcn 兼容组件注册表与主题的索引站，动手写组件前先查有没有人做过，MIT。 <small lang="en">github.com</small></li>
+<li id="r-awesome-design-tokens"><a href="https://github.com/sturobson/Awesome-Design-Tokens" lang="en">Awesome Design Tokens</a> design token 相关工具、平台、文章与演讲的精选清单；选 token 流水线（Figma 同步、转换、文档）前先扫一遍，看看 Style Dictionary 与 Terrazzo 之外的选项。 <small lang="en">github.com</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-reading"><h2 id="sl-reading">阅读 <small lang="en">Reading</small> <span class="num">70</span></h2>
+<h3>界面工艺与设计工程 <small lang="en">Interface craft and design engineering</small></h3><ol>
+<li id="r-rauno-interfaces"><a href="https://interfaces.rauno.me" lang="en">Rauno Freiberg: Web Interface Guidelines</a> <b>S</b> Rauno 总结的网页界面细节清单：交互、字体、动效、触控、无障碍；结构理顺后当打磨核对表用。 <small lang="en">interfaces.rauno.me</small></li>
+<li id="r-rauno-invisible-details"><a href="https://rauno.me/craft/interaction-design" lang="en">Invisible Details of Interaction Design</a> Rauno 的交互设计随笔，讲隐喻、运动物理、响应速度与新鲜感背后的推理；设计任何手势前读。 <small lang="en">rauno.me</small></li>
+<li id="r-design-engineering-vercel"><a href="https://vercel.com/blog/design-engineering-at-vercel" lang="en">Design Engineering at Vercel</a> Vercel 讲设计工程师做什么、持什么标准；给有设计感的工程师的共同语言。 <small lang="en">vercel.com</small></li>
+<li id="r-linear-redesign"><a href="https://linear.app/now/how-we-redesigned-the-linear-ui" lang="en">How we redesigned the Linear UI</a> Linear 复盘自家界面改版：删繁、对齐、用 LCH 重建主题系统；想改版又保住品牌资产时参照。 <small lang="en">linear.app</small></li>
+<li id="r-atomic-design"><a href="https://atomicdesign.bradfrost.com" lang="en">Atomic Design</a> <em>已归档</em> Brad Frost 的免费网络书，讲如何搭建界面体系；第二章的心智模型最值得一读。 <small lang="en">atomicdesign.bradfrost.com</small></li>
+<li id="r-every-layout"><a href="https://every-layout.dev" lang="en">Every Layout</a> 讲算法化 CSS 布局原语的书，不靠断点自适应；基础篇免费，会改变你写响应式的方式。 <small lang="en">every-layout.dev</small></li>
+<li id="r-ishadeed"><a href="https://ishadeed.com" lang="en">Ahmad Shadeed</a> Ahmad Shadeed 的深度图解 CSS 博客，讲布局、防御性 CSS 与 RTL；做组件前先查有没有对应文章。 <small lang="en">ishadeed.com</small></li>
+<li id="r-defensive-css"><a href="https://defensivecss.dev" lang="en">Defensive CSS</a> 防御性 CSS 模式集：长文本、缺图、溢出等真实内容下的不翻车写法；上线前当清单查。 <small lang="en">defensivecss.dev</small></li>
+<li id="r-maggie-appleton"><a href="https://maggieappleton.com" lang="en">Maggie Appleton</a> 关于语言模型界面与思维工具的插画式长文；给 AI 产品概念找视角。 <small lang="en">maggieappleton.com</small></li>
+<li id="r-userinterface-wiki"><a href="https://www.userinterface.wiki" lang="en">userinterface.wiki</a> Raphael Salaja 维护的界面工艺活手册：从动画原则到现代 Web API，附演示与智能体技能；实现交互细节前先读对应条目。 <small lang="en">userinterface.wiki</small></li>
+<li id="r-jhey"><a href="https://www.jhey.dev" lang="en">Jhey Tompkins</a> Jhey Tompkins 的创意 CSS 与交互演示及讲解，常率先用上新平台特性；做滚动、悬停、锚点定位效果前先搜他的演示。 <small lang="en">jhey.dev</small></li>
+<li id="r-nerdy-dev"><a href="https://nerdy.dev" lang="en">Adam Argyle (nerdy.dev)</a> Open Props 作者 Adam Argyle 的 CSS 与 UI 工艺博客，GUI Challenges 系列尤佳；常见组件的现代、无障碍实现参考。 <small lang="en">nerdy.dev</small></li>
+<li id="r-smashing-magazine"><a href="https://www.smashingmagazine.com" lang="en">Smashing Magazine</a> 老牌从业者杂志，涵盖 UX、CSS、无障碍与设计系统；按分类或模式名搜深度实践文章，注意发表日期。 <small lang="en">smashingmagazine.com</small></li>
+<li id="r-web-baseline"><a href="https://web.dev/baseline" lang="en">Baseline and Web Platform Status</a> web.dev 的 Baseline 可用性标签（新近可用 / 广泛可用）；webstatus.dev 及其 JSON API 给出每个特性的状态与日期，设计依赖新特性前先查。 <small lang="en">web.dev</small></li>
+</ol>
+<h3>与 AI 一起做设计 <small lang="en">Designing with and for AI</small></h3><ol>
+<li id="r-anthropic-frontend-blog"><a href="https://claude.com/blog/improving-frontend-design-through-skills" lang="en">Improving frontend design through Skills</a> Anthropic 分析模型为何产出千篇一律的设计、哪些提示词轴向有效；注意部分旧解法如今已成破绽。 <small lang="en">claude.com</small></li>
+<li id="r-frontend-aesthetics-cookbook"><a href="https://github.com/anthropics/claude-cookbooks/blob/main/coding/prompting_for_frontend_aesthetics.ipynb" lang="en">Prompting for frontend aesthetics</a> Anthropic 的食谱笔记，实测哪些提示词杠杆能改变前端美学（字体、主题、动效、背景）。 <small lang="en">github.com</small></li>
+<li id="r-linear-design-ai-age"><a href="https://linear.app/now/design-for-the-ai-age" lang="en">Design for the AI age</a> Linear 谈&quot;AI 是用户也是协作者&quot;时代的软件设计；接 AI 产品 brief 前用它校准框架。 <small lang="en">linear.app</small></li>
+<li id="r-brad-frost-ai-ds"><a href="https://bradfrost.com/blog/post/ai-and-design-systems/" lang="en">AI and design systems</a> 论述设计系统如何成为 AI 生成界面的约束层；是先投 token 再谈生成的论据。 <small lang="en">bradfrost.com</small></li>
+<li id="r-wattenberger-boo-chatbots"><a href="https://wattenberger.com/thoughts/boo-chatbots" lang="en">Why Chatbots Are Not the Future of Interfaces</a> <em>已归档</em> Amelia Wattenberger 的图解长文：为什么输入框不是大模型的好默认界面、该设计什么替代；AI 功能默认做聊天框之前读。 <small lang="en">wattenberger.com</small></li>
+<li id="r-malleable-software"><a href="https://www.inkandswitch.com/essay/malleable-software/" lang="en">Malleable software (Ink &amp; Switch)</a> <em>已归档</em> Ink &amp; Switch 的长文：在封闭应用时代把改造软件的能力还给用户，以及 AI 如何改变谁能塑造软件；做生成式或可定制界面前读。 <small lang="en">inkandswitch.com</small></li>
+</ol>
+<h3>视觉基础 <small lang="en">Visual design fundamentals</small></h3><ol>
+<li id="r-hobday-safe-rules"><a href="https://anthonyhobday.com/sideprojects/saferules/" lang="en">Visual design rules you can safely follow every time</a> <b>S</b> 一份朴素但每次都可安全遵守的视觉设计规则清单，附简短解释；完稿后当检查表逐条过。 <small lang="en">anthonyhobday.com</small></li>
+<li id="r-laws-of-ux"><a href="https://lawsofux.com" lang="en">Laws of UX</a> <b>S</b> 设计师常引用的感知与认知定律合集（Fitts、Hick、Jakob、Miller 等），附出处；给决策找依据时报定律名。 <small lang="en">lawsofux.com</small></li>
+<li id="r-refactoring-ui"><a href="https://www.refactoringui.com" lang="en">Refactoring UI</a> Tailwind 作者写给开发者的 UI 设计战术书，付费；先读免费的“7 个作弊技巧”文章，再读层级、间距、配色章节。 <small lang="en">refactoringui.com</small></li>
+<li id="r-learn-ui-7-rules"><a href="https://www.learnui.design/blog/7-rules-for-creating-gorgeous-ui-part-1.html" lang="en">7 Rules for Creating Gorgeous UI</a> <em>已归档</em> Erik Kennedy 的七条 UI 法则：光从天上来、先用黑白、留白翻倍；适合当自查清单。 <small lang="en">learnui.design</small></li>
+<li id="r-gestalt-ixdf"><a href="https://ixdf.org/literature/topics/gestalt-principles" lang="en">Gestalt principles</a> 格式塔分组原则的入门综述；向人解释布局分组决策时引用它。 <small lang="en">ixdf.org</small></li>
+<li id="r-rams-ten-principles"><a href="https://www.vitsoe.com/us/about/good-design" lang="en">Dieter Rams: ten principles for good design</a> <em>已归档</em> Dieter Rams 好设计十原则的原始出处；需要一把克制与功能的标尺时回来对照。 <small lang="en">vitsoe.com</small></li>
+<li id="r-webs-grain"><a href="https://frankchimero.com/blog/2015/the-webs-grain/" lang="en">The Web&#x27;s Grain</a> <em>已归档</em> Frank Chimero 谈顺着网页媒介的本性去设计，而不是对抗它；版式跟媒介较劲时读。 <small lang="en">frankchimero.com</small></li>
+<li id="r-magic-ink"><a href="https://worrydream.com/MagicInk/" lang="en">Magic Ink</a> <em>已归档</em> Bret Victor 的长文，主张多数软件本质是信息设计而非交互设计；做仪表盘时换成「被阅读的图形」视角。 <small lang="en">worrydream.com</small></li>
+<li id="r-practical-ui"><a href="https://www.practical-ui.com" lang="en">Practical UI</a> Adham Dannaway 基于规则的界面设计书与 Figma 套件，逻辑清晰、兼顾无障碍；把它的明确规则当评审清单，付费。 <small lang="en">practical-ui.com</small></li>
+</ol>
+<h3>有研究背书的 UX 指引 <small lang="en">Research-backed UX guidance</small></h3><ol>
+<li id="r-nng-heuristics"><a href="https://www.nngroup.com/articles/ten-usability-heuristics/" lang="en">NN/g: 10 usability heuristics</a> <b>S</b> NN/g 的十大可用性启发式，启发式评估的标准框架；给评审发现打标签就按违犯的是哪条来。 <small lang="en">nngroup.com</small></li>
+<li id="r-nng-articles"><a href="https://www.nngroup.com/articles/" lang="en">Nielsen Norman Group articles</a> <b>S</b> Nielsen Norman Group 几十年来基于研究的 UX 文章库；要下任何可用性断言之前先来这里搜一遍。 <small lang="en">nngroup.com</small></li>
+<li id="r-baymard"><a href="https://baymard.com/blog" lang="en">Baymard Institute</a> <b>S</b> 电商与表单可用性的大样本研究机构；做结账、搜索、筛选或表单前查结论，文章免费、库付费。 <small lang="en">baymard.com</small></li>
+<li id="r-nng-response-times"><a href="https://www.nngroup.com/articles/response-times-3-important-limits/" lang="en">NN/g: response time limits</a> <em>已归档</em> 0.1 秒、1 秒、10 秒三条响应时限，决定反馈设计；做加载态与骨架屏决策时引用。 <small lang="en">nngroup.com</small></li>
+<li id="r-growth-design"><a href="https://growth.design/case-studies" lang="en">Growth.Design case studies</a> 用漫画形式拆解产品 UX，逐条挂心理学原理；做某类流程前找对应案例读。 <small lang="en">growth.design</small></li>
+<li id="r-lukew"><a href="https://www.lukew.com/ff/" lang="en">LukeW</a> Luke Wroblewski 的随笔站，表单、移动端与输入设计居多且带数据；给表单方案找证据时搜这里。 <small lang="en">lukew.com</small></li>
+<li id="r-govuk-design-principles"><a href="https://www.gov.uk/guidance/government-design-principles" lang="en">GOV.UK design principles</a> 英国政府的十条服务设计原则，&#x27;从用户需求出发&#x27;&#x27;下功夫让它简单&#x27;都出自这里。 <small lang="en">gov.uk</small></li>
+<li id="r-ux-myths"><a href="https://uxmyths.com" lang="en">UX Myths</a> <em>已归档</em> 常见 UX 误解合集，每条附反驳的研究证据；争论三次点击规则之类时拿来定胜负。 <small lang="en">uxmyths.com</small></li>
+<li id="r-built-for-mars"><a href="https://builtformars.com" lang="en">Built for Mars</a> 逐步拆解真实产品的 UX 案例（注册引导、银行、结账），另有 1400+ 条 UX 小例；设计某个流程前读对应案例。 <small lang="en">builtformars.com</small></li>
+<li id="r-measuringu"><a href="https://measuringu.com" lang="en">MeasuringU</a> 定量 UX 研究：基准、SUS 与样本量，用数据讲清楚；需要数字而不是观点时查。 <small lang="en">measuringu.com</small></li>
+</ol>
+<h3>流程、评审与呈现 <small lang="en">Process, critique and presenting work</small></h3><ol>
+<li id="r-nng-design-critiques"><a href="https://www.nngroup.com/articles/design-critiques/" lang="en">NN/g: Design critiques</a> NN/g 讲如何组织和参与真正有用的设计评审；要给团队评审会立规矩时读。 <small lang="en">nngroup.com</small></li>
+<li id="r-figma-design-critiques"><a href="https://www.figma.com/blog/design-critiques-at-figma/" lang="en">Design critiques at Figma</a> Figma 介绍内部几种设计评审形式及各自适用场景；按想要的反馈类型挑一种来组织评审。 <small lang="en">figma.com</small></li>
+<li id="r-gv-critique-rules"><a href="https://library.gv.com/nine-rules-for-running-productive-design-critiques-f8320655fc8c" lang="en">Nine rules for running productive design critiques</a> <em>已归档</em> GV 的 Jake Knapp 总结的设计评审九条规则：设计师是负责人，其他人是来帮忙的；开评审会前发给与会者对齐预期。 <small lang="en">library.gv.com</small></li>
+<li id="r-monteiro-presentations"><a href="https://medium.com/@monteiro/13-ways-designers-screw-up-client-presentations-51aaee11e28c" lang="en">13 ways designers screw up client presentations</a> <em>已归档</em> Mike Monteiro 讲设计师向客户提案的 13 个翻车点；给客户讲方案之前读一遍。 <small lang="en">medium.com</small></li>
+<li id="r-articulating-design-decisions"><a href="https://tomgreever.com/articulating-design-decisions-book/" lang="en">Articulating Design Decisions</a> Tom Greever 讲如何向干系人解释与捍卫设计决策的书；写设计理由的方法论来源。 <small lang="en">tomgreever.com</small></li>
+<li id="r-shape-up"><a href="https://basecamp.com/shapeup" lang="en">Shape Up</a> <em>已归档</em> Basecamp 的免费书，讲 shaping、面包板图和粗马克笔草图；先定流程再画视觉时按它做。 <small lang="en">basecamp.com</small></li>
+<li id="r-dribbblisation"><a href="https://www.intercom.com/blog/the-dribbblisation-of-design/" lang="en">The Dribbblisation of Design</a> <em>已归档</em> 批评“表面先行”设计的经典文章，提出产品设计四层次；没搞懂就 styling 的解药。 <small lang="en">intercom.com</small></li>
+</ol>
+<h3>书 <small lang="en">Books</small></h3><ol>
+<li id="r-dont-make-me-think"><a href="https://sensible.com/dont-make-me-think/" lang="en">Don&#x27;t Make Me Think</a> Steve Krug 的可用性小书，第一本该读的可用性经典；付费。 <small lang="en">sensible.com</small></li>
+<li id="r-design-of-everyday-things"><a href="https://www.hachettebookgroup.com/titles/don-norman/the-design-of-everyday-things/9780465050659/" lang="en">The Design of Everyday Things</a> Don Norman 的设计经典，affordance、signifier、映射与反馈这套词汇的出处；做交互设计绕不开的一本，付费。 <small lang="en">hachettebookgroup.com</small></li>
+<li id="r-grid-systems"><a href="https://niggli.ch/en/products/rastersysteme-fur-die-visuelle-gestaltung" lang="en">Grid Systems in Graphic Design</a> Mueller-Brockmann 的网格系统圣经；做海报、编辑版式和幻灯片排版时的案头参照。 <small lang="en">niggli.ch</small></li>
+<li id="r-elements-of-typographic-style"><a href="https://typographica.org/typography-books/the-elements-of-typographic-style-4th-edition/" lang="en">The Elements of Typographic Style</a> Bringhurst 的排印经典（第 4 版），比例、节奏、间距与西文排版细节的出处；定规则前先查它，付费书。 <small lang="en">typographica.org</small></li>
+<li id="r-interaction-of-color"><a href="https://yalebooks.yale.edu/book/9780300179354/interaction-of-color/" lang="en">Interaction of Color</a> Albers 讲颜色如何互相改变的经典；某个颜色放进版面就变味时，答案在这里。付费书。 <small lang="en">yalebooks.yale.edu</small></li>
+<li id="r-designing-interface-animation"><a href="https://rosenfeldmedia.com/books/designing-interface-animation/" lang="en">Designing Interface Animation</a> Val Head 讲有目的的界面动效的书，关于设计系统中动效的深度读物；付费。 <small lang="en">rosenfeldmedia.com</small></li>
+<li id="r-microcopy-guide"><a href="https://www.microcopybook.com" lang="en">Microcopy: The Complete Guide</a> Kinneret Yifrah 写的界面文案指南；写报错提示、空状态和按钮文案时翻它准没错。 <small lang="en">microcopybook.com</small></li>
+<li id="r-form-design-patterns"><a href="https://www.smashingmagazine.com/printed-books/form-design-patterns/" lang="en">Form Design Patterns</a> Adam Silver 的包容性表单设计模式书；动手设计任何复杂表单之前先读；付费。 <small lang="en">smashingmagazine.com</small></li>
+</ol>
+<h3>课程 <small lang="en">Courses</small></h3><ol>
+<li id="r-smart-interface-patterns"><a href="https://smart-interface-design-patterns.com" lang="en">Smart Interface Design Patterns</a> Vitaly Friedman 的复杂界面模式视频课与清单；表格、筛选、导航、表单往深挖时看。付费。 <small lang="en">smart-interface-design-patterns.com</small></li>
+<li id="r-learn-ui-design"><a href="https://www.learnui.design" lang="en">Learn UI Design</a> Erik Kennedy 的系统化视觉 UI 课，覆盖面完整；工程师想练真视觉功夫的付费课程。 <small lang="en">learnui.design</small></li>
+<li id="r-shift-nudge"><a href="https://shiftnudge.com" lang="en">Shift Nudge</a> Matt D. Smith 的界面设计课程，字体与版面模块尤其扎实；系统补视觉功底的付费课。 <small lang="en">shiftnudge.com</small></li>
+<li id="r-css-for-js"><a href="https://css-for-js.dev" lang="en">CSS for JavaScript Developers</a> Josh Comeau 的 CSS 课，专为 JS 开发者建立真正的 CSS 心智模型；布局 bug 挡住设计还原度时报它，付费。 <small lang="en">css-for-js.dev</small></li>
+<li id="r-webdev-learn-design"><a href="https://web.dev/learn/design" lang="en">web.dev: Learn Responsive Design</a> web.dev 的免费响应式设计课程：容器查询、流式字体、主题化；把设计落地前端前补一遍。 <small lang="en">web.dev</small></li>
+<li id="r-google-ux-certificate"><a href="https://www.coursera.org/professional-certificates/google-ux-design" lang="en">Google UX Design Certificate</a> Coursera 上的结构化 UX 流程入门课；很适合给新人系统打流程基础；付费。 <small lang="en">coursera.org</small></li>
+<li id="r-build-ui"><a href="https://buildui.com" lang="en">Build UI</a> 用 React 与 Motion 构建精致交互界面的课程与配方；/recipes 可当交互细节的参考实现。 <small lang="en">buildui.com</small></li>
+</ol>
+<h3>中文阅读 <small lang="en">Chinese-language reading</small></h3><ol>
+<li id="r-uisdc"><a href="https://www.uisdc.com">优设网</a> 国内最大的设计学习站，教程、趋势报告、工具资讯都有；中文搜主题方便，质量随作者参差。 <small lang="en">uisdc.com</small></li>
+<li id="r-tencent-isux"><a href="https://isux.tencent.com">腾讯 ISUX</a> 腾讯社交 UX 团队的博客，复盘真实产品与品牌设计案例；看国内大众产品的设计打法。 <small lang="en">isux.tencent.com</small></li>
+<li id="r-tencent-cdc"><a href="https://cdc.tencent.com">腾讯 CDC</a> <em>更新放缓</em> 腾讯用户研究与体验设计中心的博客；看国内大厂如何做用研与企业级产品设计。 <small lang="en">cdc.tencent.com</small></li>
+<li id="r-alibaba-design"><a href="https://www.alibabadesign.com">阿里巴巴设计</a> <em>更新放缓</em> 阿里巴巴设计 D20 峰会站，收录各设计团队的分享与案例；看超大业务量下的电商与企业级设计方法。 <small lang="en">alibabadesign.com</small></li>
+<li id="r-ant-design-yuque"><a href="https://www.yuque.com/ant-design">Ant Design 语雀专栏</a> <em>更新放缓</em> Ant Design 团队关于企业级产品设计的长文专栏；想理解 Ant 模式背后的深度读这里。 <small lang="en">yuque.com</small></li>
+<li id="r-sspai"><a href="https://sspai.com">少数派</a> 中文应用、工具与数字生活媒体；从应用评测看国内重度用户在意什么。 <small lang="en">sspai.com</small></li>
+<li id="r-uxren"><a href="https://www.uxren.cn" lang="en">UXRen</a> <em>更新放缓</em> 中文 UX 社区，译介国外经典文章较多；找某篇国外 UX 名篇的中译版时先来搜。 <small lang="en">uxren.cn</small></li>
+<li id="r-woshipm"><a href="https://www.woshipm.com">Woshipm (人人都是产品经理)</a> 人人都是产品经理：国内最大的产品经理社区，有大量交互、体验与行业拆解文章；看“产品设计”频道，质量参差。 <small lang="en">woshipm.com</small></li>
+<li id="r-juejin"><a href="https://juejin.cn">Juejin (稀土掘金)</a> 稀土掘金：国内最大的开发者社区，前端频道覆盖 CSS、动效、组件库与设计还原实践；中文搜国内团队的实现方式，质量随作者参差。 <small lang="en">juejin.cn</small></li>
+</ol>
+</section>
+<section class="sl-dom" aria-labelledby="sl-general"><h2 id="sl-general">灵感社区 <small lang="en">Communities, moodboards and feeds</small> <span class="num">26</span></h2>
+<h3>设计社区 <small lang="en">Communities</small></h3><ol>
+<li id="r-dribbble"><a href="https://dribbble.com" lang="en">Dribbble</a> 设计师晒 shots 的社区，视觉样式强、真实感弱；只取视觉处理灵感，拿真产品验证。 <small lang="en">dribbble.com</small></li>
+<li id="r-behance"><a href="https://www.behance.net" lang="en">Behance</a> 全领域设计案例社区，品牌、插画、UI、动效都有完整项目；按领域与工具搜，看过程别只看封面。 <small lang="en">behance.net</small></li>
+<li id="r-layers"><a href="https://layers.to" lang="en">Layers</a> 规模较小、信噪比高的产品设计师社区，能看到在职设计师的真实项目而非作品集包装。 <small lang="en">layers.to</small></li>
+<li id="r-figma-community"><a href="https://www.figma.com/community" lang="en">Figma Community</a> Figma 社区的文件、UI kit 与插件库，含大量中文设计系统套件；看系统怎么搭而非只看外表；许可逐文件定。 <small lang="en">figma.com</small></li>
+<li id="r-artstation"><a href="https://www.artstation.com" lang="en">ArtStation</a> 插画、概念设计、3D 与游戏美术的主力作品集社区；找 UI 之外的美术风格参考，引用要署名，绝不挪用。 <small lang="en">artstation.com</small></li>
+</ol>
+<h3>灵感板与参考工具 <small lang="en">Moodboards and reference tools</small></h3><ol>
+<li id="r-are-na"><a href="https://www.are.na" lang="en">Are.na</a> <b>S</b> 设计师经营的研究图板社区，策展异常用心；按频道搜概念，来源常在设计圈之外。 <small lang="en">are.na</small></li>
+<li id="r-pinterest"><a href="https://www.pinterest.com" lang="en">Pinterest</a> 跨全学科的视觉搜索引擎，情绪板主力；拿参考图做以图搜图找同类。 <small lang="en">pinterest.com</small></li>
+<li id="r-cosmos"><a href="https://www.cosmos.so" lang="en">Cosmos</a> 无广告的视觉收藏夹社区，策展审美在线；建情绪板、找艺术指导参考时关注合辑。 <small lang="en">cosmos.so</small></li>
+<li id="r-savee"><a href="https://savee.com" lang="en">Savee</a> 平面设计师与美术指导爱用的图片收藏流；做情绪板时找宽泛的 art direction 灵感。 <small lang="en">savee.com</small></li>
+<li id="r-same-energy"><a href="https://same.energy" lang="en">Same Energy</a> <em>更新放缓</em> 以图搜图的视觉搜索引擎，专找「感觉一样」的图；拼情绪版时从一张图出发逛它的邻居。 <small lang="en">same.energy</small></li>
+<li id="r-designspiration"><a href="https://www.designspiration.com" lang="en">Designspiration</a> <em>更新放缓</em> 按关键词和颜色搜灵感图的网站，给情绪板找与色板匹配的参考图时用。 <small lang="en">designspiration.com</small></li>
+<li id="r-eagle"><a href="https://eagle.cool" lang="en">Eagle</a> 本地素材管理器，收集参考图并打标签管理；建个人灵感库用；付费。 <small lang="en">eagle.cool</small></li>
+<li id="r-pureref"><a href="https://www.pureref.com" lang="en">PureRef</a> 轻量的参考图板应用；干活时把参考图一直钉在屏幕旁边看。 <small lang="en">pureref.com</small></li>
+</ol>
+<h3>每日聚合与通讯 <small lang="en">Daily feeds and newsletters</small></h3><ol>
+<li id="r-sidebar"><a href="https://sidebar.io" lang="en">Sidebar</a> 每天只推五条精选设计链接的订阅源；低噪音的日常设计阅读。 <small lang="en">sidebar.io</small></li>
+<li id="r-dense-discovery"><a href="https://www.densediscovery.com" lang="en">Dense Discovery</a> 每周一期的精选 newsletter，横跨设计、科技与文化；用来跳出 UI 圈子换换脑子。 <small lang="en">densediscovery.com</small></li>
+<li id="r-tldr-design"><a href="https://tldr.tech/design" lang="en">TLDR Design</a> 每日设计与工具新闻摘要邮件，跟新工具发布和行业动态用的轻量信息源。 <small lang="en">tldr.tech</small></li>
+<li id="r-muzli"><a href="https://muz.li" lang="en">Muzli</a> 聚合式的设计灵感订阅流；量大质杂，只适合当日常背景输入。 <small lang="en">muz.li</small></li>
+<li id="r-design-compass"><a href="https://designcompass.org" lang="ko">Design Compass (디자인 나침반)</a> 韩国设计资讯（디자인 나침반），关注本地设计系统、品牌升级与工具；了解韩国设计动态（KRDS、Toss、Kakao），有英文版。 <small lang="en">designcompass.org</small></li>
+</ol>
+<h3>中文社区与素材库 <small lang="en">Chinese communities and file libraries</small></h3><ol>
+<li id="r-zcool"><a href="https://www.zcool.com.cn">站酷 ZCOOL</a> <b>S</b> 国内最大的设计师社区，覆盖各设计门类；按分类中文检索，地位相当于本土版 Behance。 <small lang="en">zcool.com.cn</small></li>
+<li id="r-huaban"><a href="https://huaban.com">花瓣</a> 国内的 Pinterest 式图片收藏社区，画板即情绪板；找中国市场的视觉参考时用。 <small lang="en">huaban.com</small></li>
+<li id="r-ui-cn"><a href="https://www.ui.cn">UI中国</a> 国内 UI 设计师社区，作品与招聘信息集中；了解本土 UI 风向和同行作品集的地方。 <small lang="en">ui.cn</small></li>
+<li id="r-uisdc-nav"><a href="https://hao.uisdc.com">优设导航</a> 国内最全的设计网站导航，找中文工具与素材站从这入手；注意其中含推广链接。 <small lang="en">hao.uisdc.com</small></li>
+<li id="r-jsdesign-community"><a href="https://js.design/community">即时设计资源广场</a> 即时设计国内的资源共享社区；找 Ant Design、TDesign、HarmonyOS 的国产 UI kit；授权以各文件为准。 <small lang="en">js.design</small></li>
+<li id="r-figma-cool"><a href="https://www.figma.cool">Figma.Cool (Figma 中文社区)</a> Figma 中文社区，提供汉化、插件与组件库教程；给国内团队找中文 Figma 资源与汉化帮助。 <small lang="en">figma.cool</small></li>
+<li id="r-ai-bot-cn"><a href="https://ai-bot.cn">AI Tools Directory (AI工具集)</a> AI 工具集：收录 1000+ 工具的中文 AI 导航，含国产设计、图像与视频生成工具；用来发现新工具，推荐前逐个核实。 <small lang="en">ai-bot.cn</small></li>
+<li id="r-xiaohongshu"><a href="https://www.xiaohongshu.com">Xiaohongshu (小红书)</a> 国内设计师与品牌晒灵感板、案例笔记和视觉趋势的主阵地；用中文关键词搜，看国内受众当下买账的风格。 <small lang="en">xiaohongshu.com</small></li>
+</ol>
+</section>
+<!-- /gen:list -->
+        </div>
+      </noscript>
+      <p class="vh" id="live" aria-live="polite" aria-atomic="true"></p>
+    </section>
+
+    <!-- the proof note: a named region beside the list; a dialog (drawer / sheet) where there is no room for it -->
+    <section class="note" id="note" aria-labelledby="note-h">
+      <div class="note-empty">
+        <h2 id="note-h" data-i18n="note_t">校样批注</h2>
+        <p data-i18n="note_empty">在左栏选一条，它的全部字段会在这里展开：怎么直达、授权、费用、agent 能否读到。</p>
+      </div>
+    </section>
+  </div>
+  <div class="scrim" id="scrim"></div>
+</main>
+
+<footer class="ft">
+  <div class="ft-in">
+    <p data-slot="generated" hidden></p>
+    <nav aria-label="数据与源码" data-i18n-aria="foot_nav">
+      <a href="../lab/" data-i18n="nav_lab">设计方向实验室</a>
+      <a href="../data/llms.txt" lang="en">llms.txt</a>
+      <a href="../data/catalog.json" lang="en">catalog.json</a>
+      <a href="https://github.com/caocong1/design-skill-lab" lang="en">GitHub</a>
+      <span data-i18n="foot_licence">MIT 许可</span>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

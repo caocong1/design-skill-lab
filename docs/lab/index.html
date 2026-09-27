@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN" data-style="swatch">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>设计方向实验室 · Design Skill Lab</title>
+<meta name="description" content="Design Skill Lab 的设计方向实验室：同一份设计资源目录排成多种完全不同的设计方向，每种附方向卡，写明它会在哪里失败。早期试验，留作对照。">
+<link rel="canonical" href="https://caocong1.github.io/design-skill-lab/lab/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2314171a'/%3E%3Cpath d='M0 29h32v3H0z' fill='%23555c63'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='%23f5f7f8' font-family='serif'%3E%E5%AD%97%3C/text%3E%3C/svg%3E">
+<script>
+  // 首帧前应用风格：?style= > 上次选择 > 默认色卡。
+  (function () {
+    var known = ['swatch', 'swiss', 'songban', 'terminal', 'blueprint', 'cards', 'label', 'console', 'sticker', 'plain', 'admin', 'canvas', 'chat', 'specimen', 'metro', 'island'];
+    var s = new URLSearchParams(location.search).get('style');
+    try { s = s || localStorage.getItem('dsl-style'); } catch (e) {}
+    if (known.indexOf(s) > -1) document.documentElement.dataset.style = s;
+  })();
+</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles/swatch.css">
+<link rel="stylesheet" href="styles/swiss.css">
+<link rel="stylesheet" href="styles/songban.css">
+<link rel="stylesheet" href="styles/terminal.css">
+<link rel="stylesheet" href="styles/blueprint.css">
+<link rel="stylesheet" href="styles/cards.css">
+<link rel="stylesheet" href="styles/label.css">
+<link rel="stylesheet" href="styles/console.css">
+<link rel="stylesheet" href="styles/sticker.css">
+<link rel="stylesheet" href="styles/plain.css">
+<link rel="stylesheet" href="styles/admin.css">
+<link rel="stylesheet" href="styles/canvas.css">
+<link rel="stylesheet" href="styles/chat.css">
+<link rel="stylesheet" href="styles/specimen.css">
+<link rel="stylesheet" href="styles/metro.css">
+<link rel="stylesheet" href="styles/island.css">
+</head>
+<body>
+<a class="lab-skip" href="#app">跳到目录搜索</a>
+<div class="lab-bar" role="region" aria-label="实验室说明">
+  <nav class="lab-bar-nav" aria-label="返回新版站点">
+    <a href="../">← 返回新版首页</a>
+    <a href="../catalog/">资源目录</a>
+  </nav>
+  <p class="lab-bar-note"><b>设计方向实验室</b>：同一份目录的<span data-fill="styles_zh">多</span>种排法，这套方法最早的试验品，留作对照。</p>
+  <label class="lab-bar-pick" hidden><span>方向</span> <select id="lab-pick" aria-label="切换设计方向"></select></label>
+</div>
+<main id="app" aria-live="off"><noscript><p style="padding:2rem 1rem;font:16px/1.6 system-ui,sans-serif">这个实验页的每种方向都由 JavaScript 排出。<a href="../catalog/">资源目录</a>有不需要脚本的纯文本列表。</p></noscript></main>
+<p class="lab-live" id="lab-live" role="status" aria-live="polite"></p>
+<script src="../data/lab-catalog.js"></script>
+<script src="../data/thumbs.js"></script>
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
