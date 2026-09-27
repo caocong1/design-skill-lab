@@ -111,7 +111,9 @@ Read on 2026-09-27:
     - `font-size-adjust`: newly available 2024-07-25; useful for matching Latin x-height to kana.
 21. Not Baseline (as of 2026-09-27):
     - `text-spacing-trim` (collapses the half-em of adjacent brackets and punctuation): Chrome and Edge **123** only.
-    - `text-autospace` (the quarter-em ideograph–Latin gap): Firefox **145** and Safari **27** only.
+    - `text-autospace` (the quarter-em ideograph–Latin gap): the feature is Firefox **145** and Safari **27** only. By key, `normal` and
+      `no-autospace` are Baseline newly available since 2025-11-11 (Chrome **140**, Firefox **145**, Safari **18.4**); `auto`,
+      `ideograph-alpha` and `ideograph-numeric` are Firefox 145 and Safari 18.4 only; `insert` is Firefox 145 and Safari 27 only.
     - `word-break: auto-phrase` (phrase-aware wrapping for headings): Chrome **119** only.
     - `hanging-punctuation`: Safari **26.5** only.
     - `text-wrap: pretty`: Chrome 117 and Safari 26.

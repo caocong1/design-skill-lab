@@ -1,64 +1,113 @@
 #!/usr/bin/env bash
-# Unattended self-iteration for the design-skill-lab suite.
+# Unattended feedback digestion for design-skill-lab, in proposals-only mode.
 #
-# Aggregates feedback/inbox and, when there is anything to digest, runs an
-# agent in this repo with the evolve mode of iterate-design-lab. The mode's
-# tiers decide what the agent may apply on its own (Tier A/B) and what is
-# queued into feedback/proposals.md (Tier C). See feedback/README.md.
+# When feedback/inbox/ holds entries, run an agent with the evolve mode of the repo-local maintainer skill
+# (.claude/skills/iterate-design-lab) on a fresh branch evolve/<date>. Unattended runs write proposals
+# (feedback/proposals.md) and Tier A wording / dead-path fixes only; Tier B and C changes wait for the owner.
+# The script, not the agent, creates the branch and commits, so the agent needs no git write access.
 #
 # Usage:
-#   scripts/evolve.sh            # aggregate; run the agent if the inbox is non-empty
-#   DRY_RUN=1 scripts/evolve.sh  # aggregate only, print the prompt, no agent
+#   scripts/evolve.sh              run (launchd: scripts/com.design-skill-lab.evolve.plist)
+#   scripts/evolve.sh --dry-run    print what would happen (agent, tree state, inbox, branch, command, prompt)
+#                                  and change nothing; DRY_RUN=1 does the same
 #
 # Env:
-#   AGENT_CLI   agent command; default "claude". "codex" also works.
-#   MODEL       optional model flag for the agent.
+#   AGENT_BIN         absolute path of the claude CLI (default: command -v claude, then known install places)
+#   MODEL             optional --model for the agent
+#   EVOLVE_TIMEOUT    seconds before the agent is killed (default 1800)
+#   EVOLVE_BUDGET_USD spend cap passed to the agent (default 5)
 #
-# To make every change a proposal (no direct edits), uncomment the
-# PROPOSE_ONLY line below.
+# Exit: 0 done or nothing to do · 2 no agent found · 3 dirty tree · 4 malformed inbox entries · 5 agent failed
+# Log: feedback/evolve.log (the only sink) · last result: feedback/evolve.status (both gitignored)
 
-set -euo pipefail
-cd "$(dirname "$0")/.."
+set -uo pipefail
+cd "$(dirname "$0")/.." || exit 1
 LAB=$PWD
 LOG=feedback/evolve.log
+STATUS=feedback/evolve.status
+DRY=${DRY_RUN:-0}
+[ "${1:-}" = "--dry-run" ] && DRY=1
+TIMEOUT=${EVOLVE_TIMEOUT:-1800}
+BUDGET=${EVOLVE_BUDGET_USD:-5}
 
-AGENT_CLI=${AGENT_CLI:-claude}
-# PROPOSE_ONLY=1
+# one sink: a real run appends everything (ours and the agent's) to the log; a dry run prints to the terminal
+[ "$DRY" = 1 ] || exec >>"$LOG" 2>&1
+say() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
+finish() {   # finish <exit code> <message>
+  say "$2"
+  [ "$DRY" = 1 ] || echo "$(date '+%Y-%m-%d %H:%M:%S') exit=$1 $2" >"$STATUS"
+  exit "$1"
+}
 
-log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }
+# --- the agent, by absolute path (launchd's PATH does not include fnm, ~/.local/bin and the like)
+AGENT=${AGENT_BIN:-}
+if [ -z "$AGENT" ]; then
+  AGENT=$(command -v claude 2>/dev/null || true)
+  for c in "$HOME/.local/share/fnm/aliases/default/bin/claude" "$HOME/.local/bin/claude" \
+           "$HOME/.claude/local/claude" /opt/homebrew/bin/claude /usr/local/bin/claude; do
+    [ -n "$AGENT" ] && break
+    [ -x "$c" ] && AGENT=$c
+  done
+fi
+[ -n "$AGENT" ] && [ -x "$AGENT" ] || finish 2 "no claude CLI found; set AGENT_BIN=/absolute/path/to/claude"
+PATH="$(dirname "$AGENT"):$PATH"   # a node-based install finds its node next to it
 
-python3 scripts/collect-feedback.py >>"$LOG" 2>&1
+# --- preconditions
+[ "$DRY" = 1 ] && say "DRY RUN: nothing will be written, branched, committed or run"
+say "agent: $AGENT"
+# a dry run reports each stop condition and carries on, so one call shows the whole plan
+stop() { if [ "$DRY" = 1 ]; then say "a real run would stop here (exit $1): $2"; else finish "$@"; fi; }
+if [ -n "$(git status --porcelain)" ]; then
+  stop 3 "working tree is dirty ($(git status --porcelain | wc -l | tr -d ' ') paths); commit or stash first"
+fi
+if ! python3 scripts/collect-feedback.py --check; then
+  stop 4 "malformed inbox entries (listed above); fix them by hand, then re-run"
+fi
 count=$(find feedback/inbox -name '*.md' | wc -l | tr -d ' ')
-if [ "$count" -eq 0 ]; then
-  log "inbox empty; nothing to evolve."
+[ "$count" -eq 0 ] && stop 0 "inbox empty; nothing to evolve"
+
+base=$(git rev-parse --abbrev-ref HEAD)
+branch="evolve/$(date +%F)"; n=2
+while git rev-parse --verify --quiet "refs/heads/$branch" >/dev/null; do branch="evolve/$(date +%F)-$n"; n=$((n + 1)); done
+
+PROMPT="你在 ${LAB}（design-skill-lab 仓库）里无人值守地工作，当前在分支 ${branch} 上。用 .claude/skills/iterate-design-lab/SKILL.md 的 evolve 模式处理 feedback/inbox/ 里的 ${count} 条反馈：
+1. 跑 scripts/collect-feedback.py，读 feedback/report.md 和每条原始条目，按根因聚类，按 Tier A/B/C 分级。
+2. 这是 proposals-only 运行：只写提案和 Tier A 修正。Tier A（误导的措辞、事实错误、失效路径）可以直接改 skills/ 下的文件；Tier B 和 Tier C 一律不改 skill，写进 feedback/proposals.md（证据条目链接 + 具体方案）。不要升版本号、不要改 CHANGELOG.md，主人合并时再定版本。
+3. 在 feedback/log.md 追加一节：日期、处理条数、每簇的分级与处置（已修 / 已提案 / 不修及原因）；宿主只按形态描述，不写产品名。
+4. 跑 scripts/collect-feedback.py --archive 归档，再跑 scripts/check-lab-invariants.sh，修掉你的改动引起的失败。
+不要执行 git 写操作（脚本会在你结束后提交），不要 push，不要访问网络。最后用三五行中文总结：多少条、哪些 Tier A 已改、哪些进了提案。"
+
+CMD=("$AGENT" -p "$PROMPT"
+  --permission-mode dontAsk
+  --allowedTools "Read" "Glob" "Grep" "Edit(skills/**)" "Edit(feedback/**)" "Write(feedback/**)"
+    "Bash(scripts/collect-feedback.py)" "Bash(scripts/collect-feedback.py *)"
+    "Bash(python3 scripts/collect-feedback.py)" "Bash(python3 scripts/collect-feedback.py *)"
+    "Bash(scripts/check-lab-invariants.sh)" "Bash(scripts/check-lab-invariants.sh *)"
+    "Bash(git status)" "Bash(git status *)" "Bash(git diff)" "Bash(git diff *)" "Bash(git log *)"
+  --max-budget-usd "$BUDGET"
+  ${MODEL:+--model "$MODEL"})
+
+if [ "$DRY" = 1 ]; then
+  say "inbox: $count entr$([ "$count" -eq 1 ] && echo y || echo ies); would branch $base -> $branch"
+  say "would run (killed after ${TIMEOUT}s):"; printf '  %q\n' "${CMD[@]}"
+  say "then: gates, git add -A, commit 'evolve: proposals from $count feedback entries' on $branch, switch back to $base"
   exit 0
 fi
-log "inbox has $count entr$( [ "$count" -eq 1 ] && echo y || echo ies ); starting agent ($AGENT_CLI)."
 
-PROMPT="你在 $LAB（design-skill-lab 仓库）里工作。用 iterate-design-lab skill 的 evolve 模式处理 feedback/inbox/ 里的 ${count} 条反馈：先跑 scripts/collect-feedback.py 刷新报告，按 SKILL.md 里的 Tier A/B/C 分流，Tier A/B 直接改并升版本、写 CHANGELOG、跑 scripts/check-lab-invariants.sh 直到通过；Tier C 只写进 feedback/proposals.md。处置记录追加到 feedback/log.md，然后 scripts/collect-feedback.py --archive 归档。${PROPOSE_ONLY:+本次为 propose-only：所有改动（含 Tier A/B）都只写提案，不改 skill。}在一个新分支上以一次 commit 收尾，不要 push、不要合并。"
-
-if [ "${DRY_RUN:-0}" = 1 ]; then
-  log "DRY_RUN; prompt would be:"; echo "$PROMPT"
-  exit 0
-fi
-
-set +e
-case "$AGENT_CLI" in
-  claude)
-    claude -p "$PROMPT" \
-      --permission-mode acceptEdits \
-      ${MODEL:+--model "$MODEL"} \
-      >>"$LOG" 2>&1
-    ;;
-  codex)
-    codex exec --full-auto ${MODEL:+-m "$MODEL"} "$PROMPT" >>"$LOG" 2>&1
-    ;;
-  *)
-    log "unknown AGENT_CLI=$AGENT_CLI (expected claude or codex)"; exit 2
-    ;;
-esac
+# --- run
+git switch -c "$branch" || finish 5 "could not create branch $branch"
+say "inbox has $count entries; running the agent on $branch (timeout ${TIMEOUT}s)"
+perl -e 'alarm shift; exec @ARGV or die "exec: $!"' "$TIMEOUT" "${CMD[@]}" </dev/null
 rc=$?
-set -e
+[ "$rc" -eq 142 ] && say "agent killed after ${TIMEOUT}s"
 
-log "agent run finished with exit $rc."
-exit $rc
+msg="evolve: proposals from $count feedback entries"
+if [ -n "$(git status --porcelain)" ]; then
+  if scripts/check-lab-invariants.sh; then gates=pass; else gates=FAIL; msg="$msg (gates failing: review)"; fi
+  git add -A && git commit -q -m "$msg" && say "committed on $branch (gates $gates)"
+else
+  gates=n/a; say "the agent changed nothing"
+fi
+git switch -q "$base"
+[ "$rc" -eq 0 ] || finish 5 "agent exited $rc; partial work (if any) is on $branch"
+finish 0 "done: $branch ready for review (gates $gates); merge it yourself, nothing was pushed"

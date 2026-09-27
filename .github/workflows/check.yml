@@ -1,0 +1,48 @@
+# The lab's Definition of Done on every push and pull request.
+#   gates  scripts/check-lab-invariants.sh (stdlib Python, no network, a few seconds)
+#   smoke  scripts/smoke-site.mjs over docs/ with Playwright's bundled Chromium (pinned in package-lock.json)
+name: check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Lab gates (G1-G9)
+        run: scripts/check-lab-invariants.sh
+
+  smoke:
+    needs: gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5    # the smoke test serves docs/ with python's http.server
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Site smoke test
+        run: npm run smoke -- --json smoke-report.json
+      - name: Keep the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-report
+          path: smoke-report.json
+          if-no-files-found: ignore

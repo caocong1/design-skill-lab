@@ -1,0 +1,13 @@
+{
+  "name": "design-skill-lab",
+  "displayName": "Design Skill Lab",
+  "version": "0.8.0",
+  "description": "A designer for coding agents: design-studio takes any design intent from brief to handoff (truth files, captured references, options board, DESIGN.md and tokens, screens across states and platforms), critique-design reviews and accepts builds with a fresh eye, implement-design builds an existing design in your stack. Draws in HTML/CSS/SVG and checks by rendering. Chinese and English triggers.",
+  "author": {
+    "name": "caocong1"
+  },
+  "homepage": "https://caocong1.github.io/design-skill-lab/",
+  "repository": "https://github.com/caocong1/design-skill-lab",
+  "license": "MIT",
+  "keywords": ["design", "ui", "ux", "design-system", "tokens", "redesign", "critique", "handoff", "accessibility", "cjk", "skills"]
+}

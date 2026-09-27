@@ -1,6 +1,6 @@
 # Changelog
 
-本文件记录本仓库各 skill、资源目录与分析报告的版本变更。除非另注，`## [X.Y.Z]` 形式的条目指 `design-studio` suite；其他 skill 的条目以 `## <skill 名称> [X.Y.Z]` 标注。
+本文件记录本仓库各 skill、资源目录、证据层与站点的版本变更。除非另注，`## [X.Y.Z]` 形式的条目指 `design-studio` suite；其他 skill 的条目以 `## <skill 名称> [X.Y.Z]` 标注。
 
 版本号遵循语义化版本（SemVer），作用于 suite 契约（模式、交付物、产出目录结构、reference 路径）：
 
@@ -10,7 +10,172 @@
 
 `0.x` 期间契约仍在定型，MINOR 也可能调整契约，但仍会在此写明。从 1.0 起，任何移除都必须先在 `弃用登记` 下登记至少两个 MINOR 版本。
 
-各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的分析版本与新鲜度审查记录在 `analysis/SOURCE_INDEX.md`。
+各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
+
+## [0.8.0] - 2026-09-27
+
+架构反转：14 个 skill 收成 3 个，外加一个只在本仓库里用的维护 skill；整个仓库按"事实来源 → 生成物 → 机械闸门"重建。起因是 2026-09-27 对 0.7.0 做的一次全面审计，结论是"内容好，结构不对"：
+
+- **路由会出错。** 子 skill 的描述互相重叠。implement-design 的描述里写着 UI polish，所以一句"整体 UI 优化"可能落到实现者那条不做重设计的路径上；handoff-design 和 implement-design 都认领"切图、标注"。
+- **流程会被跳过。** 核心流程只写在入口 skill 里，子 skill 被直接触发时整段跳过。同一条规则在 3 到 13 个文件里重复。`full` 模式开工前至少要读五层文件。
+- **闸门接受平庸。** 质量门槛是评分 ≥2，而 2 分的定义就是"能用但平庸"；流程里没有拔高这一步；找参考会退化成读 HTML 文字。
+- **目录的数据结构到顶了。** 中文说明不在事实来源里；S 档占 21.8%，其中 13 条 agent 读不到；约 12 组同一产品被拆成多行。539 张缩略图里约 92 张（17%）是反爬页、空白页、半加载页或被弹窗盖住，另有 62 条没有缩略图。
+- **证据层是一天的快照。** 停在 2026-09-21，带着已知错误；平台规范除微信外没有一手摘要。
+- **套件从没被评测过**，仓库也没有 CI。
+
+**契约变更**：模式名全部保留；新增产出 `.design/PRODUCT.md`、`.design/surfaces/<surface>.md`、`.design/critique/<date>-<target>/`（评审报告与精选证据截图，入库）；reference 路径全部改变；critique-design 的 `qa` 模式改名为 `acceptance`。迁移见文末"弃用与迁移"。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.7.0 → **0.8.0**：改写成 200 行以内的运行契约。
+  - 模式不变：`full` `piece` `options` `inspire` `critique` `redesign` `handoff` `implement`。
+  - 新增投入档位 `quick` / `standard` / `deep`，按范围选，并在设计判读里说明选了哪一档。
+  - deep 走 12 步循环：看宿主 → 真相文件 → 采集参考与联系表 → 发散（找出品类的惯性 → 参照 → 带种子的随机抽取 → 每个方向一个隔离的子 agent → 方案板）→ 收敛 → 系统 → 按界面契约画 → 渲染与底线检查 → 在新上下文里独立评审 → 拔高（作为第二轮评审）→ 交付 → 复盘。
+  - 验证有上限：一轮批量截图、一批修复、至多一轮确认；评审至多两轮，剩下的如实交代。
+  - 迭代用语：`bolder` `quieter` `distill` `harden` `clarify` `typeset` `recompose` `colorize` `delight`。
+  - 开工前只读本文件和所选模式的起始文件；学科与平台文件在第 2 步读，其余到用到的那一步再读。
+- references 按四类重排。每份都带 `evidence` / `sources` / `reviewed` / `review_by` frontmatter，来源指向 `research/sources/`：
+  - `process/`：真相文件、参考研究、方向、重设计（功能地图、结构轴、变更成本反向规则、平等性审计）、系统、token 格式（DTCG 2025.10，含 Resolver）、渲染与查看、交接、生图通道；
+  - `disciplines/`：产品界面、数据密集界面（数据可视化只在这一处）、AI 体验、营销站点（按内容形态选页面原型，不再套固定的 SaaS 骨架）、动效与动效 token、图标与应用图标、品牌、平面；
+  - `platforms/`：姿态表与跨平台清单，iOS / iPadOS / macOS 26–27（Liquid Glass）、Android 16 / Material 3 Expressive、HarmonyOS 5/6、小程序、桌面（Fluent 2、macOS）、Web（Baseline 能力表）、嵌入宿主（Office/WPS 加载项、浏览器扩展、IDE 面板、MCP Apps / Apps SDK 组件）；
+  - `fundamentals/`：排版、中文排版（含 CJK 字体授权矩阵）、色彩、布局与间距、材质、现代 CSS、无障碍（WCAG 2.2 + 欧盟 / 美国 / 中国法规）、反"生成感"、授权、可移植样机；
+  - `casebook.md`：单次事故的经验（症状 → 原因 → 检查），不再散落在规则里。
+- `templates/` 新增：PRODUCT.md、brief、功能地图、decisions、界面契约、可用的方案板 `options-board.html`、方向卡、DESIGN.md、`tokens.css`、`tokens.resolver.json`、交接规格与 `handoff.json`、验收报告，以及画板、演示文稿、动效演示、图标表、品牌规范与品牌测试表。
+- `scripts/`：
+  - 新增 `capture.mjs` + `lib/capture-core.mjs`（Playwright；路由表、登录态复用、构建标记、同意弹窗移除；遇到反爬页、空白页、报错页时以非零码退出；出联系表）；
+  - 新增 `lint.mjs`（渲染后页面的确定性底线检查）、`seed.py`（发散的种子抽取）、`catalog.py`（资源目录查询）、`text_to_path.py`（字标转路径）；
+  - `color_tools.py` 修正并扩展：黄色等高明度种子的色阶、`--dark` 保留种子色、支持颜色名、`cvd` 色觉模拟、`matrix --from tokens.css`；
+  - `shot.sh` 修正：`--help`、`--wait` 取值检查、同一页面不同状态的截图不再互相覆盖；拒绝被嵌入的站点在 500 px 以下的尺寸跳过，并以退出码 3 报告，不再静默输出一张"拒绝连接"截图。
+- 样机套件 v2（`assets/mockup-kit/`）：当前平台外观，`kit.json` 记录尺寸来源；演示页按目标重新排版，并通过自己的对比度检查。
+- `skills/critique-design/SKILL.md` 0.1.6 → **0.2.0**：
+  - 两轨评审：先凭新鲜眼光判断，再看机械证据；
+  - 严重度 × 证据等级；
+  - 评分改为二元底线 + 1–5 天花板，每一级都有锚点；通过门槛为各项 ≥3，适配、层级、辨识度 ≥4；
+  - 一份有序启发式清单（`references/heuristics.md`），自检、评审和打分共用；
+  - `templates/critic-brief.md` 规定独立评审子 agent 拿到什么：brief、契约、截图清单，不给作者的推理；
+  - 模式 `qa` 改名为 `acceptance`，新增 `fresh`（design-studio 第 9 步调用的独立评审）。
+- `skills/implement-design/SKILL.md` 0.2.4 → **0.3.0**：触发收窄为"已有设计 / 交接包 / 样稿，要在某个技术栈里实现"，"UI 优化"、切图标注不再触发它；`references/stacks.md` 更新（Web Baseline 原语，Flutter / SwiftUI / Compose / ArkUI / 小程序映射）。
+- `iterate-design-lab` 0.2.1 → **0.3.0**：移到 `.claude/skills/iterate-design-lab/`，只在本仓库里可用，`disable-model-invocation: true`，不随插件安装；按新的目录、证据层、评测和闸门重写各模式。
+- 反馈：`references/feedback.md` 保留捕获与收尾复盘，改为静默、不阻塞，只在解析得到本仓库 inbox 时才写；13 份复制的 `## Feedback` 段删掉，三个 SKILL.md 各留两行指针。
+
+### 变更（资源目录）
+
+- `catalog/resources.jsonl` 改为 schema v2：
+  - 中文说明 `zh` 迁进事实来源，每条必填；
+  - `updated` 改为 `status`，新增 `sunset`（已停运但保留为历史）；
+  - 新增 `region`、`also`（第二归属）、`entry_points`、`api`、`caveats`、`name_zh`、`zh_how`；
+  - `kind` 换成一套干净的枚举；
+  - `agent_access` 移出，改由机器观测提供。
+- `catalog/taxonomy.json` 取代 `sections.json`：15 个域、83 个小节（原来 12 个域、71 个小节），新增数据可视化、AI 设计、无障碍三个域，每个域和小节都有中英标题与说明。
+- 条目从 601 条到 **812 条**：新增 223 条经过实际访问核验的条目，10 条重复条目并入同一产品的主条目（改为其 `entry_points`），删除 2 条（已停办的 Codrops Collective，停更的 Awesome Design Tools），修订 414 条。S 档从 21.8% 降到 11.3%（92 条），每个域都不超过 15%。
+- 机器观测和人工策展分开。`scripts/check-links.py` 只追加 `catalog/observed.jsonl`，不再改写 `resources.jsonl`。它能识别停放域名、软 404 和各家挑战页，不再把 Cloudflare 的被动脚本误判为拦截；请求按主机串行。2026-09-27 全量探测结果：static 628 条、js 121 条、blocked 60 条、unknown 3 条。
+- `scripts/build-catalog.py` 把资源、分类、观测和缩略图清单合在一起，生成 `skills/design-studio/references/catalog/`（`catalog.jsonl` 投影 + 各域视图）、`docs/data/`（`catalog.json`、`catalog.js`、`thumbs.js`、`lab-catalog.js`、`llms.txt`）和首页、目录页的静态区块。它校验 S 档配额和 S 档的 agent 可达性。
+- 缩略图 v2：
+  - `scripts/shoot-catalog.mjs` 与 skill 的 `capture.mjs` 共用 `lib/capture-core.mjs`：就绪等待、同意弹窗移除、多信号反爬检测、浏览器内像素质检（灰度标准差、边缘密度、主色占比）、800×500 WebP 编码；
+  - GitHub 仓库用社交卡；截图失败或质检不过时退到 og:image，再退到排字卡；逐条修正写在 `catalog/shot-overrides.json`；每次运行都复检已有文件；
+  - 结果记在 `docs/assets/thumbs/manifest.json`：812 条全覆盖，807 张通过质检（756 张截图、38 张 GitHub 社交卡、13 张 og:image），5 条用排字卡；共 20.6 MB，平均每张约 25 KB；
+  - 旧的 `docs/assets/shots/*.jpg`（539 张，27.7 MB）全部删除。
+
+### 变更（研究）
+
+- `research/` 取代 `analysis/`、`raw/docs/`、`raw/research/`、`.planning/` 和 design-studio 的 `source-map.md`：
+  - `sources/`：40 份一手来源摘要，全部在 2026-09-27 读取。16 份按原 slug 迁入并重读，24 份新增（Apple Liquid Glass 的材质、栏与图标，Material 3 Expressive，HarmonyOS，Fluent 2，WCAG 2.2 与各地无障碍法规，Web Baseline 2026，DTCG 2025.10，DESIGN.md 0.4，Apps SDK，MCP Apps，A2UI，AI 标识法规，同类 skill，OOUX，变更厌恶，jlreq，CJK 字体授权）。新增的每份都由独立 agent 对照原文核对过，更正记在各文件里；
+  - `topics/`：9 篇中文主题综合；
+  - `field/`：本站自用记录（含审计更正）和匿名化的宿主复盘；
+  - 另有 `log.md`、`backlog.md`、`README.md`；`INDEX.md` 由 `scripts/build-research-index.py` 生成。
+- 更正旧分析里的已知错误：DTCG Resolver 自 2025-10-28 起是稳定版；APCA 不在 WCAG 3 草案里，WCAG 3 的对比度方法未定；Material 3 的标准方案与 Expressive 是两套弹簧方案。
+- 旧文件都在 git 提交 `f5c0421` 里。
+
+### 新增（评测）
+
+- 新增 `evals/`：
+  - 6 份固定 brief：中文运维后台、开发者工具落地页、iOS 26 界面、小程序列表、agent 审批流、旧应用重设计；
+  - 三组对照：不装 skill、0.7.0、0.8.0；
+  - 盲评协议（`judging.md`）、统一渲染（`render.mjs`）与测量工具（`tools/`）、结果格式（`results.schema.json`）；
+  - 100 条中英触发测试（`triggers.jsonl`），其中 45 条是近似但不该触发的请求或负例，用代理方法跑（`run_triggers.md`）。
+- 首轮只跑了触发评测（代理），结果在 `evals/runs/2026-09-27/`。输出评测尚未开跑，`/skills/` 页的记分板在有结果之前显示"尚未开跑"；结果出来后照样公布，输了也公布。
+
+### 变更（站点）
+
+- `docs/` 重做：
+  - 首页：一句话说清是什么、真实产物、插件安装命令、按域排的资源字架；
+  - 资源目录工作台：加权搜索（含中文二元组）、分面计数、详情抽屉、键盘操作、URL 状态、无 JS 时的静态列表；
+  - 套件页：路线图、三个 skill、产出目录、评测记分板、真实产物、安装与升级。
+  - 站点的视觉方向按套件自己的流程选定：方向板 → 盲评 → 独立评审，产物在 `docs/assets/showcase/2026-09-27-site/`。
+- 原来的十六种方向页整体移到 `docs/lab/`，数据改由构建生成，缩略图换成新图。旧链接继续可用：`/?style=<id>` 跳到 `/lab/?style=<id>`，`/?q=` 等旧目录链接跳到 `/catalog/`。
+- 页面上的目录数字全部由构建写入，不再手写。
+- README 头图 `docs/assets/styles.jpg` 换成新站点的截图。
+
+### 变更（基础设施）
+
+- `scripts/check-lab-invariants.sh` 改为 `scripts/gates.py` 的薄入口。只用标准库，不联网，几秒跑完。九道闸门：
+  - G1 资源目录与生成物
+  - G2 缩略图清单覆盖全部条目
+  - G3 来源头部与 INDEX
+  - G4 skill frontmatter、行数预算、reference frontmatter、链接与路径；发布的 skill 里不得再出现已删除的 skill 名
+  - G5 反馈条目
+  - G6 触发测试集
+  - G7 版本一致（SKILL.md、README、CHANGELOG、插件清单）
+  - G8 `docs/` 不手写目录数字、链接可达
+  - G9 不跟踪杂散文件
+- `scripts/smoke-site.mjs`（`npm run smoke`）检查：
+  - 控制台无报错，axe 无严重问题；
+  - 390 宽和 320 宽都没有横向溢出；
+  - 图片和链接都可达；
+  - 搜索黄金用例、首页体积预算（图片之外 ≤150 KB）；
+  - 旧链接跳转，生成区块与数据一致。
+- `.github/workflows/check.yml`：每次 push 和 PR 先跑闸门，再用 Playwright 自带的 Chromium 跑站点冒烟测试。
+- `package.json` 固定 Playwright 与 axe-core 的版本，只给本仓库的截图和冒烟测试用，skill 脚本不需要它。`node_modules/` 不入库。
+- 插件安装：新增 `.claude-plugin/plugin.json` 与 `marketplace.json`，仓库根即插件根，`skills/` 自动发现：
+
+  ```text
+  /plugin marketplace add caocong1/design-skill-lab
+  /plugin install design-skill-lab@design-skill-lab
+  ```
+
+- `scripts/evolve.sh` 修复：按绝对路径找 agent；工作区不干净就拒绝运行；自己建 `evolve/<日期>` 分支并提交；无人值守时只写提案和 Tier A 修正；加了工具白名单和超时；日志只写一处；支持 `--dry-run`。
+- `scripts/collect-feedback.py` 校验 `project` 是描述宿主形态的通用标签；报告内容没变时不重写。反馈档案里的宿主项目名已匿名化。
+
+### 弃用与迁移
+
+以下 skill 已删除，内容并入 design-studio。路径相对 `skills/design-studio/`：
+
+| 旧 skill | 现在在哪 |
+| --- | --- |
+| `explore-design-directions` | `references/process/directions.md`、`templates/options-board.html`、`templates/direction-card.md`；brief 部分在 `references/process/truth-files.md` |
+| `find-design-inspiration` | `references/process/research.md`、`scripts/capture.mjs`、`scripts/catalog.py` |
+| `design-product-ui` | `references/disciplines/product-ui.md`、`references/disciplines/data-dense-ui.md`、`references/disciplines/ai-experience.md`；`references/platforms/*`；`references/fundamentals/portable-mockups.md`；`assets/mockup-kit/` |
+| `design-marketing-sites` | `references/disciplines/marketing-sites.md` |
+| `build-design-system` | `references/process/system.md`、`references/process/token-formats.md`、`templates/DESIGN.md`、`templates/tokens.css`、`templates/tokens.resolver.json` |
+| `design-motion` | `references/disciplines/motion.md`、`references/disciplines/motion-tokens.md`、`templates/motion-demo.html` |
+| `design-icons` | `references/disciplines/icons.md`、`references/disciplines/app-icons.md`、`templates/icon-sheet.html` |
+| `design-brand-identity` | `references/disciplines/brand.md`、`templates/brand-guidelines.md`、`templates/brand-test-sheet.html` |
+| `design-graphics` | `references/disciplines/graphics.md`、`templates/artboard.html`、`templates/deck.html` |
+| `handoff-design` | `references/process/handoff.md`、`templates/handoff-spec.md`、`templates/handoff.json`、`templates/acceptance-report.md` |
+| `iterate-design-lab` | 移到仓库内的 `.claude/skills/iterate-design-lab/`，不随插件安装 |
+
+其他改名：
+
+| 旧 | 新 |
+| --- | --- |
+| critique-design 模式 `qa` | `acceptance` |
+| `design-studio/references/typography.md`、`color.md`、`layout-and-spacing.md`、`anti-slop.md`、`licensing.md`、`portable-mockups.md` | `references/fundamentals/` 下同名文件 |
+| `design-studio/references/render-and-look.md` | `references/process/render-and-look.md` |
+| `design-studio/references/quality-rubric.md` | `skills/critique-design/references/rubric.md` |
+| `design-studio/references/resource-map.md`、`resources/<domain>.md` | `references/catalog/`（生成物）+ `scripts/catalog.py` |
+| `design-studio/references/source-map.md` | 各 reference 的 frontmatter + `research/INDEX.md` |
+| `catalog/sections.json` | `catalog/taxonomy.json` |
+| `docs/catalog-zh.js` | `catalog/resources.jsonl` 的 `zh` 字段 |
+
+按符号链接安装过的：design-studio、critique-design、implement-design 的链接 `git pull` 后仍然有效，不用重链。被删掉的 10 个 skill 和移走的 `iterate-design-lab` 会留下失效链接，用下面的命令清掉。它只删这两个目录里指向不存在目标的符号链接，不碰有效链接和真实目录；其中一个目录不存在时 `find` 会报一行错，可以忽略。想先看清单，去掉 `-delete` 运行一次。
+
+```bash
+find ~/.claude/skills ~/.codex/skills -maxdepth 1 -type l ! -exec test -e {} \; -print -delete
+```
+
+插件安装的用户不受影响，装上的就是三个新 skill。
+
+旧的站点链接仍然有效：`https://caocong1.github.io/design-skill-lab/?style=<id>` 会跳到实验页 `/lab/?style=<id>`，带 `q`、`domain`、`section`、`tier`、`id` 参数的旧目录链接跳到 `/catalog/`（参数原样保留）。
 
 ## [0.7.0] - 2026-09-24
 

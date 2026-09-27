@@ -1,14 +1,14 @@
 ---
 date: 2026-09-24
 skill: design-studio
-project: ai-assistant-web
+project: ai-chat-web
 type: correction
 severity: major
 ---
 
 ## What happened
 
-主人在两个项目（bidops-app、ai-assistant-web）上用套件做整体 UI 优化和多主题，结果都很保守：保留原有结构和交互，只打磨细节，主题只在配色、密度、圆角上变化。两个宿主的 `decisions.md` 开头都是"结构不动"或"风险最低"。主人原话：多主题还可以更大胆，对页面的排版、功能的操作、是否用弹窗/drawer/页面、用表格还是列表还是卡片，在分析透功能后对页面整体重新设计；注重细节是应该的，重要的是摆脱原有设计的先入印象重新设计。
+主人在两个宿主项目（宿主 A：带 Office/WPS 加载项的 Web 业务系统；宿主 B：需要登录的 AI 助手类 Web 应用）上用套件做整体 UI 优化和多主题，结果都很保守：保留原有结构和交互，只打磨细节，主题只在配色、密度、圆角上变化。两个宿主的 `decisions.md` 开头都是"结构不动"或"风险最低"。主人原话：多主题还可以更大胆，对页面的排版、功能的操作、是否用弹窗/drawer/页面、用表格还是列表还是卡片，在分析透功能后对页面整体重新设计；注重细节是应该的，重要的是摆脱原有设计的先入印象重新设计。
 
 ## Expected / suggestion
 

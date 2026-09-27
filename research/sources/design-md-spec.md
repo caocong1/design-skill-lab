@@ -118,6 +118,7 @@ Read on 2026-09-27:
     - Unitless spacing numbers are dropped.
     - **`em` values are written as `unit: "em"`**, which is invalid DTCG (only px and rem are allowed).
     - **`lineHeight: 24px` is written as `24`**, which DTCG reads as a 24× multiplier.
+    - **A bare YAML `lineHeight: 1.5` is dropped**, while a quoted `lineHeight: "1.5"` exports as `1.5` (CLI 0.4.0 `export --format dtcg`, measured 2026-09-27). Quote unitless line heights.
     - Typography is written with only the fields that are present, while the DTCG schema requires all five (PR #177 is open).
     - The Tailwind and css-vars exports also turn colours into hex, and css-vars omits typography entirely.
 

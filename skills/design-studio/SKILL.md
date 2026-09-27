@@ -192,7 +192,7 @@ each with `--help` first. Ladder and traps: [render-and-look](references/process
 - Optional generators: a UI generator (Stitch MCP), a Figma bridge (Figma MCP), an image model: fast
   hands inside this loop whose output still goes through contract, render, floor and critique.
 
-Contract changes (modes, output layout, reference paths) are logged in [CHANGELOG](../../CHANGELOG.md).
+Contract changes (modes, output layout, reference paths) are logged in [CHANGELOG](https://github.com/caocong1/design-skill-lab/blob/main/CHANGELOG.md).
 
 ## Feedback
 

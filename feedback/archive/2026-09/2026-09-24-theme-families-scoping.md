@@ -1,7 +1,7 @@
 ---
 date: 2026-09-24
 skill: build-design-system
-project: ai-assistant-web
+project: ai-chat-web
 type: missing
 severity: minor
 ---

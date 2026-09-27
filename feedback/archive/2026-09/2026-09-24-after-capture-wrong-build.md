@@ -1,7 +1,7 @@
 ---
 date: 2026-09-24
 skill: design-studio
-project: ai-assistant-web
+project: ai-chat-web
 type: friction
 severity: minor
 ---

@@ -9,8 +9,11 @@ Usage:
                                               (e.g. .design/skill-feedback/) into the inbox
 
 Entry format: one file per event in feedback/inbox/, a small frontmatter block
-(date, skill, project, type, severity) followed by free-text sections.
-See feedback/TEMPLATE.md.
+(date, skill, project, type, severity) followed by free-text sections, as documented
+in skills/design-studio/references/feedback.md (copy: feedback/TEMPLATE.md).
+`skill` is one of the shipped skills (skills/*/SKILL.md); `project` is a generic
+lowercase-kebab label for the kind of host (zh-admin-web, office-addin), never a
+product, customer or directory name.
 """
 
 import argparse
@@ -30,6 +33,7 @@ TYPES = ('correction', 'bug', 'friction', 'missing', 'preference')
 SEVERITIES = ('blocker', 'major', 'minor', 'nit')
 SEVERITY_WEIGHT = {'blocker': 4, 'major': 3, 'minor': 2, 'nit': 1}
 DATE_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+LABEL_RE = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 NAME_RE = re.compile(r'^\d{4}-\d{2}-\d{2}-.+\.md$')
 
 TYPE_LABEL = {
@@ -74,6 +78,9 @@ def parse_entry(path):
         problems.append(f'{path.name}: unknown skill {skill!r}')
     if not fields.get('project'):
         problems.append(f'{path.name}: missing project')
+    elif not LABEL_RE.match(fields['project']):
+        problems.append(f'{path.name}: project must be a generic lowercase-kebab label '
+                        f'for the kind of host (e.g. zh-admin-web), got {fields["project"]!r}')
     if fields.get('type', '') not in TYPES:
         problems.append(f'{path.name}: type must be one of {"/".join(TYPES)}')
     if fields.get('severity', '') not in SEVERITIES:
@@ -152,7 +159,14 @@ def write_report(entries):
               '逐条全文在 `feedback/inbox/`。处理完用 '
               '`scripts/collect-feedback.py --archive` 归档，'
               '并在 `feedback/log.md` 追加处置记录。', '']
-    REPORT.write_text('\n'.join(lines), encoding='utf-8')
+    text = '\n'.join(lines)
+    # the date line alone changing is not news: leave the tracked file untouched so a weekly run
+    # with nothing new keeps the tree clean
+    undated = lambda t: re.sub(r'生成于 \d{4}-\d{2}-\d{2}', '', t)
+    if REPORT.exists() and undated(REPORT.read_text(encoding='utf-8')) == undated(text):
+        return False
+    REPORT.write_text(text, encoding='utf-8')
+    return True
 
 
 def import_entries(paths):
@@ -210,8 +224,8 @@ def main():
             return 1
         print(f'OK  {len(entries)} inbox entr{"y" if len(entries) == 1 else "ies"} valid.')
         return 0
-    write_report(entries)
-    print(f'report written: {REPORT.relative_to(ROOT)} '
+    written = write_report(entries)
+    print(f'report {"written" if written else "unchanged"}: {REPORT.relative_to(ROOT)} '
           f'({len(entries)} entries, {len(problems)} problem(s))')
     if args.archive:
         archive_entries(entries)

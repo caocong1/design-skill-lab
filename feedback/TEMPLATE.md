@@ -1,15 +1,15 @@
 ---
 date: YYYY-MM-DD
-skill: design-product-ui   # 使用中的 skill 目录名
-project: my-app            # 宿主项目目录名，只写目录名
+skill: design-studio       # design-studio | critique-design | implement-design
+project: zh-admin-web      # generic label for the kind of host; never a product, customer or directory name
 type: friction             # correction | bug | friction | missing | preference
 severity: major            # blocker | major | minor | nit
 ---
 
 ## What happened
 
-一两句话：想做什么，哪里不对或哪里别扭。
+One or two sentences: what you tried, what went wrong or felt wrong. Name the reference file involved.
 
 ## Expected / suggestion
 
-应该是什么样；有具体改法就写上。可留空。
+What should have happened; a concrete fix if you see one. Optional.

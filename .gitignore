@@ -3,14 +3,20 @@ __pycache__/
 *.pyc
 node_modules/
 
-# Shallow clones of upstream repos are evidence, not content. The pinned commit
-# lives in analysis/SOURCE_INDEX.md; re-clone when needed.
+# Shallow clones of upstream repos are evidence, not content; research/README.md says how to re-clone.
 raw/repos/*
-!raw/repos/README.md
 
 # Local render output from skill scripts
 .design/
 *.shot.png
 
-# evolve 运行日志（本地）
+# Playwright / smoke-test output
+test-results/
+smoke-report.json
+
+# evolve run log and status (local)
 feedback/evolve.log
+feedback/evolve.status
+
+# Per-user Claude Code permissions (the repo's .claude/skills/ is content and stays tracked)
+.claude/settings.local.json

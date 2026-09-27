@@ -1,7 +1,7 @@
 ---
 date: 2026-09-24
 skill: design-studio
-project: bidops-app
+project: office-addin-web
 type: bug
 severity: major
 ---

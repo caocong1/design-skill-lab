@@ -73,7 +73,9 @@ Adjacent primitives designers ask about (same dataset)
 26. Limited: `<dialog closedby>` (Chrome 134, Firefox 141; no Safari; Interop 2026), `text-wrap: pretty` (Chrome 117, Safari 26), `hidden="until-found"`
     (Chrome 102, Firefox 148), `prefers-reduced-transparency` (Chrome 119 only), `corner-shape` (Chrome 139 only), `::scroll-marker` and
     `::scroll-button` (Chrome 135 only), grid lanes / masonry (Safari 26.4 only), `reading-flow` (Chrome 137 only), `text-spacing-trim` (Chrome 123
-    only), `text-autospace` (Firefox 145, Safari 27), `accent-color` (no Chrome Android in the data).
+    only), `text-autospace` as a feature (Firefox 145, Safari 27), `accent-color` (no Chrome Android in the data). `text-autospace` by key:
+    `normal` and `no-autospace` are newly available, Baseline 2025-11-11 (Chrome 140 / Firefox 145 / Safari 18.4); `auto`, `ideograph-alpha` and
+    `ideograph-numeric` are Firefox 145 and Safari 18.4 only; `insert` is Firefox 145 and Safari 27 only.
 
 Design consequences
 27. Menus, toggletips, pickers and non-modal panels can be specified as **native popovers**: top layer, light dismiss (`auto`), Esc, focus return.
@@ -109,7 +111,8 @@ Design consequences
 - skills/design-studio/references/fundamentals/materials.md: `backdrop-filter` is newly Baseline, but `prefers-reduced-transparency` is Chrome-only.
   Glass needs a legible default, not a media-query opt-out.
 - skills/design-studio/references/fundamentals/typography.md + cjk-typography.md: `text-wrap: balance` Baseline, `pretty` not. `text-box-trim`
-  properties Baseline 2026-08-18. CJK `text-spacing-trim` / `text-autospace` are single-engine.
+  properties Baseline 2026-08-18. CJK `text-spacing-trim` is Chrome-only; `text-autospace: normal` / `no-autospace` are Baseline 2025-11-11,
+  its other values are not (fact 26).
 - skills/implement-design/references/stacks.md: the web section maps to these primitives with their status (popover, invoker commands, dialog,
   anchor positioning, `@scope`, `light-dark()`, relative colour, `contrast-color()`, `field-sizing`, `text-box`).
 - skills/design-studio/scripts (future `check-knowledge`): re-pull `data.json` and diff these ids on each review.

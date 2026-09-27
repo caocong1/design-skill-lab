@@ -1,7 +1,7 @@
 ---
 date: 2026-09-24
 skill: explore-design-directions
-project: bidops-app
+project: office-addin-web
 type: preference
 severity: minor
 ---

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Weekly self-iteration for design-skill-lab. Install:
-       cp scripts/com.design-skill-lab.evolve.plist ~/Library/LaunchAgents/
-       launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.design-skill-lab.evolve.plist
-     Trigger now:
-       launchctl kickstart gui/$UID/com.design-skill-lab.evolve
-     Adjust the repo path below if the lab does not live at
-     /Users/dongli/Workspace/design-skill-lab. -->
+<!-- Weekly unattended feedback digestion for design-skill-lab (proposals only; see feedback/README.md).
+     Check first:   scripts/evolve.sh --dry-run
+     Install:       cp scripts/com.design-skill-lab.evolve.plist ~/Library/LaunchAgents/
+                    launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.design-skill-lab.evolve.plist
+     Trigger now:   launchctl kickstart gui/$UID/com.design-skill-lab.evolve
+     Remove:        launchctl bootout gui/$UID/com.design-skill-lab.evolve
+     Adjust the repo path below if the lab does not live at /Users/dongli/Workspace/design-skill-lab.
+     evolve.sh finds the claude CLI by absolute path (AGENT_BIN, command -v, known install places) and writes
+     its own log (feedback/evolve.log) and status (feedback/evolve.status), so launchd output is discarded
+     here: pointing it at the same log would print every line twice. -->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -22,9 +25,9 @@
     <key>Minute</key><integer>0</integer>
   </dict>
   <key>StandardOutPath</key>
-  <string>/Users/dongli/Workspace/design-skill-lab/feedback/evolve.log</string>
+  <string>/dev/null</string>
   <key>StandardErrorPath</key>
-  <string>/Users/dongli/Workspace/design-skill-lab/feedback/evolve.log</string>
+  <string>/dev/null</string>
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key>
