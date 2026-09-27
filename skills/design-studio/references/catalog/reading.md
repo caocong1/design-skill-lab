@@ -3,7 +3,7 @@
 
 The articles, books, courses and guidelines whose ideas shape this suite. Prefer primary, durable sources; name the principle when justifying a decision.
 
-70 resources, plus 6 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+70 resources, plus 6 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Interface craft and design engineering · 界面工艺与设计工程
 

@@ -3,7 +3,7 @@
 
 One home for everything chart-shaped: choosing the chart from the question, the guides that keep charts honest and readable, the libraries that draw them, dashboard and big-screen references, and palettes built for data.
 
-46 resources, plus 3 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+46 resources, plus 3 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Chart choice and design guides · 图表选择与设计指引
 

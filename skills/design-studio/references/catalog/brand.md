@@ -3,7 +3,7 @@
 
 Archives to see how a form has already been solved, publications that critique identity work, real guideline documents, studio case studies, and the tools for naming and trademark checks.
 
-36 resources, plus 2 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+36 resources, plus 2 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Logo archives · logo 档案
 

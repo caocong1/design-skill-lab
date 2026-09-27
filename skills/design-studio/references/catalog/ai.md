@@ -3,7 +3,7 @@
 
 Designing AI products (interaction patterns, platform guidance), AI tools that generate interfaces and assets, and the agent-facing layer: skills, rule sets, formats such as DESIGN.md, and MCP servers that give agents design files and a browser. This field moves quickly: date what you take.
 
-56 resources, plus 18 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+56 resources, plus 18 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## AI UX patterns and components · AI 交互模式与组件
 

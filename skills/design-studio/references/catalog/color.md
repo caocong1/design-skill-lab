@@ -3,7 +3,7 @@
 
 Palette inspiration, tools that build perceptually even and accessible scales, contrast and colour-vision checks, and the articles that explain why. Compute contrast; never estimate it.
 
-41 resources, plus 7 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+41 resources, plus 7 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Palette inspiration · 色板灵感
 

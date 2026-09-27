@@ -3,7 +3,7 @@
 
 Illustrations, 3D, photography, mock-ups, and code-native backgrounds. Licence mistakes are the main risk in this domain: the Access column states the licence reality for each source.
 
-46 resources, plus 3 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+46 resources, plus 3 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Illustrations · 插画
 

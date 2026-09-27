@@ -73,6 +73,7 @@ export const CMP_HOSTS = [
   'sdk.privacy-center.org', 'quantcast.mgr.consensu.org', 'cmp.quantcast.com', 'cdn-cookieyes.com',
   'consent.trustarc.com', 'consent.truste.com', 'cmp.osano.com', 'cdn.iubenda.com', 'app.termly.io',
   'cdn.cookie-script.com', 'js.hs-banner.com', 'policy.app.cookieinformation.com', 'cdn.consentmanager.net',
+  'transcend-cdn.com',
 ];
 export const AD_HOSTS = [
   'googlesyndication.com', 'doubleclick.net', 'googleadservices.com', 'adservice.google.com', 'amazon-adsystem.com',
@@ -219,7 +220,7 @@ const CMP_ROOTS = [
   '.truste_overlay', '.osano-cm-window', '#cookiescript_injected', '.cky-consent-container', '.cky-overlay',
   '#cmplz-cookiebanner-container', '.cc-window', '#cookie-law-info-bar', '.govuk-cookie-banner', '.fc-consent-root',
   '[id^="sp_message_container"]', '#hs-eu-cookie-confirmation', '.iubenda-cs-container', '#termly-code-snippet-support',
-  '.ons-cookies-banner',
+  '.ons-cookies-banner', '#transcend-consent-manager',
 ];
 
 // Clears what covers a page before a capture, in this order:

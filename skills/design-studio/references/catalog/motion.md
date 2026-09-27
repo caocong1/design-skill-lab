@@ -3,7 +3,7 @@
 
 Recordings of motion in shipped products are the best teacher: watch them slowed down and note duration, easing, origin and what does not move. Then tools to author curves and springs, official guidelines, and the few writers worth reading.
 
-57 resources, plus 5 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+57 resources, plus 5 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Motion in shipped products · 上线产品动效实录
 

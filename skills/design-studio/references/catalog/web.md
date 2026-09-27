@@ -3,7 +3,7 @@
 
 Galleries and pattern collections for marketing sites, landing pages, portfolios, stores and their sections. Galleries show what designers admire, not what converts or what users can use: pair one gallery with a real-product or evidence source.
 
-59 resources, plus 4 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+59 resources, plus 4 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Curated site galleries · 精选网站画廊
 

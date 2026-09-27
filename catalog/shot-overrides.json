@@ -1,0 +1,331 @@
+{
+ "aiga-design-archives": {
+  "ready": ".featured_collections > *",
+  "note": "the collection grid loads only after a Cloudflare Turnstile check; when that fails silently the page is an empty frame"
+ },
+ "animate-ui": {
+  "wait": 4000,
+  "note": "JS entrance animations were still running at the first stable frame (buttons, logo row, cards half faded)"
+ },
+ "anthropic-frontend-design": {
+  "force": "github",
+  "note": "a tree-page screenshot is GitHub chrome around two file names; the anthropics/skills card matches the other repo tiles"
+ },
+ "carbon-dataviz": {
+  "url": "https://carbondesignsystem.com/data-visualization/chart-types/",
+  "note": "the getting-started page is generic Carbon chrome; chart types shows the charts"
+ },
+ "cnipa-trademark": {
+  "hide": [
+   "#noticeFloat"
+  ],
+  "note": "a fixed notice popup covers the start of the search box"
+ },
+ "collectui": {
+  "wait": 3000,
+  "note": "video cards were captured on their black first frame"
+ },
+ "commarts": {
+  "hide": [
+   ".g-fluid-top-ad"
+  ],
+  "css": ".g-fluid-header{margin-top:0!important}",
+  "note": "an empty fixed ad slot takes the top third of the frame, and the header keeps a margin as tall as the ad; og is only the logo"
+ },
+ "commercecream": {
+  "force": "og",
+  "image": "https://cdn.sanity.io/images/wzoogooi/production/62666af8ba2aaf07d48488785897c9f84dbebd20-2400x1260.png?w=1200&h=630&fit=crop&crop=center&auto=format",
+  "note": "the host closes connections from the capture network; its og image (from a Jan 2026 Wayback capture) is on Sanity's CDN"
+ },
+ "compose-animation": {
+  "hide": [
+   "devsite-snackbar"
+  ],
+  "note": "a devsite survey snackbar covers the decision diagram"
+ },
+ "dataviz-inspiration": {
+  "hide": [
+   "[data-sonner-toaster]"
+  ],
+  "note": "a late newsletter toast covers the chart grid (the hide sheet also catches it after it mounts)"
+ },
+ "dingtalk-design": {
+  "hide": [
+   ".introjs-tooltipReferenceLayer",
+   ".introjs-helperLayer",
+   ".introjs-overlay",
+   ".introjs-disableInteraction"
+  ],
+  "note": "a late intro.js onboarding tooltip sits over the hero; not [class*=introjs], which would hide the highlighted target"
+ },
+ "dribbble": {
+  "url": "https://dribbble.com/shots/popular",
+  "hide": [
+   ".brief-floating-promo",
+   ".announcements"
+  ],
+  "note": "the homepage is a hire-talent marketing page, not the shots community; drop the promo bar and the project-brief toast"
+ },
+ "ecomm-design": {
+  "hide": [
+   "._hj-widget-container",
+   "#ep-hover-bar"
+  ],
+  "note": "a Hotjar survey and a Shopify promo bar cover the gallery"
+ },
+ "emaillove": {
+  "force": "og",
+  "image": "https://web.archive.org/web/20260502184201im_/https://emaillove.com/wp-content/themes/emaillove/frontend/img/social/email-love-screenshot.jpg",
+  "note": "Cloudflare walls the site and its og file; the Wayback copy of the site's own og image"
+ },
+ "emil-kowalski": {
+  "css": "html{zoom:1.7}",
+  "note": "the homepage is the site's identity (name, Design Engineer, Today, Projects) but at 1280 it is a narrow text column on white (dominant 0.985, fails the uniform check), and an article page read as a crop from mid-page; zoomed so the same top of the homepage fills the frame. Both og images are a name on blank white (edge < 0.007)"
+ },
+ "excalidraw": {
+  "force": "og",
+  "note": "the app opens an empty whiteboard (like tldraw); og-image-3.png shows the logo and the hand-drawn tagline"
+ },
+ "figma": {
+  "hide": [
+   ".announcement-banner"
+  ],
+  "note": "a Release Notes announcement banner covers the bottom of the hero"
+ },
+ "figma-cool": {
+  "hide": [
+   "#__next a.fixed.bottom-4.right-4"
+  ],
+  "wait": 3000,
+  "note": "a fixed Artifig AI promo covers the hero; lazy card images need time"
+ },
+ "figma-make": {
+  "hide": [
+   ".announcement-banner"
+  ],
+  "note": "a Release Notes announcement banner covers the bottom of the hero"
+ },
+ "flaticon": {
+  "force": "og",
+  "image": "https://media.flaticon.com/share/flaticon-generic.jpg",
+  "note": "the site is walled; its og image sits on an open CDN"
+ },
+ "fontpair": {
+  "hide": [
+   "aside.fixed.bottom-6.right-6"
+  ],
+  "note": "a Go Pro promo card sits over the demo; the split Design/moves text is the product's slider"
+ },
+ "ft-visual-vocabulary": {
+  "force": "og",
+  "image": "https://raw.githubusercontent.com/Financial-Times/chart-doctor/main/visual-vocabulary/poster.png",
+  "note": "the D3 app shows only intro text until a category is clicked (and its font does not load); the repo's poster shows every chart type (fetched as an image: navigating to the raw PNG hung, and a GitHub blob page shrinks it inside chrome)"
+ },
+ "game-ui-database": {
+  "force": "og",
+  "image": "https://web.archive.org/web/20260918171907im_/https://www.gameuidatabase.com/metaimg.jpg",
+  "note": "the site and its metaimg.jpg answer 403; the Wayback copy of the site's own og image"
+ },
+ "gdweb": {
+  "hide": [
+   ".main-popup",
+   ".popup-bg"
+  ],
+  "note": "an award-announcement modal and its page-wide dim layer"
+ },
+ "gestalt-ixdf": {
+  "hide": [
+   ".nonSubscriberOnly"
+  ],
+  "note": "an in-flow newsletter band fills the middle of the frame (like goodui)"
+ },
+ "goodui": {
+  "hide": [
+   "#subscribe-splash"
+  ],
+  "note": "an in-flow newsletter panel sits above the navigation on every visit"
+ },
+ "goview": {
+  "url": "https://www.mtruning.club/",
+  "note": "the Gitee repo page is navigation, a file list and a sign-up banner; the official docs home shows the product"
+ },
+ "hellofont": {
+  "hide": [
+   ".invite-pop"
+  ],
+  "note": "a fixed referral promo with a mascot covers the feature row"
+ },
+ "huemint": {
+  "url": "https://huemint.com/website-3/",
+  "wait": 2000,
+  "note": "the homepage is a mostly black WebGL canvas; the website demo shows generated palettes applied to a mock-up"
+ },
+ "klim": {
+  "url": "https://klim.co.nz/fonts/",
+  "note": "the homepage rotates in-use photos (one is a plastic crate); /fonts/ sets each family name in its own face"
+ },
+ "logopedia": {
+  "hide": [
+   "fandom-ad",
+   ".fandom-ad-wrapper",
+   "[class*=top_leaderboard]"
+  ],
+  "note": "Fandom's black leaderboard ad slot fills the top of the page"
+ },
+ "m2-motion-speed": {
+  "url": "https://m2.material.io/design/motion/speed.html#controlling-speed",
+  "hide": [
+   "mio-communication-banner"
+  ],
+  "wait": 2000,
+  "note": "the top of the page is banner, chrome, title and a table of contents; start at the first illustrated section; hide the M2 deprecation banner"
+ },
+ "material-2-dataviz": {
+  "scroll": "#types figure",
+  "css": "#types figure{scroll-margin-top:24px}",
+  "hide": [
+   "mio-communication-banner"
+  ],
+  "wait": 2000,
+  "note": "the top of the page is banner, chrome, title and a table of contents; start at the first chart-types figure (the app bar hides on scroll-down); hide the M2 deprecation banner"
+ },
+ "mindsparkle": {
+  "hide": [
+   ".hero-area"
+  ],
+  "note": "the frame was one article's hero photo with no site identity; hiding it brings the feed into view, and the hide-on-scroll header stays hidden after the scroll sweep (og is a generic M)",
+  "css": "header.hidden{transform:none!important;top:0!important}"
+ },
+ "mixkit": {
+  "hide": [
+   ".elements-toast-banner__wrapper",
+   ".top-header-banner"
+  ],
+  "note": "Envato promo toast and top banner cover the category cards"
+ },
+ "nicelydone": {
+  "force": "og",
+  "image": "https://i.imgur.com/oKheXYV.jpg",
+  "fit": "contain",
+  "note": "the site is walled; its og image (logo 65px from the left edge, so letterboxed) is on imgur"
+ },
+ "open-foundry": {
+  "scroll": ".of-font-hero-card",
+  "css": ".of-font-hero-card{scroll-margin-top:24px}",
+  "hide": [
+   ".magic-toast-provider"
+  ],
+  "wait": 3000,
+  "note": "the top is a mostly empty grey intro band by design; start at the first specimen card; a promo toast covers the specimen; og:image URL answers S3 AccessDenied"
+ },
+ "openverse": {
+  "url": "https://github.com/WordPress/openverse",
+  "force": "github",
+  "note": "openverse.org serves a Cloudflare challenge and 403s the og fetch"
+ },
+ "phosphor": {
+  "hide": [
+   ".banner-container"
+  ],
+  "note": "two notice banners (rename, donations) cover the hero playground until dismissed"
+ },
+ "rams-ten-principles": {
+  "url": "https://www.vitsoe.com/rw/about/good-design",
+  "note": "the /us/ page raises a switch-to-RW-site notice for this capture location"
+ },
+ "rebrand-gallery": {
+  "hide": [
+   "div.fixed.bottom-0.left-0.z-50"
+  ],
+  "note": "an analytics-consent card that never says cookie, so the consent sweep misses it"
+ },
+ "refero": {
+  "hide": [
+   "#body > div:has(> div > div > a[href=\"/mcp\"])"
+  ],
+  "note": "a fixed Refero MCP promo card; its classes are hashed, so match its /mcp link at the exact depth"
+ },
+ "same-energy": {
+  "localStorage": {
+   "has_shown_beta_message": "true"
+  },
+  "note": "the image grid renders only after the beta welcome modal's Enter; removing the modal leaves the loading splash"
+ },
+ "shots-so": {
+  "force": "og",
+  "note": "the editor sits empty under a local-currency pricing popover; og-new.jpg shows the editor with mockups"
+ },
+ "sonner": {
+  "url": "https://github.com/emilkowalski/sonner",
+  "force": "github",
+  "note": "the demo page is a good preview but is 97% white and fails the uniform check"
+ },
+ "svgomg": {
+  "url": "https://github.com/jakearchibald/svgomg",
+  "force": "github",
+  "note": "the start screen is three-quarters empty checkerboard (plus an offline toast); og is only the icon"
+ },
+ "tailwind-plus": {
+  "force": "og",
+  "image": "https://tailwindcss.com/plus-assets/img/og/default.png",
+  "fit": "contain",
+  "note": "/plus and /plus/ui-blocks redirect anonymous visitors to /plus/login; the og card's headline starts at the left edge, so letterbox it"
+ },
+ "tencent-isux": {
+  "hide": [
+   "._fake-header"
+  ],
+  "note": "the site header never renders headless, leaving an empty 180px spacer above the grid"
+ },
+ "the-brand-identity": {
+  "hide": [
+   ".splash"
+  ],
+  "note": "a full-viewport intro layer shows one unbranded article photo over the homepage"
+ },
+ "tldraw": {
+  "url": "https://tldraw.dev",
+  "note": "tldraw.com opens an empty canvas; the SDK site shows what the resource is"
+ },
+ "tuchong-creative": {
+  "hide": [
+   "#section-marketing-campaign",
+   ".creative-header .register-img"
+  ],
+  "note": "a fixed survey banner and a sign-up coupon card in the header"
+ },
+ "wattenberger-boo-chatbots": {
+  "force": "og",
+  "image": "https://wattenberger.com/thoughts/chatbots/ai-writing.png",
+  "note": "only the title shows: the chat bubbles and body use scroll-in transitions that stay invisible headless (forcing them visible did not help) and there is no og:image; the article's own writing-tool illustration"
+ },
+ "webby-awards": {
+  "hide": [
+   "#sign-up-modal",
+   ".uk-modal"
+  ],
+  "note": "a Register to unlock access modal covers the right of the hero; og is a 2014 stock photo"
+ },
+ "webdesignclip": {
+  "hide": [
+   "li.post_ad"
+  ],
+  "note": "an empty AdSense card sits in the first row of the grid"
+ },
+ "webdesignmuseum": {
+  "force": "og",
+  "image": "https://web.archive.org/web/2025im_/https://www.webdesignmuseum.org/uploaded/others/cropped-social-image-bg.png",
+  "note": "the site and its og file answer 403; the Wayback copy of the site's own og image"
+ },
+ "windows-app-design": {
+  "hide": [
+   "#banner-holder"
+  ],
+  "note": "a dated Microsoft Ignite promo banner takes the top of the frame above the Learn header"
+ },
+ "wwdc-fluid-interfaces": {
+  "force": "og",
+  "image": "https://devimages-cdn.apple.com/wwdc-services/images/42/2247/2247_wide_900x506_2x.jpg",
+  "note": "the player shows a blank grey frame; the session artwork (the page's og is the 250px version)"
+ }
+}

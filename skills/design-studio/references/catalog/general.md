@@ -3,7 +3,7 @@
 
 Cross-discipline sources for scanning and collecting. High volume, mixed signal: concept shots ignore real content, states and accessibility. Use for visual treatment and trend awareness, then verify against real products.
 
-26 resources, plus 1 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+26 resources, plus 1 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Communities · 设计社区
 

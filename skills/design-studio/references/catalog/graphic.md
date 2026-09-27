@@ -3,7 +3,7 @@
 
 Posters, archives, decks, covers, packaging and the publications that track contemporary graphic design. The strongest moves available to a code-based designer are typographic, so typographic posters and historical archives are the richest sources.
 
-40 resources, plus 4 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+40 resources, plus 4 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Posters and typographic work · 海报与字体排印
 

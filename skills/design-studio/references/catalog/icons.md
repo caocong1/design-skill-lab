@@ -3,7 +3,7 @@
 
 Pick one family per product and record its licence. Raw-SVG endpoints are listed so an agent can pull an icon without installing a package.
 
-61 resources, plus 2 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+61 resources, plus 2 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Icon families · 图标家族
 

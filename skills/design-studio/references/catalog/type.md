@@ -3,7 +3,7 @@
 
 Open font sources with clear licences, commercial foundries worth knowing, type seen in real use, tools, the guides that matter, and a full section for CJK (Chinese, Japanese, Korean) type and typesetting.
 
-86 resources. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+86 resources. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Open and free font sources · 开源与免费字体
 

@@ -1,0 +1,15 @@
+{
+  "name": "design-skill-lab-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Lab maintenance tooling: catalogue thumbnails and page smoke tests (Playwright). Skill scripts do not need this.",
+  "type": "module",
+  "scripts": {
+    "shoot": "node scripts/shoot-catalog.mjs",
+    "smoke": "node scripts/smoke-site.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "playwright": "1.59.1"
+  }
+}

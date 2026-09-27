@@ -3,7 +3,7 @@
 
 The agent's design medium is code. Component libraries and primitives by stack, animation and graphics libraries, token tooling, and the pipeline that turns HTML, SVG and markup into images, PDFs and slides. Verify APIs against the installed version.
 
-101 resources, plus 13 cross-listed from other domains. Columns are explained in README.md; `scripts/catalog.py find` searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+101 resources, plus 13 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Component libraries and headless primitives · 组件库与无头原语
 

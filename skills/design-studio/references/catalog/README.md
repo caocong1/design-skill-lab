@@ -5,16 +5,16 @@
 
 ## Query it (preferred)
 
-Run from the design-studio skill folder (the script finds its data from any working directory):
+`S` = `skills/design-studio/scripts` (the design-studio skill's scripts folder; the script finds its data from any working directory):
 
 ```
-python3 scripts/catalog.py find "font pairing" --limit 8      # weighted keyword search, zh or en
-python3 scripts/catalog.py find 配色 --reach static            # only what a plain fetch can read
-python3 scripts/catalog.py find chart --domain dataviz --tier S --free
-python3 scripts/catalog.py route "dashboard for a factory big screen"   # best sections + top rows
-python3 scripts/catalog.py show mobbin                         # every field of one row
-python3 scripts/catalog.py recipes                             # machine endpoints with samples
-python3 scripts/catalog.py domains                             # domains and sections with counts
+python3 "$S/catalog.py" find "font pairing" --limit 8      # weighted keyword search, zh or en
+python3 "$S/catalog.py" find 配色 --reach static            # only what a plain fetch can read
+python3 "$S/catalog.py" find chart --domain dataviz --tier S --free
+python3 "$S/catalog.py" route "dashboard for a factory big screen"   # best sections + top rows
+python3 "$S/catalog.py" show mobbin                         # every field of one row
+python3 "$S/catalog.py" recipes                             # machine endpoints with samples
+python3 "$S/catalog.py" domains                             # domains and sections with counts
 ```
 
 Add `--json` to `find` for machine-readable output. Filters: `--domain --section --kind --tier --region --reach --free --limit`.
@@ -46,7 +46,7 @@ Each file lists its sections with one table per section. Rows cross-listed from 
 - **Tier**: `S` first place to look, `A` strong, `B` niche or with a stated weakness.
 - **Reach** (observed by a plain fetch, not a guess): `static` = a web fetch can read it; `js` = needs a real browser; `blocked` = bot protection or a login wall, so give the user the link and what to look for; `unknown` = the last check got no usable answer from the maintainer's network (unreachable, moved or not yet checked), which is not proof that it is down. If a source is unreachable, pick another in the same section.
 - **Access · licence**: cost (`free`, `freemium`, `paid`), `login` when content is gated, the licence where it matters, and the status when it is not `active` (`slow`, `archived`, `sunset`). Check the licence before using any asset.
-- **Entry point**: validated deep links (mirrors an agent can fetch when the main site is walled) and machine endpoints. `scripts/catalog.py recipes` lists every endpoint with a sample request.
+- **Entry point**: validated deep links (mirrors an agent can fetch when the main site is walled) and machine endpoints. `python3 "$S/catalog.py" recipes` lists every endpoint with a sample request.
 - **Region** (catalog.jsonl, `--region`): `cn`, `jp`, `kr` for resources made for that market, otherwise `global`.
 - **Kind** (what the resource is, whatever its domain):
   - `gallery` Curated examples of finished work, browsed for reference.
