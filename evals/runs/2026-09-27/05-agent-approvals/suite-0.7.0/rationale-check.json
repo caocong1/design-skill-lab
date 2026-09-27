@@ -1,0 +1,114 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "suite-0.7.0",
+  "label": "B",
+  "check": "rationale-vs-render (evals/judging.md section 10)",
+  "rationale_sources": [
+    "out/NOTES.md"
+  ],
+  "inputs": {
+    "renders": "render/*.png",
+    "facts": "facts.json"
+  },
+  "claims": [
+    {
+      "id": 1,
+      "claim": "Container: a full page inside the app frame (dark Fernhill sidebar, breadcrumb top bar). 'Assistant' is the current nav item. ... A 328 px right rail holds run details, what the assistant may do, and the activity log for auditors. ... The top bar shows only the breadcrumb and the date.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "All 9 frames: dark green sidebar with Assistant highlighted; top bar 'Assistant > Runs > Reconcile August vendor invoices' and 'Mon 28 Sep 2026' only. run-progress-01.png: rail spans x≈1080-1408 (328 px) with Run details, What the assistant may do, Activity log.",
+      "note": "On run-result the rail holds Reconciliation summary, Download, Run details, Approvals and What the assistant may do; the activity log is reduced to an 'Open full audit log · 23 tool calls' button."
+    },
+    {
+      "id": 2,
+      "claim": "The h1 is a short title taken from Dana's request. Her full request is quoted verbatim with sender and time on every screen.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-01.png, run-approval-01.png, run-error-01.png, run-result-01.png: h1 'Reconcile August vendor invoices and prepare payments due by 30 Sep' above 'Dana Whitlock asked · Mon 28 Sep 2026, 09:58' and the full quoted request."
+    },
+    {
+      "id": 3,
+      "claim": "The run header shows state as colour plus icon plus words: Running (blue, spinner), Waiting for your approval (amber, pause), Paused on error (red, x), Complete (green, check). Step badges and markers use the same set, so no state relies on colour alone.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Headers: blue spinner 'Running · step 3 of 5' (run-progress-01.png); amber pause 'Waiting for your approval · step 4 of 5' (run-approval-01.png); red x 'Paused: card transactions couldn't be pulled (step 2 of 5)' (run-error-01.png); green check 'Run complete' (run-result-01.png). Step badges Done/Running/Waiting/Failed/Not started each carry an icon (run-progress-02.png, run-error-02.png, run-approval-03.png)."
+    },
+    {
+      "id": 4,
+      "claim": "Every plan step is tagged 'Read only' or 'Needs your approval'.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-02.png, run-approval-03.png, run-error-02.png: steps 1-3 and 5 'Read only', step 4 'Needs your approval'.",
+      "note": "Step 5 ('Write a reconciliation summary and attach it to the August close checklist') is tagged 'Read only' even though it writes to the checklist; the claim as worded holds."
+    },
+    {
+      "id": 5,
+      "claim": "Moment 1: the streaming line is drawn as it looks at 10:00:41, with a steady caret. ... The progress bar is 39/49 (79.6%). ... 'Stopping keeps what has been read. Nothing is paid.'",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-01.png: 'Now Checking Oakridge Office Supply INV-1057 ($2,315.40) against card transactions...' with a block caret; bar about four-fifths full, '39 of 49 checked'; 'Stopping keeps what has been read. Nothing is paid.' beside Stop run."
+    },
+    {
+      "id": 6,
+      "claim": "Moment 2: the approval card is placed first in the main column, above the plan ... The plan keeps step 4 as 'Waiting for you, review above'. ... the 4 flagged invoices ... are also shown under step 3.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-01.png: approval card opens the main column under the status bar. run-approval-03.png: plan below with step 3 listing Calder, Pellucid, Marisol, Brightline and step 4 'Waiting for you' with '7 payments, $18,940.55 drafted. Review and decide above.'"
+    },
+    {
+      "id": 7,
+      "claim": "Moment 2: 'Approve without Oakridge' is the filled, recommended choice and 'Approve and schedule all 7' is secondary. All four brief choices are present, and each states what it will do. ... the undo line reads 'You can cancel until 5:00 pm ET on Tue 29 Sep; after that an ACH return takes 2-5 business days'. ... 'Your approval is recorded in the run's audit log with your name and the time'.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-02.png 'Your decision': filled 'Approve without Oakridge', outlined 'Approve and schedule all 7', 'Edit batch', red-outlined 'Reject', each with a consequence line; undo line 'You can cancel until 5:00 pm ET on Tue 29 Sep. After that, getting money back needs an ACH return, which takes 2-5 business days.'; audit sentence under the choices.",
+      "note": "The rendered undo sentence is a close paraphrase of the quoted wording, same facts."
+    },
+    {
+      "id": 8,
+      "claim": "Moment 3: ... the rail shows 'Paused at 10:00:47' instead of a start time ... step 1 '49 invoices to reconcile' ... no duration for bills.list. 'Retry now' is the recommended (filled) choice. 'Stop the run' says 'Steps 3-5 will not run and no payment batch is drafted'.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-error-01.png: rail 'Paused at 10:00:47', no start or elapsed time; step 1 '49 invoices to reconcile · Tool bills.list', no duration; filled 'Retry now'. run-error-02.png: 'End here. Steps 3-5 will not run and no payment batch is drafted.'"
+    },
+    {
+      "id": 9,
+      "claim": "Moment 4: the page leads with the outcome: batch PB-0928 scheduled, the 49/45/4 counts, and 1 held payment. 'Needs your attention · 5' ... comes next, then the step history. ... each flagged item has buttons [Show number on file, Mark details confirmed, Ask for corrected invoice, Pay $252.00 difference, Review refund email, Mark as matched, Keep flagged, Mark as paid another way, Pay $2,150.00 now]. ... 'You can cancel PB-0928 until 5:00 pm ET on Tue 29 Sep' ... the 'Approved by you' tag on step 4.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-result-01.png: 'Scheduled' card 'Payment batch PB-0928: 6 payments, $16,625.15', stats 49 / 45 / 4 / 1 held, cancel line, then 'Needs your attention · 5' with the listed buttons (continued in run-result-02.png); run-result-02.png: 'What the assistant did · 5 of 5 steps' with step 4 'Approved by you'.",
+      "note": "The result shows the batch as a summary with a 'View batch PB-0928' button; the six payees are not listed on this page (not claimed)."
+    },
+    {
+      "id": 10,
+      "claim": "Type: IBM Plex Sans for UI and IBM Plex Mono only for tool names (they are code). ... Tabular figures are used for all amounts and times.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Monospace appears only in tool-name chips (bills.list, bank_feed.fetch, payments.create_batch); invoice IDs are set in the sans (run-approval-01.png); amount columns align right with even digit widths (run-approval-01.png).",
+      "note": "The exact family (Plex) and the tnum feature cannot be proven from pixels; the visible behaviour matches."
+    },
+    {
+      "id": 11,
+      "claim": "All text pairs were checked with color_tools.py; the lowest is 4.75:1 (green badge text on its tint).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "facts.json: 0 contrast failures on all four files; lowest_contrast 4.75 on each, matching the stated figure."
+    },
+    {
+      "id": 12,
+      "claim": "Only the spinner animates, and only when reduced motion is off. ... Keyboard focus styles exist (:focus-visible) but were not captured in the renders.",
+      "source": "out/NOTES.md",
+      "status": "not checkable",
+      "evidence": "Motion, reduced-motion handling and focus styles are behaviour a static render cannot show."
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 0,
+    "not_checkable": 1
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "functions": null,
+  "functions_note": "Function walk applies to brief 06 only.",
+  "notes": "Only out/NOTES.md carries rationale (no out/rationale.md; not required for brief 05). The arm also has a feedback/ folder outside out/ (process notes, not design claims), not checked. facts.json: 0 targets under 24 px on all four files."
+}

@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Schedule · Mon 28 Sep 2026 · AlderCare Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* brand, kept from 3.2 */
+    --navy-900: #14294a; --navy-800: #1b365a; --navy-100: #e7edf5;
+    /* neutrals */
+    --ink: #1c232b; --ink-2: #414b56; --ink-3: #56606b; --line: #d5dbe2; --line-2: #e6eaef;
+    --canvas: #f3f5f8; --surface: #ffffff;
+    /* status roles (fixed vocabulary) */
+    --wait-bg: #e3f3e8; --wait-bar: #1f7a45; --wait-ink: #135232;
+    --room-bg: #e3ebfa; --room-bar: #2e5cb8; --room-ink: #1d3f86;
+    --unc-bg: #fff3dc; --unc-bar: #b86e00; --unc-ink: #7a4500;
+    --late-bg: #fde8e7; --late-bar: #b3261e; --late-ink: #8c1d17;
+    --alert-bg: #fdecea; --alert-line: #e3a19b; --alert-ink: #8c1d17;
+    --act: #1f7a45; --act-hover: #18633a;
+    --focus: #2e5cb8;
+    --row: 38px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font: 400 14px/1.35 "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    color: var(--ink); background: var(--canvas);
+    display: grid; grid-template-rows: 44px 52px 1fr 28px; grid-template-columns: 1280px;
+    font-variant-numeric: tabular-nums;
+  }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  svg.i { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------- header ---------- */
+  .hdr { background: var(--navy-800); color: #fff; display: flex; align-items: center; padding: 0 8px 0 16px; gap: 10px; }
+  .logo { font-weight: 700; font-size: 17px; letter-spacing: -0.2px; white-space: nowrap; }
+  .loc { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 6px; border: 1px solid #3d5a82; background: var(--navy-900); color: #fff; font-size: 13px; white-space: nowrap; }
+  nav.tabs { display: flex; height: 44px; margin-left: 6px; }
+  nav.tabs a { display: inline-flex; align-items: center; gap: 5px; padding: 0 9px; color: #d7e1ee; text-decoration: none; font-size: 14px; border-bottom: 3px solid transparent; white-space: nowrap; }
+  nav.tabs a[aria-current] { color: #fff; font-weight: 700; border-bottom-color: #fff; background: rgba(255,255,255,.06); }
+  .count { display: inline-block; min-width: 20px; padding: 0 6px; border-radius: 10px; background: #fff; color: var(--navy-800); font-size: 12px; font-weight: 700; line-height: 18px; text-align: center; }
+  .count.hot { background: #ffd7d2; color: var(--late-ink); }
+  .hdr-r { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; color: #d7e1ee; white-space: nowrap; }
+  .hdr-r .now { color: #fff; font-weight: 600; margin-right: 6px; }
+  .hbtn { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 9px; border-radius: 6px; border: 1px solid transparent; background: transparent; color: #fff; font-size: 13px; }
+  .hbtn:hover { background: rgba(255,255,255,.1); }
+
+  /* ---------- toolbar ---------- */
+  .tb { background: var(--surface); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 6px; padding: 0 12px 0 12px; }
+  .search { position: relative; width: 268px; }
+  .search input { width: 100%; height: 36px; padding: 0 10px 0 36px; border: 1.5px solid #8b96a3; border-radius: 8px; background: #fff; font-size: 15px; }
+  .search input::placeholder { color: var(--ink-3); }
+  .search .i { position: absolute; left: 11px; top: 10px; color: var(--ink-2); }
+  kbd { font: 600 12px/18px "Source Sans 3", sans-serif; color: var(--ink-2); border: 1px solid #b7c0ca; border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; background: #f7f8fa; }
+  .search kbd { position: absolute; right: 9px; top: 8px; }
+  .btn { height: 34px; display: inline-flex; align-items: center; gap: 6px; padding: 0 11px; border-radius: 7px; border: 1px solid #b7c0ca; background: #fff; color: var(--ink); font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .btn:hover { background: #f1f4f7; }
+  .btn.icon { width: 34px; padding: 0; justify-content: center; }
+  .btn.primary { background: var(--navy-800); border-color: var(--navy-800); color: #fff; }
+  .btn.primary:hover { background: var(--navy-900); }
+  .btn.go { background: var(--act); border-color: var(--act); color: #fff; }
+  .btn.go:hover { background: var(--act-hover); }
+  .btn.sm { height: 28px; padding: 0 10px; font-size: 13px; border-radius: 6px; }
+  .datebtn { min-width: 152px; justify-content: space-between; }
+  .seg { display: inline-flex; border: 1px solid #b7c0ca; border-radius: 7px; overflow: hidden; height: 34px; }
+  .seg button { border: 0; background: #fff; padding: 0 12px; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .seg button + button { border-left: 1px solid #b7c0ca; }
+  .seg button[aria-pressed="true"] { background: var(--navy-100); color: var(--navy-800); }
+  .tb .gap { flex: 1; }
+  .vsep { width: 1px; height: 24px; background: var(--line); margin: 0 4px; }
+
+  /* ---------- main ---------- */
+  .main { display: grid; grid-template-columns: 248px minmax(0, 1fr) 324px; min-height: 0; }
+
+  /* left: front desk now */
+  .desk { background: var(--surface); border-right: 1px solid var(--line); overflow: hidden; padding: 4px 0 8px; }
+  .sec { padding: 5px 12px 3px; }
+  .sec + .sec { border-top: 1px solid var(--line-2); }
+  .sec h2 { margin: 1px 0 2px; display: flex; align-items: baseline; gap: 6px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--ink-2); }
+  .sec h2 .n { font-size: 15px; color: var(--ink); letter-spacing: 0; }
+  .sec h2 .aside { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 12px; color: var(--ink-3); }
+  .q { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 8px; padding: 3px 8px 3px 9px; margin: 0 -8px 2px; border-radius: 6px; border-left: 3px solid transparent; }
+  .q .nm { font-weight: 600; font-size: 14px; line-height: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .q .sub { font-size: 12px; line-height: 15px; color: var(--ink-3); white-space: nowrap; }
+  .q .mins { text-align: right; font-weight: 700; font-size: 16px; line-height: 17px; }
+  .q .mins small { display: block; font-size: 12px; font-weight: 400; color: var(--ink-3); line-height: 15px; }
+  .q.wait { border-left-color: var(--wait-bar); }
+  .q.wait .mins { color: var(--wait-ink); }
+  .q.room { border-left-color: var(--room-bar); }
+  .q.room .mins { color: var(--room-ink); }
+  .q.sel { background: var(--navy-100); }
+  .due { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 6px; padding: 1px 0; }
+  .due .t { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+  .due .nm { font-weight: 600; font-size: 14px; line-height: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .due .sub { font-size: 12px; line-height: 14px; color: var(--ink-3); }
+  .ci { height: 28px; padding: 0 9px; border-radius: 6px; border: 1.5px solid var(--act); background: #fff; color: var(--act); font-weight: 700; font-size: 13px; white-space: nowrap; }
+  .ci:hover { background: var(--act); color: #fff; }
+  .todo { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px; padding: 2px 0; }
+  .todo .lbl { font-size: 14px; font-weight: 600; line-height: 17px; }
+  .todo .sub { font-size: 12px; line-height: 15px; color: var(--ink-3); }
+  .wl { list-style: none; margin: 0; padding: 0; font-size: 13px; line-height: 17px; }
+  .wl li { display: flex; justify-content: space-between; gap: 6px; }
+  .wl li span:last-child { color: var(--ink-3); }
+
+  /* centre: day grid */
+  .day { display: grid; grid-template-rows: 38px 46px 1fr; min-width: 0; min-height: 0; background: var(--surface); border-right: 1px solid var(--line); }
+  .sum { display: flex; align-items: center; gap: 10px; padding: 0 8px 0 12px; border-bottom: 1px solid var(--line); background: var(--canvas); white-space: nowrap; }
+  .sum h1 { margin: 0; font-size: 16px; font-weight: 700; }
+  .sum .stats { font-size: 13px; color: var(--ink-2); }
+  .sum .stats b { color: var(--ink); }
+  .sum .gap { flex: 1; }
+  .sel-prov { height: 28px; display: inline-flex; align-items: center; gap: 6px; padding: 0 8px; border: 1px solid #b7c0ca; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 600; }
+  .cols, .body { display: grid; grid-template-columns: 46px repeat(4, minmax(0, 1fr)); }
+  .cols { border-bottom: 1px solid #b7c0ca; background: var(--surface); padding-right: 8px; }
+  .cols > div { padding: 4px 8px; border-left: 1px solid var(--line); min-width: 0; }
+  .cols > div:first-child { border-left: 0; }
+  .cols .who { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; line-height: 18px; white-space: nowrap; }
+  .cols .who .chip { margin-left: auto; }
+  .cols .spec { font-size: 12px; line-height: 16px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cols .spec b { font-weight: 600; }
+  .cols .spec .w { color: var(--wait-ink); }
+  .cols .spec .r { color: var(--room-ink); }
+  .scroll { overflow-y: scroll; overflow-x: hidden; min-height: 0; scrollbar-width: thin; }
+  .body {
+    position: relative;
+    grid-template-rows: repeat(9, var(--row)) 58px repeat(6, var(--row)) 26px repeat(3, var(--row));
+  }
+  .tm { grid-column: 1; font-size: 12px; color: var(--ink-3); text-align: right; padding: 3px 7px 0 0; border-top: 1px solid var(--line-2); }
+  .tm.hr { color: var(--ink); font-weight: 700; font-size: 13px; border-top-color: #c3cbd4; }
+  .cell { border-top: 1px solid var(--line-2); border-left: 1px solid var(--line); }
+  .cell.hr { border-top-color: #c3cbd4; }
+
+  .ap { position: relative; margin: 1px 2px 1px 3px; padding: 1px 6px 1px 9px; border-radius: 5px; background: #fff; border: 1px solid #cdd4dc; min-width: 0; overflow: hidden; z-index: 1; }
+  .ap::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #aab4bf; }
+  .ap .l1 { display: flex; align-items: baseline; gap: 6px; line-height: 17px; }
+  .ap .nm { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .ap .ty { margin-left: auto; flex: none; font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: .03em; }
+  .ap .l2 { display: flex; align-items: center; gap: 4px; font-size: 12px; line-height: 15px; color: var(--ink-2); white-space: nowrap; min-width: 0; }
+  .ap .l2 .rs { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .ap .l3 { font-size: 12px; line-height: 15px; color: var(--ink-3); white-space: normal; margin-top: 1px; }
+  .ap .l3.one { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chip { flex: none; display: inline-flex; align-items: center; gap: 2px; height: 15px; padding: 0 3px; border-radius: 4px; font-size: 12px; font-weight: 600; line-height: 15px; }
+  .chip svg { width: 11px; height: 11px; stroke-width: 2.4; }
+  .chip.wait { background: var(--wait-bar); color: #fff; }
+  .chip.room { background: var(--room-bar); color: #fff; }
+  .chip.unc { background: var(--unc-bg); color: var(--unc-ink); border: 1px dashed var(--unc-bar); }
+  .chip.late { background: var(--late-bar); color: #fff; }
+  .chip.ins { background: #fff; color: var(--late-ink); border: 1px solid var(--alert-line); }
+  .chip.dbl { background: var(--late-bar); color: #fff; }
+  .chip.cx { background: #eceff2; color: var(--ink-2); }
+
+  .ap.wait { background: var(--wait-bg); border-color: #a9d4b7; }
+  .ap.wait::before { background: var(--wait-bar); }
+  .ap.room { background: var(--room-bg); border-color: #b0c4ec; }
+  .ap.room::before { background: var(--room-bar); }
+  .ap.unc { border-style: dashed; border-color: var(--unc-bar); }
+  .ap.unc::before { background: repeating-linear-gradient(180deg, var(--unc-bar) 0 4px, transparent 4px 7px); }
+  .ap.cx { background: #f6f7f9; }
+  .ap.cx .nm { text-decoration: line-through; color: var(--ink-3); font-weight: 400; }
+  .ap.cx::before { background: transparent; }
+  .ap.dbl { border: 2px solid var(--late-bar); padding-top: 1px; }
+  .ap.dbl::before { background: var(--late-bar); }
+  .ap.dbl .pair { display: flex; gap: 5px; align-items: baseline; line-height: 16px; font-size: 13px; }
+  .ap.dbl .pair b { font-weight: 600; font-size: 14px; }
+  .ap.dbl .pair span { color: var(--ink-2); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ap.sel { box-shadow: 0 0 0 2px var(--navy-800), 0 2px 6px rgba(20,41,74,.25); z-index: 2; }
+  .ap.tele .nm::after { content: none; }
+  .ap .tele-i { flex: none; color: var(--ink-2); width: 13px; height: 13px; }
+
+  .blk { margin: 1px 2px 1px 3px; border-radius: 5px; padding: 3px 8px; font-size: 12px; font-style: italic; color: var(--ink-2);
+    background: repeating-linear-gradient(135deg, #eef1f4 0 6px, #f8f9fb 6px 12px); border: 1px solid var(--line-2); }
+  .open { position: relative; z-index: 1; margin: 1px 2px 1px 3px; border-radius: 5px; border: 1px dashed #b7c0ca; background: #fff; display: flex; align-items: center; gap: 5px; padding: 0 8px; font-size: 13px; font-weight: 600; color: var(--ink-3); }
+  .open:hover { border-color: var(--act); color: var(--act); background: #f3faf5; }
+  .open svg { width: 14px; height: 14px; }
+  .lunch { grid-column: 2 / 6; margin: 1px 2px 1px 3px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--ink-2); letter-spacing: .04em; text-transform: uppercase;
+    background: repeating-linear-gradient(135deg, #eef1f4 0 6px, #f8f9fb 6px 12px); border-radius: 5px; }
+
+  .nowline { position: absolute; left: 40px; right: 0; top: 10px; height: 0; border-top: 2px solid var(--late-bar); z-index: 0; pointer-events: none; }
+  .nowline::before { content: ""; position: absolute; left: -4px; top: -5px; width: 8px; height: 8px; border-radius: 50%; background: var(--late-bar); }
+  .nowtag { position: absolute; left: 0; top: 17px; width: 46px; padding-right: 4px; text-align: right; font-size: 12px; font-weight: 700; color: var(--late-ink); z-index: 3; background: var(--surface); }
+
+  /* right: selected appointment */
+  .det { background: var(--surface); overflow: hidden; display: flex; flex-direction: column; }
+  .det-h { padding: 8px 14px 6px; border-bottom: 1px solid var(--line-2); }
+  .det-h .ctx { font-size: 12px; color: var(--ink-3); display: flex; gap: 6px; align-items: center; }
+  .det-h .ctx .chip { margin-left: auto; }
+  .det-h h2 { margin: 2px 0 0; font-size: 21px; line-height: 26px; font-weight: 700; }
+  .det-h h2 a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #b7c0ca; }
+  .det-h .id { font-size: 13px; color: var(--ink-2); }
+  .alerts { margin: 8px 14px 0; border: 1px solid var(--alert-line); background: var(--alert-bg); border-radius: 7px; padding: 6px 10px 6px 10px; }
+  .alerts h3 { margin: 0 0 2px; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--alert-ink); }
+  .alerts ul { margin: 0; padding: 0; list-style: none; font-size: 13px; line-height: 18px; color: var(--ink); }
+  .alerts li { display: flex; gap: 6px; }
+  .alerts li b { color: var(--alert-ink); min-width: 58px; }
+  .steps { margin: 8px 14px 0; }
+  .steps h3, .facts h3 { margin: 0 0 3px; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); }
+  .step { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 6px; min-height: 30px; border-top: 1px solid var(--line-2); padding: 2px 0; }
+  .step:first-of-type { border-top: 0; }
+  .step .ok { color: var(--wait-bar); }
+  .step .no { color: var(--unc-bar); }
+  .step .lbl { font-size: 13px; line-height: 16px; }
+  .step .lbl b { font-weight: 600; }
+  .step .lbl span { color: var(--ink-3); font-size: 12px; }
+  .step .lbl .due-t { color: var(--late-ink); font-weight: 600; font-size: 13px; }
+  .step .undo { font-size: 13px; color: var(--ink-2); background: none; border: 0; text-decoration: underline; padding: 4px 2px; min-height: 24px; }
+  .primary-row { margin: 8px 14px 0; display: grid; grid-template-columns: 1fr auto; gap: 6px; }
+  .primary-row .btn { height: 38px; font-size: 15px; justify-content: center; }
+  .acts { margin: 6px 14px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .acts .btn { height: 30px; font-size: 13px; padding: 0 6px; justify-content: center; font-weight: 600; }
+  .acts .btn svg { width: 14px; height: 14px; color: var(--ink-2); }
+  .danger { margin: 6px 14px 0; display: flex; gap: 6px; justify-content: flex-end; }
+  .danger .btn { height: 28px; font-size: 13px; color: var(--late-ink); border-color: #e0b4b0; background: #fff; }
+  .facts { margin: 6px 14px 0; border-top: 1px solid var(--line); padding-top: 6px; }
+  .facts dl { margin: 0; display: grid; grid-template-columns: 74px 1fr; column-gap: 8px; row-gap: 1px; font-size: 13px; line-height: 17px; }
+  .facts dt { color: var(--ink-3); }
+  .facts dd { margin: 0; }
+  .visits { margin-top: 5px; font-size: 12px; line-height: 16px; color: var(--ink-2); }
+  .visits b { color: var(--ink-3); font-weight: 400; }
+
+  /* footer: status line + key */
+  .foot { background: var(--surface); border-top: 1px solid var(--line); display: flex; align-items: center; gap: 12px; padding: 0 12px 0 16px; font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+  .foot .key { display: flex; align-items: center; gap: 8px; }
+  .foot .key .t { font-weight: 700; color: var(--ink-2); }
+  .foot .sys { margin-left: auto; color: var(--ink-3); }
+  .foot .maint { color: var(--unc-ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4.5l3 2"/></symbol>
+  <symbol id="i-door" viewBox="0 0 24 24"><path d="M6 20V4.5h12V20M3.5 20h17M14.5 12.5v.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.8 19.5h18.4Z"/><path d="M12 10v4.5M12 17v.3"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-dasharray="3 2.2"/><path d="M9.8 10a2.3 2.3 0 1 1 3.3 2c-.8.4-1.1.9-1.1 1.6M12 16.5v.3"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6.5" width="12.5" height="11" rx="2"/><path d="m15.5 11 5.5-3v8l-5.5-3"/></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15Z"/><path d="M10 20.5h4"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16Z"/></symbol>
+  <symbol id="i-move" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M9 15h6m-2-2 2 2-2 2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 5 6v5.5c0 4.4 3 7.6 7 9 4-1.4 7-4.6 7-9V6Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3.5h9l3.5 3.5v13.5H6Z"/><path d="M9 11h6M9 15h6"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9M7 17H4.5V9h15v8H17"/><path d="M7 14h10v6.5H7Z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4h-4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1.1.8-1.1 1.6M12 16.8v.2"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="1.8"/><path d="m9 21 2.5-6.5L14 17v4M8 12l2.5-4.5 3.5 1 2 3.5M10.5 7.5l1 7"/></symbol>
+  <symbol id="i-slot" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17"/><circle cx="12" cy="15" r="2.2"/></symbol>
+</svg>
+
+<!-- ============ header ============ -->
+<header class="hdr">
+  <div class="logo">AlderCare</div>
+  <button class="loc" aria-label="Location: Alder Street Family Practice, Main. Change location">Alder Street · Main <svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+  <nav class="tabs" aria-label="Sections">
+    <a href="#">Home</a>
+    <a href="#" aria-current="page">Schedule</a>
+    <a href="#">Patients</a>
+    <a href="#">Check-In</a>
+    <a href="#">Waitlist <span class="count">4</span></a>
+    <a href="#">Recalls</a>
+    <a href="#">Billing</a>
+    <a href="#">Insurance</a>
+    <a href="#">Messages <span class="count hot">3</span></a>
+    <a href="#" aria-label="More sections: Tasks, Reports, Inventory, Admin">More <svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></a>
+  </nav>
+  <div class="hdr-r">
+    <span class="now">Mon 28 Sep · 8:04 AM</span>
+    <button class="hbtn" aria-label="Help" title="Help" style="width:32px;padding:0;justify-content:center"><svg class="i" style="width:18px;height:18px"><use href="#i-help"/></svg></button>
+    <button class="hbtn" aria-label="Account menu: mlopez, Front desk"><svg class="i"><use href="#i-user"/></svg>mlopez <svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+  </div>
+</header>
+
+<!-- ============ toolbar ============ -->
+<div class="tb" role="toolbar" aria-label="Schedule tools">
+  <label class="search">
+    <span class="sr">Find a patient</span>
+    <svg class="i"><use href="#i-search"/></svg>
+    <input type="search" placeholder="Find patient: Last, First or MRN">
+  </label>
+  <button class="btn icon" aria-label="Previous day" style="margin-left:4px"><svg class="i"><use href="#i-left"/></svg></button>
+  <button class="btn datebtn" aria-label="Choose date"><span style="display:inline-flex;gap:7px;align-items:center"><svg class="i"><use href="#i-cal"/></svg>Mon 28 Sep 2026</span><svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+  <button class="btn icon" aria-label="Next day"><svg class="i"><use href="#i-right"/></svg></button>
+  <button class="btn">Today</button>
+  <div class="seg" role="group" aria-label="View"><button aria-pressed="true">Day</button><button aria-pressed="false">Week</button><button aria-pressed="false">Month</button></div>
+  <div class="gap"></div>
+  <button class="btn"><svg class="i"><use href="#i-walk"/></svg>Walk-in</button>
+  <button class="btn"><svg class="i"><use href="#i-slot"/></svg>Find slot</button>
+  <button class="btn primary"><svg class="i"><use href="#i-plus"/></svg>New appointment</button>
+  <button class="btn" aria-label="Print, export and block time">Print &amp; more <svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+</div>
+
+<!-- ============ main ============ -->
+<main class="main">
+
+  <!-- left: who is here, who is next, what needs doing -->
+  <aside class="desk" aria-label="Front desk now">
+    <section class="sec">
+      <h2>Waiting room <span class="n">3</span><span class="aside">longest first</span></h2>
+      <div tabindex="0" role="button" class="q wait sel"><div><div class="nm">Brennan, Harold</div><div class="sub">Rao · 8:00 · arrived 7:52</div></div><div class="mins">12<small>min</small></div></div>
+      <div tabindex="0" role="button" class="q wait"><div><div class="nm">Chen, Robert</div><div class="sub">Kim · 8:15 · arrived 7:58</div></div><div class="mins">6<small>min</small></div></div>
+      <div tabindex="0" role="button" class="q wait"><div><div class="nm">Natarajan, Priya</div><div class="sub">Rao · 8:15 · arrived 8:01</div></div><div class="mins">3<small>min</small></div></div>
+    </section>
+    <section class="sec">
+      <h2>In a room <span class="n">2</span></h2>
+      <div tabindex="0" role="button" class="q room"><div><div class="nm">Wright, Jamal</div><div class="sub">Room 7 · Ortega · since 7:55</div></div><div class="mins">9<small>min</small></div></div>
+      <div tabindex="0" role="button" class="q room"><div><div class="nm">Johansson, Mia</div><div class="sub">Room 4 · Feld · since 7:57</div></div><div class="mins">7<small>min</small></div></div>
+    </section>
+    <section class="sec">
+      <h2>Expected next <span class="aside">0 late</span></h2>
+      <div class="due"><span class="t">8:15</span><div><div class="nm">Abernathy, Noah</div><div class="sub">Feld · well child</div></div><button class="ci">Check in</button></div>
+      <div class="due"><span class="t">8:30</span><div><div class="nm">Okafor, Walter</div><div class="sub">Rao · physical</div></div><button class="ci">Check in</button></div>
+      <div class="due"><span class="t">8:30</span><div><div class="nm">Fairbanks, Linda</div><div class="sub">Kim · flu vaccine</div></div><button class="ci">Check in</button></div>
+      <div class="due"><span class="t">8:30</span><div><div class="nm">Olsen, Hannah</div><div class="sub">Ortega · F/U thyroid</div></div><button class="ci">Check in</button></div>
+    </section>
+    <section class="sec">
+      <h2>To follow up</h2>
+      <div class="todo"><div><div class="lbl">8 unconfirmed today</div><div class="sub">plus 3 for tomorrow (Tue)</div></div><button class="btn sm"><svg class="i" style="width:14px;height:14px"><use href="#i-bell"/></svg>Remind</button></div>
+      <div class="todo"><div><div class="lbl">2 insurance not verified</div><div class="sub">Liu 9:30 Rao · Soto 10:30 Ortega</div></div><button class="btn sm">Verify</button></div>
+      <div class="todo"><div><div class="lbl">1 double booking</div><div class="sub">10:15 Feld · Reyes + Adams</div></div><button class="btn sm">Show</button></div>
+    </section>
+    <section class="sec">
+      <h2>Waitlist <span class="n">4</span><span class="aside">for open slots</span></h2>
+      <ul class="wl">
+        <li><span>Pham, Linh</span><span>Rao · any AM</span></li>
+        <li><span>Sutter, Greg</span><span>Ortega · sick</span></li>
+        <li><span>Adeyemi, Tolu</span><span>Feld · WCC</span></li>
+        <li><span>Brandt, Ilse</span><span>Kim · flu shot</span></li>
+      </ul>
+    </section>
+  </aside>
+
+  <!-- centre: the day -->
+  <section class="day" aria-label="Day schedule">
+    <div class="sum">
+      <h1>Monday 28 September</h1>
+      <span class="stats"><b>96</b> booked · <b>3</b> waiting · <b>2</b> in room · <b>0</b> no-show · <b>14</b> open</span>
+      <span class="gap"></span>
+      <button class="sel-prov" aria-label="Providers shown: all">All providers <svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+      <button class="btn icon sm" style="width:28px" aria-label="Refresh schedule"><svg class="i"><use href="#i-refresh"/></svg></button>
+    </div>
+    <div class="cols" role="row">
+      <div></div>
+      <div><div class="who">Rao, MD<span class="chip wait">2 waiting</span></div><div class="spec">Family Med · Rm 1–3</div></div>
+      <div><div class="who">Feld, MD<span class="chip room">1 in room</span></div><div class="spec">Pediatrics · Rm 4–5</div></div>
+      <div><div class="who">Kim, NP<span class="chip wait">1 waiting</span></div><div class="spec">Family Med · Rm 6</div></div>
+      <div><div class="who">Ortega, PA<span class="chip room">1 in room</span></div><div class="spec">Urgent / Sick · Rm 7</div></div>
+    </div>
+    <div class="scroll">
+      <div class="body">
+        <!-- time labels + gridlines -->
+        <div class="tm hr" style="grid-row:1">8:00</div><div class="tm" style="grid-row:2">8:15</div><div class="tm" style="grid-row:3">8:30</div><div class="tm" style="grid-row:4">8:45</div>
+        <div class="tm hr" style="grid-row:5">9:00</div><div class="tm" style="grid-row:6">9:15</div><div class="tm" style="grid-row:7">9:30</div><div class="tm" style="grid-row:8">9:45</div>
+        <div class="tm hr" style="grid-row:9">10:00</div><div class="tm" style="grid-row:10">10:15</div><div class="tm" style="grid-row:11">10:30</div><div class="tm" style="grid-row:12">10:45</div>
+        <div class="tm hr" style="grid-row:13">11:00</div><div class="tm" style="grid-row:14">11:15</div><div class="tm" style="grid-row:15">11:30</div><div class="tm" style="grid-row:16">11:45</div>
+        <div class="tm hr" style="grid-row:17">12:00</div>
+        <div class="tm hr" style="grid-row:18">1:00</div><div class="tm" style="grid-row:19">1:15</div><div class="tm" style="grid-row:20">1:30</div>
+
+        <!-- background cells, generated below by script-free markup -->
+        <div class="cell hr" style="grid-area:1/2/2/3"></div><div class="cell hr" style="grid-area:1/3/2/4"></div><div class="cell hr" style="grid-area:1/4/2/5"></div><div class="cell hr" style="grid-area:1/5/2/6"></div>
+        <div class="cell" style="grid-area:2/2/3/6;border-left:0"></div><div class="cell" style="grid-area:3/2/4/6;border-left:0"></div><div class="cell" style="grid-area:4/2/5/6;border-left:0"></div>
+        <div class="cell hr" style="grid-area:5/2/6/6;border-left:0"></div><div class="cell" style="grid-area:6/2/7/6;border-left:0"></div><div class="cell" style="grid-area:7/2/8/6;border-left:0"></div><div class="cell" style="grid-area:8/2/9/6;border-left:0"></div>
+        <div class="cell hr" style="grid-area:9/2/10/6;border-left:0"></div><div class="cell" style="grid-area:10/2/11/6;border-left:0"></div><div class="cell" style="grid-area:11/2/12/6;border-left:0"></div><div class="cell" style="grid-area:12/2/13/6;border-left:0"></div>
+        <div class="cell hr" style="grid-area:13/2/14/6;border-left:0"></div><div class="cell" style="grid-area:14/2/15/6;border-left:0"></div><div class="cell" style="grid-area:15/2/16/6;border-left:0"></div><div class="cell" style="grid-area:16/2/17/6;border-left:0"></div>
+        <div class="cell hr" style="grid-area:17/2/18/6;border-left:0"></div>
+        <div class="cell hr" style="grid-area:18/2/19/6;border-left:0"></div><div class="cell" style="grid-area:19/2/20/6;border-left:0"></div><div class="cell" style="grid-area:20/2/21/6;border-left:0"></div>
+        <!-- column rules -->
+        <div style="grid-area:1/3/21/4;border-left:1px solid var(--line)"></div>
+        <div style="grid-area:1/4/21/5;border-left:1px solid var(--line)"></div>
+        <div style="grid-area:1/5/21/6;border-left:1px solid var(--line)"></div>
+        <div style="grid-area:1/2/21/3;border-left:1px solid var(--line)"></div>
+
+        <!-- now: 8:04 -->
+        <div class="nowtag">8:04</div>
+        <div class="nowline" style="top:11px"></div>
+
+        <!-- ===== Rao (col 2) ===== -->
+        <div class="ap wait sel" tabindex="0" role="button" style="grid-area:1/2/2/3" aria-current="true"><div class="l1"><span class="nm">Brennan, Harold</span><span class="ty">F/U</span></div><div class="l2"><span class="chip wait"><svg class="i"><use href="#i-clock"/></svg>Waiting 12m</span><span class="rs">75M HTN</span></div></div>
+        <div class="ap wait" tabindex="0" role="button" style="grid-area:2/2/3/3"><div class="l1"><span class="nm">Natarajan, Priya</span><span class="ty">SICK</span></div><div class="l2"><span class="chip wait"><svg class="i"><use href="#i-clock"/></svg>Waiting 3m</span><span class="rs">34F sore throat</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:3/2/6/3"><div class="l1"><span class="nm">Okafor, Walter</span><span class="ty">PHYS</span></div><div class="l2"><span class="rs">58M</span></div><div class="l3">Annual physical + fasting labs</div></div>
+        <div class="blk" style="grid-area:6/2/7/3">Rx refills / admin</div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:7/2/9/3"><div class="l1"><span class="nm">Liu, Grace</span><span class="ty">NEW</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="chip ins">Ins. unverified</span></div><div class="l3">29F · New pt, transfer from Dr. Marsh</div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:9/2/10/3"><div class="l1"><span class="nm">Herrera, Tomas</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">47M diabetes A1c</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:10/2/11/3"><div class="l1"><span class="nm">Marsh, Evelyn</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">81F</span></div><div class="l3">Needs wheelchair</div></div>
+        <div class="ap tele" tabindex="0" role="button" style="grid-area:11/2/12/3"><div class="l1"><span class="nm">Kowalski, Daniel</span><span class="ty">TELE</span></div><div class="l2"><svg class="i tele-i"><use href="#i-video"/></svg><span class="rs">39M anxiety</span></div></div>
+        <button class="open" style="grid-area:12/2/13/3"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap" tabindex="0" role="button" style="grid-area:13/2/15/3"><div class="l1"><span class="nm">Whitfield, Sarah</span><span class="ty">PROC</span></div><div class="l2"><span class="rs">52F</span></div><div class="l3">Skin biopsy (shave) L shoulder</div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:15/2/16/3"><div class="l1"><span class="nm">Rossi, Maria</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">64F osteoporosis</span></div></div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:16/2/17/3"><div class="l1"><span class="nm">Dubois, Claire</span><span class="ty">F/U</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="rs">37F migraine</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:18/2/20/3"><div class="l1"><span class="nm">Asante, Kofi</span><span class="ty">NEW</span></div><div class="l2"><span class="rs">40M new patient</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:20/2/21/3"><div class="l1"><span class="nm">Coleman, Ruth</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">67F arthritis</span></div></div>
+
+        <!-- ===== Feld (col 3) ===== -->
+        <div class="ap room" tabindex="0" role="button" style="grid-area:1/3/2/4"><div class="l1"><span class="nm">Johansson, Mia</span><span class="ty">VAX</span></div><div class="l2"><span class="chip room"><svg class="i"><use href="#i-door"/></svg>Room 4</span><span class="rs">4F 4yr shots</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:2/3/4/4"><div class="l1"><span class="nm">Abernathy, Noah</span><span class="ty">WCC</span></div><div class="l2"><span class="rs">9mo M</span></div><div class="l3">Well child 9 mo</div></div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:4/3/5/4"><div class="l1"><span class="nm">Castillo, Liam</span><span class="ty">SICK</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="rs">7M ear pain</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:5/3/6/4"><div class="l1"><span class="nm">Thompson, Ava</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">12F asthma</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:6/3/7/4"><div class="l1"><span class="nm">Park, Ethan</span><span class="ty">VAX</span></div><div class="l2"><span class="rs">2M MMR #2</span></div></div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:7/3/10/4"><div class="l1"><span class="nm">Bennett, Zoe</span><span class="ty">PHYS</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="rs">15F</span></div><div class="l3">Sports physical · needs form</div></div>
+        <div class="ap dbl" tabindex="0" role="button" style="grid-area:10/3/11/4"><div class="l1" style="margin-bottom:1px"><span class="chip dbl"><svg class="i"><use href="#i-alert"/></svg>Double-booked · 2</span></div><div class="pair"><b>Reyes, Lucas</b><span>3M fever</span></div><div class="pair"><b>Adams, Chloe</b><span>8F F/U</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:11/3/12/4"><div class="l1"><span class="nm">Nguyen, Oliver</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">6M rash</span></div></div>
+        <button class="open" style="grid-area:12/3/13/4"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap" tabindex="0" role="button" style="grid-area:13/3/14/4"><div class="l1"><span class="nm">Moore, Isabella</span><span class="ty">VAX</span></div><div class="l2"><span class="rs">10F Tdap/HPV</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:14/3/15/4"><div class="l1"><span class="nm">Walsh, Henry</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">5M ear</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:15/3/16/4"><div class="l1"><span class="nm">Greene, Amara</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">11F sore throat</span></div></div>
+        <div class="blk" style="grid-area:16/3/17/4">Hold – same-day sick</div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:18/3/21/4"><div class="l1"><span class="nm">Singh, Arjun</span><span class="ty">WCC</span></div><div class="l2"><span class="rs">5M</span></div><div class="l3">Well child 5 yr + vision</div></div>
+
+        <!-- ===== Kim (col 4) ===== -->
+        <button class="open" style="grid-area:1/4/2/5"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap wait" tabindex="0" role="button" style="grid-area:2/4/3/5"><div class="l1"><span class="nm">Chen, Robert</span><span class="ty">F/U</span></div><div class="l2"><span class="chip wait"><svg class="i"><use href="#i-clock"/></svg>Waiting 6m</span><span class="rs">66M INR check</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:3/4/4/5"><div class="l1"><span class="nm">Fairbanks, Linda</span><span class="ty">VAX</span></div><div class="l2"><span class="rs">71F flu vaccine</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:4/4/5/5"><div class="l1"><span class="nm">Jordan, Marcus</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">44M cough 2 wks</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:5/4/7/5"><div class="l1"><span class="nm">Rahman, Aisha</span><span class="ty">NEW</span></div><div class="l2"><span class="rs">31F</span></div><div class="l3">New patient · establish care</div></div>
+        <div class="ap tele" tabindex="0" role="button" style="grid-area:7/4/8/5"><div class="l1"><span class="nm">O'Brien, Kevin</span><span class="ty">TELE</span></div><div class="l2"><svg class="i tele-i"><use href="#i-video"/></svg><span class="rs">55M lipids</span></div></div>
+        <div class="ap cx" tabindex="0" role="button" style="grid-area:8/4/9/5"><div class="l1"><span class="nm">Gomez, Patricia</span><span class="ty">F/U</span></div><div class="l2"><span class="chip cx">Cancelled</span><span class="rs">49F</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:9/4/10/5"><div class="l1"><span class="nm">Delgado, Frank</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">62M knee</span></div></div>
+        <div class="blk" style="grid-area:10/4/13/5">Flu clinic – walk-ins</div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:13/4/14/5"><div class="l1"><span class="nm">Stein, Rachel</span><span class="ty">SICK</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="rs">38F sinus</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:14/4/15/5"><div class="l1"><span class="nm">Patel, Nikhil</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">58M gout</span></div></div>
+        <div class="ap tele" tabindex="0" role="button" style="grid-area:15/4/16/5"><div class="l1"><span class="nm">Lindqvist, Erik</span><span class="ty">TELE</span></div><div class="l2"><svg class="i tele-i"><use href="#i-video"/></svg><span class="rs">45M follow-up</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:16/4/17/5"><div class="l1"><span class="nm">Ward, Betty</span><span class="ty">VAX</span></div><div class="l2"><span class="rs">77F B12 inj</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:18/4/19/5"><div class="l1"><span class="nm">Holland, Jean</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">69F CHF</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:19/4/20/5"><div class="l1"><span class="nm">Fairbanks, Tom</span><span class="ty">VAX</span></div><div class="l2"><span class="rs">73M flu vaccine</span></div></div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:20/4/21/5"><div class="l1"><span class="nm">Ibarra, Sofia</span><span class="ty">F/U</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="rs">42F labs</span></div></div>
+
+        <!-- ===== Ortega (col 5) ===== -->
+        <div class="ap room" tabindex="0" role="button" style="grid-area:1/5/2/6"><div class="l1"><span class="nm">Wright, Jamal</span><span class="ty">SICK</span></div><div class="l2"><span class="chip room"><svg class="i"><use href="#i-door"/></svg>Room 7</span><span class="rs">27M ankle sprain</span></div></div>
+        <button class="open" style="grid-area:2/5/3/6"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap" tabindex="0" role="button" style="grid-area:3/5/4/6"><div class="l1"><span class="nm">Olsen, Hannah</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">45F thyroid</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:4/5/5/6"><div class="l1"><span class="nm">Petrov, Victor</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">68M BP meds</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:5/5/7/6"><div class="l1"><span class="nm">Clarke, Megan</span><span class="ty">PROC</span></div><div class="l2"><span class="rs">36F</span></div><div class="l3">Wart removal (cryo)</div></div>
+        <button class="open" style="grid-area:7/5/8/6"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap tele" tabindex="0" role="button" style="grid-area:8/5/9/6"><div class="l1"><span class="nm">Brooks, Samuel</span><span class="ty">TELE</span></div><div class="l2"><svg class="i tele-i"><use href="#i-video"/></svg><span class="rs">50M med review</span></div></div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:9/5/10/6"><div class="l1"><span class="nm">Foster, Diane</span><span class="ty">F/U</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="rs">59F labs</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:10/5/11/6"><div class="l1"><span class="nm">Hassan, Ahmed</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">41M back pain</span></div></div>
+        <div class="ap unc" tabindex="0" role="button" style="grid-area:11/5/12/6"><div class="l1"><span class="nm">Soto, Elena</span><span class="ty">SICK</span></div><div class="l2"><span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf.</span><span class="chip ins">Ins. unverified</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:12/5/13/6"><div class="l1"><span class="nm">Morales, Juan</span><span class="ty">F/U</span></div><div class="l2"><span class="rs">71M COPD</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:13/5/14/6"><div class="l1"><span class="nm">Yamamoto, Ken</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">33M wrist pain</span></div></div>
+        <button class="open" style="grid-area:14/5/15/6"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap" tabindex="0" role="button" style="grid-area:15/5/16/6"><div class="l1"><span class="nm">Okonkwo, Chidi</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">29M cut R hand</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:16/5/17/6"><div class="l1"><span class="nm">Mendez, Raul</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">52M rash</span></div></div>
+        <button class="open" style="grid-area:18/5/19/6"><svg class="i"><use href="#i-plus"/></svg>Open</button>
+        <div class="ap" tabindex="0" role="button" style="grid-area:19/5/20/6"><div class="l1"><span class="nm">Baker, Lily</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">19F nausea</span></div></div>
+        <div class="ap" tabindex="0" role="button" style="grid-area:20/5/21/6"><div class="l1"><span class="nm">Novak, Petr</span><span class="ty">SICK</span></div><div class="l2"><span class="rs">36M fever</span></div></div>
+
+        <div class="lunch" style="grid-row:17">Lunch · 12:00 – 1:00</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- right: selected appointment -->
+  <aside class="det" aria-label="Selected appointment">
+    <div class="det-h">
+      <div class="ctx">8:00–8:15 AM · Rao, Anita MD<span class="chip wait"><svg class="i"><use href="#i-clock"/></svg>Waiting 12 min</span></div>
+      <h2><a href="#">Brennan, Harold J</a></h2>
+      <div class="id">75 y · M · DOB 03/14/1951 · MRN 00482913</div>
+    </div>
+
+    <div class="alerts" role="note" aria-label="Patient alerts">
+      <h3><svg class="i" style="width:14px;height:14px"><use href="#i-alert"/></svg>Patient alerts · 3</h3>
+      <ul>
+        <li><b>Allergy</b>Penicillin (rash)</li>
+        <li><b>Balance</b>$140.00 overdue · 64 days</li>
+        <li><b>Needs</b>Large-print forms · hard of hearing R ear</li>
+      </ul>
+    </div>
+
+    <div class="steps">
+      <h3>Check-in</h3>
+      <div class="step"><svg class="i ok"><use href="#i-check"/></svg><div class="lbl"><b>Arrived 7:52 AM</b> <span>· 12 min ago</span></div><span></span></div>
+      <div class="step"><svg class="i ok"><use href="#i-check"/></svg><div class="lbl"><b>Insurance</b> BlueStar PPO<br><span>#BSP-7730-2291 · verified 09/25/2026</span></div><span></span></div>
+      <div class="step"><svg class="i no"><use href="#i-circle"/></svg><div class="lbl"><b>Copay $25.00</b> <span class="due-t">· not collected</span><br><span>plus $140.00 overdue balance</span></div><span></span></div>
+      <div class="step"><svg class="i no"><use href="#i-circle"/></svg><div class="lbl"><b>Room</b> <span>· not assigned (Rao: Rm 1–3)</span></div><span></span></div>
+    </div>
+
+    <div class="primary-row">
+      <button class="btn go"><svg class="i"><use href="#i-cash"/></svg>Collect copay $25.00</button>
+      <button class="btn" style="padding:0 12px"><svg class="i"><use href="#i-door"/></svg>Room <svg class="i" style="width:14px;height:14px"><use href="#i-down"/></svg></button>
+    </div>
+    <div class="acts">
+      <button class="btn">Check out</button>
+      <button class="btn"><svg class="i"><use href="#i-move"/></svg>Reschedule</button>
+      <button class="btn"><svg class="i"><use href="#i-edit"/></svg>Edit</button>
+      <button class="btn"><svg class="i"><use href="#i-bell"/></svg>Reminder</button>
+      <button class="btn"><svg class="i"><use href="#i-shield"/></svg>Eligibility</button>
+      <button class="btn"><svg class="i"><use href="#i-note"/></svg>Notes</button>
+    </div>
+    <div class="danger">
+      <button class="btn" style="margin-right:auto;color:var(--ink);border-color:#b7c0ca"><svg class="i"><use href="#i-print"/></svg>Print</button>
+      <button class="btn">No-show</button>
+      <button class="btn">Cancel appt</button>
+    </div>
+
+    <div class="facts">
+      <dl>
+        <dt>Type</dt><dd>Follow-up · 15 min</dd>
+        <dt>Reason</dt><dd>F/U hypertension, BP recheck after med change</dd>
+        <dt>Phone</dt><dd>(555) 014-2297 H · (555) 014-8830 C</dd>
+        <dt>Reminder</dt><dd>SMS 09/27 6:00 PM · replied C (confirmed)</dd>
+        <dt>Booked</dt><dd>jsmith · 09/14/2026 2:31 PM</dd>
+      </dl>
+      <div class="visits"><b>Recent visits</b> · 08/31/26 Rao F/U · 07/02/26 Rao Sick · 01/19/26 Rao Physical · 10/06/25 Kim Vaccine</div>
+    </div>
+  </aside>
+</main>
+
+<!-- ============ footer: key + system line ============ -->
+<footer class="foot">
+  <div class="key" aria-label="Key">
+    <span class="t">Key</span>
+    <span class="chip wait"><svg class="i"><use href="#i-clock"/></svg>Waiting</span>
+    <span class="chip room"><svg class="i"><use href="#i-door"/></svg>In room</span>
+    <span class="chip unc"><svg class="i"><use href="#i-q"/></svg>Unconf. = unconfirmed</span>
+    <span class="chip late"><svg class="i"><use href="#i-alert"/></svg>Late</span>
+    <span class="chip ins">Ins. unverified</span>
+    <span class="chip cx">Cancelled</span>
+    <span style="display:inline-flex;gap:4px;align-items:center"><svg class="i" style="width:13px;height:13px"><use href="#i-video"/></svg>Telehealth</span>
+    <span>No mark = confirmed</span>
+  </div>
+  <span class="sys"><span class="maint">Maintenance Sat 10/03 10:00 PM – Sun 2:00 AM</span> · Updated 8:04 AM · ACS-APP02 · 3.2.7.1184</span>
+</footer>
+
+</body>
+</html>

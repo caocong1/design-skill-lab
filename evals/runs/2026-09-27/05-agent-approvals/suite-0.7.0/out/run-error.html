@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Needs your decision · Assistant · Fernhill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --c-bg:#f5f6f3; --c-surface:#fff; --c-sunken:#f0f2ee; --c-line:#dde2dc; --c-line-strong:#c5ccc4;
+  --c-text:#1b2420; --c-muted:#55605a;
+  --c-brand:#1d5c4d; --c-brand-hover:#174a3e; --c-brand-subtle:#e4efea; --c-on-brand:#fff;
+  --c-nav:#16332c; --c-nav-active:#2c5549; --c-nav-text:#c4d3cc; --c-nav-strong:#fff;
+  --c-ok:#1f7a3d; --c-ok-bg:#e8f4ec; --c-ok-line:#b9dcc4;
+  --c-run:#2456a6; --c-run-bg:#e9effa; --c-run-line:#bccde9;
+  --c-warn:#8a5a00; --c-warn-bg:#fdf3dc; --c-warn-line:#e7c877;
+  --c-crit:#b3261e; --c-crit-bg:#fcebea; --c-crit-line:#eab5b1;
+  --c-idle:#55605a; --c-idle-bg:#eef0ec;
+  --f-sans:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --fs-xs:12px; --fs-sm:13px; --fs-md:14px; --fs-lg:16px; --fs-xl:20px; --fs-2xl:24px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px; --sp-10:40px;
+  --r-sm:4px; --r-md:6px; --r-lg:8px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--f-sans);font-size:var(--fs-md);line-height:1.5;color:var(--c-text);background:var(--c-bg);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:var(--c-brand);text-decoration:underline;text-underline-offset:2px}
+.num,td.num,th.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.tab{font-variant-numeric:tabular-nums}
+.nowrap{white-space:nowrap}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+.ic{width:18px;height:18px;flex:none}
+.ic.sm{width:16px;height:16px}
+.ic.xs{width:14px;height:14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--c-run);outline-offset:2px}
+
+/* ---- app frame ---- */
+.app{display:flex;min-height:100vh;align-items:stretch}
+.nav{width:232px;flex:none;background:var(--c-nav);color:var(--c-nav-text);display:flex;flex-direction:column;padding:var(--sp-5) var(--sp-3) var(--sp-4)}
+.nav-top{position:sticky;top:0;display:flex;flex-direction:column;gap:var(--sp-5)}
+.brand{display:flex;align-items:center;gap:10px;padding:0 var(--sp-2);color:var(--c-nav-strong);font-weight:600;font-size:17px;letter-spacing:-.01em}
+.brand-mark{width:26px;height:26px;border-radius:var(--r-md);background:#e4efea;color:var(--c-brand);display:grid;place-items:center}
+.brand-mark .ic{width:18px;height:18px}
+.company{display:flex;flex-direction:column;padding:var(--sp-2) var(--sp-3);border:1px solid #2f5a4e;border-radius:var(--r-md)}
+.company b{color:var(--c-nav-strong);font-weight:500;font-size:var(--fs-md)}
+.company span{font-size:var(--fs-xs)}
+.nav ul{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:var(--sp-3);height:36px;padding:0 var(--sp-3);border-radius:var(--r-md);color:var(--c-nav-text);text-decoration:none;font-size:var(--fs-md)}
+.nav a[aria-current]{background:var(--c-nav-active);color:var(--c-nav-strong);font-weight:500}
+.nav-user{margin-top:auto;display:flex;align-items:center;gap:10px;padding:var(--sp-3) var(--sp-2) 0;border-top:1px solid #2f5a4e}
+.avatar{width:30px;height:30px;border-radius:50%;background:#d6e4dd;color:var(--c-nav);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
+.nav-user b{display:block;color:var(--c-nav-strong);font-weight:500;font-size:var(--fs-sm);line-height:1.3}
+.nav-user span{font-size:var(--fs-xs)}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{height:52px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-8);background:var(--c-surface);border-bottom:1px solid var(--c-line);font-size:var(--fs-sm);color:var(--c-muted)}
+.crumbs{display:flex;align-items:center;gap:6px}
+.crumbs .ic{width:14px;height:14px}
+.crumbs b{color:var(--c-text);font-weight:500}
+.page{padding:var(--sp-6) var(--sp-8) var(--sp-10);display:flex;flex-direction:column;gap:var(--sp-5)}
+
+/* ---- run header ---- */
+.run-head{display:flex;flex-direction:column;gap:var(--sp-3)}
+.run-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-6)}
+.run-title{display:flex;flex-direction:column;gap:6px}
+.eyebrow{display:flex;align-items:center;gap:var(--sp-2);font-size:var(--fs-sm);color:var(--c-muted)}
+.ai-mark{width:22px;height:22px;border-radius:var(--r-sm);background:var(--c-brand);color:#fff;display:grid;place-items:center;flex:none}
+.ai-mark .ic{width:15px;height:15px}
+h1{font-size:var(--fs-xl);line-height:1.3;font-weight:600;letter-spacing:-.01em}
+.request{display:flex;gap:var(--sp-3);align-items:flex-start}
+.request .avatar{width:28px;height:28px;background:var(--c-brand-subtle);color:var(--c-brand);font-size:11px}
+.request p{font-size:var(--fs-md);color:var(--c-text)}
+.request .meta{display:block;font-size:var(--fs-xs);color:var(--c-muted);margin-bottom:2px}
+
+.statusbar{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-5);padding:var(--sp-3) var(--sp-4);border-radius:var(--r-lg);border:1px solid;min-height:60px}
+.statusbar[data-tone="run"]{background:var(--c-run-bg);border-color:var(--c-run-line)}
+.statusbar[data-tone="warn"]{background:var(--c-warn-bg);border-color:var(--c-warn-line)}
+.statusbar[data-tone="crit"]{background:var(--c-crit-bg);border-color:var(--c-crit-line)}
+.statusbar[data-tone="ok"]{background:var(--c-ok-bg);border-color:var(--c-ok-line)}
+.sb-main{display:flex;align-items:center;gap:var(--sp-3);min-width:0}
+.sb-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;color:#fff}
+[data-tone="run"] .sb-icon{background:var(--c-run)} [data-tone="warn"] .sb-icon{background:var(--c-warn)}
+[data-tone="crit"] .sb-icon{background:var(--c-crit)} [data-tone="ok"] .sb-icon{background:var(--c-ok)}
+.sb-text b{display:block;font-size:var(--fs-lg);font-weight:600;line-height:1.35}
+[data-tone="run"] .sb-text b{color:var(--c-run)} [data-tone="warn"] .sb-text b{color:var(--c-warn)}
+[data-tone="crit"] .sb-text b{color:var(--c-crit)} [data-tone="ok"] .sb-text b{color:var(--c-ok)}
+.sb-text span{font-size:var(--fs-sm);color:var(--c-text)}
+.sb-actions{display:flex;align-items:center;gap:var(--sp-3);flex:none}
+.sb-note{font-size:var(--fs-xs);color:var(--c-muted);text-align:right;max-width:320px;line-height:1.4}
+
+/* ---- buttons ---- */
+a.btn{text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);height:36px;padding:0 var(--sp-4);border-radius:var(--r-md);border:1px solid var(--c-line-strong);background:var(--c-surface);color:var(--c-text);font:500 var(--fs-md)/1 var(--f-sans);white-space:nowrap;cursor:pointer}
+.btn.lg{height:44px;padding:0 var(--sp-5);font-size:var(--fs-md)}
+.btn.primary{background:var(--c-brand);border-color:var(--c-brand);color:var(--c-on-brand)}
+.btn.danger{color:var(--c-crit);border-color:var(--c-crit-line)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--c-brand);padding:0 var(--sp-2)}
+.btn.sm{height:30px;padding:0 var(--sp-3);font-size:var(--fs-sm)}
+.btn small{font-weight:400;opacity:.9}
+
+/* ---- layout ---- */
+.cols{display:flex;gap:var(--sp-6);align-items:flex-start}
+.col-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:var(--sp-5)}
+.col-rail{width:328px;flex:none;display:flex;flex-direction:column;gap:var(--sp-4)}
+.card{background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-lg)}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-3) var(--sp-5);border-bottom:1px solid var(--c-line)}
+.card-h h2{font-size:var(--fs-md);font-weight:600}
+.card-h .aside{font-size:var(--fs-sm);color:var(--c-muted)}
+h2.section{font-size:var(--fs-lg);font-weight:600;display:flex;align-items:center;gap:var(--sp-2)}
+
+/* ---- status badges (colour + icon + label) ---- */
+.badge{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:11px;font-size:var(--fs-xs);font-weight:500;white-space:nowrap;flex:none}
+.badge .ic{width:13px;height:13px;stroke-width:2.2}
+.badge[data-s="done"]{background:var(--c-ok-bg);color:var(--c-ok)}
+.badge[data-s="running"]{background:var(--c-run-bg);color:var(--c-run)}
+.badge[data-s="waiting"],.badge[data-s="flag"],.badge[data-s="held"]{background:var(--c-warn-bg);color:var(--c-warn)}
+.badge[data-s="failed"]{background:var(--c-crit-bg);color:var(--c-crit)}
+.badge[data-s="todo"],.badge[data-s="paused"]{background:var(--c-idle-bg);color:var(--c-idle)}
+.perm{display:inline-flex;align-items:center;gap:5px;font-size:var(--fs-xs);color:var(--c-muted);white-space:nowrap}
+.perm .ic{width:13px;height:13px}
+.perm[data-k="money"]{color:var(--c-warn);font-weight:500}
+
+/* ---- plan / steps ---- */
+.steps{display:flex;flex-direction:column}
+.step{display:flex;gap:var(--sp-4);padding:var(--sp-4) var(--sp-5);position:relative}
+.step + .step{border-top:1px solid var(--c-line)}
+.marker{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:none;font-size:var(--fs-sm);font-weight:600;border:1.5px solid}
+.marker .ic{width:16px;height:16px;stroke-width:2.2}
+.step[data-s="done"] .marker{background:var(--c-ok);border-color:var(--c-ok);color:#fff}
+.step[data-s="running"] .marker{border-color:var(--c-run);color:var(--c-run);background:var(--c-surface)}
+.step[data-s="waiting"] .marker{background:var(--c-warn);border-color:var(--c-warn);color:#fff}
+.step[data-s="failed"] .marker{background:var(--c-crit);border-color:var(--c-crit);color:#fff}
+.step[data-s="todo"] .marker{border-color:var(--c-line-strong);color:var(--c-muted);background:var(--c-surface)}
+.step[data-s="running"]{background:linear-gradient(var(--c-run-bg),var(--c-run-bg)) left/3px 100% no-repeat}
+.step-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.step-head{display:flex;align-items:center;gap:var(--sp-3);min-height:28px}
+.step-head h3{font-size:var(--fs-md);font-weight:600;line-height:1.4;flex:1;min-width:0}
+.step[data-s="todo"] .step-head h3{font-weight:500;color:var(--c-muted)}
+.step-head .right{display:flex;align-items:center;gap:var(--sp-3);flex:none}
+.step-sub{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap}
+.step-sum{font-size:var(--fs-md);color:var(--c-text)}
+.tool{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:var(--fs-xs);color:var(--c-muted)}
+.tool code{font-family:var(--f-mono);font-size:12px;color:var(--c-text);background:var(--c-sunken);padding:1px 6px;border-radius:var(--r-sm);border:1px solid var(--c-line)}
+.step-sum strong{font-weight:600}
+.spinner{width:16px;height:16px;border-radius:50%;border:2.2px solid var(--c-run-line);border-top-color:var(--c-run);border-right-color:var(--c-run)}
+@media (prefers-reduced-motion:no-preference){.spinner{animation:spin 1s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}} @keyframes blink{50%{opacity:0}}
+
+/* progress */
+.progress{display:flex;align-items:center;gap:var(--sp-3)}
+.bar{flex:1;height:8px;border-radius:4px;background:var(--c-run-line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c-run);border-radius:4px}
+.progress .tab{font-size:var(--fs-sm);font-weight:500;white-space:nowrap}
+
+.live{display:flex;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);background:var(--c-surface);border:1px solid var(--c-run-line);border-radius:var(--r-md)}
+.live .who{font-size:var(--fs-xs);color:var(--c-run);font-weight:600;white-space:nowrap;padding-top:2px}
+.live p{font-size:var(--fs-md)}
+.caret{display:inline-block;width:7px;height:15px;background:var(--c-run);vertical-align:-2px;margin-left:2px}
+
+.findings{display:flex;flex-direction:column;border:1px solid var(--c-line);border-radius:var(--r-md);background:var(--c-surface)}
+.finding{display:flex;align-items:flex-start;gap:var(--sp-3);padding:10px var(--sp-4)}
+.finding + .finding{border-top:1px solid var(--c-line)}
+.finding .what{flex:1;min-width:0}
+.finding .what b{font-weight:600}
+.finding .what > span{display:block;font-size:var(--fs-sm);color:var(--c-muted)}
+.finding > .badge{margin-top:1px;width:136px}
+.acct > .badge{width:76px}
+.findings-h{display:flex;align-items:center;justify-content:space-between;font-size:var(--fs-sm);color:var(--c-muted)}
+.findings-h b{color:var(--c-text);font-weight:600}
+
+/* ---- approval ---- */
+.approval{border:1.5px solid var(--c-warn-line);border-radius:var(--r-lg);background:var(--c-surface);overflow:hidden}
+.approval-h{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-4);padding:var(--sp-4) var(--sp-5);background:var(--c-warn-bg);border-bottom:1px solid var(--c-warn-line)}
+.approval-h h2{font-size:var(--fs-lg);font-weight:600;line-height:1.35}
+.approval-h p{font-size:var(--fs-sm);color:var(--c-text);margin-top:2px}
+.facts{display:flex;border-bottom:1px solid var(--c-line)}
+.fact{flex:1;padding:var(--sp-3) var(--sp-5);display:flex;flex-direction:column;gap:2px}
+.fact + .fact{border-left:1px solid var(--c-line)}
+.fact dt{font-size:var(--fs-xs);color:var(--c-muted)}
+.fact dd{margin:0;font-size:var(--fs-md);font-weight:600}
+.fact dd > span{display:block;font-size:var(--fs-xs);font-weight:400;color:var(--c-muted)}
+.fact.total dd{font-size:var(--fs-xl);line-height:1.25;font-variant-numeric:tabular-nums}
+.callout{display:flex;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);border-radius:var(--r-md);border:1px solid}
+.callout .ic{margin-top:2px}
+.callout b{font-weight:600}
+.callout p{font-size:var(--fs-md)}
+.callout p + p{margin-top:2px}
+.callout[data-tone="warn"]{background:var(--c-warn-bg);border-color:var(--c-warn-line)}
+.callout[data-tone="warn"] > .ic{color:var(--c-warn)}
+.callout[data-tone="crit"]{background:var(--c-crit-bg);border-color:var(--c-crit-line)}
+.callout[data-tone="crit"] > .ic{color:var(--c-crit)}
+.callout[data-tone="info"]{background:var(--c-sunken);border-color:var(--c-line)}
+.callout[data-tone="info"] > .ic{color:var(--c-muted)}
+.pad{padding:var(--sp-4) var(--sp-5)}
+
+table{border-collapse:collapse;width:100%;font-size:var(--fs-md)}
+th{font-size:var(--fs-xs);font-weight:500;color:var(--c-muted);text-align:left;padding:8px var(--sp-3);border-bottom:1px solid var(--c-line);white-space:nowrap}
+td{padding:0 var(--sp-3);height:38px;border-bottom:1px solid var(--c-line);vertical-align:middle}
+th:first-child,td:first-child{padding-left:var(--sp-5)} th:last-child,td:last-child{padding-right:var(--sp-5)}
+tr.flagged td{background:var(--c-warn-bg)}
+tfoot td{font-weight:600;border-bottom:0;height:46px}
+.vendor{display:flex;align-items:center;gap:var(--sp-2)}
+.vendor .badge{margin-left:var(--sp-1)}
+.inv{font-variant-numeric:tabular-nums;color:var(--c-muted)}
+
+.terms{display:flex;flex-direction:column;gap:var(--sp-2);padding:var(--sp-4) var(--sp-5);border-top:1px solid var(--c-line);background:var(--c-sunken)}
+.term{display:flex;gap:var(--sp-3);font-size:var(--fs-sm);align-items:flex-start}
+.term .ic{color:var(--c-muted);margin-top:1px;width:16px;height:16px}
+.term b{font-weight:600}
+.decide{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4) var(--sp-5) var(--sp-5);border-top:1px solid var(--c-line)}
+.choice p b{font-weight:600}
+.decide-row{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap}
+.decide-row .spacer{flex:1}
+.decide-note{font-size:var(--fs-xs);color:var(--c-muted)}
+.decide-note b{color:var(--c-text);font-weight:500}
+.decide-h{font-size:var(--fs-md);font-weight:600}
+.approval-step{display:flex;align-items:center;gap:6px;font-size:var(--fs-xs);color:var(--c-muted);margin-bottom:2px}
+
+/* ---- error choices ---- */
+.acct-list{display:flex;flex-direction:column;border:1px solid var(--c-line);border-radius:var(--r-md);background:var(--c-surface)}
+.acct{display:flex;align-items:center;gap:var(--sp-3);padding:10px var(--sp-4)}
+.acct + .acct{border-top:1px solid var(--c-line)}
+.acct .what{flex:1;min-width:0}
+.acct .what b{font-weight:600}
+.acct .what > span{display:block;font-size:var(--fs-sm);color:var(--c-muted)}
+.choices{display:flex;flex-direction:column;gap:var(--sp-3)}
+.choice{display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3) var(--sp-4);border:1px solid var(--c-line);border-radius:var(--r-md);background:var(--c-surface)}
+.choice .btn{width:300px;flex:none}
+.choice p{font-size:var(--fs-sm);color:var(--c-text);flex:1}
+.choice.rec{border-color:var(--c-brand);box-shadow:inset 0 0 0 1px var(--c-brand)}
+.subtle{font-size:var(--fs-sm);color:var(--c-muted)}
+
+/* ---- rail ---- */
+.rail-sec{padding:var(--sp-4) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3)}
+.rail-sec + .rail-sec{border-top:1px solid var(--c-line)}
+.rail-sec h3{font-size:var(--fs-sm);font-weight:600}
+dl.kv{display:flex;flex-direction:column;gap:6px;margin:0;font-size:var(--fs-sm)}
+dl.kv > div{display:flex;justify-content:space-between;gap:var(--sp-3)}
+dl.kv dt{color:var(--c-muted)}
+dl.kv dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.rules{display:flex;flex-direction:column;gap:var(--sp-2);font-size:var(--fs-sm)}
+.rules li{display:flex;gap:var(--sp-2);align-items:flex-start}
+.rules .ic{margin-top:2px;width:16px;height:16px;color:var(--c-muted)}
+.rules li.money .ic{color:var(--c-warn)}
+.log{display:flex;flex-direction:column;font-size:var(--fs-sm)}
+.log li{display:flex;gap:var(--sp-3);padding:6px 0;align-items:baseline}
+.log li + li{border-top:1px dashed var(--c-line)}
+.log .t{width:58px;flex:none;color:var(--c-muted);font-variant-numeric:tabular-nums;font-size:var(--fs-xs)}
+.log .e{flex:1;min-width:0}
+.log .e code{font-family:var(--f-mono);font-size:12px}
+.log .d{color:var(--c-muted);font-size:var(--fs-xs);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* ---- result ---- */
+.outcome{display:flex;flex-direction:column;background:var(--c-surface);border:1px solid var(--c-line);border-radius:var(--r-lg);overflow:hidden}
+.outcome-main{display:flex;gap:var(--sp-5);padding:var(--sp-5)}
+.outcome-main .big{display:flex;flex-direction:column;gap:4px;flex:1}
+.outcome-main h2{font-size:var(--fs-xl);font-weight:600;line-height:1.3}
+.outcome-main p{font-size:var(--fs-md);color:var(--c-text)}
+.outcome-stats{display:flex;border-top:1px solid var(--c-line)}
+.ostat{flex:1;padding:var(--sp-3) var(--sp-5);display:flex;flex-direction:column;gap:2px}
+.ostat + .ostat{border-left:1px solid var(--c-line)}
+.ostat dt{font-size:var(--fs-xs);color:var(--c-muted)}
+.ostat dd{margin:0;font-size:var(--fs-2xl);font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:var(--sp-2)}
+.ostat dd small{font-size:var(--fs-sm);font-weight:400;color:var(--c-muted)}
+.ostat dd .ic{width:20px;height:20px}
+.outcome-foot{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-5);border-top:1px solid var(--c-line);background:var(--c-sunken);font-size:var(--fs-sm)}
+.outcome-foot .spacer{flex:1}
+.todo-list{display:flex;flex-direction:column}
+.todo{display:flex;gap:var(--sp-4);padding:var(--sp-4) var(--sp-5);align-items:flex-start}
+.todo + .todo{border-top:1px solid var(--c-line)}
+.todo .kind{width:148px;flex:none;padding-top:1px}
+.todo .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.todo .body b{font-weight:600}
+.todo .body .detail{font-size:var(--fs-sm);color:var(--c-text)}
+.todo .body .sugg{font-size:var(--fs-sm);color:var(--c-muted)}
+.todo .acts{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:212px;flex:none}
+.todo .acts .btn{width:100%}
+.todo.held{background:var(--c-warn-bg)}
+.kind .badge[data-s="waiting"],.badge[data-s="flag"],.badge[data-s="held"]{background:#fff4d6}
+.compact-steps .step{padding:10px var(--sp-5)}
+.compact-steps .marker{width:22px;height:22px}
+.compact-steps .marker .ic{width:13px;height:13px}
+.compact-steps .step-head{min-height:22px}
+.compact-steps .step-head h3{font-weight:500}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="nav" aria-label="Main">
+    <div class="nav-top">
+      <div class="brand"><span class="brand-mark"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 13c-3 0-5-2-6-5 3 0 5 1.5 6 4"/><path d="M12 11c3 0 5-2 6-5-3 0-5 1.5-6 4"/><path d="M12 16c-2.5 0-4.2-1.3-5-3.5 2.5 0 4 1 5 3"/><path d="M12 15c2.5 0 4.2-1.3 5-3.5-2.5 0-4 1-5 3"/></svg></span>Fernhill</div>
+      <div class="company"><span>Company</span><b>Larkspur Outdoor Co.</b></div>
+      <ul>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>Home</a></li>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 12h7M9 16h7"/></svg>Bills</a></li>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Invoices</a></li>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5"/><path d="M4 21h16"/><path d="M6 10v8M10 10v8M14 10v8M18 10v8"/></svg>Banking</a></li>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18v12H3z"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>Payments</a></li>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-5M12 16V8M16 16v-3"/></svg>Reports</a></li>
+        <li><a href="#"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="m8 12 3 3 5-6"/></svg>Close</a></li>
+        <li><a href="#" aria-current="page"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 13c-3 0-5-2-6-5 3 0 5 1.5 6 4"/><path d="M12 11c3 0 5-2 6-5-3 0-5 1.5-6 4"/><path d="M12 16c-2.5 0-4.2-1.3-5-3.5 2.5 0 4 1 5 3"/><path d="M12 15c2.5 0 4.2-1.3 5-3.5-2.5 0-4 1-5 3"/></svg>Assistant</a></li>
+      </ul>
+    </div>
+    <div class="nav-user"><span class="avatar">DW</span><div><b>Dana Whitlock</b><span>Controller</span></div></div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="crumbs"><span>Assistant</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg><span>Runs</span><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg><b>Reconcile August vendor invoices</b></div>
+      <span class="tab">Mon 28 Sep 2026</span>
+    </header>
+    <main class="page">
+
+      <section class="run-head" aria-label="Run">
+        <div class="run-title-row">
+          <div class="run-title">
+            <div class="eyebrow"><span class="ai-mark"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9"/><path d="M12 13c-3 0-5-2-6-5 3 0 5 1.5 6 4"/><path d="M12 11c3 0 5-2 6-5-3 0-5 1.5-6 4"/><path d="M12 16c-2.5 0-4.2-1.3-5-3.5 2.5 0 4 1 5 3"/><path d="M12 15c2.5 0 4.2-1.3 5-3.5-2.5 0-4 1-5 3"/></svg></span>Fernhill Assistant run</div>
+            <h1>Reconcile August vendor invoices and prepare payments due by 30 Sep</h1>
+          </div>
+        </div>
+        <div class="request">
+          <span class="avatar">DW</span>
+          <p><span class="meta">Dana Whitlock asked · Mon 28 Sep 2026, 09:58</span>“Reconcile August vendor invoices against the bank feed, flag anything that doesn’t match, and prepare payments for everything due by Sep 30.”</p>
+        </div>
+        
+        <div class="statusbar" data-tone="crit" role="status">
+          <div class="sb-main"><span class="sb-icon"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span><div class="sb-text"><b>Paused: card transactions couldn’t be pulled (step 2 of 5)</b><span>Operating ••4417 is done. Card ••0385 failed twice. Choose how to continue. Nothing has been matched or paid.</span></div></div>
+          <div class="sb-actions"></div>
+        </div>
+      </section>
+      <div class="cols">
+        <div class="col-main">
+          <section class="card" aria-label="Plan">
+            <div class="card-h"><h2>Plan · 5 steps</h2><span class="aside">1 done · 1 failed · 3 waiting</span></div>
+            <ol class="steps">
+          <li class="step" data-s="done">
+            <span class="marker" aria-hidden="true"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+            <div class="step-body">
+              <div class="step-head"><h3><span class="sr">Step 1. </span>Collect August vendor invoices from Bills</h3><div class="right"><span class="perm"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Read only</span><span class="badge" data-s="done"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Done</span></div></div>
+              <div class="step-sub"><span class="step-sum">49 invoices to reconcile</span><span class="tool">Tool <code>bills.list</code></span></div>
+            </div>
+          </li>
+          <li class="step" data-s="failed">
+            <span class="marker" aria-hidden="true"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+            <div class="step-body">
+              <div class="step-head"><h3><span class="sr">Step 2. </span>Pull bank transactions, 1 Aug – 27 Sep, for Operating ••4417 and Card ••0385</h3><div class="right"><span class="perm"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Read only</span><span class="badge" data-s="failed"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Failed</span></div></div>
+              
+              <ul class="acct-list">
+                <li class="acct"><span class="badge" data-s="done"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Pulled</span><div class="what"><b>Operating ••4417</b><span><span class="tab">211</span> transactions, 1 Aug – 27 Sep</span></div></li>
+                <li class="acct"><span class="badge" data-s="failed"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>Failed</span><div class="what"><b>Card ••0385 · Meridian Coast Bank</b><span>No transactions pulled. Last successful sync: 27 Sep, 23:10</span></div></li>
+              </ul>
+              <div class="callout" data-tone="crit"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5"/><path d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M12 17v4"/></svg><div>
+                <p><b>Meridian Coast Bank didn’t respond, so card transactions couldn’t be pulled.</b></p>
+                <p>The connection timed out after 30 s at 10:00:31. The assistant retried once automatically; the retry failed at 10:00:47 (the bank returned HTTP 504, gateway timeout).</p>
+                <div class="step-sub" style="margin-top:6px"><span class="tool">Tool <code>bank_feed.fetch</code> · Card ••0385 · 2 attempts</span></div>
+              </div></div>
+              <div class="findings-h" style="margin-top:4px"><span><b>How do you want to continue?</b></span></div>
+              <div class="choices">
+                <div class="choice rec"><button class="btn primary"><svg class="ic sm" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v5h-5"/></svg>Retry now</button><p>Try Meridian Coast Bank again. If it answers, the run carries on to step 3 with both accounts.</p></div>
+                <div class="choice"><button class="btn">Continue without card transactions</button><p>Match using Operating ••4417 only. The <b>12 invoices paid by card</b> will be marked “unverified” in the reconciliation.</p></div>
+                <div class="choice"><button class="btn danger"><svg class="ic sm" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10H7z"/></svg>Stop the run</button><p>End here. Steps 3–5 will not run and no payment batch is drafted.</p></div>
+              </div>
+            </div>
+          </li>
+          <li class="step" data-s="todo">
+            <span class="marker" aria-hidden="true">3</span>
+            <div class="step-body">
+              <div class="step-head"><h3><span class="sr">Step 3. </span>Match invoices to transactions and flag mismatches</h3><div class="right"><span class="perm"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Read only</span><span class="badge" data-s="paused"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6v12M15 6v12"/></svg>Waiting</span></div></div>
+              
+            </div>
+          </li>
+          <li class="step" data-s="todo">
+            <span class="marker" aria-hidden="true">4</span>
+            <div class="step-body">
+              <div class="step-head"><h3><span class="sr">Step 4. </span>Draft a payment batch for unpaid invoices due by 30 Sep</h3><div class="right"><span class="perm" data-k="money"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h12v9H6z"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg>Needs your approval</span><span class="badge" data-s="paused"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6v12M15 6v12"/></svg>Waiting</span></div></div>
+              
+            </div>
+          </li>
+          <li class="step" data-s="todo">
+            <span class="marker" aria-hidden="true">5</span>
+            <div class="step-body">
+              <div class="step-head"><h3><span class="sr">Step 5. </span>Write a reconciliation summary and attach it to the August close checklist</h3><div class="right"><span class="perm"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Read only</span><span class="badge" data-s="paused"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6v12M15 6v12"/></svg>Waiting</span></div></div>
+              
+            </div>
+          </li>
+            </ol>
+          </section>
+        </div>
+
+        <aside class="col-rail" aria-label="Run details">
+          <div class="card">
+            <div class="rail-sec">
+              <h3>Run details</h3>
+              <dl class="kv"><div><dt>Status</dt><dd>Needs your decision</dd></div><div><dt>Paused at</dt><dd>10:00:47</dd></div><div><dt>Accounts</dt><dd>Operating ••4417, Card ••0385</dd></div><div><dt>Approvals</dt><dd>None yet</dd></div></dl>
+            </div>
+            
+            <div class="rail-sec">
+              <h3>What the assistant may do</h3>
+              <ul class="rules">
+                <li><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg><span>Reads bills and bank transactions on its own.</span></li>
+                <li class="money"><svg class="ic " viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h12v9H6z"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg><span><b>Anything that moves money waits for your approval.</b></span></li>
+              </ul>
+            </div>
+            <div class="rail-sec">
+              <h3>Activity log</h3>
+              <ul class="log"><li><span class="t"></span><span class="e"><code>bills.list</code> · done</span><span class="d"></span></li><li><span class="t"></span><span class="e"><code>bank_feed.fetch</code> Operating ••4417 · 211 transactions</span><span class="d"></span></li><li><span class="t">10:00:31</span><span class="e"><code>bank_feed.fetch</code> Card ••0385 · timed out after 30 s</span><span class="d"></span></li><li><span class="t">10:00:47</span><span class="e">Automatic retry failed · HTTP 504</span><span class="d"></span></li></ul>
+              
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

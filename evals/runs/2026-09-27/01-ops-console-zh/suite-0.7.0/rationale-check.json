@@ -1,0 +1,83 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "suite-0.7.0",
+  "checked": "2026-09-27",
+  "method": "judging.md section 10: claims from the arm's own notes checked against render/*.png (canonical renders) and facts.json; no scoring, no comparison with other arms",
+  "sources": [
+    "out/NOTES.md (no out/rationale.md; no other notes in out/)",
+    "feedback/*.md (3 skill-feedback notes about process, read for context; their one visual claim, 13px table text, cannot be measured from renders or facts)"
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 1,
+    "not_checkable": 0
+  },
+  "summary": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "claims": [
+    {
+      "claim": "强调色选深青 #0b6b7a（不用组件库默认蓝）",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: primary 添加处理记录 button samples rgb(11,107,122) = #0b6b7a; the same teal is used for links, active nav and selected rows on render/list-01.png"
+    },
+    {
+      "claim": "SLA 列按语义分级：已超时＝红色 + 警示三角 + 加粗；剩余不足 1 小时（响应剩 35分）＝琥珀色 + 时钟；正常剩余＝正文色 + 时钟；计时暂停＝灰色 + 暂停图标；按时修复＝绿色 + 对勾；「超时 20分修复」（已关闭）＝灰色 + 警示三角",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: 0402/0371 red bold with triangle; 0409 amber with clock; 0413/0398 body colour with clock; 0380 grey with pause icon; 按时修复 green with check; 0359 超时 20分修复 grey with triangle"
+    },
+    {
+      "claim": "优先级：P1 为实心红底白字，P2 琥珀浅底，P3 灰浅底，P4 仅描边",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: P1 on 0413 solid red with white text; P2 amber tint rgb(255,243,220); P3 fill samples rgb(247,249,249) against P4 pure white. The P3 fill is so faint that P3 and P4 look alike at 1x."
+    },
+    {
+      "claim": "快捷视图中「已超时 4」用红底计数 + 警示图标、「待派单 7」用琥珀计数",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: 已超时 count is a red pill with triangle and 4; 待派单 7 on amber tint"
+    },
+    {
+      "claim": "批量操作栏替换表格工具条的左半部分（已选 2 项 · 批量派单 · 批量修改优先级 · 导出所选 · 取消选择），右侧保留总数和「列设置」；「导出全部」「新建工单」放在页头；表头复选框在选中 2 行时显示为「部分选中」",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: left of toolbar 已选 2 项 / 批量派单 / 批量修改优先级 / 导出所选 / 取消选择; right 共 1,286 条 · 按创建时间倒序 + 列设置; 导出全部 and 新建工单 in the page header; header checkbox shows the indeterminate dash"
+    },
+    {
+      "claim": "空状态：筛选控件和「已筛选」标签都显示三条已生效条件；空状态说明是「无结果」而非「无数据」，给出「清除全部筛选」和「只移除『负责人』条件」两个下一步；快捷视图计数保持不变",
+      "verdict": "verified",
+      "evidence": "render/list-empty-01.png: 状态 待验收 / 厂区/产线 二厂 / 负责人 王建国 highlighted, 已筛选 chips with ×; heading 没有符合筛选条件的工单 and text naming the three conditions; buttons 清除全部筛选 (primary) and 只移除「负责人」条件; tabs still show 1,286 / 23 / 7 / 4 / 12"
+    },
+    {
+      "claim": "出错：……出错时计数显示为「—」；错误说明包含 HTTP 502、请求编号 7f3a-91c2-0d44、时间 09:42:17，主要操作「重试」，次要操作「复制请求编号」，并说明筛选条件已保留",
+      "verdict": "verified",
+      "evidence": "render/list-error-01.png: every tab count reads —; text 服务器暂时没有响应（HTTP 502）… 筛选条件已保留; primary 重试; strip with 请求编号 7f3a-91c2-0d44, 时间 09:42:17, 复制请求编号. The screen-reader label 数量未能加载 is not checkable."
+    },
+    {
+      "claim": "详情页「更多」里的打印工单、复制链接、关闭工单直接平铺在操作区右侧（用分隔线与主操作分开，关闭工单用红色文字）；详情页主操作定为「添加处理记录」；其余为次要按钮",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: 打印工单, 复制链接, 关闭工单 (red, with a no-entry icon) to the right of a vertical divider; 添加处理记录 is the only solid teal button, 申请备件 / 转派 / 挂起 / 提交验收 outlined"
+    },
+    {
+      "claim": "详情页把「处理记录」放在 SLA 之后、实时读数之前",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: SLA card, then 处理记录; 实时读数 and the trend chart start on render/detail-02.png"
+    },
+    {
+      "claim": "趋势图：单条折线 + 55 °C 阈值虚线 + 09:12 建单竖线；超过阈值的点标红；图下方附 13 个点的数据表",
+      "verdict": "verified",
+      "evidence": "render/detail-02.png: dashed 阈值 55 °C line, dotted vertical line 09:12 自动建单, points from 08:50 on are red, and a 13-column 时间 / °C table (07:40 … 09:40, values above 55 in red). Hover values are not checkable."
+    },
+    {
+      "claim": "未完成且已超时的行（0402、0371）整行加浅红底；已关闭/已挂起工单的 P1 徽标改为红色描边（不再实心）",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: row 0371 background samples rgb(255,247,246) while normal rows are white; row 0402 is one of the two selected rows and shows the teal selection tint instead of red. P1 on 0380 (已挂起) and on 0340 (已关闭, render/list-02.png) are red outline on white; P1 on the open ticket 0413 is solid."
+    },
+    {
+      "claim": "对比度用脚本计算：正文 #1d2527 与各底色 ≥ 13:1，次要文字 #536266 ≥ 5.5:1，强调色/危险色/警告色/成功色文字在白底和对应浅底上均 ≥ 4.5:1；最浅的灰 #657578 只用在白底上（4.81:1）",
+      "verdict": "contradicted",
+      "evidence": "facts.json list.html: 4.07:1 (needs 4.5) span.none \"—\" #657578 on #e0eff1, 13px, so #657578 is also used on a tinted (selected-row) background, where it fails AA. Colours the claim does not mention also fail: breadcrumb separator \"/\" #8a979a on #f3f5f6 at 2.75:1 on all five pages, and \"·\" #8a979a on #ffffff at 3.01:1 twice on detail.html. Total failures: list 2, list-empty 1, list-loading 1, list-error 1, detail 4."
+    }
+  ],
+  "notes": [
+    "Also verified but not listed: pagination 共 1,286 条, pages up to 86 (render/list-02.png); 派单 comes first in row actions for 0402, before 查看; keyword placeholder reads 工单号、标题、设备; masked phone 138****2716; breadcrumb 工单管理 / 工单列表 / GD-20260927-0413 with 工单列表 still active in the sidebar; photo placeholders with captions; repair SLA bar at about 12.5%; the header select-all checkbox is drawn greyed out on the empty and error screens.",
+    "Not checkable from renders or facts: 13px table body text and a 12px minimum (facts.json records no font sizes except in failure examples, all 13px); DIN Alternate / Bahnschrift on large figures; 尊重「减少动态效果」设置; the screen-reader text; the confirmation dialog for 关闭工单.",
+    "The contradicted claim is about contrast only; facts.json shows 0 targets under 24 px on every page."
+  ]
+}

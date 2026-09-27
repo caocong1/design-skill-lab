@@ -1,0 +1,127 @@
+/* Dogear - shared tokens and frame for the iPhone 17 Pro mockups (402 x 874 pt, 1 CSS px = 1 pt).
+ * Bars, buttons in bars and the tab bar mark where iOS 26 system components go; the platform draws
+ * the Liquid Glass material. Colours were checked with color_tools.py (see NOTES.md). */
+
+:root {
+  /* colour roles */
+  --bg: #F2F2F7;            /* systemGroupedBackground */
+  --surface: #FFFFFF;       /* secondarySystemGroupedBackground */
+  --fill: #E9E9EE;          /* gray capsule buttons, tracks */
+  --separator: #D8D8DD;
+  --label: #000000;
+  --label-2: #3C3C43;       /* 10.9:1 on white */
+  --label-3: #636366;       /* 6.0:1 on white, 5.4:1 on --bg: the lightest text colour used */
+  --tint: #1D6B5A;          /* "bookcloth green": 6.4:1 on white, 5.7:1 on --bg */
+  --tint-soft: #E1EEEA;     /* ring track, soft fills */
+  --tint-mid: #8FBFB2;      /* bars under the goal (non-text, value printed above) */
+  --on-tint: #FFFFFF;       /* 6.4:1 on --tint */
+
+  /* covers: designed placeholders, cloth colours */
+  --cover-middlemarch: #6E2B2B;
+  --cover-walden: #8A6A2E;
+  --cover-pillow: #2C3A63;
+  --cover-ink: #F3E6C8;
+
+  /* type (iOS Dynamic Type, default "Large" size) */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, sans-serif;
+  --font-serif: "New York", ui-serif, "Iowan Old Style", Georgia, serif;
+
+  /* space and shape */
+  --margin: 16px;           /* layout margin on a 402 pt phone (iOS 26 inset grouped) */
+  --r-card: 22px;
+  --r-cover: 4px;
+  --target: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 402px; height: 874px; overflow: hidden; background: var(--bg); }
+body { font-family: var(--font); color: var(--label); -webkit-font-smoothing: antialiased; font-size: 17px; line-height: 22px; }
+
+.screen { position: relative; width: 402px; height: 874px; overflow: hidden; background: var(--bg); }
+
+/* ---- type styles ---- */
+.t-large  { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.4px; }
+.t-title1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: 0.38px; }
+.t-title2 { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.26px; }
+.t-title3 { font-size: 20px; line-height: 25px; font-weight: 600; letter-spacing: -0.45px; }
+.t-head   { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; }
+.t-body   { font-size: 17px; line-height: 22px; letter-spacing: -0.43px; }
+.t-sub    { font-size: 15px; line-height: 20px; letter-spacing: -0.23px; }
+.t-foot   { font-size: 13px; line-height: 18px; letter-spacing: -0.08px; }
+.t-cap    { font-size: 12px; line-height: 16px; }
+.t-cap2   { font-size: 11px; line-height: 13px; letter-spacing: 0.06px; }
+.serif    { font-family: var(--font-serif); }
+.muted    { color: var(--label-3); }
+.num      { font-variant-numeric: tabular-nums; }
+
+/* ---- status bar + Dynamic Island (system, drawn for layout review) ---- */
+.statusbar { position: absolute; z-index: 50; top: 0; left: 0; right: 0; height: 62px; pointer-events: none; }
+.statusbar .time { position: absolute; left: 0; width: 138px; top: 20px; text-align: center; padding-left: 8px;
+  font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.4px; }
+.statusbar .icons { position: absolute; right: 0; width: 138px; top: 20px; height: 22px; padding-right: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 6px; }
+.island { position: absolute; z-index: 51; top: 11px; left: 138px; width: 126px; height: 37px; border-radius: 19px; background: #000; }
+
+/* ---- home indicator (system) ---- */
+.home-indicator { position: absolute; z-index: 50; left: 131px; bottom: 8px; width: 140px; height: 5px; border-radius: 3px; background: #000; }
+
+/* ---- scroll region ---- */
+.scroll { position: absolute; inset: 0; overflow: hidden; }
+.content { padding: 62px var(--margin) 140px; display: flex; flex-direction: column; }
+
+/* nav bar row (inside the 54 pt below the status bar) */
+.navrow { height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.navrow .spacer { flex: 1; }
+.largetitle { padding: 2px 4px 0; }
+.largetitle .subtitle { margin-top: 1px; }
+
+/* ---- glass controls: position and content only; iOS 26 draws the material ---- */
+.glass {
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(14px) saturate(170%); backdrop-filter: blur(14px) saturate(170%);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.07), 0 6px 20px rgba(0, 0, 0, 0.09), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.glass-btn { width: var(--target); height: var(--target); border-radius: 22px; display: flex; align-items: center; justify-content: center; color: var(--label); }
+.glass-btn svg { width: 22px; height: 22px; }
+
+/* scroll-edge effect under the floating tab bar: content fades into the background before it
+   reaches the glass, so tab labels always sit on a near-solid --bg */
+.edge-bottom { position: absolute; z-index: 20; left: 0; right: 0; bottom: 0; height: 124px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(242, 242, 247, 0) 0%, rgba(242, 242, 247, 0.88) 42%, rgba(242, 242, 247, 1) 62%); }
+
+/* ---- tab bar (iOS 26: floating capsule, Search as a separate circle) ---- */
+.tabbar { position: absolute; z-index: 30; left: 16px; right: 16px; bottom: 38px; height: 62px; display: flex; gap: 10px; }
+.tabs { flex: 1; height: 62px; border-radius: 31px; display: flex; align-items: stretch; padding: 4px; }
+.tab { flex: 1; border-radius: 27px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  color: var(--label); font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: 0.1px; }
+.tab svg { width: 26px; height: 26px; }
+.tab[aria-current="page"] { color: var(--tint); background: rgba(0, 0, 0, 0.055); }
+.tab-search { width: 62px; height: 62px; border-radius: 31px; display: flex; align-items: center; justify-content: center; color: var(--label); flex: none; }
+.tab-search svg { width: 26px; height: 26px; }
+
+/* ---- surfaces ---- */
+.card { background: var(--surface); border-radius: var(--r-card); }
+.section-h { display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px; margin: 20px 0 8px; }
+
+/* ---- buttons ---- */
+.btn { height: 50px; border-radius: 25px; display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; white-space: nowrap; padding: 0 20px; }
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn-prominent { background: var(--tint); color: var(--on-tint); }
+.btn-gray { background: var(--fill); color: var(--tint); }
+.btn-plain { height: 44px; color: var(--tint); background: none; }
+
+/* ---- book cover (designed placeholder) with the dog-ear fold ---- */
+.cover { position: relative; flex: none; border-radius: var(--r-cover); background: var(--c); color: var(--cover-ink);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18), inset 3px 0 0 rgba(0, 0, 0, 0.16); overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.cover .frame { position: absolute; inset: 7%; border: 1px solid rgba(243, 230, 200, 0.55); border-radius: 2px; }
+.cover .ct { font-family: var(--font-serif); font-weight: 600; }
+.cover .ca { font-family: var(--font-serif); opacity: 0.85; }
+.cover .fold { position: absolute; top: 0; right: 0; width: var(--f); height: var(--f); }
+.cover .fold .cut { fill: var(--under); }
+.cover .fold .flap { fill: #EFE3C6; }
+
+/* ---- progress ---- */
+.bar { height: 6px; border-radius: 3px; background: var(--fill); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 3px; background: var(--tint); }

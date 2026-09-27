@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en" data-screen="today" data-state="empty-first">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=402, initial-scale=1">
+<title>Dogear · Today (first run)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=swap" rel="stylesheet">
+<style>
+/* Dogear · shared tokens and iOS 26 chrome (mockup). 1 CSS px = 1 pt. */
+:root {
+  /* colour roles (light) */
+  --bg: #F4F1EC;            /* grouped background, warm paper */
+  --card: #FFFFFF;          /* secondary grouped background */
+  --fill: #EFEBE5;          /* tertiary fill: secondary buttons, tracks */
+  --label: #1D1B18;
+  --label-2: #6B6660;       /* 5.05:1 on --bg, 5.68:1 on --card */
+  --sep: rgb(60 48 36 / 0.14);
+  --accent: #A63A1C;        /* binding red: 6.47:1 white on it */
+  --on-accent: #FFFFFF;
+  --accent-soft: #F6E7E0;   /* accent text on it 5.37:1 */
+  --bar-under: #B97C66;     /* dashed placeholder stroke */
+  --bar-met: #B97C66;       /* week bars at or over goal: 3.42:1 on white */
+  --bar-short: #D9CFC4;     /* week bars under goal (values are labelled in text) */
+  --glass-fill: rgb(250 250 252 / 0.8);
+  --glass-rim: rgb(0 0 0 / 0.08);
+  --glass-hi: rgb(255 255 255 / 0.9);
+  --glass-shadow: rgb(0 0 0 / 0.14);
+  /* covers */
+  --cover-middlemarch: #2F4A3A; --cover-walden: #3A5566; --cover-pillow: #5B3550; --cover-ink: #F5EBDD;
+  /* spacing (4-pt scale) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+  --margin: 16px;
+  /* radii: cards concentric-ish with the 56-pt screen corner, capsules for controls */
+  --r-card: 26px; --r-inner: 14px; --r-cover: 4px;
+  /* type */
+  --sf: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  --serif: "New York", "Newsreader", Georgia, serif;   /* New York on device; Newsreader (OFL) stands in on the web render */
+  /* chrome (approximations, see NOTES.md) */
+  --safe-top: 62px; --safe-bottom: 34px; --toolbar-h: 44px;
+  --tab-h: 62px; --tab-inset: 21px; --tab-bottom: 21px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 402px; height: 874px; overflow: hidden; background: var(--bg); }
+body { font-family: var(--sf); color: var(--label); -webkit-font-smoothing: antialiased; font-size: 17px; line-height: 22px; letter-spacing: -0.43px; }
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button { font: inherit; color: inherit; letter-spacing: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+svg.i { width: 22px; height: 22px; flex: none; fill: currentColor; }
+
+/* ---- type styles (Dynamic Type, Large) ---- */
+.t-large  { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.4px; }
+.t-title2 { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.26px; }
+.t-title3 { font-size: 20px; line-height: 25px; font-weight: 600; letter-spacing: -0.45px; }
+.t-head   { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; }
+.t-body   { font-size: 17px; line-height: 22px; letter-spacing: -0.43px; }
+.t-callout{ font-size: 16px; line-height: 21px; letter-spacing: -0.31px; }
+.t-sub    { font-size: 15px; line-height: 20px; letter-spacing: -0.23px; }
+.t-foot   { font-size: 13px; line-height: 18px; letter-spacing: -0.08px; }
+.t-cap    { font-size: 12px; line-height: 16px; letter-spacing: 0; }
+.muted { color: var(--label-2); }
+.num { font-variant-numeric: tabular-nums; }
+.serif { font-family: var(--serif); letter-spacing: 0; }
+
+/* ---- scaffold ---- */
+.screen { position: absolute; inset: 0; overflow: hidden; }
+.scroll { position: absolute; inset: 0; overflow: hidden; padding: calc(var(--safe-top) + var(--toolbar-h)) 0 calc(var(--tab-bottom) + var(--tab-h) + 24px); }
+
+/* status bar + island + home indicator (system) */
+.status { position: absolute; z-index: 20; inset: 0 0 auto; height: var(--safe-top); display: flex; align-items: center; justify-content: space-between; padding: 0 32px 0 50px; font-size: 17px; font-weight: 600; letter-spacing: -0.4px; pointer-events: none; }
+.status .icons { display: flex; align-items: center; gap: 6px; }
+.island { position: absolute; z-index: 21; top: 11px; left: 50%; transform: translateX(-50%); width: 124px; height: 36px; border-radius: 18px; background: #000; }
+.home { position: absolute; z-index: 20; left: 0; right: 0; bottom: 0; height: var(--safe-bottom); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; pointer-events: none; }
+.home span { width: 140px; height: 5px; border-radius: 3px; background: #000; }
+
+/* Liquid Glass (regular) approximation: functional layer only */
+.glass { background: var(--glass-fill); -webkit-backdrop-filter: blur(14px) saturate(1.8); backdrop-filter: blur(14px) saturate(1.8);
+  box-shadow: inset 0 0 0 0.5px var(--glass-rim), inset 0 1px 0 var(--glass-hi), 0 8px 24px -8px var(--glass-shadow); }
+
+/* toolbar (navigation bar) */
+.toolbar { position: absolute; z-index: 10; top: var(--safe-top); left: 0; right: 0; height: var(--toolbar-h); padding: 0 16px; display: flex; align-items: center; gap: 8px; }
+.toolbar .spacer { flex: 1; }
+.tb-btn { width: 44px; height: 44px; border-radius: 22px; display: grid; place-items: center; color: var(--label); }
+.tb-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+/* scroll-edge effect under the tab bar (system draws it) */
+.edge-bottom { position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; height: 104px; pointer-events: none;
+  background: linear-gradient(rgb(244 241 236 / 0), rgb(244 241 236 / 0.92) 55%, rgb(244 241 236 / 0.97)); }
+
+/* floating tab bar + separate search tab (system component) */
+.tabbar { position: absolute; z-index: 12; left: var(--tab-inset); right: var(--tab-inset); bottom: var(--tab-bottom); display: flex; gap: 10px; }
+.tabs { flex: 1; height: var(--tab-h); border-radius: 31px; display: flex; align-items: center; padding: 0 6px; }
+.tab { flex: 1; height: 54px; border-radius: 27px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: 0.1px; color: var(--label); text-decoration: none; }
+.tab svg { width: 26px; height: 26px; fill: currentColor; }
+.tab[aria-current] { color: var(--accent); background: rgb(0 0 0 / 0.06); }
+.search-tab { flex: none; width: var(--tab-h); height: var(--tab-h); border-radius: 50%; display: grid; place-items: center; color: var(--label); }
+.search-tab svg { width: 24px; height: 24px; fill: currentColor; }
+
+/* content layer */
+.head { padding: 0 var(--margin) 0 20px; }
+.card { background: var(--card); border-radius: var(--r-card); }
+.section-h { display: flex; align-items: baseline; justify-content: space-between; padding: 0 20px; margin-bottom: 10px; }
+.section-h a { color: var(--accent); text-decoration: none; }
+
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; height: 50px; border-radius: 25px; font-size: 17px; font-weight: 600; letter-spacing: -0.43px; }
+.btn svg { width: 20px; height: 20px; fill: currentColor; }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-tinted { background: var(--accent-soft); color: var(--accent); }
+.btn-gray { background: var(--fill); color: var(--label); }
+.btn-plain { color: var(--accent); }
+
+/* book cover placeholder (designed, not artwork) */
+.cover { position: relative; flex: none; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; color: var(--cover-ink); border-radius: var(--r-cover); box-shadow: 0 1px 2px rgb(0 0 0 / 0.18), 0 4px 10px -4px rgb(0 0 0 / 0.25); font-family: var(--serif); }
+.cover::before { content: ""; position: absolute; left: 5%; top: 0; bottom: 0; width: 1px; background: rgb(255 255 255 / 0.16); }
+.cover .ear { position: absolute; top: 0; right: 0; width: 28%; aspect-ratio: 1; background: linear-gradient(225deg, var(--ear-bg, var(--bg)) 50%, rgb(255 255 255 / 0.55) 50%, rgb(0 0 0 / 0.12)); }
+.cover[data-book="middlemarch"] { background: var(--cover-middlemarch); }
+.cover[data-book="walden"] { background: var(--cover-walden); }
+.cover[data-book="pillow"] { background: var(--cover-pillow); }
+
+.progress { height: 6px; border-radius: 3px; background: var(--fill); overflow: hidden; }
+.progress > span { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
+
+/* ---- Today, first run ---- */
+.today-head { padding: 0 20px 18px; }
+.today-head .date { margin-top: 2px; }
+.first { margin: 0 var(--margin); padding: 24px 20px 12px; display: flex; flex-direction: column; }
+.art { width: 132px; height: 88px; margin-bottom: 18px; }
+.first h2 { margin-bottom: 6px; }
+.first .lede { margin-bottom: 22px; }
+.first .btn + .btn { margin-top: 10px; }
+.first .btn-plain { height: 44px; margin-top: 6px; font-weight: 400; font-size: 17px; }
+
+.goal-set { margin: 24px var(--margin) 0; padding: 12px 12px 12px 20px; display: flex; align-items: center; gap: 12px; }
+.goal-set .txt { flex: 1; display: flex; flex-direction: column; }
+.stepper { display: flex; align-items: center; height: 36px; border-radius: 18px; background: var(--fill); }
+.stepper button { width: 48px; height: 36px; display: grid; place-items: center; color: var(--label); position: relative; }
+.stepper button::after { content: ""; position: absolute; inset: -4px 0; }
+.stepper button svg { width: 18px; height: 18px; }
+.stepper i { width: 1px; height: 18px; background: var(--sep); }
+.goal-note { margin: 8px 20px 0 36px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="chev-left" viewBox="0 0 24 24"><path d="M15.5 4 7.5 12l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="chev-right" viewBox="0 0 24 24"><path d="M9 5.5 15.5 12 9 18.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ellipsis" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.1"/><circle cx="12" cy="12" r="2.1"/><circle cx="19" cy="12" r="2.1"/></symbol>
+  <symbol id="bookmark-fill" viewBox="0 0 24 24"><path d="M6.5 2.5h11A1.5 1.5 0 0 1 19 4v17.2a.6.6 0 0 1-.95.49L12 17.3l-6.05 4.39A.6.6 0 0 1 5 21.2V4a1.5 1.5 0 0 1 1.5-1.5z"/></symbol>
+  <symbol id="books-fill" viewBox="0 0 24 24"><rect x="2" y="4" width="4.6" height="16.5" rx="1.1"/><rect x="7.8" y="2.5" width="4.6" height="18" rx="1.1"/><path d="M13.7 6.1l3.2-.86a1.1 1.1 0 0 1 1.35.78l3.5 13.1a1.1 1.1 0 0 1-.78 1.35l-3.2.86a1.1 1.1 0 0 1-1.35-.78l-3.5-13.1a1.1 1.1 0 0 1 .78-1.35z"/></symbol>
+  <symbol id="chart-fill" viewBox="0 0 24 24"><rect x="3" y="12" width="4.6" height="9" rx="1.2"/><rect x="9.7" y="7" width="4.6" height="14" rx="1.2"/><rect x="16.4" y="3" width="4.6" height="18" rx="1.2"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.6" fill="none" stroke="currentColor" stroke-width="2.3"/><path d="M15.4 15.4 20.5 20.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="play-fill" viewBox="0 0 24 24"><path d="M7 4.6v14.8a1.1 1.1 0 0 0 1.66.95l12.3-7.4a1.1 1.1 0 0 0 0-1.9L8.66 3.65A1.1 1.1 0 0 0 7 4.6z"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="page-plus" viewBox="0 0 24 24"><path d="M6.5 2.8h7.2L19 8.1v11.6a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19.7V4.3a1.5 1.5 0 0 1 1.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M12 10.5v6.5M8.75 13.75h6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="highlighter" viewBox="0 0 24 24"><path d="M15.2 3.6l5.2 5.2-8.9 8.9-2.9.4-2.7-2.7.4-2.9z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M5.9 15.4 3 20.5h5.2l1-1" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M13 21h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="barcode" viewBox="0 0 24 24"><path d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3H8M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5H16M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M7 7.5v9M9.6 7.5v9M12.9 7.5v9M14.6 7.5v9M17 7.5v9" stroke="currentColor" stroke-width="1.6"/><path d="M11.2 7.5v9" stroke="currentColor" stroke-width=".8"/></symbol>
+  <symbol id="tray-down" viewBox="0 0 24 24"><path d="M12 3v11M7.5 9.8 12 14.3l4.5-4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 13.5v4.5A2.5 2.5 0 0 0 6.5 20.5h11A2.5 2.5 0 0 0 20 18v-4.5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></symbol>
+  <symbol id="dogear" viewBox="0 0 24 24"><path d="M5 2.5h9.5L20 8v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 20V4a1.5 1.5 0 0 1 1-1.5z"/><path d="M14.5 2.5V7a1 1 0 0 0 1 1H20z" fill="#fff" fill-opacity=".55"/></symbol>
+  <symbol id="quote" viewBox="0 0 24 24"><path d="M4 11.5C4 7.9 6 5.4 9.3 4.6l.6 1.6C8 7 7.2 8.4 7.1 10H10v8H4zm10 0c0-3.6 2-6.1 5.3-6.9l.6 1.6C18 7 17.2 8.4 17.1 10H20v8h-6z"/></symbol>
+</svg>
+
+<div class="screen" data-component="TodayScreen" data-state="empty-first">
+
+  <main class="scroll" data-component="ScrollView">
+    <header class="today-head">
+      <h1 class="t-large">Today</h1>
+      <p class="t-sub muted date">Sunday 27 September</p>
+    </header>
+
+    <section class="card first" data-component="FirstBookCard" aria-labelledby="first-h">
+      <svg class="art" viewBox="0 0 132 88" role="img" aria-label="">
+        <!-- three spines on a shelf, the first one waiting -->
+        <rect x="6" y="84" width="120" height="3" rx="1.5" fill="var(--fill)"/>
+        <path d="M13 22h15l12 12v47a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3V25a3 3 0 0 1 3-3z" fill="var(--accent-soft)" stroke="var(--bar-under)" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M28 22v10a2 2 0 0 0 2 2h10z" fill="var(--bar-under)"/>
+        <path d="M25 46v14M18 53h14" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+        <g><path d="M49 10h20l7 7v64a3 3 0 0 1-3 3H49a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3z" fill="var(--cover-middlemarch)"/><path d="M69 10v5a2 2 0 0 0 2 2h5z" fill="#fff" fill-opacity=".6"/></g>
+        <g><path d="M83 18h16l7 7v56a3 3 0 0 1-3 3H83a3 3 0 0 1-3-3V21a3 3 0 0 1 3-3z" fill="var(--cover-walden)"/><path d="M99 18v5a2 2 0 0 0 2 2h5z" fill="#fff" fill-opacity=".6"/></g>
+        <g transform="rotate(-8 117 84)"><path d="M111 30h10l5 5v46a3 3 0 0 1-3 3h-12a3 3 0 0 1-3-3V33a3 3 0 0 1 3-3z" fill="var(--cover-pillow)"/><path d="M121 30v3.5a1.5 1.5 0 0 0 1.5 1.5H126z" fill="#fff" fill-opacity=".6"/></g>
+      </svg>
+      <h2 id="first-h" class="t-title2">Add your first book</h2>
+      <p class="lede t-sub muted">Your daily minutes, streak and the books you’re reading will show up here. Start with the book you’re reading now.</p>
+      <button class="btn btn-primary" data-component="ScanBarcodeButton"><svg class="i" aria-hidden="true"><use href="#barcode"/></svg>Scan Barcode</button>
+      <button class="btn btn-tinted"><svg class="i" aria-hidden="true"><use href="#search"/></svg>Search by Title</button>
+      <button class="btn btn-plain"><svg class="i" aria-hidden="true"><use href="#tray-down"/></svg>Import from a CSV File</button>
+    </section>
+
+    <section class="card goal-set" data-component="DailyGoalStepper" aria-label="Daily goal">
+      <div class="txt"><span class="t-head">Daily Goal</span><span class="t-sub muted num">20 minutes a day</span></div>
+      <div class="stepper" role="group" aria-label="Adjust daily goal">
+        <button aria-label="Decrease goal by 5 minutes"><svg aria-hidden="true"><use href="#minus"/></svg></button><i></i>
+        <button aria-label="Increase goal by 5 minutes"><svg aria-hidden="true"><use href="#plus"/></svg></button>
+      </div>
+    </section>
+    <p class="goal-note t-foot muted">Preset to 20 minutes; change it any time. Your streak counts every day with at least one reading session.</p>
+  </main>
+
+  <div class="edge-bottom" data-material="scroll-edge" aria-hidden="true"></div>
+
+  <nav class="tabbar" data-component="TabBar" aria-label="Sections">
+    <div class="tabs glass" data-material="glass-regular">
+      <a class="tab" aria-current="page"><svg aria-hidden="true"><use href="#dogear"/></svg><span>Today</span></a>
+      <a class="tab"><svg aria-hidden="true"><use href="#books-fill"/></svg><span>Library</span></a>
+      <a class="tab"><svg aria-hidden="true"><use href="#chart-fill"/></svg><span>Stats</span></a>
+    </div>
+    <a class="search-tab glass" data-material="glass-regular" aria-label="Search"><svg aria-hidden="true"><use href="#search"/></svg></a>
+  </nav>
+
+  <div class="status" aria-hidden="true"><span>9:41</span><span class="icons">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.6 5.7 9.3a3.3 3.3 0 0 1 4.6 0zM3.1 6.7a6.9 6.9 0 0 1 9.8 0l-1.4 1.4a4.9 4.9 0 0 0-7 0zM.4 4a10.7 10.7 0 0 1 15.2 0l-1.4 1.4a8.7 8.7 0 0 0-12.4 0z"/></svg>
+    <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="#000" stroke-opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2.2"/><path d="M25 4.5v4c.8-.3 1.4-1 1.4-2s-.6-1.7-1.4-2z" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="island" aria-hidden="true"></div>
+  <div class="home" aria-hidden="true"><span></span></div>
+</div>
+</body>
+</html>

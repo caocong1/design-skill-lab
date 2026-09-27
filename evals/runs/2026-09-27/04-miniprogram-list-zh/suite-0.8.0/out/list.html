@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1">
+<title>拾光到家 · 服务</title>
+<style>
+/* 拾光到家 · tokens (1 CSS px = 2 rpx at the 375 design width) */
+:root {
+  --ink: #1A1F1D;          /* primary text, prices            16.7 on white */
+  --ink-2: #555D5A;        /* secondary text                   6.8 on white */
+  --ink-3: #646B68;        /* captions, placeholder            5.0 on --fill */
+  --brand: #0A6654;        /* 拾光 teal: selection, today, CTA  6.9 on white */
+  --brand-tint: #E4F1EC;   /* today slot, selected chip        brand text 5.95 */
+  --warn-ink: #8A4B00;     /* zero-match hint text             6.2 on --warn-tint */
+  --warn-tint: #FFF4E0;
+  --fill: #F3F5F4;         /* search, neutral chips, later slots */
+  --page: #F3F5F4;
+  --surface: #FFFFFF;
+  --line: #E3E6E5;         /* hairlines (px, not rpx) */
+  --mask: rgb(17 22 20 / 0.5);
+
+  --sys-tab-bg: #F7F7F7;   /* native tabBar backgroundColor */
+  --sys-tab-ink: #5C5C5C;  /* native tabBar color */
+
+  --r-s: 6px; --r-m: 10px; --r-l: 14px; --r-pill: 999px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px;
+
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Noto Sans CJK SC", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 375px; height: 812px; overflow: hidden; background: var(--page); }
+body { font: 400 14px/1.45 var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; line-break: strict; font-synthesis-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: left; }
+b { font-weight: 600; }
+.tb-spacer { flex: 1; }
+
+.screen { position: relative; width: 375px; height: 812px; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ---------- system: status bar, capsule, native tab bar, home indicator ---------- */
+.sys-status { height: 44px; padding: 0 22px 0 30px; display: flex; align-items: center; justify-content: space-between; color: #000; }
+.sys-time { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.2px; }
+.sys-icons { display: flex; align-items: center; gap: 6px; }
+
+.wx-capsule {
+  position: absolute; left: 281px; top: 50px; width: 87px; height: 32px; z-index: 5;
+  border-radius: 16px; background: rgb(255 255 255 / 0.7); box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.16);
+  display: flex; align-items: center; justify-content: space-around; padding: 0 9px; color: #000;
+}
+.wx-capsule-sep { width: 0.5px; height: 18px; background: rgb(0 0 0 / 0.18); }
+
+.wx-tabbar { flex: none; height: 49px; display: flex; background: var(--sys-tab-bg); box-shadow: inset 0 0.5px 0 rgb(0 0 0 / 0.15); position: relative; z-index: 6; }
+.wx-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; line-height: 14px; color: var(--sys-tab-ink); }
+.wx-tab[aria-current] { color: var(--brand); font-weight: 500; }
+.sys-safe-bottom { flex: none; height: 34px; background: var(--sys-tab-bg); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; position: relative; z-index: 6; }
+.sys-home-indicator { width: 134px; height: 5px; border-radius: 3px; background: #000; }
+
+/* ---------- custom navigation header ---------- */
+.page-head { flex: none; background: var(--surface); position: relative; z-index: 3; }
+/* content row is centred on the capsule (top 50, height 32); content stays left of 281 - 12 */
+.nav-row { height: 44px; padding: 0 0 0 var(--sp-4); display: flex; align-items: center; }
+.loc { height: 44px; max-width: 253px; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.loc-pin { color: var(--brand); display: flex; }
+.loc-main { font-size: 18px; font-weight: 600; }
+.loc-sub { font-size: 13px; color: var(--ink-2); margin-left: 2px; }
+.loc-caret { color: var(--ink-2); display: flex; margin-left: 1px; }
+
+.search-row { padding: 2px var(--sp-4) 8px; }
+.search { height: 36px; border-radius: var(--r-pill); background: var(--fill); display: flex; align-items: center; gap: 6px; padding: 0 14px; color: var(--ink-3); }
+.search-ph { font-size: 14px; color: var(--ink-3); }
+
+.cats-wrap { position: relative; }
+.cats-wrap { display: flex; }
+.cats-more { flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--ink-2); background: var(--surface); box-shadow: -10px 0 10px -4px #fff, -0.5px 0 0 var(--line); position: relative; }
+.cats { flex: 1; min-width: 0; height: 44px; display: flex; align-items: stretch; gap: 0; padding: 0 4px; overflow: hidden; white-space: nowrap; }
+.cat { position: relative; flex: none; padding: 0 12px; font-size: 16px; color: var(--ink-2); display: flex; align-items: center; }
+.cat[aria-selected="true"] { color: var(--ink); font-weight: 600; }
+.cat[aria-selected="true"]::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 18px; height: 3px; margin-left: -9px; border-radius: 2px; background: var(--brand); }
+
+.toolbar { height: 44px; padding: 0 var(--sp-4); display: flex; align-items: center; gap: 12px; box-shadow: inset 0 -0.5px 0 var(--line), 0 0.5px 0 var(--line); font-size: 14px; }
+.tb-sort { display: flex; align-items: center; gap: 3px; height: 44px; font-weight: 500; }
+.tb-count { font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.tb-div { width: 0.5px; height: 14px; background: var(--line); box-shadow: 0 0 0 0.25px #C9CECC; }
+.tb-filter { display: flex; align-items: center; gap: 4px; height: 44px; padding-left: 4px; }
+.tb-filter.is-active { color: var(--brand); font-weight: 600; }
+.tb-badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--brand); color: #fff; font-size: 12px; line-height: 18px; text-align: center; font-weight: 600; }
+
+/* ---------- list ---------- */
+.scroll { flex: 1; min-height: 0; overflow: hidden; background: var(--surface); }
+.svc { display: flex; gap: var(--sp-3); padding: 14px var(--sp-4); position: relative; }
+.svc + .svc::before { content: ""; position: absolute; top: 0; left: 92px; right: 0; height: 0.5px; background: var(--line); }
+
+/* the one idea: when someone can come, first, like an appointment slip */
+.slot { flex: none; width: 64px; height: 72px; border-radius: var(--r-m); background: var(--fill); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+.slot-day { font-size: 13px; line-height: 18px; font-weight: 500; white-space: nowrap; letter-spacing: -0.2px; }
+.slot-time { font-size: 18px; line-height: 22px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.3px; }
+.slot-cap { font-size: 13px; line-height: 18px; color: var(--ink-2); }
+.svc[data-slot="today"] .slot { background: var(--brand-tint); color: var(--brand); }
+.svc[data-slot="today"] .slot-cap { color: var(--brand); }
+
+.svc-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.svc-top { display: flex; align-items: baseline; gap: var(--sp-2); }
+.svc-title { flex: 1; min-width: 0; font-size: 16px; line-height: 22px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.price { flex: none; display: flex; align-items: baseline; gap: 2px; white-space: nowrap; }
+.price-pre, .price-unit { font-size: 12px; color: var(--ink-2); }
+.price-main { font-size: 18px; line-height: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.price-note { margin-left: auto; font-size: 12px; color: var(--ink-2); }
+.svc-provider { display: flex; font-size: 13px; line-height: 19px; color: var(--ink-2); margin-top: 3px; }
+.svc-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 19px; margin-top: 2px; }
+.rating { display: flex; align-items: center; gap: 2px; }
+.rating b { font-variant-numeric: tabular-nums; }
+.served, .dist { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.tag { height: 22px; padding: 0 7px; border-radius: var(--r-s); background: var(--fill); color: var(--ink-2); font-size: 12px; line-height: 22px; display: inline-flex; align-items: center; gap: 3px; }
+.list-end { padding: 16px; text-align: center; font-size: 12px; color: var(--ink-3); }
+
+/* ---------- filter dropdown ---------- */
+.overlay { position: absolute; left: 0; right: 0; top: 222px; bottom: 83px; z-index: 4; display: flex; flex-direction: column; }
+.mask { position: absolute; inset: 0; background: var(--mask); }
+.panel { position: relative; max-height: 100%; background: var(--surface); border-radius: 0 0 var(--r-l) var(--r-l); display: flex; flex-direction: column; box-shadow: 0 8px 24px rgb(0 0 0 / 0.12); }
+.panel-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 14px var(--sp-4) 2px; display: flex; flex-direction: column; gap: 12px; }
+.fgroup { border: 0; }
+.fgroup-title { font-size: 14px; line-height: 20px; font-weight: 600; margin-bottom: 6px; padding: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { flex: 0 1 calc((100% - 24px) / 4); min-width: fit-content; min-height: 36px; padding: 4px 2px; border-radius: var(--r-s); background: var(--fill); font-size: 14px; line-height: 20px; display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; font-variant-numeric: tabular-nums; box-shadow: inset 0 0 0 1px transparent; }
+.chip svg { flex: none; }
+.chip-wide { flex-basis: calc((100% - 24px) / 2 + 8px); }
+.chip.is-on { background: var(--brand-tint); color: var(--brand); font-weight: 600; box-shadow: inset 0 0 0 1px var(--brand); }
+.panel-hint { flex: none; margin: 10px var(--sp-4) 0; width: calc(100% - 32px); min-height: 36px; padding: 8px 12px; border-radius: var(--r-s); background: var(--warn-tint); color: var(--warn-ink); font-size: 13px; line-height: 18px; display: flex; align-items: center; gap: 8px; }
+.panel-hint-text { flex: 1; min-width: 0; }
+.panel-hint-act { flex: none; display: flex; align-items: center; gap: 1px; font-weight: 600; }
+.panel-foot { flex: none; padding: 12px var(--sp-4) 16px; display: flex; gap: 12px; }
+.btn { height: 44px; border-radius: var(--r-pill); font-size: 16px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+.btn-ghost { flex: 1; background: var(--surface); box-shadow: inset 0 0 0 1px #C9CECC; color: var(--ink); }
+.btn-primary { flex: 2; background: var(--brand); color: #fff; font-weight: 600; }
+
+/* ---------- no results ---------- */
+.scroll-empty { background: var(--page); }
+.empty { background: var(--surface); padding: 22px var(--sp-4) 22px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.empty-art { margin-bottom: 10px; }
+.empty-title { font-size: 18px; line-height: 26px; font-weight: 600; }
+.empty-why { margin-top: 6px; font-size: 14px; line-height: 23px; color: var(--ink-2); max-width: 20em; }
+.empty-why b { color: var(--ink); }
+.relax { margin-top: 10px; background: var(--surface); padding: 16px 0 4px; }
+.relax-title { padding: 0 var(--sp-4); font-size: 16px; line-height: 21px; font-weight: 600; margin-bottom: 4px; }
+.relax-row { width: 100%; height: 60px; padding: 0 var(--sp-4); display: flex; align-items: center; gap: 12px; position: relative; font-size: 16px; }
+.mini-stub { flex: none; width: 44px; height: 40px; border-radius: var(--r-s); background: var(--fill); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.relax-row + .relax-row::before { content: ""; position: absolute; top: 0; left: 72px; right: 0; height: 0.5px; background: var(--line); }
+.relax-text { flex: 1; }
+.relax-text b { font-weight: 600; }
+.relax-count { color: var(--brand); font-weight: 600; font-variant-numeric: tabular-nums; }
+.relax-chev { color: var(--brand); display: flex; }
+.empty-actions { display: flex; gap: 12px; padding: 16px var(--sp-4); }
+
+</style>
+</head>
+<body>
+<div class="screen" data-platform="wechat-miniprogram" data-canvas="375x812">
+
+
+<header class="page-head" data-component="CustomNavigation">
+  
+<div class="sys-status" data-component="SystemStatusBar" data-system="ios">
+  <span class="sys-time">13:20</span>
+  <span class="sys-icons" aria-hidden="true">
+    <svg viewBox="0 0 18 12" width="18" height="12"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>
+    <svg viewBox="0 0 16 12" width="16" height="12"><path d="M8 11.2 5.6 8.6a3.4 3.4 0 0 1 4.8 0Z" fill="currentColor"/><path d="M3.3 6.4a6.6 6.6 0 0 1 9.4 0M1 4a9.9 9.9 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg viewBox="0 0 27 13" width="27" height="13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="currentColor" opacity=".45"/></svg>
+  </span>
+</div>
+  <div class="nav-row">
+    <button class="loc" data-component="LocationSwitcher" aria-label="当前位置：苏州 工业园区 星湖街，点击切换">
+      <span class="loc-pin"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M10 18s6-5.6 6-10.2A6 6 0 0 0 4 7.8C4 12.4 10 18 10 18Z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/><circle cx="10" cy="8" r="2.2" fill="currentColor"/></svg></span>
+      <span class="loc-main">星湖街</span>
+      <span class="loc-sub">苏州 · 工业园区</span>
+      <span class="loc-caret"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+    
+<div class="wx-capsule" data-component="WeChatCapsule" data-system="wechat" aria-label="微信胶囊按钮（系统绘制）">
+  <svg viewBox="0 0 20 6" width="19" height="6" aria-hidden="true"><circle cx="3" cy="3" r="2.4" fill="currentColor"/><circle cx="10" cy="3" r="2.4" fill="currentColor"/><circle cx="17" cy="3" r="2.4" fill="currentColor"/></svg>
+  <i class="wx-capsule-sep"></i>
+  <svg viewBox="0 0 18 18" width="17" height="17" aria-hidden="true"><circle cx="9" cy="9" r="7.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="9" r="2.6" fill="currentColor"/></svg>
+</div>
+  </div>
+  <div class="search-row">
+    <div class="search" data-component="SearchField" role="search">
+      <svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true"><circle cx="9" cy="9" r="5.8" fill="none" stroke="currentColor" stroke-width="1.75"/><path d="m13.4 13.4 3.4 3.4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg><span class="search-ph">搜索服务，如「空调清洗」</span>
+    </div>
+  </div>
+  <div class="cats-wrap">
+    <div class="cats" data-component="CategoryTabs" role="tablist">
+      <button class="cat" role="tab" aria-selected="true">全部</button><button class="cat" role="tab" aria-selected="false">日常保洁</button><button class="cat" role="tab" aria-selected="false">家电清洗</button><button class="cat" role="tab" aria-selected="false">家居维修</button><button class="cat" role="tab" aria-selected="false">管道疏通</button><button class="cat" role="tab" aria-selected="false">收纳整理</button><button class="cat" role="tab" aria-selected="false">搬家</button>
+    </div>
+    <button class="cats-more" aria-label="展开全部类目"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  
+<div class="toolbar" data-component="SortFilterBar">
+  <button class="tb-sort">综合排序 <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <span class="tb-spacer"></span>
+  <span class="tb-count">共 26 个服务</span><i class="tb-div"></i>
+  <button class="tb-filter  " aria-expanded="false">
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M3 5h14M5.5 10h9M8 15h4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg><span>筛选</span>
+  </button>
+</div>
+</header>
+<main class="scroll" data-component="ServiceList" data-state="default">
+  
+<article class="svc" data-component="ServiceRow" data-slot="today">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 今天 16:00">
+    <span class="slot-day">今天</span>
+    <span class="slot-time">16:00</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">日常保洁 · 3 小时</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥129</span><span class="price-unit">起</span>
+      </div>
+    </div>
+    <div class="svc-provider">拾光自营保洁队</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.9</b></span>
+      <span class="served">已服务 12,480 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">1.2 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M8 1.8 13 3.6v4c0 3.1-2.1 5.4-5 6.6-2.9-1.2-5-3.5-5-6.6v-4Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m5.7 8 1.6 1.6 3-3.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>平台担保</span><span class="tag">自带工具</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="later">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 明天 09:00">
+    <span class="slot-day">明天</span>
+    <span class="slot-time">09:00</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">空调清洗（挂机）</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥89</span><span class="price-unit">/ 台</span>
+      </div>
+    </div>
+    <div class="svc-provider">蓝鲸家电清洗</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.8</b></span>
+      <span class="served">已服务 3,216 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">2.6 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag">高温蒸汽</span><span class="tag">可开发票</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="later">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 明天 14:00">
+    <span class="slot-day">明天</span>
+    <span class="slot-time">14:00</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">油烟机深度清洗</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥159</span><span class="price-unit">/ 台</span>
+      </div>
+    </div>
+    <div class="svc-provider">蓝鲸家电清洗</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.7</b></span>
+      <span class="served">已服务 1,905 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">2.6 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag">拆洗</span><span class="tag">可开发票</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="today">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 今天 18:30">
+    <span class="slot-day">今天</span>
+    <span class="slot-time">18:30</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">水龙头 / 花洒维修</h3>
+      <div class="price" data-component="Price">
+        <span class="price-pre">上门费</span><span class="price-main">¥50</span>
+      </div>
+    </div>
+    <div class="svc-provider">邻家师傅 · 张师傅<span class="price-note">材料另计</span></div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.9</b></span>
+      <span class="served">已服务 862 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">0.8 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag">30 分钟响应</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="today">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 今天 17:00">
+    <span class="slot-day">今天</span>
+    <span class="slot-time">17:00</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">马桶疏通</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥80</span><span class="price-unit">起</span>
+      </div>
+    </div>
+    <div class="svc-provider">通畅管道服务</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.6</b></span>
+      <span class="served">已服务 2,337 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">3.4 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag">不通不收费</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="later">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 9/29 周二 10:00">
+    <span class="slot-day">9/29 周二</span>
+    <span class="slot-time">10:00</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">衣橱收纳整理</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥399</span><span class="price-unit">/ 4 小时</span>
+      </div>
+    </div>
+    <div class="svc-provider">有序空间收纳</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>5.0</b></span>
+      <span class="served">已服务 214 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">4.1 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag">女性整理师</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="later">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 9/30 周三 09:00">
+    <span class="slot-day">9/30 周三</span>
+    <span class="slot-time">09:00</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">新房开荒保洁</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥8</span><span class="price-unit">/ ㎡ 起</span>
+      </div>
+    </div>
+    <div class="svc-provider">拾光自营保洁队</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.8</b></span>
+      <span class="served">已服务 1,066 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">1.2 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M8 1.8 13 3.6v4c0 3.1-2.1 5.4-5 6.6-2.9-1.2-5-3.5-5-6.6v-4Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m5.7 8 1.6 1.6 3-3.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>平台担保</span>
+    </div>
+  </div>
+</article>
+<article class="svc" data-component="ServiceRow" data-slot="later">
+  <div class="slot" data-component="SlotStub" aria-label="最近可约 明天 10:30">
+    <span class="slot-day">明天</span>
+    <span class="slot-time">10:30</span>
+    <span class="slot-cap">可上门</span>
+  </div>
+  <div class="svc-body">
+    <div class="svc-top">
+      <h3 class="svc-title">滚筒洗衣机清洗</h3>
+      <div class="price" data-component="Price">
+        <span class="price-main">¥119</span><span class="price-unit">/ 台</span>
+      </div>
+    </div>
+    <div class="svc-provider">洁程家电服务</div>
+    <div class="svc-meta">
+      <span class="rating"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 1.6l1.95 4.05 4.45.55-3.27 3.07.83 4.41L8 11.5l-3.96 2.18.83-4.41L1.6 6.2l4.45-.55Z" fill="#E08A00"/></svg><b>4.5</b></span>
+      <span class="served">已服务 598 次</span>
+      <span class="tb-spacer"></span>
+      <span class="dist">5.2 km</span>
+    </div>
+    <div class="tags">
+      <span class="tag">可开发票</span>
+    </div>
+  </div>
+</article>
+  <div class="list-end">已显示 8 个，上滑加载更多</div>
+</main>
+
+<nav class="wx-tabbar" data-component="WeChatNativeTabBar" data-system="wechat" aria-label="小程序原生标签栏（系统绘制）">
+  <a class="wx-tab" ><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M3.5 10.2 12 3.5l8.5 6.7V20a1 1 0 0 1-1 1h-5v-6h-5v6h-5a1 1 0 0 1-1-1Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg><span>首页</span></a><a class="wx-tab" aria-current="page"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="2" fill="currentColor"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="2" fill="currentColor"/><circle cx="16.75" cy="16.75" r="3.9" fill="currentColor"/></svg><span>服务</span></a><a class="wx-tab" ><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="4.5" y="3.5" width="15" height="17.5" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.5 9h7M8.5 13h7M8.5 17h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>订单</span></a><a class="wx-tab" ><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="12" cy="8.2" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M4 20.5c.9-4 4.2-6.2 8-6.2s7.1 2.2 8 6.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>我的</span></a>
+</nav>
+<div class="sys-safe-bottom" data-component="HomeIndicatorSafeArea" data-system="ios"><i class="sys-home-indicator"></i></div>
+</div>
+</body>
+</html>

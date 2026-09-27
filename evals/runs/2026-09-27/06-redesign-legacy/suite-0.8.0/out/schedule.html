@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Schedule · AlderCare Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ink:#141c2a; --ink-2:#3f4a5c; --muted:#566274; --line:#d6dce4; --line-2:#c2cad5; --line-hr:#9aa6b5;
+  --bg:#eceff3; --surface:#fff; --sunk:#f5f7f9;
+  --navy:#1b365a; --navy-2:#24477a; --navy-ink:#fff; --focus:#2563c9;
+  --ok:#17663a; --ok-bg:#dff2e5; --ok-line:#3a8a55;
+  --room:#1c4fa6; --room-bg:#e2ebfb; --room-line:#4a78cc;
+  --warn:#8a4a00; --warn-bg:#fff3d4; --warn-line:#a86d0c;
+  --bad:#b0201a; --bad-bg:#fdecea; --bad-line:#e08a84;
+  /* appointment types: legacy hues kept (learned), used as a stripe only */
+  --t-np:#e0668a; --t-fu:#4a9a36; --t-ph:#4d8ee0; --t-sk:#c07c00; --t-vx:#9a6fe0; --t-th:#16909b; --t-pr:#e0695e;
+  --r:6px; --row:33px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:13px/1.3 var(--font);color:var(--ink);background:var(--bg);display:flex;flex-direction:column;overflow:hidden;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;cursor:pointer}
+svg{width:14px;height:14px;flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ---------- top bar: brand + the same 14 tabs, same order ---------- */
+.top{flex:none;height:40px;background:var(--navy);color:#fff;display:flex;align-items:stretch;padding:0 8px 0 14px;gap:14px}
+.brand{display:flex;align-items:center;font-weight:800;font-size:17px;letter-spacing:-.2px;white-space:nowrap}
+.tabs{display:flex;align-items:stretch;gap:0;margin:0;padding:0;list-style:none;flex:1;min-width:0}
+.tabs a{display:flex;align-items:center;gap:4px;padding:0 6px;color:#dbe5f3;text-decoration:none;font-size:12.5px;font-weight:500;white-space:nowrap;border-bottom:3px solid transparent;border-top:3px solid transparent}
+.tabs a:hover{color:#fff}
+.tabs a.on{color:#fff;font-weight:700;border-bottom-color:#fff}
+.tabs b{font-size:11px;font-weight:700;background:#3a5c8c;color:#fff;border-radius:9px;padding:0 5px;line-height:16px}
+.tabs b.hot{background:#fff;color:var(--navy)}
+.clock{display:flex;align-items:center;font-weight:700;font-size:12.5px;white-space:nowrap;color:#fff}
+.loc{display:flex;align-items:center;gap:4px;background:none;border:0;border-left:1px solid #3a5c8c;color:#dbe5f3;font-size:12.5px;font-weight:600;padding:0 4px 0 12px;white-space:nowrap}
+.user{display:flex;align-items:center;gap:6px;white-space:nowrap;background:none;border:0;color:#fff;padding:0 6px;font-size:12.5px}
+.user .av{width:24px;height:24px;border-radius:50%;background:#dbe5f3;color:var(--navy);display:grid;place-items:center;font-size:11px;font-weight:800}
+.user small{color:#c3d2e6;font-size:12px}
+
+/* ---------- toolbar ---------- */
+.bar{flex:none;height:50px;background:var(--surface);border-bottom:1px solid var(--line-2);display:flex;align-items:center;gap:6px;padding:0 10px 0 12px}
+.search{display:flex;align-items:center;gap:8px;width:280px;height:36px;border:2px solid var(--navy);border-radius:var(--r);padding:0 8px 0 10px;background:#fff;color:var(--ink-2)}
+.search input{border:0;outline:0;font:inherit;font-size:14px;flex:1;min-width:0;color:var(--ink);background:transparent}
+.search input::placeholder{color:var(--muted)}
+.search kbd{font:600 11px var(--font);color:var(--ink-2);border:1px solid var(--line-2);border-radius:4px;padding:1px 5px;background:var(--sunk)}
+.b{height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 11px;border:1px solid var(--line-2);border-radius:var(--r);background:#fff;font-weight:600;font-size:13px;white-space:nowrap;color:var(--ink)}
+.b:hover{background:var(--sunk)}
+.b.pri{background:var(--navy);border-color:var(--navy);color:#fff}
+.b.out{border-color:var(--navy);color:var(--navy)}
+.b.ic{width:32px;padding:0;justify-content:center}
+.sp{flex:1}
+.vsep{width:1px;height:24px;background:var(--line);margin:0 4px}
+.date{display:flex;align-items:center;gap:2px}
+.date .d{height:32px;display:inline-flex;align-items:center;gap:7px;padding:0 10px;border:1px solid var(--line-2);border-radius:var(--r);background:#fff;font-weight:700;font-size:13.5px;white-space:nowrap}
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;height:32px}
+.seg button{border:0;background:#fff;padding:0 10px;font-weight:600;font-size:13px;border-left:1px solid var(--line)}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed=true]{background:var(--navy);color:#fff}
+.sel-b{height:32px;display:inline-flex;align-items:center;gap:6px;padding:0 8px 0 10px;border:1px solid var(--line-2);border-radius:var(--r);background:#fff;font-weight:600;font-size:13px;white-space:nowrap}
+
+/* ---------- main 3 columns ---------- */
+.main{flex:1;min-height:0;display:grid;grid-template-columns:218px 1fr 312px}
+
+/* left rail: who is here, what needs attention */
+.rail{background:var(--sunk);border-right:1px solid var(--line-2);overflow:hidden;display:flex;flex-direction:column;padding:10px 10px 8px;gap:10px}
+.day{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:6px 2px}
+.day div{text-align:center;line-height:1.1}
+.day b{display:block;font-size:17px;font-weight:800}
+.day span{font-size:12px;color:var(--ink-2)}
+.sec h3{margin:0 0 4px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.sec h3 .n{background:var(--ink);color:#fff;border-radius:9px;padding:0 6px;font-size:12px;letter-spacing:0;line-height:17px}
+.q{display:flex;flex-direction:column;gap:3px}
+.qi{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:0 6px;width:100%;text-align:left;border:1px solid var(--line);border-left:4px solid var(--ok-line);background:#fff;border-radius:var(--r);padding:4px 8px 4px 7px;min-height:40px}
+.qi .nm{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qi .meta{grid-column:1;font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qi .t{grid-row:1 / span 2;grid-column:2;display:flex;align-items:center;gap:4px;font-weight:800;font-size:13.5px;color:var(--ok);white-space:nowrap}
+.qi.room{border-left-color:var(--room-line)}
+.qi.room .t{color:var(--room)}
+.qi.sel{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy);border-left:4px solid var(--navy)}
+.none{font-size:12.5px;color:var(--ink-2);text-transform:none;letter-spacing:0;font-weight:500}
+.att{display:flex;flex-direction:column;gap:3px}
+.at{display:flex;align-items:flex-start;gap:7px;text-align:left;width:100%;border:1px solid var(--line);background:#fff;border-radius:var(--r);padding:5px 8px;font-size:12.5px;line-height:1.25;min-height:30px}
+.at svg{margin-top:1px}
+.at b{font-weight:700}
+.at .bad{color:var(--bad)} .at .wn{color:var(--warn)}
+.at small{display:block;color:var(--ink-2);font-size:12px}
+.wl{margin:0;padding:0;list-style:none;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+.wl li{display:flex;justify-content:space-between;gap:6px;padding:3px 8px;border-top:1px solid var(--line)}
+.wl li:first-child{border-top:0}
+.wl li span{color:var(--ink-2);white-space:nowrap}
+
+/* ---------- day grid ---------- */
+.grid-wrap{min-width:0;display:flex;flex-direction:column;background:#fff;overflow:hidden}
+.sched{flex:1;min-height:0;overflow:auto;position:relative}
+.g{display:grid;grid-template-columns:50px repeat(4,minmax(0,1fr));grid-template-rows:39px repeat(9,var(--row)) 57px repeat(6,var(--row)) 20px repeat(3,var(--row));position:relative}
+.ph{grid-row:1;position:sticky;top:0;z-index:6;background:#fff;border-bottom:2px solid var(--line-hr);border-left:1px solid var(--line);padding:3px 8px 2px}
+.ph-n{font-weight:800;font-size:13.5px;white-space:nowrap}
+.ph-s{display:flex;justify-content:space-between;align-items:center;gap:4px;font-size:12px;color:var(--ink-2);white-space:nowrap}
+.ph-q{display:inline-flex;align-items:center;gap:3px;font-weight:700}
+.ph-q svg{width:12px;height:12px}
+.ph-w{color:var(--ok)} .ph-r{color:var(--room)}
+.corner{grid-row:1;grid-column:1;position:sticky;top:0;z-index:6;background:#fff;border:0;border-bottom:2px solid var(--line-hr);font-size:12px;font-weight:700;color:var(--navy);text-decoration:underline;text-underline-offset:2px}
+.tm{grid-column:1;font-size:12px;color:var(--ink-2);text-align:right;padding:2px 6px 0 0;border-top:1px solid var(--line);position:relative;line-height:1.1}
+.tm small{display:block;font-size:11px;color:var(--muted)}
+.tm.hr{font-weight:800;color:var(--ink);border-top-color:var(--line-hr)}
+.rowline{grid-column:2 / 6;border-top:1px solid var(--line);pointer-events:none}
+.rowline.hr{border-top-color:var(--line-hr)}
+.lunch-tm{padding-top:3px;white-space:nowrap;font-weight:800;color:var(--ink)}
+.tm small.in{display:inline;font-size:11px}
+.lunch{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--ink-2);background:repeating-linear-gradient(135deg,#eef1f4 0 6px,#f7f8fa 6px 12px);border-top:1px solid var(--line-hr);margin-left:1px}
+
+.ap,.blk,.dbl,.open{margin:1px 3px 1px 4px;border-radius:5px;min-width:0;position:relative;z-index:1}
+.ap{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;text-align:left;border:1px solid var(--line-2);background:#fff;padding:1px 6px 1px 9px;overflow:hidden}
+.ap::before,.dbl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--stripe)}
+.t-np{--stripe:var(--t-np)} .t-fu{--stripe:var(--t-fu)} .t-ph{--stripe:var(--t-ph)} .t-sk{--stripe:var(--t-sk)} .t-vx{--stripe:var(--t-vx)} .t-th{--stripe:var(--t-th)} .t-pr{--stripe:var(--t-pr)}
+.l1{display:flex;align-items:center;gap:4px;min-width:0;line-height:15px}
+.nm{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.nm b{font-weight:800}
+.l2{font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:14px}
+.w-a{color:var(--ok);font-weight:800} .w-r{color:var(--room);font-weight:800}
+.ap.s2 .l2,.ap.s3 .l2{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.ty{font-size:12px;color:var(--muted);margin-top:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:14px}
+.ap.s2 .ty{display:none}
+.st{display:inline-flex;align-items:center;gap:3px;font-weight:800;font-size:12px;white-space:nowrap;flex:none}
+.st-a{color:var(--ok)} .st-r{color:var(--room)} .st-u{color:var(--warn)} .st-x{color:var(--muted)}
+.is-arrived{background:var(--ok-bg);border-color:var(--ok-line)}
+.is-room{background:var(--room-bg);border-color:var(--room-line)}
+.is-unconf{background:#fff;border:1.5px dashed var(--warn-line)}
+.is-cx{background:var(--sunk);border-style:dotted}
+.is-cx .nm{text-decoration:line-through;color:var(--ink-2)}
+.ap.sel{outline:3px solid var(--navy);outline-offset:1px;z-index:2}
+.flag{display:inline-flex;align-items:center;gap:2px;flex:none;font-size:11px;font-weight:800}
+.flag-ins{color:var(--bad);background:var(--bad-bg);border:1px solid var(--bad-line);border-radius:4px;padding:0 4px 0 2px;line-height:12px}
+.flag-ins svg{width:12px;height:12px}
+.flag-tele{color:#0d6f78}
+.blk{display:flex;align-items:flex-start;padding:3px 8px;font-size:12px;font-style:italic;color:var(--ink-2);background:repeating-linear-gradient(135deg,#eef1f4 0 6px,#f7f8fa 6px 12px);border:1px solid var(--line)}
+.dbl{display:flex;flex-direction:column;justify-content:center;gap:2px;border:2px solid var(--bad);background:var(--bad-bg);padding:1px 3px 1px 7px;overflow:hidden}
+.dbl-tag{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--bad);line-height:13px}
+.dbl-tag svg{width:12px;height:12px}
+.dbl-pt{display:flex;align-items:center;gap:5px;text-align:left;background:#fff;border:1px solid var(--bad-line);border-radius:4px;padding:0 5px 0 4px;min-width:0;height:24px;flex:none;line-height:15px}
+.dbl-pt svg{width:12px;height:12px;color:var(--bad)}
+.dbl-pt .nm{flex:none;font-size:13px}
+.dbl-pt .l2{flex:1;min-width:0}
+.open{display:flex;align-items:center;gap:4px;border:1px dashed var(--line-hr);background:#fff;color:var(--ink-2);font-size:12px;font-weight:600;padding:0 8px}
+.open svg{width:12px;height:12px}
+.open:hover{background:var(--sunk);border-color:var(--navy);color:var(--navy)}
+.now{position:absolute;left:46px;right:0;height:0;border-top:2px solid var(--bad);z-index:0;pointer-events:none}
+.now::before{content:"";position:absolute;left:0;top:-5px;width:8px;height:8px;border-radius:50%;background:var(--bad)}
+.now-pill{position:absolute;right:3px;top:2px;background:var(--bad);color:#fff;font-weight:800;font-size:11px;border-radius:3px;padding:0 3px;line-height:14px;z-index:5}
+
+/* ---------- right panel: selected appointment ---------- */
+.side{background:#fff;border-left:1px solid var(--line-2);overflow:hidden;display:flex;flex-direction:column}
+.pt{padding:8px 14px 8px;border-bottom:1px solid var(--line)}
+.pt-k{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+.pt h2{margin:1px 0 1px;font-size:20px;line-height:1.15;font-weight:800}
+.pt h2 a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-2)}
+.pt-m{font-size:12.5px;color:var(--ink-2)}
+.chips{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;border-radius:5px;padding:2px 7px;border:1px solid}
+.chip.ok{color:var(--ok);background:var(--ok-bg);border-color:var(--ok-line)}
+.chip.nt{color:var(--ink-2);background:var(--sunk);border-color:var(--line-2);font-weight:600}
+.alerts{margin:7px 12px 0;border:1.5px solid var(--bad);border-radius:var(--r);background:var(--bad-bg);padding:6px 10px 6px}
+.alerts h3{margin:0 0 3px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--bad)}
+.alerts ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
+.alerts li{display:flex;gap:7px;align-items:flex-start;font-size:13px;line-height:1.25}
+.alerts li svg{margin-top:1px;color:var(--bad)}
+.alerts li.soft svg{color:var(--ink-2)}
+.ci{margin:7px 12px 0;border:1px solid var(--line-2);border-radius:var(--r);padding:6px 10px 8px}
+.ci h3,.blockh{margin:0 0 4px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.kv{display:grid;grid-template-columns:74px 1fr;gap:3px 8px;font-size:12.5px;line-height:1.3;margin:0}
+.kv dt{color:var(--ink-2)}
+.kv dd{margin:0;min-width:0}
+.kv .ok{color:var(--ok);font-weight:700;display:inline-flex;align-items:center;gap:3px}
+.kv .ok svg{width:12px;height:12px}
+.kv .due{color:var(--bad);font-weight:700}
+.go{margin-top:7px;width:100%;height:40px;border:0;border-radius:var(--r);background:var(--navy);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
+.go small{font-weight:500;font-size:12px;color:#c9d7ea}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:5px}
+.acts .b{justify-content:center;padding:0 4px;height:28px;font-size:12.5px}
+.acts{margin:7px 12px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.acts .b.dz{color:var(--bad);border-color:var(--bad-line)}
+.info{margin:7px 14px 0}
+.rv{width:100%;border-collapse:collapse;font-size:12px}
+.rv th{text-align:left;font-weight:700;color:var(--ink-2);padding:1px 0;border-bottom:1px solid var(--line)}
+.rv td{padding:1px 0;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">AlderCare</div>
+  <nav class="tabs" aria-label="Main"><a href="#">Home</a><a href="#" class="on" aria-current="page">Schedule</a><a href="#">Patients</a><a href="#">Check-In</a><a href="#">Waitlist <b>4</b></a><a href="#">Recalls</a><a href="#">Billing</a><a href="#">Insurance / Eligibility</a><a href="#">Reports</a><a href="#">Messages <b class="hot">3</b></a><a href="#">Tasks</a><a href="#">Inventory</a><a href="#">Admin</a><a href="#">Help</a></nav>
+  <span class="clock">8:04 AM</span>
+  <button class="loc" aria-label="Location: Alder Street Family Practice - Main">Main<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="user" aria-label="Account menu: mlopez, Front Desk. Preferences, Change Password, Logout"><span class="av">ML</span>mlopez<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</header>
+
+<div class="bar" role="toolbar" aria-label="Schedule tools">
+  <label class="search"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.6 10.6l3.6 3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="sr">Find patient</span><input placeholder="Find patient: Last, First or MRN"><kbd>/</kbd></label>
+  <button class="b out"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>New Appt</button>
+  <button class="b">Find Slot</button>
+  <button class="b">Walk-In</button>
+  <div class="sp"></div>
+  <div class="date">
+    <button class="b ic" aria-label="Previous day"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="d" aria-label="Choose date"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.5h12M5.5 1.5v3M10.5 1.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Mon 09/28/2026</button>
+    <button class="b ic" aria-label="Next day"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <button class="b">Today</button>
+  <div class="seg" role="group" aria-label="View"><button aria-pressed="true">Day</button><button>Week</button><button>Month</button></div>
+  <button class="sel-b">All Providers<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="sel-b">More<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button class="b ic" aria-label="Refresh (updated 8:04 AM)"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</div>
+
+<main class="main">
+  <aside class="rail" aria-label="Front desk now">
+    <div class="day" aria-label="Today">
+      <div><b>96</b><span>booked</span></div>
+      <div><b>14</b><span>open slots</span></div>
+      <div><b>0</b><span>no-shows</span></div>
+    </div>
+
+    <section class="sec">
+      <h3>Waiting room <span class="n">3</span></h3>
+      <div class="q">
+        <button class="qi sel"><span class="nm"><b>Brennan,</b> Harold</span><span class="meta">Rao · 8:00 appt</span><span class="t"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.4V8l2.4 1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>12 min</span></button>
+        <button class="qi"><span class="nm"><b>Chen,</b> Robert</span><span class="meta">Kim · 8:15 appt</span><span class="t"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.4V8l2.4 1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>6 min</span></button>
+        <button class="qi"><span class="nm"><b>Natarajan,</b> Priya</span><span class="meta">Rao · 8:15 appt</span><span class="t"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.4V8l2.4 1.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>3 min</span></button>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>In a room <span class="n">2</span></h3>
+      <div class="q">
+        <button class="qi room"><span class="nm"><b>Wright,</b> Jamal</span><span class="meta">Rm 7 · Ortega</span><span class="t"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="1.5" width="10" height="13" rx="1.2" fill="currentColor"/><circle cx="10.2" cy="8.4" r="1.1" fill="#fff"/></svg>9 min</span></button>
+        <button class="qi room"><span class="nm"><b>Johansson,</b> Mia</span><span class="meta">Rm 4 · Feld</span><span class="t"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="1.5" width="10" height="13" rx="1.2" fill="currentColor"/><circle cx="10.2" cy="8.4" r="1.1" fill="#fff"/></svg>7 min</span></button>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Late <span class="n">0</span><span class="none">none past start time</span></h3>
+    </section>
+
+    <section class="sec">
+      <h3>Needs attention</h3>
+      <div class="att">
+        <button class="at"><span class="bad"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 12.5H1z" fill="currentColor"/><path d="M8 6v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.8" r="1" fill="#fff"/></svg></span><span><b>Double-booked</b><small>Feld 10:15 · Reyes + Adams</small></span></button>
+        <button class="at"><span class="bad"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l5.5 2v4.3c0 3.4-2.3 5.9-5.5 7.3C4.8 13.4 2.5 10.9 2.5 7.5V3.2z" fill="currentColor"/><path d="M8 4.6v4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11" r="1" fill="#fff"/></svg></span><span><b>Insurance not verified</b> · 2<small>Liu 9:30 · Soto 10:30</small></span></button>
+        <button class="at"><span class="wn"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg></span><span><b>Unconfirmed</b> · 8 today<small>3 tomorrow · Send reminders</small></span></button>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h3>Waitlist <span class="n">4</span></h3>
+      <ul class="wl">
+        <li>Pham, Linh <span>Rao · any AM</span></li>
+        <li>Sutter, Greg <span>Ortega · sick</span></li>
+        <li>Adeyemi, Tolu <span>Feld · WCC</span></li>
+        <li>Brandt, Ilse <span>Kim · flu shot</span></li>
+      </ul>
+    </section>
+  </aside>
+
+  <section class="grid-wrap" aria-label="Monday 28 September 2026 day schedule">
+    <div class="sched">
+      <div class="g">
+        <button class="corner" aria-label="Key: appointment types and status symbols">Key</button>
+        <div class="ph" style="grid-column:2"><div class="ph-n">Rao, Anita MD</div><div class="ph-s"><span>Family Med · Rm 1–3</span><span class="ph-q ph-w" title="2 waiting"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>2<span class="sr"> waiting</span></span></div></div><div class="ph" style="grid-column:3"><div class="ph-n">Feld, Marcus MD</div><div class="ph-s"><span>Pediatrics · Rm 4–5</span><span class="ph-q ph-r" title="1 in room"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="1.5" width="10" height="13" rx="1.2" fill="currentColor"/><circle cx="10.2" cy="8.4" r="1.1" fill="#fff"/></svg>1<span class="sr"> in room</span></span></div></div><div class="ph" style="grid-column:4"><div class="ph-n">Kim, Joanna NP</div><div class="ph-s"><span>Family Med · Rm 6</span><span class="ph-q ph-w" title="1 waiting"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>1<span class="sr"> waiting</span></span></div></div><div class="ph" style="grid-column:5"><div class="ph-n">Ortega, Luis PA</div><div class="ph-s"><span>Urgent / Sick · Rm 7</span><span class="ph-q ph-r" title="1 in room"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="1.5" width="10" height="13" rx="1.2" fill="currentColor"/><circle cx="10.2" cy="8.4" r="1.1" fill="#fff"/></svg>1<span class="sr"> in room</span></span></div></div>
+        <div class="tm hr " style="grid-row:2">8:00<small>AM</small></div><div class="rowline hr" style="grid-row:2"></div><div class="tm  " style="grid-row:3">8:15</div><div class="rowline" style="grid-row:3"></div><div class="tm  " style="grid-row:4">8:30</div><div class="rowline" style="grid-row:4"></div><div class="tm  " style="grid-row:5">8:45</div><div class="rowline" style="grid-row:5"></div><div class="tm hr " style="grid-row:6">9:00</div><div class="rowline hr" style="grid-row:6"></div><div class="tm  " style="grid-row:7">9:15</div><div class="rowline" style="grid-row:7"></div><div class="tm  " style="grid-row:8">9:30</div><div class="rowline" style="grid-row:8"></div><div class="tm  " style="grid-row:9">9:45</div><div class="rowline" style="grid-row:9"></div><div class="tm hr " style="grid-row:10">10:00</div><div class="rowline hr" style="grid-row:10"></div><div class="tm  " style="grid-row:11">10:15</div><div class="rowline" style="grid-row:11"></div><div class="tm  " style="grid-row:12">10:30</div><div class="rowline" style="grid-row:12"></div><div class="tm  " style="grid-row:13">10:45</div><div class="rowline" style="grid-row:13"></div><div class="tm hr " style="grid-row:14">11:00</div><div class="rowline hr" style="grid-row:14"></div><div class="tm  " style="grid-row:15">11:15</div><div class="rowline" style="grid-row:15"></div><div class="tm  " style="grid-row:16">11:30</div><div class="rowline" style="grid-row:16"></div><div class="tm  " style="grid-row:17">11:45</div><div class="rowline" style="grid-row:17"></div><div class="tm hr lunch-tm" style="grid-row:18">12:00 <small class="in">PM</small></div><div class="rowline hr" style="grid-row:18"></div><div class="tm hr " style="grid-row:19">1:00<small>PM</small></div><div class="rowline hr" style="grid-row:19"></div><div class="tm  " style="grid-row:20">1:15</div><div class="rowline" style="grid-row:20"></div><div class="tm  " style="grid-row:21">1:30</div><div class="rowline" style="grid-row:21"></div><div class="lunch" style="grid-row:18;grid-column:2 / 6">Lunch · 12:00 – 1:00 PM · all clinicians</div><button class="ap is-arrived t-fu sel s1" style="grid-row:2 / span 1;grid-column:2" aria-pressed="true">
+  <span class="l1"><span class="st st-a"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr">Arrived</span></span><span class="nm"><b>Brennan,</b> Harold</span></span>
+  <span class="l2"><b class="w-a">12m</b> · 75M F/U HTN</span></button><button class="ap is-room t-vx s1" style="grid-row:2 / span 1;grid-column:3">
+  <span class="l1"><span class="st st-r"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="1.5" width="10" height="13" rx="1.2" fill="currentColor"/><circle cx="10.2" cy="8.4" r="1.1" fill="#fff"/></svg><span class="sr">In room</span></span><span class="nm"><b>Johansson,</b> Mia</span></span>
+  <span class="l2"><b class="w-r">Rm 4</b> · 4F 4yr shots</span></button><button class="ap is-room t-sk s1" style="grid-row:2 / span 1;grid-column:5">
+  <span class="l1"><span class="st st-r"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="1.5" width="10" height="13" rx="1.2" fill="currentColor"/><circle cx="10.2" cy="8.4" r="1.1" fill="#fff"/></svg><span class="sr">In room</span></span><span class="nm"><b>Wright,</b> Jamal</span></span>
+  <span class="l2"><b class="w-r">Rm 7</b> · 27M ankle sprain</span></button><button class="ap is-arrived t-sk s1" style="grid-row:3 / span 1;grid-column:2">
+  <span class="l1"><span class="st st-a"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr">Arrived</span></span><span class="nm"><b>Natarajan,</b> Priya</span></span>
+  <span class="l2"><b class="w-a">3m</b> · 34F sore throat</span></button><button class="ap is-conf t-ph s2" style="grid-row:3 / span 2;grid-column:3">
+  <span class="l1"><span class="nm"><b>Abernathy,</b> Noah</span></span>
+  <span class="l2">9mo M · WCC 9 mo</span><span class="ty">Physical / Well Child · 30 min</span></button><button class="ap is-arrived t-fu s1" style="grid-row:3 / span 1;grid-column:4">
+  <span class="l1"><span class="st st-a"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr">Arrived</span></span><span class="nm"><b>Chen,</b> Robert</span></span>
+  <span class="l2"><b class="w-a">6m</b> · 66M INR check</span></button><button class="ap is-conf t-ph s3" style="grid-row:4 / span 3;grid-column:2">
+  <span class="l1"><span class="nm"><b>Okafor,</b> Walter</span></span>
+  <span class="l2">58M · Annual physical + fasting labs</span><span class="ty">Physical / Well Child · 45 min</span></button><button class="ap is-conf t-vx s1" style="grid-row:4 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Fairbanks,</b> Linda</span></span>
+  <span class="l2">71F · flu vaccine</span></button><button class="ap is-conf t-fu s1" style="grid-row:4 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Olsen,</b> Hannah</span></span>
+  <span class="l2">45F · F/U thyroid</span></button><button class="ap is-unconf t-sk s1" style="grid-row:5 / span 1;grid-column:3">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Castillo,</b> Liam</span></span>
+  <span class="l2">7M · ear pain</span></button><button class="ap is-conf t-sk s1" style="grid-row:5 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Jordan,</b> Marcus</span></span>
+  <span class="l2">44M · cough 2 wks</span></button><button class="ap is-conf t-fu s1" style="grid-row:5 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Petrov,</b> Victor</span></span>
+  <span class="l2">68M · F/U BP meds</span></button><button class="ap is-conf t-fu s1" style="grid-row:6 / span 1;grid-column:3">
+  <span class="l1"><span class="nm"><b>Thompson,</b> Ava</span></span>
+  <span class="l2">12F · F/U asthma</span></button><button class="ap is-conf t-np s2" style="grid-row:6 / span 2;grid-column:4">
+  <span class="l1"><span class="nm"><b>Rahman,</b> Aisha</span></span>
+  <span class="l2">31F · New pt - est. care</span><span class="ty">New Patient · 30 min</span></button><button class="ap is-conf t-pr s2" style="grid-row:6 / span 2;grid-column:5">
+  <span class="l1"><span class="nm"><b>Clarke,</b> Megan</span></span>
+  <span class="l2">36F · Wart removal (cryo)</span><span class="ty">Procedure · 30 min</span></button><button class="ap is-conf t-vx s1" style="grid-row:7 / span 1;grid-column:3">
+  <span class="l1"><span class="nm"><b>Park,</b> Ethan</span></span>
+  <span class="l2">2M · MMR #2</span></button><button class="ap is-unconf t-np s2" style="grid-row:8 / span 2;grid-column:2">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Liu,</b> Grace</span><span class="flag flag-ins" title="Insurance could not be verified"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l5.5 2v4.3c0 3.4-2.3 5.9-5.5 7.3C4.8 13.4 2.5 10.9 2.5 7.5V3.2z" fill="currentColor"/><path d="M8 4.6v4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11" r="1" fill="#fff"/></svg>Ins.</span></span>
+  <span class="l2">29F · New pt - transfer from Dr. Marsh</span><span class="ty">New Patient · 30 min</span></button><button class="ap is-unconf t-ph s3" style="grid-row:8 / span 3;grid-column:3">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Bennett,</b> Zoe</span></span>
+  <span class="l2">15F · Sports physical - needs form</span><span class="ty">Physical / Well Child · 45 min</span></button><button class="ap is-conf t-th s1" style="grid-row:8 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>O'Brien,</b> Kevin</span><span class="flag flag-tele" title="Telehealth"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="9" height="8" rx="1.5" fill="currentColor"/><path d="M11 7l3.5-2v6L11 9z" fill="currentColor"/></svg><span class="sr">Telehealth</span></span></span>
+  <span class="l2">55M · Tele F/U lipids</span></button><button class="ap is-cx t-fu s1" style="grid-row:9 / span 1;grid-column:4">
+  <span class="l1"><span class="st st-x"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="sr">Cancelled</span></span><span class="nm"><b>Gomez,</b> Patricia</span></span>
+  <span class="l2">49F · F/U · Cancelled</span></button><button class="ap is-conf t-th s1" style="grid-row:9 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Brooks,</b> Samuel</span><span class="flag flag-tele" title="Telehealth"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="9" height="8" rx="1.5" fill="currentColor"/><path d="M11 7l3.5-2v6L11 9z" fill="currentColor"/></svg><span class="sr">Telehealth</span></span></span>
+  <span class="l2">50M · Tele med review</span></button><button class="ap is-conf t-fu s1" style="grid-row:10 / span 1;grid-column:2">
+  <span class="l1"><span class="nm"><b>Herrera,</b> Tomas</span></span>
+  <span class="l2">47M · F/U diabetes A1c</span></button><button class="ap is-conf t-fu s1" style="grid-row:10 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Delgado,</b> Frank</span></span>
+  <span class="l2">62M · F/U knee</span></button><button class="ap is-unconf t-fu s1" style="grid-row:10 / span 1;grid-column:5">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Foster,</b> Diane</span></span>
+  <span class="l2">59F · F/U labs</span></button><button class="ap is-conf t-fu s1" style="grid-row:11 / span 1;grid-column:2">
+  <span class="l1"><span class="nm"><b>Marsh,</b> Evelyn</span></span>
+  <span class="l2">81F · F/U - needs wheelchair</span></button><button class="ap is-conf t-sk s1" style="grid-row:11 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Hassan,</b> Ahmed</span></span>
+  <span class="l2">41M · back pain</span></button><button class="ap is-conf t-th s1" style="grid-row:12 / span 1;grid-column:2">
+  <span class="l1"><span class="nm"><b>Kowalski,</b> Daniel</span><span class="flag flag-tele" title="Telehealth"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="9" height="8" rx="1.5" fill="currentColor"/><path d="M11 7l3.5-2v6L11 9z" fill="currentColor"/></svg><span class="sr">Telehealth</span></span></span>
+  <span class="l2">39M · Tele F/U anxiety</span></button><button class="ap is-conf t-sk s1" style="grid-row:12 / span 1;grid-column:3">
+  <span class="l1"><span class="nm"><b>Nguyen,</b> Oliver</span></span>
+  <span class="l2">6M · rash</span></button><button class="ap is-unconf t-sk s1" style="grid-row:12 / span 1;grid-column:5">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Soto,</b> Elena</span><span class="flag flag-ins" title="Insurance could not be verified"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.2l5.5 2v4.3c0 3.4-2.3 5.9-5.5 7.3C4.8 13.4 2.5 10.9 2.5 7.5V3.2z" fill="currentColor"/><path d="M8 4.6v4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11" r="1" fill="#fff"/></svg>Ins.</span></span>
+  <span class="l2">23F · UTI sx</span></button><button class="ap is-conf t-fu s1" style="grid-row:13 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Morales,</b> Juan</span></span>
+  <span class="l2">71M · F/U COPD</span></button><button class="ap is-conf t-pr s2" style="grid-row:14 / span 2;grid-column:2">
+  <span class="l1"><span class="nm"><b>Whitfield,</b> Sarah</span></span>
+  <span class="l2">52F · Skin biopsy (shave) L shoulder</span><span class="ty">Procedure · 30 min</span></button><button class="ap is-conf t-vx s1" style="grid-row:14 / span 1;grid-column:3">
+  <span class="l1"><span class="nm"><b>Moore,</b> Isabella</span></span>
+  <span class="l2">10F · Tdap/HPV</span></button><button class="ap is-unconf t-sk s1" style="grid-row:14 / span 1;grid-column:4">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Stein,</b> Rachel</span></span>
+  <span class="l2">38F · sinus</span></button><button class="ap is-conf t-sk s1" style="grid-row:14 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Yamamoto,</b> Ken</span></span>
+  <span class="l2">33M · wrist pain</span></button><button class="ap is-conf t-fu s1" style="grid-row:15 / span 1;grid-column:3">
+  <span class="l1"><span class="nm"><b>Walsh,</b> Henry</span></span>
+  <span class="l2">5M · F/U ear</span></button><button class="ap is-conf t-fu s1" style="grid-row:15 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Patel,</b> Nikhil</span></span>
+  <span class="l2">58M · F/U gout</span></button><button class="ap is-conf t-fu s1" style="grid-row:16 / span 1;grid-column:2">
+  <span class="l1"><span class="nm"><b>Rossi,</b> Maria</span></span>
+  <span class="l2">64F · F/U osteoporosis</span></button><button class="ap is-conf t-sk s1" style="grid-row:16 / span 1;grid-column:3">
+  <span class="l1"><span class="nm"><b>Greene,</b> Amara</span></span>
+  <span class="l2">11F · sore throat</span></button><button class="ap is-conf t-th s1" style="grid-row:16 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Lindqvist,</b> Erik</span><span class="flag flag-tele" title="Telehealth"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="4" width="9" height="8" rx="1.5" fill="currentColor"/><path d="M11 7l3.5-2v6L11 9z" fill="currentColor"/></svg><span class="sr">Telehealth</span></span></span>
+  <span class="l2">45M · Tele F/U</span></button><button class="ap is-conf t-sk s1" style="grid-row:16 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Okonkwo,</b> Chidi</span></span>
+  <span class="l2">29M · cut R hand</span></button><button class="ap is-unconf t-fu s1" style="grid-row:17 / span 1;grid-column:2">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Dubois,</b> Claire</span></span>
+  <span class="l2">37F · F/U migraine</span></button><button class="ap is-conf t-vx s1" style="grid-row:17 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Ward,</b> Betty</span></span>
+  <span class="l2">77F · B12 inj</span></button><button class="ap is-conf t-sk s1" style="grid-row:17 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Mendez,</b> Raul</span></span>
+  <span class="l2">52M · rash</span></button><button class="ap is-conf t-np s2" style="grid-row:19 / span 2;grid-column:2">
+  <span class="l1"><span class="nm"><b>Asante,</b> Kofi</span></span>
+  <span class="l2">40M · New pt</span><span class="ty">New Patient · 30 min</span></button><button class="ap is-conf t-ph s3" style="grid-row:19 / span 3;grid-column:3">
+  <span class="l1"><span class="nm"><b>Singh,</b> Arjun</span></span>
+  <span class="l2">5M · WCC 5 yr + vision</span><span class="ty">Physical / Well Child · 45 min</span></button><button class="ap is-conf t-fu s1" style="grid-row:19 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Holland,</b> Jean</span></span>
+  <span class="l2">69F · F/U CHF</span></button><button class="ap is-conf t-vx s1" style="grid-row:20 / span 1;grid-column:4">
+  <span class="l1"><span class="nm"><b>Fairbanks,</b> Tom</span></span>
+  <span class="l2">73M · flu vaccine</span></button><button class="ap is-conf t-sk s1" style="grid-row:20 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Baker,</b> Lily</span></span>
+  <span class="l2">19F · nausea</span></button><button class="ap is-conf t-fu s1" style="grid-row:21 / span 1;grid-column:2">
+  <span class="l1"><span class="nm"><b>Coleman,</b> Ruth</span></span>
+  <span class="l2">67F · F/U arthritis</span></button><button class="ap is-unconf t-fu s1" style="grid-row:21 / span 1;grid-column:4">
+  <span class="l1"><span class="st st-u" title="Unconfirmed"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 1.6"/><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.5-.7 1v.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r=".95" fill="currentColor"/></svg><span class="sr">Unconfirmed</span></span><span class="nm"><b>Ibarra,</b> Sofia</span></span>
+  <span class="l2">42F · F/U labs</span></button><button class="ap is-conf t-sk s1" style="grid-row:21 / span 1;grid-column:5">
+  <span class="l1"><span class="nm"><b>Novak,</b> Petr</span></span>
+  <span class="l2">36M · fever</span></button><div class="blk s1" style="grid-row:7 / span 1;grid-column:2">Rx refills / admin</div><div class="blk s3" style="grid-row:11 / span 3;grid-column:4">Flu clinic - walk-ins</div><div class="blk s1" style="grid-row:17 / span 1;grid-column:3">Hold - same day sick</div><div class="dbl t-sk" title="Double-booked: 2 patients in one slot" style="grid-row:11;grid-column:3">
+  <button class="dbl-pt" aria-label="Double-booked: Reyes, Lucas, 3M · fever"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 12.5H1z" fill="currentColor"/><path d="M8 6v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.8" r="1" fill="#fff"/></svg><span class="nm"><b>Reyes,</b> Lucas</span><span class="l2">3M · fever</span></button><button class="dbl-pt" aria-label="Double-booked: Adams, Chloe, 8F · F/U"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 12.5H1z" fill="currentColor"/><path d="M8 6v3.6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="11.8" r="1" fill="#fff"/></svg><span class="nm"><b>Adams,</b> Chloe</span><span class="l2">8F · F/U</span></button>
+</div><button class="open" style="grid-row:2;grid-column:4"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button><button class="open" style="grid-row:3;grid-column:5"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button><button class="open" style="grid-row:8;grid-column:5"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button><button class="open" style="grid-row:13;grid-column:2"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button><button class="open" style="grid-row:13;grid-column:3"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button><button class="open" style="grid-row:15;grid-column:5"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button><button class="open" style="grid-row:19;grid-column:5"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Open</button>
+        <div class="now" style="top:calc(39px + var(--row) * 4 / 15)"></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="side" aria-label="Selected appointment">
+    <div class="pt">
+      <h2><a href="#">Brennan, Harold J</a></h2>
+      <div class="pt-m">75 y · M · DOB 03/14/1951 · MRN 00482913</div>
+      <div class="chips"><span class="chip ok"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Arrived 7:52 · 12 min</span><span class="chip nt">No room yet</span></div>
+    </div>
+
+    <section class="alerts" aria-label="Patient alerts">
+      <h3>Patient alerts</h3>
+      <ul>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M8 4v5" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><circle cx="8" cy="11.8" r="1.1" fill="#fff"/></svg><span><b>Allergy: PENICILLIN</b> (rash)</span></li>
+        <li><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M10.2 5.6c-.4-.6-1.2-.9-2.2-.9-1.2 0-2 .6-2 1.5 0 2 4.3 1 4.3 3.2 0 .9-.9 1.6-2.2 1.6-1 0-1.9-.4-2.3-1M8 3.6v1.1M8 11v1.2" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg><span><b>Balance overdue $140.00</b> (64 days)</span></li>
+        <li class="soft"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 6.2a3.6 3.6 0 1 1 7 1.1c-.5 1.4-1.9 2-1.9 3.6a2.1 2.1 0 0 1-3.8 1.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.6 6.4a1.5 1.5 0 0 1 2.9.3c0 .9-1 1.1-1 2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Hard of hearing R ear · large-print forms</span></li>
+      </ul>
+    </section>
+
+    <section class="ci" aria-label="Check in">
+      <h3>Check-in · confirm with patient</h3>
+      <dl class="kv">
+        <dt>Phone</dt><dd>(555) 014-2297 H<br>(555) 014-8830 C</dd>
+        <dt>Insurance</dt><dd>BlueStar PPO #BSP-7730-2291<br><span class="ok"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.6 8.2l2.2 2.2 4.6-4.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Elig. verified 09/25/2026</span></dd>
+        <dt>Copay</dt><dd><span class="due">$25.00 not collected</span></dd>
+      </dl>
+      <button class="go">Finish Check In <small>collect $25.00 copay</small></button>
+    </section>
+
+    <div class="acts">
+      <button class="b">Copay</button><button class="b">Room</button><button class="b">Check Out</button><button class="b">Resched.</button><button class="b">Edit</button><button class="b">Reminder</button><button class="b">Eligibility</button>
+      <button class="b">Notes</button><button class="b">Print</button><button class="b dz">No Show</button><button class="b dz">Cancel</button>
+    </div>
+
+    <section class="info">
+      <h3 class="blockh">Appointment</h3>
+      <dl class="kv">
+        <dt>When</dt><dd>8:00–8:15 AM (15 min), Rao</dd>
+        <dt>Type</dt><dd>Follow-Up</dd>
+        <dt>Reason</dt><dd>F/U hypertension, BP recheck after med change</dd>
+        <dt>Reminder</dt><dd>SMS 09/27 6:00 PM · replied C</dd>
+        <dt>Booked by</dt><dd>jsmith 09/14/2026 2:31 PM</dd>
+      </dl>
+    </section>
+
+    <section class="info">
+      <table class="rv"><thead><tr><th>Recent visits</th><th>Provider</th><th>Type</th></tr></thead>
+      <tbody><tr><td>08/31/2026</td><td>Rao</td><td>F/U</td></tr><tr><td>07/02/2026</td><td>Rao</td><td>Sick</td></tr><tr><td>01/19/2026</td><td>Rao</td><td>Physical</td></tr><tr><td>10/06/2025</td><td>Kim</td><td>Vaccine</td></tr></tbody></table>
+    </section>
+  </aside>
+</main>
+</body>
+</html>

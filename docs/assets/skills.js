@@ -1,5 +1,5 @@
 /* Skills page: page strings, the effort filter on the job ticket (工单) and the step list (工序), the proof marks on
-   the critique sample, and the eval scoreboard from assets/showcase/showcase.json "runs" (shape in its README).
+   the critique sample, and the eval scoreboard from assets/showcase/showcase.json "runs" and "triggers" (shape in its README).
    The dated artifacts are static HTML. Load order (both defer): assets/site.js → assets/skills.js. No catalogue data.
 
    Strings: zh is written once, in the static HTML (what no-JS readers get). It is harvested from the DOM before
@@ -31,6 +31,8 @@
       ev_arm: '对照组', ev_brief: 'brief', ev_winner: '胜者', ev_bwins: '胜出', ev_none: '无', ev_empty: '空',
       ev_reason: { cycle: '偏好成环', ties: '平票', 'all-empty': '三组都没交出东西' },
       ev_shots: '首屏并排', ev_notes: '备注', ev_old: function (d) { return d + ' 一轮（较早）'; },
+      ev_trig: function (d) { return '触发评测（代理）· ' + d; }, ev_trig_cap: '各版本的路由结果（每条请求跑 3 轮）', ev_suite: '套件', ev_acc: '准确率（角色视图，全部样本）', ev_maj: '多数票准确率（按行）',
+      ev_mis: '选错的行', ev_trig_note: '代理方法：模型只看 skill 描述、必须选一个，会高估触发率，也看不到漏触发。0.8.0 的描述写在这套题之后，它的分数只能当上限。',
       dim_fit: '契合', dim_hierarchy: '层次', dim_identity: '辨识', dim_craft: '工艺', dim_typography: '排版', dim_platform_a11y: '平台与无障碍', dim_overall: '总分'
     },
     en: {
@@ -43,6 +45,8 @@
       ev_arm: 'Arm', ev_brief: 'Brief', ev_winner: 'Winner', ev_bwins: 'Briefs won', ev_none: 'None', ev_empty: 'empty',
       ev_reason: { cycle: 'preference cycle', ties: 'tied votes', 'all-empty': 'no arm delivered' },
       ev_shots: 'First screens side by side', ev_notes: 'Notes', ev_old: function (d) { return 'Round of ' + d + ' (earlier)'; },
+      ev_trig: function (d) { return 'Trigger eval (proxy) · ' + d; }, ev_trig_cap: 'Routing per suite version (3 runs per request)', ev_suite: 'Suite', ev_acc: 'Accuracy (role view, all samples)', ev_maj: 'Majority-vote accuracy (rows)',
+      ev_mis: 'Misrouted rows', ev_trig_note: 'Proxy method: a model sees only the skill descriptions and must pick one, so it overstates triggering and cannot see misses. The 0.8.0 descriptions were written after this set, so its score is an upper bound.',
       dim_fit: 'Fit', dim_hierarchy: 'Hierarchy', dim_identity: 'Identity', dim_craft: 'Craft', dim_typography: 'Type', dim_platform_a11y: 'Platform & a11y', dim_overall: 'Overall'
     }
   };
@@ -142,7 +146,7 @@
     o_rule3: 'Keep the brief and decisions short; quick work can be answered in chat.', o_tpl: 'All templates on GitHub',
     evals_h: 'Evals',
     evals_cap: 'The same model on the same fixed briefs, in three arms: no skill, suite 0.7.0, suite 0.8.0. Judges never see which arm made what; they score from the brief and canonical PNG renders and compare in pairs. Measurable facts (contrast, target sizes) are measured by script and handed to them. Losses are published too.',
-    ev_state: 'The eval plan is set: fixed briefs, blind judging rules and a results format, all in <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>. It has not run yet, so there are no scores here.',
+    ev_state: 'The fixed briefs, blind judging rules and results format are in <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>. The first round (2026-09-27) has run; see the <a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md">full report</a>. The scoreboard appears once the page script loads.',
     ev_briefs_h: 'The fixed briefs',
     bf1: 'Equipment maintenance tickets: list, detail, and empty, loading and error states (Chinese admin, desktop)',
     bf2: 'Landing page for a local-first database, with no invented social proof (desktop and mobile)',
@@ -264,12 +268,32 @@
     D.getElementById('ev-pending').hidden = true;
   }
 
+  /* trigger eval (proxy), optional "triggers" rows: latest date only */
+  function pct(v) { return typeof v === 'number' && isFinite(v) ? (v * 100).toFixed(1) + '%' : '–'; }
+  function setTriggers(rows) {
+    rows = rows.filter(function (r) { return r && r.date && r.suite; });
+    if (!rows.length) return;
+    var date = rows.map(function (r) { return r.date; }).sort().pop();
+    rows = rows.filter(function (r) { return r.date === date; }).sort(function (a, b) { return a.suite < b.suite ? 1 : -1; });
+    var box = D.getElementById('ev-trig');
+    box.innerHTML = '<h3 class="sub-h">' + esc(t('ev_trig', date)) + '</h3>' + table(t('ev_trig_cap'), date,
+      ['<th scope="col">' + esc(t('ev_suite')) + '</th>', '<th scope="col" class="num">' + esc(t('ev_acc')) + '</th>',
+       '<th scope="col" class="num">' + esc(t('ev_maj')) + '</th>', '<th scope="col">' + esc(t('ev_mis')) + '</th>'],
+      rows.map(function (r) {
+        var mis = (r.misrouted || []).join(', ') || '–';
+        return '<tr><th scope="row">' + (r.report ? '<a href="' + esc(src(r.report)) + '">' + esc(armName('suite-' + r.suite)) + '</a>' : esc(armName('suite-' + r.suite))) +
+          '</th><td class="num">' + pct(r.accuracy) + '</td><td class="num">' + pct(r.majority_accuracy) + '</td><td>' + esc(mis) + '</td></tr>';
+      })) + '<p class="ev-note">' + esc(t('ev_trig_note')) + '</p>';
+    box.hidden = false;
+  }
+
   function loadShowcase() {
     if (!W.fetch || location.protocol === 'file:') return;
     fetch(DSL.root + 'assets/showcase/showcase.json', { cache: 'no-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
         if (j && Array.isArray(j.runs)) setRuns(j.runs);
+        if (j && Array.isArray(j.triggers)) setTriggers(j.triggers);
       })
       .catch(function () { /* absent or offline: the plain status line stays */ });
   }

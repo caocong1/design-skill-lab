@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Schedule · AlderCare Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17202b;
+    --ink-2: #3d4a59;
+    --muted: #56626f;
+    --line: #d5dbe2;
+    --line-2: #e6eaef;
+    --bg: #f3f5f7;
+    --navy: #16324f;
+    --navy-2: #0f2740;
+    --focus: #0b3a66;
+    --primary: #1c6b3a;
+    --primary-hover: #155a30;
+    --wait-bg: #e3f3e8; --wait-bar: #1f7a3e; --wait-ink: #14592b;
+    --room-bg: #e4edfa; --room-bar: #2458b3; --room-ink: #1b4590;
+    --unc-bar: #b35900; --unc-ink: #8a4400; --unc-bg: #fff7ec;
+    --alert-bg: #fdecec; --alert-bar: #b3261e; --alert-ink: #8e1b15;
+    --row: 32px;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { font-family: Inter, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 13px; color: var(--ink);
+    background: var(--bg); display: flex; flex-direction: column; overflow: hidden; -webkit-font-smoothing: antialiased; }
+  button, select, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  a { color: inherit; }
+
+  /* ---------- top bar ---------- */
+  .top { flex: none; height: 42px; background: var(--navy); color: #fff; display: flex; align-items: stretch; padding: 0 10px 0 14px; gap: 12px; }
+  .logo { display: flex; align-items: center; font-weight: 700; font-size: 15px; letter-spacing: -0.2px; white-space: nowrap; }
+  .logo span { font-weight: 500; color: #c3d3e6; margin-left: 5px; font-size: 13px; }
+  .top nav { display: flex; align-items: stretch; }
+  .tabs li { display: flex; }
+  .tabs { display: flex; align-items: stretch; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .tabs a { display: flex; align-items: center; padding: 0 7px; text-decoration: none; color: #dbe6f2; font-size: 13px; white-space: nowrap; border-bottom: 3px solid transparent; border-top: 3px solid transparent; }
+  .tabs a.on { color: #fff; font-weight: 600; border-bottom-color: #8fc3ff; background: var(--navy-2); }
+  .tabs .n { display: inline-block; margin-left: 5px; min-width: 18px; padding: 0 5px; border-radius: 9px; background: #dbe6f2; color: var(--navy); font-size: 11px; font-weight: 700; line-height: 18px; text-align: center; }
+  .tabs .n.hot { background: #ffd7d4; color: #7d140e; }
+  .top .right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .top select, .top .user { height: 30px; background: var(--navy-2); color: #fff; border: 1px solid #45627f; border-radius: 6px; padding: 0 8px; font-size: 12.5px; }
+  .top .user { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .top .user b { font-weight: 600; }
+
+  /* ---------- toolbar ---------- */
+  .bar { flex: none; height: 52px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding: 0 12px; }
+  .search { position: relative; width: 300px; flex: none; }
+  .search input { width: 100%; height: 36px; border: 2px solid #5b6b7c; border-radius: 8px; padding: 0 10px 0 34px; font-size: 14px; background: #fff; }
+  .search input::placeholder { color: #5f6b78; }
+  .search svg { position: absolute; left: 10px; top: 10px; }
+  .btn { height: 32px; min-width: 32px; padding: 0 11px; border: 1px solid #aeb8c3; background: #fff; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+  .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+  .btn.lg { height: 38px; font-size: 14px; padding: 0 14px; }
+  .btn.ghost { border-color: transparent; background: transparent; }
+  .btn.danger { color: #a3211a; }
+  .btn .chev { font-size: 10px; opacity: .8; }
+  .dnav { display: flex; align-items: center; gap: 4px; }
+  .dnav .date { font-weight: 600; font-size: 14px; padding: 0 6px; white-space: nowrap; }
+  .seg { flex: none; display: inline-flex; border: 1px solid #aeb8c3; border-radius: 6px; overflow: hidden; height: 32px; }
+  .seg button { border: 0; background: #fff; padding: 0 10px; font-size: 13px; border-right: 1px solid #aeb8c3; }
+  .seg button:last-child { border-right: 0; }
+  .seg button.on { background: var(--navy); color: #fff; font-weight: 600; }
+  .bar select { height: 32px; border: 1px solid #aeb8c3; border-radius: 6px; padding: 0 6px; background: #fff; font-size: 13px; }
+  .spacer { flex: 1; }
+
+  /* ---------- main ---------- */
+  .main { flex: 1; min-height: 0; display: flex; }
+
+  /* left rail */
+  .rail { width: 244px; flex: none; background: #fff; border-right: 1px solid var(--line); overflow-y: auto; }
+  .sec { padding: 7px 12px 6px; border-bottom: 1px solid var(--line-2); }
+  .sec h2 { margin: 0 0 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+  .sec h2 .c { margin-left: auto; font-size: 12px; color: var(--ink-2); letter-spacing: 0; }
+  .who { display: flex; align-items: center; gap: 8px; padding: 3px 6px; margin: 0 -6px; border-radius: 6px; }
+  .who.sel { background: #eef3f9; box-shadow: inset 0 0 0 2px var(--focus); }
+  .who .nm { font-weight: 600; font-size: 13.5px; line-height: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .who .sub { font-size: 12px; color: var(--muted); line-height: 15px; white-space: nowrap; }
+  .who .t { margin-left: auto; text-align: right; font-weight: 700; font-size: 15px; line-height: 17px; white-space: nowrap; }
+  .who .t small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .dot.w { background: var(--wait-bar); }
+  .dot.r { background: var(--room-bar); border-radius: 2px; }
+  .who .btn { height: 28px; padding: 0 9px; font-size: 12.5px; margin-left: auto; flex: none; }
+  .who .tm { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .note { font-size: 12px; color: var(--muted); margin: 0 0 2px; }
+  .todo { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 12.5px; line-height: 16px; }
+  .todo .txt { flex: 1; min-width: 0; }
+  .todo .txt b { font-weight: 600; }
+  .todo .txt div { color: var(--muted); font-size: 12px; }
+  .todo .btn { height: 28px; padding: 0 8px; font-size: 12px; }
+  .wl { font-size: 12.5px; line-height: 19px; }
+  .wl span { color: var(--muted); }
+  .sys { font-size: 11.5px; color: var(--muted); padding: 6px 12px 8px; line-height: 15px; }
+
+  /* schedule grid */
+  .sched { flex: 1; min-width: 0; display: flex; flex-direction: column; background: #fff; }
+  .colhead { flex: none; display: grid; grid-template-columns: 50px repeat(4, 1fr); border-bottom: 1px solid var(--line); background: #f8f9fb; }
+  .colhead div { padding: 6px 8px 5px; border-left: 1px solid var(--line); min-width: 0; }
+  .colhead div:first-child { border-left: 0; padding: 6px 4px; font-size: 11px; color: var(--muted); display: flex; align-items: flex-end; justify-content: flex-end; }
+  .colhead .nowc { color: #b3261e !important; font-weight: 700; font-size: 11.5px !important; line-height: 13px; text-align: right; }
+  .colhead b { display: block; font-size: 13.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .colhead span { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gridwrap { flex: 1; min-height: 0; overflow-y: auto; position: relative; }
+  .grid { position: relative; display: grid; grid-template-columns: 50px repeat(4, 1fr); }
+  .times { position: relative; }
+  .tl { position: absolute; right: 6px; font-size: 11.5px; color: var(--muted); transform: translateY(-1px); font-variant-numeric: tabular-nums; }
+  .tl.h { font-weight: 700; color: var(--ink); font-size: 12px; }
+  .col { position: relative; border-left: 1px solid var(--line); }
+  .gl { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid var(--line-2); }
+  .gl.h { border-top-color: #c9d1da; }
+  .appt { position: absolute; left: 3px; right: 3px; border-radius: 5px; background: #fff; border: 1px solid #c3ccd6; border-left-width: 5px; border-left-color: #8d99a6;
+    padding: 0 6px 0 6px; overflow: hidden; min-width: 0; }
+  .appt .l1 { display: flex; align-items: baseline; gap: 5px; font-size: 13px; line-height: 15px; white-space: nowrap; overflow: hidden; }
+  .appt .l1 b { font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
+  .appt .l1 i { font-style: normal; font-size: 11.5px; color: var(--muted); flex: none; }
+  .appt .l2 { font-size: 11.5px; line-height: 13px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .appt .l2.wrap { white-space: normal; }
+  .appt .l3 { font-size: 11.5px; line-height: 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .appt .st { font-weight: 700; }
+  .appt.waiting { background: var(--wait-bg); border-color: #9fcfae; border-left-color: var(--wait-bar); }
+  .appt.waiting .st { color: var(--wait-ink); }
+  .appt.inroom { background: var(--room-bg); border-color: #a9c0e6; border-left-color: var(--room-bar); }
+  .appt.inroom .st { color: var(--room-ink); }
+  .appt.unconf { background: var(--unc-bg); border-style: dashed; border-color: #d99a55; border-left-style: solid; border-left-color: var(--unc-bar); }
+  .appt.unconf .st { color: var(--unc-ink); }
+  .appt.cancel { background: #f4f5f7; border-color: #d5dbe2; border-left-color: #b8c0c9; }
+  .appt.cancel .l1 b { text-decoration: line-through; font-weight: 500; color: var(--muted); }
+  .appt.cancel .st { color: var(--muted); }
+  .appt.sel { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--focus); z-index: 3; }
+  .appt .pill { flex: none; margin-left: auto; font-size: 10.5px; font-weight: 700; line-height: 13px; padding: 0 4px; border-radius: 3px; background: var(--alert-bar); color: #fff; }
+  .appt.dbl { border-color: #d99a55; border-left-color: #b35900; background: repeating-linear-gradient(135deg, #fff 0 6px, #fff4e6 6px 12px); padding-left: 5px; }
+  .appt.dbl .l1 { font-size: 12.5px; line-height: 14px; }
+  .appt.dbl .tag { position: absolute; right: 3px; top: 2px; background: #8a4400; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 14px; padding: 0 5px; border-radius: 3px; }
+  .blk { position: absolute; left: 3px; right: 3px; border-radius: 5px; background: repeating-linear-gradient(135deg, #eef0f3 0 6px, #f7f8fa 6px 12px); border: 1px solid #dde1e6;
+    font-size: 12px; color: #4f5b68; font-style: italic; padding: 6px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .open { position: absolute; left: 3px; right: 3px; border-radius: 5px; border: 1px dashed #b9c3ce; color: #4f5b68; font-size: 12px; padding: 0 8px; display: flex; align-items: center; gap: 4px; }
+  .open b { font-weight: 600; color: #1d5d99; }
+  .lunch { position: absolute; left: 50px; right: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-style: italic; color: #4f5b68;
+    background: repeating-linear-gradient(135deg, #eef0f3 0 6px, #f7f8fa 6px 12px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); z-index: 1; }
+  .now { position: absolute; left: 50px; right: 0; height: 0; border-top: 2px solid #c42b1c; z-index: 0; }
+  .col .appt, .col .open, .col .blk { z-index: 1; }
+  .now::before { content: ""; position: absolute; left: -2px; top: -5px; width: 8px; height: 8px; border-radius: 50%; background: #c42b1c; }
+  .nowlbl { position: absolute; left: 0; width: 42px; text-align: center; background: #c42b1c; color: #fff; font-size: 11px; font-weight: 700; border-radius: 3px; line-height: 15px; z-index: 5; }
+
+  /* detail panel */
+  .detail { width: 318px; flex: none; background: #fff; border-left: 1px solid var(--line); overflow-y: auto; }
+  .dh { padding: 8px 14px 8px; border-bottom: 1px solid var(--line-2); }
+  .dh .kick { font-size: 11.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; display: flex; justify-content: space-between; }
+  .dh h1 { margin: 3px 0 2px; font-size: 20px; line-height: 24px; font-weight: 700; letter-spacing: -0.2px; }
+  .dh h1 a { text-decoration: none; }
+  .dh h1 a:hover { text-decoration: underline; }
+  .dh .meta { font-size: 12.5px; color: var(--ink-2); line-height: 18px; }
+  .alerts { margin: 8px 14px 0; border: 1px solid #e5a9a5; border-left: 5px solid var(--alert-bar); background: var(--alert-bg); border-radius: 6px; padding: 7px 10px 6px; }
+  .alerts h3 { margin: 0 0 3px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--alert-ink); display: flex; align-items: center; gap: 6px; }
+  .alerts ul { margin: 0; padding: 0; list-style: none; }
+  .alerts li { font-size: 13px; line-height: 18px; padding: 1px 0; display: flex; gap: 6px; color: #3b0d0a; }
+  .alerts li b { font-weight: 700; }
+  .alerts li .ic { flex: none; width: 16px; color: var(--alert-ink); font-weight: 700; text-align: center; }
+  .ci { margin: 8px 14px 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .ci .hd { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--wait-bg); border-bottom: 1px solid #c8e5d1; }
+  .ci .hd b { font-size: 13.5px; color: var(--wait-ink); }
+  .ci .hd span { font-size: 12.5px; color: var(--wait-ink); margin-left: auto; }
+  .step { display: flex; align-items: center; gap: 8px; padding: 5px 10px; border-bottom: 1px solid var(--line-2); min-height: 46px; }
+  .step:last-child { border-bottom: 0; }
+  .step .ck { width: 20px; height: 20px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .step .ck.done { background: var(--wait-bar); color: #fff; }
+  .step .ck.todo { border: 2px solid #8d99a6; color: transparent; }
+  .step .tx { flex: 1; min-width: 0; font-size: 13px; line-height: 16px; }
+  .step .tx div { font-size: 12px; color: var(--muted); }
+  .step .tx .due { color: var(--alert-ink); font-weight: 600; }
+  .step .btn { flex: none; }
+  .acts { padding: 8px 14px 2px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .acts .btn { height: 28px; font-size: 12.5px; padding: 0 6px; }
+  .kv { margin: 6px 14px 0; border-top: 1px solid var(--line-2); padding-top: 6px; }
+  .kv div { display: flex; gap: 8px; font-size: 12.5px; line-height: 17px; padding: 2px 0; }
+  .kv dt, .kv .k { width: 74px; flex: none; color: var(--muted); }
+  .rv { margin: 4px 14px 8px; font-size: 12px; }
+  .rv h4 { margin: 4px 0 3px; font-size: 11.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-2); }
+  .rv table { width: 100%; border-collapse: collapse; }
+  .rv td { padding: 0; line-height: 16px; border-top: 1px solid var(--line-2); color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo">AlderCare</div>
+  <nav>
+    <ul class="tabs">
+      <li><a href="#">Home</a></li>
+      <li><a href="#" class="on" aria-current="page">Schedule</a></li>
+      <li><a href="#">Patients</a></li>
+      <li><a href="#">Check-In</a></li>
+      <li><a href="#">Waitlist<span class="n">4</span></a></li>
+      <li><a href="#">Recalls</a></li>
+      <li><a href="#">Billing</a></li>
+      <li><a href="#">Insurance</a></li>
+      <li><a href="#">Reports</a></li>
+      <li><a href="#">Messages<span class="n hot">3</span></a></li>
+      <li><a href="#">Tasks</a></li>
+      <li><a href="#">Inventory</a></li>
+      <li><a href="#">Admin</a></li>
+      <li><a href="#">Help</a></li>
+    </ul>
+  </nav>
+  <div class="right">
+    <select aria-label="Location" style="width:84px"><option>Main</option><option>Eastside Annex</option></select>
+    <button class="user" aria-label="Account menu: Preferences, Change password, Log out"><b>mlopez</b> <span class="chev">▾</span></button>
+  </div>
+</header>
+
+<div class="bar">
+  <label class="search">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="5" fill="none" stroke="#3d4a59" stroke-width="2"/><path d="M10.5 10.5 15 15" stroke="#3d4a59" stroke-width="2" stroke-linecap="round"/></svg>
+    <input type="search" placeholder="Find patient: name, DOB or MRN" aria-label="Find patient">
+  </label>
+  <div class="dnav">
+    <button class="btn" aria-label="Previous day">‹</button>
+    <button class="btn">Today</button>
+    <button class="btn" aria-label="Next day">›</button>
+    <button class="btn ghost date" aria-label="Choose date">Mon 28 Sep <span class="chev">▾</span></button>
+  </div>
+  <div class="seg" role="group" aria-label="View"><button class="on">Day</button><button>Week</button><button>Month</button></div>
+  <select aria-label="Clinicians"><option>All clinicians</option></select>
+  <div class="spacer"></div>
+  <button class="btn">Walk-in</button>
+  <button class="btn">Find slot</button>
+  <button class="btn primary">+ New appointment</button>
+  <button class="btn" aria-label="More: Block time, Print day, Print labels, Export, Refresh">More <span class="chev">▾</span></button>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: who is here now -->
+  <aside class="rail" aria-label="Front desk now">
+    <section class="sec">
+      <h2><span class="dot w" aria-hidden="true"></span>Waiting room <span class="c">3</span></h2>
+      <div class="who sel">
+        <div style="min-width:0"><div class="nm">Brennan, Harold</div><div class="sub">Rao · 8:00 · arr. 7:52</div></div>
+        <div class="t">12 min<small>waiting</small></div>
+      </div>
+      <div class="who">
+        <div style="min-width:0"><div class="nm">Chen, Robert</div><div class="sub">Kim · 8:15 · arr. 7:58</div></div>
+        <div class="t">6 min<small>waiting</small></div>
+      </div>
+      <div class="who">
+        <div style="min-width:0"><div class="nm">Natarajan, Priya</div><div class="sub">Rao · 8:15 · arr. 8:01</div></div>
+        <div class="t">3 min<small>waiting</small></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2><span class="dot r" aria-hidden="true"></span>In a room <span class="c">2</span></h2>
+      <div class="who">
+        <div style="min-width:0"><div class="nm">Wright, Jamal</div><div class="sub">Room 7 · Ortega · since 7:55</div></div>
+        <div class="t">9 min</div>
+      </div>
+      <div class="who">
+        <div style="min-width:0"><div class="nm">Johansson, Mia</div><div class="sub">Room 4 · Feld · since 7:57</div></div>
+        <div class="t">7 min</div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>Arriving next <span class="c">0 late</span></h2>
+      <div class="who"><div style="min-width:0"><div class="nm">Abernathy, Noah</div><div class="sub"><span class="tm">8:15</span> · Feld</div></div><button class="btn">Check in</button></div>
+      <div class="who"><div style="min-width:0"><div class="nm">Okafor, Walter</div><div class="sub"><span class="tm">8:30</span> · Rao</div></div><button class="btn">Check in</button></div>
+      <div class="who"><div style="min-width:0"><div class="nm">Fairbanks, Linda</div><div class="sub"><span class="tm">8:30</span> · Kim</div></div><button class="btn">Check in</button></div>
+      <div class="who"><div style="min-width:0"><div class="nm">Olsen, Hannah</div><div class="sub"><span class="tm">8:30</span> · Ortega</div></div><button class="btn">Check in</button></div>
+    </section>
+
+    <section class="sec">
+      <h2>Needs follow-up</h2>
+      <div class="todo"><div class="txt"><b>Insurance unverified</b><div>Liu 9:30 · Soto 10:30</div></div><button class="btn">Eligibility</button></div>
+      <div class="todo"><div class="txt"><b>8 unconfirmed today</b><div>3 tomorrow</div></div><button class="btn">Reminders</button></div>
+      <div class="todo"><div class="txt"><b>4 on the waitlist</b><div>Pham, Sutter, Adeyemi, Brandt</div></div><button class="btn">Waitlist</button></div>
+    </section>
+    <div class="sys">96 booked · 14 open · 0 no-shows<br>Maintenance Sat 10/03, 10 PM – 2 AM</div>
+  </aside>
+
+  <!-- CENTER: day grid -->
+  <main class="sched" aria-label="Day schedule, Monday 28 September 2026">
+    <div class="colhead">
+      <div class="nowc">Now<br>8:04</div>
+      <div><b>Rao, Anita MD</b><span>Family Med · Rm 1–3</span></div>
+      <div><b>Feld, Marcus MD</b><span>Pediatrics · Rm 4–5</span></div>
+      <div><b>Kim, Joanna NP</b><span>Family Med · Rm 6</span></div>
+      <div><b>Ortega, Luis PA</b><span>Urgent / Sick · Rm 7</span></div>
+    </div>
+    <div class="gridwrap">
+      <div class="grid" id="grid"></div>
+    </div>
+  </main>
+
+  <!-- RIGHT: selected appointment -->
+  <aside class="detail" aria-label="Selected appointment">
+    <div class="dh">
+      <div class="kick"><span>8:00–8:15 AM · Rao · Follow-up</span><span>15 min</span></div>
+      <h1><a href="#">Brennan, Harold J</a></h1>
+      <div class="meta">75 y · M · DOB 03/14/1951 · MRN 00482913<br>(555) 014-2297 home · (555) 014-8830 cell</div>
+    </div>
+
+    <div class="alerts" role="note">
+      <h3>⚠ Patient alerts (3)</h3>
+      <ul>
+        <li><span class="ic">!</span><span><b>Allergy: Penicillin</b> (rash)</span></li>
+        <li><span class="ic">$</span><span><b>Balance overdue $140.00</b> · 64 days</span></li>
+        <li><span class="ic">i</span><span>Large-print forms · hard of hearing (R)</span></li>
+      </ul>
+    </div>
+
+    <div class="ci">
+      <div class="hd"><b>● Waiting · checked in 7:52 AM</b><span>12 min</span></div>
+      <div class="step">
+        <span class="ck done" aria-label="Done">✓</span>
+        <div class="tx">BlueStar PPO<div>Verified 09/25/2026</div></div>
+        <button class="btn">Eligibility</button>
+      </div>
+      <div class="step">
+        <span class="ck todo" aria-label="To do">·</span>
+        <div class="tx">Copay $25.00<div class="due">Not collected</div></div>
+        <button class="btn primary lg">Collect copay</button>
+      </div>
+      <div class="step">
+        <span class="ck todo" aria-label="To do">·</span>
+        <div class="tx">Room<div>Not assigned</div></div>
+        <button class="btn lg">Room <span class="chev">▾</span></button>
+      </div>
+    </div>
+
+    <div class="acts">
+      <button class="btn">Check out</button>
+      <button class="btn">Reschedule</button>
+      <button class="btn">Edit</button>
+      <button class="btn">Reminder</button>
+      <button class="btn">Notes</button>
+      <button class="btn">Print</button>
+      <button class="btn danger">No show</button>
+      <button class="btn danger">Cancel appt</button>
+    </div>
+
+    <div class="kv">
+      <div><span class="k">Reason</span><span>F/U hypertension, BP recheck after med change</span></div>
+      <div><span class="k">Insurance</span><span>BlueStar PPO #BSP-7730-2291</span></div>
+      <div><span class="k">Reminder</span><span>SMS 09/27 6:00 PM · confirmed</span></div>
+      <div><span class="k">Booked by</span><span>jsmith · 09/14/2026 2:31 PM</span></div>
+    </div>
+
+    <div class="rv">
+      <h4>Recent visits</h4>
+      <table>
+        <tr><td>08/31/2026</td><td>Rao</td><td>Follow-up</td></tr>
+        <tr><td>07/02/2026</td><td>Rao</td><td>Sick</td></tr>
+        <tr><td>01/19/2026</td><td>Rao</td><td>Physical</td></tr>
+        <tr><td>10/06/2025</td><td>Kim</td><td>Vaccine</td></tr>
+      </table>
+    </div>
+  </aside>
+</div>
+
+<script>
+  // Monday 28 Sep 2026, 8:00 AM – 1:45 PM. Lunch 12:00–1:00 is collapsed to one short band.
+  var ROW = 33, LUNCH = 24;
+  var SLOTS = ['8:00','8:15','8:30','8:45','9:00','9:15','9:30','9:45','10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','12:00','1:00','1:15','1:30'];
+  function y(t) { var i = SLOTS.indexOf(t); return i < 16 ? i * ROW : i === 16 ? 16 * ROW : 16 * ROW + LUNCH + (i - 17) * ROW; }
+  var H = 16 * ROW + LUNCH + 3 * ROW;
+
+  // [start, slots, name, age/sex, type, reason, status, extra]
+  var D = {
+    rao: [
+      ['8:00',1,'Brennan, Harold','75M','Follow-up','F/U HTN','waiting',{mins:12, sel:true}],
+      ['8:15',1,'Natarajan, Priya','34F','Sick','sore throat','waiting',{mins:3}],
+      ['8:30',3,'Okafor, Walter','58M','Physical','Annual physical + fasting labs','conf'],
+      ['9:15','blk','Rx refills / admin'],
+      ['9:30',2,'Liu, Grace','29F','New patient','Transfer from Dr. Marsh','unconf',{ins:true}],
+      ['10:00',1,'Herrera, Tomas','47M','Follow-up','diabetes A1c','conf'],
+      ['10:15',1,'Marsh, Evelyn','81F','Follow-up','needs wheelchair','conf'],
+      ['10:30',1,'Kowalski, Daniel','39M','Telehealth','F/U anxiety','conf'],
+      ['10:45','open'],
+      ['11:00',2,'Whitfield, Sarah','52F','Procedure','Skin biopsy (shave) L shoulder','conf'],
+      ['11:30',1,'Rossi, Maria','64F','Follow-up','osteoporosis','conf'],
+      ['11:45',1,'Dubois, Claire','37F','Follow-up','migraine','unconf'],
+      ['1:00',2,'Asante, Kofi','40M','New patient','','conf'],
+      ['1:30',1,'Coleman, Ruth','67F','Follow-up','arthritis','conf']
+    ],
+    feld: [
+      ['8:00',1,'Johansson, Mia','4F','Vaccine','4 yr shots','inroom',{room:4, mins:7}],
+      ['8:15',2,'Abernathy, Noah','9 mo','Physical','WCC 9 mo','conf'],
+      ['8:45',1,'Castillo, Liam','7M','Sick','ear pain','unconf'],
+      ['9:00',1,'Thompson, Ava','12F','Follow-up','asthma','conf'],
+      ['9:15',1,'Park, Ethan','2M','Vaccine','MMR #2','conf'],
+      ['9:30',3,'Bennett, Zoe','15F','Physical','Sports physical – needs form','unconf'],
+      ['10:15','dbl'],
+      ['10:30',1,'Nguyen, Oliver','6M','Sick','rash','conf'],
+      ['10:45','open'],
+      ['11:00',1,'Moore, Isabella','10F','Vaccine','Tdap/HPV','conf'],
+      ['11:15',1,'Walsh, Henry','5M','Follow-up','ear','conf'],
+      ['11:30',1,'Greene, Amara','11F','Sick','sore throat','conf'],
+      ['11:45','blk','Hold – same-day sick'],
+      ['1:00',3,'Singh, Arjun','5M','Physical','WCC 5 yr + vision','conf']
+    ],
+    kim: [
+      ['8:00','open'],
+      ['8:15',1,'Chen, Robert','66M','Follow-up','INR check','waiting',{mins:6}],
+      ['8:30',1,'Fairbanks, Linda','71F','Vaccine','flu vaccine','conf'],
+      ['8:45',1,'Jordan, Marcus','44M','Sick','cough 2 wks','conf'],
+      ['9:00',2,'Rahman, Aisha','31F','New patient','Establish care','conf'],
+      ['9:30',1,"O'Brien, Kevin",'55M','Telehealth','F/U lipids','conf'],
+      ['9:45',1,'Gomez, Patricia','49F','Follow-up','F/U','cancel'],
+      ['10:00',1,'Delgado, Frank','62M','Follow-up','knee','conf'],
+      ['10:15','blk','Flu clinic – walk-ins',3],
+      ['11:00',1,'Stein, Rachel','38F','Sick','sinus','unconf'],
+      ['11:15',1,'Patel, Nikhil','58M','Follow-up','gout','conf'],
+      ['11:30',1,'Lindqvist, Erik','45M','Telehealth','Tele F/U','conf'],
+      ['11:45',1,'Ward, Betty','77F','Vaccine','B12 inj','conf'],
+      ['1:00',1,'Holland, Jean','69F','Follow-up','CHF','conf'],
+      ['1:15',1,'Fairbanks, Tom','73M','Vaccine','flu vaccine','conf'],
+      ['1:30',1,'Ibarra, Sofia','42F','Follow-up','labs','unconf']
+    ],
+    ortega: [
+      ['8:00',1,'Wright, Jamal','27M','Sick','ankle sprain','inroom',{room:7, mins:9}],
+      ['8:15','open'],
+      ['8:30',1,'Olsen, Hannah','45F','Follow-up','thyroid','conf'],
+      ['8:45',1,'Petrov, Victor','68M','Follow-up','BP meds','conf'],
+      ['9:00',2,'Clarke, Megan','36F','Procedure','Wart removal (cryo)','conf'],
+      ['9:30','open'],
+      ['9:45',1,'Brooks, Samuel','50M','Telehealth','Tele med review','conf'],
+      ['10:00',1,'Foster, Diane','59F','Follow-up','labs','unconf'],
+      ['10:15',1,'Hassan, Ahmed','41M','Sick','back pain','conf'],
+      ['10:30',1,'Soto, Elena','23F','Sick','UTI sx','unconf',{ins:true}],
+      ['10:45',1,'Morales, Juan','71M','Follow-up','COPD','conf'],
+      ['11:00',1,'Yamamoto, Ken','33M','Sick','wrist pain','conf'],
+      ['11:15','open'],
+      ['11:30',1,'Okonkwo, Chidi','29M','Sick','cut R hand','conf'],
+      ['11:45',1,'Mendez, Raul','52M','Sick','rash','conf'],
+      ['1:00','open'],
+      ['1:15',1,'Baker, Lily','19F','Sick','nausea','conf'],
+      ['1:30',1,'Novak, Petr','36M','Sick','fever','conf']
+    ]
+  };
+
+  var SHORT = {'Follow-up':'F/U','Sick':'Sick','Physical':'Physical','Vaccine':'Vaccine','Telehealth':'Tele','New patient':'New pt','Procedure':'Proc.'};
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  var g = document.getElementById('grid');
+  var html = '<div class="times" style="height:' + H + 'px">';
+  SLOTS.forEach(function (t, i) {
+    if (i === 16) return;
+    var hr = /:00$/.test(t);
+    var lbl = hr ? t.replace(':00', '') + (i < 16 && t !== '12:00' && parseInt(t) >= 8 && parseInt(t) < 12 ? ' AM' : ' PM') : t;
+    html += '<div class="tl' + (hr ? ' h' : '') + '" style="top:' + (y(t) + 3) + 'px">' + lbl + '</div>';
+  });
+  html += '</div>';
+
+  ['rao','feld','kim','ortega'].forEach(function (c) {
+    html += '<div class="col" style="height:' + H + 'px">';
+    SLOTS.forEach(function (t, i) { if (i !== 16) html += '<div class="gl' + (/:00$/.test(t) ? ' h' : '') + '" style="top:' + y(t) + 'px"></div>'; });
+    D[c].forEach(function (a) {
+      var top = y(a[0]) + 1;
+      if (a[1] === 'open') {
+        html += '<div class="open" style="top:' + top + 'px;height:' + (ROW - 2) + 'px"><b>+</b> Open</div>';
+        return;
+      }
+      if (a[1] === 'blk') {
+        var n = a[3] || 1;
+        html += '<div class="blk" style="top:' + top + 'px;height:' + (n * ROW - 2) + 'px">' + esc(a[2]) + '</div>';
+        return;
+      }
+      if (a[1] === 'dbl') {
+        html += '<div class="appt dbl" style="top:' + top + 'px;height:' + (ROW - 2) + 'px" title="Double-booked: 2 patients in one slot">' +
+          '<span class="tag">2 booked</span>' +
+          '<div class="l1"><b>Reyes, Lucas</b><i>3M fever</i></div>' +
+          '<div class="l1"><b>Adams, Chloe</b><i>8F F/U</i></div></div>';
+        return;
+      }
+      var n = a[1], st = a[6], x = a[7] || {};
+      var h = n * ROW - 2;
+      var label = '', reason = esc(a[5]);
+      if (st === 'waiting') { label = '<span class="st">● Waiting ' + x.mins + ' min</span> · '; reason = SHORT[a[4]]; }
+      else if (st === 'inroom') { label = '<span class="st">■ Room ' + x.room + ' · ' + x.mins + ' min</span>'; reason = ''; }
+      else if (st === 'unconf') label = '<span class="st">? Unconfirmed</span> · ';
+      else if (st === 'cancel') label = '<span class="st">✕ Cancelled</span> · ';
+      else reason = SHORT[a[4]] + (reason ? ' · ' + reason : '');
+      var cls = 'appt ' + st + (x.sel ? ' sel' : '');
+      html += '<div class="' + cls + '" title="' + esc(a[2] + ' ' + a[3] + ' · ' + a[4] + ' · ' + a[5]) + '" style="top:' + top + 'px;height:' + h + 'px">' +
+        '<div class="l1"><b>' + esc(a[2]) + '</b>' + (x.ins ? '<span class="pill" title="Insurance could not be verified">Verify ins.</span>' : '<i>' + esc(a[3]) + '</i>') + '</div>' +
+        '<div class="l2' + (n > 1 ? ' wrap' : '') + '">' + label + reason + '</div>' +
+        (n > 1 && st !== 'conf' ? '<div class="l3">' + esc(a[4]) + '</div>' : '') +
+        '</div>';
+    });
+    html += '</div>';
+  });
+
+  // lunch band + now line (8:04 = 4/15 of the 8:00 row)
+  html += '<div class="lunch" style="top:' + y('12:00') + 'px;height:' + LUNCH + 'px">Lunch 12:00 – 1:00 PM</div>';
+  var nowY = Math.round(4 / 15 * ROW);
+  html += '<div class="now" style="top:' + nowY + 'px"></div>';
+  g.innerHTML = html;
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{
+  "brief": "/Users/dongli/Workspace/design-skill-lab/evals/briefs/05-agent-approvals.md",
+  "rendered": "2026-09-27T11:45:25.360Z",
+  "items": [
+    {
+      "html": "run-progress.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-progress-01.png",
+        "run-progress-02.png"
+      ],
+      "page_height": 1395,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "run-approval.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-approval-01.png",
+        "run-approval-02.png",
+        "run-approval-03.png"
+      ],
+      "page_height": 1892,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "run-error.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-error-01.png",
+        "run-error-02.png"
+      ],
+      "page_height": 1467,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "run-result.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-result-01.png",
+        "run-result-02.png",
+        "run-result-03.png"
+      ],
+      "page_height": 1899,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

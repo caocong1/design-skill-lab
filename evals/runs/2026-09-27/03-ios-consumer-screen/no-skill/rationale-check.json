@@ -1,0 +1,103 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "no-skill",
+  "label": "A",
+  "protocol": "evals/judging.md section 10",
+  "rationale_sources": [
+    "out/NOTES.md"
+  ],
+  "renders": [
+    "render/today.png",
+    "render/book.png",
+    "render/empty.png"
+  ],
+  "facts": "facts.json",
+  "claims": [
+    {
+      "claim": "a floating Liquid Glass tab bar (Today, Library, Stats) with Search as a separate circular glass button on the right",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png, book.png, empty.png: capsule tab bar with Today/Library/Stats and a separate round Search button at trailing edge"
+    },
+    {
+      "claim": "The tab bar sits at y 774–836, above the 34 pt home-indicator zone ... The top toolbar row starts at y 62",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png @2x: tab bar spans about 1548–1672 px = 774–836 pt, clear of the home indicator; the + and back/more glass buttons start just below the status bar"
+    },
+    {
+      "claim": "Accent colour is brick red #A8401F (6.1:1 on white ...). Secondary text is #5E5E63 (≥5.3:1 on both backgrounds) ... keeps tab labels above AA contrast",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.json: 0 contrast failures on all three screens (46 + 34 + 15 text nodes); lowest 5.09 on today/empty. Lowest on book is 4.80 (measured from pixels over the green-tinted header), still AA but below the quoted 5.3 figure"
+    },
+    {
+      "claim": "Text is at least 13 pt except the 10 pt tab labels",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "render/today.png: cover lettering 'WALDEN' and 'THE PILLOW BOOK' is 5.5 px, 'GEORGE ELIOT' 7 px; render/book.png cover author 9 px (today.html/book.html inline styles). Decorative cover placeholders, not UI text; facts report no contrast failure for them"
+    },
+    {
+      "claim": "the goal ring, '8 min to go', the streak (4 days, best 23) and this week's minutes share one card ... Today's 12 min is labelled 'Today'. The dashed line marks the 20-min goal",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: one card with ring '12 of 20', '8 min to go', '4-day streak · Best 23', week bars with dashed goal line and 'Goal 20 min' legend, last bar labelled '12 Today' in accent"
+    },
+    {
+      "claim": "'Continue Reading' puts Start Session and Log Pages on the last-read book (Middlemarch). Walden and The Pillow Book appear as compact cards with progress and last-session day",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: Middlemarch card holds filled Start Session and tinted Log Pages; half-width cards 'Walden 61% · Thu' and 'The Pillow Book 18% · 14 Sep'"
+    },
+    {
+      "claim": "The recent highlight continues below the fold",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "render/today.png shows no highlight on the first screen (consistent); today.html contains the p. 194 highlight, but it is off-frame in the 874 pt render"
+    },
+    {
+      "claim": "Book detail is shown pushed inside the Library tab, so the tab bar stays visible with Library selected. The back button is the iOS 26 chevron-only glass circle",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/book.png: Library tab highlighted, round glass chevron-only back button top leading, round '…' button top trailing"
+    },
+    {
+      "claim": "Sessions list the four given entries, and 'See All' leads to all 23",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "render/book.png: 'See All' present; only three session rows (Today, Sat 26 Sep, Fri 25 Sep) are visible, the fourth is under the tab bar and fade. book.html contains four rows, which a static frame cannot show"
+    },
+    {
+      "claim": "the header has a soft green tint taken from the cover colour",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/book.png: pale green wash behind status bar, toolbar and cover/title block, matching the green Middlemarch cover"
+    },
+    {
+      "claim": "First run: the first step is the single filled button, Scan Barcode. Search by Title is secondary and Import from CSV File is tertiary. The daily goal shows the 20-minute preset with an iOS stepper. There is no streak, sessions or highlights",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: filled Scan Barcode, grey-filled Search by Title, plain-text Import from CSV File; '20 minutes a day' with −/+ stepper; no streak, chart, sessions or highlights"
+    },
+    {
+      "claim": "Book covers are designed placeholders ... (title in serif on a flat cloth colour)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png, book.png: flat green/blue/maroon cover blocks with serif uppercase title and rule"
+    }
+  ],
+  "counts": {
+    "verified": 9,
+    "contradicted": 1,
+    "not_checkable": 2
+  },
+  "summary": "claims: 9 verified, 1 contradicted, 2 not checkable",
+  "contradicted": [
+    "Text is at least 13 pt except the 10 pt tab labels"
+  ],
+  "notes": [
+    "The NOTES.md makes no target-size claim; facts list the two empty-screen stepper halves at 52x36 (under 44).",
+    "The '…' menu contents (Mark as Finished, Edit Goal, Remove from Library) are not drawn, as the notes say; not checked.",
+    "No out/rationale.md; claims taken from out/NOTES.md only."
+  ]
+}

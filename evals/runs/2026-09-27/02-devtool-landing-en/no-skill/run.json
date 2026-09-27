@@ -1,0 +1,71 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "no-skill",
+  "model": "claude-opus-5-5",
+  "start": 1790505029,
+  "end": 1790505450,
+  "wall_seconds": 421,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:30:29+00:00",
+  "end_iso": "2026-09-27T10:37:30+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": null
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 32,
+  "duration_api_ms": 385052,
+  "dollars": 1.6163,
+  "tokens": {
+    "input": 40,
+    "output": 41231,
+    "thinking": 9292,
+    "cache_read": 1093963,
+    "cache_creation": 71587
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 40,
+    "output": 41231,
+    "thinking": 9292,
+    "cache_read": 1093963,
+    "cache_creation": 71587
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 40,
+      "outputTokens": 41231,
+      "cacheReadInputTokens": 1093963,
+      "cacheCreationInputTokens": 71587,
+      "webSearchRequests": 0,
+      "costUSD": 1.6162686,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 9292,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/02-devtool-landing-en.no-skill.transcript.jsonl",
+    "sha256": "2c8ec9f107f2efee2fcc4464d64d1817ca58277f092251ee2bf889e6eb648a63",
+    "bytes": 10803540
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

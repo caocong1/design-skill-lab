@@ -1,0 +1,98 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "suite-0.8.0",
+  "checker": "rationale-vs-render (judging.md section 10)",
+  "sources_read": [
+    "out/NOTES.md"
+  ],
+  "renders": [
+    "render/list.png",
+    "render/filter.png",
+    "render/empty.png"
+  ],
+  "facts": "facts.json",
+  "claims": [
+    {
+      "claim": "「时间先行」：每行最左是一张“预约小票”（今天 / 16:00 / 可上门），今天可约用品牌青绿底标出",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: every row starts with a ticket block; 今天 16:00 and 今天 18:30 on a light teal ground with teal numerals, 明天 tickets on neutral grey."
+    },
+    {
+      "claim": "价格用正文墨色而非促销红/橙",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: ¥129 起, ¥89 / 台, ¥159 / 台 and 上门费 ¥50 are all in dark ink."
+    },
+    {
+      "claim": "列表用整行白底 + 细分隔线（不是等大卡片）",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: full-width white rows separated by hairlines indented to the text column; no card containers."
+    },
+    {
+      "claim": "品牌青绿只表示两件事：“今天可约”和“已选中”",
+      "source": "out/NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Teal is used beyond those two meanings: the location pin (render/list.png), the 查看结果（0 个） primary button fill (render/filter.png), the 6 / 4 / 1 个服务 counts and the pin illustration (render/empty.png). Category underline, tab bar, filter badge and checked chips do fit 已选中."
+    },
+    {
+      "claim": "「平台担保」等标签一律用中性灰底（担保带盾牌图标）",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 平台担保 (with shield), 自带工具, 高温蒸汽, 可开发票, 拆洗, 30 分钟响应 all on neutral grey."
+    },
+    {
+      "claim": "空状态沿用小票语汇：每条放宽建议前有一个小票（明天 / 3 km / 发票图标）",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: grey tiles 明天, 3 km and a crossed-out invoice icon lead the three suggestion rows."
+    },
+    {
+      "claim": "类目栏右端是「展开全部类目」按钮（下拉箭头），替代半截露出的类目名",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: category row ends with a divider and a chevron button; 家居维修 is shown whole, with no half-cut label."
+    },
+    {
+      "claim": "顶部位置切换放在导航行左侧（胶囊左侧，最右不超过 269 px……），主文字「星湖街」，辅以「苏州 · 工业园区」",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 星湖街 large bold, 苏州 · 工业园区 small grey, chevron ending near x=200 CSS px, clear of the capsule."
+    },
+    {
+      "claim": "排序用「综合排序 ▾」下拉，筛选按钮在右；列表页右侧显示「共 26 个服务」；筛选打开状态不显示「家电清洗」类目总数",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 综合排序 ▾ at left, 共 26 个服务 and 筛选 at right; render/filter.png: the sort row shows no count, only 筛选 3."
+    },
+    {
+      "claim": "「服务人员」单选默认「不限」为选中，已选计数 3；0 个匹配时仍允许点「查看结果（0 个）」，按钮上方提示“改成明天有 6 个”，可点击直接应用",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/filter.png: 不限 checked, 筛选 badge 3; tinted notice 没有匹配的服务，改成明天有 6 个 with a 改成明天 › link, above a filled 查看结果（0 个） button. Tapping is behaviour and is not shown."
+    },
+    {
+      "claim": "空状态的放宽建议按结果数从多到少排序：改成明天 6 个、放宽到 3 km 内 4 个、去掉可开发票 1 个；底部「修改筛选」「清除筛选」",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: rows 6 / 4 / 1 in that order, then 修改筛选 and 清除筛选 as two equal outlined buttons."
+    },
+    {
+      "claim": "所有文字/背景对比度……均满足 AA；lint.mjs 三页均通过对比度、溢出、可访问名称检查",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.json: 0 contrast failures, lowest ratio 4.98, no horizontal overflow, 0 images without alt, in all three files."
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    "品牌青绿只表示两件事：“今天可约”和“已选中”"
+  ],
+  "notes": "One contradiction: the rule that teal means only 'today available' and 'selected' does not hold in the renders. Teal also marks the location pin, the primary button, the empty-state result counts and the empty illustration. Side notes, not scored as claims: (1) the 指定日期… label in render/filter.png is literal source text with an ellipsis (NOTES: a fix for '指定日期无下一步提示'), not CSS truncation; (2) NOTES says type is reduced to 12/13/14/16/18 plus the 10 px tab bar, and the source matches apart from a 15 px status-bar clock (system chrome); font sizes cannot be measured from the render; (3) NOTES makes no target-size claim, but facts list 19 filter chips at 80x36, under 44 px; (4) the large-font filter check and the list's '已显示 8 个' footer are outside the canonical renders and are not checkable."
+}

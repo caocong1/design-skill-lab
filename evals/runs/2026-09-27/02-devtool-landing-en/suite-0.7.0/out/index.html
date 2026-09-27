@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driftless: the local-first SQL database that syncs</title>
+<meta name="description" content="Driftless is an open-source, local-first SQL database. Reads and writes are instant and work offline; Driftless keeps every copy in sync.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F6; --surface:#FFFFFF; --tint:#E8EDF7;
+  --ink:#0E1621; --ink-2:#3D4A5C; --ink-3:#5B6778;
+  --line:#D5DAE1; --line-strong:#B9C1CC;
+  --local:#2B45D8; --local-soft:#E3E8FC;
+  --remote:#A34A06; --remote-soft:#FBEBDD;
+  --code-bg:#0E1621; --code-2:#16202D; --code-line:#253142;
+  --code-fg:#E8ECF2; --code-dim:#9AA6B6; --code-k:#A9B8FF; --code-s:#F5C07A; --code-q:#8FD3B0;
+  --sans:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --wrap:1240px; --gutter:40px;
+  --r:6px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-0.02em;text-wrap:balance}
+p{margin:0}
+code,pre,.mono{font-family:var(--mono)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--local);outline-offset:3px;border-radius:3px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 20px;border-radius:var(--r);font-weight:600;font-size:16px;text-decoration:none;white-space:nowrap;border:1px solid transparent}
+.btn-primary{background:var(--local);color:#fff}
+.btn-primary:hover{background:#1F36B8}
+.btn-quiet{border-color:var(--line-strong);color:var(--ink);background:var(--surface)}
+.btn-quiet:hover{border-color:var(--ink-3)}
+.btn-sm{height:38px;padding:0 14px;font-size:15px}
+
+/* Release bar + nav */
+.release{background:var(--ink);color:#E8ECF2;font-size:14px}
+.release .wrap{display:flex;gap:12px;align-items:center;justify-content:center;min-height:40px;padding-top:6px;padding-bottom:6px;text-align:center}
+.release strong{color:#fff;font-weight:600}
+.release a{color:#C7D0FF;text-underline-offset:3px}
+.release .long{display:inline}
+.release .short{display:none}
+header.nav{background:var(--bg);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;height:68px;gap:36px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:21px;letter-spacing:-0.03em}
+.brand svg{flex:none}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-size:15px;font-weight:500;color:var(--ink-2)}
+.nav ul a{text-decoration:none}
+.nav ul a:hover{color:var(--ink)}
+.nav .end{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:15px;font-weight:500}
+.nav .end a.signin{text-decoration:none;color:var(--ink-2)}
+.menu-btn{display:none;width:40px;height:40px;border:1px solid var(--line-strong);border-radius:var(--r);background:var(--surface);align-items:center;justify-content:center}
+
+/* Hero */
+.hero{padding:60px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,4.6fr) minmax(0,7.4fr);column-gap:48px;row-gap:36px;align-items:start}
+.hero h1{grid-column:1/-1;font-size:62px;line-height:1.03;letter-spacing:-0.035em;font-weight:800}
+.hero .lede{margin-top:4px;font-size:19px;line-height:1.5;color:var(--ink-2);max-width:40ch}
+.hero .lede strong{color:var(--ink);font-weight:600}
+.install{margin-top:30px;display:flex;align-items:stretch;border:1px solid var(--ink);border-radius:var(--r);background:var(--surface);max-width:440px;overflow:hidden}
+.install code{flex:1;display:flex;align-items:center;gap:10px;padding:0 16px;height:50px;font-size:15.5px;white-space:nowrap;overflow:hidden}
+.install code .prompt{color:var(--ink-3);user-select:none}
+.install button{border:0;border-left:1px solid var(--line);background:transparent;padding:0 16px;font:600 14px var(--sans);color:var(--ink-2);cursor:pointer}
+.install button:hover{background:var(--bg);color:var(--ink)}
+.hero .ctas{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
+.hero .also{margin-top:14px;font-size:14.5px;color:var(--ink-3)}
+.hero .also a{color:var(--ink-2);text-underline-offset:3px}
+.proof{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);display:flex;gap:30px;flex-wrap:wrap;font-size:14.5px;color:var(--ink-3)}
+.proof b{display:block;font-size:20px;color:var(--ink);font-weight:700;letter-spacing:-0.01em}
+
+/* Code window */
+.editor{background:var(--code-bg);border-radius:10px;color:var(--code-fg);box-shadow:0 1px 0 rgba(14,22,33,.06),0 24px 48px -24px rgba(14,22,33,.35);overflow:hidden}
+.editor .bar{display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 18px;border-bottom:1px solid var(--code-line);font:500 13px var(--mono);color:var(--code-dim)}
+.editor .bar .file{color:var(--code-fg)}
+.editor pre{margin:0;padding:24px 20px 28px;font-size:13px;line-height:1.8;overflow:hidden;counter-reset:ln}
+.editor pre .ln{display:block;padding-left:34px;position:relative;min-height:1.7em}
+.editor pre .ln::before{counter-increment:ln;content:counter(ln);position:absolute;left:0;width:22px;text-align:right;color:#6E7B8C;user-select:none}
+.k{color:var(--code-k)} .s{color:var(--code-s)} .q{color:var(--code-q)} .f{color:#fff;font-weight:500} .i{color:var(--code-s)} .c{color:var(--code-dim)}
+.code-narrow{display:none}
+.editor .foot{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--code-line);font-size:13.5px;color:var(--code-dim)}
+.editor .foot div{padding:14px 18px;border-left:1px solid var(--code-line)}
+.editor .foot div:first-child{border-left:0}
+.editor .foot b{display:block;color:var(--code-fg);font-weight:600;font-size:14px}
+
+/* Runs on */
+.runs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface)}
+.runs .wrap{display:grid;grid-template-columns:180px repeat(4,1fr);align-items:stretch}
+.runs .label{padding:22px 0;font-weight:600;font-size:15px;align-self:center}
+.runs .cell{padding:20px 22px;border-left:1px solid var(--line)}
+.runs .cell b{display:block;font-size:16px;font-weight:600}
+.runs .cell span{font-size:14.5px;color:var(--ink-3)}
+
+/* Sections */
+section.block{padding:112px 0}
+.sec-head{max-width:720px}
+.sec-head h2{font-size:44px;line-height:1.08}
+.sec-head p{margin-top:16px;font-size:18.5px;color:var(--ink-2);max-width:58ch}
+
+/* How it works */
+.steps{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;position:relative}
+.step h3{font-size:20px;line-height:1.3;letter-spacing:-0.01em;display:flex;gap:12px;align-items:baseline}
+.step h3 .n{flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px;font-weight:700;letter-spacing:0;transform:translateY(-2px)}
+.step > p{margin-top:10px;color:var(--ink-2);font-size:16px;max-width:36ch;min-height:3.1em}
+.panel{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;font-size:14px}
+.device{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:600;color:var(--ink-2);margin-bottom:12px}
+.tag{display:inline-block;font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:999px;line-height:1.5}
+.tag.off{background:#EDEFF2;color:var(--ink-2)}
+.tag.loc{background:var(--local-soft);color:#1E33A8}
+.tag.rem{background:var(--remote-soft);color:var(--remote)}
+.sql{font-family:var(--mono);font-size:13px;line-height:1.6;background:var(--bg);border-radius:var(--r);padding:10px 12px;color:var(--ink)}
+.sql .kw{color:var(--local);font-weight:500}
+.row{display:grid;grid-template-columns:52px 1fr 64px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;font-size:13.5px;margin-top:8px}
+.row > span{padding:8px 10px;border-left:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row > span:first-child{border-left:0;font-family:var(--mono);font-size:12.5px;color:var(--ink-3)}
+.row.head > span{background:var(--bg);font-size:12.5px;font-weight:600;color:var(--ink-3);padding-top:6px;padding-bottom:6px}
+.row.head > span:first-child{font-family:var(--sans)}
+.hl-l{background:var(--local-soft);color:#1E33A8;font-weight:600}
+.hl-r{background:var(--remote-soft);color:var(--remote);font-weight:600}
+.note{margin-top:12px;font-size:13.5px;color:var(--ink-3);line-height:1.45}
+.who{font-size:12.5px;font-weight:600;color:var(--ink-3);margin-top:12px}
+.merge-arrow{text-align:center;color:var(--ink-3);font-size:13px;margin:10px 0 2px}
+.fan{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.fan li{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--r);padding:9px 12px;font-size:14px}
+.fan li.skip{border-style:dashed;color:var(--ink-3)}
+.fan li small{font-size:12.5px;font-weight:600}
+.server{display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:var(--r);padding:10px 12px;font-size:14px;font-weight:600}
+.server code{margin-left:auto;font-size:12.5px;color:#C7D0FF;font-weight:400}
+.legend{margin-top:28px;display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+
+/* Features */
+.features{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.features .wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:64px}
+.features .sec-head{position:sticky;top:32px;align-self:start}
+.feat-list{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}
+.feat{padding:26px 0;border-top:1px solid var(--line)}
+.feat h3{font-size:19px;letter-spacing:-0.01em;line-height:1.3}
+.feat p{margin-top:8px;font-size:16px;color:var(--ink-2)}
+.feat code{font-size:14px;background:var(--bg);padding:1px 6px;border-radius:4px;color:var(--ink)}
+.feat .new{font-size:12.5px;font-weight:600;color:#1E33A8;background:var(--local-soft);padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:3px;letter-spacing:0}
+
+/* Comparison */
+.compare{background:var(--ink);color:#E8ECF2}
+.compare .sec-head p{color:#B5C0CE}
+.cmp{margin-top:48px;width:100%;border-collapse:collapse;font-size:17px}
+.cmp th,.cmp td{text-align:left;padding:20px 24px;border-top:1px solid #2A3647;vertical-align:top}
+.cmp thead th{border-top:0;font-size:14.5px;font-weight:600;color:#B5C0CE;padding-top:16px;padding-bottom:16px}
+.cmp thead th.us{color:#fff}
+.cmp tbody th{font-weight:600;color:#fff;width:22%}
+.cmp tbody th,.cmp thead th:first-child{padding-left:0}
+.cmp td.them{color:#B5C0CE;width:39%}
+.cmp td.us{color:#fff;background:#16202D;width:39%}
+.cmp thead th.us{background:#16202D;border-radius:8px 8px 0 0}
+.cmp tbody tr:last-child td.us{border-radius:0 0 8px 8px}
+
+/* Benchmarks */
+.bench{margin-top:64px;display:grid;grid-template-columns:260px repeat(3,1fr);border-top:1px solid #2A3647;border-bottom:1px solid #2A3647}
+.bench .cap{padding:24px 24px 24px 0;font-size:14.5px;color:#B5C0CE}
+.bench .cap b{display:block;color:#fff;font-size:16px;font-weight:600;margin-bottom:4px}
+.bench .m{padding:24px;border-left:1px solid #2A3647;font-size:15px;color:#B5C0CE}
+.bench .m b{display:block;font-size:34px;line-height:1.1;letter-spacing:-0.02em;color:#fff;font-weight:700;margin-bottom:6px}
+.bench .m b small{font-size:17px;font-weight:600;color:#C7D0FF;margin-left:4px;letter-spacing:0}
+
+/* Pricing */
+.pricing{background:var(--surface);border-top:1px solid var(--line)}
+.pricing .top{display:flex;justify-content:space-between;align-items:end;gap:40px}
+.plans{margin-top:48px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:10px}
+.plan{padding:28px 26px 30px;border-left:1px solid var(--line);display:flex;flex-direction:column}
+.plan:first-child{border-left:0}
+.plan.pro{background:var(--ink);color:#E8ECF2;border-radius:0;margin:-1px 0;border-left:0}
+.plan h3{font-size:18px;letter-spacing:-0.01em}
+.plan .for{font-size:14.5px;color:var(--ink-3);margin-top:4px;min-height:2.9em}
+.plan.pro .for{color:#B5C0CE}
+.plan .price{margin-top:18px;font-size:40px;font-weight:800;letter-spacing:-0.03em;line-height:1}
+.plan .price small{font-size:15px;font-weight:500;letter-spacing:0;color:var(--ink-3);margin-left:4px}
+.plan.pro .price small{color:#B5C0CE}
+.plan ul{list-style:none;margin:22px 0 26px;padding:0;font-size:15.5px;display:grid;gap:10px}
+.plan li{padding-left:22px;position:relative;line-height:1.45}
+.plan li::before{content:"";position:absolute;left:2px;top:.5em;width:10px;height:6px;border-left:2px solid var(--local);border-bottom:2px solid var(--local);transform:rotate(-45deg)}
+.plan.pro li::before{border-color:#A9B8FF}
+.plan .btn{margin-top:auto;width:100%}
+.plan.pro .btn-quiet{background:transparent;color:#fff;border-color:#5B6778}
+.plan.pro .btn-primary{background:#fff;color:var(--ink)}
+.pricing .foot-note{margin-top:20px;font-size:14.5px;color:var(--ink-3)}
+
+/* FAQ */
+.faq .wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:64px}
+.qa{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}
+.qa div{padding:24px 0;border-top:1px solid var(--line)}
+.qa h3{font-size:18.5px;line-height:1.35;letter-spacing:-0.01em}
+.qa p{margin-top:8px;font-size:16px;color:var(--ink-2)}
+
+/* Start */
+.start{background:var(--ink);color:#E8ECF2}
+.start .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:center}
+.start h2{font-size:46px;line-height:1.05;color:#fff}
+.start p{margin-top:16px;color:#B5C0CE;font-size:18px;max-width:40ch}
+.start .ctas{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+.start .btn-quiet{background:transparent;color:#fff;border-color:#5B6778}
+.cmds{display:grid;gap:12px}
+.cmd{background:var(--code-2);border:1px solid var(--code-line);border-radius:8px;padding:16px 20px}
+.cmd .lbl{font-size:14px;color:#B5C0CE;font-weight:500}
+.cmd code{display:block;margin-top:6px;font-size:15.5px;color:#fff;overflow-wrap:anywhere}
+.cmd code .prompt{color:#8C98A8}
+
+footer{background:var(--ink);color:#B5C0CE;font-size:14.5px;border-top:1px solid #2A3647}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:32px;padding-top:36px;padding-bottom:40px;flex-wrap:wrap}
+footer ul{list-style:none;margin:0;padding:0;display:flex;gap:22px;flex-wrap:wrap}
+footer a{text-decoration:none}
+footer a:hover{color:#fff;text-decoration:underline}
+footer .brand{color:#fff;font-size:18px}
+
+/* ---------- Tablet ---------- */
+@media (max-width:1120px){
+  .nav ul{gap:18px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr);row-gap:24px}
+  .hero .editor{margin-top:20px}
+  .hero h1{max-width:16ch}
+  .runs .wrap{grid-template-columns:repeat(2,1fr)}
+  .runs .label{grid-column:1/-1;padding-bottom:0}
+  .runs .cell{border-left:0;border-top:1px solid var(--line);padding-left:0}
+  .steps{grid-template-columns:1fr;max-width:640px}
+  .step > p{min-height:0}
+  .features .wrap,.faq .wrap{grid-template-columns:minmax(0,1fr);gap:32px}
+  .features .sec-head{position:static}
+  .bench{grid-template-columns:repeat(3,1fr)}
+  .bench .cap{grid-column:1/-1;border-bottom:1px solid #2A3647}
+  .bench .m:nth-child(2){border-left:0;padding-left:0}
+  .plans{grid-template-columns:1fr 1fr}
+  .plan:nth-child(3){border-left:0}
+  .plan:nth-child(n+3){border-top:1px solid var(--line)}
+  .plan.pro{margin:0}
+  .start .wrap{grid-template-columns:minmax(0,1fr);gap:40px}
+}
+@media (max-width:900px){
+  .nav ul,.nav .end a.signin{display:none}
+  .menu-btn{display:inline-flex}
+  .nav .end{gap:10px}
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width:640px){
+  :root{--gutter:20px}
+  body{font-size:16px}
+  .release .long{display:none}
+  .release .short{display:inline}
+  .release .wrap{font-size:13.5px}
+  .nav .wrap{height:60px}
+  .brand{font-size:19px}
+  .hero{padding:36px 0 48px}
+  .hero .wrap{gap:20px}
+  .hero h1{font-size:40px;line-height:1.04;letter-spacing:-0.03em}
+  .hero .lede{font-size:17px;margin-top:0}
+  .install{margin-top:24px;max-width:none}
+  .install code{font-size:13.5px;padding:0 12px;gap:8px}
+  .install button{padding:0 13px}
+  .hero .ctas .btn{flex:1}
+  .proof{margin-top:28px;gap:0;justify-content:space-between;font-size:13px}
+  .proof b{font-size:18px}
+  .code-wide{display:none}
+  .code-narrow{display:block}
+  .editor{margin:0 -4px;border-radius:8px}
+  .editor .bar{padding:0 14px}
+  .editor pre{padding:16px 12px 18px;font-size:12.5px;line-height:1.65}
+  .editor pre .ln{padding-left:25px}
+  .editor pre .ln::before{width:15px}
+  .editor .foot{display:none}
+  .editor .foot div{padding:12px 10px}
+  .editor .foot b{font-size:13px}
+  .runs .wrap{grid-template-columns:1fr 1fr}
+  .runs .label{padding-top:14px}
+  .runs .cell{padding:10px 12px 10px 0}
+  .runs .cell b{font-size:15px}
+  .runs .cell span{font-size:13.5px}
+  section.block{padding:48px 0}
+  .m-hide{display:none!important}
+  .how .sec-head p{display:none}
+  .release .wrap{min-height:36px}
+  .sec-head h2{font-size:31px;line-height:1.1}
+  .sec-head p{font-size:16.5px;margin-top:12px}
+  .steps{margin-top:28px;gap:32px}
+  .step h3{font-size:18px}
+  .step > p{font-size:15.5px}
+  .panel{padding:14px;margin-top:14px}
+  .legend{margin-top:24px;gap:10px 20px;font-size:13.5px}
+  .feat-list{grid-template-columns:1fr}
+  .feat.dup{display:none}
+  .feat{padding:18px 0}
+  .feat h3{font-size:17.5px}
+  .feat p{font-size:15.5px;margin-top:6px}
+  .cmp{margin-top:28px;font-size:15px}
+  .cmp thead{display:block}
+  .cmp thead tr{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 0 10px;border:0}
+  .cmp thead th:first-child{display:none}
+  .cmp thead th{padding:8px 10px!important;font-size:13.5px;border-radius:6px}
+  .cmp,.cmp tbody{display:block}
+  .cmp tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 0;border-top:1px solid #2A3647}
+  .cmp th,.cmp td{border:0;padding:0;width:auto!important}
+  .cmp tbody th{grid-column:1/-1;font-size:15.5px}
+  .cmp td{padding:0 10px!important;font-size:14.5px;line-height:1.45}
+  .cmp td.us{padding:8px 10px!important;border-radius:6px;margin:-8px 0}
+  .cmp tbody tr:last-child td.us{border-radius:6px}
+  .bench{margin-top:40px;grid-template-columns:1fr}
+  .bench .cap{padding:18px 0}
+  .bench .m{border-left:0!important;padding:14px 0!important;border-top:1px solid #2A3647;display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-size:14.5px}
+  .bench .m b{order:2;font-size:24px;margin:0;white-space:nowrap}
+  .bench .m b small{font-size:14px}
+  .pricing .top{display:block}
+  .pricing .top .btn{display:none}
+  .plans{grid-template-columns:1fr;margin-top:32px}
+  .plan{border-left:0;border-top:1px solid var(--line);padding:20px 20px 22px}
+  .plan .btn{height:42px}
+  .plan:first-child{border-top:0}
+  .plan .for{min-height:0}
+  .plan .price{font-size:30px;margin-top:8px}
+  .plan ul{margin:14px 0 18px;font-size:15px;gap:6px}
+  .plan.pro{border-radius:0}
+  .qa{grid-template-columns:1fr}
+  .qa div{padding:16px 0}
+  .qa h3{font-size:17px}
+  .qa p{font-size:15.5px}
+  .start h2{font-size:32px}
+  .start p{font-size:16.5px}
+  .start .ctas .btn{flex:1}
+  .cmd{padding:14px 16px}
+  .cmd code{font-size:13.5px}
+  footer .wrap{padding-top:28px;padding-bottom:32px;gap:20px}
+  footer ul{gap:10px 18px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .btn,.install button{transition:background-color .15s,border-color .15s,color .15s}
+}
+</style>
+</head>
+<body>
+
+<div class="release" role="region" aria-label="Release announcement">
+  <div class="wrap">
+    <span class="long"><strong>Driftless 1.4 is out.</strong> Shapes are generally available, Bun is supported, and the WebAssembly bundle is 30% smaller. <a href="#changelog">Read the changelog</a></span>
+    <span class="short"><strong>1.4 is out:</strong> shapes GA, Bun, smaller bundle. <a href="#changelog">Changelog</a></span>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="1" y="1" width="16" height="16" rx="3" fill="#0E1621"/>
+        <rect x="9" y="9" width="16" height="16" rx="3" fill="none" stroke="#2B45D8" stroke-width="2"/>
+        <rect x="9" y="9" width="8" height="8" fill="#2B45D8"/>
+      </svg>
+      Driftless
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#docs">Docs</a></li>
+        <li><a href="#guides">Guides</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#changelog">Changelog</a></li>
+        <li><a href="#github">GitHub</a></li>
+      </ul>
+    </nav>
+    <div class="end">
+      <a class="signin" href="#signin">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="#start">Get started</a>
+      <button class="menu-btn" aria-label="Open menu"><svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true"><path d="M0 1h18M0 7h18M0 13h18" stroke="#0E1621" stroke-width="2"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <h1>Your app’s data lives on the device first.</h1>
+    <div>
+      <p class="lede"><strong>Driftless is an open-source SQL database that runs inside your app.</strong> Reads and writes are instant and keep working offline, while Driftless syncs every copy in the background.</p>
+      <div class="install">
+        <code><span class="prompt">$</span> npm install @driftless/client</code>
+        <button type="button" aria-label="Copy install command" onclick="navigator.clipboard&&navigator.clipboard.writeText('npm install @driftless/client');this.textContent='Copied'">Copy</button>
+      </div>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#start">Get started</a>
+        <a class="btn btn-quiet" href="#how">How sync works</a>
+      </div>
+      <p class="also">Also for Swift and Android. <a href="#start">See all install options</a></p>
+      <div class="proof" aria-label="Project activity, August 2026">
+        <span><b>18.4k</b>GitHub stars</span>
+        <span><b>236</b>contributors</span>
+        <span><b>1.2M</b>npm downloads / month</span>
+      </div>
+    </div>
+
+    <figure class="editor" style="margin:0" aria-label="Code example: open a synced database, create a table, watch a query and insert a row">
+      <div class="bar"><span class="file">notes.ts</span><span>@driftless/client 1.4</span></div>
+<pre class="code-wide"><code><span class="ln"><span class="k">import</span> { open } <span class="k">from</span> <span class="s">"@driftless/client"</span>;</span><span class="ln"></span><span class="ln"><span class="k">const</span> db = <span class="k">await</span> <span class="f">open</span>(<span class="s">"notes.db"</span>, { sync: <span class="s">"wss://sync.example.dev"</span>, token });</span><span class="ln"></span><span class="ln"><span class="k">await</span> db.<span class="f">exec</span><span class="q">`CREATE TABLE IF NOT EXISTS notes (</span></span><span class="ln"><span class="q">  id TEXT PRIMARY KEY, body TEXT, updated_at INTEGER)`</span>;</span><span class="ln"></span><span class="ln">db.<span class="f">watch</span><span class="q">`SELECT * FROM notes ORDER BY updated_at DESC`</span>.<span class="f">subscribe</span>(render);</span><span class="ln"></span><span class="ln"><span class="k">await</span> db.<span class="f">exec</span><span class="q">`INSERT INTO notes VALUES (</span><span class="i">${id}</span><span class="q">, </span><span class="i">${body}</span><span class="q">, </span><span class="i">${Date.now()}</span><span class="q">)`</span>;</span></code></pre>
+<pre class="code-narrow"><code><span class="ln"><span class="k">import</span> { open } <span class="k">from</span> <span class="s">"@driftless/client"</span>;</span><span class="ln"></span><span class="ln"><span class="k">const</span> db = <span class="k">await</span> <span class="f">open</span>(<span class="s">"notes.db"</span>, {</span><span class="ln">  sync: <span class="s">"wss://sync.example.dev"</span>,</span><span class="ln">  token,</span><span class="ln">});</span><span class="ln"></span><span class="ln"><span class="k">await</span> db.<span class="f">exec</span><span class="q">`CREATE TABLE IF NOT EXISTS</span></span><span class="ln"><span class="q">  notes (id TEXT PRIMARY KEY,</span></span><span class="ln"><span class="q">  body TEXT, updated_at INTEGER)`</span>;</span><span class="ln"></span><span class="ln">db.<span class="f">watch</span><span class="q">`SELECT * FROM notes</span></span><span class="ln"><span class="q">  ORDER BY updated_at DESC`</span></span><span class="ln">  .<span class="f">subscribe</span>(render);</span><span class="ln"></span><span class="ln"><span class="k">await</span> db.<span class="f">exec</span><span class="q">`INSERT INTO notes</span></span><span class="ln"><span class="q">  VALUES (</span><span class="i">${id}</span><span class="q">, </span><span class="i">${body}</span><span class="q">,</span></span><span class="ln"><span class="q">  </span><span class="i">${Date.now()}</span><span class="q">)`</span>;</span></code></pre>
+      <div class="foot">
+        <div><b>0.2 ms</b>local indexed read, p50</div>
+        <div><b>0.8 ms</b>local write, p50</div>
+        <div><b>Offline</b>writes queue and survive restarts</div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<div class="runs" aria-label="Supported platforms">
+  <div class="wrap">
+    <div class="label">Runs inside your app</div>
+    <div class="cell"><b>Browser</b><span>WebAssembly + OPFS, 690&nbsp;KB gzipped</span></div>
+    <div class="cell"><b>iOS and Android</b><span>Native library</span></div>
+    <div class="cell"><b>Desktop</b><span>Electron, Tauri</span></div>
+    <div class="cell"><b>Server</b><span>Node, Bun, Deno</span></div>
+  </div>
+</div>
+
+<section class="block how" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>One write, three steps, every device.</h2>
+      <p>No request waits on the network. The write lands locally, Driftless merges it with whatever happened elsewhere, and the sync server passes it on.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <h3><span class="n">1</span>Your app writes to its local database.</h3>
+        <p>The query commits on the device and <code class="mono" style="font-size:14px">db.watch</code> re-renders the screen straight away, online or not.</p>
+        <div class="panel">
+          <div class="device">Laptop, Chrome <span class="tag off">Offline</span></div>
+          <div class="sql"><span class="kw">UPDATE</span> tasks <span class="kw">SET</span> status = 'done'<br><span class="kw">WHERE</span> id = 't_19';</div>
+          <div class="row head" style="margin-top:12px"><span>id</span><span>title</span><span>status</span></div>
+          <div class="row"><span>t_19</span><span>Launch post draft</span><span class="hl-l">done</span></div>
+          <p class="note m-hide">Committed locally. Stays queued until the laptop is back online.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3><span class="n">2</span>Driftless records the change and merges per column.</h3>
+        <p>Concurrent edits to different columns both survive. Hybrid logical clocks order edits to the same column.</p>
+        <div class="panel">
+          <div class="device">Row t_19, edited on two devices <span class="tag loc">Merged</span></div>
+          <p class="who">From the laptop</p>
+          <div class="row"><span>t_19</span><span>Launch post draft</span><span class="hl-l">done</span></div>
+          <p class="who">From the phone, at the same time</p>
+          <div class="row"><span>t_19</span><span class="hl-r">Launch post, final</span><span>todo</span></div>
+          <p class="merge-arrow" aria-hidden="true">↓ merged column by column</p>
+          <div class="row"><span>t_19</span><span class="hl-r">Launch post, final</span><span class="hl-l">done</span></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <h3><span class="n">3</span>The sync server relays it to every device that holds the row.</h3>
+        <p>Each device syncs a shape: only the rows its filter selects. Rows outside a device’s shape never reach it.</p>
+        <div class="panel">
+          <div class="server">Sync server <code>WHERE team_id = ?</code></div>
+          <ul class="fan">
+            <li>Phone, team 7 <small class="tag rem">receives t_19</small></li>
+            <li>Tablet, team 7 <small class="tag rem">receives t_19</small></li>
+            <li class="skip">Desktop, team 3 <small>not in its shape</small></li>
+          </ul>
+          <p class="note">Row-level rules are checked by the sync server against your own JWT.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend m-hide" aria-hidden="true">
+      <span><i style="background:var(--local-soft);border:1px solid #9FB0F5"></i>Edit made on this device</span>
+      <span><i style="background:var(--remote-soft);border:1px solid #E8B98E"></i>Edit arriving from another device</span>
+    </div>
+  </div>
+</section>
+
+<section class="block features" id="docs">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What you get in the box.</h2>
+      <p>A client library for each platform and a sync server you can run yourself or let us run.</p>
+    </div>
+    <div class="feat-list">
+      <div class="feat dup"><h3>SQL you already write</h3><p>An embedded database with a SQLite-compatible dialect. Most SQLite SQL runs unchanged.</p></div>
+      <div class="feat"><h3>Reactive queries</h3><p><code>db.watch</code> re-runs a query whenever matching rows change, whether the change was local or came from sync.</p></div>
+      <div class="feat"><h3>Shapes for partial sync<span class="new">GA in 1.4</span></h3><p>Each user syncs only the rows a filter selects, for example <code>WHERE team_id = ?</code>.</p></div>
+      <div class="feat dup"><h3>Conflicts merge themselves</h3><p>Per-column merging with hybrid logical clocks. Register custom merge functions for counters, lists and rich text.</p></div>
+      <div class="feat dup"><h3>Offline is the normal case</h3><p>The app keeps working without a connection, and pending changes survive restarts.</p></div>
+      <div class="feat dup"><h3>Your auth, your rules</h3><p>Bring your own JWT. Row-level rules are checked by the sync server.</p></div>
+      <div class="feat dup"><h3>A sync server in one binary</h3><p>Open source, backed by Postgres or SQLite. Run it anywhere, or use Driftless Cloud.</p></div>
+      <div class="feat dup"><h3>Every runtime you ship to</h3><p>Browser, iOS, Android, Electron, Tauri, Node, Deno, and now Bun.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block compare">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What changes when the database moves into the app.</h2>
+      <p>Compared with the usual setup: a server-first app with a cache in front of it.</p>
+    </div>
+    <table class="cmp">
+      <thead><tr><th scope="col"><span class="sr">Aspect</span></th><th scope="col">Server-first + cache</th><th scope="col" class="us">Driftless</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Reads</th><td class="them" data-l="Server + cache">A network round trip, or a possibly stale cache</td><td class="us" data-l="Driftless">Local, sub-millisecond</td></tr>
+        <tr><th scope="row">Offline writes</th><td class="them" data-l="Server + cache">Usually blocked, or a custom queue you maintain</td><td class="us" data-l="Driftless">Built in</td></tr>
+        <tr><th scope="row">Conflicts</th><td class="them" data-l="Server + cache">Hand-written</td><td class="us" data-l="Driftless">Automatic per column, customisable</td></tr>
+        <tr><th scope="row">Live updates</th><td class="them" data-l="Server + cache">A separate realtime service</td><td class="us" data-l="Driftless">Reactive queries included</td></tr>
+        <tr><th scope="row">Where data lives</th><td class="them" data-l="Server + cache">Your server</td><td class="us" data-l="Driftless">Each device and your server</td></tr>
+      </tbody>
+    </table>
+    <div class="bench">
+      <p class="cap"><b>Published benchmarks</b>M3 MacBook Air, Chrome 140, OPFS</p>
+      <p class="m"><b>0.2<small>ms</small></b>Local indexed read, p50</p>
+      <p class="m"><b>0.8<small>ms</small></b>Local write, p50</p>
+      <p class="m"><b>1.9<small>s</small></b>10,000 row changes reaching a second device over throttled 4G</p>
+    </div>
+  </div>
+</section>
+
+<section class="block pricing" id="pricing">
+  <div class="wrap">
+    <div class="top">
+      <div class="sec-head">
+        <h2>Free to self-host. Pay when we run sync for you.</h2>
+        <p>The client libraries and the sync server are Apache-2.0. Cloud plans are priced per project.</p>
+      </div>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Open source</h3>
+        <p class="for m-hide">Client libraries and self-hosted sync server</p>
+        <p class="price">Free</p>
+        <ul>
+          <li>All client libraries</li>
+          <li>Self-hosted sync server, Postgres or SQLite</li>
+          <li>Apache-2.0 licence</li>
+        </ul>
+        <a class="btn btn-quiet" href="#github">View on GitHub</a>
+      </div>
+      <div class="plan">
+        <h3>Cloud Hobby</h3>
+        <p class="for m-hide">Managed sync for side projects</p>
+        <p class="price">$0<small>/ month</small></p>
+        <ul>
+          <li>1 project</li>
+          <li>1&nbsp;GB synced data</li>
+          <li>500 monthly active devices</li>
+          <li>Community support</li>
+        </ul>
+        <a class="btn btn-quiet" href="#start">Start free</a>
+      </div>
+      <div class="plan pro">
+        <h3>Cloud Pro</h3>
+        <p class="for m-hide">Managed sync for production apps</p>
+        <p class="price">$39<small>/ month per project</small></p>
+        <ul>
+          <li>25&nbsp;GB synced data</li>
+          <li>25,000 monthly active devices</li>
+          <li>7-day point-in-time restore</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn btn-primary" href="#start">Start with Pro</a>
+      </div>
+      <div class="plan">
+        <h3>Enterprise</h3>
+        <p class="for m-hide">Compliance, residency and uptime commitments</p>
+        <p class="price" style="font-size:30px;line-height:1.33">Contact us</p>
+        <ul>
+          <li>SSO / SAML</li>
+          <li>Dedicated region: EU, US or APAC</li>
+          <li>99.95% uptime SLA</li>
+          <li>Audit log export</li>
+        </ul>
+        <a class="btn btn-quiet" href="#contact">Contact sales</a>
+      </div>
+    </div>
+    <p class="foot-note">You don’t need Cloud to use Driftless. Cloud is the managed version of the same open-source sync server.</p>
+  </div>
+</section>
+
+<section class="block faq">
+  <div class="wrap">
+    <div class="sec-head"><h2>The catch, and other fair questions.</h2><p>What to know before you move data onto the device.</p></div>
+    <div class="qa">
+      <div><h3>Is it SQLite?</h3><p>The storage engine is a fork of SQLite 3.46 with sync metadata; most SQLite SQL runs unchanged. Extensions that change the file format are not supported.</p></div>
+      <div><h3>Do I need Driftless Cloud?</h3><p>No. The sync server is a single open-source binary, backed by Postgres or SQLite, that you can run anywhere. Cloud is the managed version.</p></div>
+      <div><h3>How big can a local database get?</h3><p>Browser storage limits apply, usually a share of free disk. On native platforms the tested limit is 50&nbsp;GB.</p></div>
+      <div><h3>How much does it add to a web bundle?</h3><p>The browser bundle is 690&nbsp;KB gzipped, including the WebAssembly build that shrank by 30% in 1.4.</p></div>
+      <div><h3>What happens when two people edit the same row offline?</h3><p>Each column merges by hybrid logical clock. Register custom merge functions for counters, lists and rich text.</p></div>
+      <div><h3>Who can read which rows?</h3><p>Bring your own JWT. The sync server checks row-level rules, and each device’s shape decides which rows it syncs.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="block start" id="start">
+  <div class="wrap">
+    <div>
+      <h2>Put the database in your app.</h2>
+      <p class="m-hide">Install the client for your platform, open a database, and point it at a sync server when you’re ready.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#docs">Get started</a>
+        <a class="btn btn-quiet" href="#docs">Read the docs</a>
+      </div>
+    </div>
+    <div class="cmds">
+      <div class="cmd"><span class="lbl">JavaScript and TypeScript (npm)</span><code><span class="prompt">$ </span>npm install @driftless/client</code></div>
+      <div class="cmd"><span class="lbl">iOS (Swift Package Manager)</span><code>github.com/driftless-db/driftless-swift</code></div>
+      <div class="cmd"><span class="lbl">Android (Gradle)</span><code>dev.driftless:driftless-android:1.4.0</code></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home">
+      <svg width="22" height="22" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="1" y="1" width="16" height="16" rx="3" fill="#fff"/>
+        <rect x="9" y="9" width="16" height="16" rx="3" fill="none" stroke="#A9B8FF" stroke-width="2"/>
+        <rect x="9" y="9" width="8" height="8" fill="#A9B8FF"/>
+      </svg>
+      Driftless
+    </a>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="#docs">Docs</a></li>
+        <li><a href="#api">API reference</a></li>
+        <li><a href="#status">Status</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#terms">Terms</a></li>
+        <li><a href="#changelog">Changelog</a></li>
+        <li><a href="#github">GitHub</a></li>
+      </ul>
+    </nav>
+    <p>© 2026 Driftless Labs</p>
+  </div>
+</footer>
+</body>
+</html>

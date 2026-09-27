@@ -1,0 +1,163 @@
+{
+  "round": "2026-09-27",
+  "method": "Every canonical frame (render/*.png, 124 frames in 18 arms) looked at: first frames at full size, the rest as contact sheets at 50-100% scale. Also scanned the visible text of every out/*.html (text nodes plus aria-label, alt, title, placeholder; script/style excluded) for skill, suite and process vocabulary (skill, suite, direction, contract, own-world, elevate, design read, truth file, options board, DESIGN.md, critique, rationale, WCAG, a11y, annotation, mockup, reviewer, brief, token, prototype, wireframe, placeholder, fictional, 标注, 评审, 设计说明, 方案, contrast, AA, 4.5). All text hits were product content: \"token\" in code samples (02), \"4.5\" ratings (04), input placeholders and one aria-label \"Cover placeholder, Middlemarch\" (03 suite-0.8.0; not visible).",
+  "summary": "0 identity leaks and 0 reviewer-addressed annotations in 18 arms. Borderline items are listed per arm and not counted.",
+  "arms": [
+    {
+      "brief": "01-ops-console-zh",
+      "arm": "suite-0.8.0",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "arm": "suite-0.7.0",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "arm": "no-skill",
+      "label": "C",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "arm": "no-skill",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": [
+        "Not a leak: sticky header covers the top of the benchmarks heading in desktop-03 (\"Local reads are sub-millisecond\" cut off). Craft issue for judges, recorded only as an observation."
+      ]
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "arm": "suite-0.7.0",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "arm": "suite-0.8.0",
+      "label": "C",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": [
+        "Borderline, not counted: the \"How a write travels\" diagram carries a small legend \"from the phone / from the laptop / Sample data\" (desktop-02/03, mobile-03). It labels the illustration for the page visitor, not the reviewer."
+      ]
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "arm": "no-skill",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "arm": "suite-0.8.0",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "arm": "suite-0.7.0",
+      "label": "C",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "arm": "no-skill",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "arm": "suite-0.7.0",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "arm": "suite-0.8.0",
+      "label": "C",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "arm": "no-skill",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": [
+        "Not a leak: run-result shows a \"For your auditors\" panel; it addresses the product's users (auditors), not reviewers."
+      ]
+    },
+    {
+      "brief": "05-agent-approvals",
+      "arm": "suite-0.7.0",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "arm": "suite-0.8.0",
+      "label": "C",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": [
+        "Not a leak: run-result shows \"Records for your auditors\" and a footer \"Fernhill Assistant is AI. It can make mistakes; check flagged numbers before acting on them.\" Both address product users."
+      ]
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "arm": "no-skill",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": []
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "arm": "suite-0.7.0",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": [
+        "Not a leak: a status legend bar \"Key\" at the bottom of schedule.png and a footer with maintenance notice and build id \"ACS-APP02 · 3.2.7.1184\". In-product legend/footer for the front-desk user."
+      ]
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "arm": "suite-0.8.0",
+      "label": "C",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "notes": [
+        "Not a leak: a \"Key\" link above the time column of schedule.png (in-product legend control)."
+      ]
+    }
+  ]
+}

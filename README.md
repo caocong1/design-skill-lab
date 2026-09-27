@@ -138,7 +138,7 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 - `research/sources/`：一份一手来源一个摘要。头部写 url、抓取日期、方法、复核期限；正文是转述，不做镜像。2026-09-27 共 40 份：16 份从旧摘要迁入并重读，24 份新增（Apple Liquid Glass、Material 3 Expressive、HarmonyOS、Fluent 2、WCAG 2.2 与各地无障碍法规、Web Baseline、DTCG 2025.10、DESIGN.md、MCP Apps / Apps SDK / A2UI、AI 标识法规、同类 skill、OOUX、变更厌恶、jlreq、CJK 字体授权）。新增的每份都由独立 agent 对照原文核对过。
 - `research/topics/`：9 篇中文主题综合。每篇写当前结论、论证、未决问题、对 skill 的约束和变更记录。
-- `research/field/`：现场证据，目前是本站自用记录和匿名化的宿主复盘；评测汇总以后也写在这里。
+- `research/field/`：现场证据，包括本站自用记录、匿名化的宿主复盘和评测汇总（首轮：`evals-2026-09-27.md`）。
 - `research/INDEX.md`：由 `scripts/build-research-index.py` 生成，列出每份来源被哪些 skill 文件引用。复核期限一过，闸门就会失败。
 - skill 的每份 reference 在 frontmatter 里写明证据等级（`digest` / `practice` / `measured`）、来源 id 和复核期限（易腐 +90 天，耐久 +365 天）。
 
@@ -148,7 +148,14 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 - **输出评测**：6 份固定 brief（中文运维后台、开发者工具落地页、iOS 26 界面、小程序列表、agent 审批流、旧应用重设计），在"不装 skill / 装 0.7.0 / 装 0.8.0"三种条件下各做一遍。评审看不到来源，只凭 brief 和统一渲染的 PNG 按六个维度打分并两两比较；对比度、点击区域这类能测的，由脚本测好作为事实交给评审。
 - **触发评测（代理）**：`evals/triggers.jsonl` 共 100 条中英请求，其中 45 条是近似但不该触发的请求或负例。一个模型只看三份 skill 描述，为每条请求选一个 skill 或选"都不用"。
-- 目前只跑了触发评测（代理），首轮结果在 `evals/runs/2026-09-27/`。输出评测尚未开跑；跑完后结果写进 `evals/runs/` 和站点的[套件页](https://caocong1.github.io/design-skill-lab/skills/)，汇总写进 `research/field/`，输了也照样公布。方法见 `evals/README.md`，评审规则见 `evals/judging.md`。
+- **首轮结果（2026-09-27，一格一个样本，评审与设计同为 claude-opus-5-5）：按事先定好的规则，三组之间都是“没有明确差别”，这一轮不能说装了套件就更好**。规则要求 6 份 brief 里至少赢 5 份，并且平均总分至少高 0.5。
+  - 0.8.0 对不装 skill：赢 5 份、输 1 份，平均总分 4.17 对 4.00，只高 0.17，不到门槛。输掉的是开发者工具落地页，三位评审都偏好不装 skill 的一组（0:3）。
+  - 0.7.0 对不装 skill：赢 2 份、输 4 份，3.94 对 4.00。
+  - 0.8.0 对 0.7.0：赢 4 份、输 2 份（输在 iOS 界面和旧应用重设计），4.17 对 3.94。
+  - 0.8.0 工艺均分 3.7，三组最低；每份花费约为不装 skill 的 2.2 倍（$3.62 对 $1.63），用时 1.7 倍。
+  - 按套件自己的可证伪条件，要改的是套件。改什么见[完整报告](evals/runs/2026-09-27/report.md)第 8 节和 [research/field/evals-2026-09-27.md](research/field/evals-2026-09-27.md)。
+- **触发评测（代理）**：角色视图准确率 0.8.0 为 100%，0.7.0 为 99%。0.7.0 有两条“UI 打磨”类冲突行被判给了实现者（t041、t042）。0.8.0 的描述写在这套题之后，题目标签又按同一套角色定义写成，所以 100% 只能当上限看，不能当改进的证据。
+- 各轮结果在 `evals/runs/` 和站点的[套件页](https://caocong1.github.io/design-skill-lab/skills/)，汇总写进 `research/field/`，输了也照样公布。方法见 `evals/README.md`，评审规则见 `evals/judging.md`。
 
 ## 使用反馈与自我迭代
 
@@ -214,7 +221,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 
 ## 已知局限
 
-- **输出评测还没跑，样本也会少。** 方案是第一轮每个 brief、每种条件只跑一次（一格一个样本），评审也是模型。差距小于同一条件两次运行之间的波动时，这一轮分不出来。结论以 `evals/runs/` 和套件页为准，包括输的部分。
+- **输出评测样本少，评审是模型。** 首轮每个 brief、每种条件只跑一次（一格一个样本），评审和设计用的是同一个模型，评分也被压缩在 3–5 分之间。差距小于同一条件两次运行之间的波动时分不出来；首轮的结论就是“没有明确差别”。以 `evals/runs/` 和套件页为准，包括输的部分。
 - **触发评测是代理。** 模型只看三份描述、被要求必须选一个，所以会高估触发率，也看不出"该触发却没触发"；真实宿主还会看到其他已装的 skill 和项目上下文。结果只能叫"触发评测（代理）"，不是触发率。
 - **平台事实是有日期的。** iOS 26–27、Android 16、HarmonyOS 5/6、Web Baseline 等内容写于 2026-09-27，易腐来源 90 天后到期，到期后闸门变红，直到有人复核。到期之前平台也可能已经变了。
 - **证据等级不均。** 平台规范、标准、token 格式、动效有一手摘要；品牌、平面、营销站点的不少规则仍是业内共识（`evidence: practice`）。

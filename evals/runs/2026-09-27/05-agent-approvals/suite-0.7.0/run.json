@@ -1,0 +1,74 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "suite-0.7.0",
+  "model": "claude-opus-5-5",
+  "start": 1790505943,
+  "end": 1790506446,
+  "wall_seconds": 503,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:45:43+00:00",
+  "end_iso": "2026-09-27T10:54:06+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0/skills"
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 35,
+  "duration_api_ms": 460660,
+  "dollars": 2.5491,
+  "tokens": {
+    "input": 52,
+    "output": 49734,
+    "thinking": 12328,
+    "cache_read": 2543036,
+    "cache_creation": 130705
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 52,
+    "output": 49734,
+    "thinking": 12328,
+    "cache_read": 2543036,
+    "cache_creation": 130705
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 52,
+      "outputTokens": 49734,
+      "cacheReadInputTokens": 2543036,
+      "cacheCreationInputTokens": 130705,
+      "webSearchRequests": 0,
+      "costUSD": 2.5491352000000007,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 12328,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/05-agent-approvals.suite-0.7.0.transcript.jsonl",
+    "sha256": "0d4146885d7c812bb1a4d7a33e958d89131b6355cac47e60efc68f1493e0545d",
+    "bytes": 8484995
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [
+    "2026-09-27-agent-approval-choice-pattern.md",
+    "2026-09-27-nested-span-selector.md"
+  ],
+  "reruns": []
+}

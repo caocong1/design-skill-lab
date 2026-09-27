@@ -1,0 +1,101 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.8.0",
+  "label": "B",
+  "protocol": "evals/judging.md section 10",
+  "rationale_sources": [
+    "out/NOTES.md"
+  ],
+  "renders": [
+    "render/today.png",
+    "render/book.png",
+    "render/empty.png"
+  ],
+  "facts": "facts.json",
+  "claims": [
+    {
+      "claim": "Warm paper grouped background (#F4F1EC), white cards, one accent (a bookbinding red, #A63A1C)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png, book.png, empty.png: warm off-white ground, white cards, single red accent on ring, primary buttons, Log, progress and selected tab"
+    },
+    {
+      "claim": "the dog-eared page. It is the folded corner on every cover, the streak glyph, the Today tab symbol and the empty book slot on first run",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: folded corner on all three covers, streak icon and Today tab icon are dog-eared pages; render/book.png: large cover folded; render/empty.png: dashed empty slot with folded corner beside three dog-eared covers"
+    },
+    {
+      "claim": "New York for book titles and quotations on device ... the renders use Newsreader ... as a stand-in",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: serif book titles in rows; render/book.png: serif title, serif cover lettering and serif quotation at reading size"
+    },
+    {
+      "claim": "Today → goal progress, then Start Session, then this week and then the books",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: ring/'8 minutes to go'/streak, then full-width Start Session, then This Week chart, then Currently Reading"
+    },
+    {
+      "claim": "Start Session on Today continues the most recent book, so the button reads 'Start Session · Middlemarch' ... 'Log' on each Today row",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: button reads 'Start Session · Middlemarch'; each of the three rows has a '+ Log' capsule"
+    },
+    {
+      "claim": "Top-level sections are drawn as an iOS 26 tab bar: Today, Library, Stats, with Search as the separate trailing search tab ... tab-bar inset (21 pt)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png @2x: capsule spans about 1584–1706 px = 792–853 pt, i.e. 21 pt above the bottom edge, with a separate round Search button. Note: this places the bar inside the bottom 34 pt home-indicator zone; the notes do not claim otherwise"
+    },
+    {
+      "claim": "days at or over the 20-minute goal are a muted red and days under it a pale neutral. Only today's bar (12, in progress) is full accent. A dashed goal line ... every day's minutes are printed under its bar ... below-goal bars ... with a 1 pt #B97C66 outline",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: Mon/Thu/Sat muted red, Tue/Fri pale with outline, Wed flat, Today full accent; dashed line with 'Goal 20 min'; minutes and day printed under every bar"
+    },
+    {
+      "claim": "Today's recent highlight (p. 194) follows Currently Reading, below the first screen; at rest the three books take priority",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: all three book rows fully visible above the tab bar; no highlight on the first screen"
+    },
+    {
+      "claim": "Book detail reorders the brief: Highlights come before Sessions, so the first quotation is fully on the first screen ... The progress card carries a 'Last session' line (Today · 12 min · pp. 301–312)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/book.png: progress card ends 'Last session  Today · 12 min · pp. 301–312'; 'Highlights 2' section with the full p. 194 quotation and 'Page 194 · Chapter 20'; no session list on the first screen"
+    },
+    {
+      "claim": "First-run copy explains what Today will show once a book exists; nothing is shown as data (no zero streak, no empty chart)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: 'Your daily minutes, streak and the books you're reading will show up here'; no streak, chart or zero values; Scan Barcode filled, Search by Title tinted, Import plain"
+    },
+    {
+      "claim": "Contrast computed ...: accent on white 6.47:1 ... secondary text #6B6660 on paper 5.05:1 ... The skill's lint.mjs floor (contrast, overflow, accessible names) passes on all three files",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.json: 0 contrast failures on all three screens (43 + 26 + 14 nodes), lowest 5.04 (matching the stated 5.05 secondary-on-paper), no horizontal overflow, 0 images without alt"
+    },
+    {
+      "claim": "The Log buttons (32 pt tall) and the stepper halves (36 pt tall) have invisible hit areas extended to 44 pt",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "facts.json lists 3 targets under 44 on today ('Log 72x32' x3) and 2 on empty ('... 48x36' x2): facts.mjs measures the visible element box. An invisible hit area cannot be seen in a render; the source has .log::after inset -6px -4px and .stepper button::after inset -4px 0, which would give 44 pt height"
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 0,
+    "not_checkable": 1
+  },
+  "summary": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "notes": [
+    "Streak line reads '4-day streak' with 'Best: 23 days' on the next line rather than the '·'-joined form in the notes; content matches.",
+    "render/book.png: the second highlight's serif text shows faintly between the tab bar and the Search button and below the tab bar, so the 'soft paper-coloured fade' scroll-edge effect only partly covers content there.",
+    "The notes disclose the 4-row Sessions list is below the fold on book detail; the render agrees. No out/rationale.md."
+  ]
+}

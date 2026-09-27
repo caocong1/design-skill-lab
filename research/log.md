@@ -85,3 +85,8 @@
 
 - `catalog/observed.jsonl` 目前是从 v1 迁入的 601 条 2026-09-21 观测；新一轮全量探测由目录流负责，完成后在本日志补记。
 - 有 5 份来源暂时没有被任何 skill 引用：`a2ui`、`apple-app-icons` 等候技能流写完平台与 AI 体验参考；`design-md-format`、`dtcg-design-tokens-format` 已被取代；`emil-kowalski-skills` 与 `emil-kowalski-animation` 分工互补，前者尚无 reference 引用。
+
+## 2026-09-27 · 首轮输出评测与触发评测（0.8.0）
+
+- 6 份固定 brief × 三组（不装 skill、0.7.0、0.8.0），一格一个样本，三位模型评审盲评。按事先定好的规则，三对比较都是"没有明确差别"：0.8.0 对 no-skill 赢 5 份、输 1 份（02 落地页 0:3），但均分只高 0.17；0.7.0 对 no-skill 输 4 份。0.8.0 每份花费约为 no-skill 的 2.2 倍。触发评测（代理）角色视图 0.8.0 为 100%，0.7.0 为 99%，0.8.0 的结果只能当上限看。
+- 过程、结果表和由此要改的 skill 文件见 [field/evals-2026-09-27.md](field/evals-2026-09-27.md)；英文完整报告在 `evals/runs/2026-09-27/report.md`。

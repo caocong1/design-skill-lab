@@ -1,0 +1,300 @@
+{"id": "t001", "run": 1, "answer": "design-studio", "reason": "It covers turning requirements into a complete design: brief, directions, design system and key screens.", "model": "claude-opus-5-5"}
+{"id": "t002", "run": 1, "answer": "explore-design-directions", "reason": "User wants three distinct visual directions before committing; aesthetic undecided.", "model": "claude-opus-5-5"}
+{"id": "t003", "run": 1, "answer": "explore-design-directions", "reason": "User wants two to three distinct homepage style options for the boss to choose.", "model": "claude-opus-5-5"}
+{"id": "t004", "run": 1, "answer": "explore-design-directions", "reason": "User wants several distinct style options compared side by side before deciding.", "model": "claude-opus-5-5"}
+{"id": "t005", "run": 1, "answer": "find-design-inspiration", "reason": "User explicitly wants references and inspiration first, Arc-style settings page.", "model": "claude-opus-5-5"}
+{"id": "t006", "run": 1, "answer": "find-design-inspiration", "reason": "Competitor teardown comparing reference apps' layouts to extract applicable, borrowable moves.", "model": "claude-opus-5-5"}
+{"id": "t007", "run": 1, "answer": "find-design-inspiration", "reason": "Its description explicitly covers extracting a reference site's style DNA into tokens.", "model": "claude-opus-5-5"}
+{"id": "t008", "run": 1, "answer": "design-product-ui", "reason": "Admin list page with filters, bulk actions, empty state is product UI design.", "model": "claude-opus-5-5"}
+{"id": "t009", "run": 1, "answer": "design-product-ui", "reason": "Onboarding flow for iOS app screens, platform-native UI, fits product UI design.", "model": "claude-opus-5-5"}
+{"id": "t010", "run": 1, "answer": "design-product-ui", "reason": "Mini-program order list screen with platform-appropriate UI conventions.", "model": "claude-opus-5-5"}
+{"id": "t011", "run": 1, "answer": "design-product-ui", "reason": "Its description explicitly covers dashboards and big-screen data walls (数据大屏).", "model": "claude-opus-5-5"}
+{"id": "t012", "run": 1, "answer": "design-product-ui", "reason": "Designing a WPS add-in task pane is explicitly covered by this skill.", "model": "claude-opus-5-5"}
+{"id": "t013", "run": 1, "answer": "design-product-ui", "reason": "Designing AI product chat UI screens, tool-approval flow, and agent status states.", "model": "claude-opus-5-5"}
+{"id": "t014", "run": 1, "answer": "design-product-ui", "reason": "It covers dashboards and big-screen data walls, including chart styling on dark backgrounds.", "model": "claude-opus-5-5"}
+{"id": "t015", "run": 1, "answer": "design-marketing-sites", "reason": "Landing page for a developer tool matches its 落地页 scope directly.", "model": "claude-opus-5-5"}
+{"id": "t016", "run": 1, "answer": "design-marketing-sites", "reason": "User wants a dark landing page designed, using references for style.", "model": "claude-opus-5-5"}
+{"id": "t017", "run": 1, "answer": "design-marketing-sites", "reason": "Pricing page redesign that avoids templated look is explicitly covered by this skill.", "model": "claude-opus-5-5"}
+{"id": "t018", "run": 1, "answer": "design-marketing-sites", "reason": "Photographer portfolio website explicitly covered: portfolio, art direction, hero strategy.", "model": "claude-opus-5-5"}
+{"id": "t019", "run": 1, "answer": "build-design-system", "reason": "Consolidating scattered colours, sizes and radii into a design spec matches its description.", "model": "claude-opus-5-5"}
+{"id": "t020", "run": 1, "answer": "build-design-system", "reason": "Dark mode theming for shadcn tokens is explicitly covered by build-design-system.", "model": "claude-opus-5-5"}
+{"id": "t021", "run": 1, "answer": "build-design-system", "reason": "Brand theming Ant Design with light and dark modes is explicitly covered.", "model": "claude-opus-5-5"}
+{"id": "t022", "run": 1, "answer": "build-design-system", "reason": "Its description explicitly covers an agent-readable DESIGN.md and consolidating scattered colours and spacing.", "model": "claude-opus-5-5"}
+{"id": "t023", "run": 1, "answer": "design-motion", "reason": "Button hover/press micro-interaction with a prototype demo is exactly its scope.", "model": "claude-opus-5-5"}
+{"id": "t024", "run": 1, "answer": "design-motion", "reason": "Motion system spec covering transitions, durations, easing, springs, reduced motion.", "model": "claude-opus-5-5"}
+{"id": "t025", "run": 1, "answer": "design-motion", "reason": "Loading animation request explicitly matches design-motion's 加载动画 scope.", "model": "claude-opus-5-5"}
+{"id": "t026", "run": 1, "answer": "design-icons", "reason": "Covers app icons for iOS and HarmonyOS explicitly.", "model": "claude-opus-5-5"}
+{"id": "t027", "run": 1, "answer": "design-icons", "reason": "Covers choosing an icon family, fixing mixed-icon consistency, and drawing matching custom SVGs.", "model": "claude-opus-5-5"}
+{"id": "t028", "run": 1, "answer": "design-icons", "reason": "Favicon and apple-touch-icon packages are explicitly covered by design-icons.", "model": "claude-opus-5-5"}
+{"id": "t029", "run": 1, "answer": "design-brand-identity", "reason": "Logo design for a coffee shop brand falls squarely under brand identity.", "model": "claude-opus-5-5"}
+{"id": "t030", "run": 1, "answer": "design-brand-identity", "reason": "Rebrand keeping equity, with logo, colours, type, and brand guidelines.", "model": "claude-opus-5-5"}
+{"id": "t031", "run": 1, "answer": "design-brand-identity", "reason": "VI upgrade preserving logo equity is a rebrand/brand refresh, explicitly covered.", "model": "claude-opus-5-5"}
+{"id": "t032", "run": 1, "answer": "design-graphics", "reason": "Print poster (A3 portrait) is explicitly covered by design-graphics.", "model": "claude-opus-5-5"}
+{"id": "t033", "run": 1, "answer": "design-graphics", "reason": "OG images with typographic composition and PNG render pipeline are explicitly covered.", "model": "claude-opus-5-5"}
+{"id": "t034", "run": 1, "answer": "design-graphics", "reason": "Pitch deck / PPT visual design explicitly covered by design-graphics.", "model": "claude-opus-5-5"}
+{"id": "t035", "run": 1, "answer": "design-graphics", "reason": "Xiaohongshu social media graphics fall under design-graphics' social post images (社媒配图).", "model": "claude-opus-5-5"}
+{"id": "t036", "run": 1, "answer": "build-design-system", "reason": "Replacing a site's colour scheme is a colour-system and theme task (配色体系).", "model": "claude-opus-5-5"}
+{"id": "t037", "run": 1, "answer": "design-product-ui", "reason": "It covers redesigning app screens and navigation, which is where the information-architecture problem sits.", "model": "claude-opus-5-5"}
+{"id": "t038", "run": 1, "answer": "find-design-inspiration", "reason": "Its description names \"ideas to improve an existing website\" and this exact phrase.", "model": "claude-opus-5-5"}
+{"id": "t039", "run": 1, "answer": "find-design-inspiration", "reason": "Asks for improvement ideas and references for an existing website — inspiration research.", "model": "claude-opus-5-5"}
+{"id": "t040", "run": 1, "answer": "design-studio", "reason": "Whole-app redesign of existing code needs critique, redesign and implementation, so the router fits.", "model": "claude-opus-5-5"}
+{"id": "t041", "run": 1, "answer": "implement-design", "reason": "Its description explicitly covers \"UI polish in an existing project\" across the codebase.", "model": "claude-opus-5-5"}
+{"id": "t042", "run": 1, "answer": "design-product-ui", "reason": " Redesigning an existing app settings screen falls under product interface design.", "model": "claude-opus-5-5"}
+{"id": "t043", "run": 1, "answer": "design-product-ui", "reason": " Redesigning an existing dashboard screen falls under product UI design and redesign.", "model": "claude-opus-5-5"}
+{"id": "t044", "run": 1, "answer": "handoff-design", "reason": "Packaging finished design (切图、标注) for Flutter developers is exactly the handoff skill.", "model": "claude-opus-5-5"}
+{"id": "t045", "run": 1, "answer": "handoff-design", "reason": "切图 with @2x/@3x asset export is a handoff deliverable for iOS developers.", "model": "claude-opus-5-5"}
+{"id": "t046", "run": 1, "answer": "handoff-design", "reason": "Dev-facing measured spec with spacing, states and assets for a Compose (non-web) target.", "model": "claude-opus-5-5"}
+{"id": "t047", "run": 1, "answer": "design-studio", "reason": "It spans designing a dashboard and implementing it, which the end-to-end router covers.", "model": "claude-opus-5-5"}
+{"id": "t048", "run": 1, "answer": "design-studio", "reason": "It covers both critiquing and redesigning an existing interface; critique-design stops at a brief.", "model": "claude-opus-5-5"}
+{"id": "t049", "run": 1, "answer": "critique-design", "reason": "User asks what's wrong with the page's look — a design critique request.", "model": "claude-opus-5-5"}
+{"id": "t050", "run": 1, "answer": "critique-design", "reason": "User asks for 体验走查 of an existing page with prioritised issues — design review.", "model": "claude-opus-5-5"}
+{"id": "t051", "run": 1, "answer": "critique-design", "reason": "The user wants an honest review of an existing dashboard design.", "model": "claude-opus-5-5"}
+{"id": "t052", "run": 1, "answer": "critique-design", "reason": "Reviewing an existing site's design and listing problems by severity is exactly critique-design.", "model": "claude-opus-5-5"}
+{"id": "t053", "run": 1, "answer": "critique-design", "reason": "Reviews an existing implementation, including accessibility, with evidence-backed findings.", "model": "claude-opus-5-5"}
+{"id": "t054", "run": 1, "answer": "critique-design", "reason": "Its description explicitly covers design QA of a build against its design (视觉还原检查).", "model": "claude-opus-5-5"}
+{"id": "t055", "run": 1, "answer": "critique-design", "reason": "Reviewing and scoring existing mockups as a fresh-eye quality gate fits critique-design.", "model": "claude-opus-5-5"}
+{"id": "t056", "run": 1, "answer": "critique-design", "reason": "User wants analysis of an existing settings page's design problems — a design review.", "model": "claude-opus-5-5"}
+{"id": "t057", "run": 1, "answer": "critique-design", "reason": "User asks to review existing onboarding screens design in Figma.", "model": "claude-opus-5-5"}
+{"id": "t058", "run": 1, "answer": "critique-design", "reason": "User wants a visual review of a PR's UI changes from screenshots.", "model": "claude-opus-5-5"}
+{"id": "t059", "run": 1, "answer": "implement-design", "reason": "Implementing a design mock-up into Vue3 + Element Plus code.", "model": "claude-opus-5-5"}
+{"id": "t060", "run": 1, "answer": "implement-design", "reason": "Turning a Figma design into Next.js + Tailwind code with exact fidelity.", "model": "claude-opus-5-5"}
+{"id": "t061", "run": 1, "answer": "implement-design", "reason": "Finalized design images need implementing as Flutter pages in the codebase.", "model": "claude-opus-5-5"}
+{"id": "t062", "run": 1, "answer": "implement-design", "reason": "Screenshot-to-code in existing React project, reusing host components — core implement-design use case.", "model": "claude-opus-5-5"}
+{"id": "t063", "run": 1, "answer": "implement-design", "reason": "User wants code fixed to match design annotations — 设计稿还原 in an existing Vue file.", "model": "claude-opus-5-5"}
+{"id": "t064", "run": 1, "answer": "implement-design", "reason": "Handed-over specs and tokens need faithful implementation in SwiftUI within the codebase.", "model": "claude-opus-5-5"}
+{"id": "t065", "run": 1, "answer": "implement-design", "reason": "User wants a design image turned into uni-app mini-program code — implementation.", "model": "claude-opus-5-5"}
+{"id": "t066", "run": 1, "answer": "implement-design", "reason": "Implementing a static HTML mockup into a Nuxt codebase as components.", "model": "claude-opus-5-5"}
+{"id": "t067", "run": 1, "answer": "implement-design", "reason": "Turning approved mockups into Vue code faithfully is exactly the implementation skill's scope.", "model": "claude-opus-5-5"}
+{"id": "t068", "run": 1, "answer": "implement-design", "reason": " Comparing the build to the Figma and fixing mismatches is implementation fidelity work, not just review.", "model": "claude-opus-5-5"}
+{"id": "t069", "run": 1, "answer": "none", "reason": "Code review of auth middleware isn't a design task; no skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t070", "run": 1, "answer": "none", "reason": "This is a code review of a React hook, not a design review.", "model": "claude-opus-5-5"}
+{"id": "t071", "run": 1, "answer": "none", "reason": " This is a styling-framework refactor with no design work, so no design skill fits.", "model": "claude-opus-5-5"}
+{"id": "t072", "run": 1, "answer": "none", "reason": "This is a styling-code refactor with no design work, so no design skill applies.", "model": "claude-opus-5-5"}
+{"id": "t073", "run": 1, "answer": "none", "reason": "A Safari CSS clipping bug is a front-end fix, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t074", "run": 1, "answer": "none", "reason": "This is a JavaScript runtime bug fix, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t075", "run": 1, "answer": "none", "reason": "This is a CSS overflow bug to debug, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t076", "run": 1, "answer": "none", "reason": "Page load performance optimization is an engineering task, not a design request.", "model": "claude-opus-5-5"}
+{"id": "t077", "run": 1, "answer": "none", "reason": "LCP optimisation is web-performance engineering, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t078", "run": 1, "answer": "none", "reason": "A trivial, fully specified style edit that needs no design skill.", "model": "claude-opus-5-5"}
+{"id": "t079", "run": 1, "answer": "none", "reason": "This is pure copywriting for a WeChat article, with no visual design needed.", "model": "claude-opus-5-5"}
+{"id": "t080", "run": 1, "answer": "none", "reason": "This is a copywriting request; the design is finished, so no design skill applies.", "model": "claude-opus-5-5"}
+{"id": "t081", "run": 1, "answer": "none", "reason": "This is data analysis and plotting in Jupyter, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t082", "run": 1, "answer": "none", "reason": "Data plotting with seaborn for quick analysis isn't a design task.", "model": "claude-opus-5-5"}
+{"id": "t083", "run": 1, "answer": "none", "reason": "Database schema design is backend data modeling, not visual or interface design.", "model": "claude-opus-5-5"}
+{"id": "t084", "run": 1, "answer": "none", "reason": "Rate limiting is backend system architecture, not visual or UI design.", "model": "claude-opus-5-5"}
+{"id": "t085", "run": 1, "answer": "none", "reason": "Observer pattern is a software design pattern, not visual/UI design.", "model": "claude-opus-5-5"}
+{"id": "t086", "run": 1, "answer": "none", "reason": "They want a text outline only; no visual design or slide layout is requested.", "model": "claude-opus-5-5"}
+{"id": "t087", "run": 1, "answer": "none", "reason": "This is a Tailwind configuration bug, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t088", "run": 1, "answer": "none", "reason": "Debugging a package/rendering issue, not an icon design or selection task.", "model": "claude-opus-5-5"}
+{"id": "t089", "run": 1, "answer": "none", "reason": "Image compression and format conversion is a file-processing task, not design work.", "model": "claude-opus-5-5"}
+{"id": "t090", "run": 1, "answer": "none", "reason": "A Storybook v8 build failure is a tooling problem, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t091", "run": 1, "answer": "none", "reason": "Configuring an MCP server is tooling setup, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t092", "run": 1, "answer": "none", "reason": "This edits the repo's resource catalogue; it is not a request for design work.", "model": "claude-opus-5-5"}
+{"id": "t093", "run": 1, "answer": "none", "reason": "Processing feedback into skill improvements is meta-maintenance, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t094", "run": 1, "answer": "none", "reason": "A general CSS concept question; no skill covers explaining layout fundamentals.", "model": "claude-opus-5-5"}
+{"id": "t095", "run": 1, "answer": "none", "reason": "Git rebase conflict resolution is unrelated to any design skill.", "model": "claude-opus-5-5"}
+{"id": "t096", "run": 1, "answer": "none", "reason": "Writing unit tests is a coding task; no design skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t097", "run": 1, "answer": "none", "reason": "API 500 error log debugging is backend work, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t098", "run": 1, "answer": "none", "reason": "Translation of documentation isn't covered by any design skill.", "model": "claude-opus-5-5"}
+{"id": "t099", "run": 1, "answer": "none", "reason": "Postgres upgrade in docker-compose is infrastructure work, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t100", "run": 1, "answer": "none", "reason": "A file-renaming Python script is a scripting task, not design work.", "model": "claude-opus-5-5"}
+{"id": "t001", "run": 2, "answer": "design-studio", "reason": "It covers turning a PRD into a complete design: brief, directions, design system and screens.", "model": "claude-opus-5-5"}
+{"id": "t002", "run": 2, "answer": "explore-design-directions", "reason": "User wants several genuinely different visual directions before committing; aesthetic undecided.", "model": "claude-opus-5-5"}
+{"id": "t003", "run": 2, "answer": "explore-design-directions", "reason": "User wants two to three distinct style options for the homepage to choose from.", "model": "claude-opus-5-5"}
+{"id": "t004", "run": 2, "answer": "explore-design-directions", "reason": "User wants several distinct looks side by side before choosing a style.", "model": "claude-opus-5-5"}
+{"id": "t005", "run": 2, "answer": "find-design-inspiration", "reason": "User explicitly wants references and inspiration first, Arc-style settings page.", "model": "claude-opus-5-5"}
+{"id": "t006", "run": 2, "answer": "find-design-inspiration", "reason": "Competitor teardown of reference apps, extracting applicable moves for their product.", "model": "claude-opus-5-5"}
+{"id": "t007", "run": 2, "answer": "find-design-inspiration", "reason": "Extracting a reference site's style DNA into tokens is explicitly covered.", "model": "claude-opus-5-5"}
+{"id": "t008", "run": 2, "answer": "design-product-ui", "reason": "Admin user list page with filters, bulk actions, empty state fits product UI.", "model": "claude-opus-5-5"}
+{"id": "t009", "run": 2, "answer": "design-product-ui", "reason": "Onboarding flow screens for a mobile app with platform-native iOS fit.", "model": "claude-opus-5-5"}
+{"id": "t010", "run": 2, "answer": "design-product-ui", "reason": "Mini-program screen design with platform conventions matches product UI skill.", "model": "claude-opus-5-5"}
+{"id": "t011", "run": 2, "answer": "design-product-ui", "reason": "Its description explicitly covers dashboards and big-screen data walls (数据大屏).", "model": "claude-opus-5-5"}
+{"id": "t012", "run": 2, "answer": "design-product-ui", "reason": "Designing a WPS add-in task pane is explicitly covered by product UI.", "model": "claude-opus-5-5"}
+{"id": "t013", "run": 2, "answer": "design-product-ui", "reason": "Designing AI product UI screens, flows and states — explicitly covered by this skill.", "model": "claude-opus-5-5"}
+{"id": "t014", "run": 2, "answer": "design-product-ui", "reason": "Big-screen dashboard chart styling (数据大屏) falls under design-product-ui's explicit scope.", "model": "claude-opus-5-5"}
+{"id": "t015", "run": 2, "answer": "design-marketing-sites", "reason": "用户明确要求设计落地页，正是该技能覆盖范围。", "model": "claude-opus-5-5"}
+{"id": "t016", "run": 2, "answer": "design-marketing-sites", "reason": "Request is to design a dark landing page, with references as style inspiration.", "model": "claude-opus-5-5"}
+{"id": "t017", "run": 2, "answer": "design-marketing-sites", "reason": "Pricing page redesign that avoids templated look is explicitly covered.", "model": "claude-opus-5-5"}
+{"id": "t018", "run": 2, "answer": "design-marketing-sites", "reason": "Photographer portfolio site with hero imagery matches its portfolio and art direction scope.", "model": "claude-opus-5-5"}
+{"id": "t019", "run": 2, "answer": "build-design-system", "reason": "Consolidating scattered colours, font sizes and radii into a unified spec.", "model": "claude-opus-5-5"}
+{"id": "t020", "run": 2, "answer": "build-design-system", "reason": "Dark mode theming of shadcn tokens is explicitly covered by this skill.", "model": "claude-opus-5-5"}
+{"id": "t021", "run": 2, "answer": "build-design-system", "reason": "Brand theming for Ant Design with light and dark modes matches exactly.", "model": "claude-opus-5-5"}
+{"id": "t022", "run": 2, "answer": "build-design-system", "reason": "Its description explicitly covers an agent-readable DESIGN.md and consolidating scattered colours and spacing.", "model": "claude-opus-5-5"}
+{"id": "t023", "run": 2, "answer": "design-motion", "reason": "Button hover and press micro-interactions with a prototype demo fit the motion skill directly.", "model": "claude-opus-5-5"}
+{"id": "t024", "run": 2, "answer": "design-motion", "reason": "Page transitions and a product-wide motion spec with easing, springs, and reduced motion.", "model": "claude-opus-5-5"}
+{"id": "t025", "run": 2, "answer": "design-motion", "reason": "User asks for a loading animation, explicitly covered by design-motion's 加载动画 scope.", "model": "claude-opus-5-5"}
+{"id": "t026", "run": 2, "answer": "design-icons", "reason": "App icon design for iOS and HarmonyOS falls directly under design-icons.", "model": "claude-opus-5-5"}
+{"id": "t027", "run": 2, "answer": "design-icons", "reason": "Covers choosing an icon family, drawing matching custom icons, and fixing mixed-icon consistency.", "model": "claude-opus-5-5"}
+{"id": "t028", "run": 2, "answer": "design-icons", "reason": "Favicon and apple-touch-icon packages are explicitly covered by design-icons.", "model": "claude-opus-5-5"}
+{"id": "t029", "run": 2, "answer": "design-brand-identity", "reason": "Logo design for a coffee shop falls squarely under brand identity work.", "model": "claude-opus-5-5"}
+{"id": "t030", "run": 2, "answer": "design-brand-identity", "reason": "Rebrand keeping equity: logo, colours, type, brand guide — exactly its scope.", "model": "claude-opus-5-5"}
+{"id": "t031", "run": 2, "answer": "design-brand-identity", "reason": "VI upgrade/rebrand preserving logo equity matches its \"rebrand that keeps the equity\" scope.", "model": "claude-opus-5-5"}
+{"id": "t032", "run": 2, "answer": "design-graphics", "reason": "Print poster request (A3 portrait) matches posters and print pieces.", "model": "claude-opus-5-5"}
+{"id": "t033", "run": 2, "answer": "design-graphics", "reason": "OG images are explicitly covered by design-graphics' description.", "model": "claude-opus-5-5"}
+{"id": "t034", "run": 2, "answer": "design-graphics", "reason": "Pitch deck/PPT visual design is explicitly covered by design-graphics.", "model": "claude-opus-5-5"}
+{"id": "t035", "run": 2, "answer": "design-graphics", "reason": "Xiaohongshu social media images are static graphics, which this skill explicitly covers.", "model": "claude-opus-5-5"}
+{"id": "t036", "run": 2, "answer": "design-studio", "reason": "Recolouring an existing site is an aesthetic redesign, and design-studio explicitly covers 配色.", "model": "claude-opus-5-5"}
+{"id": "t037", "run": 2, "answer": "design-product-ui", "reason": " Redesigning app navigation and information architecture falls squarely within product UI design.", "model": "claude-opus-5-5"}
+{"id": "t038", "run": 2, "answer": "find-design-inspiration", "reason": "Its description literally lists \"这个网站怎么改更好看\" and improving existing websites.", "model": "claude-opus-5-5"}
+{"id": "t039", "run": 2, "answer": "find-design-inspiration", "reason": "Covers ideas to improve an existing website with references, per its description.", "model": "claude-opus-5-5"}
+{"id": "t040", "run": 2, "answer": "design-studio", "reason": "A broad redesign of an existing interface, landed in code, fits the router skill.", "model": "claude-opus-5-5"}
+{"id": "t041", "run": 2, "answer": "implement-design", "reason": "Its description explicitly covers \"UI polish in an existing project.\"", "model": "claude-opus-5-5"}
+{"id": "t042", "run": 2, "answer": "design-product-ui", "reason": " Redesigning an existing app settings screen is product UI design work.", "model": "claude-opus-5-5"}
+{"id": "t043", "run": 2, "answer": "design-product-ui", "reason": "Redesigning an ugly existing dashboard screen matches its \"redesigning an app screen… dashboards\" scope.", "model": "claude-opus-5-5"}
+{"id": "t044", "run": 2, "answer": "handoff-design", "reason": "Handing a finished design to Flutter developers with slicing and annotations (切图、标注).", "model": "claude-opus-5-5"}
+{"id": "t045", "run": 2, "answer": "handoff-design", "reason": "切图 with iOS @2x/@3x exports is asset delivery for developer handoff.", "model": "claude-opus-5-5"}
+{"id": "t046", "run": 2, "answer": "handoff-design", "reason": "Developer spec with spacing, states, assets for non-web target (Compose) is handoff.", "model": "claude-opus-5-5"}
+{"id": "t047", "run": 2, "answer": "design-studio", "reason": "The request covers both designing and building the dashboard; design-studio is the entry point for that.", "model": "claude-opus-5-5"}
+{"id": "t048", "run": 2, "answer": "design-studio", "reason": "Covers both critiquing and redesigning an existing interface; critique-design stops at a redesign brief.", "model": "claude-opus-5-5"}
+{"id": "t049", "run": 2, "answer": "critique-design", "reason": "Its description lists \"这个页面哪里不好看\" verbatim; reviewing an existing page screenshot.", "model": "claude-opus-5-5"}
+{"id": "t050", "run": 2, "answer": "critique-design", "reason": "用户要求体验走查并按优先级列出问题，正是设计评审技能范畴。", "model": "claude-opus-5-5"}
+{"id": "t051", "run": 2, "answer": "critique-design", "reason": "Reviewing an existing dashboard design with candid findings matches the critique skill.", "model": "claude-opus-5-5"}
+{"id": "t052", "run": 2, "answer": "critique-design", "reason": "Reviewing an existing site's design with findings ranked by severity.", "model": "claude-opus-5-5"}
+{"id": "t053", "run": 2, "answer": "critique-design", "reason": "Reviewing an existing implementation, including accessibility, fits critique-design's audit scope.", "model": "claude-opus-5-5"}
+{"id": "t054", "run": 2, "answer": "critique-design", "reason": "Its description explicitly covers design QA of a build against its design (视觉还原检查).", "model": "claude-opus-5-5"}
+{"id": "t055", "run": 2, "answer": "critique-design", "reason": "Fresh-eye review and scoring of existing mockups before client delivery.", "model": "claude-opus-5-5"}
+{"id": "t056", "run": 2, "answer": "critique-design", "reason": "The user wants an analysis of an existing settings page's usability problems, which is a design review.", "model": "claude-opus-5-5"}
+{"id": "t057", "run": 2, "answer": "critique-design", "reason": "User asks to review existing onboarding screens — a design critique.", "model": "claude-opus-5-5"}
+{"id": "t058", "run": 2, "answer": "critique-design", "reason": "Reviewing a PR's UI changes visually from screenshots is a design review/visual QA task.", "model": "claude-opus-5-5"}
+{"id": "t059", "run": 2, "answer": "implement-design", "reason": "Implementing a design mock-up in Vue3 + Element Plus codebase.", "model": "claude-opus-5-5"}
+{"id": "t060", "run": 2, "answer": "implement-design", "reason": "User wants a Figma design built in Next.js + Tailwind with pixel fidelity.", "model": "claude-opus-5-5"}
+{"id": "t061", "run": 2, "answer": "implement-design", "reason": "Finalized design images need implementing as Flutter pages in code.", "model": "claude-opus-5-5"}
+{"id": "t062", "run": 2, "answer": "implement-design", "reason": "Turning a mock-up into code while reusing the project's existing components.", "model": "claude-opus-5-5"}
+{"id": "t063", "run": 2, "answer": "implement-design", "reason": "Fixing a Vue file's spacing/font sizes to match the design spec: pixel-level restoration.", "model": "claude-opus-5-5"}
+{"id": "t064", "run": 2, "answer": "implement-design", "reason": "User wants a handed-off design implemented in SwiftUI.", "model": "claude-opus-5-5"}
+{"id": "t065", "run": 2, "answer": "implement-design", "reason": "Turning a design image into uni-app mini-program code is implementation work.", "model": "claude-opus-5-5"}
+{"id": "t066", "run": 2, "answer": "implement-design", "reason": "Landing a static mockup into the Nuxt codebase as components is implementation work.", "model": "claude-opus-5-5"}
+{"id": "t067", "run": 2, "answer": "implement-design", "reason": "Turning final mockups into Vue components is design implementation in a host framework.", "model": "claude-opus-5-5"}
+{"id": "t068", "run": 2, "answer": "implement-design", "reason": "Comparing the build to Figma and fixing it is the render-compare-fix loop.", "model": "claude-opus-5-5"}
+{"id": "t069", "run": 2, "answer": "none", "reason": "Code review of auth middleware is not a design task; no skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t070", "run": 2, "answer": "none", "reason": "Code review of a hook's logic, not a design or UI review.", "model": "claude-opus-5-5"}
+{"id": "t071", "run": 2, "answer": "none", "reason": "Styling-framework refactor with no visual change; no design skill covers pure CSS migration.", "model": "claude-opus-5-5"}
+{"id": "t072", "run": 2, "answer": "none", "reason": "A pure styling refactor with no design work; no skill's description covers it.", "model": "claude-opus-5-5"}
+{"id": "t073", "run": 2, "answer": "none", "reason": "A Safari CSS clipping bug fix; no skill covers debugging layout issues.", "model": "claude-opus-5-5"}
+{"id": "t074", "run": 2, "answer": "none", "reason": "This is a JavaScript runtime bug fix, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t075", "run": 2, "answer": "none", "reason": "A CSS overflow bug fix is debugging, not a design or implementation task.", "model": "claude-opus-5-5"}
+{"id": "t076", "run": 2, "answer": "none", "reason": "Page-load performance optimization is an engineering task, not a design request.", "model": "claude-opus-5-5"}
+{"id": "t077", "run": 2, "answer": "none", "reason": " This is web performance engineering, not a design task that any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t078", "run": 2, "answer": "none", "reason": "Simple direct style edit; no design workflow or skill needed.", "model": "claude-opus-5-5"}
+{"id": "t079", "run": 2, "answer": "none", "reason": "Pure copywriting request with no images; no design skill covers writing articles.", "model": "claude-opus-5-5"}
+{"id": "t080", "run": 2, "answer": "none", "reason": "Pure copywriting is requested, and the design is done; no skill covers copywriting alone.", "model": "claude-opus-5-5"}
+{"id": "t081", "run": 2, "answer": "none", "reason": "Data analysis and plotting in Jupyter, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t082", "run": 2, "answer": "none", "reason": "Quick data plotting with seaborn for analysis; no design skill covers this.", "model": "claude-opus-5-5"}
+{"id": "t083", "run": 2, "answer": "none", "reason": "Database schema design is backend data modeling, not visual or UI design.", "model": "claude-opus-5-5"}
+{"id": "t084", "run": 2, "answer": "none", "reason": "Rate-limiting architecture is backend engineering, not visual or UI design.", "model": "claude-opus-5-5"}
+{"id": "t085", "run": 2, "answer": "none", "reason": "The observer pattern is a software design pattern, not a visual design task.", "model": "claude-opus-5-5"}
+{"id": "t086", "run": 2, "answer": "none", "reason": "用户只要文字大纲，不涉及视觉设计或页面制作。", "model": "claude-opus-5-5"}
+{"id": "t087", "run": 2, "answer": "none", "reason": "Tailwind dark-mode config debugging, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t088", "run": 2, "answer": "none", "reason": "A lucide-react rendering bug is a debugging issue, not icon design or selection.", "model": "claude-opus-5-5"}
+{"id": "t089", "run": 2, "answer": "none", "reason": "Image compression and format conversion is a file operation, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t090", "run": 2, "answer": "none", "reason": "A Storybook v8 build failure is a tooling/dependency issue, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t091", "run": 2, "answer": "none", "reason": "Configuring an MCP server is tooling setup, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t092", "run": 2, "answer": "none", "reason": "This edits the repo's resource catalogue; it isn't a request to research design references.", "model": "claude-opus-5-5"}
+{"id": "t093", "run": 2, "answer": "none", "reason": "Task is meta skill-maintenance from feedback; no design skill covers that.", "model": "claude-opus-5-5"}
+{"id": "t094", "run": 2, "answer": "none", "reason": "General CSS knowledge question; no skill covers explaining layout concepts.", "model": "claude-opus-5-5"}
+{"id": "t095", "run": 2, "answer": "none", "reason": "Git rebase conflict resolution is unrelated to any design skill.", "model": "claude-opus-5-5"}
+{"id": "t096", "run": 2, "answer": "none", "reason": "Writing unit tests for a date utility isn't a design task.", "model": "claude-opus-5-5"}
+{"id": "t097", "run": 2, "answer": "none", "reason": "Debugging an API 500 error from logs is not a design task.", "model": "claude-opus-5-5"}
+{"id": "t098", "run": 2, "answer": "none", "reason": "Translating documentation is not a design task; no skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t099", "run": 2, "answer": "none", "reason": "Postgres upgrade in docker-compose is infrastructure work; no design skill applies.", "model": "claude-opus-5-5"}
+{"id": "t100", "run": 2, "answer": "none", "reason": "A file-renaming Python script by photo date isn't a design task.", "model": "claude-opus-5-5"}
+{"id": "t001", "run": 3, "answer": "design-studio", "reason": "Full design from a PRD (brief, directions, system, screens) is the router's job.", "model": "claude-opus-5-5"}
+{"id": "t002", "run": 3, "answer": "explore-design-directions", "reason": "User wants three distinct visual directions before committing; aesthetic undecided.", "model": "claude-opus-5-5"}
+{"id": "t003", "run": 3, "answer": "explore-design-directions", "reason": "Request for two or three distinct homepage styles for the boss to choose.", "model": "claude-opus-5-5"}
+{"id": "t004", "run": 3, "answer": "explore-design-directions", "reason": "Undecided aesthetic; user wants several distinct looks compared side by side.", "model": "claude-opus-5-5"}
+{"id": "t005", "run": 3, "answer": "find-design-inspiration", "reason": "User explicitly wants references and inspiration first, Arc-style settings page.", "model": "claude-opus-5-5"}
+{"id": "t006", "run": 3, "answer": "find-design-inspiration", "reason": "Competitor teardown comparing reference apps and extracting applicable moves.", "model": "claude-opus-5-5"}
+{"id": "t007", "run": 3, "answer": "find-design-inspiration", "reason": "Extracting a reference site's style DNA into tokens is explicitly covered.", "model": "claude-opus-5-5"}
+{"id": "t008", "run": 3, "answer": "design-product-ui", "reason": "Admin list page with filters, bulk actions, and empty state is product UI.", "model": "claude-opus-5-5"}
+{"id": "t009", "run": 3, "answer": "design-product-ui", "reason": "Onboarding flow for an iOS app with platform-native feel fits product UI.", "model": "claude-opus-5-5"}
+{"id": "t010", "run": 3, "answer": "design-product-ui", "reason": "Mini-program list screen design with platform-appropriate UI conventions.", "model": "claude-opus-5-5"}
+{"id": "t011", "run": 3, "answer": "design-product-ui", "reason": "Its description explicitly covers dashboards and big-screen data walls (数据大屏).", "model": "claude-opus-5-5"}
+{"id": "t012", "run": 3, "answer": "design-product-ui", "reason": "Designing a WPS add-in task pane is explicitly covered by product UI.", "model": "claude-opus-5-5"}
+{"id": "t013", "run": 3, "answer": "design-product-ui", "reason": "Designing an AI product's chat interface, approval flow, and states is product UI work.", "model": "claude-opus-5-5"}
+{"id": "t014", "run": 3, "answer": "design-product-ui", "reason": " Its description explicitly covers big-screen data walls (数据大屏), including chart styling.", "model": "claude-opus-5-5"}
+{"id": "t015", "run": 3, "answer": "design-marketing-sites", "reason": "User asks for a landing page (落地页) for a SaaS-style developer tool.", "model": "claude-opus-5-5"}
+{"id": "t016", "run": 3, "answer": "design-marketing-sites", "reason": "Request is a dark-style landing page with reference sites; core marketing-site task.", "model": "claude-opus-5-5"}
+{"id": "t017", "run": 3, "answer": "design-marketing-sites", "reason": "Pricing page redesign that avoids templated look is explicitly covered by this skill.", "model": "claude-opus-5-5"}
+{"id": "t018", "run": 3, "answer": "design-marketing-sites", "reason": "Portfolio site request; this skill explicitly covers portfolios (作品集) and art direction.", "model": "claude-opus-5-5"}
+{"id": "t019", "run": 3, "answer": "build-design-system", "reason": "Consolidating scattered colours, sizes and radii into a design spec is its core use.", "model": "claude-opus-5-5"}
+{"id": "t020", "run": 3, "answer": "build-design-system", "reason": "Dark-mode theming of a shadcn token set is explicitly covered by this skill.", "model": "claude-opus-5-5"}
+{"id": "t021", "run": 3, "answer": "build-design-system", "reason": "Brand theming of Ant Design with light and dark modes.", "model": "claude-opus-5-5"}
+{"id": "t022", "run": 3, "answer": "build-design-system", "reason": "Its description explicitly covers an agent-readable DESIGN.md and consolidating scattered colours and sizes.", "model": "claude-opus-5-5"}
+{"id": "t023", "run": 3, "answer": "design-motion", "reason": "Button hover/press micro-interaction motion with a prototype demo fits design-motion exactly.", "model": "claude-opus-5-5"}
+{"id": "t024", "run": 3, "answer": "design-motion", "reason": "Product-wide motion spec with durations, easing, springs, reduced motion matches design-motion directly.", "model": "claude-opus-5-5"}
+{"id": "t025", "run": 3, "answer": "design-motion", "reason": "Loading animation request (加载动画) falls directly under design-motion's scope.", "model": "claude-opus-5-5"}
+{"id": "t026", "run": 3, "answer": "design-icons", "reason": "App icon design for iOS and HarmonyOS is explicitly covered by design-icons.", "model": "claude-opus-5-5"}
+{"id": "t027", "run": 3, "answer": "design-icons", "reason": "Covers choosing an icon family, drawing matching custom icons, and fixing mixed-icon consistency.", "model": "claude-opus-5-5"}
+{"id": "t028", "run": 3, "answer": "design-icons", "reason": "Covers favicon packages and app icons, including apple-touch-icon.", "model": "claude-opus-5-5"}
+{"id": "t029", "run": 3, "answer": "design-brand-identity", "reason": "Logo design for a coffee shop brand matches brand identity skill.", "model": "claude-opus-5-5"}
+{"id": "t030", "run": 3, "answer": "design-brand-identity", "reason": "Rebrand keeping equity: logo, colours, type, brand guidelines — exactly its scope.", "model": "claude-opus-5-5"}
+{"id": "t031", "run": 3, "answer": "design-brand-identity", "reason": "VI rebrand keeping logo equity matches \"plan a rebrand that keeps the equity.\"", "model": "claude-opus-5-5"}
+{"id": "t032", "run": 3, "answer": "design-graphics", "reason": "Print A3 event poster is exactly design-graphics' poster and print scope.", "model": "claude-opus-5-5"}
+{"id": "t033", "run": 3, "answer": "design-graphics", "reason": "Its description explicitly covers Open Graph images rendered from code to PNG.", "model": "claude-opus-5-5"}
+{"id": "t034", "run": 3, "answer": "design-graphics", "reason": "Pitch deck visual design (PPT, ~10 slides) falls directly under design-graphics.", "model": "claude-opus-5-5"}
+{"id": "t035", "run": 3, "answer": "design-graphics", "reason": "Xiaohongshu images are social media graphics, which design-graphics explicitly covers.", "model": "claude-opus-5-5"}
+{"id": "t036", "run": 3, "answer": "build-design-system", "reason": "Re-theming an existing site's colour palette is a colour-system and theme task.", "model": "claude-opus-5-5"}
+{"id": "t037", "run": 3, "answer": "design-product-ui", "reason": " App redesign centred on navigation and information architecture falls under product interface design.", "model": "claude-opus-5-5"}
+{"id": "t038", "run": 3, "answer": "find-design-inspiration", "reason": "Its description literally lists \"这个网站怎么改更好看\" as a trigger phrase.", "model": "claude-opus-5-5"}
+{"id": "t039", "run": 3, "answer": "find-design-inspiration", "reason": "Covers ideas to improve an existing website plus references.", "model": "claude-opus-5-5"}
+{"id": "t040", "run": 3, "answer": "design-studio", "reason": "Broad redesign of an existing web UI spans critique, redesign and code, so the router fits.", "model": "claude-opus-5-5"}
+{"id": "t041", "run": 3, "answer": "design-studio", "reason": "App-wide restyle needs design direction and a system before implementation, which is design-studio's routing role.", "model": "claude-opus-5-5"}
+{"id": "t042", "run": 3, "answer": "implement-design", "reason": "It covers UI polish of an existing page directly in the codebase.", "model": "claude-opus-5-5"}
+{"id": "t043", "run": 3, "answer": "design-product-ui", "reason": " Redesigning an existing dashboard screen falls squarely within product UI design.", "model": "claude-opus-5-5"}
+{"id": "t044", "run": 3, "answer": "handoff-design", "reason": "Packaging existing design for Flutter developers with slices and annotations (切图、标注).", "model": "claude-opus-5-5"}
+{"id": "t045", "run": 3, "answer": "handoff-design", "reason": "切图导出 @2x/@3x 资源属于设计交付的资源清单，面向 iOS 开发。", "model": "claude-opus-5-5"}
+{"id": "t046", "run": 3, "answer": "handoff-design", "reason": "Developer spec with spacing, states and assets for a Compose build is a handoff.", "model": "claude-opus-5-5"}
+{"id": "t047", "run": 3, "answer": "design-studio", "reason": " The request spans both designing and implementing, so it needs the router that covers design through code.", "model": "claude-opus-5-5"}
+{"id": "t048", "run": 3, "answer": "design-studio", "reason": "Critique plus full redesign spans skills; design-studio covers \"critique or redesign an existing interface\".", "model": "claude-opus-5-5"}
+{"id": "t049", "run": 3, "answer": "critique-design", "reason": "User asks what's wrong with a page's look — exactly \"这个页面哪里不好看\" critique trigger.", "model": "claude-opus-5-5"}
+{"id": "t050", "run": 3, "answer": "critique-design", "reason": "User asks for an experience walkthrough (体验走查) with prioritised findings — critique's core use.", "model": "claude-opus-5-5"}
+{"id": "t051", "run": 3, "answer": "critique-design", "reason": "User wants an honest review of an existing dashboard design.", "model": "claude-opus-5-5"}
+{"id": "t052", "run": 3, "answer": "critique-design", "reason": "Reviewing an existing site's design with findings ranked by severity.", "model": "claude-opus-5-5"}
+{"id": "t053", "run": 3, "answer": "critique-design", "reason": "Reviewing an existing page for accessibility falls under the design review skill's accessibility lens.", "model": "claude-opus-5-5"}
+{"id": "t054", "run": 3, "answer": "critique-design", "reason": "Explicitly covers design QA of a build against its design (设计验收、视觉还原检查).", "model": "claude-opus-5-5"}
+{"id": "t055", "run": 3, "answer": "critique-design", "reason": "Fresh-eye review and scoring of existing mockups before client delivery is design critique.", "model": "claude-opus-5-5"}
+{"id": "t056", "run": 3, "answer": "critique-design", "reason": "User wants a design review of an existing settings page's usability problems.", "model": "claude-opus-5-5"}
+{"id": "t057", "run": 3, "answer": "critique-design", "reason": "User asks to review existing onboarding screens, a design critique task.", "model": "claude-opus-5-5"}
+{"id": "t058", "run": 3, "answer": "critique-design", "reason": "User wants a visual review of PR UI changes from screenshots — design critique.", "model": "claude-opus-5-5"}
+{"id": "t059", "run": 3, "answer": "implement-design", "reason": "Implementing a design mock-up into Vue3 + Element Plus code.", "model": "claude-opus-5-5"}
+{"id": "t060", "run": 3, "answer": "implement-design", "reason": "User wants a Figma design implemented in Next.js + Tailwind with pixel fidelity.", "model": "claude-opus-5-5"}
+{"id": "t061", "run": 3, "answer": "implement-design", "reason": "Finalized design images need implementing in Flutter code — design-to-code landing.", "model": "claude-opus-5-5"}
+{"id": "t062", "run": 3, "answer": "implement-design", "reason": "Turning a mock-up into code while reusing the project's existing components is implementation.", "model": "claude-opus-5-5"}
+{"id": "t063", "run": 3, "answer": "implement-design", "reason": "Fixing spacing and font sizes in Profile.vue to match the design spec is pixel-level implementation.", "model": "claude-opus-5-5"}
+{"id": "t064", "run": 3, "answer": "implement-design", "reason": "The design is already handed off; the user wants it built in SwiftUI.", "model": "claude-opus-5-5"}
+{"id": "t065", "run": 3, "answer": "implement-design", "reason": "Implementing a mockup image into uni-app mini-program code is design-to-code restoration.", "model": "claude-opus-5-5"}
+{"id": "t066", "run": 3, "answer": "implement-design", "reason": "Integrating a static design into the Nuxt codebase as components is implementation work.", "model": "claude-opus-5-5"}
+{"id": "t067", "run": 3, "answer": "implement-design", "reason": "Turning finalized mockup screenshots into Vue components is exactly implementation with fidelity.", "model": "claude-opus-5-5"}
+{"id": "t068", "run": 3, "answer": "implement-design", "reason": " It verifies fidelity against the design and fixes the code through a render-compare-fix loop.", "model": "claude-opus-5-5"}
+{"id": "t069", "run": 3, "answer": "none", "reason": "Code review of auth middleware isn't a design task; no skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t070", "run": 3, "answer": "none", "reason": "This is a code review of a hook's logic, not a design critique.", "model": "claude-opus-5-5"}
+{"id": "t071", "run": 3, "answer": "none", "reason": "This is a styling-library refactor with no design work, so no design skill fits.", "model": "claude-opus-5-5"}
+{"id": "t072", "run": 3, "answer": "none", "reason": "Pure styling refactor with no design work; no skill's description covers it.", "model": "claude-opus-5-5"}
+{"id": "t073", "run": 3, "answer": "none", "reason": "A Safari CSS overflow bug is front-end debugging, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t074", "run": 3, "answer": "none", "reason": "This is a JavaScript runtime bug fix, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t075", "run": 3, "answer": "none", "reason": "This is a CSS overflow bug fix, not a design or design-implementation task.", "model": "claude-opus-5-5"}
+{"id": "t076", "run": 3, "answer": "none", "reason": "Page-load performance optimization is engineering work, not design; no skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t077", "run": 3, "answer": "none", "reason": "Web performance engineering (LCP) isn't covered by any design skill's description.", "model": "claude-opus-5-5"}
+{"id": "t078", "run": 3, "answer": "none", "reason": "A precise, fully specified style edit; no design judgment or workflow needed.", "model": "claude-opus-5-5"}
+{"id": "t079", "run": 3, "answer": "none", "reason": "The request is pure copywriting with no images, which falls outside every design skill.", "model": "claude-opus-5-5"}
+{"id": "t080", "run": 3, "answer": "none", "reason": "Pure copywriting request; the design is done, and no skill covers writing copy.", "model": "claude-opus-5-5"}
+{"id": "t081", "run": 3, "answer": "none", "reason": "Data analysis and plotting in Jupyter, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t082", "run": 3, "answer": "none", "reason": "Data analysis plotting task, not a design request; no skill covers it.", "model": "claude-opus-5-5"}
+{"id": "t083", "run": 3, "answer": "none", "reason": "Database schema design is backend data modeling, not visual or UI design.", "model": "claude-opus-5-5"}
+{"id": "t084", "run": 3, "answer": "none", "reason": "Rate limiting is backend architecture, not visual or interface design.", "model": "claude-opus-5-5"}
+{"id": "t085", "run": 3, "answer": "none", "reason": "The observer pattern is a software design pattern, not a visual or UI design task.", "model": "claude-opus-5-5"}
+{"id": "t086", "run": 3, "answer": "none", "reason": "The user wants only a text outline, with no visual design or slide layout.", "model": "claude-opus-5-5"}
+{"id": "t087", "run": 3, "answer": "none", "reason": "A Tailwind configuration bug, not a design, theming, or implementation task.", "model": "claude-opus-5-5"}
+{"id": "t088", "run": 3, "answer": "none", "reason": "A package/rendering bug to debug, not an icon design or selection task.", "model": "claude-opus-5-5"}
+{"id": "t089", "run": 3, "answer": "none", "reason": "Image compression and format conversion is a file task, not design work.", "model": "claude-opus-5-5"}
+{"id": "t090", "run": 3, "answer": "none", "reason": "Storybook v8 build failure is a tooling/debugging issue, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t091", "run": 3, "answer": "none", "reason": "Configuring an MCP server is tooling setup, not a design task any skill covers.", "model": "claude-opus-5-5"}
+{"id": "t092", "run": 3, "answer": "none", "reason": "This edits the skill repo's catalogue; no skill covers repository maintenance.", "model": "claude-opus-5-5"}
+{"id": "t093", "run": 3, "answer": "none", "reason": "Processing feedback into skill improvements is meta-maintenance, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t094", "run": 3, "answer": "none", "reason": "General CSS concept question; no design or implementation task requested.", "model": "claude-opus-5-5"}
+{"id": "t095", "run": 3, "answer": "none", "reason": "Git rebase conflict resolution is unrelated to any design skill.", "model": "claude-opus-5-5"}
+{"id": "t096", "run": 3, "answer": "none", "reason": "Writing unit tests for a date utility is not a design task.", "model": "claude-opus-5-5"}
+{"id": "t097", "run": 3, "answer": "none", "reason": "The request is backend API 500 error log debugging, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t098", "run": 3, "answer": "none", "reason": "Translating a README is a text task, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t099", "run": 3, "answer": "none", "reason": "Postgres upgrade in docker-compose is infrastructure work, not a design task.", "model": "claude-opus-5-5"}
+{"id": "t100", "run": 3, "answer": "none", "reason": "A Python script to rename photos by capture date isn't design work.", "model": "claude-opus-5-5"}

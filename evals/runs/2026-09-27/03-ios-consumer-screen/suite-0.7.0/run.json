@@ -1,0 +1,77 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.7.0",
+  "model": "claude-opus-5-5",
+  "start": 1790505450,
+  "end": 1790506052,
+  "wall_seconds": 602,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:37:30+00:00",
+  "end_iso": "2026-09-27T10:47:32+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0/skills"
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 40,
+  "duration_api_ms": 641992,
+  "dollars": 2.9605,
+  "tokens": {
+    "input": 84,
+    "output": 61389,
+    "thinking": 26210,
+    "cache_read": 3365188,
+    "cache_creation": 138925
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 76,
+    "output": 55526,
+    "thinking": 22649,
+    "cache_read": 3310001,
+    "cache_creation": 121590
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 84,
+      "outputTokens": 61389,
+      "cacheReadInputTokens": 3365188,
+      "cacheCreationInputTokens": 138925,
+      "webSearchRequests": 0,
+      "costUSD": 2.9605486,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 26210,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 1,
+    "completed": 1,
+    "failed": 0,
+    "max_depth": 1,
+    "by_type": {
+      "general-purpose": 1
+    }
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/03-ios-consumer-screen.suite-0.7.0.transcript.jsonl",
+    "sha256": "626a7739f01018ccc62bc5c50a5abfddeb391dea139e0abe8730f08669244acb",
+    "bytes": 5481840
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [
+    "2026-09-27-drawing-liquid-glass.md",
+    "2026-09-27-ios-kit-frame-outdated.md",
+    "2026-09-27-ios-secondary-label-contrast.md"
+  ],
+  "reruns": []
+}

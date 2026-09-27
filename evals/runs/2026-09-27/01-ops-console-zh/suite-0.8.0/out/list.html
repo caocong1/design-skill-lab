@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工单列表 · 恒川设备云</title>
+<style>/* 恒川设备云 · tokens */
+:root {
+  --ink: #1B2330;
+  --ink-2: #465163;
+  --ink-3: #5F6979;
+  --line: #E1E5EB;
+  --line-2: #ECEEF2;
+  --bg: #F4F5F7;
+  --surface: #FFFFFF;
+  --accent: #1E5BB8;
+  --accent-bg: #EEF4FF;
+  --accent-line: #BCD0F0;
+  --danger: #B3261E;
+  --danger-bg: #FDECEA;
+  --warn: #8A5300;
+  --warn-bg: #FFF3DC;
+  --ok: #1B6E3A;
+  --ok-bg: #E7F4EC;
+  --violet: #5B3E96;
+  --violet-bg: #F2EEFA;
+  --orange: #9C3D0A;
+  --orange-bg: #FFF0E5;
+  --slate-bg: #EEF1F5;
+  --nav-bg: #1A2230;
+  --nav-ink: #C8D0DB;
+  --nav-ink-2: #8E99A8;
+  --nav-active: #2A3546;
+  --r-sm: 4px;
+  --r: 6px;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  font-synthesis-style: none;
+  -webkit-font-smoothing: antialiased;
+  line-break: strict;
+}
+.num { font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; }
+svg.i { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+svg.i.sm { width: 14px; height: 14px; }
+a { color: var(--accent); text-decoration: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- frame ---------- */
+.app { display: grid; grid-template-columns: 184px 1fr; min-height: 100vh; }
+.nav { background: var(--nav-bg); color: var(--nav-ink); padding: 0 0 24px; }
+.brand { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 18px; color: #fff; font-weight: 600; font-size: 15px; border-bottom: 1px solid #263041; }
+.brand-mark { width: 26px; height: 26px; border-radius: 6px; background: var(--accent); display: grid; place-items: center; font-size: 14px; font-weight: 600; }
+.nav ul { list-style: none; margin: 0; padding: 0; }
+.nav > ul { padding: 12px 10px; }
+.nav li > a, .nav li > span { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: var(--r); color: var(--nav-ink); font-size: 13px; }
+.nav li > span { color: #fff; }
+.nav .sub a { padding-left: 36px; height: 34px; }
+.nav .sub a.on { background: var(--nav-active); color: #fff; font-weight: 600; box-shadow: inset 3px 0 0 #6FA0EC; }
+.nav .grp-caret { margin-left: auto; color: var(--nav-ink-2); }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top { height: 52px; background: var(--surface); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding: 0 20px; }
+.org { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); font-weight: 500; color: var(--ink); }
+.org .i { color: var(--ink-3); }
+.search { display: flex; align-items: center; gap: 8px; width: 320px; height: 32px; padding: 0 10px; background: var(--bg); border: 1px solid transparent; border-radius: var(--r); color: var(--ink-3); }
+.search kbd { margin-left: auto; font: 12px var(--font); color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; background: #fff; }
+.top-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.clock { color: var(--ink-3); }
+.bell { position: relative; width: 32px; height: 32px; display: grid; place-items: center; border-radius: var(--r); color: var(--ink-2); background: none; border: 0; }
+.bell .badge { position: absolute; top: 1px; right: -3px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--danger); color: #fff; font-size: 12px; line-height: 18px; font-weight: 600; text-align: center; }
+.user { display: flex; align-items: center; gap: 8px; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; background: #DDE6F5; color: var(--accent); display: grid; place-items: center; font-size: 12px; font-weight: 600; }
+.user small { color: var(--ink-3); font-size: 12px; }
+
+.page { padding: 16px 20px 28px; }
+.crumb { color: var(--ink-3); font-size: 12px; display: flex; gap: 6px; align-items: center; }
+.crumb a { color: var(--ink-3); }
+.crumb b { color: var(--ink-2); font-weight: 400; }
+.ph { display: flex; align-items: center; gap: 12px; margin: 4px 0 12px; }
+.ph h1 { font-size: 20px; line-height: 28px; margin: 0; font-weight: 600; }
+.ph .acts { margin-left: auto; display: flex; gap: 8px; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: var(--r); border: 1px solid #CDD3DC; background: var(--surface); color: var(--ink); font-size: 13px; white-space: nowrap; cursor: pointer; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 500; }
+.btn.ghost { border-color: transparent; background: transparent; color: var(--ink-2); }
+.btn.sm { height: 28px; padding: 0 10px; }
+.btn.danger-text { color: var(--danger); }
+.btn .i { color: currentColor; }
+.btn[disabled] { color: #8A93A1; background: #F4F5F7; border-color: var(--line); cursor: not-allowed; }
+
+/* ---------- list card ---------- */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.views { display: flex; gap: 4px; padding: 0 12px; border-bottom: 1px solid var(--line); }
+.view { position: relative; display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 12px; color: var(--ink-2); font-size: 14px; background: none; border: 0; cursor: pointer; }
+.view .ct { font-size: 12px; color: var(--ink-3); background: var(--slate-bg); border-radius: 10px; padding: 0 7px; line-height: 20px; font-variant-numeric: tabular-nums; }
+.view.on { color: var(--ink); font-weight: 600; }
+.view.on::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -1px; height: 2px; background: var(--accent); border-radius: 2px; }
+.view.on .ct { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+.view.alarm { color: var(--danger); }
+.view.alarm .ct { background: var(--danger); color: #fff; font-weight: 600; }
+.view.alarm .i { color: var(--danger); }
+.views .sk-ct { display: inline-block; width: 28px; height: 14px; border-radius: 7px; background: #E6E9EE; }
+
+.filters { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.field { display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border: 1px solid #8A94A3; border-radius: var(--r); background: var(--surface); white-space: nowrap; color: var(--ink); }
+.field .lb { color: var(--ink-3); }
+.field .i { color: var(--ink-3); }
+.field.kw { width: 232px; color: var(--ink-3); }
+.field.date .ph-t { color: var(--ink-3); }
+.field.set { border-color: var(--accent-line); background: var(--accent-bg); }
+.field.set .lb { color: var(--ink-2); }
+.field.set .val { color: var(--accent); font-weight: 600; }
+.field.set .x { color: var(--accent); margin-left: 2px; }
+.filters .spacer { flex: 1; }
+.filters .link { color: var(--accent); background: none; border: 0; padding: 0 4px; cursor: pointer; }
+
+.toolbar { display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; }
+.toolbar .meta { color: var(--ink-3); display: flex; align-items: center; gap: 6px; }
+.toolbar .meta b { color: var(--ink); font-weight: 600; }
+.toolbar .right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.bulk { display: flex; align-items: center; gap: 10px; background: var(--accent-bg); border: 1px solid var(--accent-line); border-radius: var(--r); height: 36px; padding: 0 6px 0 12px; }
+.bulk .count { font-weight: 600; color: var(--ink); }
+.bulk .sep { width: 1px; height: 16px; background: var(--accent-line); }
+.bulk .btn { height: 26px; }
+.bulk .all { color: var(--accent); }
+
+/* ---------- table ---------- */
+table.t { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+.t th, .t td { padding: 0 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.t thead th { height: 38px; background: #F7F8FA; color: var(--ink-2); font-weight: 500; font-size: 12px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.t thead th.sorted { color: var(--ink); font-weight: 600; }
+.t thead th .i { vertical-align: -3px; color: var(--accent); }
+.t tbody td { height: 50px; padding-top: 6px; padding-bottom: 6px; line-height: 18px; border-bottom: 1px solid var(--line-2); }
+.t td.title, .t td.loc { white-space: normal; }
+.t td.title { word-break: keep-all; overflow-wrap: anywhere; }
+.t .nw { white-space: nowrap; }
+.t .dev .code, .t .dev .type { display: block; }
+.t .dev .type { font-size: 12px; color: var(--ink-2); }
+.t tbody tr:last-child td { border-bottom: 0; }
+.t td.cb, .t th.cb { padding: 0 0 0 14px; overflow: visible; }
+.t tr.sel td { background: var(--accent-bg); border-bottom-color: #DCE6F7; }
+.t tr.late td.cb { box-shadow: inset 4px 0 0 var(--danger); }
+.t .id a { color: var(--accent); font-variant-numeric: tabular-nums; font-size: 12px; }
+.t .title { color: var(--ink); font-weight: 500; }
+.t .dev, .t .loc { color: var(--ink-2); }
+.t .dev .code { color: var(--ink); font-variant-numeric: tabular-nums; }
+.t .tm { color: var(--ink); font-variant-numeric: tabular-nums; font-size: 12px; }
+.t .tm .d, .t .tm .t { display: block; }
+.t .tm .d { color: var(--ink-3); }
+.t .who { color: var(--ink); }
+.t .who.none { color: var(--ink-3); }
+.t .ops { text-align: right; padding-right: 12px; }
+.t .ops a { margin-left: 10px; }
+.t .ops a.strong { font-weight: 600; }
+.cbx { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid #7F8998; background: #fff; display: inline-grid; place-items: center; vertical-align: middle; }
+.cbx.on { background: var(--accent); border-color: var(--accent); }
+.cbx.on svg { width: 12px; height: 12px; stroke: #fff; stroke-width: 2.4; fill: none; }
+.cbx.mixed { background: var(--accent); border-color: var(--accent); }
+.cbx.mixed::after { content: ""; width: 8px; height: 2px; background: #fff; border-radius: 1px; }
+
+/* badges */
+.pri { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 7px; border-radius: var(--r-sm); font-size: 12px; font-weight: 600; line-height: 1; white-space: nowrap; }
+.pri b { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pri.p1 { background: var(--danger); color: #fff; }
+.pri.p2 { background: var(--orange-bg); color: var(--orange); box-shadow: inset 0 0 0 1px #F3C9AE; }
+.pri.p3 { background: var(--slate-bg); color: var(--ink-2); font-weight: 500; }
+.pri.p4 { background: transparent; color: var(--ink-3); box-shadow: inset 0 0 0 1px #D5DAE1; font-weight: 500; }
+.st { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 8px 0 6px; border-radius: 11px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.st svg { width: 12px; height: 12px; }
+.st.s-wait { background: var(--warn-bg); color: var(--warn); }
+.st.s-assigned { background: var(--slate-bg); color: var(--ink-2); }
+.st.s-doing { background: var(--accent-bg); color: var(--accent); }
+.st.s-hold { background: #F1F1F3; color: var(--ink-2); box-shadow: inset 0 0 0 1px #D9DCE1; }
+.st.s-check { background: var(--violet-bg); color: var(--violet); }
+.st.s-closed { background: transparent; color: var(--ink-3); box-shadow: inset 0 0 0 1px #DADEE4; }
+.st-note { color: var(--ink-3); font-size: 12px; margin-left: 4px; }
+
+.sla { display: inline-flex; align-items: center; gap: 5px; font-variant-numeric: tabular-nums; }
+.sla .i { width: 14px; height: 14px; }
+.sla.normal { color: var(--ink); }
+.sla.normal .i { color: var(--ink-3); }
+.sla.soon { color: var(--warn); font-weight: 600; }
+.sla.over { color: var(--danger); font-weight: 600; }
+.sla.done { color: var(--ok); }
+.sla.late { color: var(--ink-2); }
+.sla.late .i { color: var(--danger); }
+.sla.paused { color: var(--ink-3); }
+
+.foot { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border-top: 1px solid var(--line); color: var(--ink-2); }
+.foot .pager { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.pg { min-width: 30px; height: 30px; padding: 0 6px; border: 1px solid transparent; border-radius: var(--r); display: grid; place-items: center; color: var(--ink-2); font-variant-numeric: tabular-nums; background: none; }
+.pg.on { border-color: var(--accent); color: var(--accent); font-weight: 600; background: #fff; }
+.pg[disabled] { color: #A6AEBA; }
+.pg.gap { color: var(--ink-3); }
+.goto { display: flex; align-items: center; gap: 6px; margin-left: 10px; }
+.goto .inp { width: 44px; height: 30px; border: 1px solid #8A94A3; border-radius: var(--r); }
+
+/* ---------- states ---------- */
+.state { padding: 56px 24px 64px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.state .glyph { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 14px; }
+.state .glyph svg { width: 24px; height: 24px; stroke-width: 1.6; }
+.state h2 { margin: 0 0 6px; font-size: 16px; font-weight: 600; }
+.state p { margin: 0; color: var(--ink-2); max-width: 36em; font-size: 13px; line-height: 1.7; }
+.state .acts { display: flex; gap: 8px; margin-top: 18px; }
+.state .chips { display: flex; gap: 6px; margin: 10px 0 0; flex-wrap: wrap; justify-content: center; }
+.chip { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 4px; background: var(--slate-bg); color: var(--ink); font-size: 12px; }
+.chip .k { color: var(--ink-3); margin-right: 2px; }
+.errbox { margin-top: 16px; display: grid; grid-template-columns: auto auto; gap: 4px 16px; text-align: left; background: #F7F8FA; border: 1px solid var(--line); border-radius: var(--r); padding: 10px 14px; font-size: 12px; color: var(--ink-2); }
+.errbox dt { color: var(--ink-3); }
+.errbox dd { margin: 0; color: var(--ink); font-variant-numeric: tabular-nums; }
+.banner { display: flex; align-items: center; gap: 10px; margin: 12px 16px 0; padding: 10px 12px; border-radius: var(--r); background: var(--danger-bg); color: var(--danger); border: 1px solid #F3C4BF; }
+.banner .msg { color: var(--ink); }
+.banner .btn { margin-left: auto; }
+
+.sk { display: inline-block; height: 12px; border-radius: 6px; background: linear-gradient(90deg, #E3E7EC 0%, #F0F2F5 50%, #E3E7EC 100%); background-size: 200% 100%; animation: sk 1.4s ease-in-out infinite; vertical-align: middle; }
+@keyframes sk { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } .spin { animation: none !important; } }
+.spin { animation: spin 1s linear infinite; transform-origin: 50% 50%; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-note { display: flex; align-items: center; gap: 8px; color: var(--ink-2); }
+.loading-note .i { color: var(--accent); }
+
+.bulk .pg-note { font-weight: 400; color: var(--ink-2); }
+
+.pri.p1.muted { background: transparent; color: var(--danger); box-shadow: inset 0 0 0 1px #E3A9A4; }
+a:focus-visible, button:focus-visible, [role="checkbox"]:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* ---------- detail ---------- */
+.detail { font-size: 13px; }
+.crumb-row { display: flex; align-items: center; height: 28px; margin-bottom: 8px; }
+.util { margin-left: auto; display: flex; gap: 2px; }
+.head { padding: 16px 20px 0; }
+.head-top { display: flex; gap: 24px; align-items: flex-start; }
+.head-l { min-width: 0; }
+.head-id { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-size: 13px; }
+.src { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-2); background: var(--slate-bg); border-radius: 4px; padding: 0 7px; height: 22px; font-size: 12px; }
+.head-t { display: flex; align-items: center; gap: 10px; margin: 6px 0 6px; }
+.head-t h1 { margin: 0; font-size: 22px; line-height: 30px; font-weight: 600; }
+.head-m { color: var(--ink-2); }
+.head-m b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.head-m .dot { margin: 0 8px; color: var(--ink-3); }
+.head-a { margin-left: auto; display: flex; gap: 8px; flex: none; padding-top: 22px; }
+
+.sla-row { display: grid; grid-template-columns: 1fr 1fr; margin: 16px -20px 0; border-top: 1px solid var(--line); }
+.slab { padding: 14px 20px 14px; }
+.slab + .slab { border-left: 1px solid var(--line); }
+.slab-h { display: flex; align-items: center; gap: 8px; }
+.slab-k { color: var(--ink-2); }
+.slab-s { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; margin-left: auto; height: 22px; padding: 0 8px; border-radius: 11px; }
+.slab-s.ok { color: var(--ok); background: var(--ok-bg); }
+.slab-s.run { color: var(--accent); background: var(--accent-bg); }
+.slab-v { display: flex; align-items: baseline; gap: 12px; margin: 4px 0 10px; }
+.slab-v .big { font-size: 20px; font-weight: 600; line-height: 28px; }
+.slab.met .big { color: var(--ink-2); font-size: 16px; font-weight: 500; }
+.slab-v .sub { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.bar { position: relative; height: 6px; border-radius: 3px; background: #E6E9EE; }
+.bar > span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--accent); }
+.slab.met .bar > span { background: #2E8A4E; }
+.bar > i { display: none; }
+.bar > em { position: absolute; top: -4px; width: 2px; height: 14px; background: var(--ink); font-style: normal; }
+.bar > em b { position: absolute; top: -20px; left: 6px; white-space: nowrap; font-size: 12px; font-weight: 600; color: var(--ink); }
+.bar-lb { display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px; color: var(--ink-3); }
+.slab.run .slab-v { margin-bottom: 26px; }
+.slab.met .slab-v { margin-bottom: 26px; }
+
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; margin-top: 16px; align-items: start; }
+.col-main, .col-side { display: flex; flex-direction: column; gap: 16px; }
+.sec { padding: 14px 16px 16px; }
+.sec-h { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; min-height: 28px; }
+.sec-h h2 { margin: 0; font-size: 15px; font-weight: 600; }
+.sec-meta { color: var(--ink-3); font-size: 12px; }
+.sec-link { margin-left: auto; font-size: 12px; }
+
+.rds { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.rd { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px 12px; }
+.rd.bad { border-color: #F0B8B2; background: #FFF8F7; box-shadow: inset 0 3px 0 var(--danger); }
+.rd-k { color: var(--ink-2); font-size: 13px; }
+.rd-v { font-size: 26px; font-weight: 600; line-height: 34px; margin: 4px 0 4px; }
+.rd.bad .rd-v { color: var(--danger); }
+.rd-v small { font-size: 13px; font-weight: 500; color: var(--ink-2); margin-left: 4px; }
+.rd-f { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; }
+.rd-range { color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: 12px; white-space: nowrap; }
+.tag { display: inline-flex; align-items: center; gap: 3px; height: 20px; padding: 0 6px; border-radius: 4px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.tag .i { width: 12px; height: 12px; }
+.tag.bad { color: var(--danger); background: var(--danger-bg); }
+.tag.ok { color: var(--ok); background: var(--ok-bg); }
+.tag.wait { color: var(--warn); background: var(--warn-bg); }
+
+.finding { margin: -4px 0 8px; color: var(--ink); font-size: 13px; }
+.finding b { color: var(--danger); }
+.chart { display: block; font-family: var(--font); }
+.chart .ax { font-size: 12px; fill: #5F6979; font-variant-numeric: tabular-nums; }
+.chart .ax.thr { fill: #B3261E; font-weight: 600; }
+.chart .thr-lb { font-size: 12px; fill: #B3261E; font-weight: 600; }
+.chart .ev { font-size: 12px; fill: #465163; }
+.chart .pv { font-size: 12px; fill: #465163; font-variant-numeric: tabular-nums; }
+.chart .pv.over { fill: #B3261E; }
+.chart .pv.last { font-weight: 700; font-size: 13px; }
+
+.events { list-style: none; margin: 0; padding: 0; }
+.ev-i { display: grid; grid-template-columns: 44px 20px 1fr; align-items: start; position: relative; padding-bottom: 14px; }
+.ev-i:last-child { padding-bottom: 0; }
+.ev-i::before { content: ""; position: absolute; left: 53px; top: 16px; bottom: -2px; width: 1px; background: var(--line); }
+.ev-i:last-child::before { display: none; }
+.ev-t { color: var(--ink-2); line-height: 20px; }
+.ev-dot { width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--accent); background: #fff; margin: 6px 0 0 5px; position: relative; z-index: 1; }
+.ev-dot.sys { border-color: #8E99A8; }
+.ev-i.latest .ev-dot { background: var(--accent); }
+.ev-h { line-height: 20px; display: flex; gap: 8px; align-items: center; }
+.ev-h b { font-weight: 600; }
+.ev-role { font-size: 12px; color: var(--ink-3); }
+.ev-x { color: var(--ink); line-height: 1.6; margin-top: 1px; }
+.photos { display: flex; gap: 10px; margin-top: 8px; }
+.ph-tile { margin: 0; width: 120px; }
+.ph-img { height: 76px; border-radius: var(--r); background: #F7F8FA; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--ink-3); font-size: 12px; }
+.ph-img .i { width: 22px; height: 22px; }
+.ph-tile figcaption { font-size: 12px; color: var(--ink-2); margin-top: 4px; }
+
+.dev-id { display: flex; align-items: baseline; gap: 8px; margin: -4px 0 10px; font-size: 15px; }
+.dev-id .num { font-weight: 600; }
+.dev-id span + span { color: var(--ink-2); font-size: 13px; }
+.kv { display: grid; grid-template-columns: 68px 1fr; gap: 8px 12px; margin: 0; }
+.kv dt { color: var(--ink-3); }
+.kv dd { margin: 0; color: var(--ink); }
+.warn-t { color: var(--warn); }
+.muted { color: var(--ink-3); }
+.people { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.people li { display: flex; gap: 10px; align-items: center; }
+.people b { font-weight: 600; }
+.role-tag { margin-left: 8px; font-size: 12px; color: var(--accent); background: var(--accent-bg); border-radius: 4px; padding: 1px 6px; }
+.role-tag.plain { color: var(--ink-2); background: var(--slate-bg); }
+.parts, .rel { list-style: none; margin: 0; padding: 0; }
+.parts li { padding: 10px 0; border-top: 1px solid var(--line-2); }
+.parts li:first-child { border-top: 0; padding-top: 0; }
+.parts li:last-child { padding-bottom: 0; }
+.pt-n { color: var(--ink); font-weight: 500; }
+.pt-m { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 12px; }
+.rel li { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 10px 0; border-top: 1px solid var(--line-2); }
+.rel li:first-child { border-top: 0; padding-top: 0; }
+.rel li:last-child { padding-bottom: 0; }
+.rel a { font-size: 12px; }
+.rel .st { grid-row: 1 / span 2; grid-column: 2; align-self: center; }
+.rel-t { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="nav" aria-label="主导航">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">恒</span>恒川设备云</div>
+    <ul>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>工作台</a></li>
+      <li><span><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6"/></svg>工单管理<svg class="i sm grp-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
+        <ul class="sub">
+          <li><a href="list.html" class="on" aria-current="page">工单列表</a></li>
+          <li><a href="#">我的工单</a></li>
+          <li><a href="#">工单统计</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg>设备台账</a></li>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3 6 1.5 1.5L7 5M3 12l1.5 1.5L7 11M3 18l1.5 1.5L7 17"/></svg>巡检计划</a></li>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M9 15.5l2 2 4-4"/></svg>保养计划</a></li>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>备件库存</a></li>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11M10 20V5M16 20v-6M3 20h18"/></svg>报表中心</a></li>
+      <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>系统设置</a></li>
+    </ul>
+  </nav>
+  <div class="main">
+    <header class="top">
+      <button class="org" type="button" aria-label="切换组织：当前 恒川精密 · 苏州一厂"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M16 9h3a1 1 0 0 1 1 1v11M3 21h18M8 7h4M8 11h4M8 15h4"/></svg>恒川精密 · 苏州一厂<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="search" role="search"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg><span>搜索工单号、设备编号</span><kbd>/</kbd></div>
+      <div class="top-right">
+        <span class="clock num">2026-09-27 周日 09:42</span>
+        <button class="bell" type="button" aria-label="通知，5 条未读"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="badge">5</span></button>
+        <div class="user"><span class="avatar" aria-hidden="true">李</span><span>李敏 <small>· 运维主管</small></span></div>
+      </div>
+    </header>
+    <main class="page">
+    <div class="crumb"><a href="#">工单管理</a><span aria-hidden="true">/</span><b>工单列表</b></div>
+    <div class="ph"><h1>工单列表</h1>
+      <div class="acts"><button class="btn" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>新建工单</button></div>
+    </div>
+    <section class="card" aria-label="工单">
+      <div class="views" role="tablist" aria-label="快捷视图"><button class="view on " role="tab" aria-selected="true">全部<span class="ct">1,286</span></button><button class="view  " role="tab" aria-selected="false">我负责的<span class="ct">23</span></button><button class="view  " role="tab" aria-selected="false">待派单<span class="ct">7</span></button><button class="view  alarm" role="tab" aria-selected="false"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>已超时<span class="ct">4</span></button><button class="view  " role="tab" aria-selected="false">待验收<span class="ct">12</span></button></div>
+      <div class="filters">
+    <div class="field kw"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg>关键词：标题、工单号、设备</div>
+    <div class="field"><span class="lb">状态</span>全部<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="field"><span class="lb">优先级</span>全部<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="field"><span class="lb">设备类型</span>全部<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="field"><span class="lb">厂区/产线</span>全部<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="field"><span class="lb">负责人</span>全部<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="field date"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span class="lb">创建时间</span><span class="ph-t">开始 – 结束</span></div>
+  </div>
+      <div class="toolbar">
+      <div class="bulk" role="region" aria-label="批量操作">
+        <span class="count">已选 <span class="num">2</span> 项<span class="pg-note">（本页）</span></span>
+        <a href="#" class="all">选择全部 1,286 项</a>
+        <span class="sep"></span>
+        <button class="btn sm primary" type="button">批量派单</button>
+        <button class="btn sm" type="button">批量修改优先级</button>
+        <button class="btn sm" type="button"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>导出所选</button>
+        <button class="btn sm ghost" type="button">取消选择</button>
+      </div>
+      <div class="right">
+      <span class="meta"><svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>按创建时间倒序</span>
+      <button class="btn ghost sm" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/></svg>列设置</button>
+      <button class="btn sm" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>导出全部</button>
+    </div></div>
+      <table class="t"><colgroup><col style="width:32px"><col style="width:136px"><col><col style="width:106px"><col style="width:104px"><col style="width:76px"><col style="width:124px"><col style="width:58px"><col style="width:156px"><col style="width:84px"><col style="width:70px"><col style="width:94px"></colgroup><thead><tr><th class="cb"><span class="cbx mixed" role="checkbox" aria-checked="mixed" aria-label="全选本页"></span></th><th>工单号</th><th>标题</th><th>设备</th><th>位置</th><th>优先级</th><th>状态</th><th>负责人</th><th>SLA</th><th class="sorted" aria-sort="descending">创建时间 <svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></th><th>更新时间</th><th class="ops">操作</th></tr></thead><tbody><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260927-0413"></span></td>
+    <td class="id"><a href="detail.html">GD-20260927-0413</a></td>
+    <td class="title" title="3号注塑机液压油温过高">3号注塑机液压油温过高</td>
+    <td class="dev"><span class="code">ZS-03-117</span><span class="type">注塑机</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">A区</span> · <span class="nw">注塑线3</span></td>
+    <td><span class="pri p1"><b>P1</b>紧急</span></td>
+    <td><span class="st s-doing"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 1.7a4.3 4.3 0 0 1 0 8.6z" fill="currentColor"/></svg>处理中</span></td>
+    <td class="who">王建国</td>
+    <td><span class="sla normal"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>修复剩 3时30分</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">09:12</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">09:40</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr class="sel" aria-selected="true">
+    <td class="cb"><span class="cbx on" role="checkbox" aria-checked="true" aria-label="选择 GD-20260927-0409"><svg viewBox="0 0 12 12"><path d="m2.5 6.2 2.3 2.3 4.7-5"/></svg></span></td>
+    <td class="id"><a href="#">GD-20260927-0409</a></td>
+    <td class="title" title="2号空压机出口压力波动">2号空压机出口压力波动</td>
+    <td class="dev"><span class="code">KY-01-002</span><span class="type">螺杆空压机</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">动力站</span></td>
+    <td><span class="pri p2"><b>P2</b>高</span></td>
+    <td><span class="st s-assigned"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>已派单</span></td>
+    <td class="who">陈晓峰</td>
+    <td><span class="sla soon"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>响应剩 35分</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">08:47</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">08:52</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr class="sel late" aria-selected="true">
+    <td class="cb"><span class="cbx on" role="checkbox" aria-checked="true" aria-label="选择 GD-20260927-0402"><svg viewBox="0 0 12 12"><path d="m2.5 6.2 2.3 2.3 4.7-5"/></svg></span></td>
+    <td class="id"><a href="#">GD-20260927-0402</a></td>
+    <td class="title" title="AGV-07 导航丢失，停在3号通道">AGV‑07 导航丢失，停在3号通道</td>
+    <td class="dev"><span class="code">AGV-07</span><span class="type">潜伏式AGV</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">仓储区</span></td>
+    <td><span class="pri p2"><b>P2</b>高</span></td>
+    <td><span class="st s-wait"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.2 1.6"/></svg>待派单</span></td>
+    <td class="who none"><span aria-label="未指派">—</span></td>
+    <td><span class="sla over"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>响应已超时 12分</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">08:00</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">08:00</span></td>
+    <td class="ops"><a href="#">查看</a><a href="#" class="strong">派单</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260927-0398"></span></td>
+    <td class="id"><a href="#">GD-20260927-0398</a></td>
+    <td class="title" title="冷却塔风机异响">冷却塔风机异响</td>
+    <td class="dev"><span class="code">LQ-02-001</span><span class="type">冷却塔</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">屋面</span></td>
+    <td><span class="pri p3"><b>P3</b>中</span></td>
+    <td><span class="st s-doing"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 1.7a4.3 4.3 0 0 1 0 8.6z" fill="currentColor"/></svg>处理中</span></td>
+    <td class="who">赵磊</td>
+    <td><span class="sla normal"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>修复剩 6时13分</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">07:55</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">09:10</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260926-0391"></span></td>
+    <td class="id"><a href="#">GD-20260926-0391</a></td>
+    <td class="title" title="贴片机 SMT-2 吸嘴频繁堵塞">贴片机 SMT‑2 吸嘴频繁堵塞</td>
+    <td class="dev"><span class="code">TP-02-004</span><span class="type">贴片机</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">SMT车间</span></td>
+    <td><span class="pri p2"><b>P2</b>高</span></td>
+    <td><span class="st s-check"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m4 6.1 1.4 1.4L8.1 4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>待验收</span></td>
+    <td class="who">刘洋</td>
+    <td><span class="sla done"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>按时修复</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">21:40</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">06:18</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260926-0387"></span></td>
+    <td class="id"><a href="#">GD-20260926-0387</a></td>
+    <td class="title" title="月度点检：配电柜 DP-12">月度点检：配电柜 DP‑12</td>
+    <td class="dev"><span class="code">DP-12</span><span class="type">低压配电柜</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">配电室</span></td>
+    <td><span class="pri p4"><b>P4</b>低</span></td>
+    <td><span class="st s-assigned"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>已派单</span></td>
+    <td class="who">孙婷</td>
+    <td><span class="sla normal"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>剩 2天</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">17:00</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">17:02</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260926-0380"></span></td>
+    <td class="id"><a href="#">GD-20260926-0380</a></td>
+    <td class="title" title="焊接机器人 R-05 焊缝偏移">焊接机器人 R‑05 焊缝偏移</td>
+    <td class="dev"><span class="code">HJ-05-011</span><span class="type">焊接机器人</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">焊装线</span></td>
+    <td><span class="pri p1"><b>P1</b>紧急</span></td>
+    <td><span class="st s-hold"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4.3 3v6M7.7 3v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>已挂起</span><span class="st-note">等备件</span></td>
+    <td class="who">周强</td>
+    <td><span class="sla paused"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>计时暂停</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">15:22</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">18:40</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260926-0376"></span></td>
+    <td class="id"><a href="#">GD-20260926-0376</a></td>
+    <td class="title" title="叉车 FL-09 电池充电异常">叉车 FL‑09 电池充电异常</td>
+    <td class="dev"><span class="code">FL-09</span><span class="type">电动叉车</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">仓储区</span></td>
+    <td><span class="pri p3 muted"><b>P3</b>中</span></td>
+    <td><span class="st s-closed"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/><path d="m3.8 6.1 1.5 1.5L8.3 4.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>已关闭</span></td>
+    <td class="who">陈晓峰</td>
+    <td><span class="sla done"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>按时修复</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">13:05</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">16:47</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr class="late">
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260926-0371"></span></td>
+    <td class="id"><a href="#">GD-20260926-0371</a></td>
+    <td class="title" title="烘箱 HX-04 温控超调">烘箱 HX‑04 温控超调</td>
+    <td class="dev"><span class="code">HX-04</span><span class="type">热风烘箱</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">涂装线</span></td>
+    <td><span class="pri p2"><b>P2</b>高</span></td>
+    <td><span class="st s-doing"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 1.7a4.3 4.3 0 0 1 0 8.6z" fill="currentColor"/></svg>处理中</span></td>
+    <td class="who">刘洋</td>
+    <td><span class="sla over"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>修复已超时 1时05分</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">08:37</span></td>
+    <td class="tm"><span class="d">09-27</span><span class="t">08:02</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260925-0366"></span></td>
+    <td class="id"><a href="#">GD-20260925-0366</a></td>
+    <td class="title" title="纯水机电导率超标">纯水机电导率超标</td>
+    <td class="dev"><span class="code">CS-01-001</span><span class="type">纯水系统</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">动力站</span></td>
+    <td><span class="pri p2 muted"><b>P2</b>高</span></td>
+    <td><span class="st s-closed"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/><path d="m3.8 6.1 1.5 1.5L8.3 4.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>已关闭</span></td>
+    <td class="who">赵磊</td>
+    <td><span class="sla done"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>按时修复</span></td>
+    <td class="tm"><span class="d">09-25</span><span class="t">22:14</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">03:30</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260925-0359"></span></td>
+    <td class="id"><a href="#">GD-20260925-0359</a></td>
+    <td class="title" title="模温机漏水">模温机漏水</td>
+    <td class="dev"><span class="code">ZS-03-109</span><span class="type">模温机</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">A区</span> · <span class="nw">注塑线3</span></td>
+    <td><span class="pri p3 muted"><b>P3</b>中</span></td>
+    <td><span class="st s-closed"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/><path d="m3.8 6.1 1.5 1.5L8.3 4.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>已关闭</span></td>
+    <td class="who">王建国</td>
+    <td><span class="sla late"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5M12 16h.01"/></svg>超时 20分修复</span></td>
+    <td class="tm"><span class="d">09-25</span><span class="t">14:48</span></td>
+    <td class="tm"><span class="d">09-25</span><span class="t">19:08</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260925-0352"></span></td>
+    <td class="id"><a href="#">GD-20260925-0352</a></td>
+    <td class="title" title="包装线皮带跑偏">包装线皮带跑偏</td>
+    <td class="dev"><span class="code">SS-02-003</span><span class="type">皮带输送线</span></td>
+    <td class="loc"><span class="nw">一厂</span> · <span class="nw">包装区</span></td>
+    <td><span class="pri p3"><b>P3</b>中</span></td>
+    <td><span class="st s-check"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m4 6.1 1.4 1.4L8.1 4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>待验收</span></td>
+    <td class="who">孙婷</td>
+    <td><span class="sla done"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>按时修复</span></td>
+    <td class="tm"><span class="d">09-25</span><span class="t">11:20</span></td>
+    <td class="tm"><span class="d">09-26</span><span class="t">09:15</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260924-0340"></span></td>
+    <td class="id"><a href="#">GD-20260924-0340</a></td>
+    <td class="title" title="行车 QC-01 限位开关失灵">行车 QC‑01 限位开关失灵</td>
+    <td class="dev"><span class="code">QC-01</span><span class="type">桥式起重机</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">总装</span></td>
+    <td><span class="pri p1 muted"><b>P1</b>紧急</span></td>
+    <td><span class="st s-closed"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/><path d="m3.8 6.1 1.5 1.5L8.3 4.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>已关闭</span></td>
+    <td class="who">周强</td>
+    <td><span class="sla done"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>按时修复</span></td>
+    <td class="tm"><span class="d">09-24</span><span class="t">16:02</span></td>
+    <td class="tm"><span class="d">09-24</span><span class="t">18:31</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260924-0333"></span></td>
+    <td class="id"><a href="#">GD-20260924-0333</a></td>
+    <td class="title" title="季度保养：激光切割机 LC-01">季度保养：激光切割机 LC‑01</td>
+    <td class="dev"><span class="code">LC-01</span><span class="type">光纤激光切割机</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">钣金</span></td>
+    <td><span class="pri p4"><b>P4</b>低</span></td>
+    <td><span class="st s-assigned"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>已派单</span></td>
+    <td class="who">陈晓峰</td>
+    <td><span class="sla normal"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>剩 6天</span></td>
+    <td class="tm"><span class="d">09-24</span><span class="t">09:00</span></td>
+    <td class="tm"><span class="d">09-24</span><span class="t">09:05</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr><tr>
+    <td class="cb"><span class="cbx" role="checkbox" aria-checked="false" aria-label="选择 GD-20260923-0321"></span></td>
+    <td class="id"><a href="#">GD-20260923-0321</a></td>
+    <td class="title" title="除尘器压差报警">除尘器压差报警</td>
+    <td class="dev"><span class="code">CC-01-002</span><span class="type">脉冲除尘器</span></td>
+    <td class="loc"><span class="nw">二厂</span> · <span class="nw">打磨间</span></td>
+    <td><span class="pri p3 muted"><b>P3</b>中</span></td>
+    <td><span class="st s-closed"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="currentColor"/><path d="m3.8 6.1 1.5 1.5L8.3 4.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>已关闭</span></td>
+    <td class="who">赵磊</td>
+    <td><span class="sla done"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>按时修复</span></td>
+    <td class="tm"><span class="d">09-23</span><span class="t">13:37</span></td>
+    <td class="tm"><span class="d">09-23</span><span class="t">17:50</span></td>
+    <td class="ops"><a href="#">查看</a></td>
+  </tr></tbody></table>
+      
+      <div class="foot"><span>共 <b class="num">1,286</b> 条</span>
+      <div class="field" style="height:30px">每页 15 条<svg class="i sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+      <nav class="pager" aria-label="分页">
+        <button class="pg" disabled aria-label="上一页"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+        <button class="pg on" aria-current="page">1</button><button class="pg">2</button><button class="pg">3</button><button class="pg">4</button><button class="pg">5</button>
+        <span class="pg gap">…</span><button class="pg">86</button>
+        <button class="pg" aria-label="下一页"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        <span class="goto">前往<span class="inp"></span>页</span>
+      </nav></div>
+    </section>
+  </main>
+  </div>
+</div>
+</body>
+</html>

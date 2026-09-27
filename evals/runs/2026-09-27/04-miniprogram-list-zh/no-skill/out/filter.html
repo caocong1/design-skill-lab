@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=375,initial-scale=1">
+<title>筛选 · 拾光到家</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:375px;height:812px;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  color:#1F2328;background:#F4F5F7;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;position:relative}
+button{font:inherit;color:inherit;background:none;border:0}
+:root{--brand:#0E7C66;--brand-d:#0B6B58;--brand-t:#E8F4F0;--price:#C2410C;--t2:#5C6370;--t3:#646A73;--line:#E6E8EB}
+
+/* system chrome */
+.status{position:absolute;left:0;top:0;width:375px;height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px 0 30px;z-index:30}
+.status .t{font-size:15px;font-weight:600;letter-spacing:.2px}
+.status .r{display:flex;gap:6px;align-items:center}
+.nav{position:absolute;left:0;top:44px;width:375px;height:44px;background:#fff;z-index:30}
+.loc{position:absolute;left:12px;top:6px;height:32px;max-width:261px;display:flex;align-items:center;gap:3px;padding:0 4px;font-size:15px;white-space:nowrap}
+.loc .p{color:var(--brand);display:flex}
+.loc .a{color:var(--t2)}
+.loc b{font-weight:600}
+.loc .c{color:var(--t2);display:flex;margin-left:1px}
+.capsule{position:absolute;left:281px;top:50px;width:87px;height:32px;border-radius:16px;background:rgba(255,255,255,.85);border:.5px solid rgba(0,0,0,.14);display:flex;align-items:center;z-index:40}
+.capsule>span{flex:1;display:flex;align-items:center;justify-content:center;height:100%}
+.capsule i{width:.5px;height:18px;background:rgba(0,0,0,.16)}
+.capsule .dots{display:flex;gap:3px}
+.capsule .dots b{width:4px;height:4px;border-radius:50%;background:#1F2328}
+.capsule .dots b:nth-child(2){width:5px;height:5px}
+.capsule .ring{width:17px;height:17px;border-radius:50%;border:2px solid #1F2328;display:flex;align-items:center;justify-content:center}
+.capsule .ring:after{content:"";width:5px;height:5px;border-radius:50%;background:#1F2328}
+
+/* page header (in page) */
+.head{position:absolute;left:0;top:88px;width:375px;background:#fff;z-index:20}
+.search{margin:6px 16px 8px;height:38px;border-radius:19px;background:#F2F3F5;display:flex;align-items:center;gap:6px;padding:0 14px;color:var(--t3);font-size:14px}
+.cats{position:relative;height:44px;display:flex;align-items:stretch;gap:22px;padding:0 16px;white-space:nowrap;overflow:hidden}
+.cats:after{content:"";position:absolute;right:0;top:0;width:36px;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),#fff 85%)}
+.cats span{position:relative;display:flex;align-items:center;font-size:15px;color:#3A3F46}
+.cats span.on{color:var(--brand-d);font-weight:600;font-size:16px}
+.cats span.on:after{content:"";position:absolute;left:50%;bottom:4px;width:20px;height:3px;margin-left:-10px;border-radius:2px;background:var(--brand)}
+.sort{height:42px;display:flex;align-items:center;padding:0 6px 0 14px;white-space:nowrap;border-top:.5px solid var(--line);border-bottom:.5px solid var(--line)}
+.sort .o{flex:none;font-size:14px;color:#3A3F46;margin-right:11px;display:flex;align-items:center;height:42px}
+.sort .o.on{color:var(--brand-d);font-weight:600}
+.sort .f{flex:none;margin-left:auto;display:flex;align-items:center;gap:3px;height:32px;padding:0 9px 0 8px;border-radius:16px;font-size:14px;color:#3A3F46}
+.sort .f.on{color:var(--brand-d);background:var(--brand-t);font-weight:600}
+.sort .f .n{min-width:16px;height:16px;border-radius:8px;background:var(--brand);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* content area */
+.body{position:absolute;left:0;top:224px;width:375px;height:505px;overflow:hidden}
+
+/* native tab bar */
+.tabbar{position:absolute;left:0;top:729px;width:375px;height:83px;background:#fff;border-top:.5px solid rgba(0,0,0,.12);z-index:50}
+.tabbar .row{height:49px;display:flex}
+.tabbar .it{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10px;color:#646A73}
+.tabbar .it.on{color:var(--brand)}
+.home-ind{position:absolute;left:120px;bottom:8px;width:135px;height:5px;border-radius:3px;background:#111}
+
+/* list */
+.count{font-size:12px;color:var(--t3);padding:10px 16px 8px}
+.card{margin:0 12px 8px;background:#fff;border-radius:12px;padding:12px 14px 12px}
+.card .top{display:flex;gap:12px}
+.thumb{flex:none;width:60px;height:60px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.card .main{flex:1;min-width:0}
+.card .l1{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.card h3{font-size:16px;font-weight:600;line-height:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .dist{flex:none;font-size:12px;color:var(--t3)}
+.card .l2{margin-top:3px;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);line-height:18px;white-space:nowrap}
+.card .l2 .sep{width:1px;height:10px;background:#D5D8DC}
+.card .rt{display:flex;align-items:center;gap:2px;color:#1F2328;font-weight:600}
+.card .rt small{font-size:13px;font-weight:400;color:var(--t2);margin-left:3px}
+.tags{margin-top:7px;display:flex;gap:6px;flex-wrap:nowrap}
+.tag{font-size:12px;line-height:20px;height:20px;padding:0 6px;border-radius:4px;background:#F2F3F5;color:#4B5563;display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
+.tag.g{background:var(--brand-t);color:var(--brand-d)}
+.card .bot{margin-top:10px;padding-top:10px;border-top:.5px solid #EDEEF0;display:flex;align-items:center;justify-content:space-between}
+.when{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);white-space:nowrap}
+.when b{font-size:14px;font-weight:600;color:#1F2328}
+.when.today b{color:var(--brand-d)}
+.when .k{display:flex;align-items:center;gap:3px}
+.price{color:var(--price);white-space:nowrap;display:flex;align-items:baseline;gap:1px}
+.price .pre{font-size:12px;margin-right:3px}
+.price .y{font-size:13px;font-weight:600}
+.price .num{font-size:20px;font-weight:700;line-height:24px}
+.price .suf{font-size:12px;margin-left:3px}
+
+/* mask + dropdown filter */
+.mask{position:absolute;left:0;top:224px;width:375px;height:505px;background:rgba(0,0,0,.5);z-index:25}
+.panel{position:absolute;left:0;top:224px;width:375px;background:#fff;border-radius:0 0 14px 14px;z-index:26;overflow:hidden}
+.grp{padding:14px 16px 0}
+.grp h4{font-size:14px;font-weight:600;line-height:18px;margin-bottom:8px;display:flex;align-items:baseline;gap:6px}
+.grp h4 small{font-size:12px;font-weight:400;color:var(--t3)}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chip{position:relative;height:34px;border-radius:8px;background:#F2F3F5;color:#1F2328;font-size:14px;display:flex;align-items:center;justify-content:center;gap:3px;border:1px solid transparent;white-space:nowrap}
+.chip.on{background:var(--brand-t);border-color:var(--brand);color:var(--brand-d);font-weight:600}
+.chip.on:after{content:"";position:absolute;right:-1px;bottom:-1px;width:16px;height:14px;border-radius:8px 0 7px 0;background:var(--brand)}
+.chip .ck{position:absolute;right:1px;bottom:0;z-index:1;color:#fff;display:flex;line-height:0}
+.chip .ck svg{width:10px;height:10px}
+.chips.two{grid-template-columns:repeat(4,1fr)}
+.chips.two .chip:nth-child(2){grid-column:span 2}
+.pfoot{margin-top:16px;border-top:.5px solid var(--line);padding:10px 16px 12px}
+.hint{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.hint b{color:var(--price);font-weight:600;margin:0 -3px}
+.btns{display:flex;gap:10px}
+.btn{height:44px;border-radius:22px;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.btn.ghost{flex:0 0 112px;border:1px solid #C9CDD2;color:#1F2328;background:#fff}
+.btn.pri{flex:1;background:var(--brand);color:#fff}
+
+/* empty */
+.applied{background:#fff;padding:8px 16px 10px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.applied .lb{font-size:13px;color:var(--t3)}
+.pill{height:28px;border-radius:14px;padding:0 10px 0 12px;background:var(--brand-t);color:var(--brand-d);font-size:13px;font-weight:600;display:flex;align-items:center;gap:5px}
+.pill svg{opacity:.85}
+.empty{text-align:center;padding:14px 24px 0}
+.empty h2{font-size:18px;font-weight:600;line-height:26px;margin-top:6px}
+.empty p{font-size:14px;line-height:22px;color:var(--t2);margin-top:4px}
+.empty p b{color:#1F2328;font-weight:600}
+.sugg{margin:14px 12px 0;background:#fff;border-radius:12px;overflow:hidden}
+.sugg .h{font-size:13px;color:var(--t3);padding:10px 16px 2px}
+.sugg .row{height:48px;display:flex;align-items:center;padding:0 12px 0 16px;border-top:.5px solid #EDEEF0;font-size:15px}
+.sugg .row:first-of-type{border-top:0}
+.sugg .row .n{margin-left:auto;display:flex;align-items:center;gap:2px;color:var(--brand-d);font-size:14px;font-weight:600}
+.sugg .row .x{font-size:13px;color:var(--t3);margin-left:6px}
+.ebtns{display:flex;gap:12px;margin:16px 12px 0}
+.ebtns .btn{flex:1}
+.btn.line{border:1px solid var(--brand);color:var(--brand-d);background:#fff}
+</style></head>
+<body>
+<div class="status"><span class="t">13:20</span><span class="r">
+<svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="#111"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#111"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#111"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#111"/></svg>
+<svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M8 11.5l2.3-2.6a3.3 3.3 0 0 0-4.6 0z" fill="#111"/><path d="M2.9 6.3a7.1 7.1 0 0 1 10.2 0l-1.5 1.6a5 5 0 0 0-7.2 0z" fill="#111"/><path d="M0.2 3.5a11 11 0 0 1 15.6 0l-1.5 1.6a8.8 8.8 0 0 0-12.6 0z" fill="#111"/></svg>
+<svg width="27" height="13" viewBox="0 0 27 13" aria-hidden="true"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="16" height="9" rx="2" fill="#111"/><path d="M25 4.5v4c.8-.3 1.4-1.1 1.4-2s-.6-1.7-1.4-2z" fill="#111" opacity=".4"/></svg>
+</span></div>
+<div class="nav"><div class="loc"><span class="p"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.4"/></svg></span><span class="a">苏州 · 工业园区 ·</span><b>星湖街</b><span class="c"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg></span></div></div>
+<div class="capsule" aria-label="小程序胶囊按钮（占位）"><span><span class="dots"><b></b><b></b><b></b></span></span><i></i><span><span class="ring"></span></span></div>
+<div class="head">
+<div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span>搜索服务，如「空调清洗」</span></div>
+<div class="cats"><span class="">全部</span><span class="">日常保洁</span><span class="on">家电清洗</span><span class="">家居维修</span><span class="">管道疏通</span><span class="">收纳整理</span><span class="">搬家</span></div>
+<div class="sort"><span class="o on">综合排序</span><span class="o ">距离最近</span><span class="o ">评分最高</span><span class="o ">价格最低</span>
+<span class="f on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ><path d="M4 5h16l-6.2 7.4V19l-3.6-1.8v-4.8z"/></svg>筛选<span class="n">3</span></span></div>
+</div>
+<div class="body"><div class="card"><div class="top"><div class="thumb" style="background:#E7F0FA;color:#1F5FA8"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.6"><rect x="3" y="5" width="18" height="8" rx="2"/><path d="M6 10h12"/><path d="M8 16.5c0 1.5-1 2-1 3.5M12 16.5c0 1.5-1 2-1 3.5M16 16.5c0 1.5-1 2-1 3.5"/></svg></div><div class="main">
+<div class="l1"><h3>空调清洗（挂机）</h3><span class="dist">2.6 km</span></div>
+<div class="l2"><span>蓝鲸家电清洗</span><span class="sep"></span><span class="rt"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E8A317" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.1l-5.7 3.2 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.8<small>已服务 3,216 次</small></span></div>
+<div class="tags"><span class="tag">高温蒸汽</span><span class="tag">可开发票</span></div>
+</div></div>
+<div class="bot"><span class="when "><span class="k"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>最近可约</span><b>明天 09:00</b></span><span class="price"><span class="y">¥</span><span class="num">89</span><span class="suf">/ 台</span></span></div>
+</div><div class="card"><div class="top"><div class="thumb" style="background:#E7F0FA;color:#1F5FA8"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.6"><path d="M9 3h6v5H9z"/><path d="M9 8L3.5 14h17L15 8"/><path d="M3.5 14h17v2.5h-17z"/><path d="M8 20h8"/></svg></div><div class="main">
+<div class="l1"><h3>油烟机深度清洗</h3><span class="dist">2.6 km</span></div>
+<div class="l2"><span>蓝鲸家电清洗</span><span class="sep"></span><span class="rt"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E8A317" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.1l-5.7 3.2 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.7<small>已服务 1,905 次</small></span></div>
+<div class="tags"><span class="tag">拆洗</span><span class="tag">可开发票</span></div>
+</div></div>
+<div class="bot"><span class="when "><span class="k"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>最近可约</span><b>明天 14:00</b></span><span class="price"><span class="y">¥</span><span class="num">159</span><span class="suf">/ 台</span></span></div>
+</div><div class="card"><div class="top"><div class="thumb" style="background:#E7F0FA;color:#1F5FA8"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M7 6.5h2M15.5 6.5h1"/><path d="M10 14c1-.8 3-.8 4 0"/></svg></div><div class="main">
+<div class="l1"><h3>滚筒洗衣机清洗</h3><span class="dist">5.2 km</span></div>
+<div class="l2"><span>洁程家电服务</span><span class="sep"></span><span class="rt"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path fill="#E8A317" d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.1l-5.7 3.2 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.5<small>已服务 598 次</small></span></div>
+<div class="tags"><span class="tag">可开发票</span></div>
+</div></div>
+<div class="bot"><span class="when "><span class="k"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>最近可约</span><b>明天 10:30</b></span><span class="price"><span class="y">¥</span><span class="num">119</span><span class="suf">/ 台</span></span></div>
+</div></div>
+<div class="mask"></div>
+<div class="panel">
+<div class="grp"><h4>上门时间</h4>
+<div class="chips "><div class="chip on">今天<span class="ck"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><div class="chip ">明天</div><div class="chip ">9/29 周二</div><div class="chip "><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>指定日期</div></div></div>
+<div class="grp"><h4>距离</h4>
+<div class="chips "><div class="chip on">1 km 内<span class="ck"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><div class="chip ">3 km 内</div><div class="chip ">5 km 内</div><div class="chip ">不限</div></div></div>
+<div class="grp"><h4>价格</h4>
+<div class="chips "><div class="chip ">¥100 以下</div><div class="chip ">¥100–200</div><div class="chip ">¥200–400</div><div class="chip ">¥400 以上</div></div></div>
+<div class="grp"><h4>服务保障<small>可多选</small></h4>
+<div class="chips "><div class="chip ">平台担保</div><div class="chip on">可开发票<span class="ck"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><div class="chip ">爽约赔付</div><div class="chip ">自带工具</div></div></div>
+<div class="grp"><h4>服务人员</h4>
+<div class="chips two"><div class="chip on">不限<span class="ck"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><div class="chip ">女性服务人员</div></div></div>
+<div class="pfoot"><div class="hint">当前条件下匹配 <b>0</b> 个服务，可放宽距离或上门时间</div>
+<div class="btns"><button class="btn ghost">重置</button><button class="btn pri">查看结果（0）</button></div></div>
+</div>
+<div class="tabbar"><div class="row">
+<div class="it"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.7"><path d="M4 10.5L12 4l8 6.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>首页</div>
+<div class="it on"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><circle cx="16.5" cy="16.5" r="3.6"/></svg>服务</div>
+<div class="it"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.7"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12h6M9 15.5h4"/></svg>订单</div>
+<div class="it"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="1.7"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg>我的</div>
+</div><div class="home-ind"></div></div>
+</body></html>

@@ -1,0 +1,18 @@
+{
+  "brief": "/Users/dongli/Workspace/design-skill-lab/evals/briefs/06-redesign-legacy.md",
+  "rendered": "2026-09-27T11:45:51.524Z",
+  "items": [
+    {
+      "html": "schedule.html",
+      "viewport": "1280x800@1",
+      "status": "ok",
+      "frames": [
+        "schedule.png"
+      ],
+      "page_height": 800,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

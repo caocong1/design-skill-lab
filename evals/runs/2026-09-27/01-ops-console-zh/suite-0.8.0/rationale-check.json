@@ -1,0 +1,82 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "suite-0.8.0",
+  "checked": "2026-09-27",
+  "method": "judging.md section 10: claims from the arm's own notes checked against render/*.png (canonical renders) and facts.json; no scoring, no comparison with other arms",
+  "sources": [
+    "out/NOTES.md (no out/rationale.md; no other notes in out/)"
+  ],
+  "counts": {
+    "verified": 10,
+    "contradicted": 2,
+    "not_checkable": 0
+  },
+  "summary": "claims: 10 verified, 2 contradicted, 0 not checkable",
+  "claims": [
+    {
+      "claim": "7 个筛选项全部放在一行，没有收进「更多筛选」",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: 关键词, 状态, 优先级, 设备类型, 厂区/产线, 负责人, 创建时间 all on one row, no 更多筛选 control"
+    },
+    {
+      "claim": "批量操作条替换表格工具栏左侧，并写明「已选 2 项（本页）」，另给出「选择全部 1,286 项」；列表有选中项时，「批量派单」是唯一的实心主按钮，「新建工单」降为次按钮",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: toolbar left reads 已选 2 项（本页） 选择全部 1,286 项, then solid 批量派单; 新建工单 in the page header is outlined. On render/list-empty-01.png, with nothing selected, 新建工单 is solid."
+    },
+    {
+      "claim": "超时行：首列左侧加红色竖条，SLA 文字改为红色加粗并带警示图标",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: rows 0402 and 0371 have a red bar at the left edge; 响应已超时 12分 and 修复已超时 1时05分 are red, bold, with a triangle icon"
+    },
+    {
+      "claim": "SLA 分级……超时后修复用红色常规字重加圆形感叹号",
+      "verdict": "contradicted",
+      "evidence": "render/list-02.png row 0359: 超时 20分修复 text is neutral grey (samples about rgb(130,138,150)), and only the circle-exclamation icon is red. A later line in the same NOTES.md (「超时 20分修复」改为中性文字加红色图标) matches the render, so this line is out of date."
+    },
+    {
+      "claim": "1440 宽放下 10 列：「设备」拆成两行（编号 / 类型）；「创建时间」「更新时间」两行显示（日期 / 时间）；标题和位置允许折行，只在空格和标点处断行",
+      "verdict": "verified",
+      "evidence": "render/list-01.png / list-02.png: device and both date columns are two lines; wraps fall at the full-width comma (AGV-07 导航丢失，/ 停在3号通道), at spaces (贴片机 SMT-2 / 吸嘴频繁堵塞; 季度保养：激光切割机 / LC-01) and after the · separator (一厂 · A区 · / 注塑线3). No split inside a word is visible."
+    },
+    {
+      "claim": "空状态：筛选栏中已生效的三个条件高亮并可逐个移除；空状态正文复述这三个条件，并提供「去掉负责人条件」和「清除全部筛选」两个动作；「全部」视图的计数保持全局数字不变",
+      "verdict": "verified",
+      "evidence": "render/list-empty-01.png: 状态 待验收 ×, 厂区/产线 二厂 ×, 负责人 王建国 × highlighted in the filter bar; body lists 厂区 = 二厂, 状态 = 待验收, 负责人 = 王建国; buttons 去掉「负责人 = 王建国」 and 清除全部筛选 (primary); 全部 tab still shows 1,286"
+    },
+    {
+      "claim": "加载中：15 行骨架屏，形状与真实行一致；快捷视图计数也用骨架占位；工具栏显示「正在加载工单…」；「导出全部」禁用",
+      "verdict": "verified",
+      "evidence": "render/list-loading-02.png: 15 skeleton rows with badge-shaped pills in the priority and status columns; render/list-loading-01.png: tab counts are grey pills, toolbar reads 正在加载工单…, 导出全部 drawn greyed out"
+    },
+    {
+      "claim": "出错：快捷视图不显示计数……错误卡片写明 HTTP 502、请求编号、时间，给出「重试」（主按钮）和「复制请求编号」；筛选仍然可用",
+      "verdict": "verified",
+      "evidence": "render/list-error-01.png: tabs show labels only, no counts; card lists 错误 HTTP 502, 请求编号 7f3a-91c2-0d44, 时间 2026-09-27 09:42:17; solid 重试 and outlined 复制请求编号; filters drawn in their normal state (that they work is not checkable)"
+    },
+    {
+      "claim": "详情页：「更多」菜单下的「打印工单 / 复制链接 / 关闭工单」直接平铺在面包屑右侧，做成弱化的文字按钮……「关闭工单」用红字区分",
+      "verdict": "contradicted",
+      "evidence": "render/detail-01.png: the three actions are flattened as muted text buttons to the right of the breadcrumb, but 关闭工单… is neutral grey with a × icon, not red (text samples about rgb(90,100,116)). A later line in the same NOTES.md (「关闭工单…」改为中性色，带省略号) matches the render, so this line is out of date."
+    },
+    {
+      "claim": "详情页主按钮是「添加处理记录」……同时在处理记录区块顶部放一个次按钮入口；申请备件、转派、挂起、提交验收是次按钮",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: 添加处理记录 is the only solid button, the other four outlined; render/detail-02.png: outlined 添加处理记录 at the top right of 处理记录"
+    },
+    {
+      "claim": "趋势图结论句（「08:50 起超过 55 °C 阈值…」）和「09:12 自动创建工单」标注……13 个点全部标注数值，不需要悬停也能读出",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: sentence 08:50 起超过 55 °C 阈值，此后持续上升，09:40 为 68.4 °C above the chart; dotted vertical line labelled 09:12 自动创建工单; all 13 points labelled 46.1 … 68.4, with the ones above the threshold in red"
+    },
+    {
+      "claim": "流程：先做一轮渲染和 lint 检查（对比度、溢出、无名称控件全部通过）",
+      "verdict": "verified",
+      "evidence": "facts.json: 0 contrast failures on all five pages (lowest 4.89:1 on list pages, 5.08:1 on the others), horizontal_overflow false everywhere, 0 targets under 24 px, 0 images missing alt. facts.json does not measure unnamed controls, so that part is not confirmed. That the lint and review rounds took place is process and not checkable."
+    }
+  ],
+  "notes": [
+    "Both contradicted claims are older lines that later lines in the same NOTES.md replace; the render matches the later lines. The file keeps both versions without marking the earlier ones as replaced.",
+    "Also verified but not listed: status badges each have their own glyph plus text, and P1 on the closed ticket 0340 is a red outline while open P1s are solid (render/list-02.png); 已挂起 badge followed by grey 等备件; 查看 on every row and a bold 派单 on 0402; 导出全部 and 列设置 at the right of the table toolbar; 已超时 4 as a red count with a warning icon, other views neutral; pagination to 86; SLA bars marked 到场 09:21 / 09:27 时限 and 现在 09:42 (render/detail-01.png); readings over range have a red top edge and 超限, normal ones 正常; 本月报警 3 次 in amber; 处理记录 labelled 6 条 · 最新在上 and in reverse order (render/detail-02.png).",
+    "Not checkable: input and checkbox border contrast of 3:1 or more (#8A94A3, #7F8998; facts.json measures text only), 2px :focus-visible outline (the arm itself says this was not verified), 12px minimum font size, the confirmation dialog for 关闭工单."
+  ]
+}

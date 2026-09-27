@@ -1,0 +1,96 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "no-skill",
+  "checker": "rationale-vs-render (judging.md section 10)",
+  "sources_read": [
+    "out/NOTES.md"
+  ],
+  "renders": [
+    "render/list.png",
+    "render/filter.png",
+    "render/empty.png"
+  ],
+  "facts": "facts.json",
+  "claims": [
+    {
+      "claim": "导航栏左侧只放位置切换（苏州 · 工业园区 · 星湖街 ▾），右边界约 217 px，与胶囊（281 起）留出足够距离；页面标题不放在导航栏",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: location row ends at about x=210 CSS px with the chevron, well left of the capsule; no page title in the nav row (same in filter.png, empty.png)."
+    },
+    {
+      "claim": "搜索框放在导航栏下方整行，不与胶囊同行",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: full-width search field on its own row below the nav/capsule row."
+    },
+    {
+      "claim": "类目标签横向滚动，右侧渐隐提示还有「收纳整理 / 搬家」",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: category row fades out at the right edge over 管道疏通 (cut mid-glyph under the fade). The fade is shown; the named hidden items 收纳整理 / 搬家 are off-screen, as intended."
+    },
+    {
+      "claim": "排序四项直接平铺（当前「综合排序」），筛选入口放在同一行最右，有已选条件时显示数量角标",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 综合排序 (active, green) 距离最近 评分最高 价格最低 flat, 筛选 at right; render/filter.png and empty.png: 筛选 carries a 3 badge."
+    },
+    {
+      "claim": "筛选面板做成从排序栏下方展开的下拉面板……遮罩只盖到标签栏上沿，标签栏保持可见、未被遮罩",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/filter.png: panel opens below the sort row; a grey scrim strip sits between the panel bottom and the tab bar; the tab bar is not dimmed."
+    },
+    {
+      "claim": "「价格」无选中项即视为不限；「服务人员」默认选中「不限」；「服务保障」标注可多选",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/filter.png: no price chip selected; 服务人员 不限 selected; 服务保障 header followed by 可多选."
+    },
+    {
+      "claim": "「查看结果（0）」按钮保持可点……面板底部同时实时提示匹配数为 0",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/filter.png: footer note 当前条件下匹配 0 个服务，可放宽距离或上门时间 and an enabled-looking filled 查看结果（0） button. That the button can be tapped is behaviour and is not shown."
+    },
+    {
+      "claim": "筛选面板背后的列表示意为「家电清洗」类目中已知的 3 个服务……被遮罩压暗，仅作背景",
+      "source": "out/NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "render/filter.png: the panel covers the whole list area; only a plain grey scrim strip is visible, so the dimmed list behind cannot be seen."
+    },
+    {
+      "claim": "空状态：标题 + 具体原因（今天 / 星湖街 / 1 km 内 / 可开发票 / 家电清洗），三条建议按可得数量从多到少排序（明天 6、3 km 内 4、去掉可开发票 1）……底部为「修改筛选」「清除筛选」；顶部已选条件可逐个点 × 移除",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: title 没有找到符合条件的服务, reason line naming all five conditions, rows 改成明天上门 6 / 距离放宽到 3 km 内 4 / 不限「可开发票」1 in that order, buttons 修改筛选 and 清除筛选, 已选 chips 今天 × / 1 km 内 × / 可开发票 ×."
+    },
+    {
+      "claim": "「最近可约」为今天的时间用品牌绿色强调，其余为深色正文色",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 今天 16:00 in green; 明天 09:00 and 明天 14:00 in dark body text."
+    },
+    {
+      "claim": "列表卡片没有单独的「预约」按钮……这样能保证「上门费 ¥50 材料另计」这类长价格在一行内完整显示",
+      "source": "out/NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "render/list.png: no per-card 预约 button (verified), but the 水龙头 / 花洒维修 card with the 上门费 price is cut off by the tab bar, so the one-line price cannot be seen in the canonical render."
+    },
+    {
+      "claim": "所有文字对比度均满足 WCAG AA",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.json: 0 contrast failures in list/filter/empty; lowest measured ratio 4.91."
+    }
+  ],
+  "counts": {
+    "verified": 10,
+    "contradicted": 0,
+    "not checkable": 2
+  },
+  "report_line": "claims: 10 verified, 0 contradicted, 2 not checkable",
+  "contradicted": [],
+  "notes": "All checkable visual claims match the renders; no contradictions. Two claims are not checkable because the relevant content is hidden in the canonical renders (list behind the filter panel; the 上门费 card below the fold). Side notes, not scored as claims: NOTES lists specific ratios all >= 5.0, while facts report a lowest measured ratio of 4.91 (still AA), so some text sits below the listed ratios, probably grey text on the grey page background; NOTES says the smallest type is 12 px apart from the 10 px tab bar, but the source has an 11 px rule (the filter count badge), which cannot be measured from the render."
+}

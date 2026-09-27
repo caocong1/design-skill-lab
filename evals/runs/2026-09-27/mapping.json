@@ -1,0 +1,376 @@
+{
+  "round": "2026-09-27",
+  "nonce": "dsl-2026-09-27",
+  "python": "Python 3.14.5 (random.Random, string seed)",
+  "arm_permutation_code": "python3 -c \"import random,sys; a=['no-skill','suite-0.7.0','suite-0.8.0']; random.Random(sys.argv[1]).shuffle(a); print(dict(zip('ABC', a)))\" '<date>-<brief>-<nonce>'",
+  "pair_order_code": "r=random.Random(seed); p=[('A','B'),('A','C'),('B','C')]; r.shuffle(p); p=[(y,x) if r.random()<0.5 else (x,y) for x,y in p]  # seed = '<date>-<brief>-<nonce>-<judge>'",
+  "note": "Permutations taken exactly as drawn. Briefs 02, 04, 05 and 06 drew the same mapping (A=no-skill, B=suite-0.7.0, C=suite-0.8.0); kept as drawn, not redrawn.",
+  "briefs": {
+    "01-ops-console-zh": {
+      "seed": "2026-09-27-01-ops-console-zh-dsl-2026-09-27",
+      "mapping": {
+        "A": "suite-0.8.0",
+        "B": "suite-0.7.0",
+        "C": "no-skill"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-01-ops-console-zh-dsl-2026-09-27-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "C"
+            },
+            {
+              "left": "C",
+              "right": "A"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-01-ops-console-zh-dsl-2026-09-27-J2",
+          "pairs": [
+            {
+              "left": "C",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-01-ops-console-zh-dsl-2026-09-27-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "C"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "02-devtool-landing-en": {
+      "seed": "2026-09-27-02-devtool-landing-en-dsl-2026-09-27",
+      "mapping": {
+        "A": "no-skill",
+        "B": "suite-0.7.0",
+        "C": "suite-0.8.0"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-02-devtool-landing-en-dsl-2026-09-27-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-02-devtool-landing-en-dsl-2026-09-27-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-02-devtool-landing-en-dsl-2026-09-27-J3",
+          "pairs": [
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "C",
+              "right": "A"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "03-ios-consumer-screen": {
+      "seed": "2026-09-27-03-ios-consumer-screen-dsl-2026-09-27",
+      "mapping": {
+        "A": "no-skill",
+        "B": "suite-0.8.0",
+        "C": "suite-0.7.0"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-03-ios-consumer-screen-dsl-2026-09-27-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-03-ios-consumer-screen-dsl-2026-09-27-J2",
+          "pairs": [
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-03-ios-consumer-screen-dsl-2026-09-27-J3",
+          "pairs": [
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "04-miniprogram-list-zh": {
+      "seed": "2026-09-27-04-miniprogram-list-zh-dsl-2026-09-27",
+      "mapping": {
+        "A": "no-skill",
+        "B": "suite-0.7.0",
+        "C": "suite-0.8.0"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-04-miniprogram-list-zh-dsl-2026-09-27-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-04-miniprogram-list-zh-dsl-2026-09-27-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "A"
+            },
+            {
+              "left": "B",
+              "right": "C"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-04-miniprogram-list-zh-dsl-2026-09-27-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "05-agent-approvals": {
+      "seed": "2026-09-27-05-agent-approvals-dsl-2026-09-27",
+      "mapping": {
+        "A": "no-skill",
+        "B": "suite-0.7.0",
+        "C": "suite-0.8.0"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-05-agent-approvals-dsl-2026-09-27-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "B",
+              "right": "C"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-05-agent-approvals-dsl-2026-09-27-J2",
+          "pairs": [
+            {
+              "left": "C",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-05-agent-approvals-dsl-2026-09-27-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "C"
+            },
+            {
+              "left": "B",
+              "right": "A"
+            },
+            {
+              "left": "C",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "06-redesign-legacy": {
+      "seed": "2026-09-27-06-redesign-legacy-dsl-2026-09-27",
+      "mapping": {
+        "A": "no-skill",
+        "B": "suite-0.7.0",
+        "C": "suite-0.8.0"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-06-redesign-legacy-dsl-2026-09-27-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "C"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "C"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-06-redesign-legacy-dsl-2026-09-27-J2",
+          "pairs": [
+            {
+              "left": "C",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "C"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-06-redesign-legacy-dsl-2026-09-27-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "C"
+            },
+            {
+              "left": "A",
+              "right": "B"
+            },
+            {
+              "left": "A",
+              "right": "C"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

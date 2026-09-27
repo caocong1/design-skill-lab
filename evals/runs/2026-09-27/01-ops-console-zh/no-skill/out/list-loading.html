@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>工单列表 - 恒川设备云</title>
+<style>
+:root{
+  --bg:#f3f4f6; --surface:#fff; --line:#e2e5ea; --line-2:#eceef2;
+  --ink:#1b1f26; --ink-2:#434b57; --ink-3:#5c6470; --ink-4:#8a919c;
+  --pri:#1f5bd1; --pri-ink:#1a4fb8; --pri-bg:#eaf1ff; --pri-bg-2:#f3f7ff;
+  --red:#bf1f2a; --red-bg:#fdecee; --red-line:#f3b8bd;
+  --amber:#8f5100; --amber-bg:#fff4e0; --amber-line:#f2cf94;
+  --green:#18743a; --green-bg:#e8f6ec;
+  --violet:#5b3cc4; --violet-bg:#f0ecfd;
+  --mono:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg)}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:13px;line-height:1.5;color:var(--ink);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--pri-ink);text-decoration:none}
+.ic{flex:none;display:inline-block;vertical-align:middle}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:-.1px}
+
+.app{display:grid;grid-template-columns:208px 1fr;min-height:100vh}
+/* sidebar */
+.side{background:#141b2d;color:#c9d1e0;display:flex;flex-direction:column}
+.brand{height:52px;display:flex;align-items:center;gap:10px;padding:0 18px;color:#fff;font-weight:600;font-size:15px;border-bottom:1px solid #232c42}
+.logo{width:26px;height:26px;border-radius:6px;background:#2d6bf0;display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700}
+.nav{padding:10px 8px;display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;height:38px;padding:0 12px;border-radius:6px;color:#c9d1e0;font-size:13.5px}
+.nav a .ic{color:#8e9ab3}
+.nav .grp>a{color:#fff}
+.nav .grp>a .ic{color:#fff}
+.nav .sub{display:flex;flex-direction:column;gap:2px;margin:2px 0 4px}
+.nav .sub a{padding-left:40px;height:34px;font-size:13px}
+.nav .sub a.on{background:#2456c7;color:#fff;font-weight:500}
+.nav a .caret{margin-left:auto}
+
+/* topbar */
+.main{min-width:0;display:flex;flex-direction:column}
+.top{height:52px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 20px}
+.org{display:flex;align-items:center;gap:8px;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:6px;font-weight:500;color:var(--ink)}
+.org .ic{color:var(--ink-3)}
+.gsearch{display:flex;align-items:center;gap:8px;width:320px;height:32px;padding:0 10px;background:#f3f4f6;border:1px solid transparent;border-radius:6px;color:var(--ink-3)}
+.top .sp{flex:1}
+.now{color:var(--ink-3);font-size:12.5px}
+.bell{position:relative;width:34px;height:34px;display:grid;place-items:center;border-radius:6px;color:var(--ink-2)}
+.bell .badge{position:absolute;top:2px;right:0;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;border:2px solid #fff;line-height:1}
+.me{display:flex;align-items:center;gap:8px;padding-left:12px;border-left:1px solid var(--line)}
+.avatar{width:28px;height:28px;border-radius:50%;background:#dfe8fb;color:var(--pri-ink);display:grid;place-items:center;font-weight:600;font-size:12.5px}
+.me .n{font-weight:500}
+.me .r{color:var(--ink-3)}
+
+.page{padding:14px 20px 28px}
+.crumb{color:var(--ink-3);font-size:12.5px;display:flex;align-items:center;gap:4px}
+.crumb .ic{color:var(--ink-4)}
+.crumb b{font-weight:400;color:var(--ink-2)}
+.phead{display:flex;align-items:center;justify-content:space-between;margin:6px 0 12px}
+.phead h1{font-size:18px;font-weight:600;line-height:28px}
+.acts{display:flex;gap:8px;align-items:center}
+
+.btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:6px;border:1px solid #cfd4dc;background:#fff;color:var(--ink);font-weight:500;white-space:nowrap}
+.btn .ic{color:var(--ink-3)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.pri .ic{color:#fff}
+.btn.sm{height:28px;padding:0 10px;font-size:12.5px}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.danger{color:var(--red)}
+.btn[disabled]{color:var(--ink-4);background:#f6f7f9;border-color:var(--line)}
+.btn[disabled] .ic{color:var(--ink-4)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+
+/* quick views */
+.views{display:flex;gap:4px;padding:0 12px;border-bottom:1px solid var(--line);height:46px;align-items:flex-end}
+.view{display:flex;align-items:center;gap:6px;height:46px;padding:0 12px;color:var(--ink-2);border-bottom:2px solid transparent;margin-bottom:-1px;font-size:13.5px}
+.view .cnt{font-size:12px;min-width:22px;height:20px;padding:0 7px;border-radius:10px;background:#eef0f3;color:var(--ink-2);display:inline-grid;place-items:center;font-weight:500}
+.view.on{color:var(--pri-ink);border-bottom-color:var(--pri);font-weight:600}
+.view.on .cnt{background:var(--pri-bg);color:var(--pri-ink)}
+.view.hot{color:var(--red)}
+.view.hot .cnt{background:var(--red);color:#fff}
+.view .ic{color:currentColor}
+
+/* filters */
+.filters{display:flex;align-items:center;gap:8px;padding:12px 12px;border-bottom:1px solid var(--line-2);flex-wrap:nowrap}
+.fld{display:flex;align-items:center;gap:6px;height:32px;padding:0 8px 0 10px;border:1px solid #cfd4dc;border-radius:6px;background:#fff;white-space:nowrap;color:var(--ink)}
+.fld .k{color:var(--ink-3)}
+.fld .v{color:var(--ink-3)}
+.fld .ic{color:var(--ink-4)}
+.fld.kw{width:180px}
+.fld.kw .v{flex:1}
+.fld.set{border-color:#8fb0ee;background:var(--pri-bg-2)}
+.fld.set .v{color:var(--pri-ink);font-weight:500}
+.fld.date .v{min-width:0}
+.filters .sp{flex:1}
+.link{color:var(--pri-ink);white-space:nowrap}
+
+/* toolbar */
+.tbar{display:flex;align-items:center;gap:8px;padding:0 12px;height:48px}
+.tbar.sel{background:var(--pri-bg-2);border-bottom:1px solid #d7e3fb}
+.tbar .sp{flex:1}
+.tbar .note{color:var(--ink-3)}
+.selcount{font-weight:500;color:var(--ink);margin-right:6px}
+.selcount b{color:var(--pri-ink)}
+.sortnote{display:flex;align-items:center;gap:4px;color:var(--ink-3)}
+.vdiv{width:1px;height:18px;background:var(--line);margin:0 4px}
+
+/* table */
+table.grid{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed}
+.grid th{height:38px;background:#f7f8fa;color:var(--ink-2);font-weight:500;text-align:left;padding:0 8px;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px}
+.grid th .srt{display:inline-flex;align-items:center;gap:2px;color:var(--pri-ink)}
+.grid td{padding:8px 8px;border-bottom:1px solid var(--line-2);vertical-align:middle;line-height:18px}
+.grid tr.sel td{background:var(--pri-bg-2)}
+.grid td.c0,.grid th.c0{padding-left:14px;padding-right:0}
+.grid tr.over td.c0{box-shadow:inset 3px 0 0 var(--red)}
+.cb{width:16px;height:16px;border:1.5px solid #9aa2ae;border-radius:3px;background:#fff;display:grid;place-items:center;color:#fff}
+.cb.on{background:var(--pri);border-color:var(--pri)}
+.cb.mid{background:var(--pri);border-color:var(--pri)}
+.cb.mid::after{content:"";width:8px;height:2px;background:#fff;border-radius:1px}
+.id{font-family:var(--mono);font-size:12px;color:var(--pri-ink)}
+.ttl{font-weight:500;color:var(--ink)}
+.sub{color:var(--ink-3);font-size:12px}
+.two{display:flex;flex-direction:column}
+.num{font-variant-numeric:tabular-nums}
+
+.pr{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 7px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap;border:1px solid transparent}
+.pr .bars{display:inline-flex;gap:1.5px;align-items:flex-end;height:10px}
+.pr .bars i{width:2.5px;background:currentColor;border-radius:1px;opacity:.28}
+.pr .bars i.f{opacity:1}
+.pr.p1{background:var(--red);color:#fff}
+.pr.p2{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-line)}
+.pr.p3{background:#eef3ff;color:#1f4fae;border-color:#c9d8f6}
+.pr.p4{background:#f2f3f5;color:var(--ink-2);border-color:#dfe2e7}
+
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:500;white-space:nowrap}
+.st .ic{flex:none}
+.st.s-dispatch{color:var(--amber)}
+.st.s-assigned{color:var(--pri-ink)}
+.st.s-doing{color:#0f6a7a}
+.st.s-hold{color:var(--ink-2)}
+.st.s-accept{color:var(--violet)}
+.st.s-closed{color:var(--ink-3)}
+.stsub{color:var(--ink-3);font-size:12px;padding-left:19px}
+
+.sla{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-weight:500}
+.sla.over{color:var(--red);font-weight:600}
+.sla.warn{color:var(--amber);font-weight:600}
+.sla.run{color:var(--ink)}
+.sla.pause{color:var(--ink-3)}
+.sla.ok{color:var(--green)}
+.sla.late{color:var(--amber)}
+.slasub{color:var(--ink-3);font-size:12px;padding-left:18px}
+
+.ops{display:flex;gap:12px;white-space:nowrap}
+.ops a{font-weight:500}
+
+.pager{display:flex;align-items:center;gap:6px;padding:12px 12px;color:var(--ink-2)}
+.pager .sp{flex:1}
+.pg{min-width:30px;height:30px;padding:0 6px;border:1px solid var(--line);border-radius:6px;display:grid;place-items:center;background:#fff;color:var(--ink-2)}
+.pg.on{border-color:var(--pri);color:var(--pri-ink);font-weight:600;background:var(--pri-bg-2)}
+.pg.dis{color:#b3b9c2;background:#f7f8fa}
+.pg.gap{border-color:transparent;background:transparent}
+.jump{width:46px;height:30px;border:1px solid #cfd4dc;border-radius:6px;background:#fff}
+
+/* states */
+.state{display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 20px 72px;border-bottom:1px solid var(--line-2)}
+.state .art{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;margin-bottom:14px}
+.state h2{font-size:16px;font-weight:600;margin-bottom:6px}
+.state p{color:var(--ink-2);max-width:520px}
+.state .row{display:flex;gap:8px;margin-top:18px}
+.chips{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 6px 0 10px;border-radius:13px;background:#eef1f5;color:var(--ink-2);font-size:12.5px}
+.chip b{font-weight:500;color:var(--ink)}
+.chip .x{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;color:var(--ink-3)}
+.errmeta{margin-top:14px;display:inline-grid;grid-template-columns:auto auto;gap:4px 14px;text-align:left;background:#f7f8fa;border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:12.5px}
+.errmeta dt{color:var(--ink-3)}
+.errmeta dd{color:var(--ink);font-family:var(--mono);font-size:12px}
+.hint{color:var(--ink-3);font-size:12.5px;margin-top:12px}
+
+.sk{display:block;height:10px;border-radius:4px;background:linear-gradient(90deg,#eceef2 0%,#f6f7f9 50%,#eceef2 100%);background-size:200% 100%;animation:sh 1.3s linear infinite}
+@keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.spin{animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.loadnote{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.grid tbody td{height:51px}</style></head>
+<body><div class="app">
+  <aside class="side">
+    <div class="brand"><span class="logo">恒</span>恒川设备云</div>
+    <nav class="nav" aria-label="主导航">
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>工作台</a>
+      <div class="grp">
+        <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="18" rx="2"/><path d="M9 2h6v4H9z"/><path d="M9 12h6M9 16h4"/></svg>工单管理<svg class="ic caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+        <div class="sub">
+          <a href="list.html" class="on" aria-current="page">工单列表</a>
+          <a href="#">我的工单</a>
+          <a href="#">工单统计</a>
+        </div>
+      </div>
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>设备台账</a>
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/></svg>巡检计划</a>
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.7-.7-.7-2.7z"/></svg>保养计划</a>
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>备件库存</a>
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15v2M11 11v6M15 7v10M19 12v5"/></svg>报表中心</a>
+      <a href="#"><svg class="ic " width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>系统设置</a>
+    </nav>
+  </aside><div class="main">
+  <header class="top">
+    <button class="org" aria-label="切换组织"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01"/></svg>恒川精密 · 苏州一厂<svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    <div class="gsearch" role="search"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>搜索工单号、设备编号</span></div>
+    <div class="sp"></div>
+    <span class="now">2026-09-27 周日 09:42</span>
+    <button class="bell" aria-label="通知，5 条未读"><svg class="ic " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="badge">5</span></button>
+    <div class="me"><span class="avatar">李</span><span class="n">李敏</span><span class="r">· 运维主管</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+  </header><main class="page">
+  <div class="crumb">工单管理<svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><b>工单列表</b></div>
+  <div class="phead"><h1>工单列表</h1>
+    <div class="acts"><button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>导出全部</button><button class="btn pri"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>新建工单</button></div>
+  </div>
+  <section class="card" aria-busy="true">
+    <div class="views" role="tablist"><a class="view on" role="tab" aria-selected="true">全部<span class="sk" style="width:22px;height:14px;border-radius:7px"></span></a><a class="view " role="tab" aria-selected="false">我负责的<span class="sk" style="width:22px;height:14px;border-radius:7px"></span></a><a class="view " role="tab" aria-selected="false">待派单<span class="sk" style="width:22px;height:14px;border-radius:7px"></span></a><a class="view hot" role="tab" aria-selected="false"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>已超时<span class="sk" style="width:22px;height:14px;border-radius:7px"></span></a><a class="view " role="tab" aria-selected="false">待验收<span class="sk" style="width:22px;height:14px;border-radius:7px"></span></a></div><div class="filters">
+    <div class="fld kw"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="v">关键词</span></div>
+    <div class="fld " ><span class="k">状态</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="fld " ><span class="k">优先级</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="fld " ><span class="k">设备类型</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="fld " ><span class="k">厂区/产线</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div><div class="fld " ><span class="k">负责人</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="fld date"><span class="k">创建时间</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span class="v">开始日期</span><span class="v">~</span><span class="v">结束日期</span></div>
+    <div class="sp"></div>
+    <button class="btn sm" disabled>重置</button>
+  </div><div class="tbar"><span class="loadnote"><svg class="ic spin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>正在加载工单…</span><div class="sp"></div><div class="sortnote">默认排序：创建时间倒序</div><span class="vdiv"></span><button class="btn sm"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18"/></svg>列设置</button></div>
+    <table class="grid"><colgroup><col style="width:38px"><col style="width:136px"><col><col style="width:132px"><col style="width:112px"><col style="width:86px"><col style="width:96px"><col style="width:64px"><col style="width:128px"><col style="width:74px"><col style="width:70px"><col style="width:78px"></colgroup><thead><tr>
+  <th class="c0"><span class="cb " role="checkbox" aria-label="全选当前页"></span></th>
+  <th>工单号</th><th>标题</th><th>设备</th><th>位置</th><th>优先级</th><th>状态</th><th>负责人</th><th>SLA</th>
+  <th><span class="srt">创建时间<svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></th><th>更新时间</th><th>操作</th></tr></thead><tbody><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:96px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:150px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:30px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:56px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:50px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:36px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:70px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:88px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:142px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:72px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:48px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:42px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:62px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:134px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:64px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:40px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:54px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:96px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:150px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:30px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:56px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:50px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:36px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:70px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:88px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:142px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:72px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:48px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:42px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:62px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:134px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:64px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:40px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:54px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:96px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:150px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:30px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:56px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:50px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:36px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:70px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:88px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:142px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:72px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:48px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:42px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:62px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:134px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:64px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:40px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:54px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:96px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:150px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:30px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:56px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:50px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:36px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:70px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:88px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:142px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:72px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:48px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:42px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:62px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:134px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:64px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:40px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:54px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:96px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:150px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:30px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:56px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:50px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:36px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:70px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:88px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:142px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:72px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:48px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:42px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:28px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:62px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:26px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr><tr><td class="c0"><span class="cb" style="border-color:#d5d9e0"></span></td><td><div class="two" style="gap:8px"><span class="sk" style="width:80px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:134px;"></span><span class="sk" style="width:90px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:64px;"></span><span class="sk" style="width:56px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:64px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:40px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:34px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:54px;"></span><span class="sk" style="width:48px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span><span class="sk" style="width:30px;height:8px;opacity:.7"></span></div></td><td><div class="two" style="gap:8px"><span class="sk" style="width:24px;"></span></div></td></tr></tbody></table>
+    <div class="pager"><span class="sk" style="width:90px;height:12px"></span><div class="sp"></div><span class="sk" style="width:260px;height:12px"></span></div>
+  </section></main></div></div></body></html>

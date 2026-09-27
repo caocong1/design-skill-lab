@@ -1,0 +1,92 @@
+{
+  "brief": "02-devtool-landing-en",
+  "checked": "2026-09-27",
+  "method": "judging.md section 10: claims from the arm's own notes checked against its canonical renders in render/ and facts.json; the checker does not score or compare arms",
+  "rationale_files": [
+    "out/NOTES.md"
+  ],
+  "rationale_md": "absent (optional for this brief)",
+  "arm": "suite-0.7.0",
+  "claims": [
+    {
+      "claim": "Kept the brief's line as the H1; hero is a full-width headline, then the text column (install command, Get started, proof) next to the brief's code sample. On mobile the install command and CTAs are in the first screen and the code follows.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png: one-line full-width H1, left column with lede, npm box with Copy, Get started, stats; code panel on the right. mobile-01.png: install and Get started in the first screen, code panel begins below."
+    },
+    {
+      "claim": "Code sample: desktop shows the brief's formatting exactly. At 390 px the same code is re-wrapped (whitespace and line breaks only) so it reads without horizontal scrolling or clipping.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png: 10 lines matching the brief's line breaks (open(...) on one line, CREATE TABLE split after '('). mobile-01.png/mobile-02.png: 18 re-wrapped lines, none cut; facts.json horizontal_overflow false at 390."
+    },
+    {
+      "claim": "How it works: the brief's three steps, illustrated with a tasks table (row t_19, titles \"Launch post draft\"/\"Launch post, final\", teams 7 and 3).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-02.png and mobile-03.png/mobile-04.png: row t_19, 'Launch post draft' (laptop) and 'Launch post, final' (phone), merged row; sync server with Phone team 7 and Tablet team 7 'receives t_19', Desktop team 3 'not in its shape'."
+    },
+    {
+      "claim": "Benchmarks appear twice on desktop (the two p50 numbers under the hero code, and all three with setup under the comparison). On mobile the hero [benchmark] copy is hidden.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png: 0.2 ms and 0.8 ms (plus an 'Offline' cell) under the code; desktop-04.png: 0.2 ms, 0.8 ms, 1.9 s with 'M3 MacBook Air, Chrome 140, OPFS'. mobile-02.png: no benchmark row under the code; mobile-06.png carries all three. Read in context as the hero benchmark copy; the hero lede itself is visible on mobile-01.png."
+    },
+    {
+      "claim": "\"The catch\": the brief's four FAQ answers, plus two answers built only from brief facts (690 KB gzipped bundle, 30% smaller in 1.4; JWT + row-level rules + shapes).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-06.png: 'The catch, and other fair questions' with the four brief questions plus 'How much does it add to a web bundle?' and 'Who can read which rows?'; same six on mobile-08.png/mobile-09.png."
+    },
+    {
+      "claim": "Pricing: no plan is labelled \"recommended\" or \"popular\"; Cloud Pro gets visual emphasis only. Plan subtitles are positioning copy.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-05.png: Pro column filled dark with an inverted CTA, no badge text; subtitles 'Managed sync for side projects' etc. present on desktop. mobile-07.png: same dark Pro card, no badge."
+    },
+    {
+      "claim": "Mobile trims: hides 6 of the 8 feature items, the legend, one panel note, the benchmark row under the hero code, plan subtitles and the final section's paragraph; full page about 8,035 px.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "mobile-04.png: only 'Reactive queries' and 'Shapes for partial sync' of the 8 items on desktop-03.png; mobile-03.png: no colour legend and no 'Committed locally...' note under step 1; mobile-02.png: no benchmark row; mobile-07.png: no plan subtitles; mobile-10.png: final section has no paragraph. facts: mobile page height 8035 px, 10 frames, not truncated."
+    },
+    {
+      "claim": "Each hidden feature item also appears in the steps, FAQ or platform strip. No required content (install, code, pricing) is hidden.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Install mobile-01.png and mobile-10.png, code mobile-01.png/02, pricing mobile-06..08.png. SQLite dialect in FAQ (mobile-08.png), conflicts in step 2 (mobile-03.png) and FAQ (mobile-09.png), auth in the step 3 note (mobile-04.png) and FAQ (mobile-09.png), one-binary sync server in FAQ (mobile-08.png), runtimes in the platform strip (mobile-02.png), offline in the step 1 'Offline' badge (mobile-03.png) and comparison 'Offline writes: Built in' (mobile-05.png). The 'pending changes survive restarts' wording itself is not on the mobile page."
+    },
+    {
+      "claim": "Nav on mobile: links collapse behind a menu button; \"Get started\" stays visible.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "mobile-01.png: header with logo, Get started and a hamburger button. The header is not sticky: it is absent from mobile-02..10.png, so Get started stays visible in the header only at the top of the page."
+    },
+    {
+      "claim": "Social proof: only the brief's numbers (18.4k stars, 236 contributors, 1.2M npm downloads/month). No logos or testimonials.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png and mobile-01.png: those three figures only; no logos, quotes or testimonials in any frame."
+    },
+    {
+      "claim": "Wordmark: two overlapping squares (one local copy, one synced copy).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png, desktop-07.png footer and mobile-01.png: logo is a dark square overlapped by a blue-outlined square."
+    },
+    {
+      "claim": "Colour: blue (#2B45D8) is used for actions and for edits made on this device; amber (#A34A06 on #FBEBDD) marks edits arriving from another device. Text pairs all pass WCAG AA.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-02.png: blue 'done' cells and legend 'Edit made on this device', amber 'Launch post, final' cells and 'receives t_19' chips with legend 'Edit arriving from another device'; blue Get started buttons (desktop-01.png, mobile-01.png). facts.json: 0 of 259 (desktop) and 0 of 230 (mobile) text nodes below AA, lowest 5.09:1."
+    }
+  ],
+  "counts": {
+    "verified": 12,
+    "contradicted": 0,
+    "not_checkable": 0
+  },
+  "report": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "notes": "Font choice (Schibsted Grotesk, IBM Plex Mono), placeholder link targets, the Playwright render process and 'no menu opens in the static prototype' are process or behaviour and were not counted. Plan CTA labels (View on GitHub, Start free, Start with Pro, Contact sales) match desktop-05.png."
+}

@@ -20,3 +20,6 @@ feedback/evolve.status
 
 # Per-user Claude Code permissions (the repo's .claude/skills/ is content and stays tracked)
 .claude/settings.local.json
+
+# Eval renders are reproducible from out/ with evals/render.mjs; keep runs lean
+evals/runs/**/*.png

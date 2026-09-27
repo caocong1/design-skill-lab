@@ -1,0 +1,494 @@
+{
+  "brief": "06-redesign-legacy",
+  "arm": "suite-0.8.0",
+  "checker": "rationale-vs-render (judging.md section 10)",
+  "inputs": {
+    "rationale": [
+      "out/rationale.md",
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/schedule.png"
+    ],
+    "facts": "facts.json"
+  },
+  "claims": [
+    {
+      "claim": "Colour shows status, not type. Green means waiting (with minutes), blue means in a room, dashed amber with \"?\" means unconfirmed, and a struck-through name means cancelled. Each also has an icon or words.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: green cells with check icon and '12m' / '3m' / '6m', blue cells with door icon and 'Rm 4' / 'Rm 7', dashed amber cells with a '?' icon (Castillo, Liu, Bennett, Foster, Soto, Stein, Dubois, Ibarra), 'Gomez, Patricia' struck with ⊗ icon and 'Cancelled'."
+    },
+    {
+      "claim": "Type keeps its old colour as a thin stripe, so learned meanings hold.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 4 px coloured left stripe on each card; out/schedule.html --t-np/fu/ph/sk/vx/th/pr use the legacy hues (pink, green, blue, amber, violet, teal, salmon from legacy .np/.fu/.ph/.sk/.vx/.th/.pr) darkened."
+    },
+    {
+      "claim": "The left column shows the waiting room with wait times, who is in a room, who is late, and what needs attention: the Feld 10:15 double booking, the two unverified insurances (Liu, Soto) and the unconfirmed patients.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: WAITING ROOM 3 (12/6/3 min), IN A ROOM 2 (Wright 9 min, Johansson 7 min), 'LATE 0 none past start time', NEEDS ATTENTION: 'Double-booked Feld 10:15 · Reyes + Adams', 'Insurance not verified · 2 Liu 9:30 · Soto 10:30', 'Unconfirmed · 8 today 3 tomorrow · Send reminders'."
+    },
+    {
+      "claim": "Column headers count each clinician's waiting and roomed patients.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: headers show '✓ 2' (Rao), door icon '1' (Feld), '✓ 1' (Kim), door icon '1' (Ortega). The counts are icon + number only; NOTES says the words are in a tooltip, which the render cannot show."
+    },
+    {
+      "claim": "Finding people. A large search box sits top left. Names are bigger (13–14 px, was 10), mixed case, surname bold.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 'Find patient: Last, First or MRN' box at top left (about 280 px); names like '**Brennan,** Harold' with bold surname and regular given name. CSS .nm 13.5px (grid), .qi .nm 14px (rail); legacy grid td font-size 10px."
+    },
+    {
+      "claim": "Double bookings show. Feld 10:15 has a taller row and a red box holding both children.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: the 10:15 row is taller than the others; Feld's cell is a red-bordered box with two sub-cards 'Reyes, Lucas 3M · f…' and 'Adams, Chloe 8F · …', each with a warning icon (reasons clipped, as NOTES admits)."
+    },
+    {
+      "claim": "Alerts before actions. The allergy, overdue balance and hearing note sit at the top of the right panel.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: after the name/DOB/MRN block and status chips, 'PATIENT ALERTS' lists 'Allergy: PENICILLIN (rash)', 'Balance overdue $140.00 (64 days)', 'Hard of hearing R ear · large-print forms', above the check-in block and all actions."
+    },
+    {
+      "claim": "Below them are the details to confirm, then one large Finish Check In button naming the $25 copay.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 'CHECK-IN · CONFIRM WITH PATIENT' (Phone, Insurance with 'Elig. verified 09/25/2026', Copay $25.00 not collected), then a full-width navy 'Finish Check In  collect $25.00 copay' button."
+    },
+    {
+      "claim": "The other eleven buttons are smaller; No Show and Cancel are red.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 11 smaller buttons: Copay, Room, Check Out, Resched., Edit, Reminder, Eligibility, Notes, Print, No Show, Cancel; 'No Show' and 'Cancel' have red text and red borders."
+    },
+    {
+      "claim": "One screen. All four clinicians and 8:00–1:30 fit without scrolling. Lunch takes one thin row, and free slots read \"+ Open\".",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: four columns side by side, rows 8:00 AM to the 1:30 row (Coleman, Ibarra, Novak) visible down to the bottom edge; 'Lunch · 12:00 – 1:00 PM · all clinicians' is one thin row; free slots read '+ Open'. render.json: no horizontal overflow."
+    },
+    {
+      "claim": "Type and status legends: Key (grid corner). Block Time, Print Day, Print Labels, Export: More menu. Mini calendar: the date button. Preferences, Change Password, Logout: mlopez menu. Maintenance notice: Messages. Server/build: Help › About.",
+      "source": "out/rationale.md",
+      "status": "not checkable",
+      "evidence": "render/schedule.png: an underlined 'Key' control in the grid corner, 'More ▾', the 'Mon 09/28/2026' date button, 'mlopez ▾', 'Messages 3' and 'Help' are present; their contents are closed and a static render cannot show them."
+    },
+    {
+      "claim": "What we kept: the same 14 tabs, labels and order; the same toolbar verbs and button names, the four columns in the same order, the type colours, and the details panel on the right.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: tabs Home, Schedule, Patients, Check-In, Waitlist 4, Recalls, Billing, Insurance / Eligibility, Reports, Messages 3, Tasks, Inventory, Admin, Help, as in the legacy; toolbar 'New Appt', 'Find Slot', 'Walk-In', 'Today', 'Day/Week/Month' match the legacy button labels; action labels 'Check Out', 'Resched.', 'No Show' match. One label changed: the legacy 'Check In' button is now 'Finish Check In', which NOTES discloses; the legacy search 'Go' button is gone (Enter, per rationale)."
+    }
+  ],
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 0,
+    "not checkable": 1
+  },
+  "functions": [
+    {
+      "group": "Header",
+      "function": "clinic location switcher (Main / Eastside Annex)",
+      "status": "on screen"
+    },
+    {
+      "group": "Header",
+      "function": "signed-in user",
+      "status": "on screen"
+    },
+    {
+      "group": "Header",
+      "function": "preferences",
+      "status": "accounted for",
+      "where": "mlopez menu"
+    },
+    {
+      "group": "Header",
+      "function": "change password",
+      "status": "accounted for",
+      "where": "mlopez menu"
+    },
+    {
+      "group": "Header",
+      "function": "log out",
+      "status": "accounted for",
+      "where": "mlopez menu"
+    },
+    {
+      "group": "Header",
+      "function": "date and time",
+      "status": "on screen",
+      "where": "\"8:04 AM\" in the header and \"Mon 09/28/2026\" date button"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Home",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Schedule",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Patients",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Check-In",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Waitlist (4)",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Recalls",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Billing",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Insurance / Eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Reports",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Messages (3)",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Tasks",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Inventory",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Admin",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Help",
+      "status": "on screen"
+    },
+    {
+      "group": "Alert banner",
+      "function": "3 appointments unconfirmed for tomorrow",
+      "status": "on screen",
+      "where": "Needs attention: \"3 tomorrow\""
+    },
+    {
+      "group": "Alert banner",
+      "function": "2 patients with unverified insurance",
+      "status": "on screen"
+    },
+    {
+      "group": "Alert banner",
+      "function": "maintenance notice (Sat 10/03)",
+      "status": "accounted for",
+      "where": "Messages"
+    },
+    {
+      "group": "Toolbar",
+      "function": "New appointment",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Find slot",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Block time",
+      "status": "accounted for",
+      "where": "More menu"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Walk-in",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print day",
+      "status": "accounted for",
+      "where": "More menu"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print labels",
+      "status": "accounted for",
+      "where": "More menu"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Export",
+      "status": "accounted for",
+      "where": "More menu"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Refresh",
+      "status": "on screen",
+      "where": "refresh icon at the right end of the toolbar"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Day / Week / Month",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "provider filter",
+      "status": "on screen",
+      "where": "\"All Providers ▾\""
+    },
+    {
+      "group": "Toolbar",
+      "function": "date back / forward / picker / Today",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "patient search (name or MRN)",
+      "status": "on screen"
+    },
+    {
+      "group": "Left column",
+      "function": "month calendar",
+      "status": "accounted for",
+      "where": "date button"
+    },
+    {
+      "group": "Left column",
+      "function": "appointment-type legend",
+      "status": "accounted for",
+      "where": "Key (grid corner)"
+    },
+    {
+      "group": "Left column",
+      "function": "status-code legend",
+      "status": "accounted for",
+      "where": "Key (grid corner)"
+    },
+    {
+      "group": "Left column",
+      "function": "waitlist (4 patients)",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "four clinician columns with rooms",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "15-minute rows",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointments with status, name, age/sex, reason",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time (admin, flu clinic, same-day hold, lunch)",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "cancelled appointments",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "patient name",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "DOB / age",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "MRN",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "phones",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "time",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "type",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "provider",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "reason",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "status",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "room",
+      "status": "on screen",
+      "where": "\"No room yet\" chip"
+    },
+    {
+      "group": "Details",
+      "function": "insurance and eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "copay",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "booked by",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "reminder status",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Check in",
+      "status": "on screen",
+      "where": "\"Finish Check In · collect $25.00 copay\""
+    },
+    {
+      "group": "Actions",
+      "function": "Room",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Check out",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Edit",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Reschedule",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Cancel",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "No show",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Copay",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Reminder",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Notes",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Print",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "patient alerts (balance, allergy, large-print / hearing)",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "recent visits",
+      "status": "on screen"
+    },
+    {
+      "group": "Status bar",
+      "function": "counts (96 appts, 3 arrived, 2 in room, 0 no-shows)",
+      "status": "on screen",
+      "where": "rail tiles 96 booked / 14 open slots / 0 no-shows; Waiting room 3 and In a room 2 headings"
+    },
+    {
+      "group": "Status bar",
+      "function": "server and build",
+      "status": "accounted for",
+      "where": "Help › About"
+    }
+  ],
+  "functions_summary": {
+    "on_screen": 62,
+    "accounted_for": 12,
+    "missing": 0,
+    "total": 74
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable; functions: 62 on screen, 12 accounted for, 0 missing",
+  "contradicted": [],
+  "notes": "Terms follow judging.md section 10 (verified / contradicted / not checkable). NOTES 'lint passes contrast' matches facts: 0 of 377 text nodes below AA (lowest 5.75), 0 of 111 targets under 24 px. The NOTES self-critique items left open are all visible and consistent with the render: double-booked reasons clipped ('3M · f…'), header counts as icon + number, the maintenance notice not on screen."
+}

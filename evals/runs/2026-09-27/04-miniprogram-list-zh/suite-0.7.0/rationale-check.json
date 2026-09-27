@@ -1,0 +1,98 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "suite-0.7.0",
+  "checker": "rationale-vs-render (judging.md section 10)",
+  "sources_read": [
+    "out/NOTES.md"
+  ],
+  "renders": [
+    "render/list.png",
+    "render/filter.png",
+    "render/empty.png"
+  ],
+  "facts": "facts.json",
+  "claims": [
+    {
+      "claim": "胶囊按 left 281 / top 50 / 87 × 32 画，自定义导航内容右边界约 232 px，留足避让；左侧放「当前位置」切换……不放页面标题",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: location row ends near x=230 CSS px, clear of the capsule; no page title in the nav row."
+    },
+    {
+      "claim": "所有文字对白底/浅底对比度 ≥ 4.8:1（WCAG AA）",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.json: 0 contrast failures across the three files; lowest measured ratio exactly 4.8."
+    },
+    {
+      "claim": "类目用可横向滚动的胶囊，右侧渐隐提示还有「管道疏通 / 收纳整理 / 搬家」",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: category pills (全部 filled, others grey) with the fourth pill 家居维修 fading at the right edge. The named hidden items are off-screen."
+    },
+    {
+      "claim": "排序四项直接平铺成一排……「筛选」在最右",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 综合排序 距离最近 评分最高 价格最低 in one row, 筛选 at right behind a vertical divider."
+    },
+    {
+      "claim": "卡片整体可点进详情，不在卡片上另加「预约」按钮；「最近可约」为今天时用品牌色 + 「今天」标记",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: no 预约 button on any card; first card shows a tinted 今天 badge and 16:00 in brand teal, while 明天 rows are dark text. Whole-card tap is behaviour and is not shown."
+    },
+    {
+      "claim": "「平台担保」「不通不收费」视为保障类标签，用浅青底 + 盾牌图标；其他标签中性灰",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: 平台担保 on light teal with a shield icon; 自带工具, 高温蒸汽, 可开发票, 拆洗 on neutral grey. No 不通不收费 tag is visible in the first screen."
+    },
+    {
+      "claim": "筛选面板采用「从筛选栏下拉」形式，遮罩只盖列表区域……标签栏保持不变暗",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/filter.png: panel drops from the sort/filter bar with a grey scrim below it; the tab bar is not dimmed."
+    },
+    {
+      "claim": "筛选面板底部在 0 结果时给出一句提示和最大的放宽项（3 km 内有 4 个），「查看 0 个结果」仍可点",
+      "source": "out/NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "render/filter.png shows the hint 当前条件下没有服务，距离放宽到 3 km 内有 4 个 and a filled 查看 0 个结果 button, but render/empty.png lists 改成明天上门 with 6 个服务, so 3 km (4) is not the largest relaxation. Everything else in the claim matches."
+    },
+    {
+      "claim": "「服务人员：不限」默认选中……未计入已选筛选数（3 个）",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/filter.png: 服务人员 不限 selected; 筛选 badge reads 3 (今天, 1 km 内, 可开发票)."
+    },
+    {
+      "claim": "空状态放宽建议的副文案（如「仍是今天上门、可开发票」）……顺序按「对用户原意改动最小」排：先放宽距离（仍是今天），再改日期，最后去掉发票要求",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: rows in order 距离放宽到 3 km 内 (仍是今天上门、可开发票) / 改成明天上门 (仍在 1 km 内、可开发票) / 去掉「可开发票」 (仍是今天上门、1 km 内)."
+    },
+    {
+      "claim": "空状态上方的「已选」条件胶囊带 ×……页面底部提供「修改筛选」和「清除筛选」",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: 已选 row with 今天 × / 1 km 内 × / 可开发票 ×; buttons 修改筛选 and 清除筛选 above the tab bar."
+    },
+    {
+      "claim": "列表页第一屏完整显示 3 个服务，第 4 个在标签栏上方露出一部分",
+      "source": "out/NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/list.png: three complete cards; the fourth (水龙头 / 花洒维修, 0.8 km) peeks above the tab bar."
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    "筛选面板底部在 0 结果时给出一句提示和最大的放宽项（3 km 内有 4 个），「查看 0 个结果」仍可点"
+  ],
+  "notes": "One contradiction, and it is internal: NOTES calls the filter-footer hint (3 km 内有 4 个) the largest relaxation, but the arm's own empty state shows 改成明天 with 6. It fits the empty state's stated order (smallest change first) better than 'largest', so 最大 looks like a wording slip rather than a rendering error. Everything else is verified. NOTES says large-font and real-device checks were not done, which matches what is visible (default size only)."
+}

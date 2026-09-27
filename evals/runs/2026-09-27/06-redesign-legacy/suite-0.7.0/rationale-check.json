@@ -1,0 +1,504 @@
+{
+  "brief": "06-redesign-legacy",
+  "arm": "suite-0.7.0",
+  "checker": "rationale-vs-render (judging.md section 10)",
+  "inputs": {
+    "rationale": [
+      "out/rationale.md",
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/schedule.png"
+    ],
+    "facts": "facts.json"
+  },
+  "claims": [
+    {
+      "claim": "New \"front desk now\" column on the left. It lists waiting patients with wait times, who is in which room, and next arrivals with a Check in button.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: WAITING ROOM 3 (Brennan 12 min, Chen 6, Natarajan 3), IN A ROOM 2 (Wright Room 7 9 min, Johansson Room 4 7 min), EXPECTED NEXT with a green 'Check in' button on 4 rows."
+    },
+    {
+      "claim": "Colour means status, not type. Waiting is green, in a room is blue, unconfirmed has a dashed amber border. Each also has a label and icon; the key is in the footer. Type is a short tag.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: green 'Waiting 12m' chip with clock icon, blue 'Room 4' chip with door icon, dashed amber 'Unconf.' with icon; footer 'Key' strip (Waiting, In room, Unconf. = unconfirmed, Late, Ins. unverified, Cancelled, Telehealth, No mark = confirmed); type tags F/U, VAX, SICK, PHYS, NEW, TELE, PROC at the top right of each card."
+    },
+    {
+      "claim": "Double bookings stand out. Feld's 10:15 slot has a red border, a \"Double-booked · 2\" badge and both children listed.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: Feld 10:15 card has a red border, red '⚠ Double-booked · 2' badge, 'Reyes, Lucas 3M fever' and 'Adams, Chloe 8F F/U'."
+    },
+    {
+      "claim": "Faster to find a patient: larger names and a big search box top left.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 'Find patient: Last, First or MRN' search box at top left (about 265 px wide); names in bold mixed case, about 13–14 px against the legacy 10 px caps."
+    },
+    {
+      "claim": "Patient alerts come first in the detail panel, followed by a check-in checklist. The next step, Collect copay $25.00, is the only filled button there. Cancel and No-show sit apart, in red.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: under the name block, 'PATIENT ALERTS · 3' (Allergy, Balance, Needs), then CHECK-IN checklist (Arrived 7:52 AM ✓, Insurance ✓, Copay $25.00 not collected, Room not assigned); 'Collect copay $25.00' is the only filled button; 'No-show' and 'Cancel appt' are red outlined, right-aligned on the last action row."
+    },
+    {
+      "claim": "\"To follow up\" takes over the yellow alert bar and adds the double booking.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: TO FOLLOW UP lists '8 unconfirmed today plus 3 for tomorrow (Tue)' [Remind], '2 insurance not verified Liu 9:30 Rao · Soto 10:30 Ortega' [Verify], '1 double booking 10:15 Feld · Reyes + Adams' [Show]."
+    },
+    {
+      "claim": "Tab bar \"More\": Tasks, Reports, Inventory and Admin. \"mlopez\" menu: Preferences, Change password and Logout. Toolbar \"Print & more\": Print day, Print labels, Export and Block time. Date button: opens the calendar.",
+      "source": "out/rationale.md",
+      "status": "not checkable",
+      "evidence": "render/schedule.png: 'More ▾', 'mlopez', 'Print & more ▾' and the 'Mon 28 Sep 2026 ▾' date button are present and Tasks, Reports, Inventory and Admin are gone from the tab bar; the menu contents are closed and a static render cannot show them."
+    },
+    {
+      "claim": "Above the grid: Refresh and the provider filter. Footer: maintenance notice and server/build details.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 'All providers ▾' and a refresh icon button sit above the grid at the right of the 'Monday 28 September' bar; footer right reads 'Maintenance Sat 10/03 10:00 PM – Sun 2:00 AM · Updated 8:04 AM · ACS-APP02 · 3.2.7.1184'."
+    },
+    {
+      "claim": "What we kept: the three-part layout (context left, day grid middle, details right); the navy header and the tab order.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: left context column, centre grid, right details panel; navy header; visible tabs Home, Schedule, Patients, Check-In, Waitlist, Recalls, Billing, Insurance, Messages keep their legacy relative order (Reports, Tasks, Inventory, Admin moved into More; Help is the '?' icon)."
+    },
+    {
+      "claim": "All four clinicians on one screen, in the same order, with their rooms. 15-minute rows, \"Last, First\" names and Day/Week/Month.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: Rao, Feld, Kim, Ortega with 'Rm 1–3', 'Rm 4–5', 'Rm 6', 'Rm 7'; 15-minute rows; 'Brennan, Harold' names; Day | Week | Month segmented control. render.json: no horizontal overflow."
+    },
+    {
+      "claim": "All twelve appointment actions in the right panel.",
+      "source": "out/rationale.md",
+      "status": "contradicted",
+      "evidence": "render/schedule.png: the right panel shows 11 action controls (Collect copay, Room, Check out, Reschedule, Edit, Reminder, Eligibility, Notes, Print, No-show, Cancel appt). Check in is not a control there: it appears only as the completed checklist step 'Arrived 7:52 AM', and the Check in buttons are in the left column for patients not yet arrived (out/schedule.html has no Check in button in the panel). NOTES says Check in is the primary for not-yet-arrived patients, which a static render of Harold cannot show."
+    },
+    {
+      "claim": "Lunch (12:00–1:00) is compressed to a single band to keep the morning on screen; the grid scrolls for 1:00–1:30.",
+      "source": "out/NOTES.md",
+      "status": "contradicted",
+      "evidence": "render/schedule.png: the grid shows 8:00 to the 11:30 row; the 11:45 row (only a sliver of the Dubois card border is visible) and the lunch band are below the fold, above the footer Key strip. The morning is not fully on screen without inner scrolling. About 3.5 hours are visible."
+    }
+  ],
+  "claims_summary": {
+    "verified": 9,
+    "contradicted": 2,
+    "not checkable": 1
+  },
+  "functions": [
+    {
+      "group": "Header",
+      "function": "clinic location switcher (Main / Eastside Annex)",
+      "status": "on screen"
+    },
+    {
+      "group": "Header",
+      "function": "signed-in user",
+      "status": "on screen"
+    },
+    {
+      "group": "Header",
+      "function": "preferences",
+      "status": "accounted for",
+      "where": "\"mlopez\" menu"
+    },
+    {
+      "group": "Header",
+      "function": "change password",
+      "status": "accounted for",
+      "where": "\"mlopez\" menu"
+    },
+    {
+      "group": "Header",
+      "function": "log out",
+      "status": "accounted for",
+      "where": "\"mlopez\" menu"
+    },
+    {
+      "group": "Header",
+      "function": "date and time",
+      "status": "on screen",
+      "where": "\"Mon 28 Sep · 8:04 AM\" in the header"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Home",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Schedule",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Patients",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Check-In",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Waitlist (4)",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Recalls",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Billing",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Insurance / Eligibility",
+      "status": "on screen",
+      "where": "tab labelled \"Insurance\""
+    },
+    {
+      "group": "Top tabs",
+      "function": "Reports",
+      "status": "accounted for",
+      "where": "tab bar \"More\""
+    },
+    {
+      "group": "Top tabs",
+      "function": "Messages (3)",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Tasks",
+      "status": "accounted for",
+      "where": "tab bar \"More\""
+    },
+    {
+      "group": "Top tabs",
+      "function": "Inventory",
+      "status": "accounted for",
+      "where": "tab bar \"More\""
+    },
+    {
+      "group": "Top tabs",
+      "function": "Admin",
+      "status": "accounted for",
+      "where": "tab bar \"More\""
+    },
+    {
+      "group": "Top tabs",
+      "function": "Help",
+      "status": "on screen",
+      "where": "\"?\" icon in the header"
+    },
+    {
+      "group": "Alert banner",
+      "function": "3 appointments unconfirmed for tomorrow",
+      "status": "on screen",
+      "where": "To follow up: \"plus 3 for tomorrow (Tue)\""
+    },
+    {
+      "group": "Alert banner",
+      "function": "2 patients with unverified insurance",
+      "status": "on screen"
+    },
+    {
+      "group": "Alert banner",
+      "function": "maintenance notice (Sat 10/03)",
+      "status": "on screen",
+      "where": "footer"
+    },
+    {
+      "group": "Toolbar",
+      "function": "New appointment",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Find slot",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Block time",
+      "status": "accounted for",
+      "where": "toolbar \"Print & more\""
+    },
+    {
+      "group": "Toolbar",
+      "function": "Walk-in",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print day",
+      "status": "accounted for",
+      "where": "toolbar \"Print & more\""
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print labels",
+      "status": "accounted for",
+      "where": "toolbar \"Print & more\""
+    },
+    {
+      "group": "Toolbar",
+      "function": "Export",
+      "status": "accounted for",
+      "where": "toolbar \"Print & more\""
+    },
+    {
+      "group": "Toolbar",
+      "function": "Refresh",
+      "status": "on screen",
+      "where": "refresh icon above the grid"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Day / Week / Month",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "provider filter",
+      "status": "on screen",
+      "where": "\"All providers ▾\" above the grid"
+    },
+    {
+      "group": "Toolbar",
+      "function": "date back / forward / picker / Today",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "patient search (name or MRN)",
+      "status": "on screen"
+    },
+    {
+      "group": "Left column",
+      "function": "month calendar",
+      "status": "accounted for",
+      "where": "date button opens the calendar"
+    },
+    {
+      "group": "Left column",
+      "function": "appointment-type legend",
+      "status": "accounted for",
+      "where": "rationale: type durations moved to New appointment / Find slot; type names are tags on cards"
+    },
+    {
+      "group": "Left column",
+      "function": "status-code legend",
+      "status": "on screen",
+      "where": "footer Key strip"
+    },
+    {
+      "group": "Left column",
+      "function": "waitlist (4 patients)",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "four clinician columns with rooms",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "15-minute rows",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointments with status, name, age/sex, reason",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time (admin, flu clinic, same-day hold, lunch)",
+      "status": "on screen",
+      "where": "Rx refills / admin and Flu clinic visible; same-day hold (11:45) and lunch are in the grid below the fold"
+    },
+    {
+      "group": "Day grid",
+      "function": "cancelled appointments",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "patient name",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "DOB / age",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "MRN",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "phones",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "time",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "type",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "provider",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "reason",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "status",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "room",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "insurance and eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "copay",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "booked by",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "reminder status",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Check in",
+      "status": "on screen",
+      "where": "Check in buttons in Expected next; Harold shown as arrived in the checklist"
+    },
+    {
+      "group": "Actions",
+      "function": "Room",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Check out",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Edit",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Reschedule",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Cancel",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "No show",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Copay",
+      "status": "on screen",
+      "where": "\"Collect copay $25.00\""
+    },
+    {
+      "group": "Actions",
+      "function": "Eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Reminder",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Notes",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Print",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "patient alerts (balance, allergy, large-print / hearing)",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "recent visits",
+      "status": "on screen"
+    },
+    {
+      "group": "Status bar",
+      "function": "counts (96 appts, 3 arrived, 2 in room, 0 no-shows)",
+      "status": "on screen",
+      "where": "grid bar \"96 booked · 3 waiting · 2 in room · 0 no-show · 14 open\""
+    },
+    {
+      "group": "Status bar",
+      "function": "server and build",
+      "status": "on screen",
+      "where": "footer \"ACS-APP02 · 3.2.7.1184\""
+    }
+  ],
+  "functions_summary": {
+    "on_screen": 61,
+    "accounted_for": 13,
+    "missing": 0,
+    "total": 74
+  },
+  "report_line": "claims: 9 verified, 2 contradicted, 1 not checkable; functions: 61 on screen, 13 accounted for, 0 missing",
+  "contradicted": [
+    "All twelve appointment actions in the right panel.",
+    "Lunch (12:00–1:00) is compressed to a single band to keep the morning on screen; the grid scrolls for 1:00–1:30."
+  ],
+  "notes": "Terms follow judging.md section 10 (verified / contradicted / not checkable). NOTES contrast claim matches facts: lowest text contrast 5.34 (facts.json lowest_contrast 5.34), 0 of 338 below AA, 0 of 100 targets under 24 px. Both contradictions are small in effect but literal: 11 of 12 action controls in the panel (Check in shown as done), and the morning runs past the visible grid (last visible row 11:30). Other NOTES claims checked and consistent with the render: 'Late appears only in the key' / '0 late', header totals 96 / 14 / 0, 'Ins. unverified' only on Liu and Soto, clinician headers 'Rao, MD'."
+}

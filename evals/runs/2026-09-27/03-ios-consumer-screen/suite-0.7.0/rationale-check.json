@@ -1,0 +1,103 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.7.0",
+  "label": "C",
+  "protocol": "evals/judging.md section 10",
+  "rationale_sources": [
+    "out/NOTES.md"
+  ],
+  "renders": [
+    "render/today.png",
+    "render/book.png",
+    "render/empty.png"
+  ],
+  "facts": "facts.json",
+  "claims": [
+    {
+      "claim": "the brand carried by one tint, New York serif for book titles and quotations, and cloth-bound cover placeholders ... Tint 'bookcloth green' #1D6B5A",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png, book.png: single green tint on ring, bars, primary buttons, progress and links; serif book titles in list rows and on book detail; framed cloth-style covers. Quotations are below the fold and not visible"
+    },
+    {
+      "claim": "One memorable element: the dog-ear fold on every cover",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: folded top-right corner on all three covers; render/book.png: same fold on the large cover; render/empty.png: empty slot drawn with a fold"
+    },
+    {
+      "claim": "Tab bar: Today, Library, Stats in the glass capsule. Search is the separate circular button on the right",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png, book.png, empty.png: capsule with three tabs and a separate round Search button"
+    },
+    {
+      "claim": "Book detail is a push from Today's 'Currently reading' list, so the Today tab stays selected and the back button is the iOS 26 chevron-only glass button",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/book.png: Today tab highlighted, chevron-only round back button and round '…' button. (Render matches the stated intent; one judge questioned the idiom, which this check does not assess)"
+    },
+    {
+      "claim": "Today has one primary action: Start session ... Log pages is secondary, next to it",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: filled green 'Start session' with grey 'Log pages' beside it inside the goal card"
+    },
+    {
+      "claim": "Bars at or over 20 min are full tint. The goal line is dashed. Every bar has its value printed ... Today's bar is hatched to show it is still in progress",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: Mon 24, Thu 31, Sat 22 full tint; Tue 18, Fri 18 pale; Wed 0 flat grey; dashed line with 'goal line at 20'; values printed above every bar; Sunday bar hatched"
+    },
+    {
+      "claim": "First run: ... Scan barcode (primary), Search by title (secondary) and Import from a CSV file (plain). The preset 20-minute goal follows, with a stepper. There is no streak, session or highlight UI, only one line saying the streak starts with the first session",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/empty.png: filled Scan barcode, grey Search by title, plain Import from a CSV file; goal card '20 min' with stepper; single line 'Your streak starts with your first reading session.'; no streak or chart UI"
+    },
+    {
+      "claim": "The '+' toolbar button (Add book) appears on both Today states",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png and render/empty.png: round glass + button top trailing on both"
+    },
+    {
+      "claim": "On Today that is goal, streak, week and all three books. On book detail it is identity, actions, progress and all four sessions. The highlights ... sit just below the fold",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png: goal card plus Middlemarch, Walden and The Pillow Book rows above the tab bar; render/book.png: header, Start session / Log pages / Add highlight, progress card, and four session rows (Today to Thu 24 Sep) visible; no highlights on either first screen"
+    },
+    {
+      "claim": "Nothing interactive sits in the top 62 pt or the bottom 34 pt. The tab bar's bottom edge is at y = 836 ... all three Today book rows end at y = 771, the book-detail sessions end at y = 757, and the tab bar starts at y = 774",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/today.png @2x: tab bar about 1548–1672 px = 774–836 pt; Pillow Book row ends about 1540 px = 770 pt; render/book.png: sessions card ends about 1514 px = 757 pt; toolbar buttons start below the status bar"
+    },
+    {
+      "claim": "Contrast (WCAG 2.2 AA): ... Secondary text #636366 ... This is the lightest text colour used ... tint and black labels are above 5:1",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "facts.json today.html: 1 of 53 text nodes below AA, 'WALDEN' cover lettering #f3e6c8 on #8a6a2e at 4.05:1, 5.5 px. The named UI pairs hold (book.html lowest 5.25, matching tint on grey button; empty 5.25), but a lighter text colour than #636366 is used and fails on the cover placeholder"
+    },
+    {
+      "claim": "Fixed: content peeking out in the gap beside the Search button on book detail",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "render/book.png: gap between tab bar and Search button shows only background, no content peeking"
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 1,
+    "not_checkable": 0
+  },
+  "summary": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    "Contrast (WCAG 2.2 AA): ... Secondary text #636366 ... This is the lightest text colour used ... tint and black labels are above 5:1"
+  ],
+  "notes": [
+    "Facts: 0 targets under 44 on all three screens (the notes make no explicit target-size claim).",
+    "Type-scale claim (Dynamic Type sizes 34/22/20/17/15/13) not listed: CSS also uses 18, 19, 16, 12, 11 px plus 5.5–8 px cover lettering; reflow at larger sizes is behaviour a static render cannot show.",
+    "feedback/ folder holds process feedback to the suite, not design claims; not checked. No out/rationale.md."
+  ]
+}

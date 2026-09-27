@@ -1,0 +1,74 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "suite-0.7.0",
+  "model": "claude-opus-5-5",
+  "start": 1790505029,
+  "end": 1790505600,
+  "wall_seconds": 571,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:30:29+00:00",
+  "end_iso": "2026-09-27T10:40:00+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0/skills"
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 42,
+  "duration_api_ms": 521768,
+  "dollars": 2.4876,
+  "tokens": {
+    "input": 58,
+    "output": 52338,
+    "thinking": 17067,
+    "cache_read": 2399952,
+    "cache_creation": 120072
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 58,
+    "output": 52338,
+    "thinking": 17067,
+    "cache_read": 2399952,
+    "cache_creation": 120072
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 58,
+      "outputTokens": 52338,
+      "cacheReadInputTokens": 2399952,
+      "cacheCreationInputTokens": 120072,
+      "webSearchRequests": 0,
+      "costUSD": 2.4875583999999993,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 17067,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/02-devtool-landing-en.suite-0.7.0.transcript.jsonl",
+    "sha256": "2a9b13f519aee413385c438b5fdb0eb01320b0d9b602595129301f3457e9180a",
+    "bytes": 12832548
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [
+    "2026-09-27-fullpage-capture-height-limit.md",
+    "2026-09-27-review-window-length-budget.md"
+  ],
+  "reruns": []
+}

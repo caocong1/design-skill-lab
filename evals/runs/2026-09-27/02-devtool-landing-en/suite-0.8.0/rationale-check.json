@@ -1,0 +1,95 @@
+{
+  "brief": "02-devtool-landing-en",
+  "checked": "2026-09-27",
+  "method": "judging.md section 10: claims from the arm's own notes checked against its canonical renders in render/ and facts.json; the checker does not score or compare arms",
+  "rationale_files": [
+    "out/NOTES.md"
+  ],
+  "rationale_md": "absent (optional for this brief)",
+  "arm": "suite-0.8.0",
+  "claims": [
+    {
+      "claim": "The first viewport shows what it is, the install command and the code sample.",
+      "source": "out/NOTES.md",
+      "status": "contradicted",
+      "evidence": "desktop-01.png: what it is and the install command are there, but the code panel is cut by the fold after '.subscribe(render);'; the INSERT statement and caption only appear in desktop-02.png. mobile-01.png: only the code panel's 'notes.ts' tab row is visible; the code itself starts in mobile-02.png."
+    },
+    {
+      "claim": "The headline is two lines so the code rises in the first desktop screen.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png: H1 set on two lines; the code panel starts at about y=387 of 900. It still does not fit completely (see the claim above)."
+    },
+    {
+      "claim": "One idea, \"carbon copies\": canary = laptop/browser, pink = phone, blue = sync server; the tints appear in the logo (three stacked sheets), the per-column merge diagram (each merged cell tinted by the device it came from) and the code's syntax colours.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Pixel samples: logo on desktop-01.png contains #FFE27A, #FFC4D3 and #C4D8FF sheets; desktop-02.png Laptop header #FFE27A, Phone header #FFC4D3, Sync server box #C4D8FF; desktop-03.png/mobile-03.png merged row has pink title (phone) and canary status (laptop); desktop-01.png code strings are #FFE27A, keywords pink, SQL blue."
+    },
+    {
+      "claim": "Canary is now reserved for the laptop copy, not general UI accents.",
+      "source": "out/NOTES.md",
+      "status": "contradicted",
+      "evidence": "The 'What's new in 1.4' link in the top announcement bar is set in the same canary (#FFE27A, sampled) as the Laptop header, on desktop-01.png and mobile-01.png. That link is a general UI accent, not the laptop copy. (Canary in the logo and code strings is covered by the claim above.)"
+    },
+    {
+      "claim": "I reflowed the code sample's line breaks (SQL split over lines, open() options on separate lines) so it stays legible at 390 px without wrapping or sideways scrolling. Tokens and statements are unchanged.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "mobile-02.png: all statements from the brief, SQL and open() options on separate lines, no wrapped or cut line; facts.json horizontal_overflow false at 390. desktop-01.png/desktop-02.png use the same reflow."
+    },
+    {
+      "claim": "The merge diagram uses a sample tasks table (id 42, \"Write docs\" / \"Ship 1.4 docs\", todo/done) labelled \"Sample data\"; platform labels \"Laptop: browser, OPFS\" and \"Phone: iOS, was offline\".",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-02.png/desktop-03.png and mobile-02.png/mobile-03.png: id 42, 'Write docs' and 'Ship 1.4 docs', todo/done, 'Sample data' next to the legend; headers 'Laptop · browser, OPFS' and 'Phone · iOS, was offline'."
+    },
+    {
+      "claim": "The sync server shows the relayed changes (desktop).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-02.png/desktop-03.png: Sync server box holds chips '42 status → done' and '42 title → Ship 1.4 …'. The second chip is truncated with an ellipsis."
+    },
+    {
+      "claim": "\"Before you adopt it\" only restates limits from the brief (690 KB bundle, no file-format extensions, browser storage limits).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-06.png/desktop-07.png: panel 'Before you adopt it' with '690 KB gzipped', 'No file-format extensions', 'Browser storage quotas'."
+    },
+    {
+      "claim": "The 1.4 announcement sits in a slim top bar and in a \"What's new in 1.4\" block next to the install commands.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png and mobile-01.png: dark top bar 'Driftless 1.4 is out...'; desktop-07.png/desktop-08.png: 'What's new in 1.4' block beside the install commands (below them on mobile-10.png)."
+    },
+    {
+      "claim": "Plan CTA labels (\"Start free\", \"Choose Pro\", \"Talk to us\", \"View on GitHub\"); plan contents are the brief's, with nothing added.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-06.png: the four plans carry 'View on GitHub', 'Start free', 'Choose Pro', 'Talk to us', with contents matching the brief's pricing table."
+    },
+    {
+      "claim": "Mobile full-page height kept under 8,192 CSS px (about 7,770); to fit, the mobile layout drops the step detail lines, the code caption and the relay chips, and uses compact pricing rows with one shared CTA pair.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "facts: mobile page height 7772 px, 10 frames, not truncated, no repeated page top (mobile-10.png ends at the footer). mobile-02.png: steps without detail lines and no caption under the code; mobile-03.png: Sync server box without chips; mobile-07.png: two-column compact plan rows with one pair 'Start free on Cloud' / 'Talk to us'."
+    },
+    {
+      "claim": "lint floor passes contrast, no horizontal overflow and accessible names; lowest text pair #5A5F69 on #F2F3EF at 5.75:1.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "facts.json: 0 of 265 (desktop) and 0 of 246 (mobile) text nodes below AA, lowest 5.75:1 at both sizes; horizontal_overflow false; 0 small targets of 18/15."
+    }
+  ],
+  "counts": {
+    "verified": 10,
+    "contradicted": 2,
+    "not_checkable": 0
+  },
+  "report": "claims: 10 verified, 2 contradicted, 0 not checkable",
+  "contradicted": [
+    "The first viewport shows what it is, the install command and the code sample.",
+    "Canary is now reserved for the laptop copy, not general UI accents."
+  ],
+  "notes": "Also consistent with the renders but not counted: social proof limited to the three figures plus Apache-2.0 (desktop-01.png, mobile-01.png); mobile nav collapses to a text 'Menu' control next to Get started (mobile-01.png). Not checkable and not counted: the Archivo/JetBrains Mono font choice, the Clipboard API, motion limited to the copy buttons, the fresh-critique process and the removed benchmark phrase. The mobile compact pricing leaves only 'Start free on Cloud' and 'Talk to us', so the Pro and GitHub actions exist on desktop only; the notes disclose this as the shared CTA pair."
+}

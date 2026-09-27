@@ -1,0 +1,73 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "suite-0.8.0",
+  "model": "claude-opus-5-5",
+  "start": 1790506022,
+  "end": 1790506599,
+  "wall_seconds": 577,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:47:02+00:00",
+  "end_iso": "2026-09-27T10:56:39+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0/skills"
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 9,
+  "duration_api_ms": 610168,
+  "dollars": 3.3558,
+  "tokens": {
+    "input": 82,
+    "output": 63054,
+    "thinking": 17307,
+    "cache_read": 3447588,
+    "cache_creation": 189601
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 16,
+    "output": 7641,
+    "thinking": 1349,
+    "cache_read": 1053457,
+    "cache_creation": 23244
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 82,
+      "outputTokens": 63054,
+      "cacheReadInputTokens": 3447588,
+      "cacheCreationInputTokens": 189601,
+      "webSearchRequests": 0,
+      "costUSD": 3.3558066,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 17307,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 1,
+    "completed": 1,
+    "failed": 0,
+    "max_depth": 1,
+    "by_type": {
+      "general-purpose": 1
+    }
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/05-agent-approvals.suite-0.8.0.transcript.jsonl",
+    "sha256": "2fcc3af166006699fdb26efbc8517da6a8d98ec601ffa55fd62c64ab998138c9",
+    "bytes": 12633183
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

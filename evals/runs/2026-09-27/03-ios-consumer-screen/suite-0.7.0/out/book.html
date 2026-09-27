@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=402, initial-scale=1">
+<title>Dogear - Middlemarch</title>
+<link rel="stylesheet" href="dogear.css">
+<style>
+  .book-head { display: flex; align-items: center; gap: 18px; padding: 8px 4px 0; }
+  .book-id { flex: 1; min-width: 0; }
+  .book-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .book-actions .pair { display: flex; gap: 10px; }
+  .book-actions .pair .btn { flex: 1; height: 46px; padding: 0 12px; font-size: 16px; letter-spacing: -0.3px; }
+  .book-actions .pair .btn svg { width: 19px; height: 19px; }
+  .progress { margin-top: 18px; overflow: hidden; }
+  .p-top { padding: 14px 16px 12px; }
+  .stats { padding: 10px 16px 14px; border-top: 0.5px solid var(--separator); display: flex; flex-direction: column; gap: 3px; color: var(--label); }
+  .stats .k { color: var(--label-3); display: inline-block; width: 92px; }
+  .p-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .kv { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 44px; padding: 0 16px; border-top: 0.5px solid var(--separator); margin-left: 0; }
+  .sessions { overflow: hidden; }
+  .srow { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 16px; position: relative; }
+  .srow > :first-child { width: 104px; flex: none; }
+  .srow > :nth-child(2) { flex: 1; }
+  .srow .dur { text-align: right; }
+  .srow + .srow::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; border-top: 0.5px solid var(--separator); }
+  .quote { padding: 16px 18px 14px; }
+</style>
+</head>
+<body>
+<div class="screen" data-screen="BookDetail" data-book="Middlemarch">
+  <!-- status bar (system) -->
+  <div class="statusbar" aria-hidden="true">
+    <div class="time">9:41</div>
+    <div class="icons">
+      <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="7.5" width="3" height="4.5" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.6 10.4 9.1a3.4 3.4 0 0 0-4.8 0L8 11.6Z"/><path d="M8 4.7c1.9 0 3.6.7 4.9 2l1.3-1.3A8.7 8.7 0 0 0 8 2.9 8.7 8.7 0 0 0 1.8 5.4l1.3 1.3a6.9 6.9 0 0 1 4.9-2Z"/><path d="M8 0C4.9 0 2.1 1.2 0 3.2l1.2 1.3C3 2.8 5.4 1.8 8 1.8s5 1 6.8 2.7L16 3.2C13.9 1.2 11.1 0 8 0Z" transform="translate(0 -.2)"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="#000" stroke-opacity=".38"/><rect x="2" y="2" width="20" height="9" rx="2.4"/><path d="M25 4.4v4.2c.8-.3 1.4-1.1 1.4-2.1S25.8 4.7 25 4.4Z" fill-opacity=".45"/></svg>
+    </div>
+  </div>
+  <div class="island" aria-hidden="true"></div>
+
+  <main class="scroll">
+    <div class="content">
+      <div class="navrow">
+        <button class="glass glass-btn" data-component="BackButton" aria-label="Back to Today" style="border:0">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4.5 7.5 12l7.5 7.5"/></svg>
+        </button>
+        <div class="spacer"></div>
+        <button class="glass glass-btn" data-component="MoreMenu" aria-label="More: Mark as finished, Edit goal, Remove from library" style="border:0">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+        </button>
+      </div>
+
+      <header class="book-head" data-component="BookHeader">
+        <div class="cover" style="--c:var(--cover-middlemarch);--under:var(--bg);--f:22px;width:88px;height:130px">
+          <span class="frame"></span>
+          <span class="ct" style="font-size:11.5px;line-height:14px;letter-spacing:.5px">MIDDLE-<br>MARCH</span>
+          <span style="width:22px;border-top:1px solid rgba(243,230,200,.6);margin:8px 0 7px"></span>
+          <span class="ca" style="font-size:8px;line-height:10px;letter-spacing:.8px">GEORGE ELIOT</span>
+          <svg class="fold" viewBox="0 0 10 10"><path class="cut" d="M0 0H10V10Z"/><path class="flap" d="M0 0L10 10H0Z"/></svg>
+        </div>
+        <div class="book-id">
+          <h1 class="serif" style="font-size:30px;line-height:35px;font-weight:700;letter-spacing:-.3px">Middlemarch</h1>
+          <div class="t-body" style="color:var(--label-2);margin-top:3px">George Eliot</div>
+          <div class="t-foot muted" style="margin-top:10px">First published 1871–72<br>880 pages</div>
+        </div>
+      </header>
+
+      <div class="book-actions">
+        <button class="btn btn-prominent" data-component="Button" data-role="primary" style="border:0">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M6 3.6v12.8c0 .8.9 1.3 1.6.9l10-6.4c.6-.4.6-1.3 0-1.7l-10-6.4C6.9 2.3 6 2.8 6 3.6Z"/></svg>
+          Start session
+        </button>
+        <div class="pair">
+          <button class="btn btn-gray" data-component="Button" style="border:0">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3.5h8.5L16 7v9.5H4z"/><path d="M7 9.5h6M7 12.5h4"/></svg>
+            Log pages
+          </button>
+          <button class="btn btn-gray" data-component="Button" style="border:0">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3.5 16.5 7.5 9 15H5v-4z"/><path d="M3.5 17.5h13"/></svg>
+            Add highlight
+          </button>
+        </div>
+      </div>
+
+      <section class="card progress" data-component="ProgressCard">
+        <div class="p-top">
+          <div class="p-head"><span class="t-head num">Page 312 of 880</span><span class="t-head num" style="color:var(--tint)">35%</span></div>
+          <div class="bar" style="height:8px;border-radius:4px;margin-top:10px" role="img" aria-label="35 percent read"><i style="width:35%;border-radius:4px"></i></div>
+        </div>
+        <div class="stats">
+          <div class="t-foot"><span class="k">Time read</span> 11 h 40 min over 23 sessions</div>
+          <div class="t-foot"><span class="k">At your pace</span> about 21 h left</div>
+        </div>
+      </section>
+
+      <div class="section-h">
+        <h2 class="t-title3">Sessions</h2>
+        <span class="t-sub" style="color:var(--tint)">See all 23</span>
+      </div>
+      <section class="card sessions" data-component="SessionList">
+        <div class="srow"><span class="t-body">Today</span><span class="t-sub muted num">pp. 301–312</span><span class="t-body num dur">12 min</span></div>
+        <div class="srow"><span class="t-body">Sat 26 Sep</span><span class="t-sub muted num">pp. 285–300</span><span class="t-body num dur">22 min</span></div>
+        <div class="srow"><span class="t-body">Fri 25 Sep</span><span class="t-sub muted num">pp. 271–284</span><span class="t-body num dur">18 min</span></div>
+        <div class="srow"><span class="t-body">Thu 24 Sep</span><span class="t-sub muted num">pp. 252–270</span><span class="t-body num dur">25 min</span></div>
+      </section>
+
+      <div class="section-h" style="margin-top:36px">
+        <h2 class="t-title3">Highlights</h2>
+        <span class="t-sub muted">2</span>
+      </div>
+      <section class="card quote" data-component="HighlightCard">
+        <blockquote class="serif" style="font-size:18px;line-height:26px">“If we had a keen vision and feeling of all ordinary human life, it would be like hearing the grass grow and the squirrel’s heart beat, and we should die of that roar which lies on the other side of silence.”</blockquote>
+        <div class="t-foot muted" style="margin-top:10px">p. 194 · Chapter 20</div>
+      </section>
+      <section class="card quote" data-component="HighlightCard" style="margin-top:10px">
+        <blockquote class="serif" style="font-size:18px;line-height:26px">“We are all of us born in moral stupidity, taking the world as an udder to feed our supreme selves.”</blockquote>
+        <div class="t-foot muted" style="margin-top:10px">p. 211 · Chapter 21</div>
+      </section>
+    </div>
+  </main>
+
+  <div class="edge-bottom" aria-hidden="true"></div>
+
+  <!-- tab bar (system, iOS 26) -->
+  <nav class="tabbar" data-component="TabBar" aria-label="Sections">
+    <div class="tabs glass">
+      <a class="tab" aria-current="page">
+        <svg viewBox="0 0 26 26" fill="currentColor"><path d="M6.5 4h13A2.5 2.5 0 0 1 22 6.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 4 19.5v-13A2.5 2.5 0 0 1 6.5 4Z"/><rect x="5.6" y="9.2" width="14.8" height="11.2" rx="1.2" fill="#fff" fill-opacity=".92"/><rect x="8.5" y="12" width="4.2" height="4.2" rx="1" /></svg>
+        Today
+      </a>
+      <a class="tab">
+        <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="4.5" width="4.5" height="17" rx="1"/><rect x="9.5" y="7.5" width="4.5" height="14" rx="1"/><path d="m15.6 8.6 4.3-1.2 3.6 13.1-4.3 1.2z"/></svg>
+        Library
+      </a>
+      <a class="tab">
+        <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="12.5" width="4.4" height="9" rx="1"/><rect x="10.8" y="5" width="4.4" height="16.5" rx="1"/><rect x="17.6" y="9" width="4.4" height="12.5" rx="1"/></svg>
+        Stats
+      </a>
+    </div>
+    <a class="tab-search glass" aria-label="Search">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11.5" cy="11.5" r="6.8"/><path d="m16.5 16.5 5 5"/></svg>
+    </a>
+  </nav>
+
+  <div class="home-indicator" aria-hidden="true"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1">
+<title>服务 · 拾光到家</title>
+<style>
+:root {
+  /* colour roles */
+  --c-bg: #F3F4F2;          /* page behind cards */
+  --c-surface: #FFFFFF;
+  --c-fill: #F1F2F0;        /* search field, neutral chips */
+  --c-line: #E3E5E2;
+  --c-ink: #1B1F1E;         /* 16.9:1 on white */
+  --c-ink-2: #4D5553;       /* 7.7:1 on white */
+  --c-ink-3: #646C69;       /* 5.4:1 on white, 4.8:1 on fill */
+  --c-brand: #0E6B63;       /* 6.4:1 on white */
+  --c-brand-soft: #E4F1EE;  /* brand text on it 5.5:1 */
+  --c-price: #B8360F;       /* 5.9:1 on white */
+  --c-star: #D9861A;        /* icon only */
+  --c-scrim: rgb(20 24 23 / 0.5);
+  --c-tab-idle: #646B70;    /* 5.4:1 on white */
+  /* type */
+  --f-ui: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  /* space: 4 / 8 / 12 / 16 / 24 */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  /* radii */
+  --r-card: 12px; --r-chip: 8px; --r-pill: 999px;
+  /* system frame (WeChat, 375 design width = 750 rpx) */
+  --sys-status: 44px; --sys-nav: 44px; --sys-tabbar: 49px; --sys-safe: 34px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 375px; height: 812px; overflow: hidden; }
+body { font-family: var(--f-ui); color: var(--c-ink); background: var(--c-bg);
+  -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; }
+.page { position: relative; width: 375px; height: 812px; display: flex; flex-direction: column; overflow: hidden; }
+svg { display: block; flex: none; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---- system: status bar ---- */
+.sys-status { flex: none; height: var(--sys-status); background: var(--c-surface); display: flex; align-items: center;
+  justify-content: space-between; padding: 4px 22px 0 30px; font-size: 15px; font-weight: 600; }
+.sys-status .icons { display: flex; align-items: center; gap: 6px; }
+
+/* ---- custom navigation bar (page-owned) + capsule (WeChat-owned) ---- */
+.nav { flex: none; position: relative; height: var(--sys-nav); background: var(--c-surface); display: flex; align-items: center; padding: 0 var(--s-3); }
+.loc { display: flex; align-items: center; gap: 4px; height: 44px; max-width: 256px; font-size: 16px; font-weight: 600; color: var(--c-ink); }
+.loc .dim { font-weight: 400; color: var(--c-ink-2); }
+.capsule { position: absolute; left: 281px; top: 6px; width: 87px; height: 32px; border-radius: 16px;
+  border: 0.5px solid rgb(0 0 0 / 0.14); background: rgb(255 255 255 / 0.7); display: flex; align-items: center; }
+.capsule span { flex: 1; display: flex; align-items: center; justify-content: center; height: 100%; }
+.capsule i { width: 0.5px; height: 18px; background: rgb(0 0 0 / 0.16); }
+
+/* ---- header: search, categories, sort/filter ---- */
+.header { flex: none; background: var(--c-surface); }
+.search { margin: 2px var(--s-3) 0; height: 38px; border-radius: var(--r-pill); background: var(--c-fill);
+  display: flex; align-items: center; gap: 6px; padding: 0 var(--s-3); color: var(--c-ink-3); font-size: 15px; }
+.cats { position: relative; display: flex; gap: var(--s-2); padding: 10px var(--s-3) 8px; overflow: hidden; white-space: nowrap; }
+.cat { flex: none; height: 32px; padding: 0 14px; border-radius: var(--r-pill); background: var(--c-fill); color: var(--c-ink-2);
+  font-size: 15px; display: flex; align-items: center; }
+.cat[aria-selected="true"] { background: var(--c-brand); color: #fff; font-weight: 600; }
+.cats-fade { position: absolute; right: 0; top: 0; bottom: 0; width: 40px; background: linear-gradient(90deg, rgb(255 255 255 / 0), #fff 75%); }
+.sortbar { height: 42px; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s-3) 0 var(--s-4);
+  border-top: 0.5px solid var(--c-line); border-bottom: 0.5px solid var(--c-line); font-size: 14px; color: var(--c-ink-2); }
+.sortbar .opt { height: 42px; display: flex; align-items: center; }
+.sortbar .opt[aria-current="true"] { color: var(--c-brand); font-weight: 600; }
+.sortbar .filter { display: flex; align-items: center; gap: 4px; height: 42px; padding-left: var(--s-3); border-left: 0.5px solid var(--c-line); color: var(--c-ink); }
+.sortbar .filter[data-active="true"] { color: var(--c-brand); font-weight: 600; }
+.badge { min-width: 16px; height: 16px; border-radius: 8px; background: var(--c-brand); color: #fff; font-size: 11px; font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+/* ---- scrolling region ---- */
+.scroll { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+.list { display: flex; flex-direction: column; gap: 10px; padding: 10px var(--s-3) var(--s-4); }
+
+/* ---- ServiceCard ---- */
+.card { background: var(--c-surface); border-radius: var(--r-card); padding: 12px var(--s-4) 12px; display: flex; flex-direction: column; }
+.card .row { display: flex; align-items: center; }
+.card .name { flex: 1; min-width: 0; font-size: 17px; font-weight: 600; line-height: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card .dist { flex: none; margin-left: var(--s-2); font-size: 13px; color: var(--c-ink-3); display: flex; align-items: center; gap: 2px; }
+.card .meta { margin-top: 4px; gap: 6px; font-size: 13px; color: var(--c-ink-2); line-height: 18px; }
+.card .meta .sep { width: 0.5px; height: 11px; background: #C9CDCA; }
+.card .rating { display: flex; align-items: center; gap: 2px; color: var(--c-ink); font-weight: 600; }
+.card .served { color: var(--c-ink-3); }
+.tags { margin-top: var(--s-2); display: flex; gap: 6px; }
+.tag { height: 22px; padding: 0 6px; border-radius: 4px; background: var(--c-fill); color: var(--c-ink-2); font-size: 12px; display: flex; align-items: center; gap: 3px; }
+.tag[data-kind="guarantee"] { background: var(--c-brand-soft); color: var(--c-brand); }
+.card .foot { margin-top: 10px; padding-top: 10px; border-top: 0.5px solid var(--c-line); justify-content: space-between; align-items: flex-end; }
+.slot { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--c-ink-3); }
+.slot b { font-size: 15px; font-weight: 600; color: var(--c-ink); }
+.slot[data-day="today"] b { color: var(--c-brand); }
+.slot .today { height: 22px; padding: 0 6px; border-radius: 4px; background: var(--c-brand-soft); color: var(--c-brand); font-size: 12px; font-weight: 600; display: flex; align-items: center; }
+.price { display: flex; align-items: baseline; gap: 2px; color: var(--c-price); white-space: nowrap; }
+.price .pre, .price .suf { font-size: 12px; color: var(--c-ink-2); }
+.price .pre { margin-right: 2px; }
+.price .cur { font-size: 14px; font-weight: 600; }
+.price .amt { font-size: 22px; font-weight: 700; line-height: 24px; letter-spacing: -0.01em; }
+
+/* ---- native tab bar + home indicator (drawn by WeChat) ---- */
+.tabbar { flex: none; height: var(--sys-tabbar); background: #fff; border-top: 0.5px solid rgb(0 0 0 / 0.14); display: flex; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; padding-top: 5px; gap: 2px; font-size: 11px; color: var(--c-tab-idle); }
+.tab[aria-current="page"] { color: var(--c-brand); font-weight: 600; }
+.safe { flex: none; height: var(--sys-safe); background: #fff; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 8px; }
+.safe i { width: 134px; height: 5px; border-radius: 3px; background: #111; }
+
+/* ---- FilterPanel (drops down under the sort bar, scrim over the list only) ---- */
+.scrim { position: absolute; inset: 0; background: var(--c-scrim); }
+.panel { position: absolute; left: 0; right: 0; top: 0; background: var(--c-surface); border-radius: 0 0 16px 16px; display: flex; flex-direction: column; }
+.panel .body { padding: 12px var(--s-4) 2px; display: flex; flex-direction: column; gap: 12px; }
+.group h3 { font-size: 15px; font-weight: 600; line-height: 20px; margin-bottom: 6px; display: flex; align-items: baseline; gap: 6px; }
+.group h3 small { font-size: 12px; font-weight: 400; color: var(--c-ink-3); }
+.opts { display: flex; gap: var(--s-2); }
+.opt-chip { flex: 1; height: 34px; border-radius: var(--r-chip); background: var(--c-fill); color: var(--c-ink); font-size: 14px;
+  display: flex; align-items: center; justify-content: center; gap: 4px; border: 1px solid transparent; white-space: nowrap; }
+.opt-chip[aria-pressed="true"] { background: var(--c-brand-soft); border-color: var(--c-brand); color: var(--c-brand); font-weight: 600; }
+.opts.two .opt-chip { flex: none; width: calc((100% - 24px) / 4 * 2 + 8px); }
+.panel .foot { padding: 10px var(--s-4) 14px; border-top: 0.5px solid var(--c-line); margin-top: 10px; display: flex; flex-direction: column; gap: 10px; }
+.hint { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--c-ink-2); }
+.hint b { color: var(--c-ink); font-weight: 600; }
+.btns { display: flex; gap: 10px; }
+.btn { height: 44px; border-radius: 22px; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.btn.secondary { flex: 1; background: var(--c-surface); color: var(--c-ink); border: 1px solid #C9CDCA; }
+.btn.primary { flex: 2; background: var(--c-brand); color: #fff; }
+.btn.outline { flex: 1; background: var(--c-surface); color: var(--c-brand); border: 1px solid var(--c-brand); }
+
+/* ---- active filter chips + EmptyState ---- */
+.active-filters { display: flex; align-items: center; gap: var(--s-2); padding: 10px var(--s-3); background: var(--c-surface); border-bottom: 0.5px solid var(--c-line); }
+.active-filters .label { font-size: 13px; color: var(--c-ink-3); margin-right: 2px; }
+.af { height: 30px; padding: 0 8px 0 10px; border-radius: var(--r-pill); background: var(--c-brand-soft); color: var(--c-brand); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+.empty { display: flex; flex-direction: column; align-items: center; padding: 22px var(--s-4) 0; }
+.empty h2 { margin-top: 10px; font-size: 18px; font-weight: 600; line-height: 26px; }
+.nb { display: inline-block; white-space: nowrap; }
+.empty .why { margin-top: 6px; font-size: 14px; line-height: 22px; color: var(--c-ink-2); text-align: center; max-width: 300px; }
+.suggest { margin-top: 18px; align-self: stretch; background: var(--c-surface); border-radius: var(--r-card); overflow: hidden; }
+.suggest h3 { font-size: 14px; font-weight: 600; color: var(--c-ink-2); padding: 12px var(--s-4) 4px; }
+.sg { height: 52px; display: flex; align-items: center; padding: 0 var(--s-3) 0 var(--s-4); gap: var(--s-2); }
+.sg + .sg { border-top: 0.5px solid var(--c-line); }
+.sg .what { flex: 1; font-size: 16px; color: var(--c-ink); }
+.sg .what small { display: block; font-size: 12px; color: var(--c-ink-3); line-height: 16px; }
+.sg .count { font-size: 14px; color: var(--c-brand); font-weight: 600; }
+.empty .btns { margin-top: var(--s-4); align-self: stretch; }
+</style></head>
+<body><div class="page"><div class="sys-status" data-component="SystemStatusBar"><span class="num">13:20</span><span class="icons">
+<svg width="18" height="12" viewBox="0 0 18 12" fill="#111"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+<svg width="16" height="12" viewBox="0 0 16 12" fill="#111"><path d="M8 2.2c2.3 0 4.4.9 6 2.4l1.3-1.4A10.6 10.6 0 0 0 8 .3 10.6 10.6 0 0 0 .7 3.2L2 4.6a8.6 8.6 0 0 1 6-2.4zm0 3.8c1.3 0 2.5.5 3.4 1.3l1.4-1.4A7 7 0 0 0 8 4a7 7 0 0 0-4.8 1.9l1.4 1.4C5.5 6.5 6.7 6 8 6zm0 3.6l2-2A3 3 0 0 0 8 7.9a3 3 0 0 0-2 .7z"/></svg>
+<svg width="26" height="12" viewBox="0 0 26 12"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="#111" opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="#111"/><rect x="24" y="4" width="1.6" height="4" rx=".8" fill="#111" opacity=".45"/></svg>
+</span></div><div class="nav" data-component="CustomNavBar">
+<div class="loc" data-component="LocationSwitcher"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span class="dim">苏州 · 工业园区 ·</span><span>星湖街</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink-2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>
+<div class="capsule" data-component="WeChatCapsule" aria-hidden="true"><span><svg width="20" height="6" viewBox="0 0 20 6" fill="#111"><circle cx="3" cy="3" r="2.2"/><circle cx="10" cy="3" r="2.6"/><circle cx="17" cy="3" r="2.2"/></svg></span><i></i><span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#111" stroke-width="1.8"><circle cx="9" cy="9" r="7"/><circle cx="9" cy="9" r="2.6" fill="#111" stroke="none"/></svg></span></div></div><div class="header">
+<div class="search" data-component="SearchField"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg>搜索服务，如「空调清洗」</div>
+<div class="cats" data-component="CategoryTabs"><div class="cat" aria-selected="true">全部</div><div class="cat" aria-selected="false">日常保洁</div><div class="cat" aria-selected="false">家电清洗</div><div class="cat" aria-selected="false">家居维修</div><div class="cat" aria-selected="false">管道疏通</div><div class="cat" aria-selected="false">收纳整理</div><div class="cat" aria-selected="false">搬家</div><div class="cats-fade"></div></div>
+<div class="sortbar" data-component="SortFilterBar">
+<span class="opt" aria-current="true">综合排序</span><span class="opt">距离最近</span><span class="opt">评分最高</span><span class="opt">价格最低</span>
+<span class="filter" data-active="false">筛选<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--c-ink-2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></svg></span>
+</div></div>
+<div class="scroll" data-component="ServiceList" data-state="typical"><div class="list"><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">日常保洁 · 3 小时</div><div class="dist num">1.2 km</div></div>
+<div class="row meta"><span>拾光自营保洁队</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.9</span><span class="served num">已服务 12,480 次</span></div>
+<div class="tags"><span class="tag" data-kind="guarantee"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.5-3 7.7-7 9.5-4-1.8-7-5-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>平台担保</span><span class="tag">自带工具</span></div>
+<div class="row foot">
+<div class="slot" data-day="today">最近可约<span class="today">今天</span><b class="num">16:00</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">129</span><span class="suf">起</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">空调清洗（挂机）</div><div class="dist num">2.6 km</div></div>
+<div class="row meta"><span>蓝鲸家电清洗</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.8</span><span class="served num">已服务 3,216 次</span></div>
+<div class="tags"><span class="tag">高温蒸汽</span><span class="tag">可开发票</span></div>
+<div class="row foot">
+<div class="slot" data-day="later">最近可约<b>明天</b><b class="num">09:00</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">89</span><span class="suf">/ 台</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">油烟机深度清洗</div><div class="dist num">2.6 km</div></div>
+<div class="row meta"><span>蓝鲸家电清洗</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.7</span><span class="served num">已服务 1,905 次</span></div>
+<div class="tags"><span class="tag">拆洗</span><span class="tag">可开发票</span></div>
+<div class="row foot">
+<div class="slot" data-day="later">最近可约<b>明天</b><b class="num">14:00</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">159</span><span class="suf">/ 台</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">水龙头 / 花洒维修</div><div class="dist num">0.8 km</div></div>
+<div class="row meta"><span>邻家师傅 · 张师傅</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.9</span><span class="served num">已服务 862 次</span></div>
+<div class="tags"><span class="tag">30 分钟响应</span></div>
+<div class="row foot">
+<div class="slot" data-day="today">最近可约<span class="today">今天</span><b class="num">18:30</b></div>
+<div class="price num" data-component="Price"><span class="pre">上门费</span><span class="cur">¥</span><span class="amt">50</span><span class="suf">材料另计</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">马桶疏通</div><div class="dist num">3.4 km</div></div>
+<div class="row meta"><span>通畅管道服务</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.6</span><span class="served num">已服务 2,337 次</span></div>
+<div class="tags"><span class="tag" data-kind="guarantee"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.5-3 7.7-7 9.5-4-1.8-7-5-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>不通不收费</span></div>
+<div class="row foot">
+<div class="slot" data-day="today">最近可约<span class="today">今天</span><b class="num">17:00</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">80</span><span class="suf">起</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">衣橱收纳整理</div><div class="dist num">4.1 km</div></div>
+<div class="row meta"><span>有序空间收纳</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>5.0</span><span class="served num">已服务 214 次</span></div>
+<div class="tags"><span class="tag">女性整理师</span></div>
+<div class="row foot">
+<div class="slot" data-day="later">最近可约<b>9/29 周二</b><b class="num">10:00</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">399</span><span class="suf">/ 4 小时</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">新房开荒保洁</div><div class="dist num">1.2 km</div></div>
+<div class="row meta"><span>拾光自营保洁队</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.8</span><span class="served num">已服务 1,066 次</span></div>
+<div class="tags"><span class="tag" data-kind="guarantee"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 4.5-3 7.7-7 9.5-4-1.8-7-5-7-9.5V6z"/><path d="M9 12l2 2 4-4"/></svg>平台担保</span></div>
+<div class="row foot">
+<div class="slot" data-day="later">最近可约<b>9/30 周三</b><b class="num">09:00</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">8</span><span class="suf">/ ㎡ 起</span></div>
+</div></div><div class="card" data-component="ServiceCard">
+<div class="row"><div class="name">滚筒洗衣机清洗</div><div class="dist num">5.2 km</div></div>
+<div class="row meta"><span>洁程家电服务</span><span class="sep"></span><span class="rating num"><svg width="13" height="13" viewBox="0 0 24 24" fill="var(--c-star)"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.5</span><span class="served num">已服务 598 次</span></div>
+<div class="tags"><span class="tag">可开发票</span></div>
+<div class="row foot">
+<div class="slot" data-day="later">最近可约<b>明天</b><b class="num">10:30</b></div>
+<div class="price num" data-component="Price"><span class="cur">¥</span><span class="amt">119</span><span class="suf">/ 台</span></div>
+</div></div></div></div>
+<div class="tabbar" data-component="NativeTabBar">
+<div class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-tab-idle)" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20H4z"/><path d="M10 20v-5h4v5"/></svg>首页</div>
+<div class="tab" aria-current="page"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2" fill="var(--c-brand)"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="2" fill="var(--c-brand)"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="2" fill="var(--c-brand)"/><circle cx="16.75" cy="16.75" r="3.9" fill="var(--c-brand)"/></svg>服务</div>
+<div class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-tab-idle)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>订单</div>
+<div class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-tab-idle)" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-3.8 4.1-5.5 7.5-5.5s6.3 1.7 7.5 5.5"/></svg>我的</div>
+</div><div class="safe" data-component="HomeIndicator"><i></i></div></div></body></html>

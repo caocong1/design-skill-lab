@@ -1,0 +1,71 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "no-skill",
+  "model": "claude-opus-5-5",
+  "start": 1790505600,
+  "end": 1790505881,
+  "wall_seconds": 281,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:40:00+00:00",
+  "end_iso": "2026-09-27T10:44:41+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": null
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 14,
+  "duration_api_ms": 269347,
+  "dollars": 1.0012,
+  "tokens": {
+    "input": 22,
+    "output": 27878,
+    "thinking": 10287,
+    "cache_read": 407448,
+    "cache_creation": 45262
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 22,
+    "output": 27878,
+    "thinking": 10287,
+    "cache_read": 407448,
+    "cache_creation": 45262
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 22,
+      "outputTokens": 27878,
+      "cacheReadInputTokens": 407448,
+      "cacheCreationInputTokens": 45262,
+      "webSearchRequests": 0,
+      "costUSD": 1.0012336,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 10287,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/04-miniprogram-list-zh.no-skill.transcript.jsonl",
+    "sha256": "d91dbc97f4761cac7d740c0d2f22b31ab705f9069f3d494e8e46e0db40260c3e",
+    "bytes": 2732029
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

@@ -1,0 +1,73 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.8.0",
+  "model": "claude-opus-5-5",
+  "start": 1790505574,
+  "end": 1790506451,
+  "wall_seconds": 877,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:39:34+00:00",
+  "end_iso": "2026-09-27T10:54:11+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0/skills"
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 4,
+  "duration_api_ms": 894841,
+  "dollars": 4.7905,
+  "tokens": {
+    "input": 150,
+    "output": 84239,
+    "thinking": 32767,
+    "cache_read": 7421102,
+    "cache_creation": 222154
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 8,
+    "output": 3094,
+    "thinking": 174,
+    "cache_read": 534487,
+    "cache_creation": 4900
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 150,
+      "outputTokens": 84239,
+      "cacheReadInputTokens": 7421102,
+      "cacheCreationInputTokens": 222154,
+      "webSearchRequests": 0,
+      "costUSD": 4.7904754,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 32767,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 1,
+    "completed": 1,
+    "failed": 0,
+    "max_depth": 1,
+    "by_type": {
+      "general-purpose": 1
+    }
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/03-ios-consumer-screen.suite-0.8.0.transcript.jsonl",
+    "sha256": "389e63ec67f5a74dd74bc6ea5d6c76447295b0a534b7b3f9d423dac3987c2536",
+    "bytes": 8394979
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

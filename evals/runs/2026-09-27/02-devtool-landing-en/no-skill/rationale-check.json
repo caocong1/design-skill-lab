@@ -1,0 +1,92 @@
+{
+  "brief": "02-devtool-landing-en",
+  "checked": "2026-09-27",
+  "method": "judging.md section 10: claims from the arm's own notes checked against its canonical renders in render/ and facts.json; the checker does not score or compare arms",
+  "rationale_files": [
+    "out/NOTES.md"
+  ],
+  "rationale_md": "absent (optional for this brief)",
+  "arm": "no-skill",
+  "claims": [
+    {
+      "claim": "Headline uses the brief's message nearly verbatim (\"Your app's data lives on the device first.\"); the lede adds what it is (open-source, local-first SQL database) so the first screen answers \"what is it\" and \"how do I start\" (npm install + Get started).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png and mobile-01.png: H1 'Your app's data lives on the device first.', lede opens 'Driftless is an open-source, local-first SQL database', npm install box with Copy and a Get started button all in the first screen at both sizes."
+    },
+    {
+      "claim": "Code sample: same statements, identifiers and SQL as the brief, but line breaks rewrapped (max ~41 chars per line) so it stays legible at 390 px with no horizontal scroll and no clipping.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png shows all 19 lines with the brief's statements and identifiers; mobile-01.png/mobile-02.png show the same 19 lines with no line wrapped or cut at 390; facts.json horizontal_overflow false at 390x844@2. The rewrap applies on desktop too."
+    },
+    {
+      "claim": "Swift and Gradle install lines live in the \"Get started\" block near the end; the hero shows only the npm command with a pointer to the others.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png hero: npm only plus 'Swift and Gradle packages below'; desktop-06.png/desktop-07.png and mobile-10.png: Get started block lists npm, Swift Package Manager and Gradle lines."
+    },
+    {
+      "claim": "Step 2 and step 3 illustrations (a \"title\"/\"done\" row merged per column; a shape WHERE team_id = ? relaying to two of three devices); the 0.8 ms figure is shown under step 1.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-02.png and mobile-03.png/mobile-04.png: step 1 shows 'local write · p50 0.8 ms'; step 2 table Laptop/Phone/Merged over title and done columns; step 3 'shape: WHERE team_id = ?' with Browser team 7 and Android team 7 ticked and Desktop team 9 dashed."
+    },
+    {
+      "claim": "\"Works offline\" card says changes \"sync when the network returns\"; \"690 KB in the browser\" card says storage is OPFS and data persists between sessions.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-04.png and mobile-06.png: both cards carry that wording."
+    },
+    {
+      "claim": "Pricing: Cloud Pro is visually outlined because it is the paid self-serve plan; no \"most popular\" or similar claim is made.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-05.png and mobile-07.png/mobile-08.png: Pro card has a heavy dark outline and the only filled CTA ('Start with Pro'); no badge or 'popular/recommended' text anywhere in the frames."
+    },
+    {
+      "claim": "Plan rows are ordered so synced data / devices / support line up between Hobby and Pro.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-05.png: row 1 '1 GB' / '25 GB synced data', row 2 '500' / '25,000 monthly active devices', row 4 'Community support' / 'Email support'."
+    },
+    {
+      "claim": "On mobile the plans are titled \"Cloud Hobby / Cloud Pro / Cloud Enterprise\" instead of a separate \"Driftless Cloud\" label.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "mobile-07.png/mobile-08.png: titles 'Cloud Hobby', 'Cloud Pro', 'Cloud Enterprise' with no eyebrow; desktop-05.png keeps the 'DRIFTLESS CLOUD' eyebrow."
+    },
+    {
+      "claim": "Nav on mobile collapses to logo + Get started + a menu button (simple JS toggle); all page content is visible without interaction.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "mobile-01.png: header shows logo, Get started and a hamburger button; the header stays on every mobile frame (mobile-02..10.png), and every section renders open in the static frames. The toggle itself is behaviour a static render cannot show."
+    },
+    {
+      "claim": "Mobile page was kept under ~8,100 CSS px so the full-page 2x capture fits in the 10 reviewed screens.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "facts/render.json: mobile page height 8055 px, 10 frames, truncated false; mobile-10.png ends at the footer."
+    },
+    {
+      "claim": "Social proof used is only the listed 18.4k stars, 236 contributors and 1.2M npm downloads/month (Aug 2026).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "desktop-01.png and mobile-02.png: exactly those three figures, plus the GitHub 18.4k count in the desktop nav; no logos, quotes or testimonials in any frame."
+    },
+    {
+      "claim": "All graphics (logo mark, contour-line background, icons, diagrams) are hand-made inline SVG/HTML; fonts are Geist and Geist Mono.",
+      "source": "out/NOTES.md",
+      "status": "not checkable",
+      "evidence": "The logo mark, contour-line background (desktop-01.png, mobile-01.png), icons and diagrams are on screen, but how they were made and which font files loaded are process and provenance, not visible in a render."
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 0,
+    "not_checkable": 1
+  },
+  "report": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "notes": "The arm makes no contrast claim, so nothing is contradicted there; for the record, facts.json has 2 text nodes below AA at both sizes (4.24:1, 12.5px #b8561b on #f4f1ea, the orange 'Q3 roadmap' and '1' cells in the step 2 merge table, desktop-02.png, mobile-03.png). Link targets being placeholders, the Playwright render process and the Octicon licence are not visual claims and were not counted."
+}

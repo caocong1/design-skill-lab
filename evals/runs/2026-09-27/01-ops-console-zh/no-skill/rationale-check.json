@@ -1,0 +1,82 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "no-skill",
+  "checked": "2026-09-27",
+  "method": "judging.md section 10: claims from the arm's own notes checked against render/*.png (canonical renders) and facts.json; no scoring, no comparison with other arms",
+  "sources": [
+    "out/NOTES.md (no out/rationale.md; no other notes in out/)"
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 0,
+    "not_checkable": 1
+  },
+  "summary": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "claims": [
+    {
+      "claim": "设备（编号/名称）、位置（厂区/区域）、创建/更新时间（日期/时间）、SLA（剩余量/时限类型）都拆成两行显示",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: every row stacks ZS-03-117 / 注塑机, 一厂 / A区 · 注塑线3, 09-27 / 09:12, 剩 3时30分 / 修复时限"
+    },
+    {
+      "claim": "「修复剩 3时30分」显示为「剩 3时30分」+ 下方小字「修复时限」；「剩 2天」「剩 6天」原文没写时限类型，所以不加下方小字",
+      "verdict": "verified",
+      "evidence": "render/list-01.png row 0413 剩 3时30分 over 修复时限; row 0387 剩 2天 and render/list-02.png row 0333 剩 6天 have no sub-label"
+    },
+    {
+      "claim": "已超时的行在行首加一条红色竖线，SLA 文字用红色加警告图标；剩余不到 1 小时的（响应剩 35分）用琥珀色加时钟图标",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: rows 0402 and 0371 have a red left bar and red 已超时 text with triangle icon; row 0409 剩 35分 amber with clock icon"
+    },
+    {
+      "claim": "优先级徽标 = 文字（P1 紧急 等）+ 信号格数量（4/3/2/1 格）+ 颜色；状态 = 文字 + 各自的图标 + 颜色",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: P1 紧急 / P2 高 / P3 中 / P4 低 badges carry signal-bar glyphs with decreasing filled bars; each status (处理中, 已派单, 待派单, 待验收, 已挂起, 已关闭) has its own icon plus text"
+    },
+    {
+      "claim": "「已挂起（等备件）」显示为状态「已挂起」，下方小字写「等备件」；待派单的工单负责人为空，显示「未指派」",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: row 0380 已挂起 over 等备件; row 0402 负责人 cell reads 未指派"
+    },
+    {
+      "claim": "「关键词」放在第一个；日期范围用一个组合控件……不放「查询」按钮，只放「重置 / 清除筛选」；「列设置」放在表格工具栏右侧；「默认排序：创建时间倒序」同时标在工具栏上和「创建时间」列头上；1,286 / 15 = 86 页",
+      "verdict": "verified",
+      "evidence": "render/list-01.png: 关键词 is the first filter, 创建时间 开始日期 ~ 结束日期 is one control, only 重置 at the right (清除筛选 on render/list-empty-01.png), 默认排序：创建时间倒序 + 列设置 at toolbar right, 创建时间 header in accent with sort arrow; render/list-02.png pagination ends at 86. That filters apply immediately is behaviour and not checkable."
+    },
+    {
+      "claim": "空状态：三个筛选条件在筛选栏中高亮，也在空状态里以可移除的标签列出；主要操作是「清除全部筛选」。快捷视图的数量……照常显示",
+      "verdict": "verified",
+      "evidence": "render/list-empty-01.png: 状态 待验收, 厂区/产线 二厂, 负责人 王建国 highlighted in the filter bar; chips 厂区/产线：二厂 ×, 状态：待验收 ×, 负责人：王建国 × in the empty state; primary button 清除全部筛选; tabs still show 1,286 / 23 / 7 / 4 / 12"
+    },
+    {
+      "claim": "加载中：快捷视图数量、表格行和分页都显示骨架占位；筛选控件保持可用；工具栏写「正在加载工单…」",
+      "verdict": "verified",
+      "evidence": "render/list-loading-01.png: tab counts are grey pills, toolbar reads 正在加载工单…, filter controls drawn in their normal state; render/list-loading-02.png: 15 skeleton rows and skeleton bars in the pagination row"
+    },
+    {
+      "claim": "出错：快捷视图数量……照常显示；表格区域显示错误代码、请求编号、发生时间（写成完整日期 2026-09-27 09:42:17），并提供「重新加载」按钮和联系管理员的提示。出错时不显示分页",
+      "verdict": "verified",
+      "evidence": "render/list-error-01.png: tabs show 1,286 / 23 / 7 / 4 / 12; block lists 错误代码 HTTP 502, 请求编号 7f3a-91c2-0d44, 发生时间 2026-09-27 09:42:17; 重新加载 button; line 多次重试仍失败时，请把请求编号发给系统管理员排查; no pagination row"
+    },
+    {
+      "claim": "详情页实时读数表格加了「判定」列（超上限 13.4 °C / 3.5 °C）",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: 实时读数 table has a 判定 column with 超上限 13.4 °C and 超上限 3.5 °C (icon + text on red tint) and 正常 for the other two"
+    },
+    {
+      "claim": "趋势图：单条折线，用虚线标出 55 °C 报警阈值，阈值以上区域加了浅红底色；另用一条竖线标出 09:12 创建工单",
+      "verdict": "verified",
+      "evidence": "render/detail-01.png: one line, dashed red line labelled 阈值 55, pale red band above it, vertical line labelled 09:12 创建工单; only the end value 68.4 °C is labelled"
+    },
+    {
+      "claim": "悬停时显示十字线和数值提示",
+      "verdict": "not checkable",
+      "evidence": "Hover behaviour; a static render cannot show it."
+    }
+  ],
+  "notes": [
+    "Also verified but not listed: 修复 SLA progress bar at about 12.5% (render/detail-01.png, fill ends near 1/8 of the track); 3 photo placeholders with captions 冷却器外观 / 滤网 / 温控表 (render/detail-02.png); top bar shows 2026-09-27 周日 09:42 on every page; header checkbox shows the partial state with 2 rows selected (render/list-01.png).",
+    "详情页「更多」下拉: render/detail-01.png shows only the collapsed 更多 button, as the note says, so 打印工单 / 复制链接 / 关闭工单 are not visible in any render. The note is accurate about this.",
+    "The notes make no contrast claim. facts.json: 0 contrast failures and 0 targets under 24 px on all five pages (lowest 4.69:1)."
+  ]
+}

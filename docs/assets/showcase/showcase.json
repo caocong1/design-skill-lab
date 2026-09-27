@@ -1,5 +1,461 @@
 {
   "updated": "2026-09-27",
-  "note": "Eval scoreboard feed for /skills/ (runs, shape in README.md). The dated artifacts are written into the pages as static HTML and linked relatively to the files in this folder.",
-  "runs": []
+  "note": "Eval scoreboard feed for /skills/ (runs and triggers, shape in README.md). runs are copied from evals/runs/<date>/results.json without recomputing; triggers from the triggers-<suite>.md role view. The dated artifacts are written into the pages as static HTML and linked relatively to the files in this folder.",
+  "runs": [
+    {
+      "date": "2026-09-27",
+      "brief": "01-ops-console-zh",
+      "title_zh": "设备运维工单",
+      "title_en": "Ops tickets console",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4.33,
+            "hierarchy": 4.33,
+            "identity": 3,
+            "craft": 3.67,
+            "typography": 3.67,
+            "platform_a11y": 4.67,
+            "overall": 3.94
+          }
+        },
+        "suite-0.7.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 3.67,
+            "overall": 3.78
+          }
+        },
+        "suite-0.8.0": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 5,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4.33,
+            "platform_a11y": 4.67,
+            "overall": 4.33
+          }
+        }
+      },
+      "winner": "suite-0.8.0",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-27-evals/01-ops-console-zh/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "工单列表首屏：浅色侧栏，表格一屏约 11 行，逾期行左侧红条",
+          "alt_en": "Ticket list first screen: light sidebar, about 11 rows, overdue rows marked with a red edge"
+        },
+        "suite-0.7.0": {
+          "src": "assets/showcase/2026-09-27-evals/01-ops-console-zh/suite-0.7.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "工单列表首屏：深青色侧栏，选中两行底色加深，批量操作条在表格上方",
+          "alt_en": "Ticket list first screen: dark teal sidebar, two selected rows tinted, batch bar above the table"
+        },
+        "suite-0.8.0": {
+          "src": "assets/showcase/2026-09-27-evals/01-ops-console-zh/suite-0.8.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "工单列表首屏：浅色侧栏，批量条写着已选 2 项并可选择全部 1,286 项",
+          "alt_en": "Ticket list first screen: light sidebar, batch bar reads 2 selected with select all 1,286"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md"
+    },
+    {
+      "date": "2026-09-27",
+      "brief": "02-devtool-landing-en",
+      "title_zh": "开发者工具落地页",
+      "title_en": "Dev-tool landing page",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 5,
+            "identity": 4,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4,
+            "overall": 4.33
+          }
+        },
+        "suite-0.7.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 3.67,
+            "platform_a11y": 4,
+            "overall": 3.78
+          }
+        },
+        "suite-0.8.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4.33,
+            "hierarchy": 4,
+            "identity": 4.33,
+            "craft": 3.33,
+            "typography": 4,
+            "platform_a11y": 4.33,
+            "overall": 4.06
+          }
+        }
+      },
+      "winner": "no-skill",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-27-evals/02-devtool-landing-en/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "落地页桌面首屏：暖色纸底，绿色强调的大标题，右侧完整代码示例",
+          "alt_en": "Landing page desktop first screen: warm paper ground, large headline with a green accent, full code sample on the right"
+        },
+        "suite-0.7.0": {
+          "src": "assets/showcase/2026-09-27-evals/02-devtool-landing-en/suite-0.7.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "落地页桌面首屏：浅灰蓝底，居中标题，下方代码面板和三项数据",
+          "alt_en": "Landing page desktop first screen: pale slate ground, centred headline, code panel and three figures below"
+        },
+        "suite-0.8.0": {
+          "src": "assets/showcase/2026-09-27-evals/02-devtool-landing-en/suite-0.8.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "落地页桌面首屏：白底特大黑色标题，右侧代码面板在首屏底部被截断",
+          "alt_en": "Landing page desktop first screen: white ground, oversized black headline, code panel on the right cut at the fold"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md",
+      "note_zh": "两个套件组都以 0:3 输给不装 skill 的一组：首屏代码示例和手机端内容是决定性差别。",
+      "note_en": "Both suite arms lost 0-3 to no skill: the first-screen code sample and mobile content decided it."
+    },
+    {
+      "date": "2026-09-27",
+      "brief": "03-ios-consumer-screen",
+      "title_zh": "iOS 阅读习惯 App",
+      "title_en": "iOS reading app",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4,
+            "overall": 3.83
+          }
+        },
+        "suite-0.7.0": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 4,
+            "identity": 3.67,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4,
+            "overall": 4.11
+          }
+        },
+        "suite-0.8.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4.33,
+            "hierarchy": 4,
+            "identity": 4.33,
+            "craft": 4,
+            "typography": 4.67,
+            "platform_a11y": 3.33,
+            "overall": 4.11
+          }
+        }
+      },
+      "winner": "suite-0.7.0",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-27-evals/03-ios-consumer-screen/no-skill.webp",
+          "w": 603,
+          "h": 1311,
+          "alt_zh": "iOS 今日页：锈红进度环、本周柱状图，Middlemarch 卡片里的开始阅读按钮",
+          "alt_en": "iOS Today screen: rust progress ring, week bars, Start Session inside the Middlemarch card"
+        },
+        "suite-0.7.0": {
+          "src": "assets/showcase/2026-09-27-evals/03-ios-consumer-screen/suite-0.7.0.webp",
+          "w": 603,
+          "h": 1311,
+          "alt_zh": "iOS 今日页：绿色进度环和柱状图，开始阅读与记录页数两个按钮，下方三本书的列表",
+          "alt_en": "iOS Today screen: green ring and bars, Start session and Log pages buttons, a list of three books below"
+        },
+        "suite-0.8.0": {
+          "src": "assets/showcase/2026-09-27-evals/03-ios-consumer-screen/suite-0.8.0.webp",
+          "w": 603,
+          "h": 1311,
+          "alt_zh": "iOS 今日页：暖色纸底，衬线书名，大号开始阅读按钮，每本书旁一个小号 Log 按钮",
+          "alt_en": "iOS Today screen: warm paper ground, serif book titles, a large Start Session button, a small Log capsule beside each book"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md",
+      "note_zh": "0.7.0 与 0.8.0 总分都是 4.1，按两两偏好 0.7.0 以 2:1 胜；0.8.0 有 5 个触控目标不到 44 pt。",
+      "note_en": "0.7.0 and 0.8.0 both score 4.1 overall; 0.7.0 wins the pair 2-1. 0.8.0 has 5 touch targets under 44 pt."
+    },
+    {
+      "date": "2026-09-27",
+      "brief": "04-miniprogram-list-zh",
+      "title_zh": "小程序上门服务列表",
+      "title_en": "Mini-program service list",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4.33,
+            "overall": 3.89
+          }
+        },
+        "suite-0.7.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 3.67,
+            "platform_a11y": 4,
+            "overall": 3.78
+          }
+        },
+        "suite-0.8.0": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 4.67,
+            "identity": 4,
+            "craft": 4,
+            "typography": 4.33,
+            "platform_a11y": 4,
+            "overall": 4.33
+          }
+        }
+      },
+      "winner": "suite-0.8.0",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-27-evals/04-miniprogram-list-zh/no-skill.webp",
+          "w": 563,
+          "h": 1219,
+          "alt_zh": "小程序服务列表：每张卡片左侧图标，底部一行最近可约时间和红色价格",
+          "alt_en": "Mini-program service list: an icon tile on each card, next available time and a red price along the bottom"
+        },
+        "suite-0.7.0": {
+          "src": "assets/showcase/2026-09-27-evals/04-miniprogram-list-zh/suite-0.7.0.webp",
+          "w": 563,
+          "h": 1219,
+          "alt_zh": "小程序服务列表：胶囊形分类标签，卡片底部最近可约时间和价格",
+          "alt_en": "Mini-program service list: pill category tabs, next available time and price at the foot of each card"
+        },
+        "suite-0.8.0": {
+          "src": "assets/showcase/2026-09-27-evals/04-miniprogram-list-zh/suite-0.8.0.webp",
+          "w": 563,
+          "h": 1219,
+          "alt_zh": "小程序服务列表：每张卡片以大号时间块开头（今天 16:00 可上门），首屏放下四个服务",
+          "alt_en": "Mini-program service list: each card leads with a large time block (today 16:00), four services on the first screen"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md"
+    },
+    {
+      "date": "2026-09-27",
+      "brief": "05-agent-approvals",
+      "title_zh": "agent 运行与审批",
+      "title_en": "Agent run and approval",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4.67,
+            "hierarchy": 4.33,
+            "identity": 3,
+            "craft": 4.33,
+            "typography": 4,
+            "platform_a11y": 4.67,
+            "overall": 4.17
+          }
+        },
+        "suite-0.7.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4.33,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4.33,
+            "overall": 3.94
+          }
+        },
+        "suite-0.8.0": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 5,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4.33,
+            "platform_a11y": 4.67,
+            "overall": 4.33
+          }
+        }
+      },
+      "winner": "suite-0.8.0",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-27-evals/05-agent-approvals/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "agent 审批页首屏：审批卡片在最上方，下面是变更银行账户的警告和收款方表格，右侧是计划栏",
+          "alt_en": "Agent approval first screen: the approval card on top, the changed-bank-account warning and payee table below, plan rail on the right"
+        },
+        "suite-0.7.0": {
+          "src": "assets/showcase/2026-09-27-evals/05-agent-approvals/suite-0.7.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "agent 审批页首屏：深色侧栏，等待审批横幅，审批卡片和收款方表格",
+          "alt_en": "Agent approval first screen: dark sidebar, a waiting-for-approval banner, approval card and payee table"
+        },
+        "suite-0.8.0": {
+          "src": "assets/showcase/2026-09-27-evals/05-agent-approvals/suite-0.8.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "agent 审批页首屏：顶部是已完成、等待中、你要做的三栏状态条，下面是计划步骤，审批卡片从首屏下部开始",
+          "alt_en": "Agent approval first screen: a Done, Waiting, Your part strip on top, plan steps below, the approval card starting low on the screen"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md",
+      "note_zh": "评审按视角分歧：产品评审偏好另两组，因为 0.8.0 的审批决定落在第二屏。",
+      "note_en": "Judges split by lens: the product judge preferred the other two, because 0.8.0 puts the decision on the second screen."
+    },
+    {
+      "date": "2026-09-27",
+      "brief": "06-redesign-legacy",
+      "title_zh": "旧诊所排班重设计",
+      "title_en": "Legacy clinic scheduler redesign",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4,
+            "overall": 3.83
+          }
+        },
+        "suite-0.7.0": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 4,
+            "identity": 3.33,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 5,
+            "overall": 4.22
+          }
+        },
+        "suite-0.8.0": {
+          "status": "ok",
+          "means": {
+            "fit": 4.33,
+            "hierarchy": 4,
+            "identity": 3.33,
+            "craft": 3,
+            "typography": 4,
+            "platform_a11y": 4.33,
+            "overall": 3.83
+          }
+        }
+      },
+      "winner": "suite-0.7.0",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-27-evals/06-redesign-legacy/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "诊所日视图：左侧候诊栏，中间四位医生的时间网格，右侧患者面板",
+          "alt_en": "Clinic day view: waiting-room rail on the left, a time grid for four clinicians, patient panel on the right"
+        },
+        "suite-0.7.0": {
+          "src": "assets/showcase/2026-09-27-evals/06-redesign-legacy/suite-0.7.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "诊所日视图：网格里 10:15 的重复预约用红框标出，底部有状态图例",
+          "alt_en": "Clinic day view: the 10:15 double booking framed in red in the grid, status key along the bottom"
+        },
+        "suite-0.8.0": {
+          "src": "assets/showcase/2026-09-27-evals/06-redesign-legacy/suite-0.8.0.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "诊所日视图：顶部计数，左侧候诊与需处理栏，预约卡片用色条区分类型，右侧大号完成签到按钮",
+          "alt_en": "Clinic day view: counts on top, waiting and needs-attention rail on the left, cards typed by colour stripe, a large Finish Check In button on the right"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md",
+      "note_zh": "旧界面本身总分 1.9；三组都把 74 项旧功能放上屏幕或说明了去向。",
+      "note_en": "The legacy screen scores 1.9 overall; all three arms put every one of the 74 legacy functions on screen or accounted for it."
+    }
+  ],
+  "triggers": [
+    {
+      "date": "2026-09-27",
+      "suite": "0.8.0",
+      "method": "proxy",
+      "accuracy": 1.0,
+      "majority_accuracy": 1.0,
+      "rows": 99,
+      "samples": 297,
+      "misrouted": [],
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/triggers-0.8.0.md"
+    },
+    {
+      "date": "2026-09-27",
+      "suite": "0.7.0",
+      "method": "proxy",
+      "accuracy": 0.99,
+      "majority_accuracy": 0.99,
+      "rows": 99,
+      "samples": 297,
+      "misrouted": [
+        "t041",
+        "t042"
+      ],
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/triggers-0.7.0.md"
+    }
+  ]
 }

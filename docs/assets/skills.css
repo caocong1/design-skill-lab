@@ -285,6 +285,9 @@
 .ev-row figure { min-width: 0; }
 .ev-row figcaption { margin-top: 4px; font-size: var(--fs-1); color: var(--ink-2); }
 .ev-row figcaption b { color: var(--ink); }
+.ev-trig { margin-top: var(--sp-6); max-width: 48rem; }
+.ev-trig .sub-h { margin-top: 0; }
+.ev-note { margin-top: var(--sp-2); font-size: var(--fs-1); line-height: 1.6; color: var(--ink-2); }
 .ev-old summary { cursor: pointer; min-height: 32px; font-size: var(--fs-2); font-weight: 600; }
 @media (max-width: 1099px) { .ev-pending, .ev-tables { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); } }
 @media (max-width: 720px) { .ev-row { grid-template-columns: minmax(0, 1fr); } }

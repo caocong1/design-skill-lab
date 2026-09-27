@@ -1,0 +1,115 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "suite-0.8.0",
+  "label": "C",
+  "check": "rationale-vs-render (evals/judging.md section 10)",
+  "rationale_sources": [
+    "out/NOTES.md"
+  ],
+  "inputs": {
+    "renders": "render/*.png",
+    "facts": "facts.json"
+  },
+  "claims": [
+    {
+      "id": 1,
+      "claim": "Surface: ... shown as a full page inside the Fernhill app frame. The sidebar nav and the company and user stay visible.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "All 10 frames: sidebar with Larkspur Outdoor Co. company block, Assistant highlighted, Dana Whitlock · Controller at the bottom."
+    },
+    {
+      "id": 2,
+      "claim": "Hierarchy on every moment: 1) run header with a status chip and a Done / Now (or Waiting, Failed) / Your part strip; 2) the plan, with the active step expanded in place (progress, approval card, error card); 3) a side column with the request, what the assistant may do, the scope and the audit log.",
+      "source": "out/NOTES.md",
+      "status": "contradicted",
+      "evidence": "Holds on run-progress-01.png, run-approval-01.png and run-error-01.png. run-result-01.png contradicts 'every moment': the header has the 'Completed' chip but no Done / Now / Your part strip (three Scheduled / Held / Reconciled tiles instead), the plan becomes a compact 'What the assistant did' list at the bottom (run-result-03.png), and the side column shows Records for your auditors, Approval and Your request, without 'What the assistant may do' or 'Scope'.",
+      "note": "Contradicted for 1 of 4 moments (the result); the other three match."
+    },
+    {
+      "id": 3,
+      "claim": "The one idea: the plan reads like a ledger in which every step declares its reach: 'Read only', 'Moves money · needs your approval before anything is sent', 'Writes a summary to the August close checklist'. Totals use the accountant's single rule over a double rule.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-02.png: steps 1-3 'Read only', step 4 'Moves money · needs your approval before anything is sent', step 5 'Writes a summary to the August close checklist'. run-approval-02.png and run-result-02.png: single rule above the total row, double rule below it. run-result-03.png: reach carried into the result list ('Moved money · approved by you', 'Wrote to the close checklist')."
+    },
+    {
+      "id": 4,
+      "claim": "Status is never colour alone. Each state has a coloured chip, an icon (check, arrow, pause, ×, clock) and a word, and the step marker changes shape too (filled check, ring, pause, ×, hollow number).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Chips: 'Done' check, 'Running' arrow (run-progress-01.png), 'Needs your approval' pause (run-approval-01.png), 'Failed' x, 'Waiting' pause (run-error-01.png, run-error-02.png), 'Not started' clock (run-progress-02.png). Markers: filled check, partial ring with 3, pause circle, red x, hollow numbers 4/5."
+    },
+    {
+      "id": 5,
+      "claim": "Type: system UI stack (SF on macOS) with tabular figures; monospace only for tool names such as bills.list.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Monospace appears only for tool names (bills.list, bank_feed.fetch, payments.create_batch); invoice IDs are set in grey sans (run-approval-02.png, run-result-02.png); amounts align right in even columns.",
+      "note": "The font source (system stack, no web fonts) is not provable from pixels; the visible behaviour matches."
+    },
+    {
+      "id": 6,
+      "claim": "AI identity: a plain 'AI' badge next to 'Fernhill Assistant' plus a one-line caveat in the side panel. No sparkles or violet.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-01.png: green 'AI' badge before 'Fernhill Assistant · run'; run-progress-02.png: 'Fernhill Assistant is AI. It can make mistakes; check flagged numbers before acting on them.' No sparkle icon or violet in any frame (the Assistant nav icon is a speech bubble)."
+    },
+    {
+      "id": 7,
+      "claim": "Every text pair computed ≥ 4.5:1 (color_tools.py).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "facts.json: 0 contrast failures on all four files; lowest_contrast 4.55."
+    },
+    {
+      "id": 8,
+      "claim": "Moment 2 shows the 4 flagged invoices by name in step 3 ... 'Approve without Oakridge' the primary button ... 'Approve and schedule all 7' sits beside it with equal size ... the Oakridge warning moved above the payee table; 'Go to the decision ↓' links added in the Your part cell.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-01.png: step 3 'Flagged: Calder Freight Co. INV-2291 · Pellucid Cloud INV-88120 · Marisol Catering INV-4410 · Brightline Janitorial INV-7702'; 'Go to the decision ↓' in Your part. run-approval-02.png: warning box above the payee table; filled 'Approve without Oakridge' and outlined 'Approve and schedule all 7' side by side at the same size, 'Edit batch...' and 'Reject' below with consequences."
+    },
+    {
+      "id": 9,
+      "claim": "Deliberately left: in Moment 2 the approve buttons sit below the payee table (y ≈ 1430). Dana reads account, date, undo window and the Oakridge warning above the fold, then the payees, then decides.",
+      "source": "out/NOTES.md",
+      "status": "contradicted",
+      "evidence": "run-approval-01.png: Pay from, Pay date and the start of the Undo cell ('Cancel until 5:00 pm ET, 29 Sep') are above the 900 px fold, but the Oakridge warning box begins at y≈32 in run-approval-02.png, i.e. about 932 px, below the fold. Approve buttons sit at about 1447 px, consistent with the stated ≈1430.",
+      "note": "Above the fold only the Your part strip hints at it ('One payee has new bank details'); the warning itself is not visible there."
+    },
+    {
+      "id": 10,
+      "claim": "Moment 3 ... shows step 1 only as 'Collected August vendor invoices' ... calls the run 'Paused at step 2 · needs you' ... the error choices lifted above the 900 px fold ... 'Stop the run' says nothing is matched, drafted or written.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-error-01.png: chip 'Paused at step 2 · needs you'; step 1 'Collected August vendor invoices', no figures; Retry now / Continue without card transactions / Stop the run buttons at y≈854-896, above the fold (their consequence text falls just below). run-error-02.png: 'Ends here. Nothing is matched, no payments are drafted and no summary is written.'"
+    },
+    {
+      "id": 11,
+      "claim": "Moment 4's '2 min 28 s waiting for your approval' ... lists the held Oakridge payment first under 'Needs your decision' with the 4 flags. The action buttons (Show number on file, Pay after confirming..., Ask for corrected invoice, Pay $252.00 difference..., Review refund email, Mark as matched / Keep flagged, It was paid another way... / Pay now...) ... the Calder row now shows the $252.00 difference; Held uses the amber state ... repeats the PB-0928 payee list with its total ... 'Cancel until 5:00 pm ET, 29 Sep' appears on the result too.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-result-01.png: '7 min 52 s, including 2 min 28 s waiting for your approval'; amber 'Held' tile and 'Held payment' label; 'Your part: needs your decision' with Oakridge first, then Calder ($252.00 difference), Pellucid, Marisol, Brightline and the listed buttons (run-result-02.png); 'Cancel until 5:00 pm ET, 29 Sep · Open PB-0928'. run-result-02.png: 'Scheduled in PB-0928' six payees, total $16,625.15."
+    },
+    {
+      "id": 12,
+      "claim": "The streaming line in Moment 1 is ... in the product ... a polite live region. No web fonts, so it works from file:// offline. lint.mjs floor passes ... Not verified: keyboard focus order and focus rings.",
+      "source": "out/NOTES.md",
+      "status": "not checkable",
+      "evidence": "Live-region semantics, font loading, lint results and focus behaviour cannot be seen in a static render."
+    }
+  ],
+  "counts": {
+    "verified": 9,
+    "contradicted": 2,
+    "not_checkable": 1
+  },
+  "report_line": "claims: 9 verified, 2 contradicted, 1 not checkable",
+  "contradicted": [
+    "Hierarchy on every moment: 1) run header with a status chip and a Done / Now (or Waiting, Failed) / Your part strip; 2) the plan, with the active step expanded in place (progress, approval card, error card); 3) a side column with the request, what the assistant may do, the scope and the audit log.",
+    "Deliberately left: in Moment 2 the approve buttons sit below the payee table (y ≈ 1430). Dana reads account, date, undo window and the Oakridge warning above the fold, then the payees, then decides."
+  ],
+  "functions": null,
+  "functions_note": "Function walk applies to brief 06 only.",
+  "notes": "Only out/NOTES.md carries rationale (no out/rationale.md; not required for brief 05). Stated page heights (progress 1395, approval 1892, error 1467, result 1899 px) match render/render.json. facts.json: 0 targets under 24 px on all four files. The top bar time shows seconds on progress and error (10:00:41, 10:00:47) but only minutes on approval and result (10:03, 10:07); not treated as a contradiction."
+}

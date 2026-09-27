@@ -1,0 +1,22 @@
+# Dogear — notes and assumptions
+
+- Each HTML file is self-contained (inline CSS and SVG, no external requests). They are generated from `../src/` by `node src/build.mjs`, which also renders the PNGs (Chrome, 402×874, DPR 2).
+- Type is the system font stack (`-apple-system` → SF Pro on macOS Chrome, `ui-rounded` for numerals, `ui-serif` / New York for covers and quotes). No web fonts are loaded.
+- iOS 26 idiom: a floating Liquid Glass tab bar (Today, Library, Stats) with Search as a separate circular glass button on the right, which is the iOS 26 search-tab pattern. There are also glass circular toolbar buttons, large titles, inset cards with ~26 pt corner radii, and capsule buttons.
+- The tab bar sits at y 774–836, above the 34 pt home-indicator zone, so nothing interactive is under the home indicator. The top toolbar row starts at y 62, below the status bar.
+- Glass surfaces are 80% white plus blur, and a scroll-edge fade makes the area behind the bar solid. This keeps tab labels above AA contrast whatever scrolls under them.
+- Accent colour is brick red #A8401F (6.1:1 on white, 5.5:1 on #F2F2F7; white on accent 6.1:1). Secondary text is #5E5E63 (≥5.3:1 on both backgrounds). iOS's default secondary grey (#8A8A8E) fails AA, so it is not used for text.
+- Text is at least 13 pt except the 10 pt tab labels, which is the iOS standard. Labels are near-black, and Dynamic Type users would get the system's larger tab bar.
+- Only light appearance is designed, as the brief specifies.
+- The Dynamic Island is drawn as a black pill so reviewers can see what it covers. The status bar shows 9:41, signal, Wi-Fi and a full battery.
+- Today: the goal ring, "8 min to go", the streak (4 days, best 23) and this week's minutes share one card so they read at a glance. Today's 12 min is labelled "Today". The dashed line marks the 20-min goal.
+- Today: "Continue Reading" puts Start Session and Log Pages on the last-read book (Middlemarch). Walden and The Pillow Book appear as compact cards with progress and last-session day. The recent highlight continues below the fold.
+- Today: the "+" toolbar button adds a book. The start session defaults to the most recently read book (my assumption).
+- Book detail is shown pushed inside the Library tab, so the tab bar stays visible with Library selected. The back button is the iOS 26 chevron-only glass circle.
+- Book detail: the "…" button holds the secondary actions (Mark as Finished, Edit Goal, Remove from Library) as an iOS pull-down menu. The menu is not drawn open.
+- Book detail: the brief's "At your pace: about 21 h left" is shown as "At Your Pace ~21 h left". Sessions list the four given entries, and "See All" leads to all 23. Both highlights (Chapter 20 p. 194, Chapter 21 p. 211) are in the scroll content below the first screen.
+- Book detail: the header has a soft green tint taken from the cover colour, like Apple Books/Music detail headers.
+- First run: the first step is the single filled button, Scan Barcode. Search by Title is secondary and Import from CSV File is tertiary. The daily goal shows the 20-minute preset with an iOS stepper. There is no streak, sessions or highlights.
+- The only derived number on screen is "8 min to go" (20 − 12). No weekly totals or averages are computed.
+- Book covers are designed placeholders I made in HTML/CSS (title in serif on a flat cloth colour). The empty-state illustration is my own inline SVG. No third-party images are used.
+- Copy added beyond the brief is interface text only ("Add Your First Book", "Start with the book you're reading now, paper or e‑book.", "You can change your goal anytime."). No data was invented.

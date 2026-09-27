@@ -1,0 +1,110 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "no-skill",
+  "label": "A",
+  "check": "rationale-vs-render (evals/judging.md section 10)",
+  "rationale_sources": [
+    "out/NOTES.md"
+  ],
+  "inputs": {
+    "renders": "render/*.png",
+    "facts": "facts.json"
+  },
+  "claims": [
+    {
+      "id": 1,
+      "claim": "Layout: full-page run view inside the Fernhill frame (left nav with Assistant current, top bar with company and user); main column for the plan or decision, right rail for run facts, permissions and audit info.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "All 8 frames: left nav with Assistant highlighted, top bar 'Larkspur Outdoor Co. · Dana Whitlock'; right rail 'This run', 'Tool calls so far', 'What the assistant may do' (run-progress-01.png), 'Approval record' and 'For your auditors' (run-result-01.png, run-result-02.png)."
+    },
+    {
+      "id": 2,
+      "claim": "Moment 2: the approval card is moved to the top of the main column (the full plan sits in the right rail)",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-01.png: 'Approve payment batch: 7 payments, $18,940.55' card opens the main column; right rail 'Plan · 3 of 5 done' lists all five steps."
+    },
+    {
+      "id": 3,
+      "claim": "...so the decision, account, date, total and Oakridge warning are visible above the fold.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-01.png: card title, Pay from Operating ••4417, Tue 29 Sep 2026 · ACH, Total $18,940.55 and the 'Check Oakridge Office Supply before paying' warning (y≈487-572) are all inside the first 900 px; the Oakridge row is also visible.",
+      "note": "The choice buttons themselves are not above the fold: they sit at roughly 1170-1320 px (run-approval-02.png). The claim holds if 'the decision' means the card and its subject."
+    },
+    {
+      "id": 4,
+      "claim": "'Approve without Oakridge' gets the primary button style ... 'Approve all 7' is still a full, clearly labelled option. Each approve button states its payment count and total; Reject and Edit batch are secondary. Reject's consequence (no payments, continue to step 5) is written next to it.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-02.png: filled green 'Approve without Oakridge · 6 payments · $16,625.15'; full-width outlined 'Approve and schedule all 7 · $18,940.55'; smaller outlined 'Edit batch' and 'Reject' with 'Reject: no payments are made; the assistant goes on to step 5.' beside them."
+    },
+    {
+      "id": 5,
+      "claim": "Step 5 is tagged 'Adds to close checklist' instead of 'Read only'",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-02.png and run-error-02.png: step 5 carries an 'Adds to close checklist' tag; steps 1-3 carry 'Read only'."
+    },
+    {
+      "id": 6,
+      "claim": "Moment 3: step 1 shows as done without numbers and the header shows only 'Updated 10:00:47'. 'Stop the run' explains that steps 3-5 won't run.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-error-01.png: step 1 'August vendor invoices collected from Bills', tool bills.list, no counts or duration; header right 'Updated 10:00:47'. run-error-02.png: 'Ends the run here. Steps 3-5 don't run, so nothing is matched, drafted or attached.'"
+    },
+    {
+      "id": 7,
+      "claim": "Moment 1: the tool-call list shows only the calls the brief names (bills.list, bank_feed.fetch ×2) ... no per-call durations are shown for the fetches.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-progress-01.png rail 'Tool calls so far · 3': bills.list · 1.2 s · read; bank_feed.fetch · Operating ••4417 · read; bank_feed.fetch · Card ••0385 · read (no durations). Step 2 shows only the combined '×2 · 4.8 s'."
+    },
+    {
+      "id": 8,
+      "claim": "Moment 2: 'Waiting for your approval' shows the current time (10:03:12) but not when the pause began.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-approval-01.png header: 'Paused · waiting for your approval', 'Started 10:00:00 · now 10:03:12'; no pause-start time anywhere on the page."
+    },
+    {
+      "id": 9,
+      "claim": "Moment 4: the action buttons map one-to-one to the suggested actions in the brief. For Oakridge ... the button opens the vendor record.",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-result-01.png, run-result-02.png: Oakridge 'Open vendor record'; Calder 'Request corrected invoice' + 'Pay $252.00 difference'; Pellucid 'Review refund email'; Marisol 'Mark as matched'; Brightline 'Mark paid another way' + 'Pay now'."
+    },
+    {
+      "id": 10,
+      "claim": "Moment 4: the scheduled-batch table lists the 6 approved payments from the Moment 2 batch minus Oakridge (total $16,625.15 checks out).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "run-result-02.png 'Payment batch PB-0928 · Scheduled': Brightline, Calder, Harrow & Pike, Northgate, Quillon, Tern; rows sum to $16,625.15, shown as the total, with 'Cancel batch'."
+    },
+    {
+      "id": 11,
+      "claim": "Status never relies on colour alone: every step and payment state has an icon plus a text label (Done / Running / Waiting for your approval / Failed / Not started / Held / Scheduled).",
+      "source": "out/NOTES.md",
+      "status": "verified",
+      "evidence": "Step labels pair check / spinner / pause / x / dotted-circle icons with words (run-progress-02.png, run-approval-01.png, run-error-02.png); 'Held · 1 payment' with pause icon and 'Scheduled' with check (run-result-01.png, run-result-02.png); flags use a triangle plus a text badge. facts.json: 0 contrast failures, lowest 5.18:1."
+    },
+    {
+      "id": 12,
+      "claim": "Fonts: Inter and JetBrains Mono from Google Fonts, with system fallbacks. There are no scripts; each HTML file is self-contained with inline CSS.",
+      "source": "out/NOTES.md",
+      "status": "not checkable",
+      "evidence": "The renders show a sans UI face and a monospace for invoice IDs and tool names, but the font family and the file structure are source facts a PNG cannot confirm."
+    }
+  ],
+  "counts": {
+    "verified": 11,
+    "contradicted": 0,
+    "not_checkable": 1
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "functions": null,
+  "functions_note": "Function walk applies to brief 06 only.",
+  "notes": "Only out/NOTES.md carries rationale (no out/rationale.md; not required for brief 05). No contrast or target numbers are claimed; facts.json shows 0 contrast failures (lowest 5.18:1) and 0 targets under 24 px on all four files. Canonical renders in render/ were used, not the arm's own out/png."
+}

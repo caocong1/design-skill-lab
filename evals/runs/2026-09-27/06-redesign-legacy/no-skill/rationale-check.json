@@ -1,0 +1,494 @@
+{
+  "brief": "06-redesign-legacy",
+  "arm": "no-skill",
+  "checker": "rationale-vs-render (judging.md section 10)",
+  "inputs": {
+    "rationale": [
+      "out/rationale.md",
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/schedule.png"
+    ],
+    "facts": "facts.json"
+  },
+  "claims": [
+    {
+      "claim": "Left column shows who is here: Waiting room with minutes waited, In a room, and Arriving next with a Check in button per row.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: left column lists WAITING ROOM 3 (Brennan 12 min, Chen 6 min, Natarajan 3 min), IN A ROOM 2 (Wright Room 7 9 min, Johansson Room 4 7 min) and ARRIVING NEXT with a Check in button on each of 4 rows."
+    },
+    {
+      "claim": "Patient search is the first and largest toolbar control",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: 'Find patient: name, DOB or MRN' is the leftmost toolbar control and the widest (about 300 px)."
+    },
+    {
+      "claim": "Grid colour means status, not type. Waiting is green and In room blue, with minutes. Unconfirmed is amber and dashed; cancelled is struck through. Every status is also in words. Type is a short text label.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: green cells read '• Waiting 12 min', blue '■ Room 4 · 7 min', amber dashed '? Unconfirmed', 'Gomez, Patricia' struck with '✕ Cancelled'; type as text ('F/U', 'Sick', 'Vaccine', 'Physical'). Confirmed-but-not-arrived cards carry no status word (plain grey stripe), so 'every status in words' holds except for the default confirmed state."
+    },
+    {
+      "claim": "Names are larger.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: grid names in bold mixed case, about 13 px (CSS .appt .l1 13px, .nm 13.5px) against the legacy 10 px caps (briefs/assets/06-legacy/index.html td font-size 10px)."
+    },
+    {
+      "claim": "Double bookings are marked: Feld 10:15 shows both children and a \"2 booked\" tag.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: Feld 10:15 cell lists 'Reyes, Lucas' and 'Adams, Chloe 8F F/U' with a brown '2 booked' tag."
+    },
+    {
+      "claim": "Unverified insurance is tagged \"Verify ins.\" on Liu and Soto.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: red 'Verify ins.' tag on Liu, Grace (Rao 9:30) and Soto, Elena (Ortega 10:30), nowhere else."
+    },
+    {
+      "claim": "All four clinicians fit without scrolling. Lunch collapses to one band, so 8:00 AM–1:45 PM fits, with a red \"Now 8:04\" line. Open slots read \"+ Open\".",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: Rao, Feld, Kim, Ortega columns side by side; rows 8 AM to the 1:30 row fully visible; 'Lunch 12:00 – 1:00 PM' is one band; red 'Now 8:04' label with a red line at the top of the 8 AM row; free slots read '+ Open'. render.json: no horizontal overflow."
+    },
+    {
+      "claim": "Patient alerts sit directly under the name at the top.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: right panel shows name, age/DOB/MRN, phones, then 'PATIENT ALERTS (3)' (Allergy: Penicillin, Balance overdue $140.00 · 64 days, Large-print forms · hard of hearing (R)) before anything else."
+    },
+    {
+      "claim": "The twelve identical buttons became a checklist. For Harold: insurance verified, copay not collected (green Collect copay), room not assigned. The other actions sit below; No show and Cancel are red.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: checklist rows BlueStar PPO Verified 09/25/2026 (checked) / Copay $25.00 Not collected with filled green 'Collect copay' / Room Not assigned with 'Room ▾'; below it Check out, Reschedule, Edit, Reminder, Notes, Print, and 'No show' and 'Cancel appt' in red text."
+    },
+    {
+      "claim": "Left column: the yellow alerts and the waitlist (under Needs follow-up), day totals and the maintenance notice.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: NEEDS FOLLOW-UP holds 'Insurance unverified Liu 9:30 · Soto 10:30', '8 unconfirmed today 3 tomorrow', '4 on the waitlist Pham, Sutter, Adeyemi, Brandt'; footer '96 booked · 14 open · 0 no-shows' and 'Maintenance Sat 10/03, 10 PM – 2 AM'."
+    },
+    {
+      "claim": "More ▾: Block time, Print day, Print labels, Export, Refresh. Date ▾: mini calendar. mlopez ▾: Preferences, Change password, Logout. Help › About: server and build.",
+      "source": "out/rationale.md",
+      "status": "not checkable",
+      "evidence": "render/schedule.png: the 'More ▾', 'Mon 28 Sep ▾', 'mlopez ▾' and 'Help' controls are present; their contents are closed menus a static render cannot show."
+    },
+    {
+      "claim": "Kept on purpose: all fourteen tabs in the same order (\"Insurance / Eligibility\" shortened); the same clinician columns and 15-minute rows; \"Last, First\" names; the details panel on the right, with every field.",
+      "source": "out/rationale.md",
+      "status": "verified",
+      "evidence": "render/schedule.png: tabs Home … Help, 14 in legacy order with 'Insurance'; four clinician columns with 15-minute rows; 'Brennan, Harold' style names; right panel shows time, provider, type, DOB, MRN, phones, status, room, insurance, eligibility, copay, reason, reminder, booked by and recent visits."
+    }
+  ],
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 0,
+    "not checkable": 1
+  },
+  "functions": [
+    {
+      "group": "Header",
+      "function": "clinic location switcher (Main / Eastside Annex)",
+      "status": "on screen"
+    },
+    {
+      "group": "Header",
+      "function": "signed-in user",
+      "status": "on screen"
+    },
+    {
+      "group": "Header",
+      "function": "preferences",
+      "status": "accounted for",
+      "where": "mlopez ▾ menu"
+    },
+    {
+      "group": "Header",
+      "function": "change password",
+      "status": "accounted for",
+      "where": "mlopez ▾ menu"
+    },
+    {
+      "group": "Header",
+      "function": "log out",
+      "status": "accounted for",
+      "where": "mlopez ▾ menu"
+    },
+    {
+      "group": "Header",
+      "function": "date and time",
+      "status": "on screen",
+      "where": "\"Mon 28 Sep\" date button and \"Now 8:04\" in the grid gutter"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Home",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Schedule",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Patients",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Check-In",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Waitlist (4)",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Recalls",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Billing",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Insurance / Eligibility",
+      "status": "on screen",
+      "where": "tab labelled \"Insurance\""
+    },
+    {
+      "group": "Top tabs",
+      "function": "Reports",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Messages (3)",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Tasks",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Inventory",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Admin",
+      "status": "on screen"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Help",
+      "status": "on screen"
+    },
+    {
+      "group": "Alert banner",
+      "function": "3 appointments unconfirmed for tomorrow",
+      "status": "on screen",
+      "where": "Needs follow-up: \"3 tomorrow\""
+    },
+    {
+      "group": "Alert banner",
+      "function": "2 patients with unverified insurance",
+      "status": "on screen"
+    },
+    {
+      "group": "Alert banner",
+      "function": "maintenance notice (Sat 10/03)",
+      "status": "on screen",
+      "where": "left column footer"
+    },
+    {
+      "group": "Toolbar",
+      "function": "New appointment",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Find slot",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Block time",
+      "status": "accounted for",
+      "where": "More ▾"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Walk-in",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print day",
+      "status": "accounted for",
+      "where": "More ▾"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print labels",
+      "status": "accounted for",
+      "where": "More ▾"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Export",
+      "status": "accounted for",
+      "where": "More ▾"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Refresh",
+      "status": "accounted for",
+      "where": "More ▾"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Day / Week / Month",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "provider filter",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "date back / forward / picker / Today",
+      "status": "on screen"
+    },
+    {
+      "group": "Toolbar",
+      "function": "patient search (name or MRN)",
+      "status": "on screen"
+    },
+    {
+      "group": "Left column",
+      "function": "month calendar",
+      "status": "accounted for",
+      "where": "Date ▾ (mini calendar)"
+    },
+    {
+      "group": "Left column",
+      "function": "appointment-type legend",
+      "status": "accounted for",
+      "where": "removed; rationale says cells now use words"
+    },
+    {
+      "group": "Left column",
+      "function": "status-code legend",
+      "status": "accounted for",
+      "where": "removed; rationale says cells now use words"
+    },
+    {
+      "group": "Left column",
+      "function": "waitlist (4 patients)",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "four clinician columns with rooms",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "15-minute rows",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointments with status, name, age/sex, reason",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time (admin, flu clinic, same-day hold, lunch)",
+      "status": "on screen"
+    },
+    {
+      "group": "Day grid",
+      "function": "cancelled appointments",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "patient name",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "DOB / age",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "MRN",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "phones",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "time",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "type",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "provider",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "reason",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "status",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "room",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "insurance and eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "copay",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "booked by",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "reminder status",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Check in",
+      "status": "on screen",
+      "where": "Check in buttons on Arriving next rows; Harold shown as already checked in"
+    },
+    {
+      "group": "Actions",
+      "function": "Room",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Check out",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Edit",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Reschedule",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Cancel",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "No show",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Copay",
+      "status": "on screen",
+      "where": "\"Collect copay\" in the checklist"
+    },
+    {
+      "group": "Actions",
+      "function": "Eligibility",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Reminder",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Notes",
+      "status": "on screen"
+    },
+    {
+      "group": "Actions",
+      "function": "Print",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "patient alerts (balance, allergy, large-print / hearing)",
+      "status": "on screen"
+    },
+    {
+      "group": "Details",
+      "function": "recent visits",
+      "status": "on screen"
+    },
+    {
+      "group": "Status bar",
+      "function": "counts (96 appts, 3 arrived, 2 in room, 0 no-shows)",
+      "status": "on screen",
+      "where": "left footer \"96 booked · 14 open · 0 no-shows\"; Waiting room 3 and In a room 2 headings"
+    },
+    {
+      "group": "Status bar",
+      "function": "server and build",
+      "status": "accounted for",
+      "where": "Help › About"
+    }
+  ],
+  "functions_summary": {
+    "on_screen": 62,
+    "accounted_for": 12,
+    "missing": 0,
+    "total": 74
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable; functions: 62 on screen, 12 accounted for, 0 missing",
+  "contradicted": [],
+  "notes": "Terms follow judging.md section 10 (verified / contradicted / not checkable). Facts: 0 of 358 text nodes below AA, 0 of 47 targets under 24 px; the rationale makes no contrast claim. Caveat on claim 3: the default confirmed state has no status word or legend. The two legends are listed as accounted for because the rationale says they were dropped and why, not moved."
+}

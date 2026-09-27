@@ -608,14 +608,14 @@
     </div>
   </section>
 
-  <!-- 6. eval scoreboard: filled from ../assets/showcase/showcase.json "runs"; absent => in progress -->
+  <!-- 6. eval scoreboard: filled from ../assets/showcase/showcase.json "runs" (and "triggers"); absent => in progress -->
   <section class="sk-sec wrap" id="evals" aria-labelledby="evals-h">
     <div class="sec-head">
       <h2 id="evals-h" data-i18n="evals_h">评测</h2>
       <p class="sec-cap" data-i18n="evals_cap">同一个模型、同一组固定 brief，三组对照：不装 skill、装 0.7.0、装 0.8.0。评审看不到来源，只凭 brief 和统一渲染的 PNG 打分、两两比较；对比度、点击区域这类能量的，由脚本量好交给评审。输掉的也照样公布。</p>
     </div>
     <div class="ev-pending" id="ev-pending">
-      <p class="ev-state" data-i18n-html="ev_state">评测方案已定：固定 brief、盲评规则、结果格式都在 <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>；尚未开跑，这里还没有分数。</p>
+      <p class="ev-state" data-i18n-html="ev_state">固定 brief、盲评规则、结果格式都在 <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>。首轮（2026-09-27）已经跑完，结果见<a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md">完整报告</a>；分数板要在页面脚本加载后才显示。</p>
       <div class="ev-briefs">
         <h3 class="sub-h" data-i18n="ev_briefs_h">固定 brief</h3>
         <ol class="briefs">
@@ -629,6 +629,7 @@
       </div>
     </div>
     <div class="ev-board" id="ev-board" hidden></div>
+    <div class="ev-trig" id="ev-trig" hidden></div>
     <p class="ev-links" data-i18n-html="ev_links"><a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/README.md">评测方法</a>、<a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/judging.md">评审规则</a>、<a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/results.schema.json">结果格式</a></p>
   </section>
 
