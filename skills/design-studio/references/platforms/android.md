@@ -121,6 +121,9 @@ rely on `onBackPressed` †. Support gesture and three-button navigation.
   of every screen in both.
 - Opaque bars (the navigation bar, a docked toolbar) stop the content region; a floating toolbar lets
   content run beneath it ([portable-mockups](../fundamentals/portable-mockups.md)).
+- **Checks you run**: `lint.mjs --platform android` fails targets under the minimum
+  ([numbers](../fundamentals/layout-and-spacing.md#targets-and-density)) and warns on bottom bars
+  (floating toolbar, bottom navigation) that sit in the gesture area; clear every warning.
 
 ## What to draw, what the system draws
 

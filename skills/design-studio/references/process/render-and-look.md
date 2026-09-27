@@ -118,10 +118,11 @@ One batched capture round, one fix batch, at most one confirm round:
 2. Capture once: all declared sizes x themes x states in one run, with a contact sheet.
 3. **Open every file** and check it shows what its name claims: right route, state, theme, size and
    build; no wall, blank, spinner or error page. A file that fails is recaptured, never judged.
-4. Look (section 7) and run the floor: `lint.mjs <page> --viewports <each declared size>` (its
-   default 1280x800 and 390x844 fit web only: a 402-wide iOS frame fails `overflow` at 390, so pass
-   402x874 for iOS, 412x915 Android, 375x812 mini-program), and `color_tools.py` on every text and
-   UI colour pair. Write one findings list.
+4. Look (section 7) and run the floor: web `lint.mjs <page> --viewports <each declared size>`
+   (default 1280x800 and 390x844; add `--touch` for a touch-first product); native `lint.mjs <screen>
+   --platform ios|android|harmonyos|miniprogram` (that frame and its touch minimum, which fails the
+   floor); plus `--above-fold "<selectors>"` when the contract lists the first viewport. Then
+   `color_tools.py` on every text and UI colour pair. Write one findings list.
 5. Fix everything in one batch.
 6. Confirm at most once: recapture what the fixes touched, plus a fresh sheet. Then stop, and
    disclose what remains unfixed or unverified.
@@ -195,3 +196,7 @@ unverified claim says:
 
 > Unverified: <claim>. Not rendered because <reason>. To verify: open <file> at <size>, <theme>,
 > <state> and check <observable condition>.
+
+Close-out: before delivery, re-check every positional, size or colour claim in the notes, rationale
+and decisions against the final render ("above the fold" is a measurement, not a memory of an
+earlier round). Delete superseded lines; never leave them beside their correction.

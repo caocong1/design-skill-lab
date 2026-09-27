@@ -178,6 +178,9 @@ sizes are (outer 1398 × 2034 px, inner 2007 × 2853 px).
   and controls are inset by the safe area; nothing interactive under the home indicator. Near the
   screen edge a capsule with extra margin sits better than a concentric shape (shape types:
   [layout-and-spacing](../fundamentals/layout-and-spacing.md)). Targets: same file.
+- **Checks you run**: `lint.mjs --platform ios` fails targets under the minimum
+  ([numbers](../fundamentals/layout-and-spacing.md#targets-and-density)) and warns on bottom bars
+  (floating tab bar, toolbar) that sit in the home-indicator inset; clear every warning.
 - **Type**: SF Pro, Dynamic Type text styles, never fixed sizes. Default 17 pt, minimum 11 pt. Avoid
   Ultralight, Thin and Light.
 

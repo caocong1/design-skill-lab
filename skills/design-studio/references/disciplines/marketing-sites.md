@@ -61,6 +61,8 @@ landings ([research](../process/research.md); `python3 "$S/catalog.py" find <key
 ## 3. First viewport
 
 - In the first viewport at 1280 x 720 and 390 x 844: what it is, for whom, and what to do next.
+- Measured, not asserted: the surface contract lists the must-be-above-the-fold elements per viewport as selectors, and `lint.mjs <page> --viewports <size> --above-fold "<selectors>"` passes at each size before the critic runs.
+- On mobile, every feature item survives the re-composition and the primary action stays persistent (a sticky bar or header), unless the brief says otherwise.
 - The headline is the largest text and says something only this product could say. Heuristic, not a gate: at most two lines at desktop, support copy under about 20 words.
 - One primary action, plus at most one quiet secondary, visible without scrolling at both widths.
 - The hero's form comes from the subject: the most characteristic thing in its world, in the form that fits it (headline, image, live demo, interaction).

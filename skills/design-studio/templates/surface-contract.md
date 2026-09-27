@@ -27,6 +27,9 @@ order of the primary task.>
 
 <Per target: the one thing seen first, the primary action, and what is deliberately below the fold.>
 
+Above the fold (checked with `lint.mjs --above-fold`): <per viewport, the selectors that must end
+inside it, e.g. 1280x720: `h1, [data-component=PrimaryAction]`; 390x844: `h1, [data-component=PrimaryAction]`>
+
 ## Form + seed
 
 <Type voice, colour strategy, layout grammar, density, shape, motion personality, with the DESIGN.md

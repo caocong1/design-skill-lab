@@ -95,6 +95,9 @@ content cannot change; only a light or dark scheme can be chosen.
 - Follow the system font. Common sizes 22, 17, 15, 14 and 12 pt, with 17 as body.
 - Targets (about 7-9 mm physical, and the 适老化 hit areas): [layout-and-spacing](../fundamentals/layout-and-spacing.md).
   Contrast: [color](../fundamentals/color.md).
+- **Checks you run**: `lint.mjs --platform miniprogram` fails targets under the minimum
+  ([numbers](../fundamentals/layout-and-spacing.md#targets-and-density)) and warns on bottom bars
+  (custom tab bar, bottom toolbar) that sit in the home-indicator inset; clear every warning.
 
 ## 适老化 (care mode and large text)
 

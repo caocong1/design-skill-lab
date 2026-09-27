@@ -104,6 +104,10 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
   redrawn.
 - Diagrams, timelines and maps: compare each mark with its line and its label, not only the whole
   picture; known traps are in the [casebook](../../design-studio/references/casebook.md).
+- Typographic quotes and apostrophes (“ ” ‘ ’; 「」 in Chinese) in every heading and paragraph, never
+  typewriter `"` or `'`; `lint.mjs` warns on them (`straight-quotes`).
+- Inline code renders as code: monospace, one unbroken token (no wrap mid-token, no raw backticks),
+  code blocks not cut off; `lint.mjs` warns on wrapped and clipped code (`label-wrap`, `clipped-text`).
 
 ## 7. States and robustness `> Fit, Craft`
 

@@ -3,13 +3,15 @@
 // Needs Playwright + Chrome (or Playwright's Chromium), resolved like capture.mjs (lib/capture-core.mjs).
 //
 //   node lint.mjs <url-or-file> [--viewports 1280x800,390x844] [--dark] [--json] [--max 8] [--strict]
-//                 [--scope css-selector] [--auth storage-state.json]
+//                 [--scope css-selector] [--auth storage-state.json] [--above-fold "sel[,sel...]"]
+//                 [--platform ios|android|harmonyos|miniprogram] [--touch]
 //
 //   node lint.mjs .design/screens/home.html                 light at 1280x800 and 390x844 (touch)
 //   node lint.mjs "http://localhost:5173/orders?state=empty-first" --dark   adds the same sizes in dark
-//   node lint.mjs ios.html --viewports 402x874                native frames: pass their sizes (390 is web)
+//   node lint.mjs ios.html --platform ios                     the iOS frame (402x874), 44 px touch floor
 //   node lint.mjs page.html --json > .design/critique/2026-09-27-home/lint.json
 //   node lint.mjs .design/directions/r1/index.html --scope '[data-direction="a"]'   one direction of a board
+//   node lint.mjs landing.html --viewports 390x844 --above-fold 'h1, [data-component=PrimaryAction]'
 //
 // Floor (exit 1)
 //   contrast         text under 4.5:1, or 3:1 at >= 24px or >= 18.66px bold. Computed from the element
@@ -18,20 +20,37 @@
 //                    The measurement wins when the two disagree (images, gradients, overlapping layers).
 //   overflow         the page scrolls sideways at any viewport; names the element that sticks out.
 //   unnamed-control  a button, link, field or other control with an empty name in Chrome's a11y tree.
+//   above-fold       with --above-fold: a listed selector matches nothing, is not rendered, or an element
+//                    it matches ends below the viewport height at scroll 0 (per viewport).
+//   touch-target     with --platform or --touch: interactive targets under the platform minimum, 44 px
+//                    for ios, miniprogram and --touch, 48 px for android, 40 px for harmonyos (48 recommended) (numbers owned by
+//                    references/fundamentals/layout-and-spacing.md, "Targets and density"). Without
+//                    them it is a warning at widths under 600.
 // Warnings
 //   contrast-unverified (text over an image that could not be sampled), overflow-clipped (content cut
-//   by overflow-x on html/body), target-size (< 24x24 px, WCAG 2.5.8 with its spacing and inline
-//   exceptions), touch-target (< 44x44 px at touch sizes), img-alt, transition-all, layout-animation
-//   (transitions or keyframes on width, top, margin...), reduced-motion (motion identical under
-//   prefers-reduced-motion: reduce), cjk-lang (CJK text without a zh/ja/ko lang), cjk-font (Chinese in
-//   a Japanese-first stack, or rendered by a Japanese font), cjk-synthetic (italic or faux-bold CJK),
-//   input-zoom (fields under 16px at touch sizes: iOS zooms), token-drift (near-duplicate values),
-//   vocabulary (more distinct values than a constrained system uses).
+//   by overflow-x on html/body), clipped-text (text cut by overflow hidden/clip, text-overflow: ellipsis
+//   or a line clamp while part of it shows, inside the viewport width), label-wrap (a short label, i.e.
+//   button, badge, chip, tab, column header, time stamp, inline code, broken over 2+ lines), straight-quotes
+//   ("..." 'x' or a straight apostrophe in headings and prose; code, pre, kbd skipped), safe-area (with
+//   --platform/--touch at widths under 1024: a fixed, sticky or screen-anchored absolute bar whose content
+//   sits in the bottom 34 px, the home indicator, with no safe-area-inset-bottom rule), target-size
+//   (< 24x24 px, WCAG 2.5.8 with its spacing and inline exceptions), img-alt, transition-all,
+//   layout-animation (transitions or keyframes on width, top, margin...), reduced-motion (motion
+//   identical under prefers-reduced-motion: reduce), cjk-lang (CJK text without a zh/ja/ko lang),
+//   cjk-font (Chinese in a Japanese-first stack, or rendered by a Japanese font), cjk-synthetic (italic
+//   or faux-bold CJK), input-zoom (fields under 16px at touch sizes: iOS zooms), token-drift
+//   (near-duplicate values), vocabulary (more distinct values than a constrained system uses).
 // Inventory: colours, font sizes, weights, line heights, families, radii, shadows, spacing, z-index and
 //   durations actually used across all runs, with near-duplicate clusters.
-// --strict   target-size and img-alt also fail the floor.
-// --scope    only elements inside this selector are checked and inventoried (overflow stays page-wide).
-// --auth     a Playwright storage-state file (saved login) for routes behind sign-in.
+// --strict      target-size and img-alt also fail the floor.
+// --scope       only elements inside this selector are checked and inventoried (overflow and
+//               --above-fold stay page-wide).
+// --above-fold  comma-separated selectors whose every rendered match must end inside the first viewport.
+// --platform    the frames are native screens: every run is a touch run with that minimum, and without
+//               --viewports the platform's default frame is used (portable-mockups.md): ios 402x874,
+//               android 412x915, harmonyos 366x809, miniprogram 375x812.
+// --touch       a touch-first web target: every run is a touch run at 44 px (pass only touch sizes).
+// --auth        a Playwright storage-state file (saved login) for routes behind sign-in.
 // Not checked: non-text contrast (borders, icons, focus rings: color_tools.py matrix --from checks the
 //   token pairs), focus visibility, keyboard order, requestAnimationFrame motion, text inside images,
 //   iframes. Those stay with the critique and the screenshots.
@@ -42,15 +61,20 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { launch, newPage, gotoReady, detectWall, PLAYWRIGHT_VERSION } from './lib/capture-core.mjs';
 
 const SELF = fileURLToPath(import.meta.url);
-const FLOOR = new Set(['contrast', 'overflow', 'unnamed-control']);
+const FLOOR = new Set(['contrast', 'overflow', 'unnamed-control', 'above-fold']);
 const RULES = {
   contrast: 'text below 4.5:1 (3:1 at >= 24px or >= 18.66px bold)',
   overflow: 'the page scrolls sideways',
   'unnamed-control': 'controls with no accessible name',
+  'above-fold': 'listed elements missing or ending below the first viewport (--above-fold)',
   'contrast-unverified': 'text over an image or gradient that could not be measured: check the render',
   'overflow-clipped': 'content wider than the viewport, cut off by overflow-x on html/body',
+  'clipped-text': 'text cut off by overflow hidden/clip, an ellipsis or a line clamp',
+  'label-wrap': 'short labels (buttons, badges, tabs, column headers, times, inline code) broken over 2+ lines',
+  'straight-quotes': 'straight quotes or apostrophes in headings and prose (use “ ” ‘ ’, or 「」 in Chinese)',
   'target-size': 'targets under 24x24 px (WCAG 2.5.8)',
-  'touch-target': 'touch targets under 44x44 px (Apple 44 pt, Material 48 dp)',
+  'touch-target': 'touch targets under the minimum (44 px; 48 px for android, 40 px for harmonyos (48 recommended))',
+  'safe-area': 'bottom bar content inside the bottom 34 px (home indicator) without a safe-area inset',
   'img-alt': 'images without alt (decorative images take alt="")',
   'transition-all': 'transition: all (name the properties)',
   'layout-animation': 'animated layout properties (animate transform and opacity)',
@@ -65,13 +89,19 @@ const RULES = {
 // Soft budgets across all runs (practice, not a standard): above them the scale is probably not a scale.
 const BUDGET = { fontSize: 10, fontWeight: 4, family: 3, lineHeight: 6, radius: 6, shadow: 6, duration: 6, zIndex: 10 };
 const SHOT_CAP = 12000; // px of page height measured on pixels; text below falls back to computed colours
+// Touch minimum per --platform (CSS px = pt / dp / vp). Owned by references/fundamentals/layout-and-spacing.md.
+const TOUCH_MIN = { ios: 44, miniprogram: 44, android: 48, harmonyos: 40 };
+// Default frame per --platform, from references/fundamentals/portable-mockups.md.
+const PLATFORM_VIEWPORT = { ios: '402x874', android: '412x915', harmonyos: '366x809', miniprogram: '375x812' };
+const HOME_INDICATOR = 34; // px at the bottom of a phone screen that belong to the system gesture area
 const CONTROL_ROLES = new Set(['button', 'link', 'textbox', 'searchbox', 'combobox', 'checkbox', 'radio', 'switch',
   'tab', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'slider', 'spinbutton', 'listbox', 'treeitem']);
 
 // ------------------------------------------------------------------ arguments
 
 function parseArgs(argv) {
-  const o = { viewports: ['1280x800', '390x844'], dark: false, json: false, max: 8, strict: false, auth: null, scope: null, target: null };
+  const o = { viewports: null, dark: false, json: false, max: 8, strict: false, auth: null, scope: null, target: null,
+    aboveFold: [], platform: null, touch: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const value = () => {
@@ -83,6 +113,9 @@ function parseArgs(argv) {
     else if (a === '--dark') o.dark = true;
     else if (a === '--json') o.json = true;
     else if (a === '--strict') o.strict = true;
+    else if (a === '--touch') o.touch = true;
+    else if (a === '--platform') o.platform = value().toLowerCase();
+    else if (a === '--above-fold') o.aboveFold = splitSelectors(value());
     else if (a === '--max') o.max = Number(value());
     else if (a === '--auth') o.auth = value();
     else if (a === '--scope') o.scope = value();
@@ -92,6 +125,9 @@ function parseArgs(argv) {
     else usage(`unexpected argument ${a}`);
   }
   if (!o.target) usage('a URL or file is required');
+  if (o.platform && !TOUCH_MIN[o.platform]) usage(`--platform takes ${Object.keys(TOUCH_MIN).join(', ')}`);
+  o.viewports = o.viewports || (o.platform ? [PLATFORM_VIEWPORT[o.platform]] : ['1280x800', '390x844']);
+  o.touchMin = o.platform ? TOUCH_MIN[o.platform] : o.touch ? 44 : 0; // 0: no touch floor, 44 px warnings under 600
   if (!o.viewports.every((v) => /^\d+x\d+$/.test(v))) usage('--viewports takes WxH,WxH (e.g. 1280x800,390x844)');
   if (!Number.isInteger(o.max) || o.max < 1) usage('--max takes a positive integer');
   if (o.auth && !existsSync(o.auth)) usage(`no such storage-state file: ${o.auth}`);
@@ -100,7 +136,7 @@ function parseArgs(argv) {
 
 function usage(error) {
   if (error) {
-    process.stderr.write(`lint.mjs: ${error}\nusage: node lint.mjs <url-or-file> [--viewports WxH,...] [--dark] [--json] [--max n] [--strict] [--scope sel] [--auth state.json]\n`);
+    process.stderr.write(`lint.mjs: ${error}\nusage: node lint.mjs <url-or-file> [--viewports WxH,...] [--dark] [--json] [--max n] [--strict] [--scope sel] [--auth state.json] [--above-fold sel,...] [--platform ios|android|harmonyos|miniprogram] [--touch]\n`);
     process.exit(2);
   }
   const lines = [];
@@ -110,6 +146,20 @@ function usage(error) {
   }
   process.stdout.write(lines.join('\n') + '\n');
   process.exit(0);
+}
+
+// Top-level commas only: 'a, b:is(.x, .y)' is two selectors.
+function splitSelectors(text) {
+  const out = [];
+  let depth = 0, cur = '';
+  for (const ch of text) {
+    if (ch === ',' && depth === 0) { out.push(cur); cur = ''; continue; }
+    if ('(['.includes(ch)) depth++;
+    else if (')]'.includes(ch)) depth--;
+    cur += ch;
+  }
+  out.push(cur);
+  return out.map((q) => q.trim()).filter(Boolean);
 }
 
 function toUrl(target) {
@@ -332,10 +382,24 @@ function PAGE([mode, opt = {}]) {
 
   scrollTo(0, 0);
   if (opt.scope && !document.querySelector(opt.scope)) return { error: `no element matches --scope ${opt.scope}` };
+  // Above the fold: every rendered match of each listed selector ends inside the first viewport.
+  const aboveFold = [];
+  for (const q of opt.aboveFold || []) {
+    let found;
+    try { found = [...document.querySelectorAll(q)]; } catch { return { error: `--above-fold: invalid selector ${q}` }; }
+    const shown = found.filter((el) => { const r = el.getBoundingClientRect(); return visible(el) && (r.width > 0 || r.height > 0); });
+    if (!found.length) aboveFold.push({ sel: q, why: 'matches nothing' });
+    else if (!shown.length) aboveFold.push({ sel: sel(found[0]), why: `${q}: not rendered at ${innerWidth}x${innerHeight}`, text: snippet(found[0]) });
+    for (const el of shown) {
+      const bottom = el.getBoundingClientRect().bottom + scrollY;
+      if (bottom > innerHeight + 0.5) aboveFold.push({ sel: sel(el), why: `ends at ${Math.round(bottom)}px, below the fold at ${innerWidth}x${innerHeight}`, text: snippet(el) });
+    }
+  }
   const all = elements().filter(inScope);
   const inv = { color: {}, background: {}, border: {}, fontSize: {}, fontWeight: {}, lineHeight: {}, family: {}, radius: {}, shadow: {}, spacing: {}, zIndex: {}, duration: {} };
   const count = (bucket, k) => { if (k !== null && k !== undefined && k !== '') bucket[k] = (bucket[k] || 0) + 1; };
-  const out = { url: location.href, lang: document.documentElement.lang || '', texts: [], targets: [], touch: [], images: [], transitionAll: [], layoutAnim: [], inputs: [], cjk: [], marks: 0 };
+  const out = { url: location.href, lang: document.documentElement.lang || '', texts: [], targets: [], touch: [], images: [], transitionAll: [], layoutAnim: [], inputs: [], cjk: [], marks: 0,
+    aboveFold, clipped: [], wraps: [], quotes: [], safeArea: [] };
 
   // Text: every element with a direct, non-blank text node.
   const byParent = new Map();
@@ -402,6 +466,59 @@ function PAGE([mode, opt = {}]) {
       out.cjk.push(entry);
     }
   }
+  // Clipped text: the text's own line boxes run past an overflow hidden/clip ancestor that shows part of it
+  // (an ellipsis or a line clamp included). Text hidden completely (carousels, sr-only) is not a finding.
+  const vwText = document.documentElement.clientWidth;
+  const lineRects = (nodes) => {
+    const rs = [];
+    for (const n of nodes) { range.selectNodeContents(n); for (const r of range.getClientRects()) if (r.width >= 1 && r.height >= 1 && rs.length < 64) rs.push(r); }
+    return rs;
+  };
+  for (const [el, nodes] of byParent) {
+    if (!visible(el) || el.closest('[aria-hidden="true"]')) continue;
+    if (el.offsetWidth > 4 && el.getBoundingClientRect().width / el.offsetWidth < 0.6) continue;
+    const rs = lineRects(nodes);
+    if (!rs.length) continue;
+    const tolY = Math.max(2, parseFloat(cs(el).fontSize) * 0.3); // line boxes are taller than line-height: 1
+    for (let n = el; n && n !== document.body && n !== document.documentElement; n = parentOf(n)) {
+      if (n.nodeType !== 1) continue;
+      const s = cs(n), cx = /hidden|clip/.test(s.overflowX), cy = /hidden|clip/.test(s.overflowY);
+      if (!cx && !cy) continue;
+      if (n.clientWidth < 4 || n.clientHeight < 4) break; // visually hidden
+      const b = n.getBoundingClientRect();
+      const x1 = b.left + n.clientLeft, y1 = b.top + n.clientTop, x2 = x1 + n.clientWidth, y2 = y1 + n.clientHeight;
+      if (x2 <= 0 || x1 >= vwText) break; // off-canvas
+      const shows = rs.some((r) => r.right > x1 + 1 && r.left < x2 - 1 && r.bottom > y1 + 1 && r.top < y2 - 1);
+      if (!shows) break;
+      const cutX = cx && rs.some((r) => r.left < x1 - 2 || r.right > x2 + 2);
+      const cutY = cy && rs.some((r) => r.top < y1 - tolY || r.bottom > y2 + tolY);
+      if (cutX || cutY) {
+        const how = cutX && s.textOverflow === 'ellipsis' ? 'ellipsis' : cutY && s.webkitLineClamp && s.webkitLineClamp !== 'none' ? 'line clamp'
+          : `overflow: ${cutX ? s.overflowX : s.overflowY}`;
+        out.clipped.push({ sel: sel(el), why: `${cutX ? 'width' : 'height'} cut by ${how}${n === el ? '' : ` on ${sel(n)}`}`,
+          text: nodes.map((t) => t.data).join(' ').replace(/\s+/g, ' ').trim().slice(0, 48) });
+        break;
+      }
+    }
+  }
+  // Straight quotes and apostrophes in headings and prose (code-like elements skipped).
+  const PROSE = 'h1, h2, h3, h4, h5, h6, p, li, blockquote, figcaption, dt, dd, caption, [role="heading"]';
+  const quoted = new Set();
+  for (const [el, nodes] of byParent) {
+    const prose = el.closest(PROSE);
+    if (!prose || quoted.has(prose) || el.closest('code, pre, kbd, samp, var, tt, [contenteditable=""], [contenteditable="true"]') || !visible(el)) continue;
+    for (const n of nodes) {
+      const t = n.data.replace(/\s+/g, ' ');
+      const m = t.match(/(?<!\d)"/) ? ['straight double quote', t.search(/(?<!\d)"/)]
+        : /(^|[\s(\[{—–-])'\S[^']*'(?=$|[\s.,;:!?)\]}—–-])/.test(t) ? ['straight single quotes', t.search(/(^|[\s(\[{—–-])'\S/)]
+          : /\p{L}'\p{L}/u.test(t) ? ['straight apostrophe', t.search(/\p{L}'\p{L}/u)] : null;
+      if (!m) continue;
+      quoted.add(prose);
+      out.quotes.push({ sel: sel(el), why: m[0], text: t.slice(Math.max(0, m[1] - 20), m[1] + 28).trim() });
+      break;
+    }
+  }
+
   // Placeholders count as text (WCAG 1.4.3).
   for (const el of all) {
     if (!/^(input|textarea)$/.test(el.localName) || !el.placeholder || el.value || !visible(el)) continue;
@@ -477,6 +594,22 @@ function PAGE([mode, opt = {}]) {
   // Targets (WCAG 2.5.8: 24x24 px, with the inline and spacing exceptions).
   const TARGET = 'a[href], button, input:not([type="hidden"]), select, textarea, summary, [role="button"], [role="link"], [role="checkbox"], [role="radio"], [role="switch"], [role="tab"], [role="menuitem"], [role="option"], [tabindex]:not([tabindex="-1"])';
   const targets = [];
+  // A ::before/::after overlay with px insets on a positioned target extends its hit area (layout-and-spacing:
+  // "extend the hit area with padding or an overlay").
+  const hitArea = (el, r) => {
+    if (cs(el).position === 'static' || cs(el).display === 'inline') return r;
+    let { left, top, right, bottom } = r;
+    const b = el.getBoundingClientRect(), x = b.left + el.clientLeft, y = b.top + el.clientTop;
+    for (const p of ['::before', '::after']) {
+      const s = getComputedStyle(el, p);
+      if (/^(none|normal)$/.test(s.content) || s.position !== 'absolute' || s.display === 'none' || s.pointerEvents === 'none') continue;
+      const [t, rt, bt, lt] = [s.top, s.right, s.bottom, s.left].map((v) => (v.endsWith('px') ? parseFloat(v) : NaN));
+      if ([t, rt, bt, lt].some(Number.isNaN)) continue;
+      left = Math.min(left, x + lt); top = Math.min(top, y + t);
+      right = Math.max(right, x + el.clientWidth - rt); bottom = Math.max(bottom, y + el.clientHeight - bt);
+    }
+    return { left, top, right, bottom };
+  };
   for (const el of all) {
     if (!el.matches(TARGET) || !visible(el) || el.closest(':disabled, [inert]')) continue;
     let r = el.getBoundingClientRect();
@@ -485,6 +618,7 @@ function PAGE([mode, opt = {}]) {
       const l = el.labels[0].getBoundingClientRect();
       r = { left: Math.min(r.left, l.left), top: Math.min(r.top, l.top), right: Math.max(r.right, l.right), bottom: Math.max(r.bottom, l.bottom) };
     }
+    r = hitArea(el, r);
     const w = r.right - r.left, h = r.bottom - r.top;
     const p = el.parentElement;
     const inline = cs(el).display === 'inline' && p && (p.textContent || '').trim().length > (el.textContent || '').trim().length + 10;
@@ -497,8 +631,99 @@ function PAGE([mode, opt = {}]) {
       const spaced = targets.every((o) => o === t || o.el.contains(t.el) || t.el.contains(o.el) ||
         (distToRect(t.cx, t.cy, o.r) >= 12 && (!o.small || Math.hypot(t.cx - o.cx, t.cy - o.cy) >= 24)));
       if (!spaced) out.targets.push({ sel: sel(t.el), text: snippet(t.el), w: Math.round(t.w), h: Math.round(t.h) });
-    } else if (opt.touch && (t.w < 44 || t.h < 44)) {
-      out.touch.push({ sel: sel(t.el), text: snippet(t.el), w: Math.round(t.w), h: Math.round(t.h) });
+    }
+    if (opt.touch && (t.w < opt.touch || t.h < opt.touch)) {
+      out.touch.push({ sel: sel(t.el), text: snippet(t.el), w: Math.round(t.w), h: Math.round(t.h), min: opt.touch });
+    }
+  }
+
+  // Label wraps: a short label whose text breaks inside one inline run (block children and <br> are deliberate,
+  // except in a time stamp: "8:00 / AM" reads as one value, however it was split).
+  // Column headers only: row headers are often phrases that may wrap.
+  const LABEL = 'button, [role="button"], [role="tab"], [role="menuitem"], [role="option"], summary, thead th, th[scope="col"], table:not(:has(thead)) tr:first-child > th:not([scope="row"]), [role="columnheader"], time, label, nav a, code, kbd';
+  const LABEL_CLASS = /(^|[-_])(badge|chip|tag|pill|btn|button|tab|status|label)s?($|[-_])/i;
+  const TIME = /^(\d{1,2}([:.]\d{2})?\s?[ap]\.?m\.?|\d{1,2}[:.]\d{2}|(上午|下午|中午|晚上|凌晨)\s?\d{1,2}[:：]\d{2})$/i;
+  const wrapped = [];
+  const lines = (el, whole) => {
+    const groups = new Map();
+    const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    for (let t = tw.nextNode(); t; t = tw.nextNode()) {
+      if (!t.data.trim()) continue;
+      let root = t.parentElement;
+      while (root !== el && (whole || /^(inline|contents)$/.test(cs(root).display))) root = root.parentElement;
+      range.selectNodeContents(t);
+      const ys = groups.get(root) || groups.set(root, []).get(root);
+      for (const r of range.getClientRects()) if (r.width >= 1 && r.height >= 1) ys.push([r.top + r.height / 2, r.height]);
+    }
+    let most = 0;
+    for (const ys of groups.values()) {
+      ys.sort((a, b) => a[0] - b[0]);
+      let n = ys.length ? 1 : 0;
+      for (let i = 1; i < ys.length; i++) if (ys[i][0] - ys[i - 1][0] > Math.min(ys[i][1], ys[i - 1][1]) / 2) n++;
+      most = Math.max(most, n);
+    }
+    return most;
+  };
+  for (const el of all) {
+    if (!(el instanceof HTMLElement) || wrapped.some((w) => w.contains(el))) continue;
+    const text = (el.textContent || '').replace(/\s+/g, ' ').trim();
+    if (!text || text.length > 40) continue;
+    const code = /^(code|kbd)$/.test(el.localName);
+    if (code ? el.closest('pre') : !(el.matches(LABEL) || [...el.classList].some((c) => LABEL_CLASS.test(c)) || TIME.test(text))) continue;
+    if (!code && (text.split(' ').length > 4 || text.length > (HAN.test(text) ? 12 : 30))) continue;
+    const time = TIME.test(text);
+    if ((!time && el.querySelector('br')) || cs(el).whiteSpace.startsWith('pre') || !visible(el)) continue;
+    const n = lines(el, time);
+    if (n < 2) continue;
+    wrapped.push(el);
+    out.wraps.push({ sel: sel(el), text: text.slice(0, 48), lines: n });
+  }
+
+  // Safe area: bars anchored to the bottom of a phone screen keep their content out of the home-indicator zone,
+  // unless a rule uses env(safe-area-inset-bottom) (0 in this browser, the real inset on a device).
+  if (opt.safeArea) {
+    const decls = [];
+    const walkStyles = (rules) => {
+      for (const r of rules) {
+        if (r.style && r.selectorText) for (let i = 0; i < r.style.length; i++) decls.push([r.selectorText, r.style[i], r.style.getPropertyValue(r.style[i])]);
+        if (r.cssRules) walkStyles(r.cssRules);
+      }
+    };
+    for (const sh of sheets) { try { walkStyles(sh.cssRules); } catch { /* cross-origin sheet */ } }
+    const vars = new Set();
+    for (let grew = true; grew;) {
+      grew = false;
+      for (const [, p, v] of decls) {
+        if (p.startsWith('--') && !vars.has(p) && (/safe-area-(max-)?inset-bottom/.test(v) || [...vars].some((x) => v.includes(`var(${x}`)))) { vars.add(p); grew = true; }
+      }
+    }
+    const safeSels = decls.filter(([, p, v]) => !p.startsWith('--') && (/safe-area-(max-)?inset-bottom/.test(v) || [...vars].some((x) => v.includes(`var(${x}`)))).map(([q]) => q);
+    const safe = (x) => /safe-area-(max-)?inset-bottom/.test(x.getAttribute('style') || '') || safeSels.some((q) => { try { return x.matches(q); } catch { return false; } });
+    const vh = innerHeight, zone = vh - opt.safeArea, seen = [];
+    for (const el of all) {
+      const s = cs(el);
+      if (!/^(fixed|sticky|absolute)$/.test(s.position) || seen.some((b) => b.contains(el)) || !visible(el)) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width < innerWidth * 0.5 || r.height > vh * 0.5 || r.bottom <= zone || r.bottom > vh + 1 || r.top >= vh) continue;
+      if (s.position === 'absolute') { // only when its containing block is the screen: a mockup frame of viewport height
+        const op = el.offsetParent;
+        const cb = op && op !== document.body && cs(op).position !== 'static' ? op.getBoundingClientRect().bottom : vh;
+        if (Math.abs(cb - vh) > 1) continue;
+      }
+      seen.push(el);
+      let low = -Infinity;
+      const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let t = tw.nextNode(); t; t = tw.nextNode()) {
+        if (!t.data.trim() || !t.parentElement || !visible(t.parentElement)) continue;
+        range.selectNodeContents(t);
+        for (const q of range.getClientRects()) if (q.width >= 1) low = Math.max(low, q.bottom);
+      }
+      for (const c of el.querySelectorAll('svg, img, canvas, video, input, select, textarea, button, a[href], [role="button"], [role="tab"], [role="link"]')) {
+        const q = c.getBoundingClientRect();
+        if (q.width >= 1 && q.height >= 1 && visible(c)) low = Math.max(low, q.bottom);
+      }
+      if (low <= zone + 0.5 || safe(el) || [...el.querySelectorAll('*')].some(safe)) continue;
+      out.safeArea.push({ sel: sel(el), why: `${s.position} bar content reaches ${Math.round(low)}px, inside the bottom ${opt.safeArea}px of ${innerWidth}x${vh}`, text: snippet(el) });
     }
   }
 
@@ -572,7 +797,8 @@ async function lintRun(browser, url, run, o, first) {
     const reduced = await page.evaluate(PAGE, ['motion', { scope }]);
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.evaluate(PAGE, ['finish']);
-    const data = await page.evaluate(PAGE, ['collect', { touch: run.touch, markCjk: first, scope }]);
+    const data = await page.evaluate(PAGE, ['collect', { touch: run.touch ? run.touchMin : 0, markCjk: first, scope,
+      aboveFold: o.aboveFold, safeArea: run.safeArea ? HOME_INDICATOR : 0 }]);
     if (data.error) throw Object.assign(new Error(data.error), { load: true });
     data.wall = wall;
     data.motion = motion;
@@ -691,8 +917,13 @@ function analyse(run, data, add) {
     for (const c of ov.culprits) add('overflow-clipped', r, c.sel, `cut off at ${ov.vw}px (extends to ${c.right}px)`);
   }
   for (const u of data.unnamed) add('unnamed-control', r, u.sel, `${u.role} has no accessible name`, u.text);
+  for (const a of data.aboveFold) add('above-fold', r, a.sel, a.why, a.text);
+  for (const c of data.clipped) add('clipped-text', r, c.sel, c.why, c.text);
+  for (const w of data.wraps) add('label-wrap', r, w.sel, `wraps to ${w.lines} lines`, w.text);
+  for (const q of data.quotes) add('straight-quotes', r, q.sel, q.why, q.text);
   for (const t of data.targets) add('target-size', r, t.sel, `${t.w}x${t.h}px`, t.text);
-  for (const t of data.touch) add('touch-target', r, t.sel, `${t.w}x${t.h}px`, t.text);
+  for (const t of data.touch) add('touch-target', r, t.sel, `${t.w}x${t.h}px < ${t.min}`, t.text);
+  for (const b of data.safeArea) add('safe-area', r, b.sel, b.why, b.text);
   for (const i of data.images) add('img-alt', r, i.sel, i.src);
   for (const t of data.transitionAll) add('transition-all', r, t.sel, `transition: all ${t.d}ms`);
   for (const l of data.layoutAnim) add('layout-animation', r, l.sel, l.what);
@@ -766,7 +997,7 @@ function inventorySummary(merged) {
 function printReport(report, o) {
   const w = (s = '') => process.stdout.write(s + '\n');
   w(`lint.mjs  ${report.url}`);
-  w(`runs      ${report.runs.map((r) => r.id + (r.touch ? ' (touch)' : '')).join(' · ')}`);
+  w(`runs      ${report.runs.map((r) => r.id + (r.touch ? ` (touch ${r.touchMin})` : '')).join(' · ')}`);
   const byRule = new Map();
   for (const f of report.findings) (byRule.get(f.rule) || byRule.set(f.rule, []).get(f.rule)).push(f);
   const section = (title, level) => {
@@ -784,7 +1015,9 @@ function printReport(report, o) {
   };
   section(`FLOOR  ${report.floor} finding(s)${report.floor ? ' -> exit 1' : ''}`, 'floor');
   section('WARN', 'warn');
-  if (!report.floor) w('\nFLOOR  passes: contrast, overflow, accessible names');
+  if (!report.floor) {
+    w(`\nFLOOR  passes: contrast, overflow, accessible names${o.aboveFold.length ? ', above the fold' : ''}${o.touchMin ? `, touch targets >= ${o.touchMin}px` : ''}`);
+  }
   w('\nINVENTORY  distinct values used across all runs; "near" = near-duplicates (token drift)');
   const label = { color: 'text colour', background: 'background', border: 'border colour', fontSize: 'font-size', fontWeight: 'font-weight',
     lineHeight: 'line-height/size', family: 'family (first)', radius: 'radius', shadow: 'shadow', spacing: 'padding/gap', zIndex: 'z-index', duration: 'duration ms' };
@@ -808,7 +1041,8 @@ async function main() {
   for (const scheme of o.dark ? ['light', 'dark'] : ['light']) {
     for (const v of o.viewports) {
       const [width, height] = v.split('x').map(Number);
-      runs.push({ id: `${width} ${scheme}`, width, height, scheme, touch: width < 600 });
+      runs.push({ id: `${width} ${scheme}`, width, height, scheme, touch: o.touchMin > 0 || width < 600, touchMin: o.touchMin || 44,
+        safeArea: o.touchMin > 0 && width < 1024 });
     }
   }
   let browser;
@@ -825,7 +1059,7 @@ Without Node: shot.sh renders; color_tools.py contrast / matrix --from tokens.cs
   const findings = new Map();
   const merged = {};
   const meta = [];
-  const strict = o.strict ? new Set([...FLOOR, 'target-size', 'img-alt']) : FLOOR;
+  const strict = new Set([...FLOOR, ...(o.strict ? ['target-size', 'img-alt'] : []), ...(o.touchMin ? ['touch-target'] : [])]);
   const add = (rule, run, sel, detail, text, data) => {
     const k = `${rule}|${sel}|${detail}|${text || ''}`;
     const f = findings.get(k);
@@ -859,6 +1093,7 @@ Without Node: shot.sh renders; color_tools.py contrast / matrix --from tokens.cs
   }
   const list = [...findings.values()];
   const report = { tool: 'lint.mjs', target: o.target, url, date: new Date().toISOString().slice(0, 10), runs: meta,
+    platform: o.platform, touchFloor: o.touchMin || null, aboveFold: o.aboveFold,
     floor: list.filter((f) => f.level === 'floor').length, warnings: list.filter((f) => f.level === 'warn').length, findings: list, inventory };
   if (o.json) process.stdout.write(JSON.stringify(report, null, 2) + '\n');
   else printReport(report, o);

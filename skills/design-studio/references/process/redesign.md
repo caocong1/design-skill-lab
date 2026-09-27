@@ -144,6 +144,9 @@ product daily (PRODUCT.md > Who uses it): consoles, admin systems, internal tool
 - **Never change silently**: URLs (redirect every old one), navigation labels, object and field
   names and order, keyboard shortcuts, the wordmark, legal copy. A change to any of them is a row in
   decisions.md with its migration.
+- **A kept learned colour gets a text partner**: a colour kept because users learned it (a type or
+  category hue, a legacy status colour) is paired on screen with a text code, label or legend.
+  Colour is never the only signal, for categories as for status ([color](../fundamentals/color.md#colour-vision)).
 - **Every structural change pays for itself**: beside its job gain (section 3) it lists the equity
   rows it spends. A change whose only gain is visual does not justify relearning: keep that
   structure and apply the baseline.

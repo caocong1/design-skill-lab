@@ -12,6 +12,25 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.8.1] - 2026-09-27
+
+第一轮盲评（`evals/runs/2026-09-27/report.md`）之后的第一次修正。那一轮没有任何结论过了预先登记的门槛：0.8.0 对不装 skill 赢 5 份输 1 份，但平均只高 0.17；落地页 0:3 输给不装 skill，工艺均分 3.7 在三组里最低，每份花费是不装 skill 的 2.2 倍。按套件自己的可证伪条件，要改的是套件。改动都是通用规则，不针对六份 brief。suite 契约不变。
+
+### 变更（skill）
+
+- `skills/design-studio/scripts/lint.mjs`：底线新增四类可机械发现的缺陷——`clipped-text`（被截断或省略号截断的文字）、`label-wrap`（按钮、标签、时间戳意外折行）、`--above-fold "<选择器>"`（首屏必须出现的元素，按视口测量，不在首屏即不通过）、`--platform ios|android|harmonyos|miniprogram` / `--touch`（触控目标低于平台下限即不通过：iOS 与小程序 44，Android 48，HarmonyOS 40（建议 48），数字归 `layout-and-spacing.md` 所有）；另加 `safe-area`（底部栏压在 Home 指示条区域）与 `straight-quotes`（展示文字里的直引号）两个提示。`templates/options-board.html` 的直引号一并改掉。
+- `skills/design-studio/SKILL.md` 0.8.0 → **0.8.1**：按实测的阅读成本改写开工阅读清单——`quick` 只读本文件；`standard` 读本文件、一份学科文件和非 Web 目标的平台文件，其余按条件加载，评审细则交给评审子代理；不再列目录或一次 `cat` 多个参考文件。拔高并入唯一一轮修复批次（标准档不再画两个变体，只在深度档保留）；修复批次约八次工具调用、不重读参考；交付前复核笔记里每一条位置、尺寸、颜色说法。实测依据：0.8.0 的额外开销 31% 在开工阅读，59% 在评审之后无上限的修复循环；六次运行里拔高一次都没发生。
+- `references/disciplines/marketing-sites.md`：首屏是测出来的，不是说出来的；契约列出每个视口必须在首屏的元素并用 `--above-fold` 检查；移动端保留每个功能项和常驻主操作。`templates/surface-contract.md` 的"首屏"加一行选择器清单。
+- `references/process/redesign.md`：因用户已习惯而保留的颜色，必须在屏幕上配文字代码、标签或图例；"状态不只靠颜色"同样适用于类别。
+- `references/disciplines/ai-experience.md`：运行在等用户决定时，决定区（做什么、多少、风险、批准/拒绝）是屏幕上的第一样东西，计划上下文放在它下面。
+- `references/platforms/{ios,android,mini-programs,harmonyos}.md`：触控下限和底部安全区写成要运行的检查（`lint.mjs --platform <x>`）。
+- `references/process/render-and-look.md` §9 与 `process/handoff.md`：交付前把笔记、理由、决策里的每条位置/尺寸/颜色说法对照最终渲染复核，被推翻的旧说法删除，不与更正并列。
+- `skills/critique-design` 0.2.0 → **0.2.1**：`references/heuristics.md` 工艺节加排版引号与行内代码两条；`references/rubric.md` 底线 F4 写明触控平台上低于下限即不通过。
+
+### 新增（评测）
+
+- `evals/tools/run_round.sh`：输出评测的无头运行器（每次运行一个独立的 `claude -p --safe-mode` 进程，臂名可带样本后缀 `-s1…`），此前只存在于临时目录。
+
 ## [0.8.0] - 2026-09-27
 
 架构反转：14 个 skill 收成 3 个，外加一个只在本仓库里用的维护 skill；整个仓库按"事实来源 → 生成物 → 机械闸门"重建。起因是 2026-09-27 对 0.7.0 做的一次全面审计，结论是"内容好，结构不对"：

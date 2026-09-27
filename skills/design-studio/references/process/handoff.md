@@ -28,7 +28,8 @@ translate ([portable-mockups](../fundamentals/portable-mockups.md)).
 - Every applicable state is drawn, not described; each target has its own frame and composition.
 - Mockups use the portable subset: tokens for every value, named components and states, bars
   outside the scroll region, real content.
-- Every shot was rendered and opened ([render-and-look](render-and-look.md)).
+- Every shot was rendered and opened ([render-and-look](render-and-look.md)), and the rationale
+  passed its close-out re-check (section 9).
 - Licences are cleared: fonts, icons and images the target cannot legally ship are replaced now,
   not after ([licensing](../fundamentals/licensing.md)).
 

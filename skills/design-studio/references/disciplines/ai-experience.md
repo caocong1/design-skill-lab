@@ -116,6 +116,7 @@ link; a missing one is where trust breaks.
 
 | Rule | Detail |
 | --- | --- |
+| **Decision first** | when the run is waiting on the user, the decision block (what, how much, risk, approve / reject) is the first thing on screen at every target; the plan context follows below it, never around it |
 | The user's terms | the diff, preview, recipients, amount, source account, date; the raw tool call sits behind a disclosure for audit, never alone |
 | Smallest useful unit | approve, approve part ("without this item"), edit, reject; say what the run does after a rejection |
 | Consequences at the item | the reversal window ("cancellable until 17:00 tomorrow") and what follows it; anything unusual (a changed payee account, a first-time recipient) beside that line |

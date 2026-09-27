@@ -2,7 +2,7 @@
 name: design-studio
 description: "Designer for every design intent. Turns requirements into a complete design (product truth, captured references, distinct directions on an options board, a design system with DESIGN.md and tokens, screens across states and platforms, a handoff package), or designs one page, screen, component, flow, animation, icon, app icon, logo, poster, social or deck graphic. Redesigns a product from what it does; chooses colour and type; finds inspiration; writes handoff specs, annotations and asset slices. Draws in HTML/CSS/SVG and checks by rendering. 设计、UI、界面、页面、重设计、改版、整体优化、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案、设计系统、交接、切图、标注。Not for: reviewing or auditing an existing design or build (use critique-design); building an existing design or handoff in code (use implement-design); front-end bugs that involve no design decision."
 metadata:
-  version: 0.8.0
+  version: 0.8.1
   short-description: Design anything, from brief to handoff
 ---
 
@@ -21,9 +21,13 @@ metadata:
   prompt, date and licence; it is never presented as real and never shipped as a crop of a comp.
   See [image-generation](references/process/image-generation.md).
 
-Before starting, read this file and your mode's Start-with file, nothing more (`critique` needs only
-critique-design's SKILL.md). Read the discipline and platform files at step 2, before any direction
-is drawn, and pass their paths to direction subagents. Load the rest at the loop step that uses it.
+Read in this order and no more; the route table names every file, so never list or `cat` the tree.
+- `quick`: this file; `--help` of the scripts you run at step 8; critique-design's heuristics at delivery.
+- `standard`: this file, one discipline file, and the platform file when the target is not the web.
+  Only when needed: portable-mockups (a non-web frame), cjk-typography's checklist (CJK text), a second
+  discipline (tables or charts), render-and-look (a capture fails). The critic reads the rubric, not you.
+- `deep`: this file and your mode's Start-with file; at step 2 hand discipline and platform paths to
+  the direction subagents instead of reading them; load the rest at the step that uses it.
 
 ## Modes
 
@@ -49,7 +53,7 @@ Pick by scope and say it in the design read.
 | Effort | Scope | Includes |
 | --- | --- | --- |
 | `quick` | a component, icon, tweak, single graphic | read > draw > render > floor > deliver. One reference at most, no options unless asked. |
-| `standard` | a screen, page, flow, brand asset, inspire, handoff | quick + references looked at, a system slice (tokens), fresh critique, one elevate pass. |
+| `standard` | a screen, page, flow, brand asset, inspire, handoff | quick + references looked at, a system slice (tokens), fresh critique, one fix batch that also intensifies the one idea. |
 | `deep` | full, redesign, several surfaces or targets | the whole loop below, with isolated subagents for directions and critique. |
 
 Move up when the change touches navigation or several surfaces; `options` adds steps 4-5, not depth.
@@ -68,15 +72,17 @@ Deep runs all twelve steps; standard and quick skip what the effort table leaves
 7. **Draw**: per surface contract, at logical size, every state that applies. Disciplines, platforms, [portable-mockups](references/fundamentals/portable-mockups.md)
 8. **Render + floor**: capture, lint, contrast, in bounded rounds. [render-and-look](references/process/render-and-look.md)
 9. **Fresh critique**: critique-design in a subagent that gets the brief, the contract and a screenshot manifest ([critic-brief](../critique-design/templates/critic-brief.md)), not your reasoning. [critique-design](../critique-design/SKILL.md)
-10. **Elevate**, judged as critique round 2: fix every P0/P1; then draw two variants that intensify the surface contract's one memorable idea (Own-world) with operators (`bolder`, `typeset`...), everything else unchanged. Both go into the round-2 critic brief; the critic picks one (rubric section 4) and re-scores. Then stop.
+10. **Elevate**: fix every P0/P1 and, in the same batch, push the contract's one memorable idea (Own-world) one operator further (`bolder`, `typeset`...). Deep only: draw two such variants for a round-2 critic, who picks one (rubric section 4) and re-scores. Then stop.
 11. **Deliver or hand off**: rationale, rejected options, what the design does not try to do, licences. [handoff](references/process/handoff.md)
 12. **Retro**: silent close-out. [feedback](references/feedback.md)
 
 ## Bounded verification
 
 Build everything first. Then one batched capture round (all declared sizes x themes x states), one fix
-batch, and at most one confirm round. Critique gets at most two rounds (step 9, then elevate); if the
-gate still fails after round 2, stop and disclose what remains ([render-and-look](references/process/render-and-look.md) section 5).
+batch (edit, re-capture, re-lint: about eight tool calls, no reference re-reading), and at most one
+confirm round. Critique gets one round (two in deep); if the gate still fails, stop and disclose what
+remains ([render-and-look](references/process/render-and-look.md) section 5). Before delivering, re-check
+every position, size or colour claim in your notes against the final render (section 9 there).
 
 ## Operators
 
@@ -176,25 +182,19 @@ host system of record (DESIGN.md, token file, themed library) is updated in plac
 
 ## Tools
 
-Scripts sit in `scripts/` beside this file, not in the host project: set `S=<this file's directory>/scripts`
-and run `"$S/<name>"` (every script path in the references means that). Probe once per session, run
-each with `--help` first. Ladder and traps: [render-and-look](references/process/render-and-look.md).
+Scripts sit beside this file: set `S=<this file's directory>/scripts`, run `"$S/<name>"` (every script
+path in the references means that), `--help` first. Ladder and traps: [render-and-look](references/process/render-and-look.md).
 
 - Render: `capture.mjs` (Playwright; sizes x themes x states, saved login, wall and blank detection,
   `--sheet` contact sheets) > `shot.sh` (headless Chrome, no dependencies) > none: mark it unverified.
-- Check: `lint.mjs` (the floor: contrast, overflow at each declared size (`--viewports`; 390 on web), targets,
-  labels, drift, reduced motion); `color_tools.py` (WCAG and APCA contrast, OKLCH scales, CVD, token matrix).
+- Check: `lint.mjs` (the floor at each declared size: contrast, overflow, clipped text, `--above-fold`, targets with `--platform`, labels, drift, motion); `color_tools.py` (contrast, OKLCH scales, CVD, token matrix).
 - Choose: `catalog.py` queries the catalogue (never read its files whole); `seed.py` rolls the divergence.
-- Outline: `text_to_path.py` sets a wordmark from a font file as SVG paths. It needs fontTools in
-  a venv (Homebrew and distro Pythons refuse a bare `pip install`): [brand](references/disciplines/brand.md).
-- Subagents, when the host has them: one per direction, given only its packet ([directions](references/process/directions.md)
-  section 6); one fresh critic. Without them, say the run was single-context.
-- Optional generators: a UI generator (Stitch MCP), a Figma bridge (Figma MCP), an image model: fast
-  hands inside this loop whose output still goes through contract, render, floor and critique.
+- Outline: `text_to_path.py` sets a wordmark as SVG paths (needs fontTools in a venv): [brand](references/disciplines/brand.md).
+- Subagents: one per direction with only its packet ([directions](references/process/directions.md) section 6), one fresh critic; without them, say so.
+- Optional generators (Stitch MCP, Figma MCP, an image model) are fast hands inside this loop, never outside it.
 
 Contract changes (modes, output layout, reference paths) are logged in [CHANGELOG](https://github.com/caocong1/design-skill-lab/blob/main/CHANGELOG.md).
 
 ## Feedback
 
-When a skill here is corrected, fails or lacks something, follow [feedback](references/feedback.md): it
-writes to the lab inbox only when that resolves, silently, and closes with a short retro.
+When a skill here is corrected, fails or lacks something, follow [feedback](references/feedback.md) (silent; a short retro closes the round).

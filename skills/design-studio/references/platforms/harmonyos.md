@@ -191,6 +191,9 @@ and the 8 vp grid: [layout-and-spacing](../fundamentals/layout-and-spacing.md).
   (body 22-26); watch 13 / 10. Phone icons 12 recommended, 8 required.
 - Touch targets (phone, tablet, foldable, watch, PC): the HarmonyOS row in
   [layout-and-spacing](../fundamentals/layout-and-spacing.md#targets-and-density).
+- **Checks you run**: `lint.mjs --platform harmonyos` fails targets under the minimum
+  ([numbers](../fundamentals/layout-and-spacing.md#targets-and-density)) and warns on bottom bars
+  (floating tab bar, toolbar) that sit in the gesture navigation area; clear every warning.
 - Contrast: icons and titles above 3:1, body text above 4.5:1; default system colours guarantee 3:1.
   Computation and general minima: [color](../fundamentals/color.md).
 - The main scrollable control is at least 20 % of the screen height (2.1.3.4, required).
