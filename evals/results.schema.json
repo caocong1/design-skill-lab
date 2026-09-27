@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://caocong1.github.io/design-skill-lab/evals/results.schema.json",
+  "title": "Design Skill Lab output eval: results of one round",
+  "description": "Written by the orchestrator to evals/runs/<date>/results.json after judging, with arms de-anonymised. Protocol: evals/judging.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["round", "arms", "briefs", "summary"],
+  "properties": {
+    "round": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["date", "design_model", "judge_model", "host", "method", "time_limit_minutes", "samples_per_cell", "tools"],
+      "properties": {
+        "date": {"type": "string", "format": "date"},
+        "design_model": {"type": "string", "description": "Exact model id used by every design agent."},
+        "judge_model": {"type": "string", "description": "Exact model id used by every judge and the rationale checker."},
+        "judge_shares_design_model": {"type": "boolean"},
+        "host": {"type": "string", "description": "Agent host and version, e.g. 'Claude Code 2.1.283'."},
+        "method": {"enum": ["subagents", "headless"]},
+        "isolation": {"type": "string", "description": "How arms were kept apart (safe mode, work dirs outside the repo, probe result)."},
+        "time_limit_minutes": {"type": "integer", "minimum": 1},
+        "samples_per_cell": {"type": "integer", "minimum": 1, "description": "With more than 1, briefs holds one entry per brief and sample (judging.md section 9)."},
+        "tools": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["render", "facts"],
+          "properties": {
+            "render": {"type": "string", "description": "evals/render.mjs@<commit>"},
+            "facts": {"type": "string", "description": "evals/tools/facts.mjs@<commit> (judging.md section 4)"}
+          }
+        },
+        "notes": {"type": "string"}
+      }
+    },
+    "arms": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "skills"],
+        "properties": {
+          "id": {"$ref": "#/$defs/armId"},
+          "skills": {"type": ["string", "null"], "description": "Where the arm's skills came from (path@commit); null for no-skill."},
+          "version": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "briefs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/briefResult"}
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pairs", "arms", "claims"],
+      "properties": {
+        "pairs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["arms", "wins", "losses", "ties"],
+            "properties": {
+              "arms": {"type": "array", "items": {"$ref": "#/$defs/armId"}, "minItems": 2, "maxItems": 2, "description": "[x, y]: wins and losses are counted for x."},
+              "wins": {"type": "integer", "minimum": 0},
+              "losses": {"type": "integer", "minimum": 0},
+              "ties": {"type": "integer", "minimum": 0}
+            }
+          }
+        },
+        "arms": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/armId"},
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["means", "brief_wins"],
+            "properties": {
+              "means": {"$ref": "#/$defs/meanSet"},
+              "brief_wins": {"type": "integer", "minimum": 0},
+              "cost": {"$ref": "#/$defs/cost"}
+            }
+          }
+        },
+        "claims": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Sentences allowed by the claim rule in judging.md section 9, including 'no clear difference' results and losses."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "armId": {"enum": ["no-skill", "suite-0.7.0", "suite-0.8.0"]},
+    "label": {"enum": ["A", "B", "C"]},
+    "judgeId": {"enum": ["J1", "J2", "J3"]},
+    "score": {"type": "integer", "minimum": 0, "maximum": 5, "description": "1-5 per judging.md section 6; 0 only for an empty arm."},
+    "mean": {"type": "number", "minimum": 0, "maximum": 5},
+    "scoreSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fit", "hierarchy", "identity", "craft", "typography", "platform_a11y"],
+      "properties": {
+        "fit": {"$ref": "#/$defs/score"},
+        "hierarchy": {"$ref": "#/$defs/score"},
+        "identity": {"$ref": "#/$defs/score"},
+        "craft": {"$ref": "#/$defs/score"},
+        "typography": {"$ref": "#/$defs/score"},
+        "platform_a11y": {"$ref": "#/$defs/score"},
+        "evidence": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "meanSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fit", "hierarchy", "identity", "craft", "typography", "platform_a11y", "overall"],
+      "properties": {
+        "fit": {"$ref": "#/$defs/mean"},
+        "hierarchy": {"$ref": "#/$defs/mean"},
+        "identity": {"$ref": "#/$defs/mean"},
+        "craft": {"$ref": "#/$defs/mean"},
+        "typography": {"$ref": "#/$defs/mean"},
+        "platform_a11y": {"$ref": "#/$defs/mean"},
+        "overall": {"$ref": "#/$defs/mean"}
+      }
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wall_seconds": {"type": ["number", "null"], "minimum": 0},
+        "input_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "output_tokens": {"type": ["integer", "null"], "minimum": 0},
+        "usd": {"type": ["number", "null"], "minimum": 0},
+        "subagents": {"type": ["integer", "null"], "minimum": 0, "description": "Subagents the design agent itself spawned, if known."}
+      }
+    },
+    "fileFacts": {
+      "type": "object",
+      "description": "Measured facts for one rendered file, as shown to judges (render.json + evals/tools/facts.mjs). Extra measured metrics may be added.",
+      "required": ["file", "viewport", "status", "method"],
+      "properties": {
+        "file": {"type": "string"},
+        "viewport": {"type": "string", "description": "<width>x<height>@<dpr>, e.g. 1440x900@1"},
+        "status": {"enum": ["ok", "missing", "error"]},
+        "source": {"enum": ["canonical", "arm-png"], "description": "arm-png when the canonical render failed and the arm's own PNG was judged."},
+        "frames": {"type": "array", "items": {"type": "string"}},
+        "truncated": {"type": "boolean"},
+        "horizontal_overflow": {"type": ["boolean", "null"]},
+        "console_errors": {"type": ["integer", "null"], "minimum": 0},
+        "contrast_failures": {"type": ["integer", "null"], "minimum": 0, "description": "Text nodes below WCAG 2.2 AA."},
+        "lowest_contrast": {"type": ["number", "null"], "minimum": 1},
+        "lowest_contrast_where": {"type": ["string", "null"]},
+        "targets_under_24": {"type": ["integer", "null"], "minimum": 0, "description": "Targets under 24 x 24 CSS px that fail the WCAG 2.5.8 spacing exception; a lower bound (only marked-up controls are found)."},
+        "targets_under_44": {"type": ["integer", "null"], "minimum": 0, "description": "Briefs 03 and 04 (facts.mjs --touch 44): every target under 44 x 44."},
+        "contrast_unmeasured": {"type": ["integer", "null"], "minimum": 0, "description": "Text nodes whose contrast could not be measured (for example gradient-filled text)."},
+        "images_missing_alt": {"type": ["integer", "null"], "minimum": 0},
+        "method": {"type": "string", "description": "Which tool produced the measured facts, e.g. 'evals/tools/facts.mjs@abc123'."}
+      }
+    },
+    "rationaleCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "claims", "verified", "contradicted", "not_checkable"],
+      "properties": {
+        "source": {"type": "array", "items": {"type": "string"}, "description": "Files the claims came from, e.g. ['out/rationale.md']."},
+        "claims": {
+          "type": "array",
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["claim", "verdict", "evidence"],
+            "properties": {
+              "claim": {"type": "string"},
+              "verdict": {"enum": ["verified", "contradicted", "not-checkable"]},
+              "evidence": {"type": "string"}
+            }
+          }
+        },
+        "verified": {"type": "integer", "minimum": 0},
+        "contradicted": {"type": "integer", "minimum": 0},
+        "not_checkable": {"type": "integer", "minimum": 0},
+        "functions": {
+          "type": "object",
+          "description": "Brief 06 only: coverage of the legacy function list.",
+          "additionalProperties": false,
+          "required": ["on_screen", "accounted_for", "missing"],
+          "properties": {
+            "on_screen": {"type": "integer", "minimum": 0},
+            "accounted_for": {"type": "integer", "minimum": 0},
+            "missing": {"type": "integer", "minimum": 0},
+            "missing_list": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "armResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "status", "deliverables", "facts", "scores", "means"],
+      "properties": {
+        "label": {"$ref": "#/$defs/label"},
+        "status": {"enum": ["ok", "partial", "empty"]},
+        "empty_cause": {"type": "string", "description": "Required in spirit when status is empty: timeout, crash, refusal, wrote elsewhere, render error."},
+        "deliverables": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["expected", "present", "missing"],
+          "properties": {
+            "expected": {"type": "integer", "minimum": 0},
+            "present": {"type": "integer", "minimum": 0},
+            "missing": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "cost": {"$ref": "#/$defs/cost"},
+        "facts": {"type": "array", "items": {"$ref": "#/$defs/fileFacts"}},
+        "scores": {
+          "type": "object",
+          "description": "Scores per judge. For an empty arm every judge's scores are 0 by rule.",
+          "propertyNames": {"$ref": "#/$defs/judgeId"},
+          "additionalProperties": {"$ref": "#/$defs/scoreSet"}
+        },
+        "means": {"$ref": "#/$defs/meanSet"},
+        "disagreement": {"type": "array", "items": {"type": "string"}, "description": "Dimensions whose judge spread is 3 or more."},
+        "rationale_check": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/rationaleCheck"}]},
+        "identity_leak": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    },
+    "preference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["judge", "left", "right", "prefer", "reason"],
+      "properties": {
+        "judge": {"$ref": "#/$defs/judgeId"},
+        "left": {"$ref": "#/$defs/armId"},
+        "right": {"$ref": "#/$defs/armId"},
+        "prefer": {"oneOf": [{"$ref": "#/$defs/armId"}, {"const": "tie"}]},
+        "reason": {"type": "string"},
+        "by_rule": {"type": "boolean", "description": "True when decided by the empty-arm rule, not by a judge."}
+      }
+    },
+    "pairResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["arms", "votes", "winner"],
+      "properties": {
+        "arms": {"type": "array", "items": {"$ref": "#/$defs/armId"}, "minItems": 2, "maxItems": 2},
+        "votes": {
+          "type": "object",
+          "description": "Judge votes per arm id plus 'tie'.",
+          "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 3}
+        },
+        "winner": {"oneOf": [{"$ref": "#/$defs/armId"}, {"type": "null"}]}
+      }
+    },
+    "briefResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["brief", "mapping", "judges", "arms", "preferences", "pairs", "winner", "winner_reason"],
+      "properties": {
+        "brief": {"type": "string", "pattern": "^0[1-9]-[a-z0-9-]+$"},
+        "sample": {"type": "integer", "minimum": 1, "description": "Which sample of the cell this is; required when round.samples_per_cell > 1."},
+        "mapping": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["A", "B", "C"],
+          "properties": {
+            "A": {"$ref": "#/$defs/armId"},
+            "B": {"$ref": "#/$defs/armId"},
+            "C": {"$ref": "#/$defs/armId"}
+          }
+        },
+        "mapping_seed": {"type": "string"},
+        "judges": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "lens"],
+            "properties": {
+              "id": {"$ref": "#/$defs/judgeId"},
+              "lens": {"enum": ["product", "visual", "platform"]},
+              "model": {"type": "string"}
+            }
+          }
+        },
+        "arms": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["no-skill", "suite-0.7.0", "suite-0.8.0"],
+          "properties": {
+            "no-skill": {"$ref": "#/$defs/armResult"},
+            "suite-0.7.0": {"$ref": "#/$defs/armResult"},
+            "suite-0.8.0": {"$ref": "#/$defs/armResult"}
+          }
+        },
+        "reference": {
+          "type": "object",
+          "description": "Brief 06 only: judges' scores for the legacy screen (before.png), label R.",
+          "additionalProperties": false,
+          "required": ["scores", "means"],
+          "properties": {
+            "scores": {
+              "type": "object",
+              "propertyNames": {"$ref": "#/$defs/judgeId"},
+              "additionalProperties": {"$ref": "#/$defs/scoreSet"}
+            },
+            "means": {"$ref": "#/$defs/meanSet"}
+          }
+        },
+        "preferences": {"type": "array", "items": {"$ref": "#/$defs/preference"}},
+        "pairs": {"type": "array", "maxItems": 3, "items": {"$ref": "#/$defs/pairResult"}},
+        "winner": {"oneOf": [{"$ref": "#/$defs/armId"}, {"type": "null"}]},
+        "winner_reason": {"enum": ["condorcet", "cycle", "ties", "all-empty"]},
+        "reruns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["arm", "reason"],
+            "properties": {
+              "arm": {"$ref": "#/$defs/armId"},
+              "reason": {"type": "string"}
+            }
+          }
+        },
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

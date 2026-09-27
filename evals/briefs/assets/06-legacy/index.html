@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!-- Eval fixture for evals/briefs/06-redesign-legacy.md.
+     FICTIONAL: the clinic, the product, every person, phone number, insurer and record below is invented.
+     This is deliberately an ordinary, crowded internal tool of the kind still in daily use. Do not "fix" it here. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AlderCare Scheduler 3.2 - Schedule</title>
+<style>
+  html, body { height: 100%; }
+  body { margin: 0; font-family: Verdana, Tahoma, Geneva, sans-serif; font-size: 11px; color: #222; background: #dfe3e8; display: flex; flex-direction: column; }
+  a { color: #0645ad; }
+  #hdr { height: 40px; background: linear-gradient(#2b4f7e, #1b365a); color: #fff; display: flex; align-items: center; padding: 0 8px; gap: 14px; }
+  #hdr .logo { font: bold 17px Tahoma, sans-serif; letter-spacing: -0.5px; }
+  #hdr .logo small { font-weight: normal; font-size: 10px; color: #b9cbe3; margin-left: 4px; }
+  #hdr select { font-size: 11px; }
+  #hdr .right { margin-left: auto; font-size: 10px; color: #d6e2f1; }
+  #hdr .right a { color: #fff; }
+  #tabs { background: #c9d2dc; border-bottom: 1px solid #8a99ab; padding: 4px 4px 0; white-space: nowrap; }
+  #tabs span { display: inline-block; padding: 4px 8px; margin-right: 1px; border: 1px solid #8a99ab; border-bottom: none;
+    background: linear-gradient(#f4f6f8, #d5dce4); border-radius: 3px 3px 0 0; color: #1d2f45; }
+  #tabs span.on { background: #fff; font-weight: bold; position: relative; top: 1px; }
+  #tabs span b { color: #c00; }
+  #alert { background: #fff3b0; border-bottom: 1px solid #d9b300; padding: 3px 8px; color: #7a4f00; }
+  #alert b { color: #b00000; }
+  #alert .sys { float: right; color: #555; }
+  #tb { background: linear-gradient(#fafafa, #e3e6ea); border-bottom: 1px solid #aab3be; padding: 3px 6px; display: flex; align-items: center; gap: 3px; flex-wrap: nowrap; }
+  .btn { font: 11px Verdana, sans-serif; padding: 2px 6px; border: 1px solid #9aa4b0; border-radius: 2px; background: linear-gradient(#fff, #dde2e8); color: #222; cursor: pointer; }
+  .btn.go { background: linear-gradient(#8fd16e, #4f9a2c); color: #fff; border-color: #3e7d22; font-weight: bold; }
+  .btn.red { color: #b00000; }
+  .sep { width: 1px; height: 18px; background: #aab3be; margin: 0 4px; }
+  #tb label { color: #444; margin-left: 4px; }
+  #tb input, #tb select { font-size: 11px; }
+  #main { display: flex; flex: 1; min-height: 0; }
+  #left { width: 176px; background: #eef1f4; border-right: 1px solid #aab3be; padding: 6px; overflow: hidden; }
+  .box { background: #fff; border: 1px solid #aab3be; margin-bottom: 6px; }
+  .box h4 { margin: 0; padding: 2px 5px; font-size: 10px; background: #d5dce4; border-bottom: 1px solid #aab3be; color: #1d2f45; text-transform: uppercase; }
+  .cal { width: 100%; border-collapse: collapse; font-size: 9px; text-align: center; }
+  .cal td, .cal th { padding: 1px 0; }
+  .cal th { color: #666; font-weight: normal; }
+  .cal td.o { color: #aaa; }
+  .cal td.t { background: #1b365a; color: #fff; font-weight: bold; }
+  .cal td.s { background: #ffe38a; }
+  .leg { padding: 3px 5px; font-size: 10px; line-height: 16px; }
+  .leg i { display: inline-block; width: 10px; height: 10px; border: 1px solid #888; vertical-align: -1px; margin-right: 4px; }
+  .wl { padding: 3px 5px; font-size: 10px; line-height: 15px; }
+  #grid { flex: 1; overflow: auto; background: #fff; border-right: 1px solid #aab3be; }
+  #grid .datebar { background: #1b365a; color: #fff; padding: 3px 6px; font-weight: bold; position: sticky; top: 0; z-index: 2; }
+  #grid .datebar span { font-weight: normal; color: #b9cbe3; margin-left: 10px; }
+  table.sch { border-collapse: collapse; width: 100%; table-layout: fixed; }
+  table.sch th { background: #d5dce4; border: 1px solid #9aa4b0; padding: 3px 2px; font-size: 10px; position: sticky; top: 19px; z-index: 1; }
+  table.sch th small { display: block; font-weight: normal; color: #555; }
+  table.sch td { border: 1px solid #c3cad3; height: 22px; padding: 1px 3px; font-size: 10px; vertical-align: top; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  table.sch td.tm { background: #eef1f4; color: #444; text-align: right; width: 54px; }
+  table.sch tr.hr td.tm { font-weight: bold; color: #000; }
+  table.sch td.blk { background: repeating-linear-gradient(45deg, #e6e6e6 0 4px, #f5f5f5 4px 8px); color: #666; font-style: italic; }
+  table.sch td.sel { outline: 2px solid #ff0000; outline-offset: -2px; }
+  .np { background: #ffc4d0; } .fu { background: #d4f7c4; } .ph { background: #b3d4ff; } .sk { background: #ffd98a; }
+  .vx { background: #dcc6ff; } .th { background: #a8f4f4; } .pr { background: #ffb0a8; } .cx { background: #f2f2f2; color: #999; text-decoration: line-through; }
+  .st { font-weight: bold; color: #555; }
+  .st.a { color: #008000; } .st.r { color: #0033cc; } .st.u { color: #cc6600; } .st.n { color: #cc0000; }
+  #right { width: 292px; background: #eef1f4; padding: 6px; overflow: hidden; }
+  #right h3 { margin: 0 0 4px; font-size: 12px; color: #1b365a; border-bottom: 2px solid #1b365a; padding-bottom: 2px; }
+  table.kv { width: 100%; border-collapse: collapse; font-size: 10px; background: #fff; border: 1px solid #aab3be; }
+  table.kv td { padding: 2px 4px; border-bottom: 1px dotted #ccc; vertical-align: top; }
+  table.kv td:first-child { color: #666; width: 84px; white-space: nowrap; }
+  .acts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 5px 0; }
+  .acts .btn { padding: 2px 0; font-size: 10px; }
+  .warn { background: #fff; border: 1px solid #e0a0a0; color: #b00000; padding: 3px 5px; margin: 4px 0; font-size: 10px; line-height: 14px; }
+  table.rv { width: 100%; border-collapse: collapse; font-size: 9px; background: #fff; }
+  table.rv th { background: #d5dce4; text-align: left; padding: 1px 3px; font-weight: normal; color: #333; }
+  table.rv td { padding: 1px 3px; border-bottom: 1px solid #eee; color: #555; }
+  #foot { flex: none; height: 18px; background: #c9d2dc; border-top: 1px solid #8a99ab; font-size: 10px; padding: 2px 8px; color: #333; box-sizing: border-box; }
+  #foot span { margin-right: 14px; }
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <div class="logo">AlderCare<small>Scheduler 3.2.7</small></div>
+  <select><option>Alder Street Family Practice - Main</option><option>Alder Street - Eastside Annex</option></select>
+  <div class="right">Mon 09/28/2026 08:04 AM &nbsp;|&nbsp; Logged in as: <b>mlopez</b> (Front Desk) &nbsp;|&nbsp; <a href="#">Preferences</a> &nbsp;|&nbsp; <a href="#">Change Password</a> &nbsp;|&nbsp; <a href="#">Logout</a></div>
+</div>
+
+<div id="tabs">
+  <span>Home</span><span class="on">Schedule</span><span>Patients</span><span>Check-In</span><span>Waitlist (4)</span><span>Recalls</span><span>Billing</span><span>Insurance / Eligibility</span><span>Reports</span><span>Messages <b>(3)</b></span><span>Tasks</span><span>Inventory</span><span>Admin</span><span>Help</span>
+</div>
+
+<div id="alert"><b>ALERT:</b> 3 appointments unconfirmed for tomorrow. 2 patients on today's schedule have insurance that could not be verified. <a href="#">Click here to view</a>.
+  <span class="sys">System maintenance: Sat 10/03 10:00 PM - Sun 2:00 AM</span></div>
+
+<div id="tb">
+  <button class="btn go">+ New Appt</button>
+  <button class="btn">Find Slot</button>
+  <button class="btn">Block Time</button>
+  <button class="btn">Walk-In</button>
+  <div class="sep"></div>
+  <button class="btn">Print Day</button>
+  <button class="btn">Print Labels</button>
+  <button class="btn">Export</button>
+  <button class="btn">Refresh</button>
+  <div class="sep"></div>
+  <button class="btn">Day</button><button class="btn">Week</button><button class="btn">Month</button>
+  <label>Provider:</label><select><option>All Providers</option></select>
+  <label>Date:</label><button class="btn">&lt;</button><input value="09/28/2026" size="9"><button class="btn">&gt;</button><button class="btn">Today</button>
+  <label>Patient:</label><input size="12" placeholder="Last, First or MRN"><button class="btn">Go</button>
+</div>
+
+<div id="main">
+  <div id="left">
+    <div class="box"><h4>September 2026</h4>
+      <table class="cal">
+        <tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr>
+        <tr><td class="o">30</td><td class="o">31</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+        <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+        <tr><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+        <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+        <tr><td class="s">27</td><td class="t">28</td><td>29</td><td>30</td><td class="o">1</td><td class="o">2</td><td class="o">3</td></tr>
+      </table>
+    </div>
+    <div class="box"><h4>Appointment Types</h4>
+      <div class="leg">
+        <i class="np"></i>New Patient (30)<br>
+        <i class="fu"></i>Follow-Up (15)<br>
+        <i class="ph"></i>Physical / Well Child (45)<br>
+        <i class="sk"></i>Sick Visit (15)<br>
+        <i class="vx"></i>Vaccine / Nurse (15)<br>
+        <i class="th"></i>Telehealth (15)<br>
+        <i class="pr"></i>Procedure (30)<br>
+        <i class="cx"></i>Cancelled
+      </div>
+    </div>
+    <div class="box"><h4>Status Codes</h4>
+      <div class="leg">
+        <span class="st">[C]</span> Confirmed &nbsp; <span class="st u">[U]</span> Unconf.<br>
+        <span class="st a">[A]</span> Arrived &nbsp;&nbsp;&nbsp; <span class="st r">[R]</span> In Room<br>
+        <span class="st n">[N]</span> No Show &nbsp;&nbsp; <span class="st">[X]</span> Cancelled<br>
+        <span class="st">[O]</span> Checked Out
+      </div>
+    </div>
+    <div class="box"><h4>Waitlist (4)</h4>
+      <div class="wl">
+        Pham, Linh - Rao - any AM<br>
+        Sutter, Greg - Ortega - sick<br>
+        Adeyemi, Tolu - Feld - WCC<br>
+        Brandt, Ilse - Kim - flu shot
+      </div>
+    </div>
+  </div>
+
+  <div id="grid">
+    <div class="datebar">Monday, September 28, 2026 <span>96 appts &middot; 3 arrived &middot; 2 in room &middot; 0 no-show &middot; 14 open</span></div>
+    <table class="sch">
+      <tr><th style="width:54px">Time</th><th>Rao, Anita MD<small>Family Med &middot; Rm 1-3</small></th><th>Feld, Marcus MD<small>Pediatrics &middot; Rm 4-5</small></th><th>Kim, Joanna NP<small>Family Med &middot; Rm 6</small></th><th>Ortega, Luis PA<small>Urgent / Sick &middot; Rm 7</small></th></tr>
+      <tr class="hr"><td class="tm">8:00 AM</td>
+        <td class="fu sel"><span class="st a">[A]</span> BRENNAN, HAROLD 75M F/U HTN</td>
+        <td class="vx"><span class="st r">[R]</span> JOHANSSON, MIA 4F 4yr shots</td>
+        <td></td>
+        <td class="sk"><span class="st r">[R]</span> WRIGHT, JAMAL 27M ankle sprain</td></tr>
+      <tr><td class="tm">8:15</td>
+        <td class="sk"><span class="st a">[A]</span> NATARAJAN, PRIYA 34F sore throat</td>
+        <td class="ph" rowspan="2"><span class="st">[C]</span> ABERNATHY, NOAH 9mo M WCC 9 mo</td>
+        <td class="fu"><span class="st a">[A]</span> CHEN, ROBERT 66M INR check</td>
+        <td></td></tr>
+      <tr><td class="tm">8:30</td>
+        <td class="ph" rowspan="3"><span class="st">[C]</span> OKAFOR, WALTER 58M Annual physical + fasting labs</td>
+        <td class="vx"><span class="st">[C]</span> FAIRBANKS, LINDA 71F flu vaccine</td>
+        <td class="fu"><span class="st">[C]</span> OLSEN, HANNAH 45F F/U thyroid</td></tr>
+      <tr><td class="tm">8:45</td>
+        <td class="sk"><span class="st u">[U]</span> CASTILLO, LIAM 7M ear pain</td>
+        <td class="sk"><span class="st">[C]</span> JORDAN, MARCUS 44M cough 2 wks</td>
+        <td class="fu"><span class="st">[C]</span> PETROV, VICTOR 68M F/U BP meds</td></tr>
+      <tr class="hr"><td class="tm">9:00 AM</td>
+        <td class="fu"><span class="st">[C]</span> THOMPSON, AVA 12F F/U asthma</td>
+        <td class="np" rowspan="2"><span class="st">[C]</span> RAHMAN, AISHA 31F New pt - est. care</td>
+        <td class="pr" rowspan="2"><span class="st">[C]</span> CLARKE, MEGAN 36F Wart removal (cryo)</td></tr>
+      <tr><td class="tm">9:15</td>
+        <td class="blk">Rx refills / admin</td>
+        <td class="vx"><span class="st">[C]</span> PARK, ETHAN 2M MMR #2</td></tr>
+      <tr><td class="tm">9:30</td>
+        <td class="np" rowspan="2"><span class="st u">[U]</span> LIU, GRACE 29F New pt - transfer from Dr. Marsh</td>
+        <td class="ph" rowspan="3"><span class="st u">[U]</span> BENNETT, ZOE 15F Sports physical - needs form</td>
+        <td class="th"><span class="st">[C]</span> O'BRIEN, KEVIN 55M Tele F/U lipids</td>
+        <td></td></tr>
+      <tr><td class="tm">9:45</td>
+        <td class="cx">[X] GOMEZ, PATRICIA 49F F/U</td>
+        <td class="th"><span class="st">[C]</span> BROOKS, SAMUEL 50M Tele med review</td></tr>
+      <tr class="hr"><td class="tm">10:00 AM</td>
+        <td class="fu"><span class="st">[C]</span> HERRERA, TOMAS 47M F/U diabetes A1c</td>
+        <td class="fu"><span class="st">[C]</span> DELGADO, FRANK 62M F/U knee</td>
+        <td class="fu"><span class="st u">[U]</span> FOSTER, DIANE 59F F/U labs</td></tr>
+      <tr><td class="tm">10:15</td>
+        <td class="fu"><span class="st">[C]</span> MARSH, EVELYN 81F F/U - needs wheelchair</td>
+        <td class="sk"><span class="st">[C]</span> REYES, LUCAS 3M fever / ADAMS, CHLOE 8F F/U</td>
+        <td class="blk" rowspan="3">Flu clinic - walk-ins</td>
+        <td class="sk"><span class="st">[C]</span> HASSAN, AHMED 41M back pain</td></tr>
+      <tr><td class="tm">10:30</td>
+        <td class="th"><span class="st">[C]</span> KOWALSKI, DANIEL 39M Tele F/U anxiety</td>
+        <td class="sk"><span class="st">[C]</span> NGUYEN, OLIVER 6M rash</td>
+        <td class="sk"><span class="st u">[U]</span> SOTO, ELENA 23F UTI sx</td></tr>
+      <tr><td class="tm">10:45</td>
+        <td></td>
+        <td></td>
+        <td class="fu"><span class="st">[C]</span> MORALES, JUAN 71M F/U COPD</td></tr>
+      <tr class="hr"><td class="tm">11:00 AM</td>
+        <td class="pr" rowspan="2"><span class="st">[C]</span> WHITFIELD, SARAH 52F Skin biopsy (shave) L shoulder</td>
+        <td class="vx"><span class="st">[C]</span> MOORE, ISABELLA 10F Tdap/HPV</td>
+        <td class="sk"><span class="st u">[U]</span> STEIN, RACHEL 38F sinus</td>
+        <td class="sk"><span class="st">[C]</span> YAMAMOTO, KEN 33M wrist pain</td></tr>
+      <tr><td class="tm">11:15</td>
+        <td class="fu"><span class="st">[C]</span> WALSH, HENRY 5M F/U ear</td>
+        <td class="fu"><span class="st">[C]</span> PATEL, NIKHIL 58M F/U gout</td>
+        <td></td></tr>
+      <tr><td class="tm">11:30</td>
+        <td class="fu"><span class="st">[C]</span> ROSSI, MARIA 64F F/U osteoporosis</td>
+        <td class="sk"><span class="st">[C]</span> GREENE, AMARA 11F sore throat</td>
+        <td class="th"><span class="st">[C]</span> LINDQVIST, ERIK 45M Tele F/U</td>
+        <td class="sk"><span class="st">[C]</span> OKONKWO, CHIDI 29M cut R hand</td></tr>
+      <tr><td class="tm">11:45</td>
+        <td class="fu"><span class="st u">[U]</span> DUBOIS, CLAIRE 37F F/U migraine</td>
+        <td class="blk">Hold - same day sick</td>
+        <td class="vx"><span class="st">[C]</span> WARD, BETTY 77F B12 inj</td>
+        <td class="sk"><span class="st">[C]</span> MENDEZ, RAUL 52M rash</td></tr>
+      <tr class="hr"><td class="tm">12:00 PM</td>
+        <td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td></tr>
+      <tr><td class="tm">12:15</td>
+        <td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td></tr>
+      <tr><td class="tm">12:30</td>
+        <td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td></tr>
+      <tr><td class="tm">12:45</td>
+        <td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td><td class="blk">LUNCH</td></tr>
+      <tr class="hr"><td class="tm">1:00 PM</td>
+        <td class="np" rowspan="2"><span class="st">[C]</span> ASANTE, KOFI 40M New pt</td>
+        <td class="ph" rowspan="3"><span class="st">[C]</span> SINGH, ARJUN 5M WCC 5 yr + vision</td>
+        <td class="fu"><span class="st">[C]</span> HOLLAND, JEAN 69F F/U CHF</td>
+        <td></td></tr>
+      <tr><td class="tm">1:15</td>
+        <td class="vx"><span class="st">[C]</span> FAIRBANKS, TOM 73M flu vaccine</td>
+        <td class="sk"><span class="st">[C]</span> BAKER, LILY 19F nausea</td></tr>
+      <tr><td class="tm">1:30</td>
+        <td class="fu"><span class="st">[C]</span> COLEMAN, RUTH 67F F/U arthritis</td>
+        <td class="fu"><span class="st u">[U]</span> IBARRA, SOFIA 42F F/U labs</td>
+        <td class="sk"><span class="st">[C]</span> NOVAK, PETR 36M fever</td></tr>
+    </table>
+  </div>
+
+  <div id="right">
+    <h3>Appointment Details</h3>
+    <table class="kv">
+      <tr><td>Patient</td><td><a href="#"><b>BRENNAN, HAROLD J</b></a></td></tr>
+      <tr><td>DOB / Age</td><td>03/14/1951 (75 y) &nbsp;M</td></tr>
+      <tr><td>MRN</td><td>00482913</td></tr>
+      <tr><td>Phone</td><td>(555) 014-2297 (H) &nbsp;(555) 014-8830 (C)</td></tr>
+      <tr><td>Appt</td><td>09/28/2026 8:00 AM - 8:15 AM (15 min)</td></tr>
+      <tr><td>Type</td><td>Follow-Up</td></tr>
+      <tr><td>Provider</td><td>Rao, Anita MD</td></tr>
+      <tr><td>Reason</td><td>F/U hypertension, BP recheck after med change</td></tr>
+      <tr><td>Status</td><td><span class="st a">Arrived 7:52 AM</span></td></tr>
+      <tr><td>Room</td><td>-- not assigned --</td></tr>
+      <tr><td>Insurance</td><td>BlueStar PPO #BSP-7730-2291<br>Elig. verified 09/25/2026</td></tr>
+      <tr><td>Copay</td><td>$25.00 &nbsp;<span style="color:#b00000">(not collected)</span></td></tr>
+      <tr><td>Booked by</td><td>jsmith 09/14/2026 2:31 PM</td></tr>
+      <tr><td>Reminder</td><td>SMS 09/27 6:00 PM - replied C</td></tr>
+    </table>
+    <div class="acts">
+      <button class="btn">Check In</button><button class="btn">Room</button><button class="btn">Check Out</button><button class="btn">Edit</button>
+      <button class="btn">Resched.</button><button class="btn red">Cancel</button><button class="btn red">No Show</button><button class="btn">Copay</button>
+      <button class="btn">Eligibility</button><button class="btn">Reminder</button><button class="btn">Notes</button><button class="btn">Print</button>
+    </div>
+    <div class="warn"><b>PATIENT ALERTS</b><br>
+      Balance overdue: $140.00 (64 days)<br>
+      Allergy: PENICILLIN (rash)<br>
+      Pt requests large-print forms. Hard of hearing R ear.</div>
+    <table class="rv">
+      <tr><th>Recent visits</th><th>Provider</th><th>Type</th></tr>
+      <tr><td>08/31/2026</td><td>Rao</td><td>F/U</td></tr>
+      <tr><td>07/02/2026</td><td>Rao</td><td>Sick</td></tr>
+      <tr><td>01/19/2026</td><td>Rao</td><td>Physical</td></tr>
+      <tr><td>10/06/2025</td><td>Kim</td><td>Vaccine</td></tr>
+    </table>
+  </div>
+</div>
+
+<div id="foot"><span>Ready.</span><span>96 appointments</span><span>3 arrived</span><span>2 in room</span><span>0 no-show</span><span>Server: ACS-APP02</span><span>Build 3.2.7.1184</span></div>
+
+</body>
+</html>
