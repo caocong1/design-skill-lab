@@ -1,0 +1,48 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
+  "name": "<system name>",
+  "version": "2025.10",
+  "description": "Template: copy the structure, not the values. DTCG 2025.10 resolver skeleton: theme family x mode without one file per combination. Family files hold palette ramps and structure (radius, density, type voice); mode files map semantic colour roles to ramp steps by reference ({family.neutral.50}, {family.neutral-dark.50}), so every family gets every mode. Later entries in resolutionOrder win. Referenced *.tokens.json files are yours to create. Check that the host toolchain reads resolvers before relying on this file; otherwise ship per-mode files.",
+  "sets": {
+    "foundation": {
+      "description": "Global constants: space, type scale, durations. Same in every theme and mode.",
+      "sources": [{ "$ref": "tokens/foundation.tokens.json" }]
+    },
+    "semantic": {
+      "description": "Non-colour roles (space.inset, radius.control, text.body) and component exceptions, referencing foundation and family tokens.",
+      "sources": [{ "$ref": "tokens/semantic.tokens.json" }]
+    }
+  },
+  "modifiers": {
+    "theme": {
+      "description": "Theme family: a personality, not a hue. Each family defines the same token paths.",
+      "contexts": {
+        "<family-a>": [{ "$ref": "tokens/theme/<family-a>.tokens.json" }],
+        "<family-b>": [{ "$ref": "tokens/theme/<family-b>.tokens.json" }]
+      },
+      "default": "<family-a>"
+    },
+    "mode": {
+      "description": "Colour roles per mode, written as references to the active family's ramps.",
+      "contexts": {
+        "light": [{ "$ref": "tokens/mode/light.tokens.json" }],
+        "dark": [{ "$ref": "tokens/mode/dark.tokens.json" }],
+        "lightHighContrast": [
+          { "$ref": "tokens/mode/light.tokens.json" },
+          { "$ref": "tokens/mode/high-contrast.tokens.json" }
+        ],
+        "darkHighContrast": [
+          { "$ref": "tokens/mode/dark.tokens.json" },
+          { "$ref": "tokens/mode/high-contrast.tokens.json" }
+        ]
+      },
+      "default": "light"
+    }
+  },
+  "resolutionOrder": [
+    { "$ref": "#/sets/foundation" },
+    { "$ref": "#/modifiers/theme" },
+    { "$ref": "#/sets/semantic" },
+    { "$ref": "#/modifiers/mode" }
+  ]
+}

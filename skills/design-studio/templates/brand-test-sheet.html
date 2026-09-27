@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand test sheet</title>
+<!-- Template: copy the structure, not the values. Save as .design/brand/test-sheet.html.
+     Paste the candidate into MARK (an SVG that paints with currentColor, viewBox tight to the mark,
+     text already converted to paths). Put the five closest competitors' marks into COMPETITORS and a
+     real photograph into PHOTO. Every placeholder below is grey on purpose. One sheet per candidate;
+     the tests and their pass conditions: references/disciplines/brand.md §4. -->
+<style>
+  :root { --ink: #111; --paper: #fff; --line: #d8d8d8; --muted: #666; --brand: #5a5a5a; /* PLACEHOLDER brand colour */
+          font: 13px/1.4 system-ui, sans-serif; color: var(--ink); background: #efefef; }
+  body { margin: 0; padding: 16px; display: grid; gap: 16px; }
+  section { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 12px 16px; }
+  h2 { margin: 0 0 10px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .row { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; }
+  figure { margin: 0; display: grid; gap: 4px; justify-items: start; }
+  figcaption { font: 11px ui-monospace, monospace; color: var(--muted); }
+  .mark { display: block; }
+  .mark svg { display: block; width: 100%; height: 100%; }
+  .tile { display: grid; place-items: center; width: 120px; height: 120px; }
+  .on-white { background: #fff; color: #000; outline: 1px solid var(--line); }
+  .on-black { background: #000; color: #fff; }
+  .on-brand { background: var(--brand); color: #fff; }
+  .busy { color: #fff; background:
+    radial-gradient(circle at 30% 30%, #c9b18a 0 18%, transparent 19%), radial-gradient(circle at 70% 60%, #3d5a6b 0 22%, transparent 23%),
+    repeating-linear-gradient(35deg, #8a8a8a 0 6px, #d0d0d0 6px 11px, #4a4a4a 11px 14px); background-size: cover; }
+  .tab { display: flex; align-items: center; gap: 6px; width: 180px; padding: 6px 10px; border-radius: 8px 8px 0 0; font-size: 12px; }
+  .tab.light { background: #fff; color: #222; outline: 1px solid var(--line); }
+  .tab.dark { background: #2b2b2b; color: #eee; }
+  .circle { border-radius: 50%; overflow: hidden; }
+  .squircle { border-radius: 22.37%; overflow: hidden; } /* an approximation; platform masks: disciplines/app-icons.md */
+  .adaptive { position: relative; }
+  .adaptive::after { content: ""; position: absolute; inset: 19.4%; border: 1px dashed #e00; border-radius: 50%; } /* 66 of 108 dp */
+  .rough svg { filter: url(#stamp); }
+  .lineup { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; filter: grayscale(1); }
+  .lineup .mark { height: 56px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="stamp"><!-- ink spread plus a roughened edge: stamp, embroidery, cheap print -->
+    <feMorphology operator="dilate" radius="0.6"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5"/>
+  </filter>
+</svg>
+
+<section><h2>Sizes</h2><div class="row" id="sizes"></div></section>
+<section><h2>One colour, reversed, on brand, knocked out</h2><div class="row" id="colour"></div></section>
+<section><h2>Favicon in a tab, avatar crops, app-icon masks</h2><div class="row" id="crops"></div></section>
+<section><h2>Reproduction: stamp and embroidery simulation</h2><div class="row" id="repro"></div></section>
+<section><h2>Line-up with the five closest competitors (greyscale, equal height)</h2><div class="lineup" id="lineup"></div></section>
+
+<script>
+  // PLACEHOLDER candidate: replace with the mark under test.
+  const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+    <path d="M50 8a42 42 0 1 0 42 42H64a14 14 0 1 1-14-14V8z"/></svg>`;
+  // PLACEHOLDER competitors: their real marks (SVG markup or image URLs), captured during research.
+  const COMPETITORS = [
+    `<svg viewBox="0 0 100 100" fill="currentColor"><circle cx="50" cy="50" r="42"/></svg>`,
+    `<svg viewBox="0 0 100 100" fill="currentColor"><rect x="10" y="10" width="80" height="80" rx="18"/></svg>`,
+    `<svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 6 94 84H6z"/></svg>`,
+    `<svg viewBox="0 0 100 100" fill="currentColor"><path d="M10 50a40 40 0 0 1 80 0z"/><rect x="10" y="56" width="80" height="14"/></svg>`,
+    `<svg viewBox="0 0 100 100" fill="currentColor"><path d="M50 8 88 30v40L50 92 12 70V30z"/></svg>`,
+  ];
+  const PHOTO = ""; // URL of a real photograph for the knockout test; empty uses a busy pattern
+
+  const $ = (id) => document.getElementById(id);
+  const mark = (size, extra = "") => `<span class="mark ${extra}" style="width:${size}px;height:${size}px">${MARK}</span>`;
+  const fig = (inner, caption) => `<figure>${inner}<figcaption>${caption}</figcaption></figure>`;
+  const tile = (cls, inner, style = "") => `<div class="tile ${cls}" style="${style}">${inner}</div>`;
+
+  $("sizes").innerHTML = [16, 24, 32, 48, 96, 200].map((s) => fig(mark(s), `${s} px`)).join("");
+
+  const photo = PHOTO ? `background:url('${PHOTO}') center/cover` : "";
+  $("colour").innerHTML = [
+    fig(tile("on-white", mark(72)), "black on white"),
+    fig(tile("on-black", mark(72)), "reversed"),
+    fig(tile("on-brand", mark(72)), "on the brand colour"),
+    fig(tile("busy", mark(72), photo), PHOTO ? "on the photograph" : "on a busy pattern (add PHOTO)"),
+  ].join("");
+
+  $("crops").innerHTML = [
+    fig(`<div class="tab light">${mark(16)}<span>Page title</span></div>`, "favicon 16, light"),
+    fig(`<div class="tab dark">${mark(16)}<span>Page title</span></div>`, "favicon 16, dark"),
+    fig(tile("on-white circle", mark(26), "width:40px;height:40px"), "avatar 40"),
+    fig(tile("on-white circle", mark(78), "width:120px;height:120px"), "avatar 120"),
+    fig(tile("on-brand squircle", mark(70)), "rounded-square mask"),
+    fig(tile("on-brand circle adaptive", mark(70)), "circle mask; dashed = adaptive safe zone"),
+  ].join("");
+
+  $("repro").innerHTML = [
+    fig(tile("on-white rough", mark(48)), "48 px, rough"),
+    fig(tile("on-white rough", mark(96)), "96 px, rough"),
+    fig(tile("on-black rough", mark(64)), "reversed, rough"),
+  ].join("");
+
+  const other = (c) => c.trim().startsWith("<") ? c : `<img src="${c}" alt="" style="height:100%">`;
+  $("lineup").innerHTML = [`<span class="mark" style="width:56px">${MARK}</span>`,
+    ...COMPETITORS.map((c) => `<span class="mark" style="width:56px">${other(c)}</span>`)].join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" data-motion="full">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion demo</title>
+<!-- Template: copy the structure, not the values. Save as .design/motion/<name>.html.
+     Replace the three sample moments with the product's real components and content. Keep the
+     control bar, the speed control, the reduced-motion toggle and the ?moment=&t= freeze.
+     Decisions and spec: references/disciplines/motion.md. Tokens: references/disciplines/motion-tokens.md.
+     URL: ?moment=<id>&t=<ms> plays one moment and freezes every animation at t (for frame captures);
+          ?reduced=1 forces the reduced column; ?scheme=expressive switches the spring scheme. -->
+<style>
+  /* 1. Motion tokens: copied from motion-tokens.md §2; use the product's own */
+  :root {
+    --p-spring-z10: linear(0, 0.005 1.1%, 0.02 2.3%, 0.044 3.6%, 0.082 5.1%, 0.16 7.7%, 0.364 13.8%, 0.463 16.9%, 0.557 20.2%, 0.636 23.4%, 0.706 26.7%, 0.766 30.1%, 0.817 33.7%, 0.86 37.5%, 0.899 42%, 0.93 46.9%, 0.954 52.4%, 0.971 58.6%, 0.983 65.5%, 0.991 73.8%, 1);
+    --p-spring-z09: linear(0, 0.006 1.3%, 0.022 2.7%, 0.05 4.2%, 0.091 5.9%, 0.179 8.9%, 0.394 15.5%, 0.493 18.7%, 0.588 22.1%, 0.669 25.4%, 0.736 28.6%, 0.794 31.9%, 0.844 35.4%, 0.885 39%, 0.922 43.3%, 0.95 47.9%, 0.971 53%, 0.986 58.9%, 0.995 65.4%, 1 73.4%, 1);
+    --p-spring-z08: linear(0, 0.007 1.4%, 0.025 2.8%, 0.057 4.4%, 0.101 6.1%, 0.2 9.2%, 0.43 15.7%, 0.535 18.8%, 0.635 22.1%, 0.717 25.2%, 0.787 28.3%, 0.845 31.4%, 0.893 34.6%, 0.932 38%, 0.964 41.7%, 0.987 45.7%, 1.003 50.1%, 1.012 55.2%, 1.015 64.8%, 1);
+    --p-spring-z06: linear(0, 0.008 1.3%, 0.031 2.6%, 0.07 4%, 0.123 5.5%, 0.178 6.8%, 0.247 8.3%, 0.527 13.9%, 0.646 16.4%, 0.757 19%, 0.849 21.5%, 0.922 23.9%, 0.983 26.4%, 1.029 28.9%, 1.063 31.6%, 1.079 33.5%, 1.089 35.4%, 1.094 39.6%, 1.081 44.7%, 1.019 58.8%, 0.998 67.1%, 0.991 78%, 1);
+    --motion-spatial-fast: 224ms var(--p-spring-z09);
+    --motion-spatial: 317ms var(--p-spring-z09);
+    --motion-effects-fast: 150ms var(--p-spring-z10);
+    --motion-effects: 231ms var(--p-spring-z10);
+  }
+  [data-motion-scheme="expressive"] {
+    --motion-spatial-fast: 360ms var(--p-spring-z06);
+    --motion-spatial: 435ms var(--p-spring-z08);
+  }
+
+  /* 2. Product tokens: PLACEHOLDER, from the system (a demo that still looks grey is unfinished) */
+  :root {
+    color-scheme: light dark;
+    --bg: light-dark(#f4f4f4, #171717);
+    --surface: light-dark(#ffffff, #232323);
+    --line: light-dark(#d4d4d4, #3a3a3a);
+    --text: light-dark(#171717, #f4f4f4);
+    --muted: light-dark(#5c5c5c, #a3a3a3);
+    --radius: 6px;
+    font: 15px/1.45 system-ui, sans-serif;
+  }
+  body { margin: 0; background: var(--bg); color: var(--text); }
+
+  /* 3. Demo chrome: neutral and fixed, never a contestant */
+  .bar { position: sticky; top: 0; z-index: 9; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center;
+         padding: 8px 16px; background: #111; color: #eee; font: 12px/1.4 ui-monospace, monospace; }
+  .bar label { display: inline-flex; gap: 6px; align-items: center; }
+  .bar select, .bar button { font: inherit; }
+  .stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px; }
+  .moment { position: relative; overflow: hidden; min-height: 320px; background: var(--surface);
+            border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .moment > code { position: absolute; top: 8px; right: 12px; color: var(--muted); font-size: 11px; }
+  button.ui { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: var(--radius);
+              background: var(--surface); color: var(--text); }
+
+  /* 4. Moments: sample components; replace with the product's */
+  .menu { position: absolute; top: 56px; left: 16px; min-width: 180px; margin: 0; padding: 4px; list-style: none;
+          background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+          box-shadow: 0 8px 24px rgb(0 0 0 / 0.12); transform-origin: top left;
+          transition: transform var(--motion-spatial-fast), opacity var(--motion-effects-fast); }
+  .menu li { padding: 6px 10px; border-radius: 4px; }
+  .menu[data-state="closed"] { opacity: 0; transform: scale(0.96); pointer-events: none; }
+  .sheet { position: absolute; inset: auto 0 0; padding: 16px; background: var(--surface);
+           border-top: 1px solid var(--line); border-radius: 12px 12px 0 0; transform: translateY(100%);
+           transition: transform var(--motion-spatial); }
+  .sheet[data-state="open"] { transform: none; }
+  .rows { margin: 12px 0 0; padding: 0; list-style: none; }
+  .rows li { padding: 8px 0; border-bottom: 1px solid var(--line);
+             transition: transform var(--motion-spatial), opacity var(--motion-effects);
+             transition-delay: calc(var(--i, 0) * 40ms); } /* index within the inserted batch */
+  @starting-style { .rows li { opacity: 0; transform: translateY(8px); } }
+
+  /* 5. Reduced column, one rule set: data-motion comes from the OS setting or the toggle */
+  [data-motion="reduce"] .menu { transition: opacity 100ms linear; }
+  [data-motion="reduce"] .menu[data-state="closed"] { transform: none; }
+  [data-motion="reduce"] .sheet { transform: none; opacity: 0; transition: opacity 150ms linear; }
+  [data-motion="reduce"] .sheet[data-state="open"] { opacity: 1; }
+  [data-motion="reduce"] .rows li { transition: opacity 100ms linear; transition-delay: 0s; }
+  @starting-style { [data-motion="reduce"] .rows li { transform: none; } }
+</style>
+</head>
+<body>
+<div class="bar" role="toolbar" aria-label="Demo controls">
+  <strong>Motion demo</strong>
+  <label>speed <select id="speed"><option value="1">1x</option><option value="0.5">0.5x</option>
+    <option value="0.25">0.25x</option><option value="0.1">0.1x</option></select></label>
+  <label><input type="checkbox" id="reduced"> reduced motion</label>
+  <label>scheme <select id="scheme"><option value="">standard</option><option value="expressive">expressive</option></select></label>
+  <button id="replay" type="button">replay all</button>
+  <span id="frozen" hidden></span>
+</div>
+
+<main class="stage">
+  <section class="moment" data-moment="menu">
+    <code>menu</code>
+    <button class="ui" id="menu-trigger" aria-expanded="false" aria-controls="menu">Sort by</button>
+    <ul class="menu" id="menu" data-state="closed"><li>Newest</li><li>Oldest</li><li>Name</li></ul>
+  </section>
+  <section class="moment" data-moment="sheet">
+    <code>sheet</code>
+    <button class="ui" id="sheet-trigger" aria-expanded="false" aria-controls="sheet">Filters</button>
+    <div class="sheet" id="sheet" data-state="closed"><strong>Filters</strong><p>Sheet content from the product.</p></div>
+  </section>
+  <section class="moment" data-moment="rows">
+    <code>rows</code>
+    <button class="ui" id="rows-trigger">Add three items</button>
+    <ul class="rows" id="rows"></ul>
+  </section>
+</main>
+
+<script>
+  const root = document.documentElement;
+  const params = new URLSearchParams(location.search);
+  const $ = (id) => document.getElementById(id);
+
+  // Each moment: play() starts it from its resting state; reset() returns to rest without motion.
+  const toggle = (el, trigger) => {
+    const open = el.dataset.state !== "open";
+    el.dataset.state = open ? "open" : "closed";
+    trigger.setAttribute("aria-expanded", String(open));
+  };
+  let n = 0;
+  const moments = {
+    menu: { play: () => toggle($("menu"), $("menu-trigger")), reset: () => { $("menu").dataset.state = "closed"; } },
+    sheet: { play: () => toggle($("sheet"), $("sheet-trigger")), reset: () => { $("sheet").dataset.state = "closed"; } },
+    rows: {
+      play: () => { for (let i = 0; i < 3; i++) $("rows").insertAdjacentHTML("beforeend", `<li style="--i: ${i}">Item ${++n}</li>`); },
+      reset: () => { $("rows").replaceChildren(); n = 0; },
+    },
+  };
+  $("menu-trigger").onclick = moments.menu.play;
+  $("sheet-trigger").onclick = moments.sheet.play;
+  $("rows-trigger").onclick = moments.rows.play;
+
+  // Reduced motion: the OS setting first; the toggle and ?reduced=1 override it.
+  const osReduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("reduced").checked = params.get("reduced") === "1" || osReduced;
+  const applyReduced = () => { root.dataset.motion = $("reduced").checked ? "reduce" : "full"; };
+  $("reduced").onchange = applyReduced;
+  applyReduced();
+
+  $("scheme").value = params.get("scheme") || "";
+  const applyScheme = () => { if ($("scheme").value) root.dataset.motionScheme = $("scheme").value; else delete root.dataset.motionScheme; };
+  $("scheme").onchange = applyScheme;
+  applyScheme();
+
+  // Speed: playbackRate on every animation covers CSS transitions, keyframes and WAAPI alike.
+  let rate = 1;
+  $("speed").onchange = () => { rate = Number($("speed").value); };
+  (function tick() {
+    for (const a of document.getAnimations()) if (a.playbackRate !== rate) a.playbackRate = rate;
+    requestAnimationFrame(tick);
+  })();
+
+  $("replay").onclick = () => {
+    for (const m of Object.values(moments)) m.reset();
+    requestAnimationFrame(() => requestAnimationFrame(() => Object.values(moments).forEach((m) => m.play())));
+  };
+
+  // Frame capture: ?moment=<id>&t=<ms> plays one moment and freezes all animations at t.
+  const id = params.get("moment");
+  if (id && moments[id]) {
+    moments[id].reset();
+    getComputedStyle(document.body).opacity; // commit the resting state before playing
+    moments[id].play();
+    const t = params.get("t");
+    if (t !== null) {
+      getComputedStyle(document.body).opacity; // create the transitions now
+      for (const a of document.getAnimations()) { a.pause(); a.currentTime = Number(t); }
+      $("frozen").hidden = false;
+      $("frozen").textContent = `frozen: ${id} at ${t} ms`;
+    }
+  }
+</script>
+</body>
+</html>

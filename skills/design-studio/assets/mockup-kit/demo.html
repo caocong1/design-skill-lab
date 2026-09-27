@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup kit v2 demo</title>
+<link rel="stylesheet" href="kit.css">
+<style>
+/* ===== The design's tokens: one block, every frame. Roles map per target below. ================ */
+.design {
+  --color-bg: light-dark(#f3f5f6, #0f1417);
+  --color-surface: light-dark(#ffffff, #182024);
+  --color-surface-sunk: light-dark(#e9edef, #222b30);
+  --color-border-subtle: light-dark(#e1e6e9, #2a3439);
+  --color-border-strong: light-dark(#7c8a91, #6b7a82);
+  --color-text: light-dark(#1b2328, #e8eef1);
+  --color-text-muted: light-dark(#546168, #9fb0b8);
+  --color-accent: light-dark(#006f92, #7fd3f7);
+  --color-accent-hover: light-dark(#13546d, #a8e3ff);
+  --color-on-accent: light-dark(#ffffff, #06222e);
+  --color-accent-subtle: light-dark(#d6ecf5, #173a4a);
+  --color-warning: light-dark(#7a4f00, #f5c96b);
+  --color-warning-mark: light-dark(#9a6700, #f5c96b);
+  --color-warning-subtle: light-dark(#fdf1d8, #3a2c10);
+  --color-danger: light-dark(#b3261e, #ff9c94);
+  --color-danger-subtle: light-dark(#fde7e5, #3d1a18);
+  --color-danger-solid: light-dark(#b3261e, #c9302a);
+  --color-on-danger: #ffffff;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+  /* type roles; each platform maps them to its own ramp */
+  --fs-hero: 28px; --lh-hero: 34px; --fw-hero: 700;
+  --fs-head: 17px; --lh-head: 22px;
+  --fs-row: 17px; --lh-row: 22px; --fw-row: 400;
+  --fs-meta: 15px; --lh-meta: 20px;
+  --fs-cap: 13px; --lh-cap: 18px;
+  --margin: 16px; --r-card: 12px; --r-control: 10px;
+  /* chrome reads the design */
+  --mk-tint: var(--color-accent); --mk-on-tint: var(--color-on-accent); --mk-badge: var(--color-danger-solid);
+  background: var(--color-bg); color: var(--color-text);
+}
+.design[data-platform="ios"]       { --r-card: 24px; }
+.design[data-platform="android"]   { --fs-hero: 36px; --lh-hero: 44px; --fw-hero: 500; --fs-head: 14px; --lh-head: 20px; --fs-row: 16px; --lh-row: 24px; --fs-meta: 14px; --lh-meta: 20px; --fs-cap: 12px; --lh-cap: 16px; --r-card: 28px; --r-control: 16px;
+  --mk-m3-surface: var(--color-bg); --mk-m3-container: light-dark(#e6ecef, #1d272c); --mk-m3-indicator: var(--color-accent-subtle); --mk-m3-on-variant: var(--color-text-muted); --mk-m3-active: var(--color-accent); }
+.design[data-platform="harmonyos"] { --fs-hero: 30px; --lh-hero: 40px; --fs-head: 16px; --lh-head: 22px; --fs-row: 16px; --lh-row: 22px; --fw-row: 500; --fs-meta: 12px; --lh-meta: 16px; --fs-cap: 12px; --lh-cap: 16px; --r-card: 16px; --r-control: 20px;
+  --mk-hm-page: var(--color-bg); }
+.design[data-platform="wechat"]    { --fs-hero: 22px; --lh-hero: 30px; --fw-hero: 600; --fs-head: 14px; --lh-head: 20px; --fs-row: 17px; --lh-row: 24px; --fs-meta: 14px; --lh-meta: 20px; --fs-cap: 12px; --lh-cap: 16px; --r-card: 12px; --r-control: 8px;
+  --mk-wx-tab-ink: var(--color-text-muted); --mk-wx-tab-bg: var(--color-surface); }
+.design[data-platform="windows"],
+.design[data-platform="office"]    { --fs-hero: 20px; --lh-hero: 28px; --fw-hero: 600; --fs-head: 14px; --lh-head: 20px; --fs-row: 14px; --lh-row: 20px; --fs-meta: 12px; --lh-meta: 16px; --fs-cap: 12px; --lh-cap: 16px; --r-card: 8px; --r-control: 4px; }
+
+.design .mk-status, .design .mk-home { color: var(--color-text); --mk-ink: var(--color-text); }
+.design .mk-edge { --mk-edge-color: color-mix(in srgb, var(--color-bg) 88%, transparent); }
+:where(.design) :where(h2, h3, p, ul) { margin: 0; }
+:where(.design) ul { padding: 0; list-style: none; }
+:where(.design) button { font: inherit; color: inherit; cursor: pointer; }
+.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.f { fill: currentColor; stroke: none; }
+
+/* ===== shared parts ============================================================================ */
+/* The round strip: one tick per device in today's round. Shape and colour both carry the status:
+   short filled = normal, tall filled = flagged (warning or critical), outline = not yet inspected. */
+.strip { display: flex; align-items: flex-end; gap: 3px; height: 22px; }
+.strip i { flex: 1; min-width: 3px; height: 12px; border-radius: 2px; background: var(--color-accent); }
+.strip i[data-s="warn"] { height: 22px; background: var(--color-warning-mark); }
+.strip i[data-s="crit"] { height: 22px; background: var(--color-danger); }
+.strip i[data-s="todo"] { box-shadow: inset 0 0 0 1.5px var(--color-text-muted); background: none; }
+.strip b { width: 8px; flex: none; }   /* gap between rooms */
+:root[data-state="loading"] .strip i { background: var(--color-surface-sunk); box-shadow: none; height: 12px; }
+.legend { display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: var(--fs-cap); line-height: var(--lh-cap); color: var(--color-text-muted); }
+.legend span { white-space: nowrap; }
+.legend em { font-style: normal; font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend .w { color: var(--color-warning); } .legend .c { color: var(--color-danger); }
+.hero-num { display: flex; align-items: baseline; gap: 6px; font-variant-numeric: tabular-nums; }
+.hero-num b { font-size: var(--fs-hero); line-height: var(--lh-hero); font-weight: var(--fw-hero); }
+.hero-num span { font-size: var(--fs-meta); line-height: var(--lh-meta); color: var(--color-text-muted); }
+
+.status { flex: none; display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-meta); line-height: var(--lh-meta); font-weight: 500; white-space: nowrap; color: var(--color-text-muted); }
+.status .i { width: 16px; height: 16px; }
+.status[data-status="crit"] { color: var(--color-danger); }
+.status[data-status="warn"] { color: var(--color-warning); }
+.status[data-status="next"] { color: var(--color-accent); }
+
+.row { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
+.row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.row-text b { font-size: var(--fs-row); line-height: var(--lh-row); font-weight: var(--fw-row); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-text span { font-size: var(--fs-meta); line-height: var(--lh-meta); color: var(--color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.num { font-variant-numeric: tabular-nums; }
+:root[data-state="loading"] .row-text { gap: 6px; }
+
+.banner { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-card); background: var(--color-warning-subtle); color: var(--color-warning); font-size: var(--fs-meta); line-height: var(--lh-meta); }
+.banner p { flex: 1; min-width: 0; text-wrap: pretty; }
+.banner p b { display: block; font-weight: 600; }
+.banner button { flex: none; border: 0; background: none; padding: 6px 0; font-weight: 600; color: var(--color-warning); text-decoration: underline; text-underline-offset: 3px; }
+/* a text button keeps its line height; the hit area (48 dp, >= 44 pt) extends past it without moving the layout */
+:is(.banner, .ios-stale) button { position: relative; }
+:is(.banner, .ios-stale) button::after { content: ""; position: absolute; inset: -8px -10px; }
+.ios-stale button::after { inset: -12px -10px; }
+.empty { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-6) var(--sp-4); }
+.empty h3 { font-size: var(--fs-head); line-height: var(--lh-head); font-weight: 600; }
+.empty p { font-size: var(--fs-meta); line-height: var(--lh-meta); color: var(--color-text-muted); text-wrap: pretty; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 var(--sp-5); border: 0; border-radius: var(--r-control); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+.btn-quiet { background: var(--color-surface-sunk); color: var(--color-text); }
+
+/* ===== iOS 26: grouped lists, floating glass chrome =========================================== */
+.ios-body { display: flex; flex-direction: column; gap: var(--sp-6); padding: 0 var(--margin); }
+.ios-head { display: flex; flex-direction: column; gap: 2px; padding-top: var(--sp-1); }
+.ios-head p { font-size: var(--fs-meta); line-height: var(--lh-meta); color: var(--color-text-muted); }
+.ios-stale { display: flex; align-items: center; gap: 6px; color: var(--color-warning) !important; }
+.ios-stale .i { width: 16px; height: 16px; }
+.ios-stale button { margin-left: auto; padding: 0; border: 0; background: none; font-weight: 600; color: var(--color-accent); }   /* same line height as the subtitle it replaces: no jump between states */
+.ios-round { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-4) var(--sp-5) var(--sp-4); border-radius: var(--r-card); background: var(--color-surface); }
+.ios-group { display: flex; flex-direction: column; gap: var(--sp-2); }
+.ios-group h3 { padding: 0 var(--sp-5); font-size: var(--fs-head); line-height: var(--lh-head); font-weight: 600; }
+.ios-group h3 small { margin-left: 6px; font-size: inherit; font-weight: 400; color: var(--color-text-muted); }
+.ios-list { border-radius: var(--r-card); background: var(--color-surface); overflow: hidden; }
+.ios-list .row { min-height: 60px; padding: var(--sp-2) var(--sp-4) var(--sp-2) var(--sp-5); box-sizing: border-box; }
+.ios-list .row + .row { box-shadow: inset var(--sp-5) 0 0 var(--color-surface), inset 0 0.5px 0 var(--color-border-subtle); }
+.ios-list .chev { width: 14px; height: 14px; color: var(--color-border-strong); stroke-width: 2.4; }
+.acc-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.acc-text b { font-size: 15px; line-height: 20px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.acc-text > span { font-size: 13px; line-height: 16px; color: var(--mk-label); opacity: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.acc-go { flex: none; height: 36px; padding: 0 16px; border: 0; border-radius: 18px; background: var(--mk-tint); color: var(--mk-on-tint) !important; font-size: 15px; font-weight: 600; }
+:root[data-state="scrolled"] .acc-text span { display: none; }   /* minimised: the device ID alone */
+
+/* ===== Android: M3 Expressive, tonal surfaces, chips, FAB ===================================== */
+.m3-body { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-2) 0 var(--sp-4); }
+.m3-chips { display: flex; gap: var(--sp-2); padding: 0 var(--margin); overflow: hidden; }
+.m3-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border: 0; border-radius: 8px; background: none; box-shadow: inset 0 0 0 1px var(--color-border-strong); font-size: 14px; line-height: 20px; font-weight: 500; color: var(--color-text-muted); }
+.m3-chip[aria-pressed="true"] { background: var(--color-accent-subtle); box-shadow: none; color: var(--color-text); padding-left: 8px; }
+.m3-chip .i { width: 18px; height: 18px; }
+.m3-hero { display: flex; flex-direction: column; gap: var(--sp-3); margin: 0 var(--margin); padding: var(--sp-5) var(--sp-6); border-radius: var(--r-card); background: light-dark(#e6ecef, #1d272c); }
+.m3-hero-top { display: flex; justify-content: space-between; align-items: flex-end; }
+.m3-hero-top > span { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--color-text-muted); }
+.m3-label { padding: var(--sp-2) var(--margin) 0; font-size: var(--fs-head); line-height: var(--lh-head); font-weight: 500; color: var(--color-accent); }
+.m3-list .row { min-height: 72px; padding: var(--sp-2) var(--margin); box-sizing: border-box; gap: var(--sp-4); }
+.m3-avatar { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--color-surface-sunk); color: var(--color-text-muted); }
+.m3-avatar[data-status="crit"] { background: var(--color-danger-subtle); color: var(--color-danger); }
+.m3-avatar[data-status="warn"] { background: var(--color-warning-subtle); color: var(--color-warning); }
+.m3-avatar[data-status="next"] { background: var(--color-accent-subtle); color: var(--color-accent); }
+.m3-list .trail { flex: none; align-self: flex-start; padding-top: 6px; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--color-text-muted); }
+.m3-list .trail[data-status="crit"] { color: var(--color-danger); }
+.m3-list .trail[data-status="warn"] { color: var(--color-warning); }
+.m3-efab { background: var(--color-accent-subtle); color: var(--color-accent); }
+
+/* ===== HarmonyOS 6: cards grouped by room, 沉浸光感 chrome ==================================== */
+.hm-body { display: flex; flex-direction: column; gap: 12px; padding: 0 var(--margin); }
+.hm-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 0 var(--sp-1); }
+.hm-head h2 { font-size: 30px; line-height: 40px; font-weight: 700; }
+.hm-head span { font-size: 12px; line-height: 16px; color: var(--color-text-muted); }
+.hm-card { display: flex; flex-direction: column; border-radius: var(--r-card); background: var(--color-surface); }
+.hm-card > header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 6px; font-size: var(--fs-head); line-height: var(--lh-head); font-weight: 500; }
+.hm-card > header span { font-size: 12px; line-height: 16px; font-weight: 400; color: var(--color-text-muted); }
+.hm-hero { gap: 12px; padding: 16px; }
+.hm-hero .btn { width: 100%; min-height: 40px; border-radius: var(--r-control); font-size: 16px; font-weight: 500; }
+.hm-list .row { min-height: 56px; padding: 6px 16px; box-sizing: border-box; }
+.hm-list .row + .row { box-shadow: inset 16px 0 0 var(--color-surface), inset 0 0.5px 0 var(--color-border-subtle); }
+.hm-list .status { gap: 3px; padding: 2px 6px; border-radius: 4px; font-size: 12px; line-height: 16px; background: var(--color-surface-sunk); }
+.hm-list .status[data-status="crit"] { background: var(--color-danger-subtle); }
+.hm-list .status[data-status="warn"] { background: var(--color-warning-subtle); }
+.hm-list .status[data-status="next"] { background: var(--color-accent-subtle); }
+.hm-more { padding: 10px 16px 14px; font-size: 12px; line-height: 16px; color: var(--color-text-muted); }
+
+/* ===== WeChat mini-program: one focus, WeUI-style cells ======================================= */
+.wx-body { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3) 0 var(--sp-6); }
+.wx-scan { display: flex; align-items: center; gap: var(--sp-4); margin: 0 var(--margin); padding: var(--sp-5); border: 0; border-radius: var(--r-card); text-align: left;
+  background: light-dark(var(--color-accent), var(--color-accent-subtle)); color: light-dark(var(--color-on-accent), var(--color-text)) !important; }   /* dark: a large block takes the container tone */
+.wx-scan > .i { color: light-dark(currentColor, var(--color-accent)); }
+.wx-scan .i { width: 36px; height: 36px; stroke-width: 1.6; }
+.wx-scan b { display: block; font-size: 22px; line-height: 30px; font-weight: 600; }
+.wx-scan span { display: block; font-size: 14px; line-height: 20px; }
+.wx-progress { display: flex; flex-direction: column; gap: var(--sp-3); margin: var(--sp-2) var(--margin) 0; padding: var(--sp-4); border-radius: var(--r-card); background: var(--color-surface); }
+.wx-progress .hero-num { justify-content: space-between; }
+.wx-title { padding: var(--sp-4) var(--margin) var(--sp-1); font-size: 14px; line-height: 20px; color: var(--color-text-muted); }
+.wx-cells { background: var(--color-surface); }
+.wx-cells .row { min-height: 64px; padding: var(--sp-2) var(--margin); box-sizing: border-box; }
+.wx-cells .row + .row { box-shadow: inset var(--margin) 0 0 var(--color-surface), inset 0 0.5px 0 var(--color-border-subtle); }
+.wx-cells .row-text span { font-size: 14px; }
+.wx-cells .status { font-size: 14px; }
+.wx-all { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 0 var(--margin); font-size: 15px; color: var(--color-text); box-shadow: inset var(--margin) 0 0 var(--color-surface), inset 0 0.5px 0 var(--color-border-subtle); }
+.wx-all .i { width: 16px; height: 16px; color: var(--color-border-strong); }
+
+/* ===== Office task pane (Excel add-in), Fluent 2 web ========================================== */
+.pane-body { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-4) var(--sp-4) var(--sp-6); }
+.pane-body h2 { font-size: 20px; line-height: 28px; font-weight: 600; }
+.pane-body > p { font-size: 14px; line-height: 20px; color: var(--color-text-muted); text-wrap: pretty; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 14px; line-height: 20px; font-weight: 600; }
+.select { display: flex; align-items: center; justify-content: space-between; height: 32px; padding: 0 10px 0 12px; border-radius: var(--r-control); background: var(--color-surface); box-shadow: inset 0 0 0 1px var(--color-border-subtle), inset 0 -1px 0 var(--color-border-strong); }
+.select .i { width: 16px; height: 16px; color: var(--color-text-muted); }
+.pane-sum { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3); border-radius: var(--r-card); background: var(--color-surface-sunk); }
+.pane-sum .legend { font-size: 12px; }
+.checks { display: flex; flex-direction: column; gap: var(--sp-2); margin: 0; padding: 0; border: 0; }
+.checks legend { padding: 0 0 4px; font-size: 14px; font-weight: 600; }
+.check { display: flex; align-items: center; gap: var(--sp-2); min-height: 32px; font-size: 14px; }
+.box { flex: none; display: grid; place-items: center; width: 18px; height: 18px; box-sizing: border-box; border-radius: 3px; box-shadow: inset 0 0 0 1px var(--color-border-strong); }
+.box[data-on] { background: var(--color-accent); box-shadow: none; color: var(--color-on-accent); }
+.box .i { width: 14px; height: 14px; stroke-width: 2.4; }
+.pane-list .row { min-height: 44px; padding: 4px 0; box-sizing: border-box; box-shadow: inset 0 -1px 0 var(--color-border-subtle); }
+.pane-list .status { font-size: 12px; line-height: 16px; }
+.pane-h { padding-bottom: 4px; font-size: 14px; line-height: 20px; font-weight: 600; box-shadow: inset 0 -1px 0 var(--color-border-subtle); }
+.pane-foot { flex: none; display: flex; gap: var(--sp-2); padding: var(--sp-3) var(--sp-4) var(--sp-4); box-shadow: inset 0 1px 0 var(--color-border-subtle); background: var(--color-bg); }
+.pane-foot .btn { min-height: 32px; padding: 0 var(--sp-4); font-size: 14px; }
+.pane-foot .btn:first-child { flex: 1; }
+
+/* ===== Windows 11: Mica base, content layer, table + detail =================================== */
+.design.mk-window { --mk-base: light-dark(#eef1f2, #1b2023); background: var(--mk-base); }
+.win-search { display: flex; align-items: center; gap: 8px; width: 380px; height: 32px; box-sizing: border-box; padding: 0 8px 0 12px; border-radius: 4px; background: light-dark(rgb(255 255 255 / 0.7), rgb(255 255 255 / 0.06)); box-shadow: inset 0 0 0 1px var(--color-border-subtle), inset 0 -1px 0 var(--color-border-strong); color: var(--color-text-muted); font-size: 14px; }
+.win-search .i { width: 16px; height: 16px; }
+.win-search kbd { margin-left: auto; font-family: inherit; font-size: 12px; line-height: 16px; color: var(--color-text-muted); }
+.win-nav { flex: none; width: 232px; display: flex; flex-direction: column; gap: 4px; padding: 4px 8px 12px; box-sizing: border-box; }
+.win-nav a { position: relative; display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 12px; border-radius: 4px; color: var(--color-text); text-decoration: none; }
+.win-nav a .i { width: 18px; height: 18px; color: var(--color-text-muted); }
+.win-nav a[aria-current] { background: light-dark(rgb(0 0 0 / 0.05), rgb(255 255 255 / 0.07)); font-weight: 600; }
+.win-nav a[aria-current]::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 2px; background: var(--color-accent); }
+.win-nav a[aria-current] .i { color: var(--color-accent); }
+.win-nav .count { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; box-sizing: border-box; border-radius: 10px; background: var(--color-danger-solid); color: var(--color-on-danger); font-size: 12px; line-height: 20px; font-weight: 600; text-align: center; }
+.win-nav .spacer { flex: 1; }
+.win-layer { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-5) var(--sp-6) 0; border-top-left-radius: 8px; background: var(--color-surface); box-shadow: inset 1px 1px 0 var(--color-border-subtle); }
+.win-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--sp-6); }
+.win-head h2 { font-size: 28px; line-height: 36px; font-weight: 600; }
+.win-head p { font-size: 14px; line-height: 20px; color: var(--color-text-muted); }
+.win-cmd { display: flex; align-items: center; gap: var(--sp-2); }
+.win-cmd .btn { min-height: 32px; padding: 0 12px; font-size: 14px; font-weight: 600; gap: 6px; }
+.win-cmd .btn .i { width: 16px; height: 16px; }
+.win-cmd .btn-quiet { background: var(--color-surface); box-shadow: inset 0 0 0 1px var(--color-border-subtle), inset 0 -1px 0 var(--color-border-strong); font-weight: 400; }
+.win-cmd .sep { width: 1px; height: 20px; margin: 0 4px; background: var(--color-border-subtle); }
+.seg { display: flex; padding: 2px; border-radius: 4px; background: var(--color-surface-sunk); }
+.seg a { padding: 4px 12px; border-radius: 3px; color: var(--color-text-muted); text-decoration: none; font-size: 14px; }
+.seg a[aria-current] { background: var(--color-surface); color: var(--color-text); font-weight: 600; box-shadow: 0 0 0 1px var(--color-border-subtle); }
+.win-rooms { display: flex; gap: var(--sp-6); padding: var(--sp-4); border-radius: 8px; background: var(--color-bg); }
+.win-room { display: flex; flex-direction: column; gap: var(--sp-2); }
+.win-room header { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; line-height: 16px; color: var(--color-text-muted); }
+.win-room header b { font-weight: 600; color: var(--color-text); }
+.win-room .strip { height: 28px; gap: 4px; }
+.win-room .strip i { width: 14px; flex: none; height: 16px; }
+.win-room .strip i:is([data-s="warn"], [data-s="crit"]) { height: 28px; }
+.win-split { flex: 1; min-height: 0; display: flex; gap: var(--sp-6); }
+.win-table { flex: 1; min-width: 0; align-self: flex-start; border-collapse: collapse; font-size: 14px; line-height: 20px; }
+.win-table th { padding: 8px 10px; text-align: left; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--color-text-muted); box-shadow: inset 0 -1px 0 var(--color-border-subtle); white-space: nowrap; }
+.win-table td { padding: 9px 10px; white-space: nowrap; box-shadow: inset 0 -1px 0 var(--color-border-subtle); }
+.win-table td:first-child, .win-table th:first-child { padding-left: 8px; }
+.win-table td.muted { color: var(--color-text-muted); }
+.win-table .status { font-size: 14px; }
+.win-table tr[aria-selected="true"] td { background: var(--color-accent-subtle); }
+.win-table tr[aria-selected="true"] td:first-child { box-shadow: inset 3px 0 0 var(--color-accent), inset 0 -1px 0 var(--color-border-subtle); }
+:root[data-state="loading"] .win-table tr[aria-selected="true"] td { background: none; box-shadow: inset 0 -1px 0 var(--color-border-subtle); }   /* nothing is selected until rows exist */
+.win-detail { flex: none; width: 272px; display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-5); box-sizing: border-box; align-self: flex-start; border-radius: 8px; background: var(--color-bg); }
+.win-detail h3 { font-size: 20px; line-height: 28px; font-weight: 600; }
+.win-detail dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin: 0; font-size: 14px; line-height: 20px; }
+.win-detail dt { color: var(--color-text-muted); }
+.win-detail dd { margin: 0; }
+.spark { display: flex; flex-direction: column; gap: 6px; font-size: 12px; line-height: 16px; color: var(--color-text-muted); }
+.spark svg { width: 100%; height: 56px; overflow: visible; }
+.win-detail .acts { display: flex; gap: var(--sp-2); }
+.win-detail .acts .btn { min-height: 32px; font-size: 14px; font-weight: 400; padding: 0 12px; background: var(--color-surface); box-shadow: inset 0 0 0 1px var(--color-border-subtle), inset 0 -1px 0 var(--color-border-strong); color: var(--color-text); }
+
+/* ===== board ================================================================================== */
+body { margin: 0; background: light-dark(#e8e6e1, #131517); color: light-dark(#23272b, #e6e8ea); font-family: system-ui, -apple-system, "PingFang SC", sans-serif; }
+.board-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; padding: 40px 48px 0; }
+.board-head h1 { margin: 0; font-size: 28px; line-height: 36px; font-weight: 700; letter-spacing: -0.01em; }
+.board-head p { margin: 4px 0 0; font-size: 14px; line-height: 20px; color: light-dark(#4d5359, #a9b0b6); max-width: 60ch; text-wrap: pretty; }
+.switch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 4px; font-size: 13px; line-height: 18px; }
+.switch span { margin: 0 6px 0 14px; color: light-dark(#4d5359, #a9b0b6); }
+.switch span:first-child { margin-left: 0; }
+.switch a { padding: 6px 10px; border-radius: 6px; color: inherit; text-decoration: none; box-shadow: inset 0 0 0 1px light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.16)); }
+.switch a[aria-current] { background: light-dark(#23272b, #e6e8ea); color: light-dark(#fff, #131517); box-shadow: none; font-weight: 600; }
+.note { flex: 1 1 520px; max-width: 700px; display: flex; flex-direction: column; gap: 14px; font-size: 13px; line-height: 19px; }
+.note h2 { margin: 0; font-size: 15px; line-height: 20px; }
+.note p { margin: 0; color: light-dark(#4d5359, #a9b0b6); text-wrap: pretty; }
+.note table { border-collapse: collapse; width: 100%; }
+.note th, .note td { padding: 7px 10px 7px 0; text-align: left; vertical-align: top; word-break: keep-all;   /* CJK breaks only at spaces and punctuation */ box-shadow: inset 0 -1px 0 light-dark(rgb(0 0 0 / 0.12), rgb(255 255 255 / 0.12)); }
+.note th { font-weight: 600; white-space: nowrap; }
+.note td.r { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.note-narrow { flex: 0 1 248px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <mask id="k-today"><rect width="24" height="24" fill="#fff"/><path d="m9 13.2 2.1 2.1 4-4.6" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></mask>
+    <mask id="k-server"><rect width="24" height="24" fill="#fff"/><circle cx="7.5" cy="7.5" r="1.2" fill="#000"/><circle cx="7.5" cy="16.5" r="1.2" fill="#000"/><path d="M11 7.5h5M11 16.5h5" stroke="#000" stroke-width="1.8" stroke-linecap="round"/></mask>
+  </defs>
+  <symbol id="today" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4.6V4a1.2 1.2 0 0 1 1.2-1.2h3.6A1.2 1.2 0 0 1 15 4v.6"/><path d="m9 13.2 2.1 2.1 4-4.6"/></symbol>
+  <symbol id="today-f" viewBox="0 0 24 24"><rect class="f" x="5" y="4" width="14" height="17" rx="2.5" mask="url(#k-today)"/><rect class="f" x="8.6" y="2.2" width="6.8" height="3.4" rx="1.3"/></symbol>
+  <symbol id="server" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="7" rx="2"/><rect x="3.5" y="13" width="17" height="7" rx="2"/><path d="M7.5 7.5h.01M7.5 16.5h.01M11 7.5h5M11 16.5h5"/></symbol>
+  <symbol id="server-f" viewBox="0 0 24 24"><g class="f" mask="url(#k-server)"><rect x="3.5" y="4" width="17" height="7" rx="2"/><rect x="3.5" y="13" width="17" height="7" rx="2"/></g></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path d="M6.5 16.5V10a5.5 5.5 0 0 1 11 0v6.5l1.5 1.5H5z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></symbol>
+  <symbol id="bell-f" viewBox="0 0 24 24"><path class="f" d="M12 3.4A6.2 6.2 0 0 0 5.8 9.6v6.3l-1.3 1.4a.9.9 0 0 0 .7 1.5h13.6a.9.9 0 0 0 .7-1.5l-1.3-1.4V9.6A6.2 6.2 0 0 0 12 3.4ZM9.6 19.9a2.6 2.6 0 0 0 4.8 0Z"/></symbol>
+  <symbol id="person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.8"/><path d="M4.8 20.2c.6-3.5 3.5-5.7 7.2-5.7s6.6 2.2 7.2 5.7"/></symbol>
+  <symbol id="person-f" viewBox="0 0 24 24"><circle class="f" cx="12" cy="7.8" r="4.2"/><path class="f" d="M12 13.6c-4.3 0-7.5 2.5-8 6.4a1 1 0 0 0 1 1.1h14a1 1 0 0 0 1-1.1c-.5-3.9-3.7-6.4-8-6.4Z"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.5 15.5 4.5 4.5"/></symbol>
+  <symbol id="scan" viewBox="0 0 24 24"><path d="M4 8.5V6a2 2 0 0 1 2-2h2.5M15.5 4H18a2 2 0 0 1 2 2v2.5M20 15.5V18a2 2 0 0 1-2 2h-2.5M8.5 20H6a2 2 0 0 1-2-2v-2.5M3.5 12h17"/></symbol>
+  <symbol id="filter" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></symbol>
+  <symbol id="more" viewBox="0 0 24 24"><circle class="f" cx="6" cy="12" r="1.7"/><circle class="f" cx="12" cy="12" r="1.7"/><circle class="f" cx="18" cy="12" r="1.7"/></symbol>
+  <symbol id="more-v" viewBox="0 0 24 24"><circle class="f" cx="12" cy="6" r="1.7"/><circle class="f" cx="12" cy="12" r="1.7"/><circle class="f" cx="12" cy="18" r="1.7"/></symbol>
+  <symbol id="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="warn" viewBox="0 0 24 24"><path d="M10.3 4.2 2.9 17.6A2 2 0 0 0 4.6 20.5h14.8a2 2 0 0 0 1.7-2.9L13.7 4.2a2 2 0 0 0-3.4 0Z"/><path d="M12 9.5v4M12 17h.01"/></symbol>
+  <symbol id="crit" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
+  <symbol id="todo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></symbol>
+  <symbol id="next" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m10.5 8.5 4 3.5-4 3.5"/></symbol>
+  <symbol id="refresh" viewBox="0 0 24 24"><path d="M19.5 12A7.5 7.5 0 1 1 17 6.4"/><path d="M19.5 4v4h-4"/></symbol>
+  <symbol id="send" viewBox="0 0 24 24"><path d="M4 12 20 4l-4 16-4-6.5z"/><path d="m12 13.5 8-9.5"/></symbol>
+  <symbol id="export" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></symbol>
+  <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V19a1.5 1.5 0 0 1-1.5 1.5H15v-6H9v6H5.5A1.5 1.5 0 0 1 4 19z"/></symbol>
+  <symbol id="home-f" viewBox="0 0 24 24"><path class="f" d="M11.4 3.3a1 1 0 0 1 1.2 0l7.9 6.4a1.3 1.3 0 0 1 .5 1V19a2 2 0 0 1-2 2h-3.6v-6.2H8.6V21H5a2 2 0 0 1-2-2v-8.3a1.3 1.3 0 0 1 .5-1Z"/></symbol>
+  <symbol id="ticket" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2.5a2.5 2.5 0 0 0 0-5z"/><path d="M9 9.5h6M9 14.5h4"/></symbol>
+  <symbol id="chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16M8 16v-5M12 16V8M16 16v-3"/></symbol>
+  <symbol id="gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M6 18l1.4-1.4M16.6 7.4 18 6"/></symbol>
+  <symbol id="cloud-off" viewBox="0 0 24 24"><path d="M7.5 18.5H17a4 4 0 0 0 1.6-7.7A6 6 0 0 0 8 8.6"/><path d="M5.2 10.2A4.2 4.2 0 0 0 7.5 18.5M3.5 3.5l17 17"/></symbol>
+  <symbol id="calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8.5 3v4M15.5 3v4"/></symbol>
+  <symbol id="rack" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M8 7h8M8 11h8M8 15h8"/></symbol>
+</svg>
+
+<header class="board-head">
+  <div>
+    <h1>Mockup kit v2 · 一个产品，六个目标</h1>
+    <p>同一套 token、同一份数据（机房巡检，早班，2026-09-27，示意数据），按每个平台的导航、主操作位置和材质重新组织，不是把同一块内容套进六个外壳。</p>
+  </div>
+  <nav class="switch" aria-label="状态、主题与标注">
+    <span>状态</span>
+    <a data-set="state=default" href="?state=default">默认</a>
+    <a data-set="state=scrolled" href="?state=scrolled">滚动后</a>
+    <a data-set="state=loading" href="?state=loading">加载中</a>
+    <a data-set="state=error" href="?state=error">同步失败</a>
+    <a data-set="state=empty-first" href="?state=empty-first">首次为空</a>
+    <span>主题</span>
+    <a data-set="theme=auto" href="?theme=auto">跟随系统</a>
+    <a data-set="theme=light" href="?theme=light">浅色</a>
+    <a data-set="theme=dark" href="?theme=dark">深色</a>
+    <span>材质</span>
+    <a data-set="annotate=1" href="?annotate=1">标注</a>
+    <a data-set="annotate=0" href="?annotate=0">隐藏</a>
+  </nav>
+</header>
+
+<div class="mk-stage">
+
+  <!-- ============================ iOS 26 ============================ -->
+  <figure class="mk-item">
+    <div class="mk-device design" data-platform="ios" data-frame="iphone-17">
+      <div class="mk-island"></div>
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <main class="mk-scroll" data-scroll="180" style="--mk-clear-top: var(--mk-ios-clear-top); --mk-clear-bottom: var(--mk-ios-clear-bottom-acc)">
+          <div class="ios-body">
+            <div class="ios-head">
+              <h2 class="mk-ios-large-title">今日巡检</h2>
+              <p data-when="default scrolled loading empty-first"><span data-skeleton>早班 · A/B 机房 · 9 月 27 日</span></p>
+              <p class="ios-stale" data-when="error"><svg class="i"><use href="#cloud-off"/></svg>同步失败，显示 09:20 的数据<button>重试</button></p>
+            </div>
+            <section class="ios-round" data-when="default scrolled loading error">
+              <div class="hero-num"><b data-skeleton>18</b><span data-skeleton>/ 24 台已巡检</span></div>
+              <div class="strip" role="img" aria-label="24 台设备：已巡检 18 台，其中 2 台关注、1 台严重；6 台待巡检">
+                <i></i><i></i><i></i><i></i><i></i><i data-s="warn"></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i></i><i data-s="crit"></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i data-s="warn"></i><i></i>
+              </div>
+              <p class="legend"><span data-skeleton><em class="w">2</em> 关注</span><span data-skeleton><em class="c">1</em> 严重</span><span data-skeleton><em>6</em> 待巡检</span></p>
+            </section>
+            <section class="ios-group" data-when="default scrolled loading error">
+              <h3>需要处理<small data-skeleton>3</small></h3>
+              <ul class="ios-list">
+                <li class="row"><div class="row-text"><b data-skeleton>UPS-B-01 蓄电池组</b><span data-skeleton>内阻 6.8 mΩ，阈值 5.5</span></div><span class="status" data-status="crit" data-skeleton>严重</span><svg class="i chev"><use href="#chev"/></svg></li>
+                <li class="row"><div class="row-text"><b data-skeleton>精密空调 CRAC-A-02</b><span data-skeleton>回风 27.4 ℃，阈值 27</span></div><span class="status" data-status="warn" data-skeleton>关注</span><svg class="i chev"><use href="#chev"/></svg></li>
+                <li class="row"><div class="row-text"><b data-skeleton>冷水机组 Chiller-2</b><span data-skeleton>出水 12.1 ℃，阈值 12</span></div><span class="status" data-status="warn" data-skeleton>关注</span><svg class="i chev"><use href="#chev"/></svg></li>
+              </ul>
+            </section>
+            <section class="ios-group" data-when="default scrolled loading error">
+              <h3>待巡检<small data-skeleton>6</small></h3>
+              <ul class="ios-list">
+                <li class="row"><div class="row-text"><b data-skeleton>存储阵列 SAN-02</b><span data-skeleton>B 机房 · 5 列 03 柜</span></div><span class="status" data-status="next" data-skeleton>下一台</span><svg class="i chev"><use href="#chev"/></svg></li>
+                <li class="row"><div class="row-text"><b data-skeleton>数据库 DB-Primary-03</b><span data-skeleton>B 机房 · 6 列 08 柜</span></div><svg class="i chev"><use href="#chev"/></svg></li>
+                <li class="row"><div class="row-text"><b data-skeleton>防火墙 FW-Edge-02</b><span data-skeleton>A 机房 · 2 列 04 柜</span></div><svg class="i chev"><use href="#chev"/></svg></li>
+                <li class="row"><div class="row-text"><b data-skeleton>另外 3 台</b></div><svg class="i chev"><use href="#chev"/></svg></li>
+              </ul>
+            </section>
+            <section class="ios-group" data-when="default scrolled loading error">
+              <h3>已完成<small data-skeleton>15</small></h3>
+              <ul class="ios-list"><li class="row"><div class="row-text"><b data-skeleton>15 台正常</b><span data-skeleton>最近 09:20 柴油发电机 Gen-01</span></div><svg class="i chev"><use href="#chev"/></svg></li></ul>
+            </section>
+            <section class="empty" data-when="empty-first">
+              <h3>今天没有分配给你的巡检</h3>
+              <p>排班发布后，本轮设备会按巡检路线列在这里。临时检查一台设备，可以直接扫机柜门上的二维码。</p>
+              <button class="btn"><svg class="i"><use href="#scan"/></svg>扫码检查一台设备</button>
+            </section>
+          </div>
+        </main>
+        <div class="mk-edge" data-edge="top"></div>
+        <div class="mk-edge" data-edge="bottom"></div>
+        <header class="mk-ios-toolbar">
+          <span class="mk-ios-title" data-when="scrolled">今日巡检</span>
+          <span class="mk-ios-spacer"></span>
+          <div class="mk-ios-group mk-glass" data-material="glass-regular" data-material-spec="ios: Liquid Glass regular">
+            <button aria-label="筛选"><svg class="i"><use href="#filter"/></svg></button>
+            <button aria-label="更多"><svg class="i"><use href="#more"/></svg></button>
+          </div>
+        </header>
+        <div class="mk-ios-tabbar" data-minimize="on-scroll-down">
+          <div class="mk-ios-accessory mk-glass" data-material="glass-regular" data-material-spec="ios: Liquid Glass regular" data-when="default scrolled loading error">
+            <div class="acc-text"><b data-skeleton><span>下一台 </span>SAN-02 · 存储阵列</b><span data-skeleton>B 机房 5 列 03 柜 · 已巡检 18/24</span></div>
+            <button class="acc-go">继续巡检</button>
+          </div>
+          <nav class="mk-ios-tabs mk-glass" data-material="glass-regular" data-material-spec="ios: Liquid Glass regular" aria-label="主导航">
+            <a class="mk-ios-tab" aria-current="page"><svg class="i"><use href="#today-f"/></svg><span>今日</span></a>
+            <a class="mk-ios-tab"><svg class="i"><use href="#server-f"/></svg><span>设备</span></a>
+            <a class="mk-ios-tab"><svg class="i"><use href="#bell-f"/></svg><span>告警</span><b class="mk-badge">3</b></a>
+            <a class="mk-ios-tab"><svg class="i"><use href="#person-f"/></svg><span>我的</span></a>
+          </nav>
+          <a class="mk-ios-search mk-glass" data-material="glass-regular" data-material-spec="ios: Liquid Glass regular" aria-label="搜索"><svg class="i"><use href="#search"/></svg></a>
+        </div>
+      </div>
+      <div class="mk-home"></div>
+    </div>
+    <figcaption class="mk-caption">iOS 26 · iPhone 17<small>402 × 874 pt。悬浮玻璃标签栏，搜索是尾端独立标签。进行中的一轮巡检在每个标签下都在，属于持续性功能，所以放进标签栏附件；“继续巡检”是唯一着色的操作。滚动后标签栏最小化，大标题收进工具栏。</small></figcaption>
+  </figure>
+
+  <!-- ============================ Android 16 / M3 Expressive ============================ -->
+  <figure class="mk-item">
+    <div class="mk-device design" data-platform="android" data-frame="android-phone">
+      <div class="mk-camera"></div>
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <header class="mk-m3-appbar">
+          <h2 class="mk-m3-title">今日巡检</h2>
+          <button class="mk-m3-icon-btn" aria-label="搜索"><svg class="i"><use href="#search"/></svg></button>
+          <button class="mk-m3-icon-btn" aria-label="更多"><svg class="i"><use href="#more-v"/></svg></button>
+        </header>
+        <main class="mk-scroll" data-scroll="210" style="--mk-clear-bottom: var(--mk-m3-clear-fab)">
+          <div class="m3-body">
+            <div class="m3-chips" data-when="default scrolled loading error">
+              <button class="m3-chip" aria-pressed="true"><svg class="i"><use href="#check"/></svg><span>全部<span data-when="default scrolled error">&nbsp;24</span></span></button>
+              <button class="m3-chip" aria-pressed="false"><span>需处理<span data-when="default scrolled error">&nbsp;3</span></span></button>
+              <button class="m3-chip" aria-pressed="false"><span>待巡检<span data-when="default scrolled error">&nbsp;6</span></span></button>
+              <button class="m3-chip" aria-pressed="false"><span>已完成<span data-when="default scrolled error">&nbsp;15</span></span></button>
+            </div>
+            <div class="banner" data-when="error" style="margin: 0 var(--margin)"><svg class="i"><use href="#cloud-off"/></svg><p><b>同步失败</b>显示的是 09:20 的数据</p><button>重试</button></div>
+            <section class="m3-hero" data-when="default scrolled loading error">
+              <div class="m3-hero-top"><div class="hero-num"><b data-skeleton>18</b><span data-skeleton>/ 24 台</span></div><span data-skeleton>早班 07:30–11:30</span></div>
+              <div class="strip" role="img" aria-label="24 台设备：已巡检 18 台，其中 2 台关注、1 台严重；6 台待巡检">
+                <i></i><i></i><i></i><i></i><i></i><i data-s="warn"></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i></i><i data-s="crit"></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i data-s="warn"></i><i></i>
+              </div>
+              <p class="legend"><span data-skeleton><em class="w">2</em> 关注</span><span data-skeleton><em class="c">1</em> 严重</span><span data-skeleton><em>6</em> 待巡检</span></p>
+            </section>
+            <div data-when="default scrolled loading error">
+              <h3 class="m3-label">需要处理</h3>
+              <ul class="m3-list">
+                <li class="row"><span class="m3-avatar" data-status="crit"><svg class="i"><use href="#crit"/></svg></span><div class="row-text"><b data-skeleton>UPS-B-01 蓄电池组</b><span data-skeleton>严重 · 内阻 6.8 mΩ，阈值 5.5</span></div><span class="trail" data-status="crit" data-skeleton>09:05</span></li>
+                <li class="row"><span class="m3-avatar" data-status="warn"><svg class="i"><use href="#warn"/></svg></span><div class="row-text"><b data-skeleton>精密空调 CRAC-A-02</b><span data-skeleton>关注 · 回风 27.4 ℃，阈值 27</span></div><span class="trail" data-status="warn" data-skeleton>08:42</span></li>
+                <li class="row"><span class="m3-avatar" data-status="warn"><svg class="i"><use href="#warn"/></svg></span><div class="row-text"><b data-skeleton>冷水机组 Chiller-2</b><span data-skeleton>关注 · 出水 12.1 ℃，阈值 12</span></div><span class="trail" data-status="warn" data-skeleton>09:12</span></li>
+              </ul>
+              <h3 class="m3-label">待巡检</h3>
+              <ul class="m3-list">
+                <li class="row"><span class="m3-avatar" data-status="next"><svg class="i"><use href="#next"/></svg></span><div class="row-text"><b data-skeleton>存储阵列 SAN-02</b><span data-skeleton>下一台 · B 机房 5 列 03 柜</span></div></li>
+                <li class="row"><span class="m3-avatar"><svg class="i"><use href="#rack"/></svg></span><div class="row-text"><b data-skeleton>数据库 DB-Primary-03</b><span data-skeleton>B 机房 6 列 08 柜</span></div></li>
+                <li class="row"><span class="m3-avatar"><svg class="i"><use href="#rack"/></svg></span><div class="row-text"><b data-skeleton>防火墙 FW-Edge-02</b><span data-skeleton>A 机房 2 列 04 柜</span></div></li>
+              </ul>
+            </div>
+            <section class="empty" data-when="empty-first">
+              <h3>今天没有分配给你的巡检</h3>
+              <p>排班发布后，本轮设备会按巡检路线列在这里。临时检查一台设备，点右下角扫码。</p>
+            </section>
+          </div>
+        </main>
+        <nav class="mk-m3-navbar" aria-label="主导航">
+          <a class="mk-m3-nav-item" aria-current="page"><i><svg class="i"><use href="#today-f"/></svg></i>今日</a>
+          <a class="mk-m3-nav-item"><i><svg class="i"><use href="#server"/></svg></i>设备</a>
+          <a class="mk-m3-nav-item"><i><svg class="i"><use href="#bell"/></svg></i>告警</a>
+          <a class="mk-m3-nav-item"><i><svg class="i"><use href="#person"/></svg></i>我的</a>
+        </nav>
+        <button class="mk-m3-fab m3-efab"><svg class="i"><use href="#scan"/></svg>扫码巡检</button>
+      </div>
+      <div class="mk-home"></div>
+    </div>
+    <figcaption class="mk-caption">Android 16 · Material 3 Expressive<small>412 × 915 dp。64 dp 导航栏（不透明，内容止于其上），56 × 32 指示器只属于 Material；主操作是扩展 FAB“扫码巡检”；筛选条 + 双行列表；进度卡片是唯一的强调时刻。</small></figcaption>
+  </figure>
+
+  <!-- ============================ HarmonyOS 6 ============================ -->
+  <figure class="mk-item">
+    <div class="mk-device design" data-platform="harmonyos" data-frame="mate-80">
+      <div class="mk-camera"></div>
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <main class="mk-scroll" data-scroll="64" style="--mk-clear-top: var(--mk-hm-clear-top); --mk-clear-bottom: var(--mk-hm-clear-bottom)">
+          <div class="hm-body">
+            <div class="hm-head" data-when="default loading error empty-first"><h2>巡检</h2><span>早班 07:30–11:30</span></div>
+            <div class="banner" data-when="error"><svg class="i"><use href="#cloud-off"/></svg><p><b>同步失败</b>显示的是 09:20 的数据</p><button>重试</button></div>
+            <section class="hm-card hm-hero" data-when="default scrolled loading error">
+              <div class="hero-num"><b data-skeleton>18</b><span data-skeleton>/ 24 台已巡检</span></div>
+              <div class="strip" role="img" aria-label="24 台设备：已巡检 18 台，其中 2 台关注、1 台严重；6 台待巡检">
+                <i></i><i></i><i></i><i></i><i></i><i data-s="warn"></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i></i><i data-s="crit"></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i data-s="warn"></i><i></i>
+              </div>
+              <p class="legend"><span data-skeleton><em class="w">2</em> 关注</span><span data-skeleton><em class="c">1</em> 严重</span><span data-skeleton><em>6</em> 待巡检</span></p>
+              <button class="btn"><span>继续巡检<span data-when="default scrolled error">&nbsp;· SAN-02</span></span></button>
+            </section>
+            <section class="hm-card hm-list" data-when="default scrolled loading error">
+              <header>B 机房<span data-skeleton>8 台 · 待巡检 4</span></header>
+              <ul>
+                <li class="row"><div class="row-text"><b data-skeleton>UPS-B-01 蓄电池组</b><span data-skeleton>内阻 6.8 mΩ，阈值 5.5</span></div><span class="status" data-status="crit" data-skeleton><svg class="i"><use href="#crit"/></svg>严重</span></li>
+                <li class="row"><div class="row-text"><b data-skeleton>存储阵列 SAN-02</b><span data-skeleton>5 列 03 柜</span></div><span class="status" data-status="next" data-skeleton>下一台</span></li>
+                <li class="row"><div class="row-text"><b data-skeleton>数据库 DB-Primary-03</b><span data-skeleton>6 列 08 柜</span></div><span class="status" data-skeleton>待巡检</span></li>
+              </ul>
+              <p class="hm-more"><span data-skeleton>另有 2 台待巡检、3 台正常</span></p>
+            </section>
+            <section class="hm-card hm-list" data-when="default scrolled loading error">
+              <header>A 机房<span data-skeleton>14 台 · 待巡检 2</span></header>
+              <ul>
+                <li class="row"><div class="row-text"><b data-skeleton>精密空调 CRAC-A-02</b><span data-skeleton>回风 27.4 ℃，阈值 27</span></div><span class="status" data-status="warn" data-skeleton><svg class="i"><use href="#warn"/></svg>关注</span></li>
+                <li class="row"><div class="row-text"><b data-skeleton>防火墙 FW-Edge-02</b><span data-skeleton>2 列 04 柜</span></div><span class="status" data-skeleton>待巡检</span></li>
+              </ul>
+              <p class="hm-more"><span data-skeleton>另有 1 台待巡检、11 台正常</span></p>
+            </section>
+            <section class="hm-card hm-list" data-when="default scrolled loading error">
+              <header>动力区<span data-skeleton>2 台</span></header>
+              <ul>
+                <li class="row"><div class="row-text"><b data-skeleton>冷水机组 Chiller-2</b><span data-skeleton>出水 12.1 ℃，阈值 12</span></div><span class="status" data-status="warn" data-skeleton><svg class="i"><use href="#warn"/></svg>关注</span></li>
+              </ul>
+              <p class="hm-more"><span data-skeleton>另有 1 台正常</span></p>
+            </section>
+            <section class="empty hm-card" data-when="empty-first">
+              <h3>今天没有分配给你的巡检</h3>
+              <p>排班发布后，本轮设备会按机房列在这里。</p>
+              <button class="btn" style="width:100%; min-height:40px">扫码检查一台设备</button>
+            </section>
+          </div>
+        </main>
+        <header class="mk-hm-titlebar">
+          <span class="mk-hm-title" data-when="scrolled">巡检</span>
+          <span style="flex:1" data-when="default loading error empty-first"></span>
+          <button class="mk-hm-btn mk-glass" data-material="glass-regular" data-material-spec="harmonyos: ULTRA_THIN" aria-label="搜索"><svg class="i"><use href="#search"/></svg></button>
+          <button class="mk-hm-btn mk-glass" data-material="glass-regular" data-material-spec="harmonyos: ULTRA_THIN" aria-label="扫码"><svg class="i"><use href="#scan"/></svg></button>
+        </header>
+        <div class="mk-hm-mask"></div>
+        <nav class="mk-hm-tabs mk-glass" data-material="glass-regular" data-material-spec="harmonyos: THIN + gradient colour" aria-label="主导航">
+          <a class="mk-hm-tab" aria-current="page"><svg class="i"><use href="#today"/></svg>巡检</a>
+          <a class="mk-hm-tab"><svg class="i"><use href="#server"/></svg>设备</a>
+          <a class="mk-hm-tab"><svg class="i"><use href="#bell"/></svg>告警</a>
+          <a class="mk-hm-tab"><svg class="i"><use href="#person"/></svg>我的</a>
+        </nav>
+      </div>
+      <div class="mk-home"></div>
+    </div>
+    <figcaption class="mk-caption">HarmonyOS 6 · Mate 80<small>366 × 809 vp。悬浮页签胶囊 56 × 328 vp（沉浸光感，下方渐变色蒙层 +16 vp），选中只变色；标题栏透明，按钮带材质。按机房分组的卡片（圆角 16、间距 12），主操作在进度卡片里。</small></figcaption>
+  </figure>
+
+  <!-- ============================ WeChat mini-program ============================ -->
+  <figure class="mk-item">
+    <div class="mk-device design" data-platform="wechat" data-frame="wechat-375">
+      <div class="mk-status"><span>9:41</span><span class="mk-status-icons"><i></i><i></i><i></i></span></div>
+      <div class="mk-screen">
+        <header class="mk-wx-nav" style="background: var(--color-bg)">机房巡检<i class="mk-wx-capsule mk-wx-keepout"></i></header>
+        <main class="mk-scroll" data-scroll="190">
+          <div class="wx-body">
+            <button class="wx-scan"><svg class="i"><use href="#scan"/></svg><span><b>扫码巡检</b><span>扫机柜门上的二维码，自动带出设备</span></span></button>
+            <div class="banner" data-when="error" style="margin: var(--sp-2) var(--margin) 0"><svg class="i"><use href="#cloud-off"/></svg><p><b>同步失败</b>显示的是 09:20 的数据</p><button>重试</button></div>
+            <section class="wx-progress" data-when="default scrolled loading error">
+              <div class="hero-num"><span data-skeleton>今日早班</span><span><b data-skeleton>18</b> <span data-skeleton>/ 24</span></span></div>
+              <div class="strip" role="img" aria-label="24 台设备：已巡检 18 台，其中 2 台关注、1 台严重；6 台待巡检">
+                <i></i><i></i><i></i><i></i><i></i><i data-s="warn"></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i></i><i data-s="crit"></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i data-s="warn"></i><i></i>
+              </div>
+            </section>
+            <div data-when="default scrolled loading error">
+              <h3 class="wx-title">待处理告警<span data-when="default scrolled error">（3）</span></h3>
+              <ul class="wx-cells">
+                <li class="row"><div class="row-text"><b data-skeleton>UPS-B-01 蓄电池组</b><span data-skeleton>B 机房 · 内阻超限</span></div><span class="status" data-status="crit" data-skeleton>严重</span></li>
+                <li class="row"><div class="row-text"><b data-skeleton>精密空调 CRAC-A-02</b><span data-skeleton>A 机房 · 回风 27.4 ℃</span></div><span class="status" data-status="warn" data-skeleton>关注</span></li>
+                <li class="row"><div class="row-text"><b data-skeleton>冷水机组 Chiller-2</b><span data-skeleton>动力区 · 出水 12.1 ℃</span></div><span class="status" data-status="warn" data-skeleton>关注</span></li>
+              </ul>
+              <h3 class="wx-title">待巡检<span data-when="default scrolled error">（6）</span></h3>
+              <ul class="wx-cells">
+                <li class="row"><div class="row-text"><b data-skeleton>存储阵列 SAN-02</b><span data-skeleton>B 机房 · 5 列 03 柜</span></div><span class="status" data-status="next" data-skeleton>下一台</span></li>
+                <li class="row"><div class="row-text"><b data-skeleton>数据库 DB-Primary-03</b><span data-skeleton>B 机房 · 6 列 08 柜</span></div></li>
+                <li><a class="wx-all"><span>查看全部<span data-when="default scrolled error">&nbsp;6 台</span></span><svg class="i"><use href="#chev"/></svg></a></li>
+              </ul>
+            </div>
+            <section class="empty" data-when="empty-first">
+              <h3>今天没有分配给你的巡检</h3>
+              <p>排班发布后，本轮设备会列在这里。</p>
+            </section>
+          </div>
+        </main>
+        <nav class="mk-wx-tabbar" aria-label="底部标签">
+          <a class="mk-wx-tab" aria-current="page"><svg class="i"><use href="#home-f"/></svg>首页</a>
+          <a class="mk-wx-tab"><svg class="i"><use href="#bell"/></svg>告警</a>
+          <a class="mk-wx-tab"><svg class="i"><use href="#person"/></svg>我的</a>
+        </nav>
+      </div>
+      <div class="mk-home"></div>
+    </div>
+    <figcaption class="mk-caption">微信小程序<small>375 px = 750 rpx。右上胶囊由微信绘制，红色虚线是避让区；原生底部标签只在首页，3 项；一页一个焦点：主操作就是顶部的扫码入口。</small></figcaption>
+  </figure>
+
+  <!-- ============================ Office task pane ============================ -->
+  <figure class="mk-item">
+    <div class="mk-pane design" data-platform="office">
+      <div class="mk-pane-head"><span>机房巡检</span><button class="mk-m3-icon-btn" style="width:32px;height:32px;border-radius:4px" aria-label="关闭窗格"><svg class="i" style="width:16px;height:16px"><use href="#close"/></svg></button></div>
+      <main class="mk-scroll">
+        <div class="pane-body">
+          <h2>导入巡检记录</h2>
+          <p>把本轮读数写入当前工作表，异常设备另起一张表。</p>
+          <div class="banner" data-when="error" style="border-radius:4px"><svg class="i"><use href="#cloud-off"/></svg><p><b>无法连接巡检服务</b>可以先导入 09:20 同步的数据</p><button>重试</button></div>
+          <div class="field"><label>日期</label><div class="select"><span data-skeleton>2026-09-27 周日</span><svg class="i"><use href="#calendar"/></svg></div></div>
+          <div class="field"><label>班次</label><div class="select"><span data-skeleton>早班 07:30–11:30</span><svg class="i"><use href="#chev-d"/></svg></div></div>
+          <div class="pane-sum" data-when="default scrolled loading error">
+            <div class="strip" role="img" aria-label="24 台设备：已巡检 18 台，其中 2 台关注、1 台严重；6 台待巡检">
+              <i></i><i></i><i></i><i></i><i></i><i data-s="warn"></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i></i><i data-s="crit"></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><b></b><i data-s="warn"></i><i></i>
+            </div>
+            <p class="legend"><span data-skeleton>24 台 · 已巡检 <em>18</em></span><span data-skeleton>异常 <em class="c">3</em></span></p>
+          </div>
+          <fieldset class="checks">
+            <legend>写入内容</legend>
+            <label class="check"><span class="box" data-on><svg class="i"><use href="#check"/></svg></span>读数与阈值</label>
+            <label class="check"><span class="box" data-on><svg class="i"><use href="#check"/></svg></span>异常设备单独成表</label>
+            <label class="check"><span class="box"></span>现场照片链接</label>
+          </fieldset>
+          <div class="pane-list" data-when="default scrolled loading error">
+            <h3 class="pane-h">将写入“异常”表<span data-when="default scrolled error">&nbsp;· 3 台</span></h3>
+            <div class="row"><div class="row-text"><b data-skeleton>UPS-B-01 蓄电池组</b><span data-skeleton>内阻 6.8 mΩ / 5.5</span></div><span class="status" data-status="crit" data-skeleton>严重</span></div>
+            <div class="row"><div class="row-text"><b data-skeleton>精密空调 CRAC-A-02</b><span data-skeleton>回风 27.4 ℃ / 27</span></div><span class="status" data-status="warn" data-skeleton>关注</span></div>
+            <div class="row"><div class="row-text"><b data-skeleton>冷水机组 Chiller-2</b><span data-skeleton>出水 12.1 ℃ / 12</span></div><span class="status" data-status="warn" data-skeleton>关注</span></div>
+          </div>
+          <div class="empty" data-when="empty-first" style="padding: var(--sp-2) 0">
+            <h3>这一天没有巡检记录</h3>
+            <p>换一个日期或班次；排班发布前的日期没有数据。</p>
+          </div>
+        </div>
+      </main>
+      <footer class="pane-foot"><button class="btn" data-when="default scrolled error">插入到工作表</button><button class="btn btn-quiet" data-when="loading empty-first" aria-disabled="true">插入到工作表</button><button class="btn btn-quiet">复制</button></footer>
+    </div>
+    <figcaption class="mk-caption">Office 任务窗格（Excel 加载项）<small>360 px，宿主允许 320–480，出规格前两端都画。标题栏由 Office 绘制；Fluent 2 Web 字号与 4 px 圆角；主操作“插入到工作表”固定在底部。</small></figcaption>
+  </figure>
+
+  <!-- ============================ notes: what changed per target ============================ -->
+  <section class="note">
+    <h2>重组，不是套壳</h2>
+    <p>同一批设备、同一套颜色和字号角色。变的是导航、主操作的位置、列表的形态和材质。</p>
+    <table>
+      <thead><tr><th>目标</th><th>导航</th><th>主操作</th><th>内容形态</th><th>材质</th></tr></thead>
+      <tbody>
+        <tr><th>iOS 26</th><td>悬浮玻璃标签栏 + 尾端搜索</td><td>附件里的“继续巡检”</td><td>分组列表</td><td>glass-regular，系统绘制</td></tr>
+        <tr><th>Android 16</th><td>64 dp 导航栏</td><td>扩展 FAB</td><td>筛选条 + 双行列表</td><td>色调表面，无玻璃</td></tr>
+        <tr><th>HarmonyOS 6</th><td>悬浮页签胶囊</td><td>进度卡片内按钮</td><td>按机房分组的卡片</td><td>沉浸光感 THIN，标题栏渐变模糊</td></tr>
+        <tr><th>微信小程序</th><td>原生底部标签（仅首页）</td><td>顶部扫码入口</td><td>单元格列表</td><td>不透明，胶囊避让</td></tr>
+        <tr><th>Office 窗格</th><td>宿主标题栏</td><td>底部固定按钮</td><td>表单 + 异常预览</td><td>跟随宿主外观</td></tr>
+        <tr><th>Windows 11</th><td>标题栏搜索 + 左侧导航</td><td>命令栏“派发复检”</td><td>机房条 + 表格 + 详情窗格</td><td>Mica 底 + 内容层</td></tr>
+      </tbody>
+    </table>
+    <p>玻璃是标注过的近似：半透明填充加轻微模糊，只用来看层次和可读性风险。交接时写材质角色与平台材质名，不写模糊半径。数值与出处见 kit.json。</p>
+  </section>
+
+  <!-- ============================ Windows 11 ============================ -->
+  <figure class="mk-item">
+    <div class="mk-window design" data-os="windows" data-titlebar="search" data-platform="windows">
+      <div class="mk-titlebar" data-material="base" data-material-spec="windows: Mica">
+        <svg class="i mk-win-icon" style="color: var(--color-accent)"><use href="#rack"/></svg><span class="mk-win-title">机房巡检</span>
+        <div class="mk-win-search win-search"><svg class="i"><use href="#search"/></svg>搜索设备、机柜或工单<kbd>Ctrl+E</kbd></div>
+        <span class="mk-caption-buttons"><i></i><i></i><i></i></span>
+      </div>
+      <div class="mk-body">
+        <nav class="win-nav" aria-label="导航">
+          <a aria-current="page"><svg class="i"><use href="#today"/></svg>今日巡检</a>
+          <a><svg class="i"><use href="#server"/></svg>设备台账</a>
+          <a><svg class="i"><use href="#bell"/></svg>告警<span class="count">3</span></a>
+          <a><svg class="i"><use href="#ticket"/></svg>工单</a>
+          <a><svg class="i"><use href="#chart"/></svg>报表</a>
+          <span class="spacer"></span>
+          <a><svg class="i"><use href="#gear"/></svg>设置</a>
+        </nav>
+        <main class="win-layer" data-material="surface" data-material-spec="windows: content layer on Mica">
+          <div class="win-head">
+            <div><h2>今日巡检</h2><p><span data-skeleton data-when="default scrolled loading error">早班 07:30–11:30 · 巡检人 王磊、陈佳 · 最近同步 09:20</span><span data-when="empty-first">早班 07:30–11:30 · 尚未排班</span></p></div>
+            <div class="win-cmd" data-when="default scrolled loading error">
+              <button class="btn"><svg class="i"><use href="#send"/></svg>派发复检</button>
+              <button class="btn btn-quiet"><svg class="i"><use href="#export"/></svg>导出报表</button>
+              <button class="btn btn-quiet" aria-label="刷新"><svg class="i"><use href="#refresh"/></svg></button>
+            </div>
+          </div>
+          <div class="banner" data-when="error" style="border-radius:4px"><svg class="i"><use href="#cloud-off"/></svg><p><b>无法连接巡检服务</b>表格显示的是 09:20 的数据，新的读数会在恢复后补上。</p><button>重试</button></div>
+          <div class="win-rooms" data-when="default scrolled loading error">
+            <div class="win-room"><header><b>A 机房</b><span data-skeleton>14 台 · 待巡检 2</span></header>
+              <div class="strip"><i></i><i></i><i></i><i></i><i></i><i data-s="warn"></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i></div></div>
+            <div class="win-room"><header><b>B 机房</b><span data-skeleton>8 台 · 待巡检 4</span></header>
+              <div class="strip"><i></i><i data-s="crit"></i><i></i><i></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i><i data-s="todo"></i></div></div>
+            <div class="win-room"><header><b>动力区</b><span data-skeleton>2 台</span></header>
+              <div class="strip"><i data-s="warn"></i><i></i></div></div>
+            <p class="legend" style="margin-left:auto; align-self:flex-end; max-width: 220px"><span data-skeleton>已巡检 <em>18</em> / 24</span><span data-skeleton><em class="w">2</em> 关注</span><span data-skeleton><em class="c">1</em> 严重</span></p>
+          </div>
+          <div class="win-split" data-when="default scrolled loading error">
+            <table class="win-table">
+              <thead><tr><th>状态</th><th>设备</th><th>位置</th><th class="num">读数</th><th>巡检时间</th><th>巡检人</th></tr></thead>
+              <tbody>
+                <tr aria-selected="true"><td><span class="status" data-status="crit" data-skeleton><svg class="i"><use href="#crit"/></svg>严重</span></td><td><span data-skeleton>UPS-B-01 蓄电池组</span></td><td class="muted"><span data-skeleton>B 机房 4 列 01 柜</span></td><td class="num"><span data-skeleton>6.8 mΩ</span></td><td class="num"><span data-skeleton>09:05</span></td><td><span data-skeleton>陈佳</span></td></tr>
+                <tr><td><span class="status" data-status="warn" data-skeleton><svg class="i"><use href="#warn"/></svg>关注</span></td><td><span data-skeleton>精密空调 CRAC-A-02</span></td><td class="muted"><span data-skeleton>A 机房 回风侧</span></td><td class="num"><span data-skeleton>27.4 ℃</span></td><td class="num"><span data-skeleton>08:42</span></td><td><span data-skeleton>王磊</span></td></tr>
+                <tr><td><span class="status" data-status="warn" data-skeleton><svg class="i"><use href="#warn"/></svg>关注</span></td><td><span data-skeleton>冷水机组 Chiller-2</span></td><td class="muted"><span data-skeleton>动力区</span></td><td class="num"><span data-skeleton>12.1 ℃</span></td><td class="num"><span data-skeleton>09:12</span></td><td><span data-skeleton>王磊</span></td></tr>
+                <tr><td><span class="status" data-status="next" data-skeleton><svg class="i"><use href="#next"/></svg>下一台</span></td><td><span data-skeleton>存储阵列 SAN-02</span></td><td class="muted"><span data-skeleton>B 机房 5 列 03 柜</span></td><td class="num muted"><span data-skeleton>—</span></td><td class="muted"><span data-skeleton>待巡检</span></td><td><span data-skeleton>陈佳</span></td></tr>
+                <tr><td><span class="status" data-skeleton><svg class="i"><use href="#todo"/></svg>待巡检</span></td><td><span data-skeleton>数据库 DB-Primary-03</span></td><td class="muted"><span data-skeleton>B 机房 6 列 08 柜</span></td><td class="num muted"><span data-skeleton>—</span></td><td class="muted"><span data-skeleton>待巡检</span></td><td><span data-skeleton>陈佳</span></td></tr>
+                <tr><td><span class="status" data-skeleton><svg class="i"><use href="#check"/></svg>正常</span></td><td><span data-skeleton>配电柜 PDU-A-07</span></td><td class="muted"><span data-skeleton>A 机房 3 列 10 柜</span></td><td class="num"><span data-skeleton>负载 71%</span></td><td class="num"><span data-skeleton>08:51</span></td><td><span data-skeleton>王磊</span></td></tr>
+                <tr><td><span class="status" data-skeleton><svg class="i"><use href="#check"/></svg>正常</span></td><td><span data-skeleton>核心交换机 SW-Core-01</span></td><td class="muted"><span data-skeleton>A 机房 3 列 12 柜</span></td><td class="num"><span data-skeleton>22.1 ℃</span></td><td class="num"><span data-skeleton>08:30</span></td><td><span data-skeleton>王磊</span></td></tr>
+                <tr><td><span class="status" data-skeleton><svg class="i"><use href="#check"/></svg>正常</span></td><td><span data-skeleton>柴油发电机 Gen-01</span></td><td class="muted"><span data-skeleton>动力区</span></td><td class="num"><span data-skeleton>油位 86%</span></td><td class="num"><span data-skeleton>09:20</span></td><td><span data-skeleton>王磊</span></td></tr>
+                <tr><td><span class="status" data-skeleton><svg class="i"><use href="#todo"/></svg>待巡检</span></td><td><span data-skeleton>防火墙 FW-Edge-02</span></td><td class="muted"><span data-skeleton>A 机房 2 列 04 柜</span></td><td class="num muted"><span data-skeleton>—</span></td><td class="muted"><span data-skeleton>待巡检</span></td><td><span data-skeleton>王磊</span></td></tr>
+                <tr><td><span class="status" data-skeleton><svg class="i"><use href="#todo"/></svg>待巡检</span></td><td><span data-skeleton>磁带库 TL-B-01</span></td><td class="muted"><span data-skeleton>B 机房 7 列 01 柜</span></td><td class="num muted"><span data-skeleton>—</span></td><td class="muted"><span data-skeleton>待巡检</span></td><td><span data-skeleton>陈佳</span></td></tr>
+              </tbody>
+              <tfoot data-when="default scrolled error"><tr><td colspan="6" class="muted" style="box-shadow:none; padding-top:12px">显示 10 / 24 台，按“需处理 → 待巡检 → 正常”排序</td></tr></tfoot>
+            </table>
+            <aside class="win-detail">
+              <div><span class="status" data-status="crit" data-skeleton><svg class="i"><use href="#crit"/></svg>严重 · 需复检</span><h3><span data-skeleton>UPS-B-01 蓄电池组</span></h3></div>
+              <dl>
+                <dt>内阻</dt><dd class="num"><span data-skeleton>6.8 mΩ（阈值 5.5 mΩ）</span></dd>
+                <dt>超限电池</dt><dd><span data-skeleton>第 3、7 节</span></dd>
+                <dt>巡检</dt><dd><span data-skeleton>09:05 陈佳，附照片 2 张</span></dd>
+              </dl>
+              <div class="spark" data-when="default scrolled error">
+                <span>最近 7 次巡检的内阻（mΩ）</span>
+                <svg viewBox="0 0 260 56" role="img" aria-label="内阻从 4.9 升到 6.8 毫欧，最近两次超过阈值 5.5">
+                  <line x1="0" x2="260" y1="22" y2="22" stroke="var(--color-danger)" stroke-width="1" stroke-dasharray="4 4"/>
+                  <polyline fill="none" stroke="var(--color-text)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="4,44 46,42 88,40 130,36 172,31 214,19 256,8"/>
+                  <circle cx="256" cy="8" r="4" fill="var(--color-danger)"/>
+                </svg>
+              </div>
+              <div class="acts"><button class="btn">查看历史</button><button class="btn">添加备注</button></div>
+            </aside>
+          </div>
+          <section class="empty" data-when="empty-first">
+            <h3>今天还没有巡检安排</h3>
+            <p>先在“排班”里发布早班路线，设备会按机房出现在这里；也可以导入上周的路线作为模板。</p>
+            <button class="btn">发布排班</button>
+          </section>
+        </main>
+      </div>
+    </div>
+    <figcaption class="mk-caption">Windows 11 · 1200 × 760 epx<small>带搜索的标题栏 48 px，Mica 底 + 内容层；左侧导航选中是左边的强调色竖条。主管视角：机房条 + 表格 + 详情，主操作“派发复检”在命令栏。</small></figcaption>
+  </figure>
+
+</div>
+
+<script>
+  // Demo wiring: ?state=, ?theme=, ?annotate= set attributes on <html>; kit.css does the rest.
+  const q = new URLSearchParams(location.search);
+  const root = document.documentElement;
+  const state = q.get('state') || 'default';
+  const theme = q.get('theme') || 'auto';
+  const annotate = q.get('annotate') === '1' ? '1' : '0';
+  root.dataset.state = state;
+  if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
+  if (annotate === '1') root.dataset.annotate = '';
+  const current = { state, theme, annotate };
+  for (const a of document.querySelectorAll('[data-set]')) {
+    const [key, value] = a.dataset.set.split('=');
+    const p = new URLSearchParams(location.search);
+    p.set(key, value);
+    a.href = '?' + p;
+    if (current[key] === value) a.setAttribute('aria-current', 'true');
+  }
+  if (state === 'scrolled') {
+    for (const s of document.querySelectorAll('.mk-scroll[data-scroll]')) s.scrollTop = Number(s.dataset.scroll);
+  }
+</script>
+</body>
+</html>

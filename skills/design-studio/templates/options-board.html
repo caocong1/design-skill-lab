@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Options board - round 1</title>
+<!--
+  Template: copy the structure, not the values. Save as .design/directions/<round>/index.html.
+
+  - One <article class="direction"> per frame, 4 or 5 by default: the lead, two rolled, an optional
+    agent pick, and the canon as the last frame, labelled "Canon - not recommended"; or exactly the
+    number the user asked for (references/process/directions.md section 4). This sample shows three. Each mockup is independent markup under
+    its own [data-direction] scope with its own tokens: same content and same jobs in every
+    direction, but the DOM may differ, because structure is an axis. A one-DOM live switcher is only
+    for token-level variants of one structure.
+  - Set data-w / data-h on every .screen to the target's logical size (390 x 844 phone,
+    1280 x 800 desktop). The script scales frames to fit and builds the greyscale thumbnail strip.
+  - Replace every [bracketed] string with real content from the brief. A bracket left in means
+    unfinished. The token values here are placeholders, not a palette to reuse.
+  - Platform chrome (status bars, tab bars, capsules) comes from assets/mockup-kit/kit.css. The bar in
+    sample A is a web placeholder: on iOS 26+ it is the kit's floating glass bar, never a flat opaque one.
+  - Redesign only: keep the Baseline line in the header; otherwise delete it.
+  - Light and dark both needed: add a second .screen per direction with data-mode="dark" and a
+    scoped dark token block.
+  - Render at 1440 and 390 and look before showing (references/process/render-and-look.md).
+  - Lint per direction: `lint.mjs index.html --scope '[data-direction="a"]'` shows drift inside one
+    direction; page-wide colour clusters across directions and board chrome are expected.
+-->
+<style>
+  /* Board chrome: plain on purpose, so it never competes with the directions. */
+  :root {
+    color-scheme: light dark;
+    --board-paper: light-dark(#f6f6f6, #161616);
+    --board-canvas: light-dark(#e4e4e4, #0c0c0c);
+    --board-ink: light-dark(#151515, #ececec);
+    --board-muted: light-dark(#555555, #a8a8a8);
+    --board-line: light-dark(#c4c4c4, #3a3a3a);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--board-paper); color: var(--board-ink);
+    font: 14px/1.5 system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  .wrap { max-width: 76rem; margin: 0 auto; padding: 0 24px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  h1, h2, h3 { margin: 0; line-height: 1.25; font-weight: 600; }
+  h1 { font-size: 24px; }
+  h2 { font-size: 18px; margin-bottom: 8px; }
+  h3 { font-size: 14px; }
+  p { margin: 0 0 8px; max-width: 72ch; }
+
+  .board-head { padding-block: 32px 24px; }
+  .board-head h1 { margin-bottom: 12px; }
+  .board-meta { color: var(--board-muted); font-size: 12px; }
+
+  .canvas { background: var(--board-canvas); padding: 24px 0 32px; }
+  .directions { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+  .direction.is-full { grid-column: 1 / -1; }
+  .frame-bar { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+  .frame-size { color: var(--board-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .frame-toggle { margin-left: auto; font: inherit; font-size: 12px; color: var(--board-ink); background: none;
+    border: 1px solid var(--board-line); padding: 4px 8px; cursor: pointer; }
+  .frame-toggle:focus-visible { outline: 2px solid var(--board-ink); outline-offset: 2px; }
+  @media (max-width: 760px) { .frame-toggle { display: none; } }
+  .stage { overflow: hidden; }
+  .card { margin: 16px 0 0; display: grid; grid-template-columns: 7.5em 1fr; gap: 4px 12px; }
+  .card dt { color: var(--board-muted); }
+  .card dd { margin: 0; }
+
+  .section { padding-block: 32px 8px; }
+  .thumbs { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(96px, 150px)); margin: 16px 0 0; }
+  .thumb { margin: 0; }
+  .thumb .screen { filter: grayscale(1); pointer-events: none; }
+  .thumb figcaption { font-size: 12px; color: var(--board-muted); margin-top: 4px; }
+
+  .table-wrap { overflow-x: auto; padding-bottom: 12px; }
+  table { border-collapse: collapse; width: 100%; min-width: 30rem; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 12px 12px 0; border-bottom: 1px solid var(--board-line); }
+  thead th { font-size: 12px; color: var(--board-muted); font-weight: 500; }
+  tbody th { font-weight: 500; width: 34%; }
+  tbody th span { display: block; color: var(--board-muted); font-size: 12px; font-weight: 400; }
+  .primary-row th, .primary-row td { border-bottom-width: 2px; border-bottom-color: var(--board-ink); font-weight: 600; }
+
+  .rec { border-left: 3px solid var(--board-ink); padding: 4px 0 4px 16px; margin-top: 8px; }
+  .board-foot { padding-block: 24px 48px; color: var(--board-muted); font-size: 12px; }
+
+  /* Every mockup: size and chrome-free frame. Direction tokens below fill the variables.
+     Each direction owns one type scale (--text-*) and every gap and padding comes from 4, 8, 12,
+     16, 24, 32, 48: a size or spacing outside its direction's scale is drift, not a decision.
+     The insets clear the status bar and home indicator; take real values from
+     assets/mockup-kit/kit.json for the target device. */
+  .screen { position: relative; overflow: hidden; width: 390px; height: 844px;
+    --inset-top: 56px; --inset-bottom: 32px;
+    background: var(--bg); color: var(--ink); font: 400 var(--text)/1.5 var(--font);
+    outline: 1px solid var(--board-line); }
+  .screen p { margin: 0; max-width: none; }
+
+  /* Direction A: PLACEHOLDER tokens. Example coordinates: bottom tabs, page, dense list, compact. */
+  [data-direction="a"] {
+    --bg: oklch(0.985 0 0); --surface: oklch(0.95 0 0); --ink: oklch(0.2 0 0); --muted: oklch(0.47 0 0);
+    --line: oklch(0.88 0 0); --accent: oklch(0.52 0.19 28); --on-accent: oklch(0.985 0 0);
+    --font: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --text-s: 12px; --text: 14px; --text-l: 20px; --radius: 2px; --row: 56px;
+  }
+  [data-direction="a"] .a-top { display: flex; align-items: center; justify-content: space-between; padding: var(--inset-top) 16px 12px; border-bottom: 1px solid var(--line); }
+  [data-direction="a"] .a-title { font-size: var(--text-l); font-weight: 600; }
+  [data-direction="a"] .a-act { background: var(--accent); color: var(--on-accent); padding: 8px 12px; border-radius: var(--radius); font-weight: 600; }
+  [data-direction="a"] .a-filters { display: flex; gap: 8px; padding: 12px 16px; font-size: var(--text-s); }
+  [data-direction="a"] .a-filters span { border: 1px solid var(--line); border-radius: var(--radius); padding: 4px 12px; color: var(--muted); }
+  [data-direction="a"] .a-filters .is-on { border-color: var(--ink); color: var(--ink); }
+  [data-direction="a"] .a-list { list-style: none; margin: 0; padding: 0 16px; }
+  [data-direction="a"] .a-list li { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; align-items: center; min-height: var(--row); padding: 8px 0; border-bottom: 1px solid var(--line); }
+  [data-direction="a"] .a-name { font-weight: 600; }
+  [data-direction="a"] .a-meta { grid-column: 1; color: var(--muted); font-size: var(--text-s); font-variant-numeric: tabular-nums; }
+  [data-direction="a"] .a-status { grid-column: 2; grid-row: 1 / span 2; font-size: var(--text-s); color: var(--muted); }
+  [data-direction="a"] .a-status.is-alert { color: var(--accent); font-weight: 600; }
+  [data-direction="a"] .a-tabs { position: absolute; inset: auto 0 0; display: grid; grid-template-columns: repeat(4, 1fr); padding: 8px 0 var(--inset-bottom); border-top: 1px solid var(--line); background: var(--bg); font-size: var(--text-s); text-align: center; color: var(--muted); }
+  [data-direction="a"] .a-tabs svg { display: block; width: 20px; height: 20px; margin: 0 auto 4px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  [data-direction="a"] .a-tabs .is-on { color: var(--ink); font-weight: 600; }
+
+  /* Direction B: PLACEHOLDER tokens. Example coordinates: segmented tabs, page, card grid, airy. */
+  [data-direction="b"] {
+    --bg: oklch(0.975 0.008 250); --surface: oklch(0.93 0.018 250); --ink: oklch(0.24 0.03 250); --muted: oklch(0.45 0.03 250);
+    --accent: oklch(0.42 0.09 250); --on-accent: oklch(0.98 0.005 250);
+    --font: ui-serif, "New York", Georgia, "Songti SC", "SimSun", serif;
+    --text-s: 14px; --text: 16px; --text-l: 28px; --text-xl: 34px; --radius: 16px;
+  }
+  [data-direction="b"] .b-head { padding: calc(var(--inset-top) + 16px) 24px 0; }
+  [data-direction="b"] .b-title { font-size: var(--text-xl); line-height: 1.1; }
+  [data-direction="b"] .b-count { margin-top: 8px; color: var(--muted); }
+  [data-direction="b"] .b-seg { margin: 24px; display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px; border-radius: 999px; background: var(--surface); font-size: var(--text-s); text-align: center; color: var(--muted); }
+  [data-direction="b"] .b-seg span { padding: 8px 0; border-radius: 999px; }
+  [data-direction="b"] .b-seg .is-on { background: var(--bg); color: var(--ink); }
+  [data-direction="b"] .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 24px; }
+  [data-direction="b"] .b-card { display: flex; flex-direction: column; gap: 4px; min-height: 136px; padding: 16px; border-radius: var(--radius); background: var(--surface); }
+  [data-direction="b"] .b-num { margin-bottom: auto; font-size: var(--text-l); line-height: 1; color: var(--accent); font-variant-numeric: lining-nums tabular-nums; }
+  [data-direction="b"] .b-name { font-weight: 600; line-height: 1.25; }
+  [data-direction="b"] .b-meta { color: var(--muted); font-size: var(--text-s); }
+  [data-direction="b"] .b-bar { position: absolute; inset: auto 24px var(--inset-bottom); padding: 16px; border-radius: 999px; background: var(--accent); color: var(--on-accent); text-align: center; font-weight: 600; }
+
+  /* Direction C: PLACEHOLDER tokens. Example coordinates: search-first, page, timeline, dense, dark.
+     One size: hierarchy comes from colour, position and the marks. */
+  [data-direction="c"] {
+    --bg: oklch(0.19 0.006 80); --surface: oklch(0.24 0.008 80); --ink: oklch(0.93 0.008 85); --muted: oklch(0.72 0.01 85);
+    --line: oklch(0.52 0.01 80); --accent: oklch(0.83 0.1 88); --on-accent: oklch(0.2 0.02 80);
+    --font: ui-monospace, "SF Mono", Menlo, Consolas, "Sarasa Mono SC", monospace;
+    --text: 14px; --pad: 4px; --axis: calc(7.5ch + 12px); --mark: 9px;
+  }
+  [data-direction="c"] .c-search { display: flex; justify-content: space-between; margin: var(--inset-top) 16px 0; padding: 12px; border: 1px solid var(--line); color: var(--muted); }
+  [data-direction="c"] .c-search kbd { font: inherit; border: 1px solid var(--line); padding: 0 4px; }
+  [data-direction="c"] .c-group { margin: 24px 16px 8px; color: var(--muted); }
+  [data-direction="c"] .c-line { list-style: none; margin: 0 16px; padding: 0; }
+  [data-direction="c"] .c-line li { position: relative; display: grid; grid-template-columns: 7.5ch 1fr; column-gap: 24px; padding: var(--pad) 0; }
+  /* Stroke segment from this mark's centre to the next one; marks paint above strokes and sit on
+     the label's first line, not on the middle of the whole item. */
+  [data-direction="c"] .c-line li:not(:last-child)::after { content: ""; position: absolute; left: calc(var(--axis) - 0.5px); top: calc(var(--pad) + 0.5lh); height: 100%; width: 1px; background: var(--line); }
+  [data-direction="c"] .c-line li::before { content: ""; position: absolute; z-index: 1; left: calc(var(--axis) - var(--mark) / 2); top: calc(var(--pad) + (1lh - var(--mark)) / 2); width: var(--mark); height: var(--mark); border-radius: 50%; border: 2px solid var(--muted); background: var(--bg); }
+  [data-direction="c"] .c-line li.is-alert::before { border-color: var(--accent); background: var(--accent); }
+  [data-direction="c"] .c-time { color: var(--muted); font-variant-numeric: tabular-nums; }
+  [data-direction="c"] .c-name, [data-direction="c"] .c-meta { display: block; }
+  [data-direction="c"] .c-meta { color: var(--muted); }
+  [data-direction="c"] .c-dock { position: absolute; inset: auto 16px var(--inset-bottom); display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); background: var(--surface); }
+  [data-direction="c"] .c-dock span { padding: 8px; color: var(--muted); }
+  [data-direction="c"] .c-dock .c-primary { margin-left: auto; white-space: nowrap; background: var(--accent); color: var(--on-accent); font-weight: 600; }
+</style>
+</head>
+<body>
+<header class="board-head wrap">
+  <h1>[Product or surface]: three directions</h1>
+  <p><strong>Design read.</strong> [Reading this as ... for ...: two or three qualities; convention or novelty, and why.]</p>
+  <p><strong>Primary task.</strong> [The one job the first comparison row measures, e.g. "clear the next item in the queue".]</p>
+  <p class="board-meta">Round [1] - [YYYY-MM-DD] - seed [0000] - same content and jobs in every direction</p>
+  <p class="board-meta">Baseline applied to every direction: [the list in function-map.md > Baseline] (redesign only)</p>
+</header>
+
+<main>
+  <section class="canvas" aria-labelledby="h-directions">
+    <div class="wrap">
+      <h2 id="h-directions" class="visually-hidden">Directions</h2>
+      <div class="directions">
+
+        <article class="direction" data-label="A">
+          <div class="frame-bar"><h3>A - [Name A]</h3><span class="frame-size"></span><button type="button" class="frame-toggle" aria-pressed="false">Full width</button></div>
+          <div class="stage">
+            <div class="screen" data-direction="a" data-w="390" data-h="844" role="img" aria-label="Direction A mockup">
+              <div class="a-top"><span class="a-title">[Screen title]</span><span class="a-act">[Primary action]</span></div>
+              <div class="a-filters"><span class="is-on">[Filter]</span><span>[Filter]</span><span>[Longer filter]</span></div>
+              <ul class="a-list">
+                <li><span class="a-name">[Object name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status is-alert">[Status]</span></li>
+                <li><span class="a-name">[A longer object name that wraps]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+                <li><span class="a-name">[Name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+                <li><span class="a-name">[Object name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+                <li><span class="a-name">[Object name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status is-alert">[Status]</span></li>
+                <li><span class="a-name">[Object name, medium]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+                <li><span class="a-name">[Object name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+                <li><span class="a-name">[Name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+                <li><span class="a-name">[Object name]</span><span class="a-meta">[Attribute] - [00:00]</span><span class="a-status">[Status]</span></li>
+              </ul>
+              <div class="a-tabs"><span class="is-on"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/></svg>[Tab]</span><span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/></svg>[Tab]</span><span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/></svg>[Tab]</span><span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/></svg>[Tab]</span></div>
+            </div>
+          </div>
+          <dl class="card">
+            <dt>Thesis</dt><dd>[One sentence every later decision is tested against.]</dd>
+            <dt>Referent</dt><dd>[Artefact from the audience's world] - [material family]</dd>
+            <dt>Structure</dt><dd>[Bottom tabs - page - dense list - inline edit]</dd>
+            <dt>Visual</dt><dd>[Neutral sans 14/21 - restrained, one accent - 2 px radius - compact]</dd>
+            <dt>Good at</dt><dd>[...]</dd>
+            <dt>Will fail</dt><dd>[...]</dd>
+            <dt>Origin</dt><dd>[seeded roll - seed 0000]</dd>
+          </dl>
+        </article>
+
+        <article class="direction" data-label="B">
+          <div class="frame-bar"><h3>B - [Name B]</h3><span class="frame-size"></span><button type="button" class="frame-toggle" aria-pressed="false">Full width</button></div>
+          <div class="stage">
+            <div class="screen" data-direction="b" data-w="390" data-h="844" role="img" aria-label="Direction B mockup">
+              <div class="b-head"><p class="b-title">[Screen title]</p><p class="b-count">[146] [objects need attention]</p></div>
+              <div class="b-seg"><span class="is-on">[Segment]</span><span>[Segment]</span><span>[Segment]</span></div>
+              <div class="b-grid">
+                <div class="b-card"><span class="b-num">[24]</span><span class="b-name">[Object name]</span><span class="b-meta">[Attribute]</span></div>
+                <div class="b-card"><span class="b-num">[7]</span><span class="b-name">[A longer object name that wraps]</span><span class="b-meta">[Attribute]</span></div>
+                <div class="b-card"><span class="b-num">[112]</span><span class="b-name">[Name]</span><span class="b-meta">[Attribute]</span></div>
+                <div class="b-card"><span class="b-num">[3]</span><span class="b-name">[Object name]</span><span class="b-meta">[Attribute]</span></div>
+              </div>
+              <div class="b-bar">[Primary action]</div>
+            </div>
+          </div>
+          <dl class="card">
+            <dt>Thesis</dt><dd>[One sentence every later decision is tested against.]</dd>
+            <dt>Referent</dt><dd>[Artefact from the audience's world] - [material family]</dd>
+            <dt>Structure</dt><dd>[Segmented tabs - page - card grid - single form]</dd>
+            <dt>Visual</dt><dd>[Serif 16/24 - tonal single hue - 16 px radius - airy]</dd>
+            <dt>Good at</dt><dd>[...]</dd>
+            <dt>Will fail</dt><dd>[...]</dd>
+            <dt>Origin</dt><dd>[agent pick]</dd>
+          </dl>
+        </article>
+
+        <article class="direction" data-label="C">
+          <div class="frame-bar"><h3>C - [Name C]</h3><span class="frame-size"></span><button type="button" class="frame-toggle" aria-pressed="false">Full width</button></div>
+          <div class="stage">
+            <div class="screen" data-direction="c" data-w="390" data-h="844" role="img" aria-label="Direction C mockup">
+              <div class="c-search"><span>[Search or type a command]</span><kbd>/</kbd></div>
+              <p class="c-group">[Today]</p>
+              <ol class="c-line">
+                <li class="is-alert"><span class="c-time">[00:00]</span><span><span class="c-name">[Object name] [verb]</span><span class="c-meta">[Attribute] - [Status]</span></span></li>
+                <li><span class="c-time">[00:00]</span><span><span class="c-name">[A longer object name that wraps onto a second line]</span><span class="c-meta">[Attribute]</span></span></li>
+                <li><span class="c-time">[00:00]</span><span><span class="c-name">[Name] [verb]</span><span class="c-meta">[Attribute]</span></span></li>
+                <li><span class="c-time">[00:00]</span><span><span class="c-name">[Object name] [verb]</span><span class="c-meta">[Attribute]</span></span></li>
+              </ol>
+              <p class="c-group">[Yesterday]</p>
+              <ol class="c-line">
+                <li><span class="c-time">[00:00]</span><span><span class="c-name">[Object name] [verb]</span><span class="c-meta">[Attribute]</span></span></li>
+                <li class="is-alert"><span class="c-time">[00:00]</span><span><span class="c-name">[Object name] [verb]</span><span class="c-meta">[Attribute] - [Status]</span></span></li>
+                <li><span class="c-time">[00:00]</span><span><span class="c-name">[Name] [verb]</span><span class="c-meta">[Attribute]</span></span></li>
+              </ol>
+              <div class="c-dock"><span>[Action]</span><span>[Action]</span><span class="c-primary">[Primary action]</span></div>
+            </div>
+          </div>
+          <dl class="card">
+            <dt>Thesis</dt><dd>[One sentence every later decision is tested against.]</dd>
+            <dt>Referent</dt><dd>[Artefact from the audience's world] - [material family]</dd>
+            <dt>Structure</dt><dd>[Search-first - page - timeline - batch]</dd>
+            <dt>Visual</dt><dd>[Mono 14/21 - dark-first, one warm accent - square - dense]</dd>
+            <dt>Good at</dt><dd>[...]</dd>
+            <dt>Will fail</dt><dd>[...]</dd>
+            <dt>Origin</dt><dd>[seeded roll - seed 0000]</dd>
+          </dl>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="h-thumbs">
+    <h2 id="h-thumbs">Thumbnail test</h2>
+    <p>Greyscale at thumbnail size. If two look alike, they are one direction: merge them, or move one on a structural axis.</p>
+    <div class="thumbs" aria-hidden="true"></div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="h-compare">
+    <h2 id="h-compare">Comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Criterion, from the brief</th><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th></tr></thead>
+        <tbody>
+          <tr class="primary-row"><th scope="row">Cost of the primary task<span>steps, context switches, what stays visible while acting</span></th><td>[n steps]</td><td>[n steps]</td><td>[n steps]</td></tr>
+          <tr><th scope="row">Fits what the audience expects</th><td>[...]</td><td>[...]</td><td>[...]</td></tr>
+          <tr><th scope="row">Distinct from competitors</th><td>[...]</td><td>[...]</td><td>[...]</td></tr>
+          <tr><th scope="row">Works with the content we have</th><td>[...]</td><td>[...]</td><td>[...]</td></tr>
+          <tr><th scope="row">Build and migration cost in the host stack</th><td>[...]</td><td>[...]</td><td>[...]</td></tr>
+          <tr><th scope="row">Accessibility and longevity risk</th><td>[...]</td><td>[...]</td><td>[...]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="h-rec">
+    <h2 id="h-rec">Recommendation</h2>
+    <div class="rec">
+      <p><strong>[B - Name B]</strong>, because [the reason, tied to the brief and to the first comparison row].</p>
+      <p><strong>What would change my mind:</strong> [a fact that, if true, makes another direction better].</p>
+      <p><strong>Mixing:</strong> [which traits combine cleanly and which conflict].</p>
+      <p><strong>Canon, not recommended:</strong> [the category's standard layout played straight, shown as the last frame; the user may still choose it].</p>
+    </div>
+    <p>Reply with a letter, a mix, or "none" plus the axis that feels wrong. The choice is recorded in decisions.md.</p>
+  </section>
+</main>
+
+<footer class="board-foot wrap">
+  <p>Rendered at [1440] and [390] on [YYYY-MM-DD] with [capture tool]. Not verified: [what, and why].</p>
+</footer>
+
+<script>
+(() => {
+  const size = (el) => ({ w: Number(el.dataset.w) || 390, h: Number(el.dataset.h) || 844 });
+
+  // Scale a mockup to its container without changing its logical size.
+  const fit = (el) => {
+    const { w, h } = size(el);
+    el.style.width = w + 'px';
+    el.style.height = h + 'px';
+    el.style.zoom = Math.min(1, el.parentElement.clientWidth / w);
+  };
+
+  const frames = [...document.querySelectorAll('.direction .screen')];
+  const strip = document.querySelector('.thumbs');
+
+  frames.forEach((screen) => {
+    const { w, h } = size(screen);
+    const direction = screen.closest('.direction');
+    direction.querySelector('.frame-size').textContent = w + ' x ' + h;
+
+    const cell = document.createElement('figure');
+    cell.className = 'thumb';
+    const stage = document.createElement('div');
+    const copy = screen.cloneNode(true);
+    copy.removeAttribute('role');
+    copy.removeAttribute('aria-label');
+    stage.append(copy);
+    const caption = document.createElement('figcaption');
+    caption.textContent = direction.dataset.label;
+    cell.append(stage, caption);
+    strip.append(cell);
+  });
+
+  const fitAll = () => document.querySelectorAll('.screen').forEach(fit);
+
+  document.querySelectorAll('.frame-toggle').forEach((button) => {
+    button.addEventListener('click', () => {
+      const on = button.closest('.direction').classList.toggle('is-full');
+      button.setAttribute('aria-pressed', String(on));
+      fitAll();
+    });
+  });
+
+  window.addEventListener('resize', fitAll);
+  fitAll();
+})();
+</script>
+</body>
+</html>

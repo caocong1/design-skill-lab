@@ -1,197 +1,150 @@
 ---
 name: critique-design
-description: Review an existing design or implementation like a senior design lead - website, app screen, component library, brand, deck or graphic - through purpose fit, information architecture, hierarchy, typography, colour and contrast, spacing and consistency, states, interaction and motion, content, accessibility, platform fit and craft; produce an evidence-backed findings table with severity, a prioritised fix plan, and optionally a redesign brief. Also used as the fresh-eye quality gate for the suite's own output and for design QA of a build against its design. 设计评审、走查、UI 审查、体验走查、设计验收、视觉还原检查、这个页面哪里不好看。
+description: "Reviews, audits and scores an existing design or build like a senior design lead: a site, app screen, flow, component, brand asset, deck or graphic, from screenshots, a URL, mockups or a Figma export. Judges the render against the brief first, then checks the mechanical floor (computed contrast, overflow, targets, focus, states), and returns ranked findings (severity and evidence basis, Before | After | Why), rubric scores and a disposition: ship, fix, rebuild or recapture. Also the fresh-context critic for design-studio's own work, accessibility (WCAG 2.2) audits, and design QA that accepts a build against its handoff screenshots. 评审、设计评审、走查、体验走查、验收、设计验收、还原度检查、哪里不好、这个页面哪里不好看、无障碍检查、设计 QA、打分。Not for: making a new design or redesigning one (use design-studio); building or fixing a design in code (use implement-design); code review with no visual question."
 metadata:
-  version: 0.1.6
-  short-description: Evidence-backed design review and QA
+  version: 0.2.0
+  short-description: Fresh-eye design review, scoring and build acceptance
 ---
 
 # Critique Design
 
-Findings lead; praise and summary follow. A critique is useful when every
-finding says what is wrong, where, why it matters to the user or the business,
-and what to do - with evidence someone else can check.
-
-Rubric: `../design-studio/references/quality-rubric.md`. Look-first protocol:
-`../design-studio/references/render-and-look.md`.
+Findings first; praise and summary after. A finding says what is wrong, where, why it matters to the
+user or the business, and what to do, with evidence someone else can check. Judge the rendered result
+against the brief and the surface contract. The author's intent is not evidence.
 
 ## Modes
 
-- `review`: audit an existing product, site, brand or artefact.
-- `self-check`: the gate before presenting the suite's own work. Run it from
-  a fresh context when the host supports subagents: give the critic only the
-  brief and the rendered output, not the author's reasoning. Brief it with a
-  manifest, not a folder glob: each before / after pair with its route, size
-  and theme, the components that changed, and the P0 / P1 items to re-check
-  first.
-- `qa`: compare a build against its design or spec.
-- `redesign-brief`: turn findings into a brief and direction input. Judge
-  structure too - is each job in the right container and presentation? - and
-  keep the detail fixes as the baseline every direction inherits. Equity is
-  what users rely on (learned locations, shortcuts, the data they scan), not
-  the current layout.
+| Mode | Use when | Input | Output |
+| --- | --- | --- | --- |
+| `review` | someone's product, site, screen, brand asset or deck | URL, files or shots; capture the rest | report and fix plan |
+| `fresh` | design-studio (loop step 9) spawned you as its critic | a [critic brief](templates/critic-brief.md) | report, disposition first |
+| `self-check` | the author checks their own work | your own renders | quick effort: floor + ★ [heuristics](references/heuristics.md); otherwise the full report, single-context |
+| `acceptance` (was `qa`) | a build is compared with its handoff shots | handoff + build shots, often via a critic brief | acceptance report |
+| `redesign-brief` | findings will feed a redesign | as `review` | report + structural findings |
 
-## 1. Get Eyes on It
+Prefer a fresh subagent even for your own work: authors over-rate what they made. In `self-check`,
+write Track A before opening any tool output; the report starts `Method: single-context (<reason>)`.
+`redesign-brief` weighs structure ([heuristics](references/heuristics.md) section 2) as heavily as
+detail: detail fixes become every direction's baseline, and equity is what users rely on (learned
+locations, shortcuts, scanned data), not the layout. Findings feed [redesign](../design-studio/references/process/redesign.md).
 
-Never review from code alone, and never from one screenshot alone.
+## Two tracks, in this order
 
-- Capture the target at its real viewports (for web: about 390, 768, 1280,
-  1920), in each theme, and walk the primary task end to end.
-- Trigger states: hover, focus (tab through), error, empty, loading, long
-  content, zoom to 200%, reduced motion, keyboard-only.
-- When a browser tool is available, **measure** instead of guessing: computed
-  font sizes and families, colours (then `color_tools.py contrast`), target
-  sizes, spacing values in use, number of distinct colours / sizes / radii.
-- For code-only access, read tokens, theme and components to explain *why* an
-  inconsistency exists; cite `file:line`.
+**Track A: judgement, in a fresh context.** It gets the brief (and PRODUCT.md), the surface
+contract, a screenshot manifest and the [rubric](references/rubric.md). It does not get the
+conversation, the reasoning in decisions.md, drafts, rejected options or the author's
+self-assessment. Decide what you see before any number anchors you.
 
-## 2. Establish the Yardstick
+**Track B: mechanical evidence**, opened only after Track A is written. In
+`../design-studio/scripts/` (run each with `--help` first): `lint.mjs` (the deterministic floor on a
+rendered page), `color_tools.py` (`contrast`, `matrix --from tokens.css`, `cvd` for charts and status
+sets), `capture.mjs` (sizes x themes x states; non-zero exit on walls, blanks, errors), `shot.sh`
+(fallback). Installed alone: use what the host has (computed styles, axe, a contrast calculator) and
+name it. B wins on what it measures; A stands on what B cannot measure. Record agreements, what only
+B caught, and B's false positives. Floor items no tool checked are `not verified`: not passed.
 
-State the design read you are judging against: audience, job, brand
-attributes, platform, constraints. If there is a brief, use it. Taste without
-a yardstick is opinion. Note what the product does well - the fix plan must
-not destroy it.
+## Procedure
 
-## 3. Assessment Order
+1. **Check the evidence.** Open every file: right route, fully loaded (no spinner, wall or error
+   page), intended font, declared size, theme, state and build stamp. Recapture a bad file yourself
+   (step 2); if you cannot, the disposition is `recapture`: list what to capture and stop.
+2. **Capture what is missing** at the declared sizes and themes (defaults, traps:
+   [render-and-look](../design-studio/references/process/render-and-look.md)), in every state you can
+   trigger: focus by tabbing, hover, error, empty, loading, longest content, 200% zoom, reduced motion.
+   Walk the primary task. Never judge from code alone or one shot; with code, cite the cause's `file:line`.
+3. **State the yardstick** from the brief: audience, job, attributes, platform, constraints. With no
+   brief, infer the design read and label it inferred. Note what works; the fix plan keeps it. Brand
+   work: `.design/brand/strategy.md` and the tests in [brand](../design-studio/references/disciplines/brand.md) section 4.
+4. **Coverage pass (Track A).** Walk the [heuristics](references/heuristics.md) in order; run two or
+   three personas. Then **rationale against render**: for each contract block (thesis, own-world,
+   story, first viewport, form, finish line) and each claim in the critic brief, name the shot and
+   region that delivers it: `kept`, `partial` or `missing`. A rationale the render does not show is
+   design theater; partial and missing are findings. Write down every candidate; do not filter.
+5. **Track B.** Run or open the mechanical evidence and merge it with Track A.
+6. **Vet pass.** Re-open every cited location (shot region, selector, `file:line`) before a candidate
+   becomes a finding. Drop false positives, fix wrong locations, merge repeats into one systemic
+   finding, then grade it. Keep a one-line reason for each rejected candidate.
+7. **Score** with the [rubric](references/rubric.md): floor, then ceiling, then the gate.
+8. **Decide, crop, report**: disposition, one crop per finding, [report](templates/critique-report.md).
 
-Work top-down; upstream problems make downstream polish irrelevant.
+## Personas: pick two or three, walk the primary task as each, name the element that broke
 
-1. **Purpose fit**: is it clear what this is, for whom, and what to do next?
-   (five-second test on the entry screen).
-2. **Structure and flow**: information architecture, navigation model, steps
-   in the primary task, dead ends, redundant steps.
-3. **Layout and hierarchy**: squint test - what are the first three things
-   seen, and are they the right three? One primary action? Grouping by
-   proximity? Alignment to a grid? Scanning path?
-4. **Typography**: number of families and sizes, scale logic, measure,
-   line-height, weight use, numeric alignment, mixed-script handling, widows
-   in headings.
-5. **Colour and contrast**: role discipline, accent spending, computed
-   contrast against the declared level, colour-only meaning, dark mode
-   integrity.
-6. **Spacing and consistency**: one spacing scale or many? radius, border,
-   shadow and icon consistency; component variants that should be one.
-7. **Components and states**: the state matrix from
-   `../design-product-ui/SKILL.md` - which states are missing or improvised?
-8. **Interaction and motion**: feedback latency, affordance, modality,
-   undo vs confirm, motion purpose and speed, interruption, reduced motion.
-   If the page has several full views, scroll down and switch: the new view
-   must start at the top, not in the middle of the previous one. An entrance
-   that seems to play twice needs a frame-by-frame look at the animated
-   property, not a count of `animationstart`.
-9. **Content**: headlines that say something, labels as verbs, error quality,
-   empty states, terminology consistency, localisation quality.
-10. **Accessibility**: keyboard path and focus visibility, names and roles,
-    headings and landmarks, target size, contrast, zoom and reflow, motion
-    and flashing, forms and errors, media alternatives. Test against WCAG 2.2
-    AA as the default bar and say which checks were automated, manual or not
-    performed.
-11. **Platform and responsive fit**: native conventions honoured; re-composed
-    rather than shrunk; touch vs pointer.
-12. **Performance as experience**: load sequence, layout shift, jank during
-    interaction, heavy media.
-13. **Identity**: is it recognisably *theirs*, or the category's default
-    template? Check against `../design-studio/references/anti-slop.md`. Also
-    flag the opposite: novelty that hurts usability.
-14. **Craft**: optical alignment, icon sizing and baseline, radius nesting,
-    image quality and cropping, border and shadow stacking, truncation.
-    On a diagram, a glance is not enough: compare each mark's centre to the
-    stroke and to the first line of its label. A mark buried in the
-    paragraph, or a last row eaten by a scrollbar, is a finding.
-
-Heuristic frames to cross-check: the ten usability heuristics, the core
-perception laws (proximity, similarity, common region, Fitts, Hick, Jakob,
-Miller, peak-end, aesthetic-usability), and research-backed e-commerce and
-form guidance from the catalogue when relevant.
-
-## 4. Severity
-
-| Level | Meaning |
-| --- | --- |
-| `P0` | Blocks the primary task, excludes users (accessibility failure on a core path), legal exposure (unlicensed assets, fabricated claims), or data-loss risk |
-| `P1` | Major comprehension, trust or conversion damage; systemic inconsistency; missing core states |
-| `P2` | Noticeable polish and consistency problems; minor usability friction |
-| `P3` | Nits and opportunities |
-
-Also tag **effort** (`S` / `M` / `L`) and **type**: `quick win`, `systemic`
-(fix in tokens or components once), `structural` (needs redesign).
-
-## 5. Report
-
-Write in the user's language. Be direct and specific; describe the effect on
-the user, not the designer's failure. Distinguish evidence ("当前页面显示…",
-measured values) from inference ("这可能导致…"). Template (Chinese, the lab
-owner's default):
-
-```markdown
-## 评审结论
-两三句话：整体判断、最大的三个问题、值得保留的部分。
-
-## 评分（0-4）
-| 维度 | 分数 | 依据 |
+| Persona | Probes | Pick for |
 | --- | --- | --- |
+| Power user | shortcuts, bulk actions, skippable steps, slow motion | admin, data-dense, daily tools |
+| First-timer | first action clear within 5 s, unlabelled icons, jargon, proof of success | onboarding, landing, forms |
+| AT user | keyboard-only path, focus visible and unobscured, names, colour-only meaning, 200% zoom | every product surface |
+| Stress tester | 0, 1 and 1,000 items, longest strings, mixed scripts, errors, refresh mid-flow | tables, forms, checkout |
+| Distracted mobile | thumb reach, interrupt and resume, slow network, less typing | consumer mobile, mini-programs |
 
-## 问题明细
-| id | 维度 | 问题 | 级别 | 证据 | 对用户的影响 | 建议 | 改动量 | 类型 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| D1 | 层级 | 首屏有三个同等权重的主按钮 | P1 | 截图 01 / `Hero.vue:42` | 用户无法判断下一步 | 保留一个主按钮，其余降为次级/文字按钮 | S | quick win |
+## Grading findings
 
-## 立即可做
-- [ ] D1 …
+| Severity | Meaning |
+| --- | --- |
+| `P0` | blocks the primary task; excludes users on a core path; legal exposure (unlicensed asset, fabricated claim, a required AI label missing); risk of data loss |
+| `P1` | major damage to comprehension, trust or conversion; systemic inconsistency; missing core states; unmet finish line. Would a user contact support? Then at least P1 |
+| `P2` | noticeable polish or consistency problems; minor friction with a workaround |
+| `P3` | nits and opportunities |
 
-## 系统性修复（在 token / 组件层一次解决）
-- [ ] D4 …
+| Evidence basis | Meaning |
+| --- | --- |
+| `verified` | measured, or visible in a named crop; anyone can re-check it |
+| `needs confirmation` | inferred from a still (hover, keyboard, motion, a likely consequence); say what would confirm it |
+| `human-required` | only a person can settle it: real assistive-technology use, licence or trademark clearance, user research, truth of content |
 
-## 需要重新设计
-- [ ] D7 … （附方向建议或转 `explore-design-directions`）
+Also tag effort (`S`/`M`/`L`) and type: `quick win`, `systemic` (fix once in tokens or components),
+`structural` (needs a redesign). Word evidence as evidence ("当前页面显示…"), inference as inference ("这可能导致…").
 
-## 未检查 / 无法验证
-```
+## Dispositions and rounds
 
-## Design QA (`qa`)
+| Disposition | When |
+| --- | --- |
+| `ship` | the floor passes, the rubric gate holds, no P0 or P1 is open |
+| `fix` | direction and structure hold; give at most eight material fixes, in order |
+| `rebuild` | structure or direction fails (Fit or Hierarchy at 2 or below, or the thesis is not delivered); fixes cannot reach the gate |
+| `recapture` | evidence is missing or invalid; no verdict on the design |
 
-1. Put the acceptance shot and a screenshot of the build side by side, at the
-   same logical size, theme, state and content. The build screenshot can come
-   from anywhere - browser, simulator, device, golden test, or an image the
-   user pastes; the stack it was built in does not matter.
-2. Compare side by side, then overlay or pixel-diff where tools allow; small
-   anti-aliasing differences are noise, offsets and wrong tokens are not.
-3. Check in order: layout and spacing, type (family, size, weight,
-   line-height, tracking), colour tokens, radii / borders / shadows, icons and
-   images, states, responsive behaviour, motion timing and easing, content
-   fidelity, accessibility semantics the design implied.
-4. Report deviations as `expected -> actual` with the screen and component
-   name (and selector or `file:line` when the code is at hand). Classify each:
-   **build bug**, **spec gap** (fix the handoff), or **platform difference**
-   (a system component or font rendering differently - usually accept).
+At most two rounds. Round 2 re-checks each round-1 finding against its own evidence shot, re-captured
+at the same size, theme and state: `resolved`, `partial` or `unresolved`, plus at most three
+regressions. Partial or unresolved never adds up to `ship`. After round 2, disclose what remains.
+
+## Accepting a build (`acceptance`)
+
+Only screenshots of the build count, from any source (browser, simulator, device, golden test, a
+paste). With none, acceptance has not happened: say so.
+
+1. Pair each handoff shot (`shots` in handoff.json) with a build shot at the same logical size, DPR,
+   theme, state and content, carrying the build stamp. A mismatched pair is `recapture`.
+2. Compare region by region: the named components of the spec's structure tree (`data-component` in
+   the mockup), side by side, then overlaid (render-and-look section 8). Per region: `match`,
+   `adapted`, `missing`, `contradicted` or `added`, with a crop. Spacing, type (face, size, weight,
+   line height, tracking), colour tokens, radii, borders, shadows, each asset in its slot at its
+   rendered size, content; then states, other sizes, motion. Tolerances: the spec's Acceptance
+   section (default: one spacing step, exact tokens, fonts as specified). Anti-aliasing is noise.
+3. Each deviation: `expected -> actual`, screen > component, crop, severity, one class: **build bug**
+   (differs from a clear spec: fix the build), **spec gap** (the handoff did not say: fix the
+   handoff, never guess), **platform difference** (a system component or font renders differently:
+   usually accept, record it in the spec).
+4. Say how each thing a still cannot show was checked (targets, focus order and visibility,
+   screen-reader names, contrast, text scaling, reduced motion), then fill the
+   [acceptance report](../design-studio/templates/acceptance-report.md). `ship` needs every region
+   `match` or `adapted` and no open P0 or P1; a region is fixed only on a re-captured build shot.
 
 ## Conduct
 
-- Critique the work against the goal, never the person.
-- Prefer the smallest change that fixes the problem; recommend redesign only
-  when structure is the problem.
-- Do not pad. Ten findings that matter beat forty that do not; group repeats
-  into one systemic finding.
-- If asked for a second opinion on a direction, say clearly which option you
-  would ship and why.
-- Scores are for tracking before / after, not for grading people. Anchor them
-  to the rubric descriptors and show the evidence.
-- An issued finding or recommendation is not rewritten afterwards to match
-  what was built. The implementer answers it: fixed (with the new shot), or a
-  deviation recorded in `decisions.md`.
+- Judge the work against the goal, never the person; be direct. Prefer the smallest fix that works.
+- Ten findings that matter beat forty. Scores track change, never people. Write in the user's language.
+- Never rewrite an issued finding to match what was built. The implementer answers it: fixed, with
+  the re-captured evidence shot (same size, theme and state), or a deviation recorded in decisions.md.
 
-## Deliverables
+## Output
 
-`.design/critique/<date>-<target>.md` with screenshots referenced, scores,
-findings, grouped plan and the list of unchecked areas; for `qa`, the
-deviation list; for `redesign-brief`, a brief ready for
-`../explore-design-directions/SKILL.md` with the structural findings, the
-baseline fixes and the equity users rely on.
+`.design/critique/<date>-<target>/`: `report.md` plus one crop per finding (`NN-<slug>.png`, enough
+context to locate it), committed; bulk captures stay in `.design/shots/` (gitignored). Acceptance
+writes `.design/handoff/<feature>/acceptance.md`. The last report on the same target is the baseline
+for score changes. Quick work: the table in chat.
 
 ## Feedback
 
-When this skill causes friction, gets corrected, fails, or lacks something you
-needed, log one entry per `../design-studio/references/feedback.md` and return
-to the task. Before the final message of the round, run that file's close-out
-retro and end with its `Skill feedback:` line - the retro is part of done.
-Log, don't fix: skills are edited only inside the lab.
+When this skill is corrected, fails or lacks something, follow design-studio's
+[feedback](../design-studio/references/feedback.md): silent, lab inbox only, short retro.

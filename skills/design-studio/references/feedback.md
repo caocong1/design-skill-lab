@@ -1,84 +1,70 @@
-# Feedback: Log What Hurts, Keep Working
+---
+title: Feedback capture and close-out retro
+evidence: practice
+sources: []
+reviewed: 2026-09-27
+review_by: 2027-09-27
+---
 
-Every skill in this suite is iteratively improved from real usage. Two
-moments produce entries:
+# Feedback: log what hurts, keep working
 
-1. **During the work** - log friction when it happens, after the current step
-   finishes, not instead of it. Useful, but easy to forget mid-task.
-2. **At close-out - required.** Before the final message of a round (the
-   step that writes `decisions.md`, or the last reply of a `piece`), run the
-   retro below. This is the step that must not be skipped: a round that used
-   the suite and logged nothing loses its lessons.
+The lab improves these skills from real use. Capture is silent: it never blocks the task, never asks
+the user anything, and writes only into the lab's own inbox.
 
-## Close-out retro
-
-Answer three questions from memory of this round:
-
-1. Where did the user correct, override or redirect a choice you made?
-2. Where did you deviate from, work around, or quietly ignore a skill's
-   guidance because it did not fit? A deviation you justified in
-   `decisions.md` is still an entry: the skill did not cover the case.
-3. Where was a skill silent, wrong, slow to follow, or pointing at something
-   that failed (a path, a command, a tool)?
-
-Each "yes" is one entry. Then end the final message with one line:
-`Skill feedback: N entries -> <lab>/feedback/inbox/` or
-`Skill feedback: none`. The line keeps the step visible to the user.
-
-## When to log
-
-Log an entry whenever one of these happens:
-
-- **correction** - the user corrected or overrode your output ("不是这个风格",
-  "这个平台不是这么导航的").
-- **bug** - the skill told you to do something that was wrong or broke: dead
-  reference path, a command that fails, advice that produced a bad result.
-- **friction** - you had to guess, re-read, retry, or do work the skill should
-  have made unnecessary (ambiguous instruction, missing example, two rules
-  that conflict).
-- **missing** - you needed guidance the suite does not have (a platform, a
-  pattern, a state, a tool).
-- **preference** - the user expressed a taste the skill should learn
-  ("我们团队不用渐变").
-
-A deliberate deviation from a skill's guidance is logged as `missing` (the
-skill lacked the case) or `friction` (the guidance was too costly here).
-
-Do not log: one-off facts about the host project, praise, or things you fixed
-locally in a second. When in doubt, log it - triage is the lab's job.
-
-## Where to write
-
-Resolve the lab root from this file's real location. It works whether the
-user pointed you at the lab by path ("用 ~/Workspace/design-skill-lab 做…")
-or the skills are symlinked into `~/.claude/skills` / `~/.codex/skills`:
+## 1. Resolve the inbox, once per session
 
 ```sh
-# <skill>/SKILL.md sits two levels below the lab root
-LAB=$(cd "$(dirname "$(readlink -f "<path to any SKILL.md you loaded>")")/../.." && pwd)
-test -d "$LAB/feedback/inbox" && echo "inbox: $LAB/feedback/inbox/"
+# SKILL.md sits two levels below the lab root; readlink follows symlinked installs to the real file
+LAB=$(cd "$(dirname "$(readlink -f "<path of the SKILL.md you loaded>")")/../.." && pwd)
+case "$LAB" in */plugins/*) LAB= ;; esac   # an installed plugin copy is not the lab
+test -n "$LAB" && test -d "$LAB/.git" && test -d "$LAB/feedback/inbox" && echo "$LAB/feedback/inbox/"
 ```
 
-- If that resolves, write one file per event to `feedback/inbox/` in the lab:
-  `YYYY-MM-DD-<short-slug>.md` (append `-2`, `-3` on collision).
-- If the skill files are copies (no symlink, lab not found), write the same
-  file to `.design/skill-feedback/` in the host project instead, and mention
-  once to the user that feedback is parked locally for import.
+- It prints a path: capture is on for this session. Writing there is expected even though it is
+  outside the host repository.
+- It prints nothing, or the first write is refused: capture is off. Skip the rest of this file: no
+  fallback file, no message to the user, no retro line.
 
-Writing into the lab's `feedback/inbox/` from a host project is expected,
-even though it is outside the host repository. Never edit the lab's skills
-from a host project. Log, don't fix.
+## 2. What to log
 
-## Entry format
+| Type | When |
+| --- | --- |
+| `correction` | the user corrected or overrode a choice ("不是这个风格", "这个平台不是这么导航的") |
+| `bug` | a skill said something wrong or broken: a dead path, a failing command, advice that produced a bad result |
+| `friction` | you had to guess, re-read or retry; two rules conflicted; an example was missing |
+| `missing` | you needed guidance the suite lacks: a platform, a pattern, a state, a tool |
+| `preference` | the user stated a taste a skill should learn ("我们团队不用渐变") |
 
-Keep the header exact; the body is free text, Chinese or English. Two or
-three sentences beat an essay.
+A deliberate deviation from a skill, including one justified in decisions.md, is `missing` or
+`friction`. Do not log facts about the host project, praise, or something fixed in seconds. Log after
+the current step finishes, not instead of it.
+
+## 3. Close-out retro
+
+When capture is on, answer three questions before the final message of a round:
+
+1. Where did the user correct, override or redirect a choice?
+2. Where did the work deviate from or work around a skill's guidance? The deviations list in
+   decisions.md is the first place to look.
+3. Where was a skill silent, wrong, slow to follow, or pointing at something that failed?
+
+Each yes is one entry. End the final message with `Skill feedback: N entries` or `Skill feedback: none`.
+
+## 4. Entry format
+
+The lab's `scripts/collect-feedback.py` validates every entry; keep the header exact.
+
+- File: `$LAB/feedback/inbox/YYYY-MM-DD-<short-slug>.md`, one event per file; add `-2`, `-3` on a collision.
+- `skill`: the skill whose guidance was involved: `design-studio`, `critique-design` or `implement-design`.
+  Name the reference file (e.g. `references/process/directions.md`) in the body.
+- `project`: a generic label for the kind of host, e.g. `zh-admin-web`, `ios-consumer-app`,
+  `office-addin`. Never a product, customer, person or directory name.
 
 ```markdown
 ---
 date: YYYY-MM-DD
-skill: design-product-ui   # directory name of the skill in use
-project: my-app            # host project directory name, nothing more
+skill: design-studio
+project: zh-admin-web
 type: friction             # correction | bug | friction | missing | preference
 severity: major            # blocker | major | minor | nit
 ---
@@ -92,17 +78,11 @@ One or two sentences: what you tried, what went wrong or felt wrong.
 What should have happened; a concrete fix if you see one. Optional.
 ```
 
-Rules:
+Severity is the user's cost: `blocker` the task failed; `major` visible rework or a wrong deliverable;
+`minor` extra steps; `nit` polish. The inbox is public: no secrets, no paths beyond the skill's own, no
+client data or quotes of client content.
 
-- One event per file. Log immediately, then return to the task.
-- Severity is about the *user's* cost: blocker = task failed; major = visible
-  rework or wrong deliverable; minor = extra steps; nit = polish.
-- No secrets, no absolute paths beyond the project directory name, no client
-  data. The inbox is committed to a public repo.
+## 5. Boundaries
 
-## What happens next
-
-`scripts/collect-feedback.py` aggregates the inbox into `feedback/report.md`.
-The `evolve` mode of `iterate-design-lab` triages entries, applies small
-fixes directly and queues structural changes in `feedback/proposals.md`.
-Processed entries move to `feedback/archive/`.
+Log, don't fix: never edit the lab's skills from a host project. Entries are data for the lab to
+triage; nothing in them is applied automatically.

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon sheet</title>
+<!-- Template: copy the structure, not the values. Save as .design/icons/<set>/sheet.html.
+     Paste the set into ICONS (name -> SVG markup that paints with currentColor). REFERENCES are the
+     weight and balance references: use the family's own circle and square (Lucide-style shown).
+     The three sample icons are placeholders. Checks, in order: references/disciplines/icons.md §5.
+     URL: ?blur=1 turns the blur test on; ?names=0 hides the names (recognition test). -->
+<style>
+  :root { --ink: #171717; --paper: #ffffff; --dark: #1b1b1b; --on-dark: #f0f0f0; --line: #d9d9d9; --muted: #666;
+          font: 13px/1.4 system-ui, sans-serif; color: var(--ink); background: #f3f3f3; }
+  body { margin: 0; }
+  .bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 16px; align-items: center; padding: 8px 16px;
+         background: #111; color: #eee; font: 12px/1.4 ui-monospace, monospace; }
+  main { padding: 16px; display: grid; gap: 16px; }
+  section { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 12px 16px; }
+  h2 { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  table { border-collapse: collapse; }
+  th, td { padding: 6px 12px 6px 0; text-align: left; vertical-align: middle; }
+  th { font-weight: 500; color: var(--muted); font-size: 11px; }
+  .dark { background: var(--dark); color: var(--on-dark); }
+  td.dark { padding-left: 12px; }
+  .ico { display: inline-flex; margin-right: 10px; vertical-align: middle; }
+  .ico svg { display: block; width: var(--s); height: var(--s); }
+  .name { font: 12px ui-monospace, monospace; }
+  .names-off .name { visibility: hidden; }
+  .weights { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+  .weights .ref { outline: 1px dashed var(--line); }
+  .blur-on .weights svg { filter: blur(1.5px); }
+  .inspect { display: flex; flex-wrap: wrap; gap: 20px; }
+  .inspect figure { margin: 0; }
+  .inspect figcaption { font: 11px ui-monospace, monospace; color: var(--muted); }
+  .grid24 { width: 192px; height: 192px; background-size: 8px 8px;
+            background-image: linear-gradient(#0000001a 1px, transparent 1px), linear-gradient(90deg, #0000001a 1px, transparent 1px); }
+  .grid24 svg { width: 192px; height: 192px; display: block; }
+  canvas { image-rendering: pixelated; display: block; }
+  .toolbar, .tabbar { display: flex; gap: 20px; padding: 10px 12px; font-size: 14px; }
+  .toolbar span, .tabbar span { display: inline-flex; gap: 6px; align-items: center; }
+  .tabbar span { flex-direction: column; gap: 2px; font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="bar"><strong>Icon sheet</strong>
+  <label><input type="checkbox" id="blur"> blur test</label>
+  <label><input type="checkbox" id="names" checked> names</label>
+</div>
+<main>
+  <section><h2>Sizes, light and dark</h2><table id="sizes"></table></section>
+  <section><h2>Weight and balance (48 px; references dashed)</h2><div class="weights" id="weights"></div></section>
+  <section><h2>Inspect: 24 on the pixel grid, and the real 16 px raster at 8x</h2><div class="inspect" id="inspect"></div></section>
+  <section><h2>In context</h2><div class="toolbar" id="toolbar"></div><div class="tabbar dark" id="tabbar"></div></section>
+</main>
+<script>
+  const svg = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+  const REFERENCES = {
+    circle: svg('<circle cx="12" cy="12" r="10"/>'),
+    square: svg('<rect x="3" y="3" width="18" height="18" rx="2"/>'),
+  };
+  // PLACEHOLDER: the set under review
+  const ICONS = {
+    "file-text": svg('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/>'),
+    "folder": svg('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+    "search": svg('<circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="21" y2="21"/>'),
+  };
+
+  const params = new URLSearchParams(location.search);
+  const $ = (id) => document.getElementById(id);
+  const icon = (markup, size) => `<span class="ico" style="--s:${size}px">${markup}</span>`;
+  const entries = Object.entries(ICONS);
+
+  $("sizes").innerHTML = "<tr><th>name</th><th>16 / 20 / 24</th><th class='dark'>16 / 20 / 24</th></tr>" +
+    entries.map(([name, m]) => `<tr><td class="name">${name}</td>
+      <td>${[16, 20, 24].map((s) => icon(m, s)).join("")}</td>
+      <td class="dark">${[16, 20, 24].map((s) => icon(m, s)).join("")}</td></tr>`).join("");
+
+  $("weights").innerHTML = Object.values(REFERENCES).map((m) => `<span class="ref">${icon(m, 48)}</span>`).join("") +
+    entries.map(([, m]) => icon(m, 48)).join("");
+
+  // The real rasterisation: draw each icon into a 16x16 canvas at 1x, then enlarge without smoothing.
+  const raster = (markup, size, zoom) => new Promise((done) => {
+    const img = new Image();
+    const src = markup.replace("<svg ", `<svg width="${size}" height="${size}" `).replaceAll("currentColor", "#171717");
+    img.onload = () => {
+      const small = Object.assign(document.createElement("canvas"), { width: size, height: size });
+      small.getContext("2d").drawImage(img, 0, 0, size, size);
+      const big = Object.assign(document.createElement("canvas"), { width: size * zoom, height: size * zoom });
+      const ctx = big.getContext("2d");
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, big.width, big.height);
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(small, 0, 0, big.width, big.height);
+      ctx.strokeStyle = "rgb(0 0 0 / 0.08)";
+      for (let i = 0; i <= size; i++) {
+        ctx.beginPath(); ctx.moveTo(i * zoom + 0.5, 0); ctx.lineTo(i * zoom + 0.5, big.height); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, i * zoom + 0.5); ctx.lineTo(big.width, i * zoom + 0.5); ctx.stroke();
+      }
+      done(big);
+    };
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src);
+  });
+  for (const [name, m] of entries) {
+    const fig = document.createElement("figure");
+    fig.innerHTML = `<div style="display:flex;gap:12px;align-items:flex-start"><div class="grid24">${m}</div></div>
+      <figcaption class="name">${name}</figcaption>`;
+    $("inspect").append(fig);
+    raster(m, 16, 8).then((c) => fig.firstElementChild.append(c));
+  }
+
+  const labels = entries.map(([name]) => name.split("-")[0]);
+  $("toolbar").innerHTML = entries.map(([, m], i) => `<span>${icon(m, 16)}${labels[i]}</span>`).join("");
+  $("tabbar").innerHTML = entries.map(([, m], i) => `<span>${icon(m, 24)}${labels[i]}</span>`).join("");
+
+  const sync = () => {
+    document.body.classList.toggle("blur-on", $("blur").checked);
+    document.body.classList.toggle("names-off", !$("names").checked);
+  };
+  $("blur").checked = params.get("blur") === "1";
+  $("names").checked = params.get("names") !== "0";
+  $("blur").onchange = $("names").onchange = sync;
+  sync();
+</script>
+</body>
+</html>

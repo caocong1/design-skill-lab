@@ -1,0 +1,74 @@
+{
+  "$comment": "Template: copy the structure, not the values. Save as .design/handoff/<feature>/handoff.json beside README.md. One row per acceptance shot (screen x state x target x theme), captured at DPR 2 (handoff.md section 3); paths are relative to this file. State names come from the product-ui state matrix. spring is the DTCG $extensions form of disciplines/motion-tokens.md section 6: dampingRatio is the ratio zeta, never a damping coefficient. Keep it in the same change as the README and the shots.",
+  "feature": "<feature>",
+  "updated": "YYYY-MM-DD",
+  "surfaces": ["../../surfaces/<surface>.md"],
+  "tokens": {
+    "css": "tokens.css",
+    "dtcg": "tokens.tokens.json",
+    "resolver": "tokens.resolver.json"
+  },
+  "targets": [
+    { "id": "ios", "platform": "iOS 26", "logical": [402, 874], "dpr": 2, "posture": "native" },
+    { "id": "web-lg", "platform": "web", "logical": [1280, 800], "dpr": 2, "posture": "custom" },
+    { "id": "web-sm", "platform": "web", "logical": [390, 844], "dpr": 2, "posture": "custom" }
+  ],
+  "themes": ["light", "dark"],
+  "screens": [
+    {
+      "id": "<screen>",
+      "mockup": "mockups/<screen>.html",
+      "states": ["default", "empty-first", "no-results", "loading", "error"],
+      "system_components": ["tab bar", "sheet"],
+      "custom_components": ["<Row>", "<Summary>"]
+    }
+  ],
+  "shots": [
+    {
+      "screen": "<screen>",
+      "state": "empty-first",
+      "target": "web-sm",
+      "theme": "dark",
+      "file": "shots/<screen>-empty-first-web-sm-dark.png",
+      "source": "mockups/<screen>.html?state=empty-first&theme=dark"
+    }
+  ],
+  "assets": [
+    {
+      "id": "<icon-set>",
+      "file": "assets/icons/",
+      "format": "svg",
+      "scales": [],
+      "source": "<library name and version, or drawn in this project>",
+      "licence": "<SPDX id, e.g. MIT or OFL-1.1>",
+      "licence_url": "<url>",
+      "generated": null
+    },
+    {
+      "id": "<hero-plate>",
+      "file": "assets/hero@2x.webp",
+      "format": "webp",
+      "scales": [1, 2],
+      "source": "image model",
+      "licence": "<terms of the model's provider>",
+      "licence_url": "<url>",
+      "generated": { "model": "<model name>", "prompt": "<full prompt>", "date": "YYYY-MM-DD", "label": "<AI-generated label shown where required>" }
+    }
+  ],
+  "motion": [
+    {
+      "element": "<sheet>",
+      "trigger": "<tap row>",
+      "properties": ["translate", "opacity"],
+      "from": "<offscreen, 0>",
+      "to": "<resting, 1>",
+      "token": "<motion.spatial-default>",
+      "spring": { "dampingRatio": 0.9, "stiffness": 700 },
+      "interruptible": true,
+      "reduced_motion": "<opacity only, 120 ms>"
+    }
+  ],
+  "open_questions": [
+    { "id": "Q1", "question": "<...>", "owner": "<who>", "blocking": false }
+  ]
+}

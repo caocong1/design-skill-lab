@@ -1,0 +1,166 @@
+{
+  "$comment": "Mockup kit v2: the sourced record behind kit.css. One CSS px in a frame = one logical unit on the target. Every value carries basis + src; kit.css uses the custom property named in 'var'. Perishable: re-check before a final spec.",
+  "kit": "design-studio mockup kit",
+  "version": "2.0.0",
+  "reviewed": "2026-09-27",
+  "review_by": "2026-12-26",
+  "unit": {
+    "ios": "1 pt", "android": "1 dp (text 1 sp)", "harmonyos": "1 vp (text 1 fp)",
+    "wechat": "1 px at the 375 design width = 2 rpx", "windows": "1 epx", "macos": "1 pt", "web": "1 CSS px"
+  },
+  "basis": {
+    "digest": "a numbered fact in research/sources/<id>.md; src = id#fact",
+    "derived": "computed from a sourced value; 'note' says how",
+    "primary": "read from a primary page on 2026-09-27 by the skills stream; not yet in a research digest",
+    "field": "lab field evidence (one host session); not a platform source",
+    "example": "a value its source calls an example, not a norm",
+    "approx": "drawing value with no public source (for iOS bars the HIG publishes none); replace with the platform UI kit's value before a spec"
+  },
+  "sources": {
+    "apple-hig-bars": "../../../../research/sources/apple-hig-bars.md",
+    "apple-hig-liquid-glass": "../../../../research/sources/apple-hig-liquid-glass.md",
+    "material-3-expressive": "../../../../research/sources/material-3-expressive.md",
+    "harmonyos-design": "../../../../research/sources/harmonyos-design.md",
+    "wechat-miniprogram-design-guidelines": "../../../../research/sources/wechat-miniprogram-design-guidelines.md",
+    "fluent-2": "../../../../research/sources/fluent-2.md",
+    "openai-apps-sdk-ui": "../../../../research/sources/openai-apps-sdk-ui.md",
+    "mcp-apps": "../../../../research/sources/mcp-apps.md",
+    "field:host-retros": "../../../../research/field/2026-09-host-retros.md",
+    "web:iphone-17": "https://support.apple.com/en-us/125089 ('2622-by-1206-pixel resolution at 460 ppi'; same on apple.com/iphone-17/specs/)",
+    "web:iphone-17-pro": "https://support.apple.com/en-us/125090 ('2622-by-1206-pixel resolution at 460 ppi')",
+    "web:iphone-17-pro-max": "https://support.apple.com/en-us/125091 ('2868-by-1320-pixel resolution at 460 ppi')",
+    "web:iphone-air": "https://support.apple.com/en-us/125092 ('2736-by-1260-pixel resolution at 460 ppi'; same on apple.com/iphone-air/specs/)",
+    "web:ipad-air-11": "https://www.apple.com/ipad-air/specs/ ('2360-by-1640-pixel resolution at 264 ppi', 11-inch)",
+    "kit-0.7.0": "carried over from the 0.7.0 kit, which never cited a source"
+  },
+
+  "frames": {
+    "iphone-17": { "platform": "ios", "size": [402, 874], "basis": "primary", "src": ["web:iphone-17", "web:iphone-17-pro"], "note": "px / 3 (@3x); iPhone 17 and 17 Pro share it. HIG Layout no longer lists device sizes (apple-hig-liquid-glass#20)." },
+    "iphone-air": { "platform": "ios", "size": [420, 912], "basis": "primary", "src": ["web:iphone-air"], "note": "px / 3 (@3x)" },
+    "iphone-17-pro-max": { "platform": "ios", "size": [440, 956], "basis": "primary", "src": ["web:iphone-17-pro-max"], "note": "px / 3 (@3x); matches the 6.9-inch App Store screenshot size 1320x2868 px in apple-hig-liquid-glass (open items)" },
+    "ipad-11": { "platform": "ipados", "size": [820, 1180], "basis": "primary", "src": ["web:ipad-air-11"], "note": "px / 2 (@2x), portrait" },
+    "android-phone": { "platform": "android", "size": [412, 915], "basis": "approx", "src": ["kit-0.7.0", "material-3-expressive#26"], "note": "a compact-width drawing size (compact < 600 dp); no device size is in a digest. Check 360 wide too." },
+    "android-fold-open": { "platform": "android", "size": [840, 880], "basis": "approx", "src": ["material-3-expressive#26"], "note": "width = start of 'expanded' (840 dp); height is a drawing value" },
+    "mate-80": { "platform": "harmonyos", "size": [366, 809], "basis": "digest", "src": ["harmonyos-design#26"] },
+    "pura-80": { "platform": "harmonyos", "size": [359, 789], "basis": "digest", "src": ["harmonyos-design#26"] },
+    "mate-x7-open": { "platform": "harmonyos", "size": [737, 805], "basis": "digest", "src": ["harmonyos-design#26"] },
+    "mate-x7-folded": { "platform": "harmonyos", "size": [360, 815], "basis": "digest", "src": ["harmonyos-design#26"] },
+    "pura-x-open": { "platform": "harmonyos", "size": [440, 706], "basis": "digest", "src": ["harmonyos-design#26"] },
+    "matepad": { "platform": "harmonyos", "size": [1280, 800], "basis": "digest", "src": ["harmonyos-design#26"], "note": "the digest's px-to-vp table gives one pair for tablets; read as vp" },
+    "wechat-375": { "platform": "wechat", "size": [375, 812], "basis": "digest", "src": ["wechat-miniprogram-design-guidelines#10", "kit-0.7.0"], "note": "375 = fixed layout that scales (390 = responsive, adapt per size); the 812 height is approx" },
+    "windows-window": { "platform": "windows", "size": [1200, 760], "basis": "approx", "src": ["fluent-2#15"], "note": "drawing size inside the 'large' window class (>= 1008 epx); state the minimum window size" },
+    "macos-window": { "platform": "macos", "size": [1200, 760], "basis": "approx", "src": ["kit-0.7.0"] },
+    "browser": { "platform": "web", "size": [1280, 800], "basis": "approx", "src": [], "note": "the lab's desktop capture viewport; add 390 wide for the phone check" },
+    "office-pane": { "platform": "office", "size": [360, 760], "basis": "field", "src": ["field:host-retros"], "note": "task pane width 320-480 px; draw 320 and 480 before a spec; height is approx" },
+    "chat-inline": { "platform": "chat-host", "size": [400, 600], "basis": "example", "src": ["mcp-apps#8"], "note": "the spec's example containerDimensions {width: 400, maxHeight: 600}; no host publishes sizes (openai-apps-sdk-ui, open items)" },
+    "data-wall": { "platform": "wall", "size": [1920, 1080], "basis": "approx", "src": ["kit-0.7.0"], "note": "use the wall's native resolution" }
+  },
+
+  "chrome": {
+    "ios": {
+      "safe-top":            { "v": 62, "var": "--mk-safe-top", "basis": "approx", "src": [] },
+      "safe-bottom":         { "v": 34, "var": "--mk-safe-bottom", "basis": "approx", "src": ["kit-0.7.0"] },
+      "corner-radius":       { "v": 56, "var": "--mk-r", "basis": "approx", "src": [] },
+      "dynamic-island":      { "v": [124, 36], "var": ".mk-island", "basis": "approx", "src": [] },
+      "toolbar-row":         { "v": 44, "var": "--mk-ios-toolbar-h", "basis": "approx", "src": ["kit-0.7.0"] },
+      "large-title":         { "v": "34/41 bold, tracking +0.40", "basis": "digest", "src": ["apple-hig-liquid-glass#25", "apple-hig-liquid-glass#27"] },
+      "tab-bar":             { "v": "floats over content on glass; navigation only; search tab separate at the trailing end", "basis": "digest", "src": ["apple-hig-bars#1", "apple-hig-bars#3", "apple-hig-bars#6"] },
+      "tab-bar-height":      { "v": 62, "var": "--mk-ios-tab-h", "basis": "approx", "src": [], "note": "not in the HIG (apple-hig-bars, open items)" },
+      "tab-bar-inset":       { "v": 21, "var": "--mk-ios-tab-inset", "basis": "approx", "src": [] },
+      "tab-bar-bottom":      { "v": 21, "var": "--mk-ios-tab-bottom", "basis": "approx", "src": [] },
+      "tab-bar-shape":       { "v": "capsule (radius = height / 2) with margin from the screen edge", "basis": "digest", "src": ["apple-hig-liquid-glass#22"] },
+      "tab-minimized":       { "v": "current tab at the leading corner, accessory centre, search trailing; expands on tab tap or scroll to top", "var": "[data-minimize] + ?state=scrolled", "basis": "digest", "src": ["apple-hig-bars#4"] },
+      "accessory-height":    { "v": 48, "var": "--mk-ios-accessory-h", "basis": "approx", "src": [] },
+      "accessory-use":       { "v": "persistent features such as media playback, never a screen-specific action; the demo reads an inspection round in progress across tabs as persistent",  "basis": "digest", "src": ["apple-hig-bars#5"] },
+      "selected-tab":        { "v": "accent on the selected symbol and label; the others monochrome; no indicator shape", "basis": "digest", "src": ["apple-hig-liquid-glass#10", "apple-hig-liquid-glass#16"] },
+      "badge":               { "v": "red oval, white number or '!', critical information only", "basis": "digest", "src": ["apple-hig-bars#1"] },
+      "system-blue":         { "v": ["#0088FF", "#0091FF"], "var": "--mk-tint", "basis": "digest", "src": ["apple-hig-liquid-glass#14"], "note": "light / dark; white text on it is 3.5 / 3.2:1, below the text minimum in color.md, so a design that needs AA sets its own --mk-tint and --mk-on-tint" },
+      "system-red":          { "v": ["#FF383C", "#FF4245"], "var": "--mk-badge", "basis": "digest", "src": ["apple-hig-liquid-glass#14"], "note": "light / dark badge fill; white numerals on it are 3.6 / 3.4:1, so the demo sets --mk-badge to its own danger fill" },
+      "toolbar-groups":      { "v": "<= 3 groups; one .prominent action, trailing, colour on its background", "basis": "digest", "src": ["apple-hig-bars#14", "apple-hig-bars#15", "apple-hig-liquid-glass#11"] },
+      "scroll-edge":         { "v": "a scroll edge effect instead of an opaque bar; one per view", "var": ".mk-edge", "basis": "digest", "src": ["apple-hig-liquid-glass#17", "apple-hig-liquid-glass#21"] },
+      "ipad-tab-bar":        { "v": "near the top, fixed or convertible to a sidebar; five tabs or fewer", "var": ".mk-ipad-tabs", "basis": "digest", "src": ["apple-hig-bars#10"] }
+    },
+    "android": {
+      "status-bar":          { "v": 28, "var": "--mk-safe-top", "basis": "approx", "src": ["kit-0.7.0"] },
+      "gesture-area":        { "v": 24, "var": "--mk-safe-bottom", "basis": "approx", "src": ["kit-0.7.0"] },
+      "app-bar-small":       { "v": 64, "var": "--mk-m3-appbar-h", "basis": "digest", "src": ["material-3-expressive#28"], "note": "title = title-large 22/28; fills with surface-container on scroll" },
+      "nav-bar":             { "v": 64, "var": "--mk-m3-navbar-h", "basis": "digest", "src": ["material-3-expressive#23"], "note": "flexible bar; baseline 80 dp is no longer recommended" },
+      "nav-indicator":       { "v": [56, 32], "var": "--mk-m3-ind-w, --mk-m3-ind-h", "basis": "digest", "src": ["material-3-expressive#23"], "note": "secondary-container; active label secondary; icon 24; label-medium 12/16 500" },
+      "fab":                 { "v": 56, "var": "--mk-m3-fab", "basis": "digest", "src": ["material-3-expressive#33"], "note": "corner 16; medium 80 (corner 20); large 96 (corner 28); extended small 56" },
+      "fab-margin":          { "v": 16, "var": "--mk-m3-edge", "basis": "digest", "src": ["material-3-expressive#32"] },
+      "toolbar":             { "v": 64, "var": "--mk-m3-toolbar-h", "basis": "digest", "src": ["material-3-expressive#27"], "note": "docked replaces the bottom app bar; floating = fully rounded, elevation level3, 16 dp external padding; never with a nav bar" },
+      "rail-collapsed":      { "v": 96, "var": "--mk-m3-rail-w", "basis": "digest", "src": ["material-3-expressive#24"], "note": "expanded rail 220-360 dp replaces the drawer" },
+      "corners":             { "v": [4, 8, 12, 16, 20, 28, 32, 48], "basis": "digest", "src": ["material-3-expressive#14"] },
+      "breakpoints":         { "v": [600, 840, 1200, 1600], "basis": "digest", "src": ["material-3-expressive#26"] }
+    },
+    "harmonyos": {
+      "safe-top":            { "v": 36, "var": "--mk-safe-top", "basis": "derived", "src": ["harmonyos-design#23"], "note": "phone screen-edge margin top 36 vp, read as the status inset" },
+      "safe-bottom":         { "v": 28, "var": "--mk-safe-bottom", "basis": "derived", "src": ["harmonyos-design#23"], "note": "phone screen-edge margin bottom 28 vp, read as the indicator inset" },
+      "side-margin":         { "v": 16, "var": "--mk-hm-margin", "basis": "digest", "src": ["harmonyos-design#22", "harmonyos-design#23"] },
+      "title-bar":           { "v": 56, "var": "--mk-hm-title-h", "basis": "digest", "src": ["harmonyos-design#19"], "note": "large title bar 112; Free mode shrinks on scroll" },
+      "title-bar-large":     { "v": 112, "var": "--mk-hm-title-lg", "basis": "digest", "src": ["harmonyos-design#19"] },
+      "title-blur-below":    { "v": 32, "var": "--mk-hm-title-fade", "basis": "digest", "src": ["harmonyos-design#19"], "note": "gradient blur below the bar, coloured like the page" },
+      "tabs-floating":       { "v": 56, "var": "--mk-hm-tab-h", "basis": "digest", "src": ["harmonyos-design#11"] },
+      "tabs-floating-width": { "v": { "5+": 360, "4": 328, "3": [248, 272], "2": [168, 184] }, "var": "--mk-hm-tab-w", "basis": "digest", "src": ["harmonyos-design#14"], "note": "3 and 2 tabs: window < 600 / >= 600 vp; tablets x1.15; the HdsTabs API default differs (digest open items)" },
+      "tabs-floating-margin":{ "v": 16, "var": "--mk-hm-margin", "basis": "digest", "src": ["harmonyos-design#16"], "note": "barSideMargin < 600 vp; barBottomMargin 0" },
+      "tabs-mask":           { "v": "bar height + 16; light #CCF1F3F5, dark #99000000", "var": "--mk-hm-mask", "basis": "digest", "src": ["harmonyos-design#16"] },
+      "tabs-flat":           { "v": 48, "var": "--mk-hm-tab-flat-h", "basis": "digest", "src": ["harmonyos-design#11"] },
+      "tab-item":            { "v": "icon 24 vp; label 10 vp (Caption_M); inactive = lower opacity or grey (the kit uses font_secondary, 60 %); no indicator shape", "var": "--mk-hm-inactive", "basis": "digest", "src": ["harmonyos-design#12", "harmonyos-design#18", "harmonyos-design#27", "harmonyos-design#35"] },
+      "brand":               { "v": ["#0A59F7", "#317AF7"], "var": "--mk-tint", "basis": "digest", "src": ["harmonyos-design#35"], "note": "light / dark system brand colour; the design overrides it" },
+      "materials":           { "v": "top floating ULTRA_THIN + gradient blur; bottom floating THIN + gradient colour; popovers THICK; sheets ULTRA_THICK", "basis": "digest", "src": ["harmonyos-design#6"] },
+      "radii":               { "v": { "tag": 4, "image": 8, "card": 16, "button": 20, "sheet": 32 }, "basis": "digest", "src": ["harmonyos-design#25"] },
+      "card-gap":            { "v": 12, "basis": "digest", "src": ["harmonyos-design#24"] }
+    },
+    "wechat": {
+      "safe-top":            { "v": 44, "var": "--mk-safe-top", "basis": "approx", "src": ["kit-0.7.0"] },
+      "safe-bottom":         { "v": 34, "var": "--mk-safe-bottom", "basis": "approx", "src": ["kit-0.7.0"] },
+      "nav-bar":             { "v": 44, "var": "--mk-wx-nav-h", "basis": "approx", "src": ["kit-0.7.0"] },
+      "capsule":             { "v": { "w": 87, "h": 32, "right": 7, "top": 6 }, "var": "--mk-wx-cap-*", "basis": "approx", "src": ["kit-0.7.0"], "note": "read wx.getMenuButtonBoundingClientRect() at runtime; host-placed on every page, only a light or dark scheme" },
+      "capsule-rule":        { "v": "reserve its area; custom navigation must look different from it", "basis": "digest", "src": ["wechat-miniprogram-design-guidelines#2"] },
+      "tab-bar":             { "v": 49, "var": "--mk-wx-tab-h", "basis": "approx", "src": ["kit-0.7.0"], "note": "native bottom tabs: home page only; 2-5 items, <= 4 advised; selected = icon + label colour" },
+      "tab-rule":            { "v": "2-5 tabs, <= 4 advised, native bottom style on the home page only", "basis": "digest", "src": ["wechat-miniprogram-design-guidelines#3"] },
+      "type":                { "v": [22, 17, 15, 14, 12], "basis": "digest", "src": ["wechat-miniprogram-design-guidelines#9"] }
+    },
+    "windows": {
+      "window-radius":       { "v": 8, "var": "--mk-r", "basis": "digest", "src": ["fluent-2#20"], "note": "0 when snapped or maximised; in-page controls 4" },
+      "title-bar":           { "v": 32, "var": "--mk-win-title-h", "basis": "digest", "src": ["fluent-2#29"] },
+      "title-bar-search":    { "v": 48, "var": "--mk-win-title-h", "basis": "digest", "src": ["fluent-2#29"], "note": "with a centred search box or a person picture" },
+      "window-icon":         { "v": "16x16, 16 from the edge; title in Caption style 16 after it", "basis": "digest", "src": ["fluent-2#29"] },
+      "caption-button":      { "v": 46, "var": "--mk-win-cap-w", "basis": "approx", "src": ["kit-0.7.0"] },
+      "materials":           { "v": "Mica base (title bar blends in); content layer or cards on it; Acrylic only for transient surfaces; Smoke under dialogs", "basis": "digest", "src": ["fluent-2#1", "fluent-2#2", "fluent-2#3"] },
+      "type":                { "v": "Caption 12/16, Body 14/20, Body Strong 14/20 semibold, Subtitle 20/28, Title 28/36", "basis": "digest", "src": ["fluent-2#8"] },
+      "breakpoints":         { "v": [640, 1008], "basis": "digest", "src": ["fluent-2#15"] }
+    },
+    "macos": {
+      "title-bar":           { "v": 52, "var": "--mk-mac-title-h", "basis": "approx", "src": [] },
+      "window-radius":       { "v": 16, "var": "--mk-r", "basis": "approx", "src": [] },
+      "traffic-lights":      { "v": { "d": 12, "gap": 8 }, "basis": "approx", "src": ["kit-0.7.0"] },
+      "sidebar":             { "v": "inset glass floating over content; content extends beneath", "var": ".mk-mac-sidebar", "basis": "digest", "src": ["apple-hig-bars#20"] },
+      "title-bar-overlay":   { "v": "title bar and toolbar float over content, which runs beneath; traffic lights in the sidebar's top corner", "var": ".mk-window[data-os=macos] > .mk-titlebar", "basis": "digest", "src": ["apple-hig-bars#20", "apple-hig-liquid-glass#17"] },
+      "selected-row":        { "v": "semibold text (macOS 27)", "basis": "digest", "src": ["apple-hig-bars#23"] },
+      "type":                { "v": "Body 13/16, Headline 13/16 bold, Title 3 15/20", "basis": "digest", "src": ["apple-hig-liquid-glass#26"] }
+    },
+    "office": {
+      "pane-width":          { "v": [320, 480], "var": "--mk-w", "basis": "field", "src": ["field:host-retros"], "note": "user-resizable; follows the host's theme; separate origin and storage; no Office design source in a digest yet" },
+      "pane-header":         { "v": 40, "var": "--mk-pane-head-h", "basis": "approx", "src": [], "note": "drawn by the host, not by the add-in" },
+      "tokens":              { "v": "Fluent 2 web: Body 1 14/20, Subtitle 2 16/22, Caption 1 12/16; corner 4", "basis": "digest", "src": ["fluent-2#7", "fluent-2#18"] }
+    },
+    "chat-host": {
+      "display-modes":       { "v": ["inline", "fullscreen", "pip"], "var": "[data-mode]", "basis": "digest", "src": ["mcp-apps#9", "openai-apps-sdk-ui#3"] },
+      "inline-card":         { "v": "<= 2 actions at the bottom (one primary); no nested scroll, tabs or drill-ins", "basis": "digest", "src": ["openai-apps-sdk-ui#4", "openai-apps-sdk-ui#5"] },
+      "fullscreen":          { "v": "host composer always overlaid; outer radius drops to 0", "basis": "digest", "src": ["openai-apps-sdk-ui#7", "mcp-apps#9"] },
+      "border":              { "v": "prefersBorder true = host draws border and background; set it explicitly", "var": "[data-border]", "basis": "digest", "src": ["mcp-apps#4"] },
+      "type":                { "v": "text-md 16/24, text-sm 14/20; system font only", "basis": "digest", "src": ["openai-apps-sdk-ui#10", "openai-apps-sdk-ui#21"] }
+    }
+  },
+
+  "materials": {
+    "$comment": "data-material roles drawn by .mk-glass and friends. The CSS is a labelled approximation of layering and legibility risk, never the platform material: no platform publishes blur or tint numbers (apple-hig-liquid-glass, open items). The handoff names the role and the platform material.",
+    "glass-regular":  { "ios": "Liquid Glass regular", "harmonyos": "沉浸光感: top floating ULTRA_THIN + gradient blur; bottom floating THIN + gradient colour mask; popovers and menus THICK; half-modal sheets and dialogs ULTRA_THICK", "windows": "background (desktop) Acrylic for flyouts, context menus and light-dismiss panes; in-app Acrylic for panes over content (NavigationView compact/minimal)", "android": "none: tonal surface-container", "src": ["apple-hig-liquid-glass#4", "harmonyos-design#6", "fluent-2#4", "material-3-expressive#23"] },
+    "glass-clear":    { "ios": "Liquid Glass clear, over media only, with a 35 % dimming layer when the content is bright", "src": ["apple-hig-liquid-glass#4", "apple-hig-liquid-glass#5"] },
+    "scrim":          { "ios": "dimming layer (35 % for clear glass)", "windows": "Smoke", "harmonyos": "system presentation (modal dimming)", "src": ["apple-hig-liquid-glass#5", "fluent-2#1"] },
+    "surface":        { "all": "opaque content-layer fill", "src": ["apple-hig-liquid-glass#1", "fluent-2#1"] },
+    "surface-raised": { "all": "opaque fill with elevation (M3 tonal level, Windows stroke + shadow)", "src": ["material-3-expressive#27", "fluent-2#23"] },
+    "base":           { "windows": "Mica", "macos": "window background", "src": ["fluent-2#2"] }
+  }
+}

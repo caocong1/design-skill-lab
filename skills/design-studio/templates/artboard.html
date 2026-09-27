@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artboard</title>
+<!-- Template: copy the structure, not the values. Save as .design/graphics/<name>/index.html, one per
+     format. The page is exactly the artboard at (0,0), so a capture at the preset's size with DPR 1
+     is the export: bash "$S/shot.sh" "index.html?preset=og" out 1200x630 --dpr 1 --name og.
+     URL: ?preset=og|x|square|portrait|story|youtube|github|wechat|xhs|a3|a4|card (default og), or
+          ?w=&h= in px. ?guides=1 shows margins, safe zones and keep-outs; ?thumb=1 adds the smallest
+          real view; ?gray=1 is the greyscale value check. Print presets are in mm and print to a PDF
+          at trim + bleed (state the trim size to the printer).
+     Recompose per format; never just rescale one layout. Method: references/disciplines/graphics.md. -->
+<style>
+  /* 1. Fonts: bundle the files next to this page; remote fonts may not arrive before a capture */
+  /* @font-face { font-family: "Display"; src: url("fonts/Display.woff2") format("woff2"); } */
+
+  /* 2. Tokens: PLACEHOLDER, from the brief and the system (a board that still looks grey is unfinished) */
+  :root {
+    --paper: #e9e9e9; --ink: #151515; --accent: #5e5e5e; --muted: #4f4f4f;
+    --display: system-ui, sans-serif; --text: system-ui, sans-serif;
+  }
+  html, body { margin: 0; background: #8a8a8a; }
+  body.tools { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; padding: 24px; }
+  .board { position: relative; overflow: hidden; width: var(--w); height: var(--h); container-type: size;
+           background: var(--paper); color: var(--ink); print-color-adjust: exact; }
+  .gray .board { filter: grayscale(1); }
+
+  /* 3. Composition: PLACEHOLDER. Sizes in container units follow the frame; tune per format */
+  .comp { position: absolute; inset: var(--m, 6cqmin); display: grid; grid-template-rows: auto 1fr auto auto; gap: 2cqmin; }
+  .kicker { margin: 0; font: 600 3.2cqmin/1.2 var(--text); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .headline { margin: 0; align-self: end; max-width: 13ch; font: 800 17cqmin/.9 var(--display); letter-spacing: -.03em; }
+  .support { margin: 0; max-width: 40ch; font: 400 3.6cqmin/1.35 var(--text); }
+  .credit { margin: 0; display: flex; justify-content: space-between; gap: 2cqmin; font: 500 2.6cqmin/1.2 var(--text);
+            border-top: .3cqmin solid currentColor; padding-top: 1.6cqmin; }
+  .mark { width: 5cqmin; height: 5cqmin; border-radius: 50%; background: var(--accent); } /* PLACEHOLDER mark */
+
+  /* 4. Review tools: never part of the export */
+  .guide { position: absolute; box-sizing: border-box; pointer-events: none; font: 11px/1.2 ui-monospace, monospace; }
+  .guide.box { border: 1px dashed #e0006a; }
+  .guide.keepout { background: repeating-linear-gradient(45deg, #e0006a33 0 6px, transparent 6px 12px); outline: 1px solid #e0006a; }
+  .guide span { position: absolute; right: 4px; top: 2px; color: #e0006a; background: #fffd; padding: 0 3px; }
+  .guide.m span { top: calc(100% + 4px); } /* below the box, clear of the content */
+  .thumb { display: grid; gap: 6px; font: 12px ui-monospace, monospace; color: #fff; }
+  .thumb-frame { overflow: hidden; }
+  @media print { html, body { background: none; } body.tools { display: block; padding: 0; } .guide, .thumb { display: none; } }
+</style>
+</head>
+<body>
+<div class="board" id="board">
+  <main class="comp">
+    <p class="kicker">Kicker, date or place</p>
+    <h1 class="headline">One message, set large</h1>
+    <p class="support">One supporting line that says why it matters, in the product's own words.</p>
+    <p class="credit"><span>Credit, call or URL</span><span class="mark" aria-hidden="true"></span></p>
+  </main>
+</div>
+
+<script>
+  // Units per preset: px for screens, mm for print. Rectangles are [x, y, w, h, label] in board units;
+  // m is the composition inset that keeps text inside them.
+  const PRESETS = {
+    og:       { w: 1200, h: 630,  thumb: 300, m: "65px 100px", boxes: [[100, 65, 1000, 500, "text zone (rule of thumb)"]] },
+    x:        { w: 1600, h: 900,  thumb: 350 },
+    square:   { w: 1080, h: 1080, thumb: 180 },
+    portrait: { w: 1080, h: 1350, thumb: 180, m: "175px 64px", boxes: [[0, 135, 1080, 1080, "centre crop"]] },
+    story:    { w: 1080, h: 1920, thumb: 180, m: "280px 72px 370px", keepouts: [[0, 0, 1080, 250, "app UI"], [0, 1580, 1080, 340, "app UI"]] },
+    youtube:  { w: 1280, h: 720,  thumb: 160, keepouts: [[1080, 640, 180, 60, "duration badge"]] },
+    github:   { w: 1280, h: 640,  thumb: 300 },
+    wechat:   { w: 900,  h: 383,  thumb: 300, m: "32px 282px", boxes: [[258.5, 0, 383, 383, "1:1 share crop"]] },
+    xhs:      { w: 1080, h: 1440, thumb: 180 },
+    a3:       { unit: "mm", w: 297, h: 420, bleed: 3, safe: 5, thumb: 120 },
+    a4:       { unit: "mm", w: 210, h: 297, bleed: 3, safe: 5, thumb: 120 },
+    card:     { unit: "mm", w: 90,  h: 54,  bleed: 2, safe: 3, thumb: 180 },
+  };
+  const q = new URLSearchParams(location.search);
+  const p = q.has("w") ? { w: +q.get("w"), h: +q.get("h") || +q.get("w"), thumb: 300 } : (PRESETS[q.get("preset")] || PRESETS.og);
+  const unit = p.unit || "px", bleed = p.bleed || 0;
+  const W = p.w + 2 * bleed, H = p.h + 2 * bleed; // print boards include the bleed
+  const board = document.getElementById("board");
+  board.style.setProperty("--w", W + unit);
+  board.style.setProperty("--h", H + unit);
+  if (p.m || bleed) board.style.setProperty("--m", p.m || `${bleed + p.safe}${unit}`); // the composition clears the guides
+  document.head.insertAdjacentHTML("beforeend", `<style>@page { size: ${W}${unit} ${H}${unit}; margin: 0; }</style>`);
+
+  const rect = ([x, y, w, h, label], cls) =>
+    `<div class="guide ${cls}" style="left:${x}${unit};top:${y}${unit};width:${w}${unit};height:${h}${unit}"><span>${label}</span></div>`;
+  if (q.get("guides") === "1") {
+    const g = [...(p.boxes || []).map((r) => rect(r, "box")), ...(p.keepouts || []).map((r) => rect(r, "keepout"))];
+    if (bleed) {
+      g.push(rect([bleed, bleed, p.w, p.h, "trim"], "box"));
+      g.push(rect([bleed + p.safe, bleed + p.safe, p.w - 2 * p.safe, p.h - 2 * p.safe, "safe"], "box"));
+    } else {
+      const m = getComputedStyle(board.querySelector(".comp"));
+      g.push(`<div class="guide box m" style="inset:${m.top} ${m.right} ${m.bottom} ${m.left}"><span>margin</span></div>`);
+    }
+    board.insertAdjacentHTML("beforeend", g.join(""));
+  }
+  if (q.get("gray") === "1") document.body.classList.add("gray");
+
+  // The smallest real view: the same board scaled to the width it is actually seen at.
+  if (q.get("thumb") === "1") {
+    document.body.classList.add("tools");
+    const box = board.getBoundingClientRect();
+    const s = p.thumb / box.width;
+    const clone = board.cloneNode(true);
+    clone.removeAttribute("id");
+    clone.querySelectorAll(".guide").forEach((el) => el.remove());
+    clone.style.transform = `scale(${s})`;
+    clone.style.transformOrigin = "0 0";
+    document.body.insertAdjacentHTML("beforeend",
+      `<div class="thumb"><div class="thumb-frame" style="width:${p.thumb}px;height:${Math.round(box.height * s)}px"></div>` +
+      `<span>smallest view: ${p.thumb} px wide</span></div>`);
+    document.querySelector(".thumb-frame").append(clone);
+  }
+</script>
+</body>
+</html>

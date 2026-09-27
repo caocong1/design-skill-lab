@@ -1,0 +1,161 @@
+/* Template: copy the structure, not the values. Save as .design/system/tokens.css (or update the
+   host's token file in place).
+
+   Every value marked PLACEHOLDER is decided later, never kept as-is:
+   - colour ramps: paste the script's CSS output over each PLACEHOLDER ramp; the names match
+     ($S = design-studio's scripts folder, SKILL.md > Tools):
+       python3 "$S/color_tools.py" scale "<seed>" --name p-accent --format css
+       python3 "$S/color_tools.py" scale "<seed>" --name p-accent-dark --dark --format css
+     Neutrals add --neutral (seeded with the brand hue); status ramps take the convention hue as seed.
+     Steps are the script's 50-950 (a 12-step ramp from elsewhere maps by fundamentals/color.md
+     "Steps to roles"). Then compute every pair: `color_tools.py matrix --from tokens.css --mode both`;
+   - fonts: chosen on a rendered specimen board with the brief's real copy;
+   - radius, density, motion: the chosen direction's axis coordinates.
+   The placeholders are achromatic and plain on purpose: a page that still looks grey is unfinished.
+
+   Tiers, referenced one way: primitives (--p-*) > semantic roles > component exceptions.
+   Components read semantic tokens only. Modes re-map the semantic tier with light-dark();
+   color-scheme picks the branch, so each colour role is declared once. */
+
+/* 1. Primitives: scales with no meaning ------------------------------------------------------ */
+:root {
+  /* PLACEHOLDER ramps, achromatic until the seeds are chosen. Only the steps the roles below use are
+     listed; the pasted output brings all eleven. Light ramps run 50 (lightest) to 950; the --dark
+     ramps run 50 (darkest) to 950, so a role keeps its step in both modes (color.md, dark mode). */
+  --p-neutral-50: oklch(0.975 0 0);
+  --p-neutral-100: oklch(0.935 0 0);
+  --p-neutral-200: oklch(0.885 0 0);
+  --p-neutral-300: oklch(0.815 0 0);
+  --p-neutral-600: oklch(0.566 0 0);
+  --p-neutral-800: oklch(0.42 0 0);
+  --p-neutral-950: oklch(0.28 0 0);
+  --p-neutral-dark-50: oklch(0.28 0 0);
+  --p-neutral-dark-100: oklch(0.37 0 0);
+  --p-neutral-dark-200: oklch(0.42 0 0);
+  --p-neutral-dark-300: oklch(0.485 0 0);
+  --p-neutral-dark-600: oklch(0.715 0 0);
+  --p-neutral-dark-800: oklch(0.885 0 0);
+  --p-neutral-dark-950: oklch(0.975 0 0);
+  --p-neutral-0: oklch(1 0 0); /* white, for labels on solids */
+
+  --p-accent-100: oklch(0.935 0 0);
+  --p-accent-600: oklch(0.566 0 0);
+  --p-accent-700: oklch(0.485 0 0);
+  --p-accent-dark-100: oklch(0.37 0 0);
+  --p-accent-dark-300: oklch(0.485 0 0);
+  --p-accent-dark-400: oklch(0.566 0 0);
+  --p-accent-dark-600: oklch(0.715 0 0);
+
+  /* Status hues are conventions; the steps still come from the script. Each status gets a subtle
+     background (100), a solid (600; dark 400) and a text step (800) from its own ramp. */
+  --p-danger-100: oklch(0.935 0.027 27); --p-danger-600: oklch(0.55 0.2 27); --p-danger-800: oklch(0.42 0.131 27);
+  --p-danger-dark-100: oklch(0.37 0.102 27); --p-danger-dark-400: oklch(0.55 0.2 27); --p-danger-dark-800: oklch(0.885 0.052 27);
+  --p-success-100: oklch(0.935 0.05 150); --p-success-600: oklch(0.55 0.13 150); --p-success-800: oklch(0.42 0.085 150);
+  --p-success-dark-100: oklch(0.37 0.067 150); --p-success-dark-400: oklch(0.55 0.13 150); --p-success-dark-800: oklch(0.885 0.085 150);
+  --p-warning-100: oklch(0.935 0.043 70); --p-warning-600: oklch(0.55 0.115 70); --p-warning-800: oklch(0.42 0.076 70);
+  --p-warning-dark-100: oklch(0.37 0.059 70); --p-warning-dark-400: oklch(0.55 0.115 70); --p-warning-dark-800: oklch(0.885 0.082 70);
+
+  --p-space-1: 4px;
+  --p-space-2: 8px;
+  --p-space-3: 12px;
+  --p-space-4: 16px;
+  --p-space-5: 24px;
+  --p-space-6: 32px;
+  --p-space-7: 48px;
+  --p-space-8: 64px;
+
+  /* PLACEHOLDER type scale: ratio from the direction (tight for dense UI, wide for editorial) */
+  --p-text-1: 12px;
+  --p-text-2: 14px;
+  --p-text-3: 16px;
+  --p-text-4: 20px;
+  --p-text-5: 28px;
+  --p-text-6: 40px;
+
+  --p-radius-1: 2px; /* PLACEHOLDER: from the direction's shape axis */
+  --p-radius-2: 6px;
+  --p-radius-full: 999px;
+
+  --p-duration-1: 100ms;
+  --p-duration-2: 200ms;
+  --p-duration-3: 320ms;
+  --p-ease-1: linear; /* PLACEHOLDER: a curve or a spring as linear(), see disciplines/motion-tokens.md */
+}
+
+/* 2. Semantic roles ---------------------------------------------------------------------------
+   Declared on :root AND on every theme-family scope: a var() is resolved where the custom
+   property is declared, so re-declaring here lets a family that overrides primitives re-derive
+   its roles. */
+:root,
+[data-family] {
+  color-scheme: light dark;
+
+  --font-text: system-ui, sans-serif; /* PLACEHOLDER: specimen board; CJK stack per fundamentals/cjk-typography.md */
+  --font-display: var(--font-text);
+  --font-mono: ui-monospace, monospace;
+
+  /* Steps to roles: fundamentals/color.md owns the map. Same step in both branches (the --dark ramp
+     keeps names and roles); only solids flip, because white on dark 600 fails. */
+  --color-bg: light-dark(var(--p-neutral-50), var(--p-neutral-dark-50));
+  --color-surface: light-dark(var(--p-neutral-100), var(--p-neutral-dark-100));
+  --color-surface-raised: light-dark(var(--p-neutral-50), var(--p-neutral-dark-200)); /* lighter than its surface in both modes */
+  --color-border-subtle: light-dark(var(--p-neutral-200), var(--p-neutral-dark-200));
+  --color-border: light-dark(var(--p-neutral-300), var(--p-neutral-dark-300));
+  --color-border-strong: light-dark(var(--p-neutral-600), var(--p-neutral-dark-600)); /* control boundaries: >= 3:1 on every surface */
+  --color-text: light-dark(var(--p-neutral-950), var(--p-neutral-dark-950));
+  --color-text-muted: light-dark(var(--p-neutral-800), var(--p-neutral-dark-800));
+  --color-accent-subtle: light-dark(var(--p-accent-100), var(--p-accent-dark-100));
+  --color-accent: light-dark(var(--p-accent-600), var(--p-accent-dark-400));
+  --color-accent-hover: light-dark(var(--p-accent-700), var(--p-accent-dark-300)); /* a ramp step toward more label contrast */
+  --color-on-accent: var(--p-neutral-0); /* a light seed (yellow, lime) takes a 950 label: the matrix decides */
+  --color-focus: light-dark(var(--p-accent-600), var(--p-accent-dark-600));
+  --color-danger-subtle: light-dark(var(--p-danger-100), var(--p-danger-dark-100));
+  --color-danger: light-dark(var(--p-danger-600), var(--p-danger-dark-400));
+  --color-danger-text: light-dark(var(--p-danger-800), var(--p-danger-dark-800));
+  --color-success-subtle: light-dark(var(--p-success-100), var(--p-success-dark-100));
+  --color-success: light-dark(var(--p-success-600), var(--p-success-dark-400));
+  --color-success-text: light-dark(var(--p-success-800), var(--p-success-dark-800));
+  --color-warning-subtle: light-dark(var(--p-warning-100), var(--p-warning-dark-100));
+  --color-warning: light-dark(var(--p-warning-600), var(--p-warning-dark-400));
+  --color-warning-text: light-dark(var(--p-warning-800), var(--p-warning-dark-800));
+
+  --space-inset-sm: var(--p-space-2);
+  --space-inset-md: var(--p-space-4);
+  --space-stack-sm: var(--p-space-2);
+  --space-stack-md: var(--p-space-4);
+  --space-section: var(--p-space-7);
+
+  --text-caption: var(--p-text-1);
+  --text-body: var(--p-text-3);
+  --text-label: var(--p-text-2);
+  --text-title: var(--p-text-4);
+  --text-display: var(--p-text-6);
+  --leading-body: 1.5;
+  --leading-title: 1.2;
+
+  --radius-control: var(--p-radius-1);
+  --radius-container: var(--p-radius-2);
+  --radius-pill: var(--p-radius-full);
+
+  --duration-fast: var(--p-duration-1);
+  --duration-base: var(--p-duration-2);
+  --ease-standard: var(--p-ease-1);
+}
+
+/* An explicit choice beats the OS setting; light-dark() follows color-scheme. */
+[data-theme="light"] { color-scheme: light; }
+[data-theme="dark"] { color-scheme: dark; }
+
+/* Theme family: override primitives and structure only; roles re-derive from the block above.
+[data-family="<name>"] {
+  --p-accent-600: oklch(...);
+  --p-accent-dark-400: oklch(...);
+  --p-radius-1: ...;
+}
+*/
+
+/* 3. Component exceptions: only where a component must deviate from the semantic default ------ */
+:root {
+  --control-height: 36px; /* PLACEHOLDER: density */
+  --table-row-height: 40px;
+}

@@ -1,0 +1,374 @@
+/* Mockup kit v2 - device, window and host frames for design drawings.
+ *
+ * The frame is chrome; the design goes inside .mk-screen / .mk-body and uses the project's own
+ * tokens. One CSS px = one logical unit on the target (pt iOS/macOS, dp Android, vp HarmonyOS,
+ * epx Windows, 2 rpx in a 375-wide mini-program), so measurements read straight off the mockup.
+ *
+ * Every frame and chrome metric and every system colour below is recorded with its source and basis
+ * in kit.json (same folder). Values marked "approx" there have no public source (Apple publishes no
+ * bar geometry); replace them with the platform UI kit's value before a final spec. Other colours
+ * (glass fills, bar and window backgrounds) are drawing values, not platform specs.
+ * PERISHABLE: reviewed 2026-09-27, review by 2026-12-26.
+ *
+ * Contract
+ *   frame      .mk-device[data-platform][data-frame] | .mk-window[data-os] | .mk-pane | .mk-widget | .mk-wall
+ *   layers     .mk-status and .mk-home sit over everything; .mk-screen fills the frame; .mk-scroll is the
+ *              one scrolling region. Opaque bars are in-flow siblings of .mk-scroll and pad themselves by
+ *              the safe area. Floating bars are absolutely placed OVER .mk-scroll, which runs beneath
+ *              them; set --mk-clear-top / --mk-clear-bottom on .mk-scroll so the ends scroll clear.
+ *   tint       the design sets --mk-tint (its accent) and --mk-on-tint; bars read them.
+ *   materials  data-material="glass-regular | glass-clear | scrim | surface | surface-raised | base".
+ *              .mk-glass draws glass-regular unless data-material says otherwise. It is a labelled
+ *              APPROXIMATION of layering and legibility risk, never the platform material.
+ *   theme      <html data-theme="light|dark">; unset follows the OS. Colours use light-dark().
+ *   state      <html data-state="default|scrolled|loading|error|empty-first|no-results|offline|success">.
+ *              [data-when="a b"] shows an element only in those states; [data-skeleton] turns text into a
+ *              bar while loading; data-minimize on the iOS tab bar minimises it in the scrolled state.
+ *   annotate   <html data-annotate> outlines every [data-material] and prints its role, plus
+ *              data-material-spec (the platform realisation, e.g. "ios: Liquid Glass regular") when set.
+ *   switching  CSS cannot read the URL: copy the small script at the end of demo.html, which maps
+ *              ?state= ?theme= ?annotate= onto <html>. With no ?theme, prefers-color-scheme decides,
+ *              so capture.mjs --themes light,dark --states "default,?state=scrolled" drives it as is.
+ *
+ * Migrating a 0.7.0 mockup: .mk-status and .mk-home now sit over the screen (pad content by
+ * --mk-safe-top / --mk-safe-bottom, which replace --mk-status / --mk-bottom); .mk-tabbar (flush 49 pt)
+ * -> .mk-ios-tabbar (floating) or .mk-wx-tabbar; .mk-ios-nav -> .mk-ios-toolbar; .mk-m3-navbar
+ * .mk-pill -> .mk-m3-nav-item > i (56 x 32, Material only); .mk-glyph -> real icons (inline SVG or
+ * data-icon names); iPhone 393 x 852 -> 402 x 874. data-platform="harmony" still works.
+ */
+
+/* ---- 0. theme, state, annotation ---------------------------------------------------------- */
+:root { color-scheme: light dark; }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+:root:not([data-state]) [data-when]:not([data-when~="default"]),
+:root[data-state="default"] [data-when]:not([data-when~="default"]),
+:root[data-state="scrolled"] [data-when]:not([data-when~="scrolled"]),
+:root[data-state="loading"] [data-when]:not([data-when~="loading"]),
+:root[data-state="error"] [data-when]:not([data-when~="error"]),
+:root[data-state="empty-first"] [data-when]:not([data-when~="empty-first"]),
+:root[data-state="no-results"] [data-when]:not([data-when~="no-results"]),
+:root[data-state="offline"] [data-when]:not([data-when~="offline"]),
+:root[data-state="success"] [data-when]:not([data-when~="success"]) { display: none !important; }
+
+:root[data-state="loading"] [data-skeleton] {
+  width: fit-content; max-width: 100%; color: transparent !important; border-color: transparent !important; border-radius: 6px;
+  background: light-dark(rgb(20 30 40 / 0.08), rgb(255 255 255 / 0.1)) !important;
+}
+:root[data-state="loading"] [data-skeleton] > * { visibility: hidden; }
+
+:root[data-annotate] [data-material] { outline: 1px dashed #c2185b; outline-offset: -1px; }
+:root[data-annotate] [data-material]::after {
+  content: attr(data-material); position: absolute; z-index: 9; top: 2px; left: 8px; padding: 0 4px;
+  font: 600 9px/14px ui-monospace, monospace; color: #fff; background: #c2185b; border-radius: 3px;
+  pointer-events: none; white-space: nowrap;
+}
+:root[data-annotate] [data-material][data-material-spec]::after { content: attr(data-material) " \00b7  " attr(data-material-spec); }
+
+/* ---- 1. stage and captions ------------------------------------------------------------------ */
+.mk-stage {
+  display: flex; flex-wrap: wrap; gap: 64px 56px; align-items: flex-start; padding: 48px;
+  background: light-dark(#e8e6e1, #131517); color: light-dark(#23272b, #e6e8ea);
+}
+.mk-item { display: flex; flex-direction: column; gap: 18px; width: min-content; margin: 0; }   /* the caption wraps to the frame's width */
+.mk-caption { max-width: 100%; font: 600 13px/1.5 system-ui, "PingFang SC", sans-serif; color: light-dark(#23272b, #e6e8ea); }
+.mk-caption small { display: block; font-size: 12px; line-height: 18px; font-weight: 400; color: light-dark(#4d5359, #a9b0b6); text-wrap: pretty; }
+
+/* ---- 2. phones and tablets: one token block drives every frame ------------------------------- */
+/* Token defaults sit in :where() (zero specificity), so any class in the design overrides them;
+   order decides among them: base > platform > frame > module. */
+:where(.mk-device) {
+  --mk-w: 402px; --mk-h: 874px; --mk-r: 56px; --mk-safe-top: 62px; --mk-safe-bottom: 34px;
+  --mk-ink: light-dark(#000, #fff);            /* status bar and home indicator follow the content */
+  --mk-label: light-dark(#000, #fff);          /* monochrome bar symbols and text */
+  --mk-tint: light-dark(#0088ff, #0091ff); --mk-on-tint: #fff;   /* iOS system blue; white on it is ~3.5:1, below
+                                                  the text minimum: the design overrides both */
+  --mk-glass-fill: light-dark(rgb(250 250 252 / 0.74), rgb(34 36 40 / 0.74));
+  --mk-glass-rim: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.14));
+  --mk-glass-hi: light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.12));
+  --mk-glass-shadow: light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.5));
+  --mk-glass-solid: light-dark(#f4f4f6, #2a2c30);
+}
+.mk-device {
+  position: relative; flex: none; overflow: hidden; isolation: isolate;
+  width: var(--mk-w); height: var(--mk-h); border-radius: var(--mk-r);
+  background: light-dark(#fff, #000); color: var(--mk-ink);
+  /* the bezel is drawn outside the box, so the screen keeps its exact logical size */
+  box-shadow: 0 0 0 10px #111316, 0 0 0 11px light-dark(#4a4f57, #5a616a), 0 34px 60px -14px rgb(10 14 24 / 0.38);
+}
+:where(.mk-device[data-platform="ios"])     { --mk-r: 56px; --mk-safe-top: 62px; --mk-safe-bottom: 34px;
+  font-family: BlinkMacSystemFont, -apple-system, "PingFang SC", sans-serif; }
+:where(.mk-device[data-platform="ipados"])  { --mk-r: 18px; --mk-safe-top: 24px; --mk-safe-bottom: 20px;
+  font-family: BlinkMacSystemFont, -apple-system, "PingFang SC", sans-serif; }
+:where(.mk-device[data-platform="android"]) { --mk-r: 32px; --mk-safe-top: 28px; --mk-safe-bottom: 24px;
+  font-family: Roboto, "Noto Sans SC", system-ui, sans-serif; }
+:where(.mk-device[data-platform="harmonyos"], .mk-device[data-platform="harmony"]) { --mk-r: 36px; --mk-safe-top: 36px; --mk-safe-bottom: 28px;
+  font-family: "HarmonyOS Sans SC", "HarmonyOS Sans", system-ui, sans-serif; }
+:where(.mk-device[data-platform="wechat"])  { --mk-r: 44px; --mk-safe-top: 44px; --mk-safe-bottom: 34px;
+  font-family: BlinkMacSystemFont, -apple-system, "PingFang SC", sans-serif; }
+
+:where(.mk-device[data-frame="iphone-17"])         { --mk-w: 402px;  --mk-h: 874px; }
+:where(.mk-device[data-frame="iphone-air"])        { --mk-w: 420px;  --mk-h: 912px; }
+:where(.mk-device[data-frame="iphone-17-pro-max"]) { --mk-w: 440px;  --mk-h: 956px; }
+:where(.mk-device[data-frame="ipad-11"])           { --mk-w: 820px;  --mk-h: 1180px; }
+:where(.mk-device[data-frame="android-phone"])     { --mk-w: 412px;  --mk-h: 915px; }
+:where(.mk-device[data-frame="android-fold-open"]) { --mk-w: 840px;  --mk-h: 880px; --mk-r: 24px; }
+:where(.mk-device[data-frame="mate-80"])           { --mk-w: 366px;  --mk-h: 809px; }
+:where(.mk-device[data-frame="pura-80"])           { --mk-w: 359px;  --mk-h: 789px; }
+:where(.mk-device[data-frame="mate-x7-open"])      { --mk-w: 737px;  --mk-h: 805px; --mk-r: 24px; }
+:where(.mk-device[data-frame="mate-x7-folded"])    { --mk-w: 360px;  --mk-h: 815px; }
+:where(.mk-device[data-frame="pura-x-open"])       { --mk-w: 440px;  --mk-h: 706px; }
+:where(.mk-device[data-frame="matepad"])           { --mk-w: 1280px; --mk-h: 800px; --mk-r: 18px; }
+:where(.mk-device[data-frame="wechat-375"])        { --mk-w: 375px;  --mk-h: 812px; }
+
+.mk-island { position: absolute; z-index: 6; top: 11px; left: 50%; translate: -50% 0; width: 124px; height: 36px; border-radius: 18px; background: #000; }
+.mk-camera { position: absolute; z-index: 6; top: calc(var(--mk-safe-top) / 2 - 6px); left: 50%; translate: -50% 0; width: 12px; height: 12px; border-radius: 50%; background: #000; }
+
+.mk-status {
+  position: absolute; z-index: 5; inset: 0 0 auto; height: var(--mk-safe-top); box-sizing: border-box;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 30px 0 44px;
+  font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--mk-ink); pointer-events: none;
+}
+.mk-device:is([data-platform="android"], [data-platform="harmonyos"], [data-platform="harmony"]) .mk-status { padding: 0 20px; font-size: 13px; font-weight: 500; }
+.mk-device[data-platform="wechat"] .mk-status { padding: 0 22px 0 30px; font-size: 15px; }
+.mk-status-icons { display: flex; align-items: center; gap: 6px; }
+.mk-status-icons i { display: block; height: 12px; background: currentColor; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.mk-status-icons i:nth-child(1) { width: 18px; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 12'%3E%3Crect y='8' width='3' height='4' rx='.8'/%3E%3Crect x='5' y='5.5' width='3' height='6.5' rx='.8'/%3E%3Crect x='10' y='3' width='3' height='9' rx='.8'/%3E%3Crect x='15' width='3' height='12' rx='.8'/%3E%3C/svg%3E"); }
+.mk-status-icons i:nth-child(2) { width: 16px; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 12'%3E%3Cpath d='M8 11.6 5.7 9.3a3.3 3.3 0 0 1 4.6 0zM3.1 6.7a6.9 6.9 0 0 1 9.8 0l-1.4 1.4a4.9 4.9 0 0 0-7 0zM.4 4a10.7 10.7 0 0 1 15.2 0l-1.4 1.4a8.7 8.7 0 0 0-12.4 0z'/%3E%3C/svg%3E"); }
+.mk-status-icons i:nth-child(3) { width: 27px; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 27 12'%3E%3Crect x='.5' y='.5' width='23' height='11' rx='3.4' fill='none' stroke='black' stroke-opacity='.4'/%3E%3Crect x='2' y='2' width='17' height='8' rx='2'/%3E%3Cpath d='M25 4v4c.8-.3 1.4-1 1.4-2S25.8 4.3 25 4z' fill-opacity='.4'/%3E%3C/svg%3E"); }
+
+.mk-home { position: absolute; z-index: 5; inset: auto 0 0; height: var(--mk-safe-bottom); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; box-sizing: border-box; pointer-events: none; }
+.mk-home::after { content: ""; width: 140px; height: 5px; border-radius: 3px; background: var(--mk-ink); }
+.mk-device:is([data-platform="android"], [data-platform="harmonyos"], [data-platform="harmony"]) .mk-home { align-items: center; padding: 0; }
+.mk-device:is([data-platform="android"], [data-platform="harmonyos"], [data-platform="harmony"]) .mk-home::after { width: 108px; height: 4px; opacity: 0.7; }
+
+.mk-screen { position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden; }
+.mk-scroll {
+  flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
+  padding-top: var(--mk-clear-top, 0px); padding-bottom: var(--mk-clear-bottom, 0px);
+  scroll-padding: var(--mk-clear-top, 0px) 0 var(--mk-clear-bottom, 0px);
+}
+.mk-scroll::-webkit-scrollbar { display: none; }
+
+/* ---- 3. system materials (labelled approximation) -------------------------------------------- */
+.mk-glass:not([data-material]), [data-material="glass-regular"] {
+  background: var(--mk-glass-fill);
+  -webkit-backdrop-filter: blur(12px) saturate(1.8); backdrop-filter: blur(12px) saturate(1.8);
+  box-shadow: inset 0 0 0 0.5px var(--mk-glass-rim), inset 0 1px 0 var(--mk-glass-hi), 0 8px 24px -8px var(--mk-glass-shadow);
+}
+[data-material="glass-clear"] {
+  background: light-dark(rgb(255 255 255 / 0.2), rgb(255 255 255 / 0.08));
+  -webkit-backdrop-filter: blur(3px) saturate(1.4); backdrop-filter: blur(3px) saturate(1.4);
+  box-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.4);
+}
+[data-material="scrim"] { background: rgb(0 0 0 / 0.35); }   /* 35 %: Apple's dimming figure for clear glass */
+@media (prefers-reduced-transparency: reduce) {
+  .mk-glass, [data-material^="glass"] { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--mk-glass-solid); }
+}
+@media (prefers-contrast: more) {
+  .mk-glass, [data-material^="glass"] { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--mk-glass-solid); box-shadow: inset 0 0 0 1px var(--mk-label); }
+}
+
+/* scroll edge effect (iOS) and gradient masks (HarmonyOS): separation drawn over content, not a bar.
+   Full strength under the bar's text, fading over --mk-edge-fade beyond it, so a title never sits on
+   half-faded content. --mk-edge-h is the bar stack's height (top: status + toolbar). */
+.mk-edge { position: absolute; z-index: 2; left: 0; right: 0; pointer-events: none; --mk-edge-fade: 24px;
+  --mk-edge-color: light-dark(rgb(255 255 255 / 0.85), rgb(0 0 0 / 0.8)); }
+.mk-edge[data-edge="top"] { top: 0; height: var(--mk-edge-h, calc(var(--mk-safe-top) + var(--mk-ios-toolbar-h, 44px) + var(--mk-edge-fade)));
+  background: linear-gradient(var(--mk-edge-color) calc(100% - var(--mk-edge-fade)), transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  -webkit-mask: linear-gradient(#000 calc(100% - var(--mk-edge-fade)), transparent); mask: linear-gradient(#000 calc(100% - var(--mk-edge-fade)), transparent); }
+.mk-edge[data-edge="bottom"] { bottom: 0; height: var(--mk-edge-h, 160px);
+  background: linear-gradient(transparent, var(--mk-edge-color) calc(2 * var(--mk-edge-fade)));
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  -webkit-mask: linear-gradient(transparent, #000 calc(2 * var(--mk-edge-fade))); mask: linear-gradient(transparent, #000 calc(2 * var(--mk-edge-fade))); }
+
+/* at rest nothing sits under a top bar: its separation shows once content scrolls beneath (or add data-under) */
+:root:not([data-state="scrolled"]) .mk-edge[data-edge="top"]:not([data-under]),
+:root:not([data-state="scrolled"]) .mk-hm-titlebar:not([data-under])::before { opacity: 0; }
+
+/* ---- 4. iOS / iPadOS 26-27 ------------------------------------------------------------------ */
+:where(.mk-device[data-platform="ios"], .mk-device[data-platform="ipados"]) {
+  --mk-ios-toolbar-h: 44px; --mk-ios-tab-h: 62px; --mk-ios-tab-inset: 21px; --mk-ios-tab-bottom: 21px; --mk-ios-accessory-h: 48px;
+  --mk-ios-clear-top: calc(var(--mk-safe-top) + var(--mk-ios-toolbar-h));
+  --mk-ios-clear-bottom: calc(var(--mk-ios-tab-bottom) + var(--mk-ios-tab-h) + 20px);
+  --mk-ios-clear-bottom-acc: calc(var(--mk-ios-clear-bottom) + var(--mk-ios-accessory-h) + 8px);
+}
+.mk-ios-toolbar { position: absolute; z-index: 3; inset: var(--mk-safe-top) 0 auto; height: var(--mk-ios-toolbar-h); padding: 0 16px; display: flex; align-items: center; gap: 8px; color: var(--mk-label); }
+.mk-ios-title { position: absolute; left: 50%; translate: -50% 0; max-width: 55%; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mk-ios-spacer { flex: 1; }
+.mk-ios-group { display: flex; align-items: center; height: 44px; padding: 0 2px; border-radius: 22px; }
+.mk-ios-group > *, .mk-ios-btn { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 22px; background: none; color: inherit; font: inherit; }
+.mk-ios-btn.mk-glass, .mk-ios-btn[data-material] { background: var(--mk-glass-fill); }
+.mk-ios-prominent { background: var(--mk-tint) !important; color: var(--mk-on-tint) !important; }   /* colour on the background of the one key action */
+.mk-ios-group svg, .mk-ios-btn svg { width: 22px; height: 22px; }
+.mk-ios-large-title { margin: 0; font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.4px; }
+
+.mk-ios-tabbar {
+  position: absolute; z-index: 4; left: var(--mk-ios-tab-inset); right: var(--mk-ios-tab-inset); bottom: var(--mk-ios-tab-bottom);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "acc acc" "tabs search"; gap: 8px 10px; color: var(--mk-label);
+}
+.mk-ios-accessory { grid-area: acc; position: relative; min-width: 0; height: var(--mk-ios-accessory-h); border-radius: calc(var(--mk-ios-accessory-h) / 2); display: flex; align-items: center; gap: 10px; padding: 0 6px 0 18px; }
+.mk-ios-tabs { grid-area: tabs; position: relative; height: var(--mk-ios-tab-h); border-radius: calc(var(--mk-ios-tab-h) / 2); display: flex; align-items: center; padding: 0 6px; }
+.mk-ios-tab { position: relative; flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 10px; font-weight: 600; color: var(--mk-label); text-decoration: none; }
+.mk-ios-tab svg { width: 28px; height: 28px; }
+.mk-ios-tab[aria-current] { color: var(--mk-tint); }   /* no indicator shape: tint on symbol + label */
+.mk-ios-search { grid-area: search; position: relative; width: var(--mk-ios-tab-h); height: var(--mk-ios-tab-h); border-radius: 50%; display: grid; place-items: center; color: var(--mk-label); }
+.mk-ios-search svg { width: 24px; height: 24px; }
+.mk-badge { position: absolute; top: 6px; left: calc(50% + 5px); min-width: 18px; height: 18px; box-sizing: border-box; padding: 0 5px; border-radius: 9px; background: var(--mk-badge, light-dark(#ff383c, #ff4245)); color: #fff; font: 600 12px/18px system-ui, sans-serif; text-align: center; }
+/* minimised: current tab at the leading corner, accessory centre, search trailing */
+:is(.mk-ios-tabbar[data-minimized], :root[data-state="scrolled"] .mk-ios-tabbar[data-minimize]) { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "tabs acc search"; }
+:is(.mk-ios-tabbar[data-minimized], :root[data-state="scrolled"] .mk-ios-tabbar[data-minimize]) :is(.mk-ios-tabs, .mk-ios-search) { width: var(--mk-ios-accessory-h); height: var(--mk-ios-accessory-h); padding: 0; justify-content: center; }
+:is(.mk-ios-tabbar[data-minimized], :root[data-state="scrolled"] .mk-ios-tabbar[data-minimize]) .mk-ios-tab:not([aria-current]),
+:is(.mk-ios-tabbar[data-minimized], :root[data-state="scrolled"] .mk-ios-tabbar[data-minimize]) .mk-ios-tab > span { display: none; }
+:is(.mk-ios-tabbar[data-minimized], :root[data-state="scrolled"] .mk-ios-tabbar[data-minimize]) .mk-ios-tab svg { width: 24px; height: 24px; }
+
+.mk-ipad-tabs { position: absolute; z-index: 4; top: calc(var(--mk-safe-top) + 4px); left: 50%; translate: -50% 0; height: 44px; padding: 0 6px; border-radius: 22px; display: flex; align-items: center; color: var(--mk-label); }
+.mk-ipad-tabs > * { height: 44px; padding: 0 16px; display: flex; align-items: center; font-size: 15px; font-weight: 600; color: inherit; text-decoration: none; }
+.mk-ipad-tabs > [aria-current] { color: var(--mk-tint); }
+
+/* ---- 5. Android 16 / Material 3 Expressive -------------------------------------------------- */
+:where(.mk-device[data-platform="android"]) {
+  --mk-m3-appbar-h: 64px; --mk-m3-navbar-h: 64px; --mk-m3-ind-w: 56px; --mk-m3-ind-h: 32px; --mk-m3-fab: 56px; --mk-m3-edge: 16px;
+  --mk-m3-toolbar-h: 64px; --mk-m3-rail-w: 96px;
+  --mk-m3-surface: light-dark(#fbfcfd, #111416); --mk-m3-container: light-dark(#eceff1, #1e2326);
+  --mk-m3-indicator: light-dark(#d5e4ec, #37454d); --mk-m3-on-variant: light-dark(#44494d, #c3c8cc); --mk-m3-active: var(--mk-tint);
+  --mk-m3-level3: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 8px 3px rgb(0 0 0 / 0.15);
+  --mk-m3-clear-fab: calc(var(--mk-m3-fab) + 2 * var(--mk-m3-edge));
+}
+.mk-m3-appbar { flex: none; box-sizing: content-box; height: var(--mk-m3-appbar-h); padding: var(--mk-safe-top) 4px 0 16px; display: flex; align-items: center; gap: 4px; background: var(--mk-m3-surface); }
+:root[data-state="scrolled"] .mk-m3-appbar { background: var(--mk-m3-container); }   /* fills on scroll, no shadow */
+.mk-m3-title { flex: 1; min-width: 0; margin: 0; font-size: 22px; line-height: 28px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mk-m3-icon-btn { flex: none; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: none; color: inherit; }
+.mk-m3-icon-btn svg, .mk-m3-nav-item svg, .mk-m3-fab svg { width: 24px; height: 24px; }
+.mk-m3-navbar { flex: none; box-sizing: content-box; height: var(--mk-m3-navbar-h); padding-bottom: var(--mk-safe-bottom); display: flex; background: var(--mk-m3-container); }
+.mk-m3-nav-item { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; line-height: 16px; font-weight: 500; color: var(--mk-m3-on-variant); text-decoration: none; }
+.mk-m3-nav-item > i { display: grid; place-items: center; width: var(--mk-m3-ind-w); height: var(--mk-m3-ind-h); border-radius: calc(var(--mk-m3-ind-h) / 2); font-style: normal; }
+.mk-m3-nav-item[aria-current] { color: var(--mk-m3-active); }
+.mk-m3-nav-item[aria-current] > i { background: var(--mk-m3-indicator); }   /* Material only: never on iOS, HarmonyOS or WeChat */
+.mk-m3-fab {
+  position: absolute; z-index: 3; right: var(--mk-m3-edge); bottom: var(--mk-m3-fab-bottom, calc(var(--mk-m3-navbar-h) + var(--mk-safe-bottom) + var(--mk-m3-edge)));
+  height: var(--mk-m3-fab); min-width: var(--mk-m3-fab); box-sizing: border-box; padding: 0 20px 0 16px; border: 0; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 12px; font-family: inherit; font-size: 16px; line-height: 24px; font-weight: 500; box-shadow: var(--mk-m3-level3);
+}
+.mk-m3-toolbar { display: flex; align-items: center; gap: 4px; height: var(--mk-m3-toolbar-h); padding: 0 8px; background: var(--mk-m3-container); }
+.mk-m3-toolbar[data-variant="floating"] { position: absolute; z-index: 3; bottom: calc(var(--mk-safe-bottom) + var(--mk-m3-edge)); left: 50%; translate: -50% 0; border-radius: calc(var(--mk-m3-toolbar-h) / 2); box-shadow: var(--mk-m3-level3); }
+.mk-m3-rail { flex: none; width: var(--mk-m3-rail-w); box-sizing: border-box; padding-top: calc(var(--mk-safe-top) + 44px); display: flex; flex-direction: column; align-items: center; gap: 4px; background: var(--mk-m3-surface); }
+.mk-m3-rail .mk-m3-nav-item { flex: none; width: 100%; height: 64px; }
+
+/* ---- 6. HarmonyOS 6 (沉浸光感) --------------------------------------------------------------- */
+:where(.mk-device[data-platform="harmonyos"], .mk-device[data-platform="harmony"]) {
+  --mk-hm-margin: 16px; --mk-hm-title-h: 56px; --mk-hm-title-lg: 112px; --mk-hm-title-fade: 32px;
+  --mk-hm-tab-h: 56px; --mk-hm-tab-w: 328px; --mk-hm-tab-flat-h: 48px;
+  --mk-tint: light-dark(#0a59f7, #317af7);   /* system brand; the design overrides it */
+  --mk-hm-page: light-dark(#f1f3f5, #000);
+  --mk-hm-mask: light-dark(rgb(241 243 245 / 0.8), rgb(0 0 0 / 0.6));
+  --mk-hm-light: light-dark(rgb(255 255 255 / 0.2), rgb(229 229 229 / 0.2));
+  --mk-hm-inactive: light-dark(rgb(0 0 0 / 0.6), rgb(255 255 255 / 0.6));
+  --mk-hm-clear-top: calc(var(--mk-safe-top) + var(--mk-hm-title-h));
+  --mk-hm-clear-bottom: calc(var(--mk-safe-bottom) + var(--mk-hm-tab-h) + 16px);
+}
+.mk-hm-titlebar { position: absolute; z-index: 3; inset: 0 0 auto; box-sizing: content-box; height: var(--mk-hm-title-h); padding: var(--mk-safe-top) var(--mk-hm-margin) 0; display: flex; align-items: center; gap: 12px; }
+/* gradient blur: page-coloured, full under the bar, fading over the 32 vp below its bottom edge */
+.mk-hm-titlebar::before { content: ""; position: absolute; z-index: -1; inset: 0 0 calc(-1 * var(--mk-hm-title-fade));
+  background: linear-gradient(var(--mk-hm-page) 50%, color-mix(in srgb, var(--mk-hm-page) 80%, transparent) calc(100% - var(--mk-hm-title-fade)), transparent);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  -webkit-mask: linear-gradient(#000 calc(100% - var(--mk-hm-title-fade)), transparent); mask: linear-gradient(#000 calc(100% - var(--mk-hm-title-fade)), transparent); }
+.mk-hm-title { flex: 1; min-width: 0; margin: 0; font-size: 20px; line-height: 28px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mk-hm-btn { flex: none; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; color: inherit; background: var(--mk-glass-fill); }
+.mk-hm-btn svg { width: 24px; height: 24px; }
+.mk-hm-mask { position: absolute; z-index: 3; inset: auto 0 0; height: calc(var(--mk-safe-bottom) + var(--mk-hm-tab-h) + 16px); background: linear-gradient(transparent, var(--mk-hm-mask) 40%); pointer-events: none; }
+.mk-hm-tabs {
+  position: absolute; z-index: 4; bottom: var(--mk-safe-bottom); left: 50%; translate: -50% 0;
+  width: min(var(--mk-hm-tab-w), calc(100% - 2 * var(--mk-hm-margin))); height: var(--mk-hm-tab-h); box-sizing: border-box;
+  border-radius: calc(var(--mk-hm-tab-h) / 2); display: flex; align-items: center; padding: 0 4px;
+}
+.mk-hm-tabs.mk-glass { box-shadow: inset 0 0 0 0.5px var(--mk-glass-rim), inset 0 1px 0 var(--mk-hm-light), 0 8px 24px -8px var(--mk-glass-shadow); }
+.mk-hm-tabs[data-style="flat"] { left: 0; right: 0; bottom: 0; translate: none; width: auto; box-sizing: content-box; height: var(--mk-hm-tab-flat-h); padding: 0 0 var(--mk-safe-bottom); border-radius: 0; }
+.mk-hm-tab { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; line-height: 14px; font-weight: 500; color: var(--mk-hm-inactive); text-decoration: none; }
+.mk-hm-tab svg { width: 24px; height: 24px; }
+.mk-hm-tab[aria-current] { color: var(--mk-tint); }   /* inactive = lower opacity; no indicator shape */
+
+/* ---- 7. WeChat mini-program ---------------------------------------------------------------- */
+/* The capsule is placed by WeChat on every page and cannot be restyled (light or dark scheme only).
+   At runtime read wx.getMenuButtonBoundingClientRect(); these are typical iOS metrics. */
+:where(.mk-device[data-platform="wechat"]) { --mk-wx-nav-h: 44px; --mk-wx-cap-w: 87px; --mk-wx-cap-h: 32px; --mk-wx-cap-right: 7px; --mk-wx-cap-top: 6px; --mk-wx-tab-h: 49px; }
+.mk-wx-nav { flex: none; position: relative; box-sizing: content-box; height: var(--mk-wx-nav-h); padding-top: var(--mk-safe-top); display: grid; place-items: center; font-size: 17px; font-weight: 600; }
+.mk-wx-capsule {
+  position: absolute; right: var(--mk-wx-cap-right, 7px); top: calc(var(--mk-safe-top, 0px) + var(--mk-wx-cap-top, 6px)); width: var(--mk-wx-cap-w, 87px); height: var(--mk-wx-cap-h, 32px);
+  box-sizing: border-box; border-radius: 16px; display: grid; grid-template-columns: 1fr 1fr; place-items: center;
+  color: light-dark(#000, #fff); background: linear-gradient(currentColor, currentColor) center / 0.5px 18px no-repeat, light-dark(rgb(255 255 255 / 0.62), rgb(0 0 0 / 0.2));
+  box-shadow: inset 0 0 0 0.5px light-dark(rgb(0 0 0 / 0.12), rgb(255 255 255 / 0.25));
+}
+.mk-wx-capsule[data-tone="light"] { color: #000; background-color: rgb(255 255 255 / 0.62); }
+.mk-wx-capsule[data-tone="dark"] { color: #fff; background-color: rgb(0 0 0 / 0.18); box-shadow: inset 0 0 0 0.5px rgb(255 255 255 / 0.25); }
+.mk-wx-capsule::before, .mk-wx-capsule::after { content: ""; background: currentColor; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.mk-wx-capsule::before { width: 20px; height: 6px; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 6'%3E%3Ccircle cx='3' cy='3' r='2.6'/%3E%3Ccircle cx='10' cy='3' r='2.6'/%3E%3Ccircle cx='17' cy='3' r='2.6'/%3E%3C/svg%3E"); }
+.mk-wx-capsule::after { width: 18px; height: 18px; --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Ccircle cx='9' cy='9' r='7.4' fill='none' stroke='black' stroke-width='2.2'/%3E%3Ccircle cx='9' cy='9' r='2.6'/%3E%3C/svg%3E"); }
+.mk-wx-keepout { outline: 1px dashed rgb(220 60 60 / 0.75); outline-offset: 6px; }   /* add while designing to see the keep-out zone */
+.mk-wx-tabbar { flex: none; box-sizing: content-box; height: var(--mk-wx-tab-h); padding-bottom: var(--mk-safe-bottom); display: flex; background: var(--mk-wx-tab-bg, light-dark(#f7f7f7, #191919)); box-shadow: inset 0 0.5px 0 var(--mk-wx-tab-line, light-dark(rgb(0 0 0 / 0.15), rgb(255 255 255 / 0.15))); }
+.mk-wx-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; line-height: 14px; color: var(--mk-wx-tab-ink, light-dark(#5c5c5c, #a3a3a3)); text-decoration: none; }
+.mk-wx-tab svg { width: 24px; height: 24px; }
+.mk-wx-tab[aria-current] { color: var(--mk-tint); }   /* selected = its icon and label colour */
+
+/* ---- 8. desktop windows ------------------------------------------------------------------ */
+:where(.mk-window) {
+  --mk-w: 1200px; --mk-h: 760px; --mk-r: 10px; --mk-label: light-dark(#1a1a1a, #fff);
+  --mk-base: light-dark(#f3f3f3, #202020); --mk-glass-fill: light-dark(rgb(246 246 248 / 0.72), rgb(44 46 50 / 0.66));
+  --mk-glass-rim: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.12)); --mk-glass-hi: light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.1));
+  --mk-glass-shadow: light-dark(rgb(0 0 0 / 0.1), rgb(0 0 0 / 0.45)); --mk-glass-solid: light-dark(#f2f2f4, #2a2c30);
+}
+.mk-window {
+  position: relative; flex: none; width: var(--mk-w); height: var(--mk-h); display: flex; flex-direction: column; overflow: hidden;
+  border-radius: var(--mk-r); background: var(--mk-base); color: var(--mk-label);
+  box-shadow: 0 0 0 1px light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.12)), 0 32px 70px -12px rgb(10 14 24 / 0.35);
+}
+:where(.mk-window[data-os="windows"]) { --mk-r: 8px; --mk-win-title-h: 32px; --mk-win-cap-w: 46px;
+  font-family: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif; font-size: 14px; line-height: 20px; }
+:where(.mk-window[data-os="windows"][data-titlebar="search"]) { --mk-win-title-h: 48px; }
+:where(.mk-window[data-os="macos"]) { --mk-r: 16px; --mk-mac-title-h: 52px; --mk-tint: light-dark(#0088ff, #0091ff);
+  font-family: BlinkMacSystemFont, -apple-system, "PingFang SC", sans-serif; font-size: 13px; line-height: 16px; }
+.mk-titlebar { flex: none; position: relative; height: var(--mk-win-title-h, var(--mk-mac-title-h, 38px)); display: flex; align-items: center; gap: 16px; padding: 0 0 0 16px; }
+.mk-win-icon { flex: none; width: 16px; height: 16px; }
+.mk-win-title { font-size: 12px; line-height: 16px; }
+.mk-win-search { position: absolute; left: 50%; translate: -50% 0; }
+.mk-caption-buttons { margin-left: auto; display: flex; align-self: stretch; }
+.mk-caption-buttons i { width: var(--mk-win-cap-w, 46px); background: currentColor; -webkit-mask: var(--m) center / 10px 10px no-repeat; mask: var(--m) center / 10px 10px no-repeat; }
+.mk-caption-buttons i:nth-child(1) { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M0 5h10' stroke='black'/%3E%3C/svg%3E"); }
+.mk-caption-buttons i:nth-child(2) { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect x='.5' y='.5' width='9' height='9' rx='1.5' fill='none' stroke='black'/%3E%3C/svg%3E"); }
+.mk-caption-buttons i:nth-child(3) { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M.5.5l9 9m0-9l-9 9' stroke='black'/%3E%3C/svg%3E"); }
+.mk-traffic { display: flex; gap: 8px; }
+.mk-traffic i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.15); }
+.mk-traffic i:nth-child(2) { background: #febc2e; }
+.mk-traffic i:nth-child(3) { background: #28c840; }
+.mk-body { flex: 1; min-height: 0; position: relative; display: flex; overflow: hidden; }
+/* macOS 26+: the title bar floats over the content, which runs beneath it (pad the content by
+   --mk-mac-title-h); the traffic lights sit in the inset glass sidebar's top corner */
+.mk-window[data-os="macos"] > .mk-titlebar { position: absolute; z-index: 3; inset: 0 0 auto; }
+.mk-mac-sidebar { position: absolute; z-index: 2; top: 8px; bottom: 8px; left: 8px; width: 220px; box-sizing: border-box; padding: 52px 10px 10px; border-radius: 8px; display: flex; flex-direction: column; gap: 2px; }
+
+/* ---- 9. browser, embedded pane, chat-host widget ------------------------------------------- */
+.mk-browser { --mk-w: 1280px; --mk-h: 800px; position: relative; flex: none; width: var(--mk-w); height: var(--mk-h); display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 10px; background: light-dark(#dfe1e5, #202124); color: light-dark(#202124, #e8eaed); font: 13px/18px system-ui, "PingFang SC", sans-serif;
+  box-shadow: 0 0 0 1px light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.1)), 0 32px 70px -12px rgb(10 14 24 / 0.35); }
+.mk-browser-bar { flex: none; height: 44px; display: flex; align-items: center; gap: 14px; padding: 0 14px; }
+.mk-browser-url { flex: 1; height: 30px; display: flex; align-items: center; padding: 0 14px; border-radius: 15px; background: light-dark(#fff, #35363a); }
+.mk-viewport { flex: 1; min-height: 0; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+
+.mk-pane { --mk-w: 360px; --mk-h: 760px; --mk-pane-head-h: 40px;
+  position: relative; flex: none; width: var(--mk-w); height: var(--mk-h); display: flex; flex-direction: column; overflow: hidden;
+  background: light-dark(#fff, #292929); color: light-dark(#242424, #fff);
+  font-family: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif; font-size: 14px; line-height: 20px;
+  box-shadow: 0 0 0 1px light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.12)), 0 24px 50px -12px rgb(10 14 24 / 0.3); }
+.mk-pane-head { flex: none; height: var(--mk-pane-head-h); display: flex; align-items: center; gap: 8px; padding: 0 8px 0 16px; font-weight: 600; box-shadow: inset 0 -1px 0 light-dark(#e0e0e0, #3d3d3d); }
+.mk-pane-head > :first-child { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.mk-widget { --mk-w: 400px; --mk-max-h: 600px; position: relative; width: var(--mk-w); max-height: var(--mk-max-h); box-sizing: border-box; overflow: hidden; }
+.mk-widget[data-border="true"] { border-radius: 16px; background: light-dark(#fff, #1f1f1f); box-shadow: inset 0 0 0 1px light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.12)); }
+.mk-widget[data-mode="fullscreen"] { width: 100%; max-height: none; border-radius: 0; }
+.mk-host-label { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 13px; font-weight: 600; }
+
+/* ---- 10. big screen / data wall: fixed canvas, scaled uniformly ----------------------------- */
+.mk-wall { --mk-w: 1920px; --mk-h: 1080px; --mk-scale: 0.5; width: calc(var(--mk-w) * var(--mk-scale)); height: calc(var(--mk-h) * var(--mk-scale)); overflow: hidden; border-radius: 4px; box-shadow: 0 0 0 6px #16181c, 0 30px 70px rgb(10 14 24 / 0.3); }
+.mk-wall > .mk-canvas { width: var(--mk-w); height: var(--mk-h); transform: scale(var(--mk-scale)); transform-origin: 0 0; display: flex; flex-direction: column; overflow: hidden; }

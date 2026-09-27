@@ -1,4 +1,4 @@
 interface:
   display_name: "Design Studio"
-  short_description: "Route design work to focused skills"
-  default_prompt: "Use $design-studio to frame this design task like a senior designer and route it to the right focused skill."
+  short_description: "Design anything, from brief to handoff"
+  default_prompt: "Use $design-studio to design this: state the design read and effort, then follow its loop through render, fresh critique and delivery."

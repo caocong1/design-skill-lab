@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deck</title>
+<!-- Template: copy the structure, not the values. Save as .design/graphics/<deck>/index.html.
+     Write every slide title first as an assertion (a sentence that states the point) and read them
+     alone in order; then give each slide one layout from the system below. Each slide is 1920 x 1080;
+     1 pt in PowerPoint = 2 px here. Chinese deck: lang="zh-CN" and a CJK face in --text / --display.
+     View: all slides scaled to the window. ?slide=<n> shows one slide (arrow keys move); capture it with
+     bash "$S/shot.sh" "index.html?slide=3" out 1920x1080 --dpr 1 --name s03.
+     PDF: Playwright page.pdf({ width: "1920px", height: "1080px", printBackground: true }), or Chrome print.
+     Editable PPTX and fonts the recipient has: references/disciplines/graphics.md §5. -->
+<style>
+  /* Tokens: PLACEHOLDER, from the system; sizes in px on the 1920 canvas */
+  :root {
+    --paper: #f1f1f1; --ink: #161616; --muted: #5a5a5a; --line: #c9c9c9; --accent: #3f3f3f; --mute-bar: #bdbdbd;
+    --display: system-ui, sans-serif; --text: system-ui, sans-serif;
+    --title: 64px; --body: 44px; --small: 24px; --m: 112px;
+  }
+  html, body { margin: 0; background: #6f6f6f; }
+  .deck { display: grid; gap: 24px; padding: 24px; justify-content: center; }
+  .slide { position: relative; box-sizing: border-box; width: 1920px; height: 1080px; overflow: hidden; zoom: var(--z, 1);
+           padding: var(--m) var(--m) 160px; display: grid; grid-template-rows: auto 1fr; gap: 56px;
+           background: var(--paper); color: var(--ink); font: 400 var(--body)/1.3 var(--text);
+           print-color-adjust: exact; }
+  .slide > h2 { margin: 0; max-width: 30ch; font: 650 var(--title)/1.15 var(--display); letter-spacing: -.01em; } /* same place on every slide */
+  .foot { position: absolute; left: var(--m); right: var(--m); bottom: 56px; display: flex; justify-content: space-between;
+          font-size: var(--small); color: var(--muted); }
+  .foot::after { content: attr(data-n); } /* page number, set by the script */
+  .body { min-height: 0; }
+  p, ul, ol, blockquote, figure { margin: 0; }
+
+  /* Layouts */
+  [data-layout="title"] { grid-template-rows: 1fr auto; }
+  [data-layout="title"] h1 { margin: 0; align-self: end; max-width: 16ch; font: 750 128px/1 var(--display); letter-spacing: -.02em; }
+  [data-layout="title"] .body { color: var(--muted); }
+  [data-layout="statement"] { grid-template-rows: 1fr; align-items: center; }
+  [data-layout="statement"] h2 { max-width: 20ch; font-size: 104px; line-height: 1.08; }
+  [data-layout="number"] .body { display: grid; grid-template-columns: auto 1fr; gap: 72px; align-items: end; }
+  .big { font: 750 360px/.8 var(--display); letter-spacing: -.04em; }
+  .big + p { max-width: 22ch; padding-bottom: 12px; }
+  [data-layout="compare"] .body { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; }
+  .col h3 { margin: 0 0 24px; padding-bottom: 16px; border-bottom: 3px solid var(--line); font: 650 var(--body)/1.2 var(--display); }
+  .col.on h3 { border-color: var(--ink); }
+  .col ul { padding-left: 1.1em; display: grid; gap: 16px; }
+  [data-layout="chart"] svg { width: 100%; height: 100%; font-family: var(--text); }
+  [data-layout="process"] ol { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 48px; counter-reset: step; }
+  [data-layout="process"] li { counter-increment: step; border-top: 3px solid var(--ink); padding-top: 28px; }
+  [data-layout="process"] li::before { content: counter(step, decimal-leading-zero); display: block; margin-bottom: 20px; font: 650 var(--small)/1 var(--text); color: var(--muted); }
+  [data-layout="quote"] blockquote { max-width: 26ch; font: 500 72px/1.2 var(--display); }
+  [data-layout="quote"] cite { display: block; margin-top: 40px; font: normal 400 var(--body)/1.3 var(--text); color: var(--muted); }
+  [data-layout="ask"] ol { padding-left: 1.2em; display: grid; gap: 28px; max-width: 34ch; }
+
+  html.single { background: #000; } html.single body { background: none; overflow: hidden; }
+  .single .deck { display: block; padding: 0; }
+  .single .slide:not(.on) { display: none; }
+  .single .slide.on { position: absolute; left: 50%; top: 50%; translate: -50% -50%; }
+  @page { size: 1920px 1080px; margin: 0; }
+  @media print { html, body { background: none; } .deck { display: block; padding: 0; } .slide { zoom: 1; break-after: page; } }
+</style>
+</head>
+<body>
+<main class="deck">
+  <section class="slide" data-layout="title">
+    <h1>Deck title: the one-line argument</h1>
+    <div class="body">Audience, occasion · Presenter · 2026-09-27</div>
+    <div class="foot"><span>PLACEHOLDER content throughout: use the user's facts, never invented ones</span></div>
+  </section>
+  <section class="slide" data-layout="statement">
+    <h2>A statement slide says the one sentence the room must remember.</h2>
+    <div class="foot"><span>Section or source</span></div>
+  </section>
+  <section class="slide" data-layout="number">
+    <h2>An assertion title explains what the number means</h2>
+    <div class="body"><div class="big">40%</div><p>One line of context: compared with what, over which period.</p></div>
+    <div class="foot"><span>Source: dataset, date</span></div>
+  </section>
+  <section class="slide" data-layout="compare">
+    <h2>A comparison slide makes the difference visible side by side</h2>
+    <div class="body">
+      <div class="col"><h3>Before</h3><ul><li>Point one</li><li>Point two</li><li>Point three</li></ul></div>
+      <div class="col on"><h3>After</h3><ul><li>Point one, changed</li><li>Point two, changed</li><li>Point three, changed</li></ul></div>
+    </div>
+    <div class="foot"><span>Source</span></div>
+  </section>
+  <section class="slide" data-layout="chart">
+    <h2>The chart title states its message; one series is highlighted</h2>
+    <div class="body">
+      <svg viewBox="0 0 1696 560" role="img" aria-label="Bar chart, PLACEHOLDER data">
+        <g font-size="28" fill="var(--muted)">
+          <rect x="0" y="360" width="280" height="160" fill="var(--mute-bar)"/><text x="0" y="552">Q1</text><text x="0" y="344">120</text>
+          <rect x="352" y="320" width="280" height="200" fill="var(--mute-bar)"/><text x="352" y="552">Q2</text><text x="352" y="304">150</text>
+          <rect x="704" y="290" width="280" height="230" fill="var(--mute-bar)"/><text x="704" y="552">Q3</text><text x="704" y="274">172</text>
+          <rect x="1056" y="80" width="280" height="440" fill="var(--accent)"/><text x="1056" y="552" fill="var(--ink)">Q4</text>
+          <text x="1056" y="64" fill="var(--ink)" font-weight="650">330, after the change</text>
+          <line x1="0" y1="520.5" x2="1696" y2="520.5" stroke="var(--line)" stroke-width="2"/>
+        </g>
+      </svg>
+    </div>
+    <div class="foot"><span>Source: PLACEHOLDER data</span></div>
+  </section>
+  <section class="slide" data-layout="process">
+    <h2>A process slide shows the order, not a diagram of boxes</h2>
+    <div class="body"><ol><li>Step one in a few words</li><li>Step two in a few words</li><li>Step three in a few words</li><li>Step four in a few words</li></ol></div>
+    <div class="foot"><span>Section</span></div>
+  </section>
+  <section class="slide" data-layout="quote">
+    <h2>A quote slide carries a real voice, attributed</h2>
+    <div class="body"><blockquote>&ldquo;A real quote from research or a customer, with permission.&rdquo;<cite>Name, role (never invented)</cite></blockquote></div>
+    <div class="foot"><span>Source: interview, date</span></div>
+  </section>
+  <section class="slide" data-layout="ask">
+    <h2>The closing slide asks for the decision needed today</h2>
+    <div class="body"><ol><li>The decision, in one line</li><li>What it costs and when</li><li>What happens next if it is approved</li></ol></div>
+    <div class="foot"><span>Contact</span></div>
+  </section>
+</main>
+<script>
+  const slides = [...document.querySelectorAll(".slide")];
+  slides.forEach((s, i) => { s.querySelector(".foot").dataset.n = i + 1; });
+  const q = new URLSearchParams(location.search);
+  let n = Math.min(Math.max(parseInt(q.get("slide"), 10) || 0, 0), slides.length);
+  const fit = () => {
+    const z = n ? Math.min(innerWidth / 1920, innerHeight / 1080) : Math.min(1, (innerWidth - 48) / 1920);
+    document.documentElement.style.setProperty("--z", z);
+  };
+  const show = () => {
+    document.documentElement.classList.toggle("single", n > 0);
+    slides.forEach((s, i) => s.classList.toggle("on", i === n - 1));
+    if (n) history.replaceState(null, "", `?slide=${n}`);
+    fit();
+  };
+  addEventListener("resize", fit);
+  addEventListener("keydown", (e) => {
+    if (!n) return;
+    if (["ArrowRight", "PageDown", " "].includes(e.key)) n = Math.min(n + 1, slides.length);
+    if (["ArrowLeft", "PageUp"].includes(e.key)) n = Math.max(n - 1, 1);
+    show();
+  });
+  show();
+</script>
+</body>
+</html>
