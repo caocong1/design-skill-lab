@@ -12,6 +12,19 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.8.4] - 2026-09-28
+
+只动基础设施。suite 契约和 skill 正文都没变。
+
+### 变更（基础设施）
+
+- `.github/workflows/check.yml`：四个 action 升到最新大版本 v7（`actions/checkout`、`actions/setup-node`、`actions/setup-python`、`actions/upload-artifact`；版本取自各仓库 2026-09-28 的 releases）。原来的 v4/v5 基于 Node 20，GitHub 每次运行都在强制改用 Node 24 并给出弃用提醒。跨大版本的破坏性变更（运行时换成 Node 24、模块改为 ESM、`setup-node` 的自动缓存、`setup-python` 移除 `pip-install`）都不涉及这个工作流用到的参数。
+
+### 修复（基础设施）
+
+- `scripts/smoke-site.mjs`：对本地静态服务器的请求改用 `node:http`，并且每次都读完响应。原来用全局 `fetch` 时有几处没读响应体（就绪探测、链接状态检查）；Python 的 `http.server` 每次响应后关闭连接，Node 内置 HTTP 客户端（undici）的解析器随之触发内部断言，异常从 socket 事件里抛出，`try/catch` 接不住，整个脚本崩溃。偶发：同一个提交在分支上通过，合并到 `main` 后失败。
+- `skills/design-studio/SKILL.md` 0.8.3 → **0.8.4**（版本号随仓库走，正文未改）。
+
 ## [0.8.3] - 2026-09-28
 
 合并到 `main` 后第一次在 CI 上跑冒烟测试，Linux 机器上抓到本机一直没暴露的横向溢出。suite 契约不变。

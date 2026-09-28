@@ -29,6 +29,7 @@ import { spawn } from 'node:child_process';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import http from 'node:http';
 import net from 'node:net';
 import vm from 'node:vm';
 import zlib from 'node:zlib';
@@ -58,6 +59,21 @@ const detailRow = catalog.resources.find((r) => r.tier === 'S' && r.thumb) || ca
 const gridDomain = catalog.domains.map((d) => [d.id, catalog.resources.filter((r) => r.domain === d.id && r.thumb).length])
   .sort((a, b) => b[1] - a[1])[0][0];
 
+// Requests to the local server go through node:http and always read the whole response. Global fetch left some
+// bodies unread (a status check, a readiness probe); python's http.server closes the socket after each response, and
+// that tripped an assertion inside undici's parser, thrown from a socket event where no try/catch reaches it
+// (CI on main, 2026-09-28: the same commit had passed on its branch).
+const ask = (url, method = 'GET') => new Promise((done) => {
+  const req = http.request(url, { method, agent: false }, (r) => {
+    const chunks = [];
+    r.on('data', (c) => chunks.push(c));
+    r.on('end', () => done({ status: r.statusCode, ok: r.statusCode >= 200 && r.statusCode < 300, text: Buffer.concat(chunks).toString('utf8') }));
+    r.on('error', () => done({ status: 0, ok: false, text: '' }));
+  });
+  req.on('error', () => done({ status: 0, ok: false, text: '' }));
+  req.end();
+});
+
 async function axeSource() {
   const local = [process.env.AXE, join(REPO, 'node_modules/axe-core/axe.min.js')].filter(Boolean).find((p) => existsSync(p));
   if (local) return readFileSync(local, 'utf8');
@@ -80,7 +96,7 @@ async function serve() {
   const proc = spawn('python3', ['-c', py, String(port), DOCS], { stdio: 'ignore' });
   const base = `http://127.0.0.1:${port}/`;
   for (let i = 0; i < 50; i++) {
-    try { if ((await fetch(base)).ok) return { proc, base }; } catch { /* not up yet */ }
+    if ((await ask(base, 'HEAD')).ok) return { proc, base };
     await new Promise((r) => setTimeout(r, 100));
   }
   proc.kill();
@@ -139,7 +155,7 @@ async function checkLinks(page, base, ids) {
     dom: [...document.querySelectorAll('a[href], link[href], script[src], img[src]')].map((e) => e.getAttribute('href') || e.getAttribute('src') || '').filter(Boolean),
     missingIds: [...document.querySelectorAll('a[href^="#"]')].map((a) => a.getAttribute('href').slice(1)).filter((id) => id && !document.getElementById(decodeURIComponent(id))),
   }));
-  const html = await (await fetch(url.split('#')[0])).text();
+  const html = (await ask(url.split('#')[0])).text;
   const raw = [...html.matchAll(/\s(?:href|src)="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, '&'));
   const bad = ids ? missingIds.map((id) => '#' + id + ' (no such id)') : [];
   for (const h of new Set([...dom, ...raw])) {
@@ -150,7 +166,7 @@ async function checkLinks(page, base, ids) {
     if (repo) { if (!existsSync(join(REPO, decodeURIComponent(repo[1])))) bad.push(h + ' (not in the repo)'); continue; }
     if (u.origin !== origin) continue;
     const key = u.pathname;
-    if (!linkCache.has(key)) linkCache.set(key, fetch(origin + key).then((r) => r.status).catch(() => 0));
+    if (!linkCache.has(key)) linkCache.set(key, ask(origin + key, 'HEAD').then((r) => r.status));
     const st = await linkCache.get(key);
     if (!(st >= 200 && st < 400)) bad.push(u.pathname + ' (' + (st || 'no answer') + ')');
   }
@@ -224,7 +240,7 @@ async function run(browser, base, axe, v, vp, scheme = 'light') {
       if (im.complete && im.nw > 0) continue;
       if (im.shown || im.complete) { res.images.bad.push(im.src.replace(origin, '') + (im.complete ? ' (broken)' : ' (not loaded)')); continue; }
       /* never rendered (hidden, lazy): the file must still exist */
-      const ok = await fetch(im.src, { method: 'HEAD' }).then((r) => r.ok).catch(() => false);
+      const ok = im.src.startsWith(origin) ? (await ask(im.src, 'HEAD')).ok : await fetch(im.src, { method: 'HEAD' }).then((r) => r.ok).catch(() => false);
       if (!ok) res.images.bad.push(im.src.replace(origin, '') + ' (hidden, missing)');
     }
 
