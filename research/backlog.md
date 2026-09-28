@@ -69,7 +69,7 @@
 按优先级排列。写摘要前先确认能抓到原文。
 
 1. `apple-hig-generative-ai`：Apple HIG 的 Generative AI 页（AI 体验、输出侧规则）。
-2. `nng-heuristics`：NN/g 十条启发式和响应时间阈值（0.1 / 1 / 10 s）。这是"约 100 ms 给出活动反馈"一类说法的一手来源。
+2. ~~`nng-heuristics`~~：2026-09-28 已完成（见 log）。仍缺 NN/g 付费报告与键盘快捷键专题。
 3. 嵌入宿主窗格：Office 加载项设计指南（learn.microsoft.com）、Chrome 侧边栏、VS Code UX 指南（webview 与面板）。`embedded-hosts` 目前只有一次宿主会话的经验。
 4. 长时 agent 与 AI 交互：Google PAIR Guidebook、Microsoft HAX Toolkit、Ant Design X、Carbon for AI、Vercel AI Elements。
 5. `apple-swiftui-spring`（也可以并入 `apple-hig-liquid-glass`）：Apple 的弹簧参数和"Designing Fluid Interfaces"。另外还缺 HarmonyOS 的动效曲线页。
@@ -78,8 +78,9 @@
 8. 图标：Android 自适应图标安全区、PWA maskable、favicon 最小集合。
 9. 托管设计系统的存储格式：Claude Design、v0、Lovable、Figma Make 是否读 DESIGN.md，以及怎么读。
 10. 数据可视化：FT Visual Vocabulary、Datawrapper Academy、AntV 设计原则、Chartability。`data-dense-ui` 目前基本是经验。
-11. Refactoring UI 公开文章、Rauno Freiberg《Invisible Details of Interaction Design》。
+11. Refactoring UI 公开文章（Rauno Freiberg 一篇 2026-09-28 已完成：`rauno-interaction-details`）。
 12. 参考库 MCP：Mobbin MCP、Refero MCP。目前只核实到搜索结果层面。
+13. 交互补缺（0.9.0 登记）：触屏 KLM 扩展；子菜单斜向容差（Amazon menu-aim 一类）与拖拽键盘拾取的一手来源；原生平台的输入法组字模型（UIKit `markedTextRange`、Android `InputConnection`、HarmonyOS、小程序 `input`）；APG 的列表框、网格、标签页、树等模式页。
 
 ## 5. 未决的研究问题
 

@@ -121,6 +121,12 @@ APCA
     use only. Using the APCA name is allowed only for implementations that are correct and current. The reference algorithm is **0.0.98G-4g** with an
     output clamp at approximately **±Lc 10**. Non-compliant implementations (wrong polarity or wrong constants) are declared "in breech of license".
 
+Added 2026-09-28 (Understanding 2.1.4 read, `https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts.html`)
+32. **2.1.4 Character Key Shortcuts, A**: a shortcut made only of printable characters (letters, digits, punctuation, symbols, including
+    Shift combinations such as Shift+/) must be possible to turn off, or to remap to include a non-printable key (Ctrl, Alt), or be active
+    only while its component has focus. Rationale: speech-input users trigger single-letter shortcuts by talking; users with tremor hit keys
+    by accident.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/accessibility.md: carry facts 3–24 as the design floor (AA), with 2.4.13 and 2.5.5 as recommended
   AAA targets. Replace any "APCA is part of WCAG 3 / draft guidance" wording with facts 25, 29–31: WCAG 3 contrast is TBD, APCA is an independent
@@ -137,6 +143,7 @@ APCA
 - skills/design-studio/references/platforms/README.md, platforms/ios.md, platforms/harmonyos.md and assets/mockup-kit: floating tab bars, glass
   toolbars and sticky footers must not fully cover the focused element (2.4.11): scroll-padding equal to the bar height. Glass surfaces need 4.5:1
   text measured on the rendered backdrop.
+- skills/design-studio/references/disciplines/interaction.md: 2.1.4 (fact 32) for single-key shortcuts (J/K triage, `/` to search, `?` for help).
 - skills/design-studio/references/disciplines/motion.md: 2.2.2 (5 s auto-motion needs pause), 2.3.1 (3 flashes per second), 2.3.3 (AAA, honour
   reduced motion).
 - skills/critique-design/references/rubric.md + heuristics.md: make 1.4.3, 1.4.11, 1.4.10 (320 px), 1.4.12, 2.4.11, 2.5.7, 2.5.8, 3.3.7 and 3.3.8

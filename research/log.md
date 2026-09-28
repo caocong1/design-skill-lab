@@ -99,3 +99,12 @@
 - **新工具**：`evals/tools/run_round.sh`（无头跑完一轮的设计运行，臂名可带样本后缀，运行期间阻止电脑休眠）、`run_judges.sh`（每位评审一个独立的无头会话，只能读自己的评审包）、`aggregate.py`（从评审的原始回复算出报告里的每个数字，支持一格多个样本）、`selftest.mjs`（用答案已知的夹具测 `facts.mjs`，CI 里运行）。
 - 方法约定新增一条：事实表和设计稿一样要被怀疑。每条报出的失败，交给评审之前都对着它描述的那一帧看一眼。
 - 过程、结果表、结论能说到哪一步和下一轮要改的见 [field/evals-2026-09-28.md](field/evals-2026-09-28.md)；英文完整报告在 `evals/runs/2026-09-27-r2/report.md`。
+
+## 2026-09-28 · 交互与易用性（0.9.0）
+
+- 主人要求从"交互组件好不好用：方便、舒心、快捷、高效"方向迭代设计 skill。先盘点：套件的地板（焦点、目标尺寸、加载时序、表单、空状态）已经扎实，缺的是**效率与行为**：没有任务交互成本的量法，组件的键盘模型和快捷键没有规则，中文输入法组字完全没人管，toast / tooltip / 组合框等组件的行为只写到"照 APG 做"。宿主复盘和评测里没有这方面的现场证据，所以这一版全部靠一手来源。
+- 新增 6 份摘要：`nng-heuristics`（十条启发式、0.1 / 1 / 10 s、交互成本、命令命名与快捷键；backlog §4 第 2 项）、`wai-aria-apg`（键盘接口总则、组合框、菜单）、`ui-events-ime`（组字事件、`isComposing`、keyCode 229、Safari 事件顺序缺陷）、`klm-kieras`（KLM 操作时间与 M 的放置规则；原论文在付费墙后未读）、`rauno-interaction-details`（backlog §4 第 11 项）、`carbon-notification-tooltip`（官网页面过大，读的是 carbon-website 仓库源文件 @d8783ad）。`wcag-22` 补第 32 条（2.1.4 字符键快捷键）。
+- 核对时的发现：MDN 页面写 `isComposing` "2026-09 新近可用"，用 web-features 3.40.0 与 BCD 8.1.3 复查属实（2026-09-14，Safari 27），并查到 Safari 10.1–26.6 的事件顺序缺陷说明——这正是"中文输入法选词回车就把消息发出去"的根源，结论 16。Rauno 文章的小节名第一次抓取给的是摘要式标题，重抓核对后改成页面上的实际标题。Carbon 与 NN/g 都没有给 tooltip 出现延迟的数值，延迟规则仍取自 emil-kowalski-animation #2。
+- skill 改动：新增 `disciplines/interaction.md`；design-studio 路由表、阅读顺序、新算子 `streamline`；product-ui 加响应时间三档；ai-experience 输入框加输入法例外；system、desktop 指向 interaction；surface contract 加 Task cost 块，handoff-spec 的 Behaviour 节列出交互交付物；critique-design 的启发式第 2 节改为按截图计算任务成本，第 8 节加键盘、快捷键、输入法、toast / tooltip、"不在指针下移动"。主题 03 加结论 14–18。
+- 未验证：这些规则还没有在任何宿主项目或评测里跑过。评测 brief 01（中文运维台）和 05（审批）是最接近的替身，第三轮可以把"任务成本块"和"输入法说明"列为事实检查项。
+

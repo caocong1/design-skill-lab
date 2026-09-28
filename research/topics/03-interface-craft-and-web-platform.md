@@ -1,6 +1,6 @@
 # 03 界面工艺与现代 Web 平台
 
-> 元数据：更新于 2026-09-27 · 依据：vercel-web-interface-guidelines、web-baseline-2026、wcag-22、laws-of-ux、apple-hig-liquid-glass、apple-hig-bars、harmonyos-design、fluent-2、impeccable、impeccable-slop-rules、chinese-copywriting-guidelines（旧分析 03 已并入）· 复核期限：2026-12-26（另有两个触发点：2026-11-13 `light-dark()` 转为“广泛可用”；web-features 每次发版）
+> 元数据：更新于 2026-09-28 · 依据：vercel-web-interface-guidelines、web-baseline-2026、wcag-22、laws-of-ux、nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip、apple-hig-liquid-glass、apple-hig-bars、harmonyos-design、fluent-2、impeccable、impeccable-slop-rules、chinese-copywriting-guidelines（旧分析 03 已并入）· 复核期限：2026-12-26（另有两个触发点：2026-11-13 `light-dark()` 转为“广泛可用”；web-features 每次发版）
 
 这一篇回答两件事。第一，交互工艺——焦点、目标尺寸、加载、表单、状态这类几百个“有没有想到”的小决定——怎样保证不漏。第二，2024–2026 年进入 Baseline 的 HTML / CSS 原语怎样改变“设计稿该画什么、规格该写什么”。视觉规则（Hobday、排版、色阶、圆角）归 05；token 的 CSS 作用域与 `light-dark()` 组织法归 06；动效归 04。
 
@@ -23,6 +23,11 @@
 11. **Web 上的玻璃必须默认可读。** `backdrop-filter` 已是新近可用，但 `prefers-reduced-transparency` 仅 Chrome 支持，所以不能靠媒体查询让用户“退出”玻璃：先保证实色回退可读，再叠加模糊。Apple 不公布 Liquid Glass 的模糊与不透明度数值，Web 上任何仿制都是需要标注的近似；Apple 明言内容层不用玻璃。Fluent 的做法可以照搬：材质不可用（关闭透明、低端硬件、窗口失活、高对比）时自动回落到实色。依据：web-baseline-2026 #25–26，apple-hig-liquid-glass #1–2，fluent-2 #5。一手资料。
 12. **对比度只用 WCAG 2 判定。** Vercel 写“感知对比优先 APCA 而非 WCAG 2”，这是 Vercel 的偏好，我们不采纳为判据：WCAG 3 工作草案（2026-09-10）的文本对比度要求写的是“@@[对比度算法待定]”，全文不提 APCA；APCA 已转为独立的 ARC 标准。APCA Lc 可以并列报告，作感知参考。依据：vercel #12，wcag-22 #25、#29–31。一手资料。
 13. **现成检测器覆盖了西文 React 世界，本地规则无人覆盖。** Impeccable 的检测器有 61 条规则（49 条读源码、12 条需渲染），另有 6 条只能靠设计评审；它明说“干净的检测结果是证据，不是证明”。它的质量类规则与 Vercel 反模式大面积重合。但中英混排、全半角标点、小程序胶囊避让、中文最小字号这类规则没有任何现成工具在管——这是我们 `lint.mjs` 值得自己写的部分。依据：impeccable #25、#29，impeccable-slop-rules #12，chinese-copywriting-guidelines #10–11。一手资料 + 推论。
+14. **"方便、快捷"可以数出来：交互成本 = 决定 + 寻找 + 指点 + 按键 + 等待。** NN/g 把交互成本定义为用户达成目标要付出的全部脑力与体力，并把它当作比较方案的工具；KLM（Card、Moran、Newell 1980，Kieras 1993 教学版）给出操作时间：按键 0.28 s、指点 1.1 s、点击 0.2 s、手在键鼠间移动 0.4 s、一次例行思考（找、选、回忆、确认）1.2 s。一条任务写成操作串相加，就能比较方向、改版前后、鼠标路径与键盘路径。大头通常是"想一下"（M），所以"少点一次"不如"少找一次"。依据：nng-heuristics #7，klm-kieras #2–4。一手资料（KLM 原论文未读，时间取自 Kieras 的转述）。
+15. **键盘和快捷键是设计决定。** APG 的总则：Tab 在组件之间、方向键在组件之内，复合组件只占一个 Tab 位；删除或关闭后焦点要有去处；选中态和焦点态要看得出区别；网络加载的内容不"选中跟随焦点"。快捷键只给高频任务、必须同时有常规路径、不改标准键（复制、撤销、保存、查找……）、避开系统 / 读屏 / 浏览器占用的组合；单字母快捷键必须能关、能改或只在组件聚焦时生效（WCAG 2.1.4，A 级）。依据：wai-aria-apg #1–8，nng-heuristics #9，wcag-22 #32。一手资料。
+16. **中文输入法是中文产品的交互地板，此前没有任何工具或规则在管。** 输入法组字期间回车是"选词上屏"，不能触发发送、提交、建标签；边打边搜、校验、字数统计要等上屏后的文字。判断依据是 `isComposing`，但 Safari 10.1–26.6 在"完成组字那一下"的 keydown 上报 false（事件顺序颠倒，WebKit bug 165004），所以要同时判 `keyCode === 229`。`KeyboardEvent.isComposing` 直到 2026-09-14（Safari 27）才进入 Baseline。无头截图无法组字，这类行为只能手测或标"待确认"。依据：ui-events-ime #1–5。一手资料 + 兼容数据。
+17. **组件行为要写到"模式名没决定的部分"。** 组合框的补全类型、弹出时机、空查询显示什么；菜单的勾选项、子菜单斜向移动不关闭；toast 只放信息与成功、带操作或报错就不自动消失、说过的话事后找得到；tooltip 只放名称和非必要说明，带链接或按钮就换成 toggletip。依据：wai-aria-apg #9–11，carbon-notification-tooltip #1–7，emil-kowalski-animation #2（首个 tooltip 延迟、相邻即时）。一手资料 + 业内共识（子菜单斜向容差无一手来源）。
+18. **"舒心"主要是不打扰和不丢东西。** 手势效果从第一像素跟手、途中可反悔，可逆操作可在手势中触发、破坏性操作只在松手时生效；高频操作不做动画；新到内容不把用户正在操作的行挤走；记住上次的选择、筛选、视图；草稿不丢。依据：rauno-interaction-details #2、#4、#5、#7，nng-heuristics #3–5，motion 的频率门（emil-kowalski-animation #6）。一手资料 + 推论。
 
 ## 论证
 
@@ -53,6 +58,9 @@
 - NN/g 十条启发式、Vercel 仓库里的 `AGENTS.md` 与 vercel.com 发布页未做摘要或比对。
 - 我们的截图流程（`capture.mjs` / `shot.sh`）在无头浏览器里截“打开状态的 popover / dialog”是否稳定（顶层渲染、`@starting-style` 的首帧），没有测过；可移植稿改用原生弹层前应先测一次。
 - 2026-11-13 `light-dark()` 转为广泛可用后，能力表要改档；下一个 web-features 版本发布后整表重拉比对。
+- KLM 没有触屏操作符（点按、滑动、捏合）；套件把一次点按近似为 P，未读触屏 KLM 扩展。
+- 子菜单"斜向移动容差"、拖拽的键盘拾取（Space 拿起、方向键移动）目前是业内共识，没有一手来源；Android 输入法的按键事件形态未读。
+- IME 规则只读了 Web 规范；UIKit、Android、HarmonyOS、小程序 `input` 的组字模型未读。
 
 ## 对 skill 的约束
 
@@ -66,7 +74,10 @@
 - `skills/critique-design/references/heuristics.md`：以 Vercel `command.md` 的 16 类 + 反模式清单作为 Web 机械地板，注明快照版本（vercel-web-interface-guidelines @e3d624b）并在能联网时重新拉取；剔除 Vercel 专属文案规则；发现项用 Before | After | Why 行。
 - `skills/design-studio/scripts/lint.mjs`：可确定检测的项——`transition: all`；`outline: none` 而无替代焦点样式；`user-scalable=no` / `maximum-scale=1`；图片缺尺寸；纯图标按钮无可访问名称；输入框无标签；用 div / span 的点击做导航；移动视口下输入框字号 < 16 px；目标 < 24 px 且不过圆测试；320 px 宽下出现横向滚动（1.4.10）；聚焦元素被 fixed / sticky 元素完全遮住（2.4.11）；暗色主题缺 `color-scheme`；原生 select 未显式设置 `background-color` 与 `color`。
 - `skills/implement-design/references/stacks.md`：Web 一节按上表映射原语及其状态（popover、invoker commands、dialog、锚点定位 + 回退、`@scope`、`light-dark()`、相对颜色、`contrast-color()` 的限制、`field-sizing`、`text-box`），并收水合安全输入、`Intl.*` 格式化、视频代替 GIF。
+- `skills/design-studio/references/disciplines/interaction.md`（0.9.0 新增）：**交互成本、键盘模型、快捷键、输入法、组件行为表、顺手默认值的唯一所有者。** 加载与响应时间的数值仍只写在 product-ui（0.1 / 1 / 10 s 三档随 0.9.0 加入），动效的频率门仍只写在 motion。
+- `skills/design-studio/templates/surface-contract.md`：Operate 界面加"Task cost"块；评审按截图重算。
 
 ## 变更记录
 
 - 2026-09-27 重写：由旧分析 03 迁入并全文重写。Hobday 视觉规则与 Laws of UX 移到 05；新增 Web 平台能力层（web-features 3.40.0 的 Baseline 状态、三档标注、原语如何改变设计决定、粒度陷阱）、WCAG 2.2 的表单 / 拖拽 / 焦点条款、玻璃的 Web 回退、现成检测器的覆盖边界；更正 APCA“仍是草案”、24 px 规则的出处与写法、Vercel 只读 README 三处；复查并更正 `text-autospace` 的状态粒度；删除“易腐与耐久”“对设计 agent 的启发”等仪式性小节。
+- 2026-09-28 补充：新增结论 14–18（交互成本与 KLM、键盘与快捷键、中文输入法、组件行为、顺手默认值），依据新增的 nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip 与 wcag-22 #32；对 skill 的约束加 interaction.md 与 surface contract 的 Task cost 块。NN/g 十条启发式此前只在 laws-of-ux 摘要里提到名字，现在有了单独摘要。
