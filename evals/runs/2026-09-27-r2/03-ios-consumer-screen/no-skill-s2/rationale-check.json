@@ -97,7 +97,7 @@
   ],
   "notes": "Not listed: the scroll-edge fade can't be checked. Content does stop cleanly above the tab bar in today.png and book.png. Date format 'Sunday, 27 September' matches. facts.md reports 2 targets under 44 px in empty.html. The notes make no 44 pt claim, but this is a platform-fit consideration. No overflow and no console errors.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.no-skill-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/03-ios-consumer-screen.no-skill-s2/check.reply.txt",
     "sha256": "8a313db5673b580dc50eca5b016a31d8b455aab5df51be8299ab77b09e92f258"
   }
 }

@@ -34,8 +34,8 @@
       "what": "Paths outside <W>/<SKILLS> touched (not suite content)",
       "detail": [
         "suite-0.8.0 in 01, 03, 04, 05 read its own session tool-results under ~/.claude/projects/<own session dir>/tool-results/ (large tool outputs persisted by the host): own session, benign.",
-        "04-miniprogram-list-zh suite-0.8.0 imported Playwright from /Users/dongli/Workspace/design-skill-lab/node_modules/playwright/index.mjs and wrote /tmp/fz_test.mjs (a font-scaling test). Only a module import from the repo; no repo skill or doc file read.",
-        "03-ios-consumer-screen suite-0.8.0 referenced /Users/dongli/node_modules/playwright/index.mjs (module import)."
+        "04-miniprogram-list-zh suite-0.8.0 imported Playwright from <repo>/node_modules/playwright/index.mjs and wrote /tmp/fz_test.mjs (a font-scaling test). Only a module import from the repo; no repo skill or doc file read.",
+        "03-ios-consumer-screen suite-0.8.0 referenced ~/node_modules/playwright/index.mjs (module import)."
       ]
     }
   ],
@@ -43,7 +43,7 @@
     {
       "brief": "01-ops-console-zh",
       "arm": "no-skill",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/01-ops-console-zh.no-skill.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/01-ops-console-zh.no-skill.transcript.jsonl",
       "grep_hits": {
         "SKILL.md": 0,
         "suites/": 0
@@ -56,9 +56,9 @@
     {
       "brief": "01-ops-console-zh",
       "arm": "suite-0.7.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/01-ops-console-zh.suite-0.7.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/01-ops-console-zh.suite-0.7.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0": 0,
+        "$EVAL_TMP/suites/0.8.0": 0,
         "suites/0.8.0": 0
       },
       "breach": false,
@@ -69,9 +69,9 @@
     {
       "brief": "01-ops-console-zh",
       "arm": "suite-0.8.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/01-ops-console-zh.suite-0.8.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/01-ops-console-zh.suite-0.8.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0": 0,
+        "$EVAL_TMP/suites/0.7.0": 0,
         "suites/0.7.0": 0
       },
       "breach": false,
@@ -80,7 +80,7 @@
     {
       "brief": "02-devtool-landing-en",
       "arm": "no-skill",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/02-devtool-landing-en.no-skill.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/02-devtool-landing-en.no-skill.transcript.jsonl",
       "grep_hits": {
         "SKILL.md": 0,
         "suites/": 0
@@ -91,9 +91,9 @@
     {
       "brief": "02-devtool-landing-en",
       "arm": "suite-0.7.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/02-devtool-landing-en.suite-0.7.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/02-devtool-landing-en.suite-0.7.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0": 0,
+        "$EVAL_TMP/suites/0.8.0": 0,
         "suites/0.8.0": 0
       },
       "breach": false,
@@ -102,9 +102,9 @@
     {
       "brief": "02-devtool-landing-en",
       "arm": "suite-0.8.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/02-devtool-landing-en.suite-0.8.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/02-devtool-landing-en.suite-0.8.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0": 0,
+        "$EVAL_TMP/suites/0.7.0": 0,
         "suites/0.7.0": 0
       },
       "breach": false,
@@ -113,7 +113,7 @@
     {
       "brief": "03-ios-consumer-screen",
       "arm": "no-skill",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/03-ios-consumer-screen.no-skill.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/03-ios-consumer-screen.no-skill.transcript.jsonl",
       "grep_hits": {
         "SKILL.md": 0,
         "suites/": 0
@@ -126,9 +126,9 @@
     {
       "brief": "03-ios-consumer-screen",
       "arm": "suite-0.7.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/03-ios-consumer-screen.suite-0.7.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/03-ios-consumer-screen.suite-0.7.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0": 0,
+        "$EVAL_TMP/suites/0.8.0": 0,
         "suites/0.8.0": 0
       },
       "breach": false,
@@ -137,9 +137,9 @@
     {
       "brief": "03-ios-consumer-screen",
       "arm": "suite-0.8.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/03-ios-consumer-screen.suite-0.8.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/03-ios-consumer-screen.suite-0.8.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0": 0,
+        "$EVAL_TMP/suites/0.7.0": 0,
         "suites/0.7.0": 0
       },
       "breach": false,
@@ -148,7 +148,7 @@
     {
       "brief": "04-miniprogram-list-zh",
       "arm": "no-skill",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/04-miniprogram-list-zh.no-skill.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/04-miniprogram-list-zh.no-skill.transcript.jsonl",
       "grep_hits": {
         "SKILL.md": 0,
         "suites/": 0
@@ -159,9 +159,9 @@
     {
       "brief": "04-miniprogram-list-zh",
       "arm": "suite-0.7.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/04-miniprogram-list-zh.suite-0.7.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/04-miniprogram-list-zh.suite-0.7.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0": 0,
+        "$EVAL_TMP/suites/0.8.0": 0,
         "suites/0.8.0": 0
       },
       "breach": false,
@@ -170,9 +170,9 @@
     {
       "brief": "04-miniprogram-list-zh",
       "arm": "suite-0.8.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/04-miniprogram-list-zh.suite-0.8.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/04-miniprogram-list-zh.suite-0.8.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0": 0,
+        "$EVAL_TMP/suites/0.7.0": 0,
         "suites/0.7.0": 0
       },
       "breach": false,
@@ -181,7 +181,7 @@
     {
       "brief": "05-agent-approvals",
       "arm": "no-skill",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/05-agent-approvals.no-skill.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/05-agent-approvals.no-skill.transcript.jsonl",
       "grep_hits": {
         "SKILL.md": 0,
         "suites/": 0
@@ -192,9 +192,9 @@
     {
       "brief": "05-agent-approvals",
       "arm": "suite-0.7.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/05-agent-approvals.suite-0.7.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/05-agent-approvals.suite-0.7.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0": 0,
+        "$EVAL_TMP/suites/0.8.0": 0,
         "suites/0.8.0": 0
       },
       "breach": false,
@@ -203,9 +203,9 @@
     {
       "brief": "05-agent-approvals",
       "arm": "suite-0.8.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/05-agent-approvals.suite-0.8.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/05-agent-approvals.suite-0.8.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0": 0,
+        "$EVAL_TMP/suites/0.7.0": 0,
         "suites/0.7.0": 0
       },
       "breach": false,
@@ -214,7 +214,7 @@
     {
       "brief": "06-redesign-legacy",
       "arm": "no-skill",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/06-redesign-legacy.no-skill.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/06-redesign-legacy.no-skill.transcript.jsonl",
       "grep_hits": {
         "SKILL.md": 0,
         "suites/": 0
@@ -225,9 +225,9 @@
     {
       "brief": "06-redesign-legacy",
       "arm": "suite-0.7.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/06-redesign-legacy.suite-0.7.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/06-redesign-legacy.suite-0.7.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0": 0,
+        "$EVAL_TMP/suites/0.8.0": 0,
         "suites/0.8.0": 0
       },
       "breach": false,
@@ -236,9 +236,9 @@
     {
       "brief": "06-redesign-legacy",
       "arm": "suite-0.8.0",
-      "transcript": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/06-redesign-legacy.suite-0.8.0.transcript.jsonl",
+      "transcript": "$EVAL_TMP/transcripts/06-redesign-legacy.suite-0.8.0.transcript.jsonl",
       "grep_hits": {
-        "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.7.0": 0,
+        "$EVAL_TMP/suites/0.7.0": 0,
         "suites/0.7.0": 0
       },
       "breach": false,

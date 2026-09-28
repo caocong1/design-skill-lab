@@ -104,7 +104,7 @@
   ],
   "notes": "Not listed but also checked: the CSV download appears only once, in the header of run-result-01.png; the result's step 4 reads 'Done · approved in part'. Not checkable: the claim that payments.create_batch 'sits in a closed disclosure'. The top of run-approval-02.png shows that tool name as a plain visible line, and nothing in the render shows whether it is a closed disclosure.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.suite-0.8.1-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/05-agent-approvals.suite-0.8.1-s1/check.reply.txt",
     "sha256": "19e2fb6e45d59bf108b1251e04bba5ff2eae60ca29fdad0bf7880b07db64dc2a"
   }
 }

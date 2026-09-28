@@ -104,7 +104,7 @@
   ],
   "notes": "NOTES says 'Sessions list the four given entries', but book.png shows only three in the first screen. The fourth row sits under the tab bar, where only a divider shows. facts.md reports 2 targets under 44 px on empty.html, and NOTES makes no claim about target sizes.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.no-skill-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/03-ios-consumer-screen.no-skill-s1/check.reply.txt",
     "sha256": "9542fc91fe3a6dfbfd65fe63b467fc03d64de7f308dcf2cbc9d4ecead4cde112"
   }
 }

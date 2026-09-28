@@ -102,7 +102,7 @@
   ],
   "notes": "Other NOTES claims also match the renders: 已挂起 with 等备件 below it (list-01, row 0380); 剩 2天 and 剩 6天 with no small text below; 86 pages in the pager (list-02); the repair-SLA progress bar at about 12.5% (detail-01); the three captioned photo placeholders (detail-02); the 更多 dropdown collapsed. Two NOTES items can't be checked from renders: the self-contained, no-CDN HTML and the hover behaviour. No NOTES claim is contradicted.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.no-skill-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/01-ops-console-zh.no-skill-s1/check.reply.txt",
     "sha256": "9aa0dc1b085397e5f2f099b0533e2cdd452ed9185809b31d88a6331de83b46d0"
   }
 }

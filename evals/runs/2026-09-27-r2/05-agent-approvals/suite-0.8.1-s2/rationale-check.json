@@ -110,7 +110,7 @@
   ],
   "notes": "11 of the 12 claims are verified and 1 is contradicted. The one that fails is the Oakridge warning: it is on its row, but that row is far from the approve buttons, with two payment rows, the total and a notes band in between. Other claims are consistent with facts.md: 0 text nodes below AA and no horizontal overflow. The '5.5:1 or higher' contrast figure was not checked because facts.md only reports AA pass/fail.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.suite-0.8.1-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/05-agent-approvals.suite-0.8.1-s2/check.reply.txt",
     "sha256": "f989378a3483882ab37f179d1a749288ea64608a77cd4b2ec2d1bf0254704687"
   }
 }

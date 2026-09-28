@@ -116,7 +116,7 @@
   ],
   "notes": "Contrast claim ('all pass AA') is backed by facts.md: 0 of 44, 26 and 15 text nodes are below AA. The notes admit Today's 'Recent highlight' is off the first screen, and today.png confirms it. The two first-run contradictions look like copy that was changed without updating NOTES.md.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.suite-0.8.1-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/03-ios-consumer-screen.suite-0.8.1-s3/check.reply.txt",
     "sha256": "ce17c0de91e3fd040fea7412a7709474baa269140fe857a7ae4921b48246518b"
   }
 }

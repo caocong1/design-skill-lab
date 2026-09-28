@@ -97,7 +97,7 @@
   ],
   "notes": "Only the first screen of the list is visible, so the '更晚 = 灰底' time-block variant cannot be seen. Also consistent with NOTES but left out of the list: 「查看结果（0 个）」 is a primary button, and the selected tab-bar item changes colour but is not bold. 「最小字号 12 px」 could not be checked from the renders or facts.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.suite-0.8.1-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/04-miniprogram-list-zh.suite-0.8.1-s2/check.reply.txt",
     "sha256": "005e69fa8151079d7b9685b2fdb12923e19101da3e7e0deca31c3c33969cf300"
   }
 }

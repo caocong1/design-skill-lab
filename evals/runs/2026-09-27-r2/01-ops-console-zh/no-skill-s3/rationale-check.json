@@ -102,7 +102,7 @@
   ],
   "notes": "All 12 claims match the renders. Two further NOTES claims were also confirmed but left out of the list because of the 12-claim limit: the detail SLA progress bar shows 已用 30 分 / 共 4 小时, and the processing log has role tags. facts.md reports 0 text nodes below AA, 0 failing targets and no overflow across all five pages. The empty and error pages fit on one screen (900 px tall). The claim about the PingFang SC font can't be checked from the renders.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.no-skill-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/01-ops-console-zh.no-skill-s3/check.reply.txt",
     "sha256": "2f3e42217d529c75f0f4c20ecce8967d252462072fc262817d5ecad1de3818f0"
   }
 }

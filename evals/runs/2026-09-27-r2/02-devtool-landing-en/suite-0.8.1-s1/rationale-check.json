@@ -119,7 +119,7 @@
   ],
   "notes": "'Dark mode' was avoided as a theme, but the 'Add it to your app' section has a dark band (desktop-07/08, mobile-09/10). Blue also appears in code syntax highlighting, although NOTES says it is used 'only for actions and highlights'. Exact hex values can't be checked from the renders. The mobile plan row set matching the desktop table is not fully checkable because the desktop table's first row is hidden between frames.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.suite-0.8.1-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/02-devtool-landing-en.suite-0.8.1-s1/check.reply.txt",
     "sha256": "79cb7a3151a8d7deaf1fa55c336273fe93e76fea32f04b4872e1c079af2e36ff"
   }
 }

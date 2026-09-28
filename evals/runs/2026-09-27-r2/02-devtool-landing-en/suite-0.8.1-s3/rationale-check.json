@@ -111,7 +111,7 @@
  ],
  "notes": "Every checked claim holds in the renders. One frame-boundary effect: the sticky desktop header covers the top ~64px of each frame. desktop-04.png shows the 'One SQL database…' heading and its column labels half-hidden under the header, and the 'What you get' eyebrow is not visible in any desktop frame. This is probably a capture artifact rather than a layout bug. The not-verified items that NOTES.md itself names (focus order, copy success state, open menu) cannot be checked in a static render.",
  "checker_reply": {
-  "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.suite-0.8.1-s3/check.reply.txt",
+  "path": "$EVAL_TMP/check/02-devtool-landing-en.suite-0.8.1-s3/check.reply.txt",
   "sha256": "09483ff6a6cc18ef7221a1dace2db3f31b1aefe9ff998cd612c95227e1ad4ec8"
  },
  "rerun_note": "Checked again on 2026-09-28 with a corrected facts sheet: the first one carried a false contrast failure (1.12:1 on the install command) caused by a bug in evals/tools/facts.mjs, fixed in 396df58. First result: claims: 11 verified, 1 contradicted, 0 not checkable; its one contradicted claim was the lint-floor claim, judged against the false fact. The first reply is kept outside git in eval-r2/check-superseded/."

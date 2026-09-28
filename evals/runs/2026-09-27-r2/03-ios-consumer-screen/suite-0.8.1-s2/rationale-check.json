@@ -97,7 +97,7 @@
   ],
   "notes": "The claim about text above the tab bar holds, but facts.md shows the 'Today' tab label itself fails AA on today.html (2.68:1). The brief requires AA for all text, including text on translucent surfaces. Content the notes place below the fold (the Today highlight, the Book highlights, The Pillow Book row) is not visible on the first screen and so can't be checked.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.suite-0.8.1-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/03-ios-consumer-screen.suite-0.8.1-s2/check.reply.txt",
     "sha256": "9cc0a4e5b69c1270f741efd9b6e69c5a91d909a7473d63e8773ecab0bf112b66"
   }
 }

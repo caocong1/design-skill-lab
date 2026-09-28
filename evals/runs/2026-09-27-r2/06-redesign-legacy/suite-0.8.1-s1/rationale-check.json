@@ -645,8 +645,8 @@
   ],
   "notes": "'Collect copay' is the only filled button in Brennan's panel. The toolbar 'New appt' and the queue 'Check in' buttons are also filled dark, so 'the one primary button' holds only within the panel. The rationale lists footer counts as 'under the date', but the render shows nothing there, so the 96-appointments and 0-no-shows counts are marked missing, not accounted for. Print day, Print labels and Export are counted as behind the visible 'Print / Export' menu.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.suite-0.8.1-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/06-redesign-legacy.suite-0.8.1-s1/check.reply.txt",
     "sha256": "7adbb3ee125db2fb2bd04dc0220b4aab6b4c0c818e5683bd2f89548ab272180c"
   },
-  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 1 contradicted, 0 not checkable; functions: 12 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/suite-0.8.1-s1.rationale-check.json."
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 1 contradicted, 0 not checkable; functions: 12 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at $EVAL_TMP/check/06-v1-superseded/suite-0.8.1-s1.rationale-check.json."
 }

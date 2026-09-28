@@ -104,7 +104,7 @@
   ],
   "notes": "Only one claim is contradicted: the teal is used more widely than NOTES.md says. The 12/14/17/20 px type scale is not assessed because sizes can't be measured reliably from the PNGs. Tap behaviour and large-font handling are not checkable from static renders.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.suite-0.8.1-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/04-miniprogram-list-zh.suite-0.8.1-s1/check.reply.txt",
     "sha256": "46def0b9b5040ce31f9d7c6194465b103c379f0622100fb5f63ec3095ce5929e"
   }
 }

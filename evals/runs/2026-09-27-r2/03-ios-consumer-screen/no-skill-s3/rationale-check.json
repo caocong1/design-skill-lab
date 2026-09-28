@@ -97,7 +97,7 @@
   ],
   "notes": "The NOTES say nothing about the one AA failure in facts.md: the cover text 'H. D. Thoreau' on today.png measures 4.43:1. facts.md also finds 2 targets under 44 px on both book.html and empty.html. The NOTES make no claim about target sizes, so this isn't a contradiction.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.no-skill-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/03-ios-consumer-screen.no-skill-s3/check.reply.txt",
     "sha256": "b9845105a20f3d6f500f1642a0a796a0102961e918e98bb8da15766bd22e5739"
   }
 }

@@ -102,7 +102,7 @@
   ],
   "notes": "Every claim holds up against the renders. Two small caveats: the approval action buttons sit below the 900px fold (run-approval-02.png), and the Steps list in the result's right rail uses checkmark icons without the 'Done' word. Claims about fonts and the build scripts can't be checked from the renders, so I left them out. facts.md: 0 AA text failures and no overflow on any page.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.no-skill-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/05-agent-approvals.no-skill-s1/check.reply.txt",
     "sha256": "91baf790b3e4ae67c8c730c0bfa94979c7d4d2a18c6e99295ee8b4361fa523bf"
   }
 }

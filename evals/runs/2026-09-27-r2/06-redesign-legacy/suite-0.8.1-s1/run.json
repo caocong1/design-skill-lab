@@ -15,7 +15,7 @@
   "host": {
     "claude_code_version": "2.1.283",
     "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json (evals/tools/run_round.sh)",
-    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/suites/47923a5/skills"
+    "skills_dir": "$EVAL_TMP/suites/47923a5/skills"
   },
   "result_event": true,
   "result_events": 1,
@@ -67,7 +67,7 @@
   },
   "cost_source": "last \"result\" event of the stream-json transcript (total_cost_usd, modelUsage, subagent_stats)",
   "transcript": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/transcripts/06-redesign-legacy.suite-0.8.1-s1.transcript.jsonl",
+    "path": "$EVAL_TMP/transcripts/06-redesign-legacy.suite-0.8.1-s1.transcript.jsonl",
     "sha256": "55216bac95043e84100e9776bf702c018952cfbeebf6567703d1e7286f2adbf4",
     "bytes": 8459121
   },
@@ -84,7 +84,7 @@
       "result_text": "You've hit your weekly limit · resets 2am (Asia/Shanghai)",
       "api_error_status": 429,
       "dollars": 2.433,
-      "kept_at": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/reruns/suite-0.8.1-s1.failed* (work dir /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/reruns/suite-0.8.1-s1.failed-429)",
+      "kept_at": "$EVAL_TMP/reruns/suite-0.8.1-s1.failed* (work dir $EVAL_TMP/reruns/suite-0.8.1-s1.failed-429)",
       "transcript_sha256": "fd032514c5ea2fb55338d1d2497af28e3b4503c1e91c4718829b51c77a53bedc"
     },
     {
@@ -97,7 +97,7 @@
       "result_text": "API Error: Can't reach the API server — check your internet or DNS (ENOTFOUND)",
       "api_error_status": null,
       "dollars": 0.4691,
-      "kept_at": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/reruns/suite-0.8.1-s1.failed-offline* (work dir /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/reruns/suite-0.8.1-s1.failed-offline)",
+      "kept_at": "$EVAL_TMP/reruns/suite-0.8.1-s1.failed-offline* (work dir $EVAL_TMP/reruns/suite-0.8.1-s1.failed-offline)",
       "transcript_sha256": "9e321710ec01b60bc22ba74aa0c120b52d2ad86bada45628bc5e6ed9f3f16daa"
     }
   ],

@@ -65,7 +65,7 @@
   },
   "cost_source": "last \"result\" event of the stream-json transcript (total_cost_usd, modelUsage, subagent_stats)",
   "transcript": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/transcripts/02-devtool-landing-en.no-skill-s2.transcript.jsonl",
+    "path": "$EVAL_TMP/transcripts/02-devtool-landing-en.no-skill-s2.transcript.jsonl",
     "sha256": "745519a1454b38a0daf052eeed6163decce680fffeef4784ba8c27374c879c0b",
     "bytes": 9581708
   },

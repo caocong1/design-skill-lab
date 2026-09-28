@@ -111,7 +111,7 @@
   ],
   "notes": "facts.md reports all four pages with 0 text nodes below AA, 0 target failures and no overflow. It also shows no truncation. The one mismatch is the claim that every status tag has an icon: the 'Not started' tags in run-progress-02.png are text only. The Stop run and Retry outcomes are described on screen, but the behaviour itself can't be checked in a static render.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.no-skill-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/05-agent-approvals.no-skill-s2/check.reply.txt",
     "sha256": "7c77cf70aa630d8b3b64bfb8adccbedeed5740def2562a3666491122064f7f81"
   }
 }

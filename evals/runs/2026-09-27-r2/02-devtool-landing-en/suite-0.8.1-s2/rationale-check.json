@@ -119,7 +119,7 @@
   ],
   "notes": "All text passes AA and nothing overflows (facts.md: 0 text nodes below AA, 0 overflow), which matches the lint claim. On desktop the merge example is split between desktop-02.png and desktop-03.png, and at the top of desktop-03 the sticky header covers part of the merged card. The yellow is also used to fill the step-1 'local' cylinder (desktop-02.png), which is not 'what changed'.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.suite-0.8.1-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/02-devtool-landing-en.suite-0.8.1-s2/check.reply.txt",
     "sha256": "ed8f019ca55a1ca8c64638e7c054aceefbb017f467573973ebec438d5eb115ae"
   }
 }

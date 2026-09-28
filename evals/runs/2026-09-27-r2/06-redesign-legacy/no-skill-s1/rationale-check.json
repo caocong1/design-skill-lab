@@ -638,8 +638,8 @@
   ],
   "notes": "Every checked claim matches the render. facts.md shows 0 AA contrast failures, 0 small-target failures and no overflow. The two legends were removed rather than moved; the rationale explains why, so they count as accounted for. The user-menu and More ▾ items rely on the rationale, because a static render can't show what the menus hold. Confirmed appointments carry no status word, but they're neutral grey, so no status depends on colour alone.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.no-skill-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/06-redesign-legacy.no-skill-s1/check.reply.txt",
     "sha256": "05e58e68df6106e52ca270e2565fb3028d3a80e7d4623776db8958ace9f29158"
   },
-  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 0 contradicted, 1 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/no-skill-s1.rationale-check.json."
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 0 contradicted, 1 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at $EVAL_TMP/check/06-v1-superseded/no-skill-s1.rationale-check.json."
 }

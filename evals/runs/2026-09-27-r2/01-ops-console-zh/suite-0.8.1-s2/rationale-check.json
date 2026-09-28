@@ -102,7 +102,7 @@
   ],
   "notes": "No claim was contradicted. Two small gaps: NOTES calls 剩 35分 '即将超时', but the screen shows no such label, only amber colour and a clock icon. Row 0402 is overdue and selected, and the blue selection tint replaces its red row tint; the red left rule and chip remain. Other claims also match the renders but are not listed: 86 pages, the 已挂起（等备件） two-line badge, and amber for 超时 20分修复.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.suite-0.8.1-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/01-ops-console-zh.suite-0.8.1-s2/check.reply.txt",
     "sha256": "c5c4e4a772e382669b440835143da5a9f8e5bb2befc23f1cf020456ff479cbae"
   }
 }

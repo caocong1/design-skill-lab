@@ -109,7 +109,7 @@
   ],
   "notes": "One contradiction: the notes say titles never split codes like LC-01, but the render splits it. Other claims were also verified but not listed: the derived values (已用 30 分, 超出 13.4/3.5 °C, 升高 22.3 °C, a progress bar at about 12.5%), 86 pages, the descending arrow on 创建时间, the masked phone number, and 添加处理记录/申请备件 each appearing twice. The facts file reports 0 text nodes below AA and no overflow.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.suite-0.8.1-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/01-ops-console-zh.suite-0.8.1-s1/check.reply.txt",
     "sha256": "3ee4004067c3626cdc2f06b8744355bd1e90d6cabe640cb41a0f20081e2b6a73"
   }
 }

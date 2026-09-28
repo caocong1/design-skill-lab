@@ -97,7 +97,7 @@
   ],
   "notes": "The colour claim covers only three named colours. It holds, but list.html still has 3 text nodes below AA: the grey '|' separators (#b7bac0, 1.94:1) in the card meta lines. NOTES does not mention them, and the brief asks for all text to pass AA. The claim that the masked list behind the panel says '共 3 个服务' can't be checked, because the panel covers it.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.no-skill-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/04-miniprogram-list-zh.no-skill-s2/check.reply.txt",
     "sha256": "22daa8ca161cb070f6af86c3e1dfbd383d24f8f5a9a39f7308969a38de5b2293"
   }
 }

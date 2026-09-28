@@ -651,8 +651,8 @@
   ],
   "notes": "Only one claim is contradicted: 'with their old labels'. All 12 actions are there, but some labels changed ('Resched.', '✓Checked In', 'Copay $25'). facts.md reports 1 text node below AA: a white-on-white sr-only 'Find patient' label. The rationale makes no AA claim. No function is missing. The Print / Export and user menus are closed in the render, and the rationale lists what they hold.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.no-skill-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/06-redesign-legacy.no-skill-s3/check.reply.txt",
     "sha256": "07f75284c19eef6c444c9f7468a190399baf3414fe26541e20e70c029a54478e"
   },
-  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 12 verified, 0 contradicted, 0 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/no-skill-s3.rationale-check.json."
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 12 verified, 0 contradicted, 0 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at $EVAL_TMP/check/06-v1-superseded/no-skill-s3.rationale-check.json."
 }

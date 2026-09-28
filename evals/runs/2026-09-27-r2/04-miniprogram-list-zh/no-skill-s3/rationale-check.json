@@ -104,7 +104,7 @@
   ],
   "notes": "Nearly everything NOTES describes shows up in the renders. The only mismatch is the contrast claim: the grey '·' separator in the location bar measures 2.64:1, which fails AA on all three screens. NOTES's layout numbers (content from 216px, tab bar top at 729) also roughly match the renders. The claims about type size and generation process can't be checked from a static render.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.no-skill-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/04-miniprogram-list-zh.no-skill-s3/check.reply.txt",
     "sha256": "72066f74e900c467ededa320d8cea59c44f6a7ef4479b0b81afeb49f8b6a298f"
   }
 }

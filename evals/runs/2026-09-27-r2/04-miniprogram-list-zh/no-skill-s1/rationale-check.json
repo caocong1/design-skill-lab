@@ -97,7 +97,7 @@
   ],
   "notes": "One NOTES claim is only partly checkable: no card has a separate 预约 button (visible), but the 4th card, which holds the long 「上门费 ¥50」 price, is cut off at the fold. So the claim that this price fits on one line can't be checked in the first screen.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.no-skill-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/04-miniprogram-list-zh.no-skill-s1/check.reply.txt",
     "sha256": "58cc09efc55a86c695f3b57494d593b205545cc2e86a7657ebbea92dd7e43742"
   }
 }

@@ -101,7 +101,7 @@
   ],
   "notes": "Other NOTES claims also match the renders: the 86-page pagination (list-02.png), SLA progress bars at about 60% and 12.5% (detail-01.png), the chart's 55 °C dashed limit with '08:50 超限' and the 68.4 °C label, and the striped photo placeholders (detail-02.png). NOTES makes no AA claim. facts.md shows one text node below AA on every page: the '李' avatar at 4.47:1.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.no-skill-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/01-ops-console-zh.no-skill-s2/check.reply.txt",
     "sha256": "321ad365c59a04be56928fad273769e0262002cae92abb4dd96e9655af32b523"
   }
 }

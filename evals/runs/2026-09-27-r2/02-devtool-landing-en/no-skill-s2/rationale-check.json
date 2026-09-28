@@ -111,7 +111,7 @@
   ],
   "notes": "All 12 claims check out or can't be checked visually; the renders contradict none of them. Font choice (Geist) and asset sources weren't listed as separate claims because a render can't prove them. facts.md reports 0 AA text failures, 0 undersized targets and no horizontal overflow at either size. The Driftless comparison column uses a green tint on desktop and a green left rule on mobile. NOTES.md doesn't claim this, so it isn't graded.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.no-skill-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/02-devtool-landing-en.no-skill-s2/check.reply.txt",
     "sha256": "011e07c7a04684e87efc8404ec5a627969e5a2b7a27256bdd9d15311f265058c"
   }
 }

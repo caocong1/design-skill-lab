@@ -12,7 +12,7 @@
   "host": {
     "claude_code_version": "2.1.283",
     "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
-    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/suites/0.8.0/skills"
+    "skills_dir": "$EVAL_TMP/suites/0.8.0/skills"
   },
   "result_event": true,
   "result_subtype": "success",
@@ -63,7 +63,7 @@
   },
   "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
   "transcript": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/06-redesign-legacy.suite-0.8.0.transcript.jsonl",
+    "path": "$EVAL_TMP/transcripts/06-redesign-legacy.suite-0.8.0.transcript.jsonl",
     "sha256": "617fd7eef46a7b50f92495885856136f4305894df0876a2712dbec20ad5c2a4b",
     "bytes": 7596804
   },

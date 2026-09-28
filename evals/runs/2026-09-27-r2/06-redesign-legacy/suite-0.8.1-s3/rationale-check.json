@@ -639,8 +639,8 @@
   ],
   "notes": "One claim is contradicted: the checklist ends with the Room step, not Collect $25.00, and 8 of the old actions are still a grid of similar-looking buttons. No function is missing. Only the month calendar and the user-menu items (preferences, change password, log out) are off-screen, and the rationale says where each went. facts.md reports 0 AA contrast failures, 0 undersized targets and no horizontal overflow.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.suite-0.8.1-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/06-redesign-legacy.suite-0.8.1-s3/check.reply.txt",
     "sha256": "b841af02c8b10f05e866e24cd4b51016877f829e9a4f1727736545953281d694"
   },
-  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 1 contradicted, 0 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/suite-0.8.1-s3.rationale-check.json."
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 1 contradicted, 0 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at $EVAL_TMP/check/06-v1-superseded/suite-0.8.1-s3.rationale-check.json."
 }

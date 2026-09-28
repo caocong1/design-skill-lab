@@ -111,7 +111,7 @@
   ],
   "notes": "The render matches all 12 claims. facts.md reports 0 AA text failures and no mobile overflow. The design's own NOTES mention only one mobile difference, the shorter release pill, but the render shows two more: the nav GitHub link loses its star count, and the copy button loses its 'Copy' label. Neither contradicts a claim.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.no-skill-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/02-devtool-landing-en.no-skill-s3/check.reply.txt",
     "sha256": "477d567ae11834f9a42bf06a014203f184890159ea357549bdd451fc59e00a73"
   }
 }

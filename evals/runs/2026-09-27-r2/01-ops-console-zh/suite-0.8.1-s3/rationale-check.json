@@ -102,7 +102,7 @@
   ],
   "notes": "I found no claims that the renders contradict. Other NOTES claims also match the renders but were left out: 按时修复 has a gray check, 0359 is amber, there are 86 pages, the processing log is newest-first, the photos are placeholders, and the response SLA bar is about 9/15 full. A static render cannot show the reduced-motion, :focus-visible and screen-reader claims.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.suite-0.8.1-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/01-ops-console-zh.suite-0.8.1-s3/check.reply.txt",
     "sha256": "e9b4ba7fcd5e2e7dbae6b26dbef3f013f6923e5d67104dade4cb28a6de4470ee"
   }
 }

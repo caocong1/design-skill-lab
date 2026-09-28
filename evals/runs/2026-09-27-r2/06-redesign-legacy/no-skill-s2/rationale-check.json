@@ -632,8 +632,8 @@
   ],
   "notes": "The same-day hold block is not in the 8:00–11:15 viewport, and neither rationale.md nor NOTES.md mentions it. It is probably further down the scrollable grid, but the render cannot confirm that. On the grid, confirmed cards show only '✓' with no word; 'Confirmed' appears only in the key strip. Lunch is accounted for only in NOTES.md, not in rationale.md.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.no-skill-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/06-redesign-legacy.no-skill-s2/check.reply.txt",
     "sha256": "8f14560d6d1290ce0e8bf6f49482cc025d845b5716f6708728ba68c8ee97d3d9"
   },
-  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 12 verified, 0 contradicted, 0 not checkable; functions: 13 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/no-skill-s2.rationale-check.json."
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 12 verified, 0 contradicted, 0 not checkable; functions: 13 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at $EVAL_TMP/check/06-v1-superseded/no-skill-s2.rationale-check.json."
 }

@@ -111,7 +111,7 @@
   ],
   "notes": "The only contradiction is the 'same structure' claim. The error and result status bars have no main control, and the result screen moves the plan to the bottom. facts.md reports 0 text nodes below AA, 0 failing targets and no overflow on all four screens, but NOTES.md does not claim these.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.no-skill-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/05-agent-approvals.no-skill-s3/check.reply.txt",
     "sha256": "f815dbbd2045b4b43938989fc56abbfe49e59411c3ce640e416a9da3f1ae6d84"
   }
 }

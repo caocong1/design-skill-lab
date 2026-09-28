@@ -638,8 +638,8 @@
   ],
   "notes": "Confirmed cells carry no status word; only non-default statuses are labelled. Same-day hold and lunch are not in the visible 8:00–11:00 part of the grid. They are marked accounted for only because the rationale says the grid scrolls to 1:30; it does not name them. The status-bar counts moved to the grid header. The Key popover, calendar, and both More menus are not drawn, so their contents rest on the rationale alone.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.suite-0.8.1-s2/check.reply.txt",
+    "path": "$EVAL_TMP/check/06-redesign-legacy.suite-0.8.1-s2/check.reply.txt",
     "sha256": "34da81bb2f027ffc17915997ec5630f3a3caf52f7a8e0621f8e9ec2a6ed4a2ab"
   },
-  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 12 verified, 0 contradicted, 0 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/suite-0.8.1-s2.rationale-check.json."
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 12 verified, 0 contradicted, 0 not checkable; functions: 9 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at $EVAL_TMP/check/06-v1-superseded/suite-0.8.1-s2.rationale-check.json."
 }

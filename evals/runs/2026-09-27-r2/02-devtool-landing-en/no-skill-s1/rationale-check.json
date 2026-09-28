@@ -111,7 +111,7 @@
   ],
   "notes": "I also checked two claims not listed above. Social proof is limited to 18.4k stars, 236 contributors and 1.2M downloads (desktop-01.png). The mobile page is 8055 px and was not truncated (facts.md). NOTES.md makes no contrast claim, but facts.md reports 2 text nodes below AA at both sizes. The lowest is 4.24:1: the orange \"Q3 roadmap\" text in the step 2 illustration.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.no-skill-s1/check.reply.txt",
+    "path": "$EVAL_TMP/check/02-devtool-landing-en.no-skill-s1/check.reply.txt",
     "sha256": "421bffd0ab3e285740b8694c8099bca1f611d53e0ac755b02386db1ca7ef1efe"
   }
 }

@@ -219,7 +219,7 @@ evals/runs/<date>/
       J1.json  J2.json  J3.json
 ```
 
-PNGs are not committed (`.gitignore`): the canonical frames are regenerated from `out/` with `render.mjs`, and a first frame per arm is kept as WebP under `docs/assets/showcase/<date>-evals/`. Transcripts can be large. Keep them next to `run.json` when small; otherwise store them outside git and record their
+PNGs are not committed (`.gitignore`): the canonical frames are regenerated from `out/` with `render.mjs`, and a first frame per arm is kept as WebP under `docs/assets/showcase/<date>-evals/`. Local paths in the run records are written as placeholders: `$EVAL_TMP` (the round's scratch folder), `<repo>` and `~`. Transcripts can be large. Keep them next to `run.json` when small; otherwise store them outside git and record their
 path and sha256 in `run.json`.
 
 ## Cost

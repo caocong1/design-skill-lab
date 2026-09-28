@@ -103,7 +103,7 @@
   ],
   "notes": "The first claim is only partly accurate for the result screen. There, the rail swaps permissions and activity log for Audit log and Files. Everything else matched the renders. Right-aligned amounts are visible in run-approval-01.png. The 'Approved by Dana Whitlock, 10:05:40' tag on step 4 is visible in run-result-02.png.",
   "checker_reply": {
-    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.suite-0.8.1-s3/check.reply.txt",
+    "path": "$EVAL_TMP/check/05-agent-approvals.suite-0.8.1-s3/check.reply.txt",
     "sha256": "5a0694141ffb6168a0d29ea43e0db844cc1b642e79289ad1532dcfcad3c56802"
   }
 }
