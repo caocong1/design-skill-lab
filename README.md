@@ -83,7 +83,7 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 **循环**（deep 走全程）：看宿主 → 真相文件（PRODUCT.md、brief、每个界面一份契约）→ 采集参考、出联系表 → 发散（找出品类的惯性 → 参照 → 带种子的随机抽取 → 每个方向一个隔离的子 agent → 方案板）→ 收敛（用户选）→ 系统（DESIGN.md + token）→ 按契约画 → 渲染与底线检查 → 在新上下文里独立评审 → 拔高 → 交付或交接 → 复盘。验证有上限：一轮批量截图、一批修复、至多一轮确认，剩下的如实交代。完整契约在 `skills/design-studio/SKILL.md`（200 行以内）。
 
-**迭代用语**：`bolder`、`quieter`、`distill`、`harden`、`clarify`、`typeset`、`recompose`、`colorize`、`delight`。一个词对应一种改法，其余不动。比如"标题区 typeset 一下"。
+**迭代用语**：`bolder`、`quieter`、`distill`、`harden`、`clarify`、`typeset`、`recompose`、`colorize`、`streamline`、`delight`。一个词对应一种改法，其余不动。比如"标题区 typeset 一下"。
 
 维护本仓库用的 `iterate-design-lab`（0.3.0）在 `.claude/skills/`，只在本仓库里可用，不随插件安装。
 
@@ -264,6 +264,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.8.5），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.9.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

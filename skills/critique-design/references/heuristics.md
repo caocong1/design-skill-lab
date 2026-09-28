@@ -1,8 +1,8 @@
 ---
 title: Heuristics (one ordered checklist)
 evidence: practice
-sources: [wcag-22, vercel-web-interface-guidelines, impeccable, hobday-visual-design-rules, laws-of-ux, clreq-chinese-text-layout, chinese-copywriting-guidelines, ooux-orca, change-aversion, shape-of-ai, ai-labelling-law]
-reviewed: 2026-09-27
+sources: [wcag-22, vercel-web-interface-guidelines, impeccable, hobday-visual-design-rules, laws-of-ux, clreq-chinese-text-layout, chinese-copywriting-guidelines, ooux-orca, change-aversion, shape-of-ai, ai-labelling-law, nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, carbon-notification-tooltip]
+reviewed: 2026-09-28
 review_by: 2027-09-27
 ---
 
@@ -44,8 +44,11 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 
 ## 2. Structure and flow `> Fit, Hierarchy`
 
-- Count the steps of the primary task. Look for dead ends, redundant steps, missing back paths and
-  confirmations nobody needs.
+- Cost the primary task from the shots: write it as a keystroke-level string (decisions `M`, points
+  `P`, clicks, keys, waits; [interaction](../../design-studio/references/disciplines/interaction.md)
+  section 1) and compare it with the contract's Task cost block. Look for dead ends, redundant steps,
+  missing back paths, confirmations nobody needs, re-asked data, and hunting: a target the user must
+  search for costs a decision each time.
 - Container fits the job: a modal only when the task needs interruption or protected focus;
   otherwise a sheet, panel, inline edit or page.
 - Navigation follows frequency (the function map): the most frequent job is at most one step from
@@ -127,6 +130,15 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 - Hover and focus popups can be dismissed with Esc, hovered without closing, and persist (WCAG
   1.4.13). Nothing is reachable only by hover on touch targets.
 - Every drag has a single-pointer alternative (WCAG 2.5.7).
+- Keyboard: Tab between components, arrows within; after a delete or a close, focus lands on the next
+  item or the opener, never the page top; selection looks different from focus. A job done many times
+  a day has a shortcut shown in menus and tooltips; no standard key is rebound; single-letter
+  shortcuts never fire inside a field (WCAG 2.1.4).
+- Text inputs that act on Enter or search as the user types state the input-method rule (Enter commits
+  the candidate, never sends); without a test by hand with a real IME, `needs confirmation`.
+- No error lives only in a timed toast; a toast with an action stays until closed; a tooltip holds a
+  name or brief context, never instructions or links. Nothing moves under the pointer: arriving
+  content does not push the row being acted on.
 - Motion has a job (cause and effect, orientation, continuity), is quick, can be interrupted and
   has a reduced-motion variant. Nothing flashes more than 3 times per second; autoplay longer than
   5 s beside content can be paused.

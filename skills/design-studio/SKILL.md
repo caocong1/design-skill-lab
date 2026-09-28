@@ -1,8 +1,8 @@
 ---
 name: design-studio
-description: "Designer for every design intent. Turns requirements into a complete design (product truth, captured references, distinct directions on an options board, a design system with DESIGN.md and tokens, screens across states and platforms, a handoff package), or designs one page, screen, component, flow, animation, icon, app icon, logo, poster, social or deck graphic. Redesigns a product from what it does; chooses colour and type; finds inspiration; writes handoff specs, annotations and asset slices. Draws in HTML/CSS/SVG and checks by rendering. 设计、UI、界面、页面、重设计、改版、整体优化、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案、设计系统、交接、切图、标注。Not for: reviewing or auditing an existing design or build (use critique-design); building an existing design or handoff in code (use implement-design); front-end bugs that involve no design decision."
+description: "Designer for every design intent. Turns requirements into a complete design (product truth, captured references, distinct directions on an options board, a design system with DESIGN.md and tokens, screens across states and platforms, a handoff package), or designs one page, screen, component, flow, animation, icon, app icon, logo, poster, social or deck graphic. Redesigns a product from what it does; chooses colour and type; finds inspiration; writes handoff specs, annotations and asset slices. Specifies interaction: task cost, keyboard, shortcuts, input methods, component behaviour. Draws in HTML/CSS/SVG and checks by rendering. 设计、UI、界面、页面、交互、易用性、快捷键、重设计、改版、整体优化、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案、设计系统、交接、切图、标注。Not for: reviewing or auditing an existing design or build (use critique-design); building an existing design or handoff in code (use implement-design); front-end bugs that involve no design decision."
 metadata:
-  version: 0.8.5
+  version: 0.9.0
   short-description: Design anything, from brief to handoff
 ---
 
@@ -24,8 +24,8 @@ metadata:
 Read in this order and no more; the route table names every file, so never list or `cat` the tree.
 - `quick`: this file; `--help` of the scripts you run at step 8; critique-design's heuristics at delivery.
 - `standard`: this file, one discipline file, and the platform file when the target is not the web.
-  Only when needed: portable-mockups (a non-web frame), cjk-typography's checklist (CJK text), a second
-  discipline (tables or charts), render-and-look (a capture fails). The critic reads the rubric, not you.
+  Only when needed: portable-mockups (a non-web frame), cjk-typography's checklist (CJK text), a second discipline
+  (tables or charts; interaction for a daily tool or text input), render-and-look (a capture fails). The critic reads the rubric, not you.
 - `deep`: this file and your mode's Start-with file; at step 2 hand discipline and platform paths to
   the direction subagents instead of reading them; load the rest at the step that uses it.
 
@@ -98,6 +98,7 @@ A short iteration request maps to one move. Keep everything else fixed and say w
 | `typeset` | scale, pairing, measure, leading, numerals, CJK rules | colour, layout |
 | `recompose` | grid, hierarchy, container, navigation; structural axes allowed | content, tokens |
 | `colorize` | colour strategy and roles, contrast recomputed | structure |
+| `streamline` | task cost: fewer decisions and steps, defaults and memory, actions on the object, a keyboard path ([interaction](references/disciplines/interaction.md)) | the look, the job |
 | `delight` | one motion or detail moment tied to the thesis, with a reduced-motion variant; never on actions repeated all day | everything else |
 
 ## Route: need > read
@@ -112,7 +113,7 @@ A short iteration request maps to one move. Keep everything else fixed and say w
 | Rendering, capture traps, verification rounds | [process/render-and-look](references/process/render-and-look.md) |
 | Handoff package, handoff.json, acceptance by screenshots | [process/handoff](references/process/handoff.md) |
 | Image-model comps and raster assets | [process/image-generation](references/process/image-generation.md) |
-| Screens, flows, state matrix, forms, navigation | [disciplines/product-ui](references/disciplines/product-ui.md) |
+| Screens, flows, state matrix, forms, navigation; task cost, keyboard, shortcuts, IME, component behaviour | [disciplines/product-ui](references/disciplines/product-ui.md), [interaction](references/disciplines/interaction.md) |
 | Tables, dashboards, big screens, charts | [disciplines/data-dense-ui](references/disciplines/data-dense-ui.md) |
 | AI features, agent runs, approvals, chat-host widgets, generative UI | [disciplines/ai-experience](references/disciplines/ai-experience.md) |
 | Landing, marketing, portfolio, editorial, store pages | [disciplines/marketing-sites](references/disciplines/marketing-sites.md) |
@@ -193,8 +194,7 @@ path in the references means that), `--help` first. Ladder and traps: [render-an
 - Subagents: one per direction with only its packet ([directions](references/process/directions.md) section 6), one fresh critic; without them, say so.
 - Optional generators (Stitch MCP, Figma MCP, an image model) are fast hands inside this loop, never outside it.
 
-Contract changes (modes, output layout, reference paths) are logged in [CHANGELOG](https://github.com/caocong1/design-skill-lab/blob/main/CHANGELOG.md).
-
 ## Feedback
 
 When a skill here is corrected, fails or lacks something, follow [feedback](references/feedback.md) (silent; a short retro closes the round).
+Contract changes (modes, output layout, reference paths) are logged in [CHANGELOG](https://github.com/caocong1/design-skill-lab/blob/main/CHANGELOG.md).

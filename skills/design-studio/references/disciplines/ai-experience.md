@@ -1,7 +1,7 @@
 ---
 title: AI experience (interaction patterns, agent control, hosted and generative UI, disclosure)
 evidence: digest
-sources: [shape-of-ai, ai-labelling-law, mcp-apps, openai-apps-sdk-ui, a2ui, web-baseline-2026]
+sources: [shape-of-ai, ai-labelling-law, mcp-apps, openai-apps-sdk-ui, a2ui, web-baseline-2026, ui-events-ime]
 reviewed: 2026-09-27
 review_by: 2026-12-02
 ---
@@ -67,7 +67,7 @@ Family names follow Shape of AI (shapeof.ai; CC BY-NC-SA, so paraphrase, never c
 
 | Part | Rule |
 | --- | --- |
-| Composer | grows with content (`field-sizing: content`, newly Baseline 2026, with a fallback); Enter sends and Shift+Enter breaks a line (the reverse for long-form tools; decide and show a hint); attachments, paste, drag-drop; send becomes stop while generating; the draft survives a failure; on mobile the field stays above the keyboard with the last message visible |
+| Composer | grows with content (`field-sizing: content`, newly Baseline 2026, with a fallback); Enter sends and Shift+Enter breaks a line (the reverse for long-form tools; decide and show a hint), never while an input method is composing ([interaction](interaction.md) section 4); attachments, paste, drag-drop; send becomes stop while generating; the draft survives a failure; on mobile the field stays above the keyboard with the last message visible |
 | Streaming | echo the user's message on send; the working indicator follows product-ui's loading timing and stops when output starts; a stable layout; follow the bottom only while the reader is there, else offer "jump to latest"; Markdown, code and tables render progressively without flicker; motion in [motion](motion.md) §3 |
 | Progress text | names the step and the object ("Checking 3 invoices against the bank feed"), never "Thinking…" or "Processing…" |
 | Showing work | one compact activity line that expands to tool calls, sources read and durations; finished steps collapse; a reasoning summary only when it helps judge the answer |

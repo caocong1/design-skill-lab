@@ -158,7 +158,7 @@ Another agent must be able to design a new screen from `DESIGN.md` alone.
 - Never use a token or component the host system cannot show in its source. Missing one: add it to
   the system first (extend), record why in decisions.md, then use it.
 - A component's behaviour is specified, not invented: name the ARIA Authoring Practices pattern it
-  follows and its keyboard map. Build on the host library or proven headless primitives; never
+  follows, its keyboard map and what the pattern leaves open ([interaction](../disciplines/interaction.md) section 5). Build on the host library or proven headless primitives; never
   specify a hand-rolled focus trap, combobox, menu or date picker.
 
 ## 7. Theming an existing component library

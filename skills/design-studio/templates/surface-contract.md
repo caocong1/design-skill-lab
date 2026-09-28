@@ -30,6 +30,12 @@ order of the primary task.>
 Above the fold (checked with `lint.mjs --above-fold`): <per viewport, the selectors that must end
 inside it, e.g. 1280x720: `h1, [data-component=PrimaryAction]`; 390x844: `h1, [data-component=PrimaryAction]`>
 
+## Task cost
+
+<Operate surfaces: each top job as a keystroke-level string with its estimate, before and after, pointer
+and keyboard paths (references/disciplines/interaction.md section 1), e.g. "派单: M P BB = 2.5 s (was
+M P BB · P BB · M P BB · M P BB · M P BB = 11.3 s); keyboard M K K K K = 2.3 s". Other modes: delete.>
+
 ## Form + seed
 
 <Type voice, colour strategy, layout grammar, density, shape, motion personality, with the DESIGN.md

@@ -2,7 +2,7 @@
 name: critique-design
 description: "Reviews, audits and scores an existing design or build like a senior design lead: a site, app screen, flow, component, brand asset, deck or graphic, from screenshots, a URL, mockups or a Figma export. Judges the render against the brief first, then checks the mechanical floor (computed contrast, overflow, targets, focus, states), and returns ranked findings (severity and evidence basis, Before | After | Why), rubric scores and a disposition: ship, fix, rebuild or recapture. Also the fresh-context critic for design-studio's own work, accessibility (WCAG 2.2) audits, and design QA that accepts a build against its handoff screenshots. 评审、设计评审、走查、体验走查、验收、设计验收、还原度检查、哪里不好、这个页面哪里不好看、无障碍检查、设计 QA、打分。Not for: making a new design or redesigning one (use design-studio); building or fixing a design in code (use implement-design); code review with no visual question."
 metadata:
-  version: 0.2.1
+  version: 0.3.0
   short-description: Fresh-eye design review, scoring and build acceptance
 ---
 
@@ -71,7 +71,7 @@ B caught, and B's false positives. Floor items no tool checked are `not verified
 
 | Persona | Probes | Pick for |
 | --- | --- | --- |
-| Power user | shortcuts, bulk actions, skippable steps, slow motion | admin, data-dense, daily tools |
+| Power user | task cost of the top jobs, keyboard path and shortcuts, bulk actions, skippable steps, slow motion | admin, data-dense, daily tools |
 | First-timer | first action clear within 5 s, unlabelled icons, jargon, proof of success | onboarding, landing, forms |
 | AT user | keyboard-only path, focus visible and unobscured, names, colour-only meaning, 200% zoom | every product surface |
 | Stress tester | 0, 1 and 1,000 items, longest strings, mixed scripts, errors, refresh mid-flow | tables, forms, checkout |

@@ -12,6 +12,49 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.9.0] - 2026-09-28
+
+交互与易用性：让"方便、快捷、舒心、高效"变成设计时能算、评审时能查的东西。新增一个 reference（MINOR）；模式、交付物目录不变，surface contract 模板多一个块。
+
+### 为什么
+
+盘点后发现套件的交互"地板"（焦点、目标尺寸、加载时序、表单、空状态）已经扎实，缺的是效率与行为：没有量化任务交互成本的方法（评审只写了"数一数步骤"）；组件的键盘模型、快捷键设计没有规则；中文输入法组字完全没人管——"选词回车就把消息发出去""搜索框在搜拼音字母"是中文产品最常见的交互缺陷之一；toast、tooltip、组合框等组件只写到"照 APG 做"，没写模式名之外必须决定的事。宿主复盘和评测里没有这方面的现场证据，所以本版全部依据新读的一手来源（见 `research/log.md` 2026-09-28）。
+
+### 新增（skill）
+
+- `skills/design-studio/references/disciplines/interaction.md`：交互成本、键盘模型、快捷键、输入法、组件行为表、顺手默认值的唯一所有者。
+  - §1 任务成本：每个高频任务写成 KLM 操作串（M 思考 1.2 s、P 指点 1.1 s、BB 点击 0.2 s、K 按键 0.28 s、H 换手 0.4 s、W 等待）相加，用来比较方向、改版前后、鼠标与键盘路径；附一个派单的算例（11.3 s → 2.5 s / 2.3 s）。规则："先砍思考和寻找，再砍点击"。
+  - §2 键盘模型：Tab 在组件间、方向键在组件内；删除和关闭后焦点的去处；选中与焦点区分；禁用项可聚焦并说明原因。
+  - §3 快捷键：只给高频任务、必须有常规路径、不改标准键、避开系统 / 读屏 / 浏览器占用的组合，以及中文输入法切换键；单字母快捷键遵守 WCAG 2.1.4；在菜单、tooltip、命令面板、`?` 面板里可见；命令面板支持拼音与首字母匹配。
+  - §4 输入法：组字期间回车只上屏，不发送、不提交；边打边搜、校验、字数统计等上屏后再响应；交付写明 `isComposing || keyCode === 229` 的双重判断（Safari 10.1–26.6 在完成组字的回车上报 false）；无头截图测不了，标"待确认"直到手测。
+  - §5 组件行为表：菜单、组合框、页面搜索、tooltip、toggletip、toast、行内编辑、选择与批量、排序拖拽、标签页、滑块、上传、复制按钮，每行写触发、按键、关闭与焦点去处、设计必须决定的事。
+  - §6 顺手与舒心：记住上次的选择、好的默认值、利用已知上下文、指针下的东西不乱动、可撤销与草稿不丢、同一动作同一名称同一位置、高频即时、手势跟手且破坏性操作松手才生效。
+  - §7 交付物与陷阱。
+- `skills/design-studio/SKILL.md` 0.8.5 → **0.9.0**：description 加"Specifies interaction"与"交互、易用性、快捷键"触发词；路由表 product-ui 一行并入 interaction；`standard` 阅读顺序允许把 interaction 作为第二个 discipline；新算子 **`streamline`**（降任务成本：少决定少步骤、默认值与记忆、操作到对象上、键盘路径；不动外观和任务）。为守住 200 行预算，"Contract changes"一句并入 Feedback 段。
+- `templates/surface-contract.md`：新增 **Task cost** 块（Operate 界面的操作串与估算，前后对比，鼠标与键盘路径）；critic 按截图重算。
+- `templates/handoff-spec.md`：Behaviour 节列出交互交付物（任务成本、键盘图与快捷键、组件的 APG 模式与待决项、输入法规则）。
+
+### 变更（skill）
+
+- `references/disciplines/product-ui.md`：加载段加响应时间三档（0.1 s 输入本身响应、1 s 保持思路、10 s 注意力离开，过 10 s 给百分比进度和停止）；数值仍只在这里。"Elsewhere"加 interaction。
+- `references/disciplines/ai-experience.md`：输入框"Enter 发送"加输入法例外。
+- `references/process/system.md`：组件行为除了 APG 模式名和键盘图，还要写模式留空的决定（链接 interaction §5）。
+- `references/platforms/desktop.md`：Keyboard 一行链接 interaction。
+- `skills/critique-design/SKILL.md` 0.2.1 → **0.3.0**：Power user 视角加"高频任务的成本、键盘路径与快捷键"。
+- `skills/critique-design/references/heuristics.md`：§2 由"数步骤"改为按截图写操作串并与 Task cost 块对照，额外查重复输入和"寻找"；§8 加键盘（焦点去处、选中与焦点、快捷键可见、不改标准键、WCAG 2.1.4）、输入法、toast / tooltip 内容、"不在指针下移动"。
+
+### 新增（证据层）
+
+- 6 份来源摘要：`nng-heuristics`、`wai-aria-apg`、`ui-events-ime`、`klm-kieras`、`rauno-interaction-details`、`carbon-notification-tooltip`；`wcag-22` 补第 32 条（2.1.4）。主题 03 加结论 14–18、未决问题和约束；`research/backlog.md` 勾掉 §4 第 2、11 项，登记第 13 项（触屏 KLM、子菜单斜向容差、原生平台输入法等缺口）。
+
+### 站点
+
+- `docs/skills/index.html`：disciplines 列表加 interaction 链接。
+
+### 未验证
+
+- 新规则还没有在宿主项目或评测里跑过。KLM 时间取自 Kieras 1993 的教学版（原论文未读）；子菜单斜向容差、拖拽的键盘拾取、复制按钮的原地反馈、中文输入法切换键冲突标为业内共识（practice）。
+
 ## [0.8.5] - 2026-09-28
 
 运行环境升到最新稳定版。suite 契约不变。

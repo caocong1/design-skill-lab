@@ -1,8 +1,8 @@
 ---
 title: Product UI (screens, flows, states)
 evidence: practice
-sources: [ooux-orca, vercel-web-interface-guidelines, wcag-22, laws-of-ux]
-reviewed: 2026-09-27
+sources: [ooux-orca, vercel-web-interface-guidelines, wcag-22, laws-of-ux, nng-heuristics]
+reviewed: 2026-09-28
 review_by: 2027-09-27
 ---
 
@@ -17,6 +17,7 @@ This file owns the model-to-screen step, archetypes, navigation structure, the s
 collection views, density, adaptive rules and product microcopy. Elsewhere:
 
 - Tables, dashboards, charts, data walls: [data-dense-ui](data-dense-ui.md). AI features, agent runs, chat-host widgets: [ai-experience](ai-experience.md).
+- Task cost, keyboard model, shortcuts, input methods, component behaviour, convenience defaults: [interaction](interaction.md).
 - The target's chrome, components and numbers: [platforms](../platforms/README.md), then [ios](../platforms/ios.md), [android](../platforms/android.md), [harmonyos](../platforms/harmonyos.md), [mini-programs](../platforms/mini-programs.md), [desktop](../platforms/desktop.md), [web](../platforms/web.md) or [embedded-hosts](../platforms/embedded-hosts.md).
 - Frames, units, the portable subset: [portable-mockups](../fundamentals/portable-mockups.md). Contrast, target and focus thresholds: [accessibility](../fundamentals/accessibility.md).
 
@@ -118,10 +119,12 @@ Three empty states are three different designs:
 
 A cleared queue ("全部处理完毕") is a success state, not an empty one: confirm it, then show what comes next.
 
-Loading: a skeleton shaped like the loaded layout. Spinners and skeletons appear only after 150-300 ms
-and stay at least 300-500 ms so they never flash. A loading button keeps its label and adds an indicator
-("保存中…"). Feedback within 400 ms feels immediate; past about 10 s show progress, let the user leave and
-notify on completion. A partial load never gets a whole-page spinner.
+Response time has three limits: within 0.1 s the input itself answers (pressed state, caret, a toggle
+flips, a drag follows); within 1 s the user's flow holds; past 10 s attention leaves. Feedback within
+400 ms feels immediate. Loading: a skeleton shaped like the loaded layout. Spinners and skeletons appear
+only after 150-300 ms and stay at least 300-500 ms so they never flash. A loading button keeps its label
+and adds an indicator ("保存中…"). Past about 10 s show percent-done progress and a way to stop, let the
+user leave and notify on completion. A partial load never gets a whole-page spinner.
 
 Make every designed state reachable by query parameter, as [portable-mockups](../fundamentals/portable-mockups.md)
 describes, with names from this matrix (`?state=empty-first`, `?state=no-results`, `?state=error`), so the

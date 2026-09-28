@@ -48,7 +48,9 @@ target size, accessible name.>
 ## Behaviour
 
 <Navigation in and out, gestures and their alternatives, keyboard and focus order, validation timing,
-empty and error handling, loading, refresh, pagination, offline, rotation, wide windows, large text.>
+empty and error handling, loading, refresh, pagination, offline, rotation, wide windows, large text.
+Per references/disciplines/interaction.md section 7: the top jobs' task cost, the keyboard map and
+shortcuts, each component's APG pattern and open decisions, the IME rule for Enter and live search.>
 
 ## Content
 
