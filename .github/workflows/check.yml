@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
       - name: Lab gates (G1-G9)
@@ -27,12 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
-      - uses: actions/setup-python@v5    # the smoke test serves docs/ with python's http.server
+      - uses: actions/setup-python@v7    # the smoke test serves docs/ with python's http.server
         with:
           python-version: '3.12'
       - run: npm ci
@@ -43,7 +43,7 @@ jobs:
         run: npm run smoke -- --json smoke-report.json
       - name: Keep the report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: smoke-report
           path: smoke-report.json
