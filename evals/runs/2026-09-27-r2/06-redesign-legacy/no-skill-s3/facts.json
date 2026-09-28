@@ -1,0 +1,27 @@
+[
+  {
+    "file": "schedule.html",
+    "viewport": "1280x800@1",
+    "status": "ok",
+    "method": "evals/tools/facts.mjs",
+    "frames_measured": 1,
+    "text_nodes": 376,
+    "contrast_measured": 375,
+    "contrast_from_pixels": 4,
+    "contrast_failures": 1,
+    "lowest_contrast": 1,
+    "lowest_contrast_where": "1:1 (needs 4.5) label.sr \"Find patient\" #ffffff on #ffffff, 13px",
+    "contrast_failure_examples": [
+      "1:1 (needs 4.5) label.sr \"Find patient\" #ffffff on #ffffff, 13px"
+    ],
+    "contrast_unmeasured": 0,
+    "contrast_unmeasured_reasons": {},
+    "contrast_exempt_disabled": 1,
+    "contrast_skipped_covered": 0,
+    "targets_checked": 54,
+    "targets_under_24": 0,
+    "targets_under_24_examples": [],
+    "images_missing_alt": 0,
+    "horizontal_overflow": false
+  }
+]

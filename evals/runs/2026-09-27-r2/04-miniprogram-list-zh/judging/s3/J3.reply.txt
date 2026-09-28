@@ -1,0 +1,23 @@
+```json
+{
+  "brief": "04-miniprogram-list-zh",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": [
+            "A/list.png: a time block on the left of each card ('今天 16:00 可上门') leads the card, so users can compare when someone can come, the price and the distance",
+            "A/filter.png: in-panel note '只改一个条件就有：改成明天 6 个 · 3 km 内 4 个' above the 重置 / 查看结果（0 个） buttons, which sit clear of the tab bar",
+            "A/filter.png + facts: 0 of 151 text nodes below AA, 0 targets under 44 px, and chosen chips shown by a border and a check mark, not colour alone"
+          ]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 3,
+          "evidence": [
+            "facts: the '·' separator in the location line measures 2.64:1 on all three screens; it is decorative, and primary text passes",
+            "B/list.png: the sort row shows only 综合排序▾ / 距离最近 / 价格最低, so 评分最高 is hidden in a dropdown"
+          ]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A passes every measured check, keeps all four sort options visible, and shows the relax-filter counts inside the zero-match filter panel. B fails contrast on the location separator and hides 评分最高."}
+  ],
+  "notes": "Both designs keep the navigation left of the capsule and vertically centred on it, have no back button, and draw a native four-item tab bar. B's empty state is slightly stronger: it has a filled 清除筛选 primary button and shows each original value, e.g. '(原 1 km 内)'. A's category row fades 管道疏通 at the right edge; this reads as a scroll hint, not clipping. B's orange-red prices are restrained rather than promotional."
+}
+```

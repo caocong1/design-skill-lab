@@ -1,0 +1,103 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.8.1-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/book.png",
+      "render/empty.png",
+      "render/today.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/03-ios-consumer-screen.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "Every cover placeholder has its top corner folded",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the Middlemarch and Walden covers have folded top-right corners; book.png: the large Middlemarch cover has a folded top-right corner"
+    },
+    {
+      "claim": "the empty state's \"slot for your first book\" is a dashed page with a folded corner",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: top of the first card shows a dashed page outline with a folded top-right corner and a red plus"
+    },
+    {
+      "claim": "Tabs are Today, Library, Stats, plus Search as the separate trailing search-role tab",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, book.png, empty.png: the capsule tab bar holds Today / Library / Stats, and a separate circular magnifying-glass button sits at the trailing end"
+    },
+    {
+      "claim": "Book detail is pushed from Library, so Library is the selected tab and the tab bar stays visible",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: Library tab is highlighted in red with a selection pill; the tab bar is visible at the bottom; a back chevron is at top left"
+    },
+    {
+      "claim": "On book detail, More (ellipsis, top trailing) opens a system menu",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: a circular ellipsis button sits top right. Only the button can be checked: the menu is not drawn, and NOTES says so"
+    },
+    {
+      "claim": "The dashed line is the 20-minute goal, and today's bar is hatched because the day is still in progress",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: This Week card has a dashed horizontal line with the legend '---- 20 min goal'; bars of 22–31 rise above it and bars of 18 sit below it; the Sun (12) bar is diagonally hatched, with its label in red"
+    },
+    {
+      "claim": "Highlights moved above Sessions on Book detail",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: the Highlights section (count 2, p.194 quote) follows the action buttons directly, with no Sessions section above it; Sessions is below the fold and not visible"
+    },
+    {
+      "claim": "Step one is the prominent Scan Barcode button; Search by Title and Import from a CSV File are the secondary and tertiary ways",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: Scan Barcode is a filled red capsule, Search by Title is a tinted capsule below it, and Import from a CSV File is a plain text button below that"
+    },
+    {
+      "claim": "The goal card shows the preset of 20 min with a stepper",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the second card reads 'Daily goal 20 min' with a −/+ stepper on the right"
+    },
+    {
+      "claim": "The floating tab bar ends 34 pt above the screen bottom, so no control sits in the home-indicator inset",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "all three PNGs: the tab bar bottom edge is at about 1678 px (≈839 pt), just above 840 pt (874 − 34); only the home indicator sits below it"
+    },
+    {
+      "claim": "Hierarchy on Today: 1) minutes left and streak, 2) Start Session / Log Pages, 3) week at a glance, 4) books ... Today shows Middlemarch fully and Walden passing under the tab bar",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: from top to bottom are the ring card ('8 minutes to go', '4-day streak · best 23'), then Start Session / Log Pages, then This Week, then Currently Reading; Middlemarch is fully shown and Walden fades under the tab bar"
+    },
+    {
+      "claim": "lint.mjs --platform ios: contrast, overflow, accessible names and 44 pt targets pass on all three screens",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: 0 text nodes below AA on today (0/37), book (0/25) and empty (0/14); 0 targets under 44 px; no horizontal overflow; 0 images without alt"
+    }
+  ],
+  "notes": "NOTES contradicts itself on lint. It says contrast passes on all screens, then says lint reported a contrast and a clipped-text finding on Today and Book. The harness facts show 0 contrast failures. In the renders, Walden's author line (today.png) and the last quote line (book.png) fade under the scroll edge and are hard to read. NOTES admits this and calls that text decorative.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.suite-0.8.1-s1/check.reply.txt",
+    "sha256": "03bab14618d869961982510b4c570e4a3e8befbac4e17ed685883bc3abf71bfe"
+  }
+}

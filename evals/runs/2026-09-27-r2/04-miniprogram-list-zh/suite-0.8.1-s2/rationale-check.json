@@ -1,0 +1,103 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "suite-0.8.1-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/empty.png",
+      "render/filter.png",
+      "render/list.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/04-miniprogram-list-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "每行最醒目的是「最早可约」时间块（今天 = 实心品牌绿，明天 = 浅绿底，更晚 = 灰底）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: row 1 '今天 16:00' is a solid dark-green block with white text. Rows 2–3 '明天 09:00/14:00' are light-green blocks with a green outline. No later-date row appears in the first screen, so the grey case cannot be seen."
+    },
+    {
+      "claim": "价格用黑色粗体放在右下角，不用促销红",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: ¥129起, ¥89/台 and ¥159/台 are black and bold at the bottom right of each row. No red is used."
+    },
+    {
+      "claim": "已服务次数保留 brief 的完整数字（12,480 次），不改写成「1.2 万」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: row 1 reads '已服务 12,480 次', and the other rows read 3,216 and 1,905."
+    },
+    {
+      "claim": "导航内容（位置切换）右边界约 216 px，与胶囊保持 >60 px 间距",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the location text and its chevron end near x≈213 CSS px. The capsule placeholder starts near x≈281, so the gap is more than 60 px and nothing overlaps the capsule."
+    },
+    {
+      "claim": "状态栏时间显示 13:20",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png, filter.png and empty.png: the status bar reads 13:20 at top left."
+    },
+    {
+      "claim": "筛选面板做成挂在排序栏下方的下拉面板，而不是底部弹层…遮罩只盖列表区域",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the panel opens directly below the sort bar and ends above the tab bar. A grey scrim strip is visible between the panel and the tab bar. The native tab bar is not covered."
+    },
+    {
+      "claim": "类目标签横向滚动，右侧渐隐 + 「全部类目」展开按钮",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the 5th tab, '管道…', fades out at the right edge, and a down-chevron button follows it. The '全部类目' label itself is not visible as text."
+    },
+    {
+      "claim": "筛选面板每组标题右侧的提示（「改成明天：6 个」「放宽到 3 km 内：4 个」「去掉「可开发票」：1 个」）…价格组没有提示",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: all three hints appear to the right of 上门时间, 距离 and 服务保障. The 价格 group has no hint."
+    },
+    {
+      "claim": "「服务人员」默认选中「不限」…不计入筛选数 3",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: 不限 is shown as selected, and the 筛选 badge reads 3. The selected chips are 今天, 1 km 内 and 可开发票."
+    },
+    {
+      "claim": "筛选打开时「筛选」按钮显示按下状态和收起箭头",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the 筛选 button has a light-green pressed background with an up-caret (^) and badge 3. In empty.png it shows the funnel icon instead."
+    },
+    {
+      "claim": "空状态的放宽建议按结果数从多到少排序（明天 6 > 3 km 4 > 发票 1）…已选条件以可移除的标签显示在顶部",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: rows are ordered 改成明天上门 6 个服务, 放宽到 3 km 内 4 个服务, 去掉「可开发票」1 个服务, each with a chevron. At the top are chips 今天 ×, 1 km 内 × and 可开发票 ×. That tapping applies a change cannot be seen in a static render."
+    },
+    {
+      "claim": "三屏的对比度、溢出、无名控件、44 px 触控目标全部通过",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: text below AA is 0/52, 0/47 and 0/34. Targets under 44 px: 0 on all three screens. There is no horizontal overflow and no images without alt."
+    }
+  ],
+  "notes": "Only the first screen of the list is visible, so the '更晚 = 灰底' time-block variant cannot be seen. Also consistent with NOTES but left out of the list: 「查看结果（0 个）」 is a primary button, and the selected tab-bar item changes colour but is not bold. 「最小字号 12 px」 could not be checked from the renders or facts.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.suite-0.8.1-s2/check.reply.txt",
+    "sha256": "005e69fa8151079d7b9685b2fdb12923e19101da3e7e0deca31c3c33969cf300"
+  }
+}

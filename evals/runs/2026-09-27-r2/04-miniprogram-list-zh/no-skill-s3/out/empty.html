@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1">
+<title>无结果 · 拾光到家</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.applied { height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 16px; background: #fff; }
+.ap { height: 28px; padding: 0 8px 0 10px; border-radius: 14px; background: var(--brand-tint); color: var(--brand-ink); font-size: 13px; display: flex; align-items: center; gap: 4px; white-space: nowrap; font-weight: 500; }
+.ap-clear { margin-left: auto; font-size: 13px; color: var(--text-2); white-space: nowrap; }
+.empty { text-align: center; padding: 20px 24px 0; }
+.empty h2 { font-size: 18px; font-weight: 600; line-height: 26px; margin-top: 10px; }
+.empty p { font-size: 14px; color: var(--text-2); line-height: 21px; margin-top: 4px; }
+.empty p b { color: var(--text); font-weight: 600; }
+.sugg { margin: 18px 12px 0; background: #fff; border-radius: 12px; overflow: hidden; }
+.sugg .sh { font-size: 13px; color: var(--text-2); padding: 12px 14px 4px; line-height: 18px; }
+.sr { display: flex; align-items: center; height: 52px; padding: 0 12px 0 14px; gap: 10px; }
+.sr + .sr { border-top: 0.5px solid var(--line); }
+.sr .lab { flex: 1; font-size: 15px; line-height: 20px; }
+.sr .lab .from { color: var(--text-2); font-size: 13px; }
+.sr .cnt { font-size: 14px; color: var(--brand); font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 2px; }
+.acts { display: flex; gap: 10px; padding: 16px 12px 0; }
+.acts span { flex: 1; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.acts .edit { background: #fff; border: 1px solid #C9CDD2; color: var(--text); }
+.acts .clear { background: var(--brand); color: #fff; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="top">
+<div class="statusbar">
+  <span class="time num">13:20</span>
+  <span class="sys">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#111"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#111"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#111"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#111"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0z" fill="#111"/><path d="M3.5 6.9a6.4 6.4 0 0 1 9 0" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round"/><path d="M1 4.3a10 10 0 0 1 14 0" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="#111" opacity=".4"/><rect x="2.5" y="2.5" width="16" height="8" rx="2" fill="#111"/><path d="M25 4.5v4a2 2 0 0 0 0-4z" fill="#111" opacity=".45"/></svg>
+  </span>
+</div>
+<div class="navbar">
+  <div class="loc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="#117A55"/><circle cx="12" cy="9.5" r="2.6" fill="#fff"/></svg><span>苏州<span class="dot"> · </span>工业园区<span class="dot"> · </span>星湖街</span><svg width="14" height="14" viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="#1A1A1A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="capsule" aria-hidden="true">
+    <div class="half"><svg width="20" height="6" viewBox="0 0 20 6"><circle cx="3" cy="3" r="2.2" fill="#111"/><circle cx="10" cy="3" r="3" fill="#111"/><circle cx="17" cy="3" r="2.2" fill="#111"/></svg></div>
+    <div class="sep"></div>
+    <div class="half"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7.3" fill="none" stroke="#111" stroke-width="1.6"/><circle cx="9" cy="9" r="3" fill="#111"/></svg></div>
+  </div>
+</div><div class="searchrow"><div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C5F66" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg><span>搜索服务，如「空调清洗」</span></div></div>
+<div class="cats"><div class="scroll"><span class="c">全部</span><span class="c">日常保洁</span><span class="c on">家电清洗</span><span class="c">家居维修</span><span class="c">管道疏通</span><span class="c">收纳整理</span><span class="c">搬家</span></div>
+  <div class="more" aria-label="全部类目"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.8"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></div></div>
+<div class="sortbar">
+  <span class="s on">综合排序<svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 4.5 6 7.5 9 4.5" fill="none" stroke="#117A55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  <span class="s">距离最近</span>
+  <span class="s">价格最低</span>
+  <span class="filter on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.2" stroke-linejoin="round"><path d="M3 5h18l-7 8.5V20l-4-2v-4.5z"/></svg>筛选<span class="badge num">3</span></span>
+</div></div>
+<div class="content">
+  <div class="applied">
+    <span class="ap">今天<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+    <span class="ap">1 km 内<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+    <span class="ap">可开发票<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+    <span class="ap-clear">清除全部</span>
+  </div>
+  <div class="empty">
+    <svg width="120" height="84" viewBox="0 0 120 84" style="margin:0 auto" fill="none">
+  <ellipse cx="60" cy="76" rx="44" ry="5" fill="#E3E6EA"/>
+  <path d="M60 10c-14 0-24 10-24 23 0 17 24 38 24 38s24-21 24-38c0-13-10-23-24-23z" fill="#EAF5EF" stroke="#117A55" stroke-width="2.5"/>
+  <circle cx="60" cy="33" r="13" fill="#fff" stroke="#117A55" stroke-width="2.5"/>
+  <path d="M55 33h10" stroke="#117A55" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="20" cy="46" r="3" fill="#CFE6DB"/><circle cx="98" cy="22" r="4" fill="#CFE6DB"/><circle cx="102" cy="54" r="2.5" fill="#CFE6DB"/>
+</svg>
+    <h2>暂时没有符合条件的服务</h2>
+    <p>今天在星湖街 <b>1 km 内</b>，<br>没有<b>可开发票</b>的家电清洗服务</p>
+  </div>
+  <div class="sugg">
+    <div class="sh">放宽一个条件就有结果：</div>
+    <div class="sr"><span class="lab">距离放宽到 3 km 内 <span class="from">（原 1 km 内）</span></span><span class="cnt"><span class="num">4</span> 个服务<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></div>
+    <div class="sr"><span class="lab">上门时间改成明天 <span class="from">（原今天）</span></span><span class="cnt"><span class="num">6</span> 个服务<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></div>
+    <div class="sr"><span class="lab">不要求可开发票</span><span class="cnt"><span class="num">1</span> 个服务<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#117A55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg></span></div>
+  </div>
+  <div class="acts"><span class="edit">修改筛选</span><span class="clear">清除筛选</span></div>
+</div>
+
+<div class="tabbar">
+  <div class="items">
+    <div class="t"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#62666D" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20a.5.5 0 0 1-.5.5h-5v-6h-6v6H4a.5.5 0 0 1-.5-.5z"/></svg>首页</div>
+    <div class="t on"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2" fill="#117A55"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="3.75" fill="#117A55"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="2" fill="#117A55"/><rect x="13" y="13" width="7.5" height="7.5" rx="2" fill="#117A55"/></svg>服务</div>
+    <div class="t"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#62666D" stroke-width="1.8" stroke-linecap="round"><rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M8.5 8.5h7M8.5 12.5h7M8.5 16.5h4"/></svg>订单</div>
+    <div class="t"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#62666D" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c1.2-4 4.3-6 8-6s6.8 2 8 6" stroke-linecap="round"/></svg>我的</div>
+  </div>
+  <div class="safe"><span class="home-ind"></span></div>
+</div>
+</body>
+</html>

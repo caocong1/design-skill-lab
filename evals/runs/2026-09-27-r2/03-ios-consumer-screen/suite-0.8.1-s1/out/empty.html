@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=402, initial-scale=1">
+<title>Dogear · Today (first run)</title>
+<style>
+/* Dogear · iOS 26 mockup tokens and components. 1 CSS px = 1 pt. Light appearance.
+   Glass, the scroll edge effect, status bar and home indicator are labelled approximations:
+   the system draws them (see NOTES.md). */
+
+:root {
+  color-scheme: light;
+  /* colour roles (light) */
+  --paper: #f4f1ea;          /* systemGroupedBackground, warm */
+  --card: #ffffff;           /* secondarySystemGroupedBackground */
+  --fill: #ebe6dc;           /* track, quiet fill */
+  --separator: rgb(60 50 30 / 0.14);
+  --label: #1d1b18;          /* 15.2:1 on paper */
+  --label-2: #6a655d;        /* 5.1:1 on paper, 5.8:1 on card */
+  --label-3: #8c867c;        /* non-text only: rules, chart marks (3.6:1 on card) */
+  --accent: #9a3324;         /* bookcloth red: 7.3:1 on card, 6.5:1 on paper; white on it 7.3:1 */
+  --on-accent: #ffffff;
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, white);   /* accent text on it 6.0:1 */
+  --glass-fill: rgb(250 250 252 / 0.74);
+  --glass-rim: rgb(0 0 0 / 0.08);
+  --glass-hi: rgb(255 255 255 / 0.9);
+  --glass-shadow: rgb(0 0 0 / 0.14);
+  /* book cloths (covers are designed placeholders) */
+  --cloth-middlemarch: #2f4a3a;
+  --cloth-walden: #34506b;
+  --cloth-pillow: #7a3b2e;
+  --foil: #e9d7a8;           /* 5.6 to 6.8:1 on every cloth */
+
+  /* type: SF Pro via system-ui; New York stood in by Iowan Old Style */
+  --sf: system-ui, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --ny: "New York", "Iowan Old Style", "Source Serif 4", Georgia, serif;
+
+  /* spacing (4 pt grid), radii */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px;
+  --margin: 20px;            /* compact-width layout margin */
+  --r-card: 26px;            /* inset grouped card */
+  --r-cover: 4px;
+
+  /* frame */
+  --safe-top: 62px; --safe-bottom: 34px;
+  --toolbar-h: 44px;
+  --tab-h: 62px; --tab-inset: 20px; --tab-bottom: 34px;   /* bar ends above the home-indicator inset */
+  --clear-bottom: calc(var(--tab-bottom) + var(--tab-h) + 24px);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 402px; height: 874px; overflow: hidden; background: var(--paper); }
+body {
+  font-family: var(--sf); color: var(--label);
+  font-size: 17px; line-height: 22px; letter-spacing: -0.43px;
+  -webkit-font-smoothing: antialiased; font-synthesis: none;
+}
+button { font: inherit; letter-spacing: inherit; color: inherit; border: 0; background: none; padding: 0; margin: 0; cursor: pointer; }
+h1, h2, h3, p, ol, ul, figure, blockquote { margin: 0; padding: 0; }
+ol, ul { list-style: none; }
+svg { display: block; flex: none; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---- text styles (Dynamic Type, Large) ---- */
+.t-large  { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.4px; }
+.t-title1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: 0.38px; }
+.t-title2 { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.26px; }
+.t-title3 { font-size: 20px; line-height: 25px; font-weight: 600; letter-spacing: -0.45px; }
+.t-headline { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; }
+.t-body   { font-size: 17px; line-height: 22px; letter-spacing: -0.43px; }
+.t-callout{ font-size: 16px; line-height: 21px; letter-spacing: -0.31px; }
+.t-subhead{ font-size: 15px; line-height: 20px; letter-spacing: -0.23px; }
+.t-footnote { font-size: 13px; line-height: 18px; letter-spacing: -0.08px; }
+.t-caption { font-size: 12px; line-height: 16px; letter-spacing: 0; }
+.t-caption2 { font-size: 11px; line-height: 13px; letter-spacing: 0.06px; }
+.serif { font-family: var(--ny); letter-spacing: 0; }
+.muted { color: var(--label-2); }
+.strong { font-weight: 600; }
+
+/* ---- frame: status bar, island, home indicator ---- */
+.status {
+  position: absolute; z-index: 20; inset: 0 0 auto; height: var(--safe-top);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 32px 0 50px;
+  pointer-events: none; color: #000;
+}
+.status-time { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; font-variant-numeric: tabular-nums; width: 54px; text-align: center; }
+.status-icons { display: flex; align-items: center; gap: 7px; }
+.island { position: absolute; z-index: 21; top: 11px; left: 50%; translate: -50% 0; width: 124px; height: 37px; border-radius: 19px; background: #000; }
+.home { position: absolute; z-index: 20; inset: auto 0 0; height: var(--safe-bottom); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; pointer-events: none; }
+.home i { display: block; width: 144px; height: 5px; border-radius: 3px; background: #000; }
+
+/* ---- scaffold ---- */
+.screen { position: absolute; inset: 0; overflow: hidden; }
+.scroll {
+  position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none;
+  padding: var(--safe-top) 0 var(--clear-bottom);
+  scroll-padding: calc(var(--safe-top) + var(--toolbar-h)) 0 var(--clear-bottom);
+}
+.scroll::-webkit-scrollbar { display: none; }
+
+/* ---- glass (labelled approximation of Liquid Glass, regular) ---- */
+.glass {
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(14px) saturate(1.8); backdrop-filter: blur(14px) saturate(1.8);
+  box-shadow: inset 0 0 0 0.5px var(--glass-rim), inset 0 1px 0 var(--glass-hi), 0 8px 24px -8px var(--glass-shadow);
+}
+
+/* ---- toolbar (navigation bar) ---- */
+.toolbar {
+  position: absolute; z-index: 10; inset: var(--safe-top) 0 auto; height: var(--toolbar-h);
+  display: flex; align-items: center; gap: var(--s2); padding: 0 16px;
+}
+.toolbar .spacer { flex: 1; }
+.tb-btn { width: 44px; height: 44px; border-radius: 22px; display: grid; place-items: center; color: var(--label); }
+.tb-btn svg { width: 22px; height: 22px; }
+
+/* ---- scroll edge effect (bottom, soft) ---- */
+.edge-bottom {
+  position: absolute; z-index: 8; inset: auto 0 0; height: 126px; pointer-events: none;
+  background: linear-gradient(rgb(244 241 234 / 0), rgb(244 241 234 / 0.96) 30px);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+  -webkit-mask: linear-gradient(transparent, #000 30px); mask: linear-gradient(transparent, #000 30px);
+}
+
+/* ---- tab bar: floating glass, trailing search tab ---- */
+.tabbar {
+  position: absolute; z-index: 12; left: var(--tab-inset); right: var(--tab-inset); bottom: var(--tab-bottom);
+  display: flex; align-items: center; gap: 10px;
+}
+.tabs { flex: 1; height: var(--tab-h); border-radius: calc(var(--tab-h) / 2); display: flex; align-items: center; padding: 4px; }
+.tab {
+  position: relative; flex: 1; height: 54px; border-radius: 27px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: 0.1px; color: var(--label);
+  text-decoration: none;
+}
+.tab svg { width: 28px; height: 28px; }
+.tab[aria-current="page"] { color: var(--accent); background: rgb(0 0 0 / 0.06); }
+.search-tab { width: var(--tab-h); height: var(--tab-h); border-radius: 50%; display: grid; place-items: center; color: var(--label); }
+.search-tab svg { width: 25px; height: 25px; }
+
+/* ---- page header (large title in the content, under a 44 pt toolbar row) ---- */
+.page-head { padding: calc(var(--toolbar-h) + 2px) var(--margin) 0; }
+.page-head .sub { margin-top: 2px; }
+
+/* ---- sections and cards ---- */
+.section { padding: 0 var(--margin); }
+.section + .section { margin-top: 28px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px 8px; }
+.card { background: var(--card); border-radius: var(--r-card); }
+
+/* ---- buttons (capsules) ---- */
+.btn {
+  height: 50px; border-radius: 25px; padding: 0 20px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; white-space: nowrap;
+}
+.btn svg { width: 20px; height: 20px; }
+.btn-prominent { background: var(--accent); color: var(--on-accent); }
+.btn-tinted { background: var(--accent-soft); color: var(--accent); }
+.btn-gray { background: var(--fill); color: var(--label); }
+.btn-row { display: flex; gap: 10px; }
+.btn-row > .btn { flex: 1; min-width: 0; }
+
+/* ---- lists (inset grouped) ---- */
+.list { background: var(--card); border-radius: var(--r-card); padding: 0; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 11px 20px; position: relative; }
+.row + .row::before { content: ""; position: absolute; top: 0; right: 0; left: var(--sep-left, 20px); height: 0.5px; background: var(--separator); }
+.row .grow { flex: 1; min-width: 0; }
+.chev { color: var(--label-3); width: 9px; height: 15px; }
+
+/* ---- designed cover placeholder ---- */
+.cover {
+  position: relative; flex: none; border-radius: var(--r-cover) 6px 6px var(--r-cover);
+  display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;
+  color: var(--foil); font-family: var(--ny);
+  box-shadow: inset 3px 0 0 rgb(0 0 0 / 0.18), 0 1px 2px rgb(0 0 0 / 0.18), 0 4px 10px -4px rgb(0 0 0 / 0.3);
+}
+.cover::after {  /* the dog-ear: top-right corner folded down */
+  content: ""; position: absolute; top: 0; right: 0; width: var(--ear, 12px); height: var(--ear, 12px);
+  background: linear-gradient(225deg, var(--ear-bg, var(--card)) 50%, color-mix(in srgb, var(--foil) 70%, white) 50%);
+}
+.cover[data-book="middlemarch"] { background: var(--cloth-middlemarch); }
+.cover[data-book="walden"] { background: var(--cloth-walden); }
+.cover[data-book="pillow"] { background: var(--cloth-pillow); }
+.cover .rule { height: 1px; background: currentColor; opacity: 0.6; }
+
+/* ---- progress bar ---- */
+.bar { height: 6px; border-radius: 3px; background: var(--fill); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 3px; background: var(--accent); }
+</style>
+<style>
+  .start { padding: 20px 20px 14px; display: flex; flex-direction: column; }
+  .slot { display: flex; justify-content: center; margin: 0 0 14px; }
+  .slot svg { width: 50px; height: 72px; }
+  .start h2 { margin-bottom: 6px; text-align: center; }
+  .start .lede { text-align: center; }
+  .start .lede { margin-bottom: 20px; }
+  .start .btn { width: 100%; }
+  .start .btn + .btn { margin-top: 10px; }
+  .start .btn-gray { background: transparent; color: var(--accent); height: 44px; margin-top: 4px !important; }
+
+  .goal { padding: 18px 20px; }
+  .goal-row { display: flex; align-items: center; gap: 12px; }
+  .goal-row .grow { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .stepper { display: flex; align-items: center; height: 44px; border-radius: 22px; background: var(--fill); }
+  .stepper button { width: 52px; height: 44px; display: grid; place-items: center; color: var(--label); }
+  .stepper button svg { width: 18px; height: 18px; }
+  .stepper i { width: 1px; height: 20px; background: var(--separator); }
+  .streak-note { display: flex; align-items: center; gap: 10px; margin-top: 16px; padding-top: 14px; border-top: 0.5px solid var(--separator); }
+  .streak-note svg { width: 15px; height: 17px; color: var(--label-2); }
+</style>
+</head>
+<body>
+<div class="screen" data-component="TodayScreen" data-state="empty-first">
+  <main class="scroll">
+    <header class="page-head">
+      <h1 class="t-large">Today</h1>
+      <p class="sub t-subhead muted">Sunday 27 September</p>
+    </header>
+
+    <section class="section" style="margin-top:18px" aria-labelledby="start-h">
+      <div class="card start" data-component="FirstBookCard">
+        <div class="slot">
+          <svg viewBox="0 0 64 92" aria-hidden="true">
+            <path d="M3 2h44l15 15v71a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="var(--paper)" stroke="var(--label-3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <path d="M47 2v13a2 2 0 0 0 2 2h13z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M31.5 38v18M22.5 47h18" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 id="start-h" class="t-title2">Add the book you’re reading</h2>
+        <p class="lede t-body muted">Paper or e-book. Your streak, sessions and highlights start here.</p>
+        <button class="btn btn-prominent" data-component="PrimaryAction" data-icon="barcode.viewfinder">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 6V4a2 2 0 0 1 2-2h2M14 2h2a2 2 0 0 1 2 2v2M18 14v2a2 2 0 0 1-2 2h-2M6 18H4a2 2 0 0 1-2-2v-2"/><path d="M6 6.5v7M8.6 6.5v7M11 6.5v7M14 6.5v7" stroke-width="1.6"/></svg>Scan Barcode</button>
+        <button class="btn btn-tinted" data-icon="magnifyingglass">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="8.8" cy="8.8" r="5.6"/><path d="m13 13 4.6 4.6"/></svg>Search by Title</button>
+        <button class="btn btn-gray" data-icon="square.and.arrow.down">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.5v10M6.3 8.8 10 12.5l3.7-3.7"/><path d="M6.5 6.5H5a2 2 0 0 0-2 2V16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2h-1.5"/></svg>Import from a CSV File</button>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="goal-h">
+      <div class="card goal" data-component="GoalSetting">
+        <div class="goal-row">
+          <div class="grow">
+            <h2 id="goal-h" class="t-headline">Daily goal</h2>
+            <p class="t-title2 num" style="font-weight:600">20 min</p>
+          </div>
+          <div class="stepper" role="group" aria-label="Adjust daily goal" data-component="Stepper">
+            <button aria-label="Decrease goal" data-icon="minus"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3.5 9h11"/></svg></button>
+            <i aria-hidden="true"></i>
+            <button aria-label="Increase goal" data-icon="plus"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 3.5v11M3.5 9h11"/></svg></button>
+          </div>
+        </div>
+        <p class="streak-note t-footnote muted"><svg viewBox="0 0 15 17" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" data-icon="flame"><path d="M7.6 1c.4 2.3 1.8 3.6 3.2 5.1 1.7 1.7 3.1 3.5 3.1 5.9 0 2.6-2.6 4.3-6.4 4.3S1.1 14.6 1.1 12c0-1.9 1-3.4 2.1-4.5.2 1.1.7 2 1.6 2.6-.1-3.4 1.2-6.4 2.8-9.1z"/></svg>Your streak counts each day with at least one reading session. It starts with your first.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="edge-bottom" aria-hidden="true" data-material="scroll-edge-soft"></div>
+  <!-- tab bar: system component on Liquid Glass (regular). Tabs: sun.max.fill, books.vertical.fill, chart.bar.fill; search role: magnifyingglass -->
+<nav class="tabbar" aria-label="Sections" data-component="TabBar" data-material="glass-regular">
+  <div class="tabs glass">
+    <a class="tab" href="#" data-tab="today" aria-current="page" data-icon="sun.max.fill">
+      <svg viewBox="0 0 28 28" fill="currentColor" aria-hidden="true"><circle cx="14" cy="14" r="5.2"/><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 3.2v2.6M14 22.2v2.6M3.2 14h2.6M22.2 14h2.6M6.4 6.4l1.8 1.8M19.8 19.8l1.8 1.8M6.4 21.6l1.8-1.8M19.8 8.2l1.8-1.8"/></g></svg>
+      <span>Today</span></a>
+    <a class="tab" href="#" data-tab="library" data-icon="books.vertical.fill">
+      <svg viewBox="0 0 28 28" fill="currentColor" aria-hidden="true"><rect x="4" y="5" width="5.5" height="18" rx="1.3"/><rect x="11" y="5" width="5.5" height="18" rx="1.3"/><rect x="17.6" y="6.2" width="5.5" height="17.2" rx="1.3" transform="rotate(-14 20.3 14.8)"/></svg>
+      <span>Library</span></a>
+    <a class="tab" href="#" data-tab="stats" data-icon="chart.bar.fill">
+      <svg viewBox="0 0 28 28" fill="currentColor" aria-hidden="true"><rect x="4.5" y="14" width="5" height="9.5" rx="1.4"/><rect x="11.5" y="8" width="5" height="15.5" rx="1.4"/><rect x="18.5" y="4.5" width="5" height="19" rx="1.4"/></svg>
+      <span>Stats</span></a>
+  </div>
+  <a class="search-tab glass" href="#" data-tab="search" data-icon="magnifyingglass" aria-label="Search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5.1 5.1"/></svg>
+  </a>
+</nav>
+
+</div>
+<!-- status bar, Dynamic Island, drawn by the system -->
+<div class="status" aria-hidden="true" data-component="SystemStatusBar">
+  <span class="status-time">9:41</span>
+  <span class="status-icons">
+    <svg width="19" height="12" viewBox="0 0 19 12" fill="currentColor"><rect y="7.5" width="3.2" height="4.5" rx=".9"/><rect x="5.2" y="5" width="3.2" height="7" rx=".9"/><rect x="10.4" y="2.5" width="3.2" height="9.5" rx=".9"/><rect x="15.6" width="3.2" height="12" rx=".9"/></svg>
+    <svg width="17" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.6 5.7 9.3a3.3 3.3 0 0 1 4.6 0zM3.1 6.7a6.9 6.9 0 0 1 9.8 0l-1.4 1.4a4.9 4.9 0 0 0-7 0zM.4 4a10.7 10.7 0 0 1 15.2 0l-1.4 1.4a8.7 8.7 0 0 0-12.4 0z"/></svg>
+    <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2.4" fill="currentColor"/><path d="M25 4.5v4c.8-.3 1.4-1 1.4-2s-.6-1.7-1.4-2z" fill="currentColor" fill-opacity=".45"/></svg>
+  </span>
+</div>
+<div class="island" aria-hidden="true"></div>
+
+<div class="home" aria-hidden="true" data-component="SystemHomeIndicator"><i></i></div>
+
+</body>
+</html>

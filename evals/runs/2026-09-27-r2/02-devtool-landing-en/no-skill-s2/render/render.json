@@ -1,0 +1,45 @@
+{
+  "brief": "evals/briefs/02-devtool-landing-en.md",
+  "rendered": "2026-09-28T01:29:25.360Z",
+  "items": [
+    {
+      "html": "index.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "desktop-01.png",
+        "desktop-02.png",
+        "desktop-03.png",
+        "desktop-04.png",
+        "desktop-05.png",
+        "desktop-06.png",
+        "desktop-07.png"
+      ],
+      "page_height": 6120,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "index.html",
+      "viewport": "390x844@2",
+      "status": "ok",
+      "frames": [
+        "mobile-01.png",
+        "mobile-02.png",
+        "mobile-03.png",
+        "mobile-04.png",
+        "mobile-05.png",
+        "mobile-06.png",
+        "mobile-07.png",
+        "mobile-08.png",
+        "mobile-09.png",
+        "mobile-10.png"
+      ],
+      "page_height": 8029,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

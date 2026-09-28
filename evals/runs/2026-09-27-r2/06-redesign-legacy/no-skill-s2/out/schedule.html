@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Schedule · AlderCare Scheduler</title>
+<meta name="viewport" content="width=1280">
+<style>
+  :root {
+    --navy: #1b365a; --navy-2: #24466f;
+    --ink: #111827; --ink-2: #374151; --muted: #4b5563; --faint: #6b7280;
+    --line: #d1d5db; --line-2: #e5e7eb; --bg: #f3f4f6; --panel: #ffffff;
+    --here: #166534; --here-bg: #dcfce7; --here-bd: #16a34a;
+    --room: #1e3a8a; --room-bg: #dbeafe; --room-bd: #2563eb;
+    --unc: #7c2d12; --unc-bg: #ffedd5; --unc-bd: #ea580c;
+    --risk: #991b1b; --risk-bg: #fee2e2; --risk-bd: #dc2626;
+    --sel: #1b365a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font: 13px/1.35 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink); background: var(--bg); display: flex; flex-direction: column; height: 800px; overflow: hidden; }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  .ico { display: inline-block; width: 1.1em; text-align: center; font-style: normal; }
+
+  /* ---------- top bar ---------- */
+  #top { flex: none; height: 48px; background: var(--navy); color: #fff; display: flex; align-items: center; gap: 14px; padding: 0 12px; }
+  .logo { font-weight: 700; font-size: 16px; letter-spacing: -0.2px; white-space: nowrap; }
+  .logo span { font-weight: 400; color: #c7d5e8; font-size: 12px; margin-left: 4px; }
+  #top select { height: 30px; border-radius: 6px; border: 1px solid #4b6a92; background: var(--navy-2); color: #fff; padding: 0 6px; font-size: 12.5px; }
+  .search { flex: 1; max-width: 470px; margin-left: 10px; position: relative; }
+  .search input { width: 100%; height: 34px; border-radius: 8px; border: 2px solid #8fb0d8; background: #fff; color: var(--ink);
+    padding: 0 12px 0 34px; font-size: 14px; }
+  .search input::placeholder { color: #4b5563; }
+  .search .ico { position: absolute; left: 10px; top: 8px; color: #374151; font-size: 15px; }
+  .search kbd { position: absolute; right: 8px; top: 7px; font: 11px/18px inherit; font-family: inherit; color: #374151; border: 1px solid #9ca3af; border-radius: 4px; padding: 0 5px; background: #f9fafb; }
+  .top-right { margin-left: auto; display: flex; align-items: center; gap: 14px; font-size: 12.5px; white-space: nowrap; }
+  .clock { font-weight: 600; }
+  .clock span { font-weight: 400; color: #d7e2f0; }
+  .user { height: 30px; border-radius: 6px; border: 1px solid #4b6a92; background: transparent; color: #fff; padding: 0 10px; font-size: 12.5px; }
+
+  /* ---------- tabs (same order as 3.2) ---------- */
+  #tabs { flex: none; height: 36px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: stretch; padding: 0 8px; gap: 2px; }
+  #tabs a { display: flex; align-items: center; gap: 5px; padding: 0 10px; color: var(--ink-2); text-decoration: none; font-size: 13px; border-bottom: 3px solid transparent; white-space: nowrap; }
+  #tabs a.on { color: var(--navy); font-weight: 700; border-bottom-color: var(--navy); }
+  .count { display: inline-block; min-width: 18px; padding: 0 5px; border-radius: 9px; background: #e5e7eb; color: var(--ink); font-size: 11px; line-height: 17px; text-align: center; font-weight: 600; }
+  .count.hot { background: #b91c1c; color: #fff; }
+
+  /* ---------- toolbar ---------- */
+  #bar { flex: none; height: 50px; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; padding: 0 12px; }
+  .btn { height: 32px; padding: 0 12px; border-radius: 6px; border: 1px solid #9ca3af; background: #fff; color: var(--ink); font-size: 13px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn:hover { background: #f3f4f6; }
+  .btn.icon { width: 32px; padding: 0; justify-content: center; font-size: 15px; }
+  .btn.primary { background: #15803d; border-color: #166534; color: #fff; font-weight: 600; }
+  .btn.blue { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; }
+  .btn.sm { height: 28px; padding: 0 9px; font-size: 12.5px; }
+  .btn.danger { color: #991b1b; border-color: #d4a3a3; }
+  .datebox { font-size: 15px; font-weight: 700; margin: 0 4px 0 4px; white-space: nowrap; height: 32px; border: 1px solid transparent; border-radius: 6px; background: none; padding: 0 6px; }
+  .datebox span { font-size: 11px; color: var(--muted); }
+  .datebox:hover { border-color: #9ca3af; }
+  .seg { display: inline-flex; border: 1px solid #9ca3af; border-radius: 6px; overflow: hidden; }
+  .seg button { height: 30px; border: 0; background: #fff; padding: 0 11px; font-size: 13px; border-left: 1px solid #d1d5db; }
+  .seg button:first-child { border-left: 0; }
+  .seg button.on { background: var(--navy); color: #fff; font-weight: 600; }
+  #bar select { height: 32px; border-radius: 6px; border: 1px solid #9ca3af; background: #fff; padding: 0 6px; font-size: 13px; }
+  #bar label { font-size: 12.5px; color: var(--muted); }
+  .spacer { flex: 1; }
+  .vsep { width: 1px; height: 24px; background: var(--line); margin: 0 2px; }
+
+  /* ---------- main ---------- */
+  #main { flex: 1; min-height: 0; display: grid; grid-template-columns: 234px minmax(0, 1fr) 324px; grid-template-rows: minmax(0, 1fr); }
+  #main > * { min-height: 0; }
+  .rail { background: #fff; border-right: 1px solid var(--line); overflow: hidden; display: flex; flex-direction: column; }
+  .sec { padding: 9px 12px 8px; border-bottom: 1px solid var(--line-2); }
+  .sec h2 { margin: 0 0 6px; font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+  .sec h2 .more { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 500; color: #1d4ed8; text-decoration: underline; font-size: 12px; min-height: 24px; min-width: 40px; display: inline-flex; align-items: center; justify-content: flex-end; }
+
+  .totals { display: flex; gap: 14px; padding: 8px 12px; border-bottom: 1px solid var(--line-2); font-size: 11.5px; white-space: nowrap; color: var(--muted); background: #f9fafb; }
+  .totals b { color: var(--ink); font-size: 13px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .stat { border: 1px solid var(--line-2); border-radius: 6px; padding: 3px 7px; background: #fafafa; }
+  .stat b { display: block; font-size: 17px; line-height: 21px; }
+  .stat span { font-size: 11px; color: var(--muted); }
+
+  .plist { list-style: none; margin: 0; padding: 0; }
+  .plist li { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-top: 1px solid #f0f1f3; }
+  .plist li:first-child { border-top: 0; }
+  .plist .who { flex: 1; min-width: 0; }
+  .plist .who b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .plist .who small { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+  .mins { text-align: right; font-size: 11px; color: var(--muted); line-height: 1.1; white-space: nowrap; }
+  .mins b { display: block; font-size: 17px; color: var(--ink); }
+  .plist li.sel { background: #eef4fb; margin: 0 -12px; padding: 4px 12px; box-shadow: inset 3px 0 0 var(--sel); }
+
+  .todo { display: flex; align-items: center; gap: 7px; padding: 3px 0; font-size: 12.5px; min-height: 34px; }
+  .todo .chip { width: 34px; justify-content: center; }
+  .todo .t { flex: 1; min-width: 0; line-height: 1.2; }
+  .todo .t small { display: block; color: var(--muted); font-size: 11.5px; }
+  .todo-sub { font-size: 11.5px; color: var(--ink-2); padding: 0 0 4px 0; white-space: nowrap; }
+  .wl { list-style: none; margin: 0; padding: 0; font-size: 12.5px; }
+  .wl li { padding: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wl li span { color: var(--muted); }
+
+  /* ---------- chips (status = icon + word + colour) ---------- */
+  .chip { display: inline-flex; align-items: center; gap: 3px; height: 18px; padding: 0 6px; border-radius: 9px; font-size: 11.5px; font-weight: 600; white-space: nowrap; border: 1px solid transparent; }
+  .chip.here { background: var(--here-bg); color: var(--here); border-color: #86efac; }
+  .chip.room { background: var(--room-bg); color: var(--room); border-color: #93c5fd; }
+  .chip.unc { background: var(--unc-bg); color: var(--unc); border-color: #fdba74; }
+  .chip.risk { background: var(--risk-bg); color: var(--risk); border-color: #fca5a5; }
+  .chip.cx { background: #f3f4f6; color: #4b5563; border-color: #d1d5db; }
+
+  /* ---------- day grid ---------- */
+  #gridwrap { display: flex; flex-direction: column; min-width: 0; background: #fff; border-right: 1px solid var(--line); }
+  .keyline { flex: none; height: 34px; display: flex; align-items: center; gap: 10px; padding: 0 10px; border-bottom: 1px solid var(--line-2); font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; }
+  .keyline .conf { color: var(--ink-2); font-weight: 600; }
+  .keyline .openk { color: #1d4ed8; font-weight: 600; }
+  .keyline .totals { margin-left: auto; color: var(--ink-2); }
+  .keyline .totals b { color: var(--ink); }
+  #scroll { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; }
+  #grid { display: grid; grid-template-columns: 50px repeat(4, minmax(0, 1fr)); position: relative; }
+  .colh { position: sticky; top: 0; z-index: 5; background: #f8fafc; border-bottom: 1px solid #9ca3af; border-left: 1px solid var(--line-2); padding: 5px 8px 5px; height: 48px; }
+  .colh b { display: block; font-size: 13.5px; white-space: nowrap; }
+  .colh small { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .colh.tm { border-left: 0; }
+  .tcell { font-size: 11.5px; color: var(--muted); text-align: right; padding: 3px 6px 0 0; border-top: 1px solid var(--line-2); background: #fafafa; }
+  .tcell.hr { color: var(--ink); font-weight: 700; border-top-color: #cbd5e1; }
+  .slot { border-top: 1px solid var(--line-2); border-left: 1px solid var(--line-2); }
+  .slot.hr { border-top-color: #cbd5e1; }
+
+  .ap { z-index: 2; margin: 2px 3px; border-radius: 5px; border: 1px solid #cbd5e1; border-left: 5px solid #94a3b8; background: #fff;
+        padding: 2px 6px 2px 6px; min-width: 0; overflow: hidden; display: flex; flex-direction: column; gap: 1px; }
+  .ap .l1 { display: flex; align-items: baseline; gap: 5px; min-width: 0; }
+  .ap .nm { font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ap .ag { font-size: 11px; color: var(--muted); white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .ap .l1 .nm { flex: 0 0 auto; max-width: 100%; }
+  .ap .l2 { display: flex; align-items: center; gap: 4px; min-width: 0; font-size: 11.5px; color: var(--ink-2); }
+  .ap .rs { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .ap .ok { color: var(--muted); flex: none; }
+  .ap .l3 { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ap.here { border-left-color: var(--here-bd); background: #f3fcf6; }
+  .ap.room { border-left-color: var(--room-bd); background: #f3f7ff; }
+  .ap.unc  { border-left-color: var(--unc-bd); border-left-style: dashed; }
+  .ap.cx   { background: #f9fafb; border-color: #e5e7eb; border-left-color: #d1d5db; }
+  .ap.cx .nm { text-decoration: line-through; color: #4b5563; font-weight: 600; }
+  .ap.sel  { outline: 3px solid var(--sel); outline-offset: -1px; box-shadow: 0 2px 6px rgba(27,54,90,.25); }
+  .ap.dbl  { border: 2px solid var(--risk-bd); border-left-width: 5px; background: #fff; padding-top: 1px; gap: 0; }
+  .dblh { font-size: 11px; font-weight: 700; color: var(--risk); display: flex; align-items: center; gap: 3px; }
+  .dbl .row { display: flex; gap: 5px; align-items: baseline; min-width: 0; }
+  .dbl .row .nm { font-size: 12.5px; }
+  .blk { z-index: 1; margin: 2px 3px; border-radius: 5px; background: repeating-linear-gradient(45deg, #eef0f3 0 6px, #f7f8fa 6px 12px);
+         border: 1px solid #e5e7eb; color: var(--muted); font-size: 12px; font-style: italic; padding: 3px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .open { z-index: 1; margin: 2px 3px; border-radius: 5px; border: 1px dashed #93a3b8; background: #fff; color: #1d4ed8; font-size: 12.5px; font-weight: 600;
+          display: flex; align-items: center; padding: 0 8px; gap: 5px; }
+  .open span { font-weight: 400; color: var(--muted); font-size: 11.5px; }
+  .lunch { grid-column: 2 / 6; z-index: 1; margin: 2px 3px; border-radius: 5px; background: repeating-linear-gradient(45deg, #eef0f3 0 6px, #f7f8fa 6px 12px);
+           color: var(--muted); font-size: 12px; display: flex; align-items: center; justify-content: center; font-style: italic; border: 1px solid #e5e7eb; }
+  .now { position: absolute; left: 50px; right: 0; height: 0; border-top: 2px solid #b91c1c; z-index: 1; pointer-events: none; }
+  .now span { position: absolute; left: -5px; top: -5px; width: 8px; height: 8px; border-radius: 50%; background: #b91c1c; }
+
+  /* ---------- details panel ---------- */
+  #detail { background: #fff; overflow: hidden; display: flex; flex-direction: column; }
+  .pt { padding: 8px 14px 8px; border-bottom: 1px solid var(--line-2); }
+  .pt .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); display: flex; justify-content: space-between; }
+  .pt h1 { margin: 0 0 1px; font-size: 19px; line-height: 24px; }
+  .pt h1 a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #9ca3af; }
+  .pt .meta { font-size: 12px; color: var(--ink-2); }
+  .pt .statusline { margin-top: 6px; display: flex; gap: 6px; align-items: center; font-size: 12px; }
+  .alerts { margin: 8px 14px 0; border: 2px solid var(--risk-bd); border-radius: 7px; background: #fff7f7; padding: 6px 10px; }
+  .alerts h3 { margin: 0 0 3px; font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--risk); display: flex; align-items: center; gap: 5px; }
+  .alerts div { font-size: 12.5px; padding: 1px 0; display: flex; gap: 6px; }
+  .alerts div b { color: var(--risk); }
+  .alerts .ico { color: var(--risk); font-weight: 700; }
+  .ci { margin: 8px 14px 0; }
+  .ci h3, .ap-d h3 { margin: 0 0 4px; font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+  .step { display: flex; align-items: center; gap: 8px; min-height: 32px; border-top: 1px solid #f0f1f3; font-size: 12.5px; }
+  .step:first-of-type { border-top: 0; }
+  .step .mk { width: 18px; height: 18px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+  .step .mk.done { background: #15803d; color: #fff; }
+  .step .mk.todo { border: 2px solid #c2410c; color: #c2410c; background: #fff; }
+  .step .tx { flex: 1; min-width: 0; line-height: 1.25; }
+  .step .tx small { display: block; color: var(--muted); font-size: 11.5px; }
+  .step .tx b.due { color: #9a3412; }
+  .checkin { margin-top: 4px; width: 100%; height: 40px; border-radius: 7px; border: 1px solid #166534; background: #15803d; color: #fff; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .checkin small { font-weight: 400; font-size: 12px; opacity: .95; }
+  .ap-d { margin: 7px 14px 0; }
+  .kv { display: grid; grid-template-columns: 62px 1fr; gap: 1px 8px; font-size: 12px; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; }
+  .acts { margin: 7px 14px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+  .acts .btn { height: 28px; padding: 0 4px; justify-content: center; font-size: 12.5px; }
+  .visits { margin: 8px 14px 0; font-size: 11.5px; color: var(--ink-2); border-top: 1px solid var(--line-2); padding-top: 6px; }
+  .visits b { color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; font-size: 11px; margin-right: 4px; }
+
+  /* ---------- status footer ---------- */
+  #foot { flex: none; height: 28px; background: #e5e7eb; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding: 0 12px; font-size: 11.5px; color: #374151; white-space: nowrap; }
+  #foot .refresh { height: 24px; margin-left: -8px; padding: 0 8px; border: 1px solid #9ca3af; border-radius: 4px; background: #fff; font-size: 11.5px; }
+  #foot .notice { color: #7c2d12; font-weight: 600; }
+  #foot .r { margin-left: auto; }
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="logo">AlderCare <span>Scheduler</span></div>
+  <select aria-label="Location"><option>Alder Street Family Practice – Main</option><option>Alder Street – Eastside Annex</option></select>
+  <div class="search">
+    <i class="ico" aria-hidden="true">⌕</i>
+    <input type="search" aria-label="Find patient" placeholder="Find patient: last name, first name, DOB or MRN">
+    <kbd>/</kbd>
+  </div>
+  <div class="top-right">
+    <div class="clock">8:04 AM <span>Mon 09/28/2026</span></div>
+    <button class="user" aria-haspopup="menu" title="Preferences · Change Password · Logout">mlopez · Front Desk ▾</button>
+  </div>
+</header>
+
+<nav id="tabs" aria-label="Sections">
+  <a href="#">Home</a>
+  <a href="#" class="on" aria-current="page">Schedule</a>
+  <a href="#">Patients</a>
+  <a href="#">Check-In</a>
+  <a href="#">Waitlist <span class="count">4</span></a>
+  <a href="#">Recalls</a>
+  <a href="#">Billing</a>
+  <a href="#">Insurance / Eligibility</a>
+  <a href="#">Reports</a>
+  <a href="#">Messages <span class="count hot">3</span></a>
+  <a href="#">Tasks</a>
+  <a href="#">Inventory</a>
+  <a href="#">Admin</a>
+  <a href="#">Help</a>
+</nav>
+
+<div id="bar">
+  <button class="btn icon" aria-label="Previous day">‹</button>
+  <button class="btn">Today</button>
+  <button class="btn icon" aria-label="Next day">›</button>
+  <button class="datebox" aria-label="Pick a date">Monday, September 28, 2026 <span aria-hidden="true">▾</span></button>
+  <div class="seg" role="group" aria-label="View"><button class="on">Day</button><button>Week</button><button>Month</button></div>
+  <select aria-label="Provider"><option>All providers</option></select>
+  <div class="spacer"></div>
+  <button class="btn">Print / Export ▾</button>
+  <button class="btn">Block Time</button>
+  <button class="btn">Walk-In</button>
+  <button class="btn">Find Slot</button>
+  <button class="btn blue">+ New Appt</button>
+</div>
+
+<main id="main">
+  <!-- ======== left: who is here, what needs doing ======== -->
+  <aside class="rail" aria-label="Front desk">
+    <div class="totals"><span><b>96</b> booked</span><span><b>0</b> late</span><span><b>0</b> no-show</span></div>
+    <section class="sec">
+      <h2><span class="chip here">● Waiting room · 3</span></h2>
+      <ul class="plist">
+        <li class="sel"><div class="who"><b>Brennan, Harold</b><small>Rao · 8:00 · arrived 7:52</small></div><div class="mins"><b>12</b>min</div></li>
+        <li><div class="who"><b>Chen, Robert</b><small>Kim · 8:15 · arrived 7:58</small></div><div class="mins"><b>6</b>min</div></li>
+        <li><div class="who"><b>Natarajan, Priya</b><small>Rao · 8:15 · arrived 8:01</small></div><div class="mins"><b>3</b>min</div></li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h2><span class="chip room">▣ In room · 2</span></h2>
+      <ul class="plist">
+        <li><div class="who"><b>Wright, Jamal</b><small>Ortega · Room 7 since 7:55</small></div><div class="mins"><b>9</b>min</div></li>
+        <li><div class="who"><b>Johansson, Mia</b><small>Feld · Room 4 since 7:57</small></div><div class="mins"><b>7</b>min</div></li>
+      </ul>
+    </section>
+
+    <section class="sec">
+      <h2>To do</h2>
+      <div class="todo"><span class="chip unc">? 8</span><div class="t">unconfirmed<small>today</small></div><button class="btn sm">Remind</button></div>
+      <div class="todo"><span class="chip risk">! 2</span><div class="t">not verified<small>insurance</small></div><button class="btn sm">Verify</button></div>
+      <div class="todo-sub">Liu, Grace 9:30 · Soto, Elena 10:30</div>
+      <div class="todo"><span class="chip unc">? 3</span><div class="t">unconfirmed<small>tomorrow</small></div><button class="btn sm">View</button></div>
+    </section>
+
+    <section class="sec" style="border-bottom:0">
+      <h2>Waitlist 4 <a class="more" href="#">Open</a></h2>
+      <ul class="wl">
+        <li>Pham, Linh <span>· Rao · any AM</span></li>
+        <li>Sutter, Greg <span>· Ortega · sick</span></li>
+        <li>Adeyemi, Tolu <span>· Feld · WCC</span></li>
+        <li>Brandt, Ilse <span>· Kim · flu shot</span></li>
+      </ul>
+    </section>
+  </aside>
+
+  <!-- ======== centre: the day ======== -->
+  <section id="gridwrap" aria-label="Day schedule">
+    <div class="keyline">
+      <span class="chip here">● Here · 3</span>
+      <span class="chip room">▣ In room · 2</span>
+      <span class="chip unc">? Unconfirmed · 8</span>
+      <span class="chip risk">! Insurance · 2</span>
+      <span class="conf">✓ Confirmed</span>
+      <span class="openk">+ Open slot · 14 today</span>
+    </div>
+    <div id="scroll"><div id="grid"></div></div>
+  </section>
+
+  <!-- ======== right: selected appointment ======== -->
+  <aside id="detail" aria-label="Selected appointment">
+    <div class="pt">
+      <h1><a href="#">Brennan, Harold J</a></h1>
+      <div class="meta">75 y · M · DOB 03/14/1951 · MRN 00482913</div>
+      <div class="statusline"><span class="chip here">● Here · waiting 12 min</span><span>arrived 7:52 AM</span></div>
+    </div>
+
+    <div class="alerts" role="alert">
+      <h3>⚠ Patient alerts · 3</h3>
+      <div><i class="ico">!</i><span><b>Allergy: PENICILLIN</b> (rash)</span></div>
+      <div><i class="ico">$</i><span><b>Balance overdue $140.00</b> · 64 days</span></div>
+      <div><i class="ico">i</i><span>Large-print forms · hard of hearing R ear</span></div>
+    </div>
+
+    <div class="ci">
+      <h3>Check-in</h3>
+      <div class="step"><span class="mk done" aria-label="Done">✓</span><div class="tx">Insurance verified 09/25/2026<small>BlueStar PPO #BSP-7730-2291</small></div><button class="btn sm">Eligibility</button></div>
+      <div class="step"><span class="mk todo" aria-label="To do">$</span><div class="tx"><b class="due">Copay $25.00 not collected</b></div><button class="btn sm">Collect</button></div>
+      <button class="checkin">✓ Check In <small>Brennan · Rao 8:00</small></button>
+    </div>
+
+    <div class="ap-d">
+      <h3>Appointment</h3>
+      <dl class="kv">
+        <dt>When</dt><dd><b>8:00–8:15 AM</b> (15 min) · Follow-Up</dd>
+        <dt>Provider</dt><dd>Rao, Anita MD · Room not assigned</dd>
+        <dt>Reason</dt><dd>F/U hypertension, BP recheck after med change</dd>
+        <dt>Phone</dt><dd>(555) 014-2297 H · (555) 014-8830 C</dd>
+        <dt>Reminder</dt><dd>SMS 09/27 6:00 PM · replied C</dd>
+        <dt>Booked</dt><dd>jsmith · 09/14/2026 2:31 PM</dd>
+      </dl>
+    </div>
+
+    <div class="acts">
+      <button class="btn">Room</button><button class="btn">Check Out</button><button class="btn">Reschedule</button>
+      <button class="btn">Edit</button><button class="btn">Reminder</button><button class="btn">Notes</button>
+      <button class="btn">Print</button><button class="btn danger">No Show</button><button class="btn danger">Cancel Appt</button>
+    </div>
+
+    <div class="visits"><b>Recent visits</b>08/31/26 Rao F/U · 07/02/26 Rao Sick · 01/19/26 Rao Physical · 10/06/25 Kim Vaccine</div>
+  </aside>
+</main>
+
+<footer id="foot">
+  <span>Updated 8:04 AM</span><button class="refresh">↻ Refresh</button>
+  <span class="notice">System maintenance: Sat 10/03 10:00 PM – Sun 2:00 AM</span>
+  <span class="r">Server ACS-APP02 · Build 3.2.7.1184</span>
+</footer>
+
+<script>
+/* Same appointments as AlderCare 3.2, Mon 09/28/2026, 8:00 AM – 1:30 PM. */
+const TIMES = ['8:00','8:15','8:30','8:45','9:00','9:15','9:30','9:45','10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','LUNCH','1:00','1:15','1:30'];
+const HOUR_LABEL = { '8:00':'8 AM', '9:00':'9 AM', '10:00':'10 AM', '11:00':'11 AM', '1:00':'1 PM' };
+const PROVIDERS = [
+  { name:'Rao, Anita MD',    sub:'Family Med · Rm 1–3', note:'2 waiting' },
+  { name:'Feld, Marcus MD',  sub:'Pediatrics · Rm 4–5', note:'1 in room' },
+  { name:'Kim, Joanna NP',   sub:'Family Med · Rm 6',   note:'1 waiting' },
+  { name:'Ortega, Luis PA',  sub:'Urgent / Sick · Rm 7', note:'1 in room' },
+];
+const TYPE = { np:'New Patient', fu:'Follow-Up', ph:'Physical', sk:'Sick Visit', vx:'Vaccine', th:'Telehealth', pr:'Procedure' };
+// c = provider column, t = start, n = number of 15-min slots
+const A = [
+  // Rao
+  {c:0,t:'8:00', n:1,nm:'Brennan, Harold', ag:'75M', rs:'F/U HTN', ty:'fu', st:'here', w:12, sel:true},
+  {c:0,t:'8:15', n:1,nm:'Natarajan, Priya', ag:'34F', rs:'sore throat', ty:'sk', st:'here', w:3},
+  {c:0,t:'8:30', n:3,nm:'Okafor, Walter', ag:'58M', rs:'Annual physical + fasting labs', ty:'ph', st:'conf'},
+  {c:0,t:'9:15', n:1,blk:'Rx refills / admin'},
+  {c:0,t:'9:30', n:2,nm:'Liu, Grace', ag:'29F', rs:'New pt – transfer from Dr. Marsh', ty:'np', st:'unc', ins:true},
+  {c:0,t:'10:00',n:1,nm:'Herrera, Tomas', ag:'47M', rs:'F/U diabetes A1c', ty:'fu', st:'conf'},
+  {c:0,t:'10:15',n:1,nm:'Marsh, Evelyn', ag:'81F', rs:'F/U – needs wheelchair', ty:'fu', st:'conf'},
+  {c:0,t:'10:30',n:1,nm:'Kowalski, Daniel', ag:'39M', rs:'Tele F/U anxiety', ty:'th', st:'conf'},
+  {c:0,t:'10:45',n:1,open:true},
+  {c:0,t:'11:00',n:2,nm:'Whitfield, Sarah', ag:'52F', rs:'Skin biopsy (shave) L shoulder', ty:'pr', st:'conf'},
+  {c:0,t:'11:30',n:1,nm:'Rossi, Maria', ag:'64F', rs:'F/U osteoporosis', ty:'fu', st:'conf'},
+  {c:0,t:'11:45',n:1,nm:'Dubois, Claire', ag:'37F', rs:'F/U migraine', ty:'fu', st:'unc'},
+  {c:0,t:'1:00', n:2,nm:'Asante, Kofi', ag:'40M', rs:'New pt', ty:'np', st:'conf'},
+  {c:0,t:'1:30', n:1,nm:'Coleman, Ruth', ag:'67F', rs:'F/U arthritis', ty:'fu', st:'conf'},
+  // Feld
+  {c:1,t:'8:00', n:1,nm:'Johansson, Mia', ag:'4F', rs:'4yr shots', ty:'vx', st:'room', room:'Rm 4', w:7},
+  {c:1,t:'8:15', n:2,nm:'Abernathy, Noah', ag:'9mo M', rs:'WCC 9 mo', ty:'ph', st:'conf'},
+  {c:1,t:'8:45', n:1,nm:'Castillo, Liam', ag:'7M', rs:'ear pain', ty:'sk', st:'unc'},
+  {c:1,t:'9:00', n:1,nm:'Thompson, Ava', ag:'12F', rs:'F/U asthma', ty:'fu', st:'conf'},
+  {c:1,t:'9:15', n:1,nm:'Park, Ethan', ag:'2M', rs:'MMR #2', ty:'vx', st:'conf'},
+  {c:1,t:'9:30', n:3,nm:'Bennett, Zoe', ag:'15F', rs:'Sports physical – needs form', ty:'ph', st:'unc'},
+  {c:1,t:'10:15',n:1,dbl:[{nm:'Reyes, Lucas', ag:'3M', rs:'fever'},{nm:'Adams, Chloe', ag:'8F', rs:'F/U'}]},
+  {c:1,t:'10:30',n:1,nm:'Nguyen, Oliver', ag:'6M', rs:'rash', ty:'sk', st:'conf'},
+  {c:1,t:'10:45',n:1,open:true},
+  {c:1,t:'11:00',n:1,nm:'Moore, Isabella', ag:'10F', rs:'Tdap/HPV', ty:'vx', st:'conf'},
+  {c:1,t:'11:15',n:1,nm:'Walsh, Henry', ag:'5M', rs:'F/U ear', ty:'fu', st:'conf'},
+  {c:1,t:'11:30',n:1,nm:'Greene, Amara', ag:'11F', rs:'sore throat', ty:'sk', st:'conf'},
+  {c:1,t:'11:45',n:1,blk:'Hold – same day sick'},
+  {c:1,t:'1:00', n:3,nm:'Singh, Arjun', ag:'5M', rs:'WCC 5 yr + vision', ty:'ph', st:'conf'},
+  // Kim
+  {c:2,t:'8:00', n:1,open:true},
+  {c:2,t:'8:15', n:1,nm:'Chen, Robert', ag:'66M', rs:'INR check', ty:'fu', st:'here', w:6},
+  {c:2,t:'8:30', n:1,nm:'Fairbanks, Linda', ag:'71F', rs:'flu vaccine', ty:'vx', st:'conf'},
+  {c:2,t:'8:45', n:1,nm:'Jordan, Marcus', ag:'44M', rs:'cough 2 wks', ty:'sk', st:'conf'},
+  {c:2,t:'9:00', n:2,nm:'Rahman, Aisha', ag:'31F', rs:'New pt – est. care', ty:'np', st:'conf'},
+  {c:2,t:'9:30', n:1,nm:"O'Brien, Kevin", ag:'55M', rs:'Tele F/U lipids', ty:'th', st:'conf'},
+  {c:2,t:'9:45', n:1,nm:'Gomez, Patricia', ag:'49F', rs:'F/U', ty:'fu', st:'cx'},
+  {c:2,t:'10:00',n:1,nm:'Delgado, Frank', ag:'62M', rs:'F/U knee', ty:'fu', st:'conf'},
+  {c:2,t:'10:15',n:3,blk:'Flu clinic – walk-ins'},
+  {c:2,t:'11:00',n:1,nm:'Stein, Rachel', ag:'38F', rs:'sinus', ty:'sk', st:'unc'},
+  {c:2,t:'11:15',n:1,nm:'Patel, Nikhil', ag:'58M', rs:'F/U gout', ty:'fu', st:'conf'},
+  {c:2,t:'11:30',n:1,nm:'Lindqvist, Erik', ag:'45M', rs:'Tele F/U', ty:'th', st:'conf'},
+  {c:2,t:'11:45',n:1,nm:'Ward, Betty', ag:'77F', rs:'B12 inj', ty:'vx', st:'conf'},
+  {c:2,t:'1:00', n:1,nm:'Holland, Jean', ag:'69F', rs:'F/U CHF', ty:'fu', st:'conf'},
+  {c:2,t:'1:15', n:1,nm:'Fairbanks, Tom', ag:'73M', rs:'flu vaccine', ty:'vx', st:'conf'},
+  {c:2,t:'1:30', n:1,nm:'Ibarra, Sofia', ag:'42F', rs:'F/U labs', ty:'fu', st:'unc'},
+  // Ortega
+  {c:3,t:'8:00', n:1,nm:'Wright, Jamal', ag:'27M', rs:'ankle sprain', ty:'sk', st:'room', room:'Rm 7', w:9},
+  {c:3,t:'8:15', n:1,open:true},
+  {c:3,t:'8:30', n:1,nm:'Olsen, Hannah', ag:'45F', rs:'F/U thyroid', ty:'fu', st:'conf'},
+  {c:3,t:'8:45', n:1,nm:'Petrov, Victor', ag:'68M', rs:'F/U BP meds', ty:'fu', st:'conf'},
+  {c:3,t:'9:00', n:2,nm:'Clarke, Megan', ag:'36F', rs:'Wart removal (cryo)', ty:'pr', st:'conf'},
+  {c:3,t:'9:30', n:1,open:true},
+  {c:3,t:'9:45', n:1,nm:'Brooks, Samuel', ag:'50M', rs:'Tele med review', ty:'th', st:'conf'},
+  {c:3,t:'10:00',n:1,nm:'Foster, Diane', ag:'59F', rs:'F/U labs', ty:'fu', st:'unc'},
+  {c:3,t:'10:15',n:1,nm:'Hassan, Ahmed', ag:'41M', rs:'back pain', ty:'sk', st:'conf'},
+  {c:3,t:'10:30',n:1,nm:'Soto, Elena', ag:'23F', rs:'UTI sx', ty:'sk', st:'unc', ins:true},
+  {c:3,t:'10:45',n:1,nm:'Morales, Juan', ag:'71M', rs:'F/U COPD', ty:'fu', st:'conf'},
+  {c:3,t:'11:00',n:1,nm:'Yamamoto, Ken', ag:'33M', rs:'wrist pain', ty:'sk', st:'conf'},
+  {c:3,t:'11:15',n:1,open:true},
+  {c:3,t:'11:30',n:1,nm:'Okonkwo, Chidi', ag:'29M', rs:'cut R hand', ty:'sk', st:'conf'},
+  {c:3,t:'11:45',n:1,nm:'Mendez, Raul', ag:'52M', rs:'rash', ty:'sk', st:'conf'},
+  {c:3,t:'1:00', n:1,open:true},
+  {c:3,t:'1:15', n:1,nm:'Baker, Lily', ag:'19F', rs:'nausea', ty:'sk', st:'conf'},
+  {c:3,t:'1:30', n:1,nm:'Novak, Petr', ag:'36M', rs:'fever', ty:'sk', st:'conf'},
+];
+
+const ROW_H = 40, TALL = 62, LUNCH_H = 30, HEAD_H = 48;
+const heights = TIMES.map(t => t === 'LUNCH' ? LUNCH_H : t === '10:15' ? TALL : ROW_H);
+const grid = document.getElementById('grid');
+grid.style.gridTemplateRows = HEAD_H + 'px ' + heights.map(h => h + 'px').join(' ');
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const el = (cls, html, css) => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; Object.assign(d.style, css); grid.appendChild(d); return d; };
+const endLabel = (i, n) => { const t = TIMES[i + n] || '1:45'; return t === 'LUNCH' ? '12:00' : t; };
+
+el('colh tm', '', { gridColumn: 1, gridRow: 1 });
+PROVIDERS.forEach((p, c) => el('colh', `<b>${p.name}</b><small>${p.sub}</small>`, { gridColumn: c + 2, gridRow: 1 }));
+
+TIMES.forEach((t, i) => {
+  const r = i + 2;
+  if (t === 'LUNCH') {
+    el('tcell hr', '12 PM', { gridColumn: 1, gridRow: r });
+    el('lunch', 'Lunch 12:00 – 1:00 PM · all providers', { gridRow: r });
+    return;
+  }
+  const hr = !!HOUR_LABEL[t];
+  el('tcell' + (hr ? ' hr' : ''), HOUR_LABEL[t] || t, { gridColumn: 1, gridRow: r });
+  for (let c = 0; c < 4; c++) el('slot' + (hr ? ' hr' : ''), '', { gridColumn: c + 2, gridRow: r });
+});
+
+A.forEach(a => {
+  const i = TIMES.indexOf(a.t);
+  const pos = { gridColumn: a.c + 2, gridRow: `${i + 2} / span ${a.n}` };
+  if (a.blk) return el('blk', esc(a.blk), pos);
+  if (a.open) return el('open', `+ Open slot <span>15 min</span>`, pos);
+  if (a.dbl) {
+    const rows = a.dbl.map(p => `<div class="row"><span class="nm">${esc(p.nm)}</span><span class="ag">${p.ag}</span><span class="rs" style="font-size:11.5px;color:#374151">${esc(p.rs)}</span></div>`).join('');
+    return el('ap dbl', `<div class="dblh">⚠ Double-booked</div>${rows}`, pos);
+  }
+  let chips = '';
+  if (a.st === 'here') chips += `<span class="chip here">● Here ${a.w}m</span>`;
+  if (a.st === 'room') chips += `<span class="chip room">▣ ${a.room} ${a.w}m</span>`;
+  if (a.st === 'unc')  chips += `<span class="chip unc">? Unconf.</span>`;
+  if (a.st === 'cx')   chips += `<span class="chip cx">✕ Cancelled</span>`;
+  if (a.ins)           chips += `<span class="chip risk">! Ins.</span>`;
+  const ok = a.st === 'conf' ? '<span class="ok" title="Confirmed">✓</span>' : '';
+  const l3 = a.n > 1 ? `<div class="l3">${TYPE[a.ty]} · ${a.n * 15} min</div>` : '';
+  const d = el(`ap ${a.st}${a.sel ? ' sel' : ''}`,
+    `<div class="l1"><span class="nm">${esc(a.nm)}</span><span class="ag">${a.ag}</span></div>` +
+    (chips && a.n > 1 ? `<div class="l2">${chips}</div><div class="l2"><span class="rs">${esc(a.rs)}</span></div>` : `<div class="l2">${chips}${ok}<span class="rs">${esc(a.rs)}</span></div>`) + l3, pos);
+  d.title = `${a.nm} · ${TYPE[a.ty]} · ${a.rs}`;
+  if (a.sel) d.setAttribute('aria-current', 'true');
+});
+
+// current-time line: 8:04 = 4/15 into the 8:00 row
+const now = document.createElement('div');
+now.className = 'now';
+now.style.top = (HEAD_H + ROW_H * 4 / 15) + 'px';
+now.innerHTML = '<span></span>'; now.setAttribute('aria-label', 'Now 8:04 AM');
+grid.appendChild(now);
+</script>
+</body>
+</html>

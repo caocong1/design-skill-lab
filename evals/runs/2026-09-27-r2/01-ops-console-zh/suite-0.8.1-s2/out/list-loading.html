@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工单列表 · 恒川设备云</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<div class="shell">
+
+<aside class="side" aria-label="主导航">
+  <div class="side-brand"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 5v14M19 5v14M5 12h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></span>恒川设备云</div>
+  <ul class="side-nav">
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>工作台</a></li>
+    <li class="group"><a href="#" aria-expanded="true"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>工单管理<span class="chev"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></span></a>
+      <ul class="sub">
+        <li><a href="list.html" aria-current="page">工单列表</a></li>
+        <li><a href="#">我的工单</a></li>
+        <li><a href="#">工单统计</a></li>
+      </ul>
+    </li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>设备台账</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></svg>巡检计划</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-3.5-3.5 8-8"/><path d="M14.7 6.3 13 4.6a4 4 0 0 0-5 5L3 14.6 6.5 18"/></svg>保养计划</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>备件库存</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg>报表中心</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>系统设置</a></li>
+  </ul>
+</aside>
+<div class="main">
+
+<header class="topbar">
+  <button class="org" type="button" aria-haspopup="listbox" aria-label="切换组织：当前 恒川精密 · 苏州一厂"><span class="dot" aria-hidden="true"></span>恒川精密 · 苏州一厂<svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <label class="gsearch"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-only">全局搜索</span><input type="search" placeholder="搜索工单号、设备编号"></label>
+  <span class="spacer"></span>
+  <span class="clock num">2026-09-27 周日 09:42</span>
+  <button class="bell" type="button" aria-label="通知，5 条未读"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span class="count">5</span></button>
+  <span class="user"><span class="avatar" aria-hidden="true">李</span>李敏<span class="role">· 运维主管</span></span>
+</header>
+<main class="page">
+<nav class="crumb" aria-label="面包屑"><a href="#">工单管理</a><span class="sep" aria-hidden="true">/</span><span>工单列表</span></nav>
+<div class="page-head">
+  <h1>工单列表</h1>
+  <span class="spacer"></span>
+  <button class="btn" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>导出全部</button>
+  <button class="btn btn-primary" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>新建工单</button>
+</div>
+<div class="views" role="tablist" aria-label="快捷视图">
+  <button class="view" role="tab" aria-selected="true">全部<span class="n"><span class="sk" style="width:26px;height:10px;display:inline-block"></span></span></button>
+  <button class="view" role="tab" aria-selected="false">我负责的<span class="n"><span class="sk" style="width:26px;height:10px;display:inline-block"></span></span></button>
+  <button class="view" role="tab" aria-selected="false">待派单<span class="n"><span class="sk" style="width:26px;height:10px;display:inline-block"></span></span></button>
+  <button class="view alert" role="tab" aria-selected="false"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>已超时<span class="n"><span class="sk" style="width:26px;height:10px;display:inline-block"></span></span></button>
+  <button class="view" role="tab" aria-selected="false">待验收<span class="n"><span class="sk" style="width:26px;height:10px;display:inline-block"></span></span></button>
+</div>
+<div class="filters" role="search" aria-label="筛选工单">
+  <button type="button" class="field"><span class="k">状态</span><span class="v">全部</span><span class="caret"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+  <button type="button" class="field"><span class="k">优先级</span><span class="v">全部</span><span class="caret"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+  <button type="button" class="field"><span class="k">设备类型</span><span class="v">全部</span><span class="caret"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+  <button type="button" class="field"><span class="k">厂区/产线</span><span class="v">全部</span><span class="caret"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+  <button type="button" class="field"><span class="k">负责人</span><span class="v">全部</span><span class="caret"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+  <button type="button" class="field"><span class="k">创建时间</span><span class="v">开始日期 ~ 结束日期</span><span class="caret"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span></button>
+  <label class="field kw"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-only">关键词</span><input type="text" placeholder="关键词：标题、设备、位置"></label>
+  <span class="spacer"></span>
+  <button class="btn btn-ghost btn-sm" type="button" disabled>重置</button>
+</div>
+<section class="card" aria-label="工单" aria-busy="true">
+  <div class="toolbar"><span role="status" style="display:inline-flex;align-items:center;gap:8px;color:var(--text-2)"><svg class="i i-sm spinner" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--primary)"><path d="M12 3a9 9 0 1 0 9 9"/></svg>正在加载工单…</span><span class="spacer"></span>
+  <span>按创建时间倒序</span><span class="sep"></span>
+  <button class="btn btn-ghost btn-sm" type="button"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/></svg>列设置</button>
+</div>
+  <table class="grid"><colgroup>
+  <col style="width:40px"><col style="width:134px"><col><col style="width:112px"><col style="width:108px">
+  <col style="width:74px"><col style="width:84px"><col style="width:58px"><col style="width:138px">
+  <col style="width:84px"><col style="width:76px"><col style="width:96px">
+</colgroup><thead><tr>
+  <th class="c-check"><span class="cb " role="checkbox" aria-checked="false" aria-label="选择"></span></th>
+  <th>工单号</th><th>标题</th><th>设备</th><th>位置</th><th>优先级</th><th>状态</th><th>负责人</th>
+  <th>SLA</th>
+  <th aria-sort="descending"><span class="sort">创建时间<svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></span></th>
+  <th>更新时间</th><th>操作</th>
+</tr></thead><tbody><tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:60%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:60px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:84px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:85%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:72px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:70%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:56px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:92px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:95%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:60px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:84px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:80%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:72px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:60%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:56px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:92px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:85%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:60px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:84px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:70%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:72px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:95%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:56px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:92px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:80%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:60px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:84px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:60%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:72px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:85%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:56px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:92px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:70%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:60px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:84px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:95%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:72px"></span></td>
+  <td><span class="sk" style="width:52px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr>
+<tr aria-hidden="true">
+  <td class="c-check"><span class="cb" style="border-color:#DDE2E9"></span></td>
+  <td><span class="sk" style="width:112px"></span></td>
+  <td><span class="sk" style="width:80%"></span></td>
+  <td><span class="sk" style="width:56px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:56px"></span></td>
+  <td><span class="sk" style="width:70px"></span></td>
+  <td><span class="sk" style="width:52px;height:20px"></span></td>
+  <td><span class="sk" style="width:58px;height:20px;border-radius:10px"></span></td>
+  <td><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:92px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:38px;height:10px;margin-bottom:6px"></span><span class="sk" style="width:40px"></span></td>
+  <td><span class="sk" style="width:28px"></span></td>
+</tr></tbody></table>
+  <div class="pager" aria-hidden="true"><span class="sk" style="width:140px"></span><span class="spacer"></span><span class="sk" style="width:260px;height:28px"></span></div>
+</section>
+<style>.spinner{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media (prefers-reduced-motion: reduce){.spinner{animation:none}}</style>
+</main>
+</div>
+</div>
+</body>
+</html>

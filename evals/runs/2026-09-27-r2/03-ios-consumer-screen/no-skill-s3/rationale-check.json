@@ -1,0 +1,103 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "no-skill-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/book.png",
+      "render/empty.png",
+      "render/today.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/03-ios-consumer-screen.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 10,
+    "contradicted": 0,
+    "not checkable": 2
+  },
+  "report_line": "claims: 10 verified, 0 contradicted, 2 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "a floating Liquid Glass tab bar with Search as a separate circle on the trailing side",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, book.png, empty.png: bottom shows a rounded capsule holding Today/Library/Stats, with a separate circular Search button on the right"
+    },
+    {
+      "claim": "Today is selected on all three screens",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, book.png, empty.png: the Today tab is tinted terracotta on a highlighted pill in all three"
+    },
+    {
+      "claim": "The tab bar sits at y 774–836, fully above the 34 pt home-indicator zone",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "all PNGs: the tab bar spans about 1548–1672 px at 2x (774–836 pt). The home indicator sits below it at about 1727 px"
+    },
+    {
+      "claim": "the date as an overline and the large title sharing a row with the Add Book button",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png top: the 'SUNDAY, 27 SEPTEMBER' overline, then the 'Today' large title with a round + button on the same row"
+    },
+    {
+      "claim": "the \"Recent Highlight\" card is placed after \"Currently Reading\" and starts below the first screen",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "today.png: no highlight appears in the frame. A static render can't confirm the card exists below it, and facts.md gives the page height as 874 px"
+    },
+    {
+      "claim": "The chart's dashed line marks the 20-minute goal. Sunday's bar is hatched ... Wednesday (0 min) shows as a flat grey stub",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png mid-card: a dashed line labelled 20, a hatched bar for S (bold), and a grey stub for W"
+    },
+    {
+      "claim": "\"8 min to go\" ... the Start Session caption (\"Middlemarch · continue from page 312\")",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the '8 min to go' heading next to the ring, and that caption under the Start Session button"
+    },
+    {
+      "claim": "the \"More\" (…) button holds Mark as Finished, Edit Goal and Remove from Library",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "book.png top-right: a round … button is visible, but its menu contents can't be seen in a static render"
+    },
+    {
+      "claim": "the Sessions/Highlights segmented control shows the four sessions and shows that two highlights exist",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: a capsule control reading 'Sessions | Highlights (2)', with four session rows below (Today, Sat 26, Fri 25, Thu 24 Sep)"
+    },
+    {
+      "claim": "\"Scan Barcode\" is the single filled primary button. Search by Title and Import from CSV File are grey secondary buttons. \"Step 1 of 2\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: a terracotta filled Scan Barcode button, two grey buttons below it, and a 'Step 1 of 2' overline above the heading"
+    },
+    {
+      "claim": "the daily goal shows as a 20-minute value with a −/+ stepper, labelled \"Preset for you\". No streak, sessions, stats or highlights are shown, only one line",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png lower half: '20 minutes a day / Preset for you' with a −/+ stepper, then a single line saying streak, sessions and highlights will appear later"
+    },
+    {
+      "claim": "a scroll-edge fade keeps the glass over a plain background so its labels keep their contrast",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: no tab-bar text is below AA on any screen. The only failure on today.html is cover text. Book and empty have 0 failures"
+    }
+  ],
+  "notes": "The NOTES say nothing about the one AA failure in facts.md: the cover text 'H. D. Thoreau' on today.png measures 4.43:1. facts.md also finds 2 targets under 44 px on both book.html and empty.html. The NOTES make no claim about target sizes, so this isn't a contradiction.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.no-skill-s3/check.reply.txt",
+    "sha256": "b9845105a20f3d6f500f1642a0a796a0102961e918e98bb8da15766bd22e5739"
+  }
+}

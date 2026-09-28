@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "06-redesign-legacy",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/schedule.png right panel: Allergy/Balance/Needs alerts at the top, then a check-in checklist (checked in, insurance, copay, room) with Collect $25.00 as the primary action; left rail has Waiting Room with minutes waited and a 2 badge on Feld 10:15 double booking"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": []},
+    "R": {"fit": 2, "hierarchy": 2, "identity": 2, "craft": 3, "typography": 2, "platform_a11y": 3,
+          "evidence": ["before.png right panel: patient alerts sit below 12 equal-weight action buttons; status shown only as [A]/[C] letter codes inside type-coloured cells", "before.png top rows: 14 tabs and a toolbar of same-weight buttons, generic early-2000s intranet look", "before.png grid: small text with names cut off mid-word ('BRENNAN, HAROLD 75M F/...', 'NATARAJAN, PRIYA 34F sore...')"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's selected panel follows the check-in steps as a checklist below labelled alerts, and its bold type codes read faster; B shows more of the day but its panel is a button grid."}
+  ],
+  "notes": "Both redesigns change the structure the same way: queues in a left rail, all four clinician columns, the double booking flagged, and alerts moved up. A's legibility-focused typeface with slashed zeros suits MRNs and times. B's search in the header and full span to 1:30 are strong, but its grid cards drop the visible type code and some meta lines crowd (Soto 'Unconf. ! Insurance'). B's single contrast failure is a screen-reader-only label, so it is not visible text."
+}
+```

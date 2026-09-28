@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driftless: the local-first SQL database</title>
+<meta name="description" content="Driftless is an open-source, embedded SQL database. Reads and writes are instant and work offline; Driftless keeps every copy in sync.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f2ea;
+  --paper-2:#ebe8de;
+  --card:#fbfaf6;
+  --ink:#15171c;
+  --ink-2:#575b63;
+  --rule:#d6d2c5;
+  --rule-strong:#8b877b;
+  --accent:#0a6a4c;
+  --accent-ink:#ffffff;
+  --accent-tint:#dcebe2;
+  --code-bg:#13161b;
+  --code-rule:#2a2f37;
+  --code-fg:#e8e5dc;
+  --code-dim:#8e96a1;
+  --code-kw:#f2a46b;
+  --code-str:#a6d98f;
+  --code-fn:#8fc1ff;
+  --code-acc:#6ee0b0;
+
+  --sans:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px; --s9:96px; --s10:128px;
+  --r:6px;
+  --wrap:1200px;
+  --gutter:40px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--sans);font-feature-settings:"ss02"}
+a{color:inherit}
+code,kbd,pre{font-family:var(--mono)}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
+p{margin:0}
+ul,ol,dl,dd{margin:0;padding:0}
+.wrap{max-width:calc(var(--wrap) + 2*var(--gutter));margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--mono)}
+.muted{color:var(--ink-2)}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:16px;top:8px;z-index:50;background:var(--ink);color:var(--paper);padding:8px 12px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:var(--r);font:600 16px/1 var(--sans);text-decoration:none;white-space:nowrap;border:1px solid transparent}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{background:#085a40}
+.btn-quiet{color:var(--ink);border-color:var(--rule-strong)}
+.btn-quiet:hover{background:var(--paper-2)}
+.btn-sm{min-height:36px;padding:0 14px;font-size:15px}
+
+/* ---------- header ---------- */
+.site-head{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.site-head .wrap{display:flex;align-items:center;gap:var(--s6);height:64px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:600 20px/1 var(--sans);letter-spacing:-0.02em}
+.brand svg{flex:none}
+.nav{display:flex;gap:var(--s5);font-size:15px}
+.nav a{text-decoration:none;color:var(--ink-2)}
+.nav a:hover{color:var(--ink)}
+.head-actions{margin-left:auto;display:flex;align-items:center;gap:var(--s4);font-size:15px}
+.head-actions .signin{text-decoration:none;color:var(--ink-2)}
+.menu-btn{display:none}
+.mobile-nav{display:none}
+
+/* ---------- hero ---------- */
+.hero{padding:var(--s8) 0 var(--s9)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,9fr) minmax(0,15fr);gap:40px 56px;align-items:start}
+.hero-top{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:48px;align-items:end}
+.release{display:inline-flex;align-items:flex-start;gap:10px;font:500 14px/1.3 var(--mono);color:var(--ink-2);text-decoration:none;margin-bottom:var(--s5)}
+.release b{font-weight:600;color:var(--accent)}
+.release:hover span{text-decoration:underline}
+.hero h1{font-size:72px;line-height:1.02;letter-spacing:-0.04em;font-weight:600;max-width:13em}
+.mini{border:1px solid var(--rule-strong);border-radius:var(--r);background:var(--card);font:400 13px/1.45 var(--mono);margin-bottom:8px}
+.mini-h{display:flex;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--rule);color:var(--ink-2);font-size:12px}
+.mini table{width:100%;border-collapse:collapse}
+.mini td,.mini th{padding:7px 14px;text-align:left;vertical-align:top;font-weight:400}
+.mini th{color:var(--ink-2);white-space:nowrap;width:1%}
+.mini tr+tr td,.mini tr+tr th{border-top:1px dashed var(--rule)}
+.mini .chg{background:var(--accent-tint);box-shadow:inset 2px 0 0 var(--accent);padding:0 5px}
+.mini tr.res th,.mini tr.res td{background:var(--accent);color:#fff;border-top:0}
+.mini tr.res th{color:#fff}
+.mini-f{padding:8px 14px;font:400 13px/1.4 var(--sans);color:var(--ink-2)}
+.mini-f a{color:var(--accent);font-weight:500}
+.hero .lede{margin-top:0;font-size:20px;line-height:1.5;color:var(--ink-2);max-width:30em}
+.hero .lede strong{color:var(--ink);font-weight:500}
+.install{margin-top:var(--s6);display:flex;align-items:stretch;border:1px solid var(--ink);border-radius:var(--r);background:var(--card);max-width:460px}
+.install code{flex:1;min-width:0;display:flex;align-items:center;gap:10px;padding:0 16px;font-size:15px;white-space:nowrap;overflow:hidden}
+.install code .prompt{color:var(--ink-2);user-select:none}
+.copy{flex:none;min-width:72px;min-height:48px;border:0;border-left:1px solid var(--ink);background:transparent;font:500 14px/1 var(--mono);color:var(--ink);cursor:pointer;border-radius:0 var(--r) var(--r) 0}
+.copy:hover{background:var(--paper-2)}
+.cta-row{margin-top:var(--s4);display:flex;gap:var(--s3);flex-wrap:wrap}
+.proof{margin-top:var(--s6);display:flex;flex-wrap:wrap;gap:6px 18px;font:400 14px/1.4 var(--mono);color:var(--ink-2)}
+.proof span b{color:var(--ink);font-weight:600}
+
+/* ---------- code panel ---------- */
+.code{background:var(--code-bg);color:var(--code-fg);border-radius:10px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04),0 24px 48px -24px rgba(21,23,28,.45)}
+.code-head{display:flex;align-items:center;gap:var(--s3);padding:12px 18px;border-bottom:1px solid var(--code-rule);font:500 13px/1 var(--mono);color:var(--code-dim)}
+.code-head .file{color:var(--code-fg)}
+.code-head .lang{margin-left:auto}
+.code pre{margin:0;padding:18px 18px 20px 12px;font-size:13px;line-height:1.7;counter-reset:ln;overflow:visible}
+.code .l{display:grid;grid-template-columns:3ch minmax(0,1fr);column-gap:14px;counter-increment:ln}
+.code .l::before{content:counter(ln);text-align:right;color:#6b7380;user-select:none}
+.code .t{white-space:pre-wrap;overflow-wrap:anywhere;padding-left:4ch;text-indent:-4ch}
+.kw{color:var(--code-kw)}
+.str{color:var(--code-str)}
+.fn{color:var(--code-fn)}
+.sql{color:var(--code-acc)}
+.pun{color:var(--code-dim)}
+.code-foot{border-top:1px solid var(--code-rule);padding:14px 18px;font:400 14px/1.5 var(--sans);color:var(--code-dim)}
+.code-foot b{color:var(--code-fg);font-weight:500;font-family:var(--mono);font-size:13px}
+.platforms{margin-top:var(--s4);font:400 14px/1.6 var(--mono);color:var(--ink-2)}
+.platforms b{color:var(--ink);font-weight:500}
+
+/* ---------- section scaffolding ---------- */
+.sec{padding:var(--s9) 0;border-top:1px solid var(--rule)}
+.sec-label{font:500 14px/1 var(--mono);color:var(--accent);margin-bottom:var(--s4)}
+.sec h2{font-size:40px;line-height:1.1;max-width:22ch}
+.sec .intro{margin-top:var(--s4);font-size:18px;color:var(--ink-2);max-width:40em}
+
+/* ---------- how it works ---------- */
+.steps{margin-top:var(--s7);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s6);list-style:none;counter-reset:st}
+.steps li{counter-increment:st;border-top:2px solid var(--ink);padding-top:var(--s4);font-size:17px}
+.steps li::before{content:counter(st);display:block;font:600 14px/1 var(--mono);color:var(--accent);margin-bottom:var(--s3)}
+.steps li strong{font-weight:600}
+
+.merge{margin-top:var(--s7);background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:var(--s6)}
+.merge-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s4);flex-wrap:wrap;margin-bottom:var(--s5)}
+.merge-head h3{font-size:20px;letter-spacing:-0.01em}
+.merge-head .tag{font:400 13px/1 var(--mono);color:var(--ink-2)}
+.merge-grid{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:var(--s5);align-items:stretch}
+.dev{border:1px solid var(--rule);border-radius:var(--r);background:var(--paper);display:flex;flex-direction:column}
+.dev-head{display:flex;justify-content:space-between;gap:8px;padding:10px 14px;border-bottom:1px solid var(--rule);font:500 13px/1.3 var(--mono)}
+.dev-head .state{color:var(--ink-2)}
+.row{padding:12px 14px;font:400 14px/1.5 var(--mono);display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:6px}
+.row dt{color:var(--ink-2)}
+.row dd{min-width:0;overflow-wrap:anywhere}
+.row .chg{background:var(--accent-tint);box-shadow:inset 3px 0 0 var(--accent);padding:0 6px;margin-left:-6px;border-radius:2px}
+.row .from{display:block;font-size:12px;color:var(--ink-2)}
+.dev-note{margin-top:auto;padding:10px 14px;border-top:1px dashed var(--rule);font:400 13px/1.45 var(--mono);color:var(--ink-2)}
+.dev.result{border-color:var(--accent);background:#fff}
+.dev.result .dev-head{background:var(--accent);color:#fff;border-bottom-color:var(--accent);border-radius:5px 5px 0 0}
+.dev.result .dev-head .state{color:#fff}
+.merge-foot{margin-top:var(--s5);display:grid;grid-template-columns:1fr 1fr;gap:var(--s5);font-size:16px;color:var(--ink-2)}
+.merge-foot strong{color:var(--ink);font-weight:600}
+.arrow{font-family:var(--mono);color:var(--accent)}
+
+/* ---------- compare ---------- */
+.compare{margin-top:var(--s7);width:100%;border-collapse:collapse;font-size:17px}
+.compare th,.compare td{text-align:left;vertical-align:top;padding:18px 20px;border-bottom:1px solid var(--rule)}
+.compare thead th{font:500 14px/1.3 var(--mono);color:var(--ink-2);border-bottom:2px solid var(--ink);padding-top:0}
+.compare thead th.us{color:var(--accent)}
+.compare tbody th{font-weight:600;width:22%}
+.compare td{color:var(--ink-2);width:36%}
+.compare td.us{color:var(--ink);background:var(--card);font-weight:500}
+.compare thead th.us{background:transparent}
+
+/* ---------- spec ---------- */
+.spec-layout{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:64px}
+.spec{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink)}
+.spec div{padding:20px 24px 22px 0;border-bottom:1px solid var(--rule)}
+.spec div:nth-child(odd){padding-right:32px;border-right:1px solid var(--rule)}
+.spec div:nth-child(even){padding-left:32px}
+.spec dt{font-weight:600;font-size:17px;margin-bottom:6px}
+.spec dd{color:var(--ink-2);font-size:16px}
+.spec code,.inline-code{font-size:.9em;background:var(--paper-2);padding:1px 5px;border-radius:3px;color:var(--ink)}
+
+/* ---------- numbers + release ---------- */
+.numbers-layout{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:64px;align-items:start}
+.bench{margin-top:var(--s6);display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink)}
+.bench div{padding:20px 20px 0 0}
+.bench div+div{padding-left:20px;border-left:1px solid var(--rule)}
+.bench .v{font:500 44px/1 var(--mono);letter-spacing:-0.03em}
+.bench .v small{font-size:20px;letter-spacing:0;margin-left:4px;color:var(--ink-2)}
+.bench .k{margin-top:10px;font-size:15px;color:var(--ink-2);line-height:1.45}
+.bench-setup{margin-top:var(--s5);font:400 14px/1.55 var(--sans);color:var(--ink-2)}
+.release-card{background:var(--ink);color:var(--paper);border-radius:10px;padding:var(--s6)}
+.release-card .sec-label{color:#8fe0bd}
+.release-card h3{font-size:28px;letter-spacing:-0.02em}
+.release-card time{display:block;margin-top:6px;font:400 14px/1.4 var(--mono);color:#b7b3a8}
+.release-card ul{margin-top:var(--s5);list-style:none;border-top:1px solid #3a3d44}
+.release-card li{padding:14px 0;border-bottom:1px solid #3a3d44;font-size:17px;display:grid;grid-template-columns:28px 1fr}
+.release-card li::before{content:"+";font-family:var(--mono);color:#8fe0bd}
+.release-card a{display:inline-block;margin-top:var(--s5);font:500 15px/1.4 var(--mono);color:#8fe0bd}
+
+/* ---------- pricing ---------- */
+.plans{margin-top:var(--s7);display:grid;grid-template-columns:1fr 2fr 1fr;gap:var(--s5)}
+.plan-group-label{font:500 13px/1.3 var(--mono);color:var(--ink-2);padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:var(--s4)}
+.plan-group .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5)}
+.plan-group{display:flex;flex-direction:column}
+.plan-group .pair{flex:1}
+.plan{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:var(--s5);display:flex;flex-direction:column;flex:1}
+.plan h3{font-size:20px;letter-spacing:-0.01em}
+.plan .price{margin-top:var(--s4);font:500 36px/1 var(--mono);letter-spacing:-0.03em}
+.plan .per{display:block;margin-top:8px;font-size:14px;color:var(--ink-2);min-height:21px}
+.plan ul{margin-top:var(--s5);padding-top:var(--s4);border-top:1px solid var(--rule);list-style:none;font-size:16px}
+.plan li{padding:5px 0 5px 20px;position:relative}
+.plan li::before{content:"";position:absolute;left:2px;top:14px;width:8px;height:2px;background:var(--accent)}
+.plan .btn{margin-top:auto}
+.plan .plan-cta{margin-top:auto;padding-top:var(--s5)}
+.plan-cta .btn{width:100%}
+.plan.pro{border-color:var(--ink)}
+.plan .price-sm{font-size:28px;line-height:36px}
+.price-note{margin-top:var(--s5);font-size:15px;color:var(--ink-2)}
+
+/* ---------- faq ---------- */
+.faq{margin-top:var(--s7);display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
+.faq div{padding:24px 0;border-top:1px solid var(--rule)}
+.faq dt{font-weight:600;font-size:19px;letter-spacing:-0.01em}
+.faq dd{margin-top:8px;color:var(--ink-2)}
+
+/* ---------- start ---------- */
+.start{background:var(--ink);color:var(--paper);padding:var(--s9) 0;border-top:0}
+.start h2{font-size:48px;color:var(--paper)}
+.start .intro{color:#b7b3a8}
+.start-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}
+.pkgs{list-style:none;border-top:1px solid #3a3d44}
+.pkgs li{display:grid;grid-template-columns:170px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px solid #3a3d44}
+.pkgs .k{font:500 14px/1.3 var(--mono);color:#b7b3a8}
+.pkgs code{font-size:15px;color:var(--paper);overflow-wrap:anywhere}
+.pkgs .copy{border:1px solid #5a5e66;border-radius:var(--r);color:var(--paper);min-height:44px;min-width:64px}
+.pkgs .copy:hover{background:#262a31}
+.start .cta-row{margin-top:var(--s6)}
+.start .btn-quiet{color:var(--paper);border-color:#8b877b}
+.start .btn-quiet:hover{background:#262a31}
+
+/* ---------- footer ---------- */
+.foot{padding:var(--s7) 0 var(--s8);font-size:15px}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:var(--s5) var(--s7);align-items:baseline;justify-content:space-between}
+.foot nav{display:flex;flex-wrap:wrap;gap:10px 24px}
+.foot nav a{color:var(--ink-2);text-decoration:none}
+.foot nav a:hover{color:var(--ink);text-decoration:underline}
+.foot small{font:400 14px/1.4 var(--mono);color:var(--ink-2)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .hero .wrap{grid-template-columns:1fr;gap:48px}
+  .hero h1{font-size:52px;max-width:16ch}
+  .hero-top{display:block}
+  .mini{display:none}
+  .nav{display:none}
+  .spec-layout,.numbers-layout,.start-grid{grid-template-columns:1fr;gap:40px}
+  .plans{grid-template-columns:1fr 1fr}
+  .plan-group:nth-child(2){grid-column:1 / -1;order:-1}
+}
+@media (max-width:720px){
+  :root{--gutter:20px}
+  body{font-size:16px}
+  .site-head .wrap{height:56px;gap:12px}
+  .head-actions .signin{display:none}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border:1px solid var(--rule-strong);border-radius:var(--r);background:transparent;color:var(--ink);font:500 14px/1 var(--mono);padding:0 10px}
+  .head-actions{gap:8px}
+  .head-actions .btn-sm{min-height:44px}
+  .mobile-nav{display:none;border-top:1px solid var(--rule);padding:8px 20px 16px}
+  .mobile-nav.open{display:grid;grid-template-columns:1fr 1fr}
+  .mobile-nav a{padding:12px 0;text-decoration:none;font-size:16px}
+  .hero{padding:32px 0 56px}
+  .release{font-size:13px;margin-bottom:16px}
+  .hero h1{font-size:38px;line-height:1.06}
+  .hero .lede{font-size:17px;margin-top:16px}
+  .install{margin-top:24px;max-width:none}
+  .install code{font-size:14px;padding:0 12px}
+  .cta-row .btn{flex:1}
+  .proof{margin-top:24px;font-size:13px;gap:4px 14px}
+  .hero .wrap{gap:24px}
+  .hero .code{margin-top:12px}
+  .rel-more{display:none}
+  .code{margin:0 -20px;border-radius:0}
+  .code pre{font-size:13px;line-height:1.65;padding:14px 14px 16px 6px}
+  .code .l{grid-template-columns:2.5ch minmax(0,1fr);column-gap:10px}
+  .code .t{padding-left:2ch;text-indent:-2ch}
+  .platforms{font-size:13px}
+  .sec{padding:44px 0}
+  .sec-label{margin-bottom:10px;font-size:13px}
+  .sec h2{font-size:30px}
+  .sec .intro{font-size:16px}
+  .steps{grid-template-columns:1fr;gap:14px;margin-top:24px}
+  .steps li{font-size:15px;padding:10px 0 0 26px;position:relative;border-top-width:1px}
+  .steps li::before{position:absolute;left:0;top:13px;margin:0}
+  .release-card li{padding:10px 0}
+  .release-card ul{margin-top:16px}
+  .release-card a{margin-top:16px}
+  .bench{margin-top:20px}
+  .merge{margin:32px -20px 0;border-radius:0;border-left:0;border-right:0;padding:24px 20px}
+  .merge-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .merge-grid .result{grid-column:1 / -1}
+  .row{font-size:13px;padding:10px;column-gap:8px}
+  .dev-head{padding:8px 10px;font-size:12px;flex-direction:column;gap:2px}
+  .dev-note{padding:8px 10px;font-size:12px}
+  .merge-foot{grid-template-columns:1fr;gap:10px;font-size:14px}
+  .merge-head{margin-bottom:16px}
+  .merge-head h3{font-size:18px}
+  .compare{margin-top:24px;font-size:14px}
+  .compare thead{display:none}
+  .compare,.compare tbody,.compare tr,.compare th,.compare td{display:block;width:auto}
+  .compare tbody{display:grid;grid-template-columns:1fr 1fr;column-gap:16px}
+  .compare tr{display:contents}
+  .compare tbody th{grid-column:1 / -1;padding-top:14px!important;border-top:1px solid var(--rule)!important}
+  .compare tbody th,.compare td{padding:0;border:0}
+  .compare tbody th{margin-bottom:6px;width:auto}
+  .compare td{display:block;padding:0 0 14px}
+  .compare td::before{display:block;margin-bottom:2px}
+  .compare td::before{content:attr(data-h);font:500 12px/1.5 var(--mono);color:var(--ink-2)}
+  .compare td.us{background:transparent}
+  .compare td.us::before{color:var(--accent)}
+  .spec{grid-template-columns:1fr}
+  .spec div,.spec div:nth-child(odd),.spec div:nth-child(even){padding:12px 0;border-right:0}
+  .spec-layout{gap:24px}
+  .spec-layout .intro{display:none}
+  .per-empty{display:none!important}
+  .spec dt{font-size:16px}
+  .spec dd{font-size:15px}
+  .bench{grid-template-columns:1fr}
+  .bench div,.bench div+div{padding:16px 0;border-left:0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:130px 1fr;gap:16px;align-items:baseline}
+  .bench .v{font-size:30px}
+  .bench .v small{font-size:15px}
+  .bench .k{margin-top:0;font-size:14px}
+  .release-card{padding:24px 20px;margin:0 -20px;border-radius:0}
+  .release-card h3{font-size:24px}
+  .release-card li{font-size:16px}
+  .plans{grid-template-columns:1fr;margin-top:24px;gap:20px}
+  .plan-group:nth-child(2){order:0}
+  .plan-group .pair{grid-template-columns:1fr;gap:12px}
+  .plan{padding:16px 18px;display:grid;grid-template-columns:1fr auto;align-items:baseline;column-gap:12px}
+  .plan h3{font-size:18px}
+  .plan .per{grid-column:1 / -1;margin-top:0;min-height:0;text-align:right}
+  .plan ul,.plan .plan-cta{grid-column:1 / -1}
+  .plan .price-sm{font-size:20px;line-height:1}
+  .plan-group-label{margin-bottom:10px}
+  .plan .price{font-size:26px;margin-top:0}
+  .plan ul{margin-top:10px;padding-top:8px;font-size:15px}
+  .plan li{padding:3px 0 3px 20px}
+  .plan li::before{top:12px}
+  .plan .plan-cta{margin-top:16px;padding-top:0}
+  .faq{grid-template-columns:1fr;margin-top:24px}
+  .faq div{padding:14px 0}
+  .faq dt{font-size:17px}
+  .faq dd{font-size:15px}
+  .start{padding:48px 0}
+  .start h2{font-size:32px}
+  .pkgs li{grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;grid-template-areas:"k b" "c c"}
+  .pkgs .k{grid-area:k}
+  .pkgs code{grid-area:c}
+  .pkgs .copy{grid-area:b}
+  .pkgs code{font-size:13px}
+  .pkgs .copy{min-height:44px}
+  .foot .wrap{flex-direction:column;gap:20px}
+  .foot{padding:32px 0 40px}
+  .foot nav{gap:0 20px}
+  .foot nav a{display:inline-flex;align-items:center;min-height:44px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="2" y="3" width="22" height="5" rx="1.5" fill="#15171c"/>
+        <rect x="2" y="10.5" width="22" height="5" rx="1.5" fill="#0a6a4c"/>
+        <rect x="2" y="18" width="22" height="5" rx="1.5" fill="#15171c"/>
+      </svg>
+      driftless
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#">Docs</a><a href="#">Guides</a><a href="#pricing">Pricing</a><a href="#">Blog</a><a href="#new">Changelog</a><a href="#">GitHub</a>
+    </nav>
+    <div class="head-actions">
+      <a class="signin" href="#">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="#start">Get started</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav">Menu</button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mnav" aria-label="Mobile">
+    <a href="#">Docs</a><a href="#">Guides</a><a href="#pricing">Pricing</a><a href="#">Blog</a><a href="#new">Changelog</a><a href="#">GitHub</a><a href="#">Sign in</a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+      <a class="release" href="#new"><b>v1.4</b><span>Shapes are generally available<span class="rel-more"> · Bun support</span></span></a>
+      <h1>Your app’s data lives on the device first.</h1>
+      </div>
+      <figure class="mini" style="margin:0 0 8px" aria-label="Example: two offline edits merged per column">
+        <div class="mini-h"><span>tasks · row t_42</span><span>sample data</span></div>
+        <table>
+          <tr><th>phone, offline</th><td>status → <span class="chg">done</span></td></tr>
+          <tr><th>laptop, offline</th><td>title → <span class="chg">Ship 1.4 notes</span></td></tr>
+          <tr class="res"><th>every copy</th><td>Ship 1.4 notes · done</td></tr>
+        </table>
+        <figcaption class="mini-f">Offline edits merge per column. <a href="#how">How it works ↓</a></figcaption>
+      </figure>
+    </div>
+    <div>
+      <p class="lede"><strong>Driftless is an open-source, embedded SQL database.</strong> Reads and writes are instant and work offline; Driftless keeps every copy in sync.</p>
+      <div class="install">
+        <code><span class="prompt">$</span><span id="npm-cmd">npm install @driftless/client</span></code>
+        <button class="copy" type="button" data-copy="npm install @driftless/client">Copy</button>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#start">Get started</a>
+        <a class="btn btn-quiet" href="#">Read the docs</a>
+      </div>
+      <p class="proof" aria-label="Project statistics, August 2026">
+        <span><b>18.4k</b> GitHub stars</span>
+        <span><b>236</b> contributors</span>
+        <span><b>1.2M</b> npm downloads / month (Aug 2026)</span>
+        <span>Apache-2.0</span>
+      </p>
+    </div>
+
+    <div>
+      <figure class="code" style="margin:0">
+        <div class="code-head"><span class="file">notes.ts</span><span>@driftless/client</span><span class="lang">TypeScript</span></div>
+<pre><code><span class="l"><span class="t"><span class="kw">import</span> { open } <span class="kw">from</span> <span class="str">"@driftless/client"</span>;</span></span><span class="l"><span class="t"> </span></span><span class="l"><span class="t"><span class="kw">const</span> db = <span class="kw">await</span> <span class="fn">open</span>(<span class="str">"notes.db"</span>, { sync: <span class="str">"wss://sync.example.dev"</span>, token });</span></span><span class="l"><span class="t"> </span></span><span class="l"><span class="t"><span class="kw">await</span> db.<span class="fn">exec</span><span class="sql">`CREATE TABLE IF NOT EXISTS notes (</span></span></span><span class="l"><span class="t"><span class="sql">  id TEXT PRIMARY KEY, body TEXT, updated_at INTEGER)`</span>;</span></span><span class="l"><span class="t"> </span></span><span class="l"><span class="t">db.<span class="fn">watch</span><span class="sql">`SELECT * FROM notes ORDER BY updated_at DESC`</span>.<span class="fn">subscribe</span>(render);</span></span><span class="l"><span class="t"> </span></span><span class="l"><span class="t"><span class="kw">await</span> db.<span class="fn">exec</span><span class="sql">`INSERT INTO notes VALUES (${id}, ${body}, ${Date.now()})`</span>;</span></span></code></pre>
+        <figcaption class="code-foot"><b>db.watch</b> re-runs the query whenever matching rows change, locally or from sync. No network call sits between the insert and <b>render</b>.</figcaption>
+      </figure>
+      <p class="platforms"><b>Runs in</b> the browser (WebAssembly + OPFS) · iOS · Android · Electron · Tauri · Node · Bun · Deno</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <p class="sec-label">How it works</p>
+    <h2>Writes land locally. Sync catches up in the background.</h2>
+    <ol class="steps">
+      <li><strong>Your app writes to its local database.</strong> The write returns without waiting for the network.</li>
+      <li><strong>Driftless records the change</strong> and merges concurrent edits per column, using hybrid logical clocks.</li>
+      <li><strong>The sync server relays the change</strong> to every other device that holds matching rows.</li>
+    </ol>
+
+    <figure class="merge" style="margin-left:0;margin-right:0">
+      <div class="merge-head">
+        <h3>Two people edit the same row offline</h3>
+        <span class="tag">tasks · row t_42 · sample data</span>
+      </div>
+      <div class="merge-grid">
+        <div class="dev">
+          <div class="dev-head"><span>Phone</span><span class="state">offline</span></div>
+          <dl class="row">
+            <dt>title</dt><dd>Draft notes</dd>
+            <dt>status</dt><dd><span class="chg">done</span></dd>
+            <dt>owner</dt><dd>u_17</dd>
+          </dl>
+          <p class="dev-note">edited status</p>
+        </div>
+        <div class="dev">
+          <div class="dev-head"><span>Laptop</span><span class="state">offline</span></div>
+          <dl class="row">
+            <dt>title</dt><dd><span class="chg">Ship 1.4 notes</span></dd>
+            <dt>status</dt><dd>todo</dd>
+            <dt>owner</dt><dd>u_17</dd>
+          </dl>
+          <p class="dev-note">edited title</p>
+        </div>
+        <div class="dev result">
+          <div class="dev-head"><span>Back online · every copy</span><span class="state">merged per column</span></div>
+          <dl class="row">
+            <dt>title</dt><dd>Ship 1.4 notes <span class="from">← from laptop</span></dd>
+            <dt>status</dt><dd>done <span class="from">← from phone</span></dd>
+            <dt>owner</dt><dd>u_17 <span class="from">unchanged</span></dd>
+          </dl>
+          <p class="dev-note">Neither edit is lost. No conflict code to write.</p>
+        </div>
+      </div>
+      <div class="merge-foot">
+        <p><strong>Need more than per-column merging?</strong> Register custom merge functions for counters, lists and rich text.</p>
+        <p><strong>Offline is a normal state.</strong> The app keeps working, and pending changes survive restarts.</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section class="sec" id="compare">
+  <div class="wrap">
+    <p class="sec-label">Compared with server + cache</p>
+    <h2>What changes when the database moves into the app</h2>
+    <table class="compare">
+      <thead>
+        <tr><th scope="col"><span class="skip">Aspect</span></th><th scope="col">Server-first + cache</th><th scope="col" class="us">Driftless</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Reads</th><td data-h="Server + cache">A network round trip, or a possibly stale cache</td><td class="us" data-h="Driftless">Local, sub-millisecond</td></tr>
+        <tr><th scope="row">Offline writes</th><td data-h="Server + cache">Usually blocked, or a custom queue you maintain</td><td class="us" data-h="Driftless">Built in</td></tr>
+        <tr><th scope="row">Conflicts</th><td data-h="Server + cache">Hand-written</td><td class="us" data-h="Driftless">Automatic per column, customisable</td></tr>
+        <tr><th scope="row">Live updates</th><td data-h="Server + cache">A separate realtime service</td><td class="us" data-h="Driftless">Reactive queries included</td></tr>
+        <tr><th scope="row">Where data lives</th><td data-h="Server + cache">Your server</td><td class="us" data-h="Driftless">Each device and your server</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ SPEC ============ -->
+<section class="sec" id="spec">
+  <div class="wrap spec-layout">
+    <div>
+      <p class="sec-label">What you get</p>
+      <h2>One SQL database, on every device you ship to</h2>
+      <p class="intro">SQLite-compatible SQL in the client, an open-source sync server, and nothing to maintain in between.</p>
+    </div>
+    <dl class="spec">
+      <div><dt>Embedded SQL</dt><dd>A SQLite-compatible dialect, running inside your app on the browser, iOS, Android, desktop and server.</dd></div>
+      <div><dt>Sync server</dt><dd>Open source, one binary, backed by Postgres or SQLite. Or use Driftless Cloud.</dd></div>
+      <div><dt>Reactive queries</dt><dd><code>db.watch</code> re-runs a query whenever matching rows change.</dd></div>
+      <div><dt>Partial sync with shapes</dt><dd>Each user syncs only the rows a filter selects, e.g. <code>WHERE team_id = ?</code></dd></div>
+      <div><dt>Your auth</dt><dd>Bring your own JWT. The sync server checks row-level rules.</dd></div>
+      <div><dt>Browser bundle</dt><dd>690 KB gzipped.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ NUMBERS + 1.4 ============ -->
+<section class="sec" id="new">
+  <div class="wrap numbers-layout">
+    <div>
+      <p class="sec-label">Benchmarks</p>
+      <h2>Local means sub-millisecond</h2>
+      <div class="bench">
+        <div><p class="v">0.2<small>ms</small></p><p class="k">Local indexed read, p50</p></div>
+        <div><p class="v">0.8<small>ms</small></p><p class="k">Local write, p50</p></div>
+        <div><p class="v">1.9<small>s</small></p><p class="k">10,000 row changes reaching a second device over throttled 4G</p></div>
+      </div>
+      <p class="bench-setup">Setup: M3 MacBook Air, Chrome 140, OPFS. From the project’s published benchmark page.</p>
+    </div>
+    <aside class="release-card" aria-labelledby="rel-h">
+      <p class="sec-label">Changelog</p>
+      <h3 id="rel-h">What’s new in 1.4</h3>
+      <time datetime="2026-08-19">Released 19 Aug 2026</time>
+      <ul>
+        <li><span>Shapes are generally available</span></li>
+        <li><span>Bun support</span></li>
+        <li><span>WebAssembly bundle 30% smaller</span></li>
+      </ul>
+      <a href="#">Full changelog →</a>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <p class="sec-label">Pricing</p>
+    <h2>Free to self-host. Pay only if you want us to run sync.</h2>
+    <div class="plans">
+      <div class="plan-group">
+        <p class="plan-group-label">Self-hosted</p>
+        <article class="plan">
+          <h3>Open source</h3>
+          <p class="price">Free</p><span class="per">Apache-2.0</span>
+          <ul>
+            <li>Client libraries</li>
+            <li>Self-hosted sync server</li>
+          </ul>
+          <div class="plan-cta"><a class="btn btn-quiet" href="#start">Install</a></div>
+        </article>
+      </div>
+      <div class="plan-group">
+        <p class="plan-group-label">Driftless Cloud · managed sync</p>
+        <div class="pair">
+          <article class="plan">
+            <h3>Cloud Hobby</h3>
+            <p class="price">$0</p><span class="per">per month</span>
+            <ul>
+              <li>1 project</li>
+              <li>1 GB synced data</li>
+              <li>500 monthly active devices</li>
+              <li>Community support</li>
+            </ul>
+            <div class="plan-cta"><a class="btn btn-quiet" href="#">Start free</a></div>
+          </article>
+          <article class="plan pro">
+            <h3>Cloud Pro</h3>
+            <p class="price">$39</p><span class="per">per month, per project</span>
+            <ul>
+              <li>25 GB synced data</li>
+              <li>25,000 monthly active devices</li>
+              <li>7-day point-in-time restore</li>
+              <li>Email support</li>
+            </ul>
+            <div class="plan-cta"><a class="btn btn-primary" href="#">Choose Pro</a></div>
+          </article>
+        </div>
+      </div>
+      <div class="plan-group">
+        <p class="plan-group-label">For organisations</p>
+        <article class="plan">
+          <h3>Enterprise</h3>
+          <p class="price">Custom</p><span class="per per-empty">&nbsp;</span>
+          <ul>
+            <li>SSO / SAML</li>
+            <li>Dedicated region: EU, US or APAC</li>
+            <li>99.95% uptime SLA</li>
+            <li>Audit log export</li>
+          </ul>
+          <div class="plan-cta"><a class="btn btn-quiet" href="#">Contact us</a></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <p class="sec-label">FAQ</p>
+    <h2>The catch, answered</h2>
+    <dl class="faq">
+      <div><dt>Is it SQLite?</dt><dd>The storage engine is a fork of SQLite 3.46 with sync metadata; most SQLite SQL runs unchanged. Extensions that change the file format are not supported.</dd></div>
+      <div><dt>Do I need Driftless Cloud?</dt><dd>No. The sync server is a single open-source binary you can run anywhere; Cloud is the managed version.</dd></div>
+      <div><dt>How big can a local database get?</dt><dd>Browser storage limits apply (usually a share of free disk). On native platforms the tested limit is 50 GB.</dd></div>
+      <div><dt>What happens when two people edit the same row offline?</dt><dd>Each column merges by hybrid logical clock; register custom merge functions for counters, lists and rich text.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ START ============ -->
+<section class="sec start" id="start">
+  <div class="wrap start-grid">
+    <div>
+      <p class="sec-label" style="color:#8fe0bd">Get started</p>
+      <h2>Install the client. Open a database.</h2>
+      <p class="intro">Then point <span class="mono">open()</span> at a sync server: your own open-source binary, or Driftless Cloud.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#">Get started</a>
+        <a class="btn btn-quiet" href="#">Read the docs</a>
+      </div>
+    </div>
+    <ul class="pkgs">
+      <li><span class="k">npm</span><code>npm install @driftless/client</code><button class="copy" type="button" data-copy="npm install @driftless/client">Copy</button></li>
+      <li><span class="k">Swift Package Manager</span><code>github.com/driftless-db/driftless-swift</code><button class="copy" type="button" data-copy="github.com/driftless-db/driftless-swift">Copy</button></li>
+      <li><span class="k">Gradle</span><code>dev.driftless:driftless-android:1.4.0</code><button class="copy" type="button" data-copy="dev.driftless:driftless-android:1.4.0">Copy</button></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home">
+      <svg width="22" height="22" viewBox="0 0 26 26" aria-hidden="true">
+        <rect x="2" y="3" width="22" height="5" rx="1.5" fill="#15171c"/>
+        <rect x="2" y="10.5" width="22" height="5" rx="1.5" fill="#0a6a4c"/>
+        <rect x="2" y="18" width="22" height="5" rx="1.5" fill="#15171c"/>
+      </svg>
+      driftless
+    </a>
+    <nav aria-label="Footer">
+      <a href="#">Docs</a><a href="#">API reference</a><a href="#">Status</a><a href="#">Security</a><a href="#">Privacy</a><a href="#">Terms</a><a href="#new">Changelog</a><a href="#">GitHub</a>
+    </nav>
+    <small>© 2026 Driftless Labs</small>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-copy');
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){
+      b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1600);
+    }).catch(function(){});
+  });
+});
+var mb=document.querySelector('.menu-btn'),mn=document.getElementById('mnav');
+mb.addEventListener('click',function(){var o=mn.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{
+ "brief": "01-ops-console-zh",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list-01.png: 11 rows above the fold; overdue rows get a red left bar plus a warning icon and text; P1 is a solid red badge with a signal-bar icon",
+    "A/list-empty-01.png: active filters appear as removable chips only in the empty-state body, while the filter bar shows the values without clear buttons",
+    "A/detail-01.png: chart has a 55 threshold line and a created-at marker, but no summary of the trend"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/detail-01.png: chart headline '2 小时内升高 22.3 °C，08:50 起超过上限', readings above the limit drawn as red squares with a legend, and out-of-range rows tinted with a text verdict",
+    "B/list-empty-01.png: '已筛选' chip row sits under the filter bar with a × on each chip, plus one-click '移除「负责人：王建国」' suggestions",
+    "B/list-01.png: overdue SLA cells are tinted red with the text '响应已超时'; dates sit on one line for scanning, but the overdue text wraps to two lines"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B marks overdue SLA cells more strongly, keeps active-filter chips removable in the filter bar, and sums up the oil-temperature trend in the chart headline."
+  }
+ ],
+ "notes": "Both are complete, pass AA with no measured failures, and keep 11+ rows above the fold. A's signal-bar priority icons give extra redundancy; B's error state blanks the stale counts to '—' and adds '复制请求编号'. Both look like a standard enterprise admin console, so the name-swap test keeps Identity at 3."
+}

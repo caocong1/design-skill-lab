@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-27",
-  "note": "Eval scoreboard feed for /skills/ (runs and triggers, shape in README.md). runs are copied from evals/runs/<date>/results.json without recomputing; triggers from the triggers-<suite>.md role view. The dated artifacts are written into the pages as static HTML and linked relatively to the files in this folder.",
+  "updated": "2026-09-28",
+  "note": "Eval scoreboard feed for /skills/ (runs and triggers, shape in README.md). runs are copied from evals/runs/<round>/results.json; a row of a multi-sample round holds the per-brief means over its samples. triggers come from the triggers-<suite>.md role view. The dated artifacts are written into the pages as static HTML and linked relatively to the files in this folder.",
   "runs": [
     {
       "date": "2026-09-27",
@@ -52,8 +52,8 @@
           "src": "assets/showcase/2026-09-27-evals/01-ops-console-zh/no-skill.webp",
           "w": 960,
           "h": 600,
-          "alt_zh": "工单列表首屏：浅色侧栏，表格一屏约 11 行，逾期行左侧红条",
-          "alt_en": "Ticket list first screen: light sidebar, about 11 rows, overdue rows marked with a red edge"
+          "alt_zh": "工单列表首屏：深色侧栏，表格一屏约 11 行，逾期行左侧红条",
+          "alt_en": "Ticket list first screen: dark sidebar, about 11 rows, overdue rows marked with a red edge"
         },
         "suite-0.7.0": {
           "src": "assets/showcase/2026-09-27-evals/01-ops-console-zh/suite-0.7.0.webp",
@@ -429,6 +429,324 @@
       "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md",
       "note_zh": "旧界面本身总分 1.9；三组都把 74 项旧功能放上屏幕或说明了去向。",
       "note_en": "The legacy screen scores 1.9 overall; all three arms put every one of the 74 legacy functions on screen or accounted for it."
+    },
+    {
+      "date": "2026-09-28",
+      "brief": "01-ops-console-zh",
+      "title_zh": "设备运维工单",
+      "title_en": "Ops tickets console",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 3.89,
+            "overall": 3.81
+          }
+        },
+        "suite-0.8.1": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 4.11,
+            "identity": 3,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4.22,
+            "overall": 4.06
+          }
+        }
+      },
+      "winner": "suite-0.8.1",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-28-evals/01-ops-console-zh/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "工单列表首屏：深蓝侧栏，表格一屏 11 行，已选 2 条，超时行左侧红条、SLA 写成红字加警告图标",
+          "alt_en": "Ticket list first screen: dark navy sidebar, 11 rows, 2 selected, overdue rows marked with a red edge and red SLA text with a warning icon"
+        },
+        "suite-0.8.1": {
+          "src": "assets/showcase/2026-09-28-evals/01-ops-console-zh/suite-0.8.1.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "工单列表首屏：深蓝侧栏，超时的 SLA 做成浅红底色块，批量条写着已选 2 项并可选择全部 1,286 条",
+          "alt_en": "Ticket list first screen: dark navy sidebar, overdue SLAs set as red-tinted blocks, batch bar reads 2 selected with select all 1,286"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md",
+      "note_zh": "三个样本：套件赢 3 组（评审票 9:0）。",
+      "note_en": "Three samples: the suite won 3 sets (9-0 on judge votes)."
+    },
+    {
+      "date": "2026-09-28",
+      "brief": "02-devtool-landing-en",
+      "title_zh": "开发者工具落地页",
+      "title_en": "Dev-tool landing page",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4.11,
+            "identity": 3.33,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 3.56,
+            "overall": 3.83
+          }
+        },
+        "suite-0.8.1": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 4,
+            "identity": 3.56,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4.11,
+            "overall": 4.11
+          }
+        }
+      },
+      "winner": "suite-0.8.1",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-28-evals/02-devtool-landing-en/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "落地页桌面首屏：暖色纸底带等高线纹，绿色强调的大标题，右侧深色代码面板放下完整示例",
+          "alt_en": "Landing page desktop first screen: warm paper ground with contour lines, large headline with a green accent, a dark code panel holding the full sample on the right"
+        },
+        "suite-0.8.1": {
+          "src": "assets/showcase/2026-09-28-evals/02-devtool-landing-en/suite-0.8.1.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "落地页桌面首屏：白底，通栏的特大标题，左侧安装命令带 Copy 按钮，右侧浅色代码面板完整可见，下面两行注解",
+          "alt_en": "Landing page desktop first screen: white ground, an oversized headline across the page, install command with a Copy button on the left, a light code panel shown whole on the right with two lines of notes under it"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md",
+      "note_zh": "三个样本：套件赢 3 组（评审票 8:1）。样本 3 因量测脚本的一个缺陷（把实测 16:1 的文字报成 1.12:1）换三位新评审重评，计入的是重评（3:0）；第一次是 2:1，留档不计。",
+      "note_en": "Three samples: the suite won 3 sets (8-1 on judge votes). Sample 3 was judged again by three fresh judges after a harness bug reported text that measures 16:1 as 1.12:1; the second judging (3-0) counts, the first (2-1) is kept and not counted."
+    },
+    {
+      "date": "2026-09-28",
+      "brief": "03-ios-consumer-screen",
+      "title_zh": "iOS 阅读习惯 App",
+      "title_en": "iOS reading app",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4.22,
+            "identity": 3,
+            "craft": 4,
+            "typography": 3.89,
+            "platform_a11y": 3.89,
+            "overall": 3.83
+          }
+        },
+        "suite-0.8.1": {
+          "status": "ok",
+          "means": {
+            "fit": 4.44,
+            "hierarchy": 4,
+            "identity": 4.33,
+            "craft": 4,
+            "typography": 4.33,
+            "platform_a11y": 3.78,
+            "overall": 4.15
+          }
+        }
+      },
+      "winner": "suite-0.8.1",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-28-evals/03-ios-consumer-screen/no-skill.webp",
+          "w": 603,
+          "h": 1311,
+          "alt_zh": "iOS 今日页：锈红进度环，标了每天分钟数的本周柱状图，Middlemarch 卡片里的开始阅读和记录页数按钮",
+          "alt_en": "iOS Today screen: rust progress ring, week bars labelled with each day’s minutes, Start Session and Log Pages inside the Middlemarch card"
+        },
+        "suite-0.8.1": {
+          "src": "assets/showcase/2026-09-28-evals/03-ios-consumer-screen/suite-0.8.1.webp",
+          "w": 603,
+          "h": 1311,
+          "alt_zh": "iOS 今日页：暖色纸底，进度环下并排开始阅读和记录页数两个按钮，本周柱状图里周日一格用斜纹，书名用衬线体，封面折了角",
+          "alt_en": "iOS Today screen: warm paper ground, Start Session and Log Pages side by side under the ring, Sunday’s bar hatched in the week chart, serif book titles, dog-eared covers"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md",
+      "note_zh": "三个样本：套件赢 3 组（评审票 9:0）。",
+      "note_en": "Three samples: the suite won 3 sets (9-0 on judge votes)."
+    },
+    {
+      "date": "2026-09-28",
+      "brief": "04-miniprogram-list-zh",
+      "title_zh": "小程序上门服务列表",
+      "title_en": "Mini-program service list",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 3.67,
+            "typography": 4,
+            "platform_a11y": 3.78,
+            "overall": 3.74
+          }
+        },
+        "suite-0.8.1": {
+          "status": "ok",
+          "means": {
+            "fit": 5,
+            "hierarchy": 4,
+            "identity": 3.56,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4.22,
+            "overall": 4.13
+          }
+        }
+      },
+      "winner": "suite-0.8.1",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-28-evals/04-miniprogram-list-zh/no-skill.webp",
+          "w": 563,
+          "h": 1218,
+          "alt_zh": "小程序服务列表：每张卡片左侧图标，底部一行最近可约时间和橙红色价格，首屏三张完整卡片",
+          "alt_en": "Mini-program service list: an icon tile on each card, next available time and an orange-red price along the bottom, three full cards on the first screen"
+        },
+        "suite-0.8.1": {
+          "src": "assets/showcase/2026-09-28-evals/04-miniprogram-list-zh/suite-0.8.1.webp",
+          "w": 563,
+          "h": 1218,
+          "alt_zh": "小程序服务列表：每张卡片以时间块开头（今天 16:00），价格用黑字放在右上，首屏露出四个服务",
+          "alt_en": "Mini-program service list: each card leads with a time block (today 16:00), prices in black at the top right, four services in view on the first screen"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md",
+      "note_zh": "三个样本：套件赢 3 组（评审票 9:0）。",
+      "note_en": "Three samples: the suite won 3 sets (9-0 on judge votes)."
+    },
+    {
+      "date": "2026-09-28",
+      "brief": "05-agent-approvals",
+      "title_zh": "agent 运行与审批",
+      "title_en": "Agent run and approval",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4.33,
+            "hierarchy": 4,
+            "identity": 3,
+            "craft": 4,
+            "typography": 3.89,
+            "platform_a11y": 4.11,
+            "overall": 3.89
+          }
+        },
+        "suite-0.8.1": {
+          "status": "ok",
+          "means": {
+            "fit": 4.67,
+            "hierarchy": 4.33,
+            "identity": 3.56,
+            "craft": 4,
+            "typography": 4.11,
+            "platform_a11y": 4.22,
+            "overall": 4.15
+          }
+        }
+      },
+      "winner": "suite-0.8.1",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-28-evals/05-agent-approvals/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "agent 审批页首屏：审批卡片在上，下面是更换银行账户的警告和收款方表格，右侧是计划栏；首屏里看不到批准和拒绝按钮",
+          "alt_en": "Agent approval first screen: the approval card on top, the changed-bank-account warning and payee table below, plan rail on the right; no approve or reject button in view"
+        },
+        "suite-0.8.1": {
+          "src": "assets/showcase/2026-09-28-evals/05-agent-approvals/suite-0.8.1.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "agent 审批页首屏：深绿侧栏，左边是收款方表格，右边是警告和四个选择，主按钮是不含 Oakridge 批准，每个选择下面写着后果，底部是可撤销期限",
+          "alt_en": "Agent approval first screen: dark green sidebar, payee table on the left; on the right the warning and four choices with Approve without Oakridge as the primary button, each followed by its consequence, the cancel deadline at the bottom"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md",
+      "note_zh": "三个样本：套件赢 2 组、输 1 组（评审票 7:2）。输的是样本 2：有收款方被标出风险，套件仍把整批批准做成主按钮。",
+      "note_en": "Three samples: the suite won 2 sets and lost 1 (7-2 on judge votes). The lost set is sample 2: a payee was flagged and the suite still made approving the whole batch the primary button."
+    },
+    {
+      "date": "2026-09-28",
+      "brief": "06-redesign-legacy",
+      "title_zh": "旧诊所排班重设计",
+      "title_en": "Legacy clinic scheduler redesign",
+      "arms": {
+        "no-skill": {
+          "status": "ok",
+          "means": {
+            "fit": 4.56,
+            "hierarchy": 4.11,
+            "identity": 3,
+            "craft": 3.78,
+            "typography": 3.89,
+            "platform_a11y": 4,
+            "overall": 3.89
+          }
+        },
+        "suite-0.8.1": {
+          "status": "ok",
+          "means": {
+            "fit": 4.89,
+            "hierarchy": 4,
+            "identity": 3.56,
+            "craft": 4,
+            "typography": 4,
+            "platform_a11y": 4,
+            "overall": 4.07
+          }
+        }
+      },
+      "winner": "suite-0.8.1",
+      "winner_reason": "condorcet",
+      "shots": {
+        "no-skill": {
+          "src": "assets/showcase/2026-09-28-evals/06-redesign-legacy/no-skill.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "诊所日视图：左侧候诊栏，中间四位医生的时间网格，右侧患者面板里有绿色的 Collect copay 按钮",
+          "alt_en": "Clinic day view: waiting-room rail on the left, a time grid for four clinicians, a patient panel on the right with a green Collect copay button"
+        },
+        "suite-0.8.1": {
+          "src": "assets/showcase/2026-09-28-evals/06-redesign-legacy/suite-0.8.1.webp",
+          "w": 960,
+          "h": 600,
+          "alt_zh": "诊所日视图：预约卡片用文字代码加色条标出类型，底部一行类型图例，右侧面板是签到清单（4 项完成 2 项），主按钮是 Collect copay",
+          "alt_en": "Clinic day view: cards carry the type as a text code plus a colour bar, a type legend along the bottom, the right panel is a check-in checklist (2 of 4 done) with Collect copay as the primary button"
+        }
+      },
+      "report": "https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md",
+      "note_zh": "三个样本：套件赢 3 组（评审票 7:2）。套件的三次运行各因基础设施原因失败两次（周额度、断网），评的是第三次尝试。旧界面本身总分 2.39。",
+      "note_en": "Three samples: the suite won 3 sets (7-2 on judge votes). The three suite runs each failed twice for infrastructure reasons (weekly limit, network loss); the third attempt was judged. The legacy screen scores 2.39 overall."
     }
   ],
   "triggers": [

@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1">
+<title>服务 · 拾光到家</title>
+<style>
+:root {
+  /* colour roles */
+  --color-bg: #f0f1ef;
+  --color-surface: #ffffff;
+  --color-sunken: #f0f1ef;
+  --color-line: #e3e6e2;
+  --color-line-strong: #c9cec8;
+  --color-ink: #1b1f1d;
+  --color-ink-2: #4c5450;
+  --color-ink-3: #636b67;
+  --color-primary: #0a6e61;
+  --color-primary-ink: #075248;
+  --color-primary-tint: #e4f2ee;
+  --color-on-primary: #ffffff;
+  --color-star: #b36b00;
+  --color-scrim: rgb(20 26 24 / 0.5);
+  /* system chrome (drawn by WeChat / iOS) */
+  --sys-status-h: 44px;
+  --sys-nav-row-h: 44px;
+  --sys-tab-h: 49px;
+  --sys-safe-bottom: 34px;
+  --sys-tab-bg: #f7f7f7;
+  --sys-tab-ink: #5c5c5c;
+  /* capsule, as read from wx.getMenuButtonBoundingClientRect() at runtime */
+  --cap-left: 281px; --cap-top: 50px; --cap-w: 87px; --cap-h: 32px;
+  /* spacing, radius, type */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+  --margin: 16px;
+  --fs-s: 12px; --lh-s: 18px; --fs-m: 14px; --lh-m: 20px; --fs-l: 17px; --lh-l: 24px; --fs-xl: 20px; --lh-xl: 26px;
+  --r-s: 6px; --r-m: 10px; --r-l: 14px; --r-pill: 999px;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei UI", "Noto Sans CJK SC", sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 375px; height: 812px; overflow: hidden; background: var(--color-bg); }
+body { font-family: var(--font); color: var(--color-ink); font-size: var(--fs-m); line-height: var(--lh-m); -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: inherit; }
+a { color: inherit; text-decoration: none; }
+svg.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+/* scaffold: bars are siblings of the one scrolling region */
+.screen { position: relative; width: 375px; height: 812px; display: flex; flex-direction: column; overflow: hidden; }
+.top { flex: none; background: var(--color-surface); position: relative; z-index: 3; }
+.scroll { flex: 1; min-height: 0; overflow: hidden; position: relative; }
+
+/* system: status bar */
+.status { height: var(--sys-status-h); display: flex; align-items: center; justify-content: space-between; padding: 0 22px 0 30px; font-size: 16px; font-weight: 600; letter-spacing: -0.2px; }
+.status .sys-icons { display: flex; gap: 6px; align-items: center; }
+
+/* custom navigation row: centred on the capsule (bar = 44 + 32 + 2 x 6 = 88) */
+.nav { height: var(--sys-nav-row-h); display: flex; align-items: center; padding: 0 var(--margin); padding-right: calc(375px - var(--cap-left) + 8px); }
+.loc { display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: var(--fs-l); line-height: var(--lh-l); font-weight: 600; min-width: 0; white-space: nowrap; }
+.loc .dim-group { display: flex; min-width: 0; overflow: hidden; text-overflow: ellipsis; flex-shrink: 1; }
+.loc .keep { flex: none; }
+.loc .i { width: 18px; height: 18px; color: var(--color-primary); }
+.loc .dim { color: var(--color-ink-2); font-weight: 500; }
+.loc .sep { color: var(--color-ink-3); font-weight: 400; margin: 0 4px; }
+.loc .chev { width: 14px; height: 14px; color: var(--color-ink-2); stroke-width: 2; }
+.capsule { position: absolute; left: var(--cap-left); top: var(--cap-top); width: var(--cap-w); height: var(--cap-h); border-radius: 16px;
+  background: rgb(255 255 255 / 0.7); box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.16); display: flex; align-items: center; color: #000; }
+.capsule span { flex: 1; display: flex; justify-content: center; align-items: center; height: 100%; }
+.capsule span + span { box-shadow: inset 0.5px 0 0 rgb(0 0 0 / 0.16); }
+.capsule svg { fill: currentColor; }
+
+/* search */
+.search { padding: 1px var(--margin) 5px; }
+.search-hit { width: 100%; height: 44px; display: flex; align-items: center; }
+.search-field { width: 100%; min-height: 38px; border-radius: var(--r-pill); background: var(--color-sunken); display: flex; align-items: center; gap: 8px; padding: 0 14px; color: var(--color-ink-3); font-size: var(--fs-m); white-space: nowrap; }
+.search-field .i { width: 18px; height: 18px; color: var(--color-ink-2); }
+
+/* category tabs */
+.cats { position: relative; min-height: 44px; display: flex; align-items: stretch; }
+.cats-track { flex: 1; min-width: 0; display: flex; gap: 18px; padding: 0 var(--margin); overflow: hidden; white-space: nowrap; }
+.cat { position: relative; display: flex; align-items: center; justify-content: center; min-width: 44px; font-size: var(--fs-m); color: var(--color-ink-2); flex: none; min-height: 44px; white-space: nowrap; }
+.cat[aria-selected="true"] { color: var(--color-ink); font-weight: 600; }
+.cat[aria-selected="true"]::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 20px; height: 3px; margin-left: -10px; border-radius: 2px; background: var(--color-primary); }
+.cats-fade { position: absolute; right: 44px; top: 0; bottom: 0; width: 16px; background: linear-gradient(90deg, rgb(255 255 255 / 0), #fff); pointer-events: none; }
+.cats-more { flex: none; width: 44px; display: flex; align-items: center; justify-content: center; color: var(--color-ink-2); background: #fff; box-shadow: -0.5px 0 0 var(--color-line); margin: 10px 0; height: 24px; align-self: center; }
+.cats-more-hit { flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+
+/* sort + filter bar */
+.sortbar { min-height: 44px; display: flex; align-items: stretch; padding: 0 var(--margin); box-shadow: inset 0 -0.5px 0 var(--color-line), inset 0 0.5px 0 var(--color-line); }
+.sorts { flex: 1; display: flex; justify-content: space-between; padding-right: 14px; }
+.sort { display: flex; align-items: center; gap: 2px; font-size: var(--fs-m); color: var(--color-ink-2); min-height: 44px; white-space: nowrap; }
+.sort[aria-pressed="true"] { color: var(--color-primary); font-weight: 600; }
+.sort .i { width: 12px; height: 12px; stroke-width: 2.2; }
+.filter-btn { display: flex; align-items: center; gap: 4px; padding-left: 14px; font-size: var(--fs-m); white-space: nowrap; color: var(--color-ink-2); box-shadow: inset 0.5px 0 0 var(--color-line); margin: 0; min-height: 44px; }
+.filter-btn .i { width: 16px; height: 16px; }
+.filter-btn[data-active] { color: var(--color-primary); font-weight: 600; }
+.filter-btn .count { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--color-primary); color: var(--color-on-primary); font-size: 12px; line-height: 18px; font-weight: 600; text-align: center; }
+
+/* list */
+.list-head { display: flex; align-items: center; min-height: 34px; padding: 0 var(--margin); font-size: var(--fs-s); line-height: var(--lh-s); color: var(--color-ink-3); }
+.list-head .col-time { width: 68px; text-align: center; }
+.list-head .col-rest { padding-left: 12px; flex: 1; display: flex; justify-content: space-between; }
+.list { background: var(--color-surface); list-style: none; }
+.row { display: flex; gap: 12px; padding: 14px var(--margin) 14px; position: relative; }
+.row + .row::before { content: ""; position: absolute; top: 0; left: 96px; right: 0; height: 0.5px; background: var(--color-line); }
+.when { flex: none; min-width: 68px; align-self: flex-start; border-radius: var(--r-m); background: var(--color-sunken); padding: 8px 0 9px; display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.when .day { font-size: var(--fs-s); line-height: var(--lh-s); white-space: nowrap; padding: 0 4px; color: var(--color-ink-2); }
+.when .t { font-size: var(--fs-xl); line-height: var(--lh-xl); font-weight: 700; letter-spacing: 0.2px; }
+.when[data-day="today"] { background: var(--color-primary-tint); }
+.when[data-day="today"] .day { color: var(--color-primary-ink); font-weight: 600; }
+.when[data-day="today"] .t { color: var(--color-primary-ink); }
+.body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.line1 { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.name { font-size: var(--fs-l); line-height: var(--lh-l); font-weight: 600; }
+.price { flex: none; text-align: right; line-height: 24px; white-space: nowrap; }
+.price b { font-size: var(--fs-xl); font-weight: 700; letter-spacing: -0.2px; }
+.price .u, .price .pre { font-size: var(--fs-s); color: var(--color-ink-2); margin-left: 2px; }
+.price .pre { margin: 0 2px 0 0; }
+.provider { font-size: var(--fs-m); line-height: var(--lh-m); color: var(--color-ink-2); display: flex; justify-content: space-between; gap: 8px; }
+.provider .note { font-size: var(--fs-s); color: var(--color-ink-3); white-space: nowrap; }
+.meta { display: flex; align-items: center; gap: 6px; font-size: var(--fs-m); line-height: var(--lh-m); color: var(--color-ink-3); white-space: nowrap; }
+.meta .rate { display: flex; align-items: center; gap: 2px; color: var(--color-ink); font-weight: 600; }
+.meta .rate svg { width: 13px; height: 13px; fill: var(--color-star); }
+.meta .dot { width: 2px; height: 2px; border-radius: 1px; background: var(--color-ink-3); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+.tag { display: flex; align-items: center; gap: 2px; min-height: 22px; padding: 0 6px; border-radius: var(--r-s); font-size: var(--fs-s); line-height: var(--lh-s); color: var(--color-ink-2); box-shadow: inset 0 0 0 0.5px var(--color-line-strong); }
+.tag[data-kind="guarantee"] { color: var(--color-primary-ink); box-shadow: inset 0 0 0 0.5px #9fcdc3; background: var(--color-primary-tint); }
+.tag svg { width: 12px; height: 12px; stroke-width: 2; }
+
+/* system: native tab bar + home indicator */
+.tabbar { flex: none; height: calc(var(--sys-tab-h) + var(--sys-safe-bottom)); padding-bottom: var(--sys-safe-bottom); background: var(--sys-tab-bg); box-shadow: inset 0 0.5px 0 rgb(0 0 0 / 0.15); display: flex; position: relative; z-index: 5; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; line-height: 14px; color: var(--sys-tab-ink); }
+.tab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.tab[aria-current] svg { stroke-width: 2; }
+.tab[aria-current] { color: var(--color-primary); }
+.home-ind { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: #000; }
+
+/* filter panel (drops from the sort bar; the native tab bar stays on top of the page) */
+.scrim { position: absolute; inset: 0; background: var(--color-scrim); z-index: 1; }
+.panel { position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 2; background: var(--color-surface); display: flex; flex-direction: column; }
+.panel-body { flex: 1; min-height: 0; padding: 10px var(--margin) 0; display: flex; flex-direction: column; gap: 8px; }
+.group h3 { font-size: var(--fs-m); line-height: 20px; font-weight: 600; color: var(--color-ink); margin-bottom: 4px; display: flex; justify-content: space-between; }
+.group h3 small { font-size: var(--fs-s); font-weight: 400; color: var(--color-ink-3); }
+.chips { display: flex; gap: 8px; }
+.chip { flex: 1 1 0; min-width: 0; min-height: 44px; border-radius: var(--r-m); background: var(--color-sunken); font-size: var(--fs-m); color: var(--color-ink); display: flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap; text-align: center; }
+.chip[aria-checked="true"] { background: var(--color-primary-tint); color: var(--color-primary-ink); font-weight: 600; box-shadow: inset 0 0 0 1px var(--color-primary); }
+.chip .i { width: 14px; height: 14px; }
+.chips.two .chip { flex: 0 0 calc((100% - 24px) / 4 * 2 + 8px); }
+.panel-foot { flex: none; padding: 0 var(--margin) 10px; box-shadow: inset 0 0.5px 0 var(--color-line); display: flex; flex-direction: column; gap: 2px; }
+.zero-hint { display: flex; flex-direction: column; gap: 0; }
+.relax .why { color: var(--color-ink-2); font-weight: 400; }
+.relax { display: flex; align-items: center; gap: 6px; min-height: 44px; font-size: var(--fs-m); line-height: var(--lh-m); color: var(--color-primary-ink); font-weight: 600; }
+.relax .grow { flex: 1; }
+.relax .i { width: 16px; height: 16px; stroke-width: 2; }
+.btns { display: flex; gap: 10px; }
+.btn { min-height: 44px; border-radius: var(--r-pill); display: flex; align-items: center; justify-content: center; font-size: var(--fs-l); font-weight: 600; padding: 0 16px; white-space: nowrap; }
+.btn-secondary { flex: 0 0 112px; background: var(--color-sunken); color: var(--color-ink); }
+.btn-primary { flex: 1; background: var(--color-primary); color: var(--color-on-primary); }
+.btn-outline { flex: 1; background: var(--color-surface); color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-line-strong); }
+
+/* empty (no results) */
+.active-filters { display: flex; align-items: center; gap: 8px; padding: 0 var(--margin); height: 48px; background: var(--color-surface); box-shadow: inset 0 -0.5px 0 var(--color-line); }
+.active-filters .lbl { font-size: var(--fs-m); color: var(--color-ink-3); flex: none; }
+.af { height: 44px; display: flex; align-items: center; flex: none; }
+.af span { height: 30px; display: flex; align-items: center; gap: 4px; padding: 0 8px 0 10px; border-radius: var(--r-pill); background: var(--color-primary-tint); color: var(--color-primary-ink); font-size: var(--fs-m); font-weight: 600; white-space: nowrap; }
+.af .i { width: 12px; height: 12px; stroke-width: 2.4; }
+.empty { padding: 22px var(--margin) 0; display: flex; flex-direction: column; }
+.empty-hero { display: flex; gap: 14px; align-items: flex-start; }
+.empty-hero .mark { flex: none; width: 52px; height: 52px; border-radius: 26px; background: var(--color-surface); display: flex; align-items: center; justify-content: center; color: var(--color-ink-3); box-shadow: inset 0 0 0 0.5px var(--color-line); }
+.empty-hero .mark .i { width: 26px; height: 26px; stroke-width: 1.5; }
+.empty-hero h2 { font-size: var(--fs-xl); line-height: var(--lh-xl); font-weight: 600; }
+.empty-hero p { font-size: var(--fs-m); line-height: 22px; color: var(--color-ink-2); margin-top: 4px; }
+.empty-hero p b { color: var(--color-ink); font-weight: 600; }
+.suggest-title { margin: 20px 0 8px; font-size: var(--fs-s); line-height: var(--lh-s); color: var(--color-ink-3); }
+.suggest { list-style: none; background: var(--color-surface); border-radius: var(--r-l); overflow: hidden; }
+.sg { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 12px 8px 12px; position: relative; }
+.sg + .sg::before { content: ""; position: absolute; top: 0; left: 68px; right: 0; height: 0.5px; background: var(--color-line); }
+.sg .what { flex: 1; min-width: 0; font-size: var(--fs-l); line-height: var(--lh-l); }
+.sg .when { min-width: 0; width: 52px; padding: 6px 0; }
+.sg .when .t { font-size: var(--fs-m); line-height: var(--lh-m); white-space: nowrap; }
+.sg .what small { display: block; font-size: var(--fs-s); line-height: 18px; color: var(--color-ink-3); }
+.sg .n { font-size: var(--fs-m); font-weight: 600; color: var(--color-primary-ink); white-space: nowrap; }
+.sg .chev { width: 16px; height: 16px; color: var(--color-ink-3); stroke-width: 2; }
+.empty .btns { margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+  <symbol id="right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></symbol>
+  <symbol id="grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></symbol>
+  <symbol id="funnel" viewBox="0 0 24 24"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></symbol>
+  <symbol id="star" viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4L2.8 9.5l6.4-.8z"/></symbol>
+  <symbol id="shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.4-3 7.9-7 9.5-4-1.6-7-5.1-7-9.5V6z"/><path d="M8.8 12l2.2 2.2 4.2-4.4"/></symbol>
+  <symbol id="cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></symbol>
+  <symbol id="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="nores" viewBox="0 0 24 24"><path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h5"/><circle cx="16" cy="16" r="3.2"/><path d="M18.4 18.4l2.3 2.3"/></symbol>
+  <symbol id="t-home" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></symbol>
+  <symbol id="t-service" viewBox="0 0 24 24"><path d="M14.5 5.2a4.5 4.5 0 0 0-5.8 5.8L4 15.7V20h4.3l4.7-4.7a4.5 4.5 0 0 0 5.8-5.8l-2.9 2.9-2.8-.6-.6-2.8z"/></symbol>
+  <symbol id="t-order" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></symbol>
+  <symbol id="t-me" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1-3.8 4-5.8 7.5-5.8s6.5 2 7.5 5.8"/></symbol>
+</svg>
+<div class="screen" data-platform="wechat-miniprogram">
+
+<header class="top">
+<div class="status" data-component="SystemStatusBar" aria-hidden="true">
+  <span>13:20</span>
+  <span class="sys-icons">
+    <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#000"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#000"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#000"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#000"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5l2.4-2.9a3.8 3.8 0 0 0-4.8 0z" fill="#000"/><path d="M2.6 5.6a8.4 8.4 0 0 1 10.8 0l-1.5 1.8a6 6 0 0 0-7.8 0z" fill="#000"/><path d="M0 2.6a12.4 12.4 0 0 1 16 0l-1.5 1.8a10 10 0 0 0-13 0z" fill="#000"/></svg>
+    <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="#000" opacity="0.4"/><rect x="2" y="2" width="17" height="9" rx="2" fill="#000"/><path d="M25 4.5v4a2 2 0 0 0 0-4z" fill="#000" opacity="0.45"/></svg>
+  </span>
+</div>
+<div class="nav" data-component="CustomNavBar">
+  <button class="loc" aria-label="当前位置：苏州 工业园区 星湖街，点击切换">
+    <svg class="i" aria-hidden="true"><use href="#pin"/></svg><span class="dim-group"><span class="dim">苏州</span><span class="sep">·</span><span class="dim">工业园区</span><span class="sep" style="margin-right:0">·</span></span><span class="keep">星湖街</span><svg class="i chev" aria-hidden="true"><use href="#down"/></svg>
+  </button>
+</div>
+<div class="capsule" data-component="WeChatCapsule" data-system="wechat" aria-hidden="true">
+  <span><svg width="20" height="6" viewBox="0 0 20 6"><circle cx="3" cy="3" r="2.4"/><circle cx="10" cy="3" r="3"/><circle cx="17" cy="3" r="2.4"/></svg></span>
+  <span><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="7.3" fill="none" stroke="#000" stroke-width="1.8"/><circle cx="9" cy="9" r="2.6"/></svg></span>
+</div>
+<div class="search"><button class="search-hit" data-component="SearchField"><span class="search-field"><svg class="i" aria-hidden="true"><use href="#search"/></svg><span>搜索服务，如「空调清洗」</span></span></button></div>
+<div class="cats" role="tablist" aria-label="服务类目" data-component="CategoryTabs">
+  <div class="cats-track"><button class="cat" role="tab" aria-selected="true">全部</button><button class="cat" role="tab" aria-selected="false">日常保洁</button><button class="cat" role="tab" aria-selected="false">家电清洗</button><button class="cat" role="tab" aria-selected="false">家居维修</button><button class="cat" role="tab" aria-selected="false">管道疏通</button><button class="cat" role="tab" aria-selected="false">收纳整理</button><button class="cat" role="tab" aria-selected="false">搬家</button></div>
+  <div class="cats-fade"></div>
+  <button class="cats-more-hit" aria-label="展开全部类目"><svg class="i" aria-hidden="true"><use href="#grid"/></svg></button>
+</div>
+<div class="sortbar" data-component="SortFilterBar">
+  <div class="sorts"><button class="sort" aria-pressed="true">综合排序</button><button class="sort" aria-pressed="false">距离最近</button><button class="sort" aria-pressed="false">评分最高</button><button class="sort" aria-pressed="false">价格最低</button></div>
+  <button class="filter-btn"  aria-expanded="false" aria-label="筛选">
+    筛选<svg class="i" aria-hidden="true"><use href="#funnel"/></svg>
+  </button>
+</div></header>
+<main class="scroll" data-component="ServiceList">
+  <div class="list-head"><span class="col-time">最近可约</span><span class="col-rest"><span>共 26 个服务</span></span></div>
+  <ul class="list">
+<li><a class="row" data-component="ServiceRow" aria-label="日常保洁 · 3 小时，拾光自营保洁队，评分 4.9，已服务 12,480 次，¥129起，最近可约 今天 16:00，距离 1.2 km">
+  <div class="when" data-day="today" data-component="SlotBadge"><span class="day">今天</span><span class="t">16:00</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">日常保洁 · 3 小时</span>
+      <span class="price"><b>¥129</b><span class="u">起</span></span></div>
+    <div class="provider"><span>拾光自营保洁队</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.9</span><span>已服务 12,480 次</span><i class="dot"></i><span>1.2 km</span></div>
+    <div class="tags"><span class="tag" data-kind="guarantee"><svg class="i" aria-hidden="true"><use href="#shield"/></svg>平台担保</span><span class="tag">自带工具</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="空调清洗（挂机），蓝鲸家电清洗，评分 4.8，已服务 3,216 次，¥89/ 台，最近可约 明天 09:00，距离 2.6 km">
+  <div class="when" data-day="later" data-component="SlotBadge"><span class="day">明天</span><span class="t">09:00</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">空调清洗（挂机）</span>
+      <span class="price"><b>¥89</b><span class="u">/ 台</span></span></div>
+    <div class="provider"><span>蓝鲸家电清洗</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.8</span><span>已服务 3,216 次</span><i class="dot"></i><span>2.6 km</span></div>
+    <div class="tags"><span class="tag">高温蒸汽</span><span class="tag">可开发票</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="油烟机深度清洗，蓝鲸家电清洗，评分 4.7，已服务 1,905 次，¥159/ 台，最近可约 明天 14:00，距离 2.6 km">
+  <div class="when" data-day="later" data-component="SlotBadge"><span class="day">明天</span><span class="t">14:00</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">油烟机深度清洗</span>
+      <span class="price"><b>¥159</b><span class="u">/ 台</span></span></div>
+    <div class="provider"><span>蓝鲸家电清洗</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.7</span><span>已服务 1,905 次</span><i class="dot"></i><span>2.6 km</span></div>
+    <div class="tags"><span class="tag">拆洗</span><span class="tag">可开发票</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="水龙头 / 花洒维修，邻家师傅 · 张师傅，评分 4.9，已服务 862 次，上门费¥50，材料另计，最近可约 今天 18:30，距离 0.8 km">
+  <div class="when" data-day="today" data-component="SlotBadge"><span class="day">今天</span><span class="t">18:30</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">水龙头 / 花洒维修</span>
+      <span class="price"><span class="pre">上门费</span><b>¥50</b></span></div>
+    <div class="provider"><span>邻家师傅 · 张师傅</span><span class="note">材料另计</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.9</span><span>已服务 862 次</span><i class="dot"></i><span>0.8 km</span></div>
+    <div class="tags"><span class="tag">30 分钟响应</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="马桶疏通，通畅管道服务，评分 4.6，已服务 2,337 次，¥80起，最近可约 今天 17:00，距离 3.4 km">
+  <div class="when" data-day="today" data-component="SlotBadge"><span class="day">今天</span><span class="t">17:00</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">马桶疏通</span>
+      <span class="price"><b>¥80</b><span class="u">起</span></span></div>
+    <div class="provider"><span>通畅管道服务</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.6</span><span>已服务 2,337 次</span><i class="dot"></i><span>3.4 km</span></div>
+    <div class="tags"><span class="tag">不通不收费</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="衣橱收纳整理，有序空间收纳，评分 5.0，已服务 214 次，¥399/ 4 小时，最近可约 9/29 周二 10:00，距离 4.1 km">
+  <div class="when" data-day="later" data-component="SlotBadge"><span class="day">9/29 周二</span><span class="t">10:00</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">衣橱收纳整理</span>
+      <span class="price"><b>¥399</b><span class="u">/ 4 小时</span></span></div>
+    <div class="provider"><span>有序空间收纳</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>5.0</span><span>已服务 214 次</span><i class="dot"></i><span>4.1 km</span></div>
+    <div class="tags"><span class="tag">女性整理师</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="新房开荒保洁，拾光自营保洁队，评分 4.8，已服务 1,066 次，¥8/ ㎡ 起，最近可约 9/30 周三 09:00，距离 1.2 km">
+  <div class="when" data-day="later" data-component="SlotBadge"><span class="day">9/30 周三</span><span class="t">09:00</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">新房开荒保洁</span>
+      <span class="price"><b>¥8</b><span class="u">/ ㎡ 起</span></span></div>
+    <div class="provider"><span>拾光自营保洁队</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.8</span><span>已服务 1,066 次</span><i class="dot"></i><span>1.2 km</span></div>
+    <div class="tags"><span class="tag" data-kind="guarantee"><svg class="i" aria-hidden="true"><use href="#shield"/></svg>平台担保</span></div>
+  </div>
+</a></li>
+<li><a class="row" data-component="ServiceRow" aria-label="滚筒洗衣机清洗，洁程家电服务，评分 4.5，已服务 598 次，¥119/ 台，最近可约 明天 10:30，距离 5.2 km">
+  <div class="when" data-day="later" data-component="SlotBadge"><span class="day">明天</span><span class="t">10:30</span></div>
+  <div class="body">
+    <div class="line1"><span class="name">滚筒洗衣机清洗</span>
+      <span class="price"><b>¥119</b><span class="u">/ 台</span></span></div>
+    <div class="provider"><span>洁程家电服务</span></div>
+    <div class="meta"><span class="rate"><svg aria-hidden="true"><use href="#star"/></svg>4.5</span><span>已服务 598 次</span><i class="dot"></i><span>5.2 km</span></div>
+    <div class="tags"><span class="tag">可开发票</span></div>
+  </div>
+</a></li></ul>
+</main>
+
+<nav class="tabbar" data-component="NativeTabBar" data-system="wechat" aria-label="底部标签">
+  <a class="tab"><svg class="x" aria-hidden="true"><use href="#t-home"/></svg>首页</a>
+  <a class="tab" aria-current="page"><svg class="x" aria-hidden="true"><use href="#t-service"/></svg>服务</a>
+  <a class="tab"><svg class="x" aria-hidden="true"><use href="#t-order"/></svg>订单</a>
+  <a class="tab"><svg class="x" aria-hidden="true"><use href="#t-me"/></svg>我的</a>
+  <i class="home-ind" data-component="HomeIndicator" aria-hidden="true"></i>
+</nav>
+</div>
+</body>
+</html>

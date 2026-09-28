@@ -1,0 +1,79 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "suite-0.8.1-s1",
+  "skills_commit": "47923a5",
+  "model": "claude-opus-5-5",
+  "start": 1790520416,
+  "end": 1790521352,
+  "wall_seconds": 936,
+  "exit_code": 0,
+  "ended": "completed",
+  "sample": "s1",
+  "arm_base": "suite-0.8.1",
+  "start_iso": "2026-09-27T14:46:56+00:00",
+  "end_iso": "2026-09-27T15:02:32+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json (evals/tools/run_round.sh)",
+    "skills_dir": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/suites/47923a5/skills"
+  },
+  "result_event": true,
+  "result_events": 2,
+  "result_origins": [
+    "prompt",
+    "task-notification"
+  ],
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 40,
+  "num_turns_per_result": [
+    28,
+    12
+  ],
+  "duration_api_ms": 900630,
+  "dollars": 3.7359,
+  "tokens": {
+    "input": 116,
+    "output": 77231,
+    "thinking": 27494,
+    "cache_read": 4043160,
+    "cache_creation": 201217
+  },
+  "tokens_note": "tokens = sum over modelUsage of the last result event (cumulative for the session, main thread + subagents). A run whose background subagent finished after the first reply has a second result event (origin task-notification); total_cost_usd and modelUsage are cumulative, num_turns is summed over result events.",
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 116,
+      "outputTokens": 77231,
+      "cacheReadInputTokens": 4043160,
+      "cacheCreationInputTokens": 201217,
+      "webSearchRequests": 0,
+      "costUSD": 3.73589,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 27494,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 1,
+    "completed": 1,
+    "failed": 0,
+    "max_depth": 1,
+    "by_type": {
+      "general-purpose": 1
+    }
+  },
+  "cost_source": "last \"result\" event of the stream-json transcript (total_cost_usd, modelUsage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/transcripts/04-miniprogram-list-zh.suite-0.8.1-s1.transcript.jsonl",
+    "sha256": "62abbc2096b76aadd8c9856015b955eb8f30a63997ada55a03949e34fc1bb43e",
+    "bytes": 6256159
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

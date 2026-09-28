@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=1440">
+<title>Waiting for approval · Assistant · Fernhill</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+:root{
+  --bg:#F4F5F2; --surface:#FFFFFF; --sunken:#F8F9F7; --line:#DCE0DA; --line-strong:#C3C9C1;
+  --text:#18211D; --muted:#525D57; --faint:#6A746E;
+  --brand:#1D6A4E; --brand-ink:#14503A; --brand-soft:#E8F3EE;
+  --run:#1A5CB0; --run-soft:#EAF1FB; --run-line:#A9C4EA;
+  --ok:#1C7342; --ok-soft:#EAF6EF; --ok-line:#A7D6B9;
+  --warn:#8A4700; --warn-soft:#FFF5E3; --warn-line:#E5A94A;
+  --bad:#B1261B; --bad-soft:#FDF0EE; --bad-line:#EBA9A2;
+  --side:#15302A; --side-text:#DCE8E2; --side-muted:#A9BDB4;
+  --r:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.5;color:var(--text);background:var(--bg);font-feature-settings:"cv11","ss01";-webkit-font-smoothing:antialiased}
+.num,td.amt,.mono{font-variant-numeric:tabular-nums}
+.mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+h1,h2,h3,h4,p{margin:0}
+a{color:var(--brand-ink)}
+svg{flex:none}
+
+/* App frame */
+.app{display:grid;grid-template-columns:224px 1fr;min-height:100vh}
+.side{background:var(--side);color:var(--side-text);padding:18px 12px;display:flex;flex-direction:column;gap:18px}
+.logo{display:flex;align-items:center;gap:10px;padding:2px 8px 10px;font-weight:700;font-size:18px;letter-spacing:-.01em;color:#fff}
+.logo-mark{width:28px;height:28px;border-radius:8px;background:#3E9B74;display:grid;place-items:center}
+.company{margin:0 4px;padding:10px 10px;border:1px solid #2E4C43;border-radius:8px;font-size:13px}
+.company small{display:block;color:var(--side-muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1px}
+.company b{color:#fff;font-weight:600}
+.nav{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;color:var(--side-text);text-decoration:none;font-weight:500}
+.nav a svg{opacity:.85}
+.nav a[aria-current]{background:#2B5346;color:#fff;box-shadow:inset 3px 0 0 #7FD3AE}
+.main{display:flex;flex-direction:column;min-width:0}
+.top{height:60px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.crumbs{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13.5px}
+.crumbs b{color:var(--text);font-weight:600}
+.user{display:flex;align-items:center;gap:10px;font-size:13px;text-align:right;line-height:1.3}
+.user small{display:block;color:var(--muted)}
+.avatar{width:34px;height:34px;border-radius:50%;background:#D7E9E0;color:var(--brand-ink);display:grid;place-items:center;font-weight:700;font-size:13px}
+
+/* Page */
+.page{padding:24px 28px 48px;display:flex;flex-direction:column;gap:20px}
+.run-head{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px;display:flex;gap:24px;align-items:flex-start;justify-content:space-between}
+.run-head h1{font-size:21px;line-height:1.3;letter-spacing:-.01em;font-weight:700}
+.run-meta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px;color:var(--muted);font-size:13px}
+.run-meta span{display:inline-flex;align-items:center;gap:6px}
+.head-actions{display:flex;gap:10px;flex:none;align-items:center}
+.status{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:999px;font-weight:600;font-size:13.5px;border:1px solid}
+.status.run{color:var(--run);background:var(--run-soft);border-color:var(--run-line)}
+.status.wait{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-line)}
+.status.bad{color:var(--bad);background:var(--bad-soft);border-color:var(--bad-line)}
+.status.ok{color:var(--ok);background:var(--ok-soft);border-color:var(--ok-line)}
+
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 16px;border-radius:8px;border:1px solid var(--line-strong);background:var(--surface);color:var(--text);font:inherit;font-weight:600;font-size:14px;white-space:nowrap;cursor:pointer}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.danger{color:var(--bad);border-color:var(--bad-line)}
+.btn.sm{height:32px;padding:0 12px;font-size:13px}
+.btn.link{border:none;background:none;padding:0;height:auto;color:var(--brand-ink);text-decoration:underline;text-underline-offset:2px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 316px;gap:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.card-h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-h h2{font-size:15px;font-weight:700}
+.card-b{padding:18px 20px}
+.eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+
+/* Request */
+.request{display:flex;gap:14px;padding:18px 20px}
+.request .avatar{width:32px;height:32px;font-size:12px}
+.request-who{font-size:13px;color:var(--muted)}
+.request-who b{color:var(--text);font-weight:600}
+.request q{display:block;margin-top:4px;font-size:15px;line-height:1.5;quotes:"\201C" "\201D"}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:6px 20px 8px}
+.step{display:grid;grid-template-columns:32px minmax(0,1fr);column-gap:14px;position:relative;padding:14px 0}
+.step + .step{border-top:1px solid var(--line)}
+.marker{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid;margin-top:-3px;background:var(--surface)}
+.is-done .marker{background:var(--ok);border-color:var(--ok);color:#fff}
+.is-run .marker{border-color:var(--run);color:var(--run);background:var(--run-soft)}
+.is-wait .marker{background:var(--warn-soft);border-color:#B8660A;color:var(--warn)}
+.is-bad .marker{background:var(--bad);border-color:var(--bad);color:#fff}
+.is-todo .marker{border-color:var(--line-strong);border-style:dashed;color:var(--faint)}
+.is-todo .marker span{font-size:12px;font-weight:700}
+.step-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between}
+.step-title{font-size:14.5px;font-weight:600;line-height:1.4}
+.step-title small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-bottom:1px}
+.is-todo .step-title{color:var(--muted)}
+.tags{display:flex;gap:6px;flex:none;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid;white-space:nowrap;line-height:1.6}
+.tag.done{color:var(--ok);background:var(--ok-soft);border-color:var(--ok-line)}
+.tag.run{color:var(--run);background:var(--run-soft);border-color:var(--run-line)}
+.tag.wait{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-line)}
+.tag.bad{color:var(--bad);background:var(--bad-soft);border-color:var(--bad-line)}
+.tag.todo{color:var(--muted);background:var(--sunken);border-color:var(--line)}
+.tag.ro{color:var(--muted);background:transparent;border-color:var(--line);font-weight:500}
+.tag.money{color:var(--warn);background:transparent;border-color:var(--warn-line);font-weight:600}
+.step-out{margin-top:6px;color:var(--text)}
+.step-out.muted{color:var(--muted)}
+.tool{display:inline-flex;align-items:center;gap:6px;margin-top:8px;color:var(--muted);font-size:12.5px}
+.tool code{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:12px;background:var(--sunken);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--text)}
+.step.compact{padding:11px 0}
+.step.compact .step-out{margin-top:2px;color:var(--muted);font-size:13.5px}
+
+/* Progress */
+.progress{margin-top:12px}
+.progress-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.bar{height:8px;background:#E3E8EF;border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--run);border-radius:999px}
+.findings{margin-top:14px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.findings-h{padding:8px 14px;background:var(--sunken);border-bottom:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--muted);display:flex;justify-content:space-between}
+.finding{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;padding:10px 14px;border-top:1px solid var(--line)}
+.finding:first-of-type{border-top:none}
+.finding .ico{margin-top:1px}
+.finding b{font-weight:600}
+.finding p{color:var(--muted);font-size:13.5px}
+.stream{margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--run-soft);border:1px solid var(--run-line);display:flex;gap:10px;align-items:flex-start;color:#12325E}
+.stream .caret{display:inline-block;width:8px;height:16px;background:var(--run);vertical-align:-3px;margin-left:2px;border-radius:1px}
+
+/* Rail */
+.rail{display:flex;flex-direction:column;gap:16px}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;margin:0;font-size:13.5px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0;text-align:right;font-weight:500}
+.perm-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:13.5px}
+.perm-list li{display:grid;grid-template-columns:22px 1fr;gap:10px}
+.perm-list b{display:block;font-weight:600}
+.perm-list span{color:var(--muted)}
+.note{font-size:13px;color:var(--muted)}
+
+/* Callouts */
+.callout{display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;padding:14px 16px;border-radius:8px;border:1px solid}
+.callout.warn{background:var(--warn-soft);border-color:var(--warn-line)}
+.callout.warn h4{color:var(--warn)}
+.callout.bad{background:var(--bad-soft);border-color:var(--bad-line)}
+.callout.bad h4{color:var(--bad)}
+.callout.info{background:var(--sunken);border-color:var(--line)}
+.callout.ok{background:var(--ok-soft);border-color:var(--ok-line)}
+.callout h4{font-size:14px;font-weight:700;margin-bottom:2px}
+.callout p{font-size:13.5px}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{font-size:12px;font-weight:600;color:var(--muted);text-align:left;padding:9px 14px;background:var(--sunken);border-bottom:1px solid var(--line);text-transform:uppercase;letter-spacing:.04em}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th.amt,td.amt{text-align:right;white-space:nowrap}
+tr.total td{font-weight:700;border-bottom:none;background:var(--sunken)}
+tr.flag td{background:#FFFAF0}
+.tbl{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.sub{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+</style></head>
+<body><div class="app">
+<nav class="side" aria-label="Main">
+  <div class="logo"><span class="logo-mark"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.5V6M8 9.5C5.5 9.5 3.5 7.5 3.5 4.5 6 4.5 8 6.5 8 9.5zM8 7c0-2.6 1.8-4.5 4.5-4.5 0 2.7-1.9 4.5-4.5 4.5z" fill="#fff"/></svg></span>Fernhill</div>
+  <div class="company"><small>Company</small><b>Larkspur Outdoor Co.</b></div>
+  <ul class="nav"><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 9l7-5.5L17 9v7.5a1 1 0 0 1-1 1h-3.5v-5h-5v5H4a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Home</a></li><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 2.5h10v15l-2.5-1.5-2.5 1.5-2.5-1.5L5 17.5zM8 7h4M8 10.5h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Bills</a></li><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 2.5h8l3 3v12h-11zM7.5 9h5M7.5 12.5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Invoices</a></li><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2.5 8L10 3.5 17.5 8M4.5 8.5v6M8.5 8.5v6M11.5 8.5v6M15.5 8.5v6M2.5 16.5h15" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Banking</a></li><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2.5 5.5h15v9h-15zM2.5 8.5h15M5.5 12h3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Payments</a></li><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 16.5V10M8.5 16.5V5M13 16.5v-8M17 16.5H3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Reports</a></li><li><a href="#"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 3.5h12v14H4zM7 8l2 2 4-4M7 13.5h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Close</a></li><li><a href="#" aria-current="page"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5l1.9 4.9 5.1 1.6-5.1 1.6L10 15.5l-1.9-4.9L3 9l5.1-1.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Assistant</a></li></ul>
+</nav>
+<div class="main">
+  <header class="top">
+    <div class="crumbs">Assistant <span aria-hidden="true">›</span> <b>Reconcile August vendor invoices and prepare payments</b></div>
+    <div class="user"><div>Dana Whitlock<small>Controller</small></div><span class="avatar">DW</span></div>
+  </header>
+  <main class="page"><section class="run-head" aria-label="Run status">
+  <div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span class="status wait"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="9.4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg> Waiting for your approval · step 4 of 5</span></div>
+    <h1 style="margin-top:10px">Reconcile August vendor invoices and prepare payments</h1>
+    <div class="run-meta"><span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.8V8l2.2 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Started 10:00:00 · paused at 10:03:12</span><span>Requested by Dana Whitlock</span><span class="num">7 payments · $18,940.55 ready to review</span></div>
+  </div>
+  <div class="head-actions"><a class="btn primary" href="#approval">Review payments</a><button class="btn danger"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="2" width="10" height="10" rx="2" fill="currentColor"/></svg> Stop run</button></div>
+</section>
+<div class="grid">
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <section id="approval" class="card" style="border:2px solid #C98115;box-shadow:0 4px 18px rgba(138,71,0,.10)" aria-label="Approval needed">
+  <div class="card-h" style="background:var(--warn-soft);border-bottom-color:var(--warn-line);border-radius:8px 8px 0 0;align-items:flex-start">
+    <div style="display:flex;gap:12px">
+      <span style="color:var(--warn);margin-top:2px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3.5" y="8.5" width="13" height="9" rx="2" fill="#8A4700"/><path d="M6.5 8.5V6a3.5 3.5 0 0 1 7 0v2.5" stroke="#8A4700" stroke-width="1.8"/></svg></span>
+      <div><p class="eyebrow" style="color:var(--warn)">Step 4 of 5 · Paused for your approval</p>
+      <h2 style="font-size:18px;margin-top:2px">Approve payment batch: 7 payments, <span class="num">$18,940.55</span></h2>
+      <p style="font-size:13.5px;margin-top:2px">Nothing has been sent. The assistant is waiting on <code class="mono" style="background:#fff;border:1px solid var(--warn-line);border-radius:4px;padding:1px 5px">payments.create_batch</code> until you choose below.</p></div>
+    </div>
+    <span class="tag wait" style="margin-top:4px"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="9.4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg> Needs your approval</span>
+  </div>
+  <div class="card-b" style="display:flex;flex-direction:column;gap:18px">
+    <dl style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;border:1px solid var(--line);border-radius:8px">
+      <div style="padding:12px 14px;"><dt class="eyebrow">Pay from</dt><dd class="num" style="margin:4px 0 0;font-size:15px;font-weight:700">Operating ••4417</dd><dd class="num" style="margin:2px 0 0;color:var(--muted);font-size:12.5px">Available $212,480.19</dd></div><div style="padding:12px 14px;border-left:1px solid var(--line);"><dt class="eyebrow">Pay date</dt><dd class="num" style="margin:4px 0 0;font-size:15px;font-weight:700">Tue 29 Sep 2026</dd><dd class="num" style="margin:2px 0 0;color:var(--muted);font-size:12.5px">ACH · arrives Wed 30 Sep</dd></div><div style="padding:12px 14px;border-left:1px solid var(--line);"><dt class="eyebrow">Payments</dt><dd class="num" style="margin:4px 0 0;font-size:15px;font-weight:700">7 vendors</dd><dd class="num" style="margin:2px 0 0;color:var(--muted);font-size:12.5px">4 flagged invoices excluded</dd></div><div style="padding:12px 14px;border-left:1px solid var(--line);"><dt class="eyebrow">Total</dt><dd class="num" style="margin:4px 0 0;font-size:19px;font-weight:700">$18,940.55</dd><dd class="num" style="margin:2px 0 0;color:var(--muted);font-size:12.5px">Needs Payments role · you have it</dd></div>
+    </dl>
+
+    <div class="callout warn" role="alert">
+      <span style="margin-top:1px"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5L18.5 17H1.5L10 2.5z" fill="#B8660A"/><path d="M10 8v4.2" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="14.6" r="1.1" fill="#fff"/></svg></span>
+      <div><h4>Oakridge Office Supply changed its bank details 2 days ago (26 Sep)</h4>
+      <p class="num">This would be the first payment to the new account <b>••7710</b> ($2,315.40, INV-1057). Changed bank details are a common sign of payment fraud. Confirm the change by calling the vendor on the phone number already on file, or approve the batch without Oakridge.</p></div>
+    </div>
+
+    <div class="tbl"><table>
+      <thead><tr><th>Vendor</th><th>Invoice</th><th>Due</th><th class="amt">Amount</th></tr></thead>
+      <tbody><tr><td>Brightline Janitorial</td><td class="num">INV-7731</td><td class="num">30 Sep</td><td class="amt">$2,150.00</td></tr><tr><td>Calder Freight Co.</td><td class="num">INV-2304</td><td class="num">30 Sep</td><td class="amt">$3,862.10</td></tr><tr><td>Harrow & Pike LLP</td><td class="num">INV-0918</td><td class="num">29 Sep</td><td class="amt">$6,400.00</td></tr><tr><td>Northgate Electric</td><td class="num">INV-55210</td><td class="num">30 Sep</td><td class="amt">$1,187.45</td></tr><tr class="flag"><td><span style="display:inline-flex;gap:8px;align-items:flex-start"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5L18.5 17H1.5L10 2.5z" fill="#B8660A"/><path d="M10 8v4.2" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="10" cy="14.6" r="1.1" fill="#fff"/></svg><span><b>Oakridge Office Supply</b><span class="sub" style="color:var(--warn);font-weight:600">New bank account ••7710 · changed 26 Sep</span></span></span></td><td class="num">INV-1057</td><td class="num">30 Sep</td><td class="amt">$2,315.40</td></tr><tr><td>Quillon Software</td><td class="num">INV-2026-09</td><td class="num">30 Sep</td><td class="amt">$1,450.00</td></tr><tr><td>Tern Water Co.</td><td class="num">INV-33871</td><td class="num">29 Sep</td><td class="amt">$1,575.60</td></tr><tr class="total"><td colspan="3">Total · 7 payments</td><td class="amt">$18,940.55</td></tr></tbody>
+    </table></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="callout info"><span><svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.8V8l2.2 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><h4>How to undo</h4><p>Payments can be cancelled in Payments until <b>5:00 pm ET on Tue 29 Sep</b>. After that, getting money back needs an ACH return, which takes 2–5 business days.</p></div></div>
+      <div class="callout info"><span><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 17.5V3" stroke="#525D57" stroke-width="2" stroke-linecap="round"/><path d="M5 3.5h10l-2.4 3.6L15 10.7H5z" fill="#525D57"/></svg></span><div><h4>Not in this batch</h4><p>The 4 flagged invoices (Calder Freight INV-2291, Pellucid Cloud INV-88120, Marisol Catering INV-4410, Brightline Janitorial INV-7702) are excluded.</p></div></div>
+    </div>
+
+    <div>
+      <p class="eyebrow" style="margin-bottom:4px">Your decision · approving as Dana Whitlock, Payments role</p>
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)"><button class="btn primary" style="width:100%">Approve without Oakridge</button><p style="font-size:13.5px;color:var(--muted)">Schedules <b class="num" style="color:var(--text)">6 payments, $16,625.15</b> for 29 Sep. Oakridge INV-1057 is held until its new bank details are confirmed.</p></div>
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)"><button class="btn " style="width:100%">Approve and schedule all 7</button><p style="font-size:13.5px;color:var(--muted)">Schedules <b class="num" style="color:var(--text)">7 payments, $18,940.55</b> for 29 Sep, including the first payment to Oakridge’s new account ••7710.</p></div>
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)"><button class="btn " style="width:100%">Edit batch</button><p style="font-size:13.5px;color:var(--muted)">Remove payments or change amounts before approving. Nothing is sent while you edit.</p></div>
+      <div style="display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--line)"><button class="btn danger" style="width:100%">Reject</button><p style="font-size:13.5px;color:var(--muted)">No payments are created. The assistant continues to step 5 and writes the reconciliation summary.</p></div>
+    </div>
+  </div>
+</section>
+    <section class="card" aria-label="Plan and progress">
+      <div class="card-h"><h2>Plan and progress</h2><span class="note">3 of 5 steps done · step 4 waiting for you</span></div>
+      <ol class="steps">
+        <li class="step is-done compact">
+  <div class="marker"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div>
+    <div class="step-head"><h3 class="step-title"><small>Step 1 of 5</small>Collect August vendor invoices from Bills</h3><div class="tags"><span class="tag ro"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M1.8 10S5 4.5 10 4.5 18.2 10 18.2 10 15 15.5 10 15.5 1.8 10 1.8 10z" stroke="#525D57" stroke-width="1.6"/><circle cx="10" cy="10" r="2.6" fill="#525D57"/></svg> Read only</span><span class="tag done"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Done</span></div></div>
+    <p class="step-out num">52 invoices found, 3 duplicates skipped, 49 to reconcile.</p>
+  </div>
+</li>
+        <li class="step is-done compact">
+  <div class="marker"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div>
+    <div class="step-head"><h3 class="step-title"><small>Step 2 of 5</small>Pull bank transactions, 1 Aug – 27 Sep, for Operating ••4417 and Card ••0385</h3><div class="tags"><span class="tag ro"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M1.8 10S5 4.5 10 4.5 18.2 10 18.2 10 15 15.5 10 15.5 1.8 10 1.8 10z" stroke="#525D57" stroke-width="1.6"/><circle cx="10" cy="10" r="2.6" fill="#525D57"/></svg> Read only</span><span class="tag done"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Done</span></div></div>
+    <p class="step-out num">318 transactions from Operating ••4417 and Card ••0385.</p>
+  </div>
+</li>
+        <li class="step is-done compact">
+  <div class="marker"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div>
+    <div class="step-head"><h3 class="step-title"><small>Step 3 of 5</small>Match invoices to transactions and flag mismatches</h3><div class="tags"><span class="tag ro"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M1.8 10S5 4.5 10 4.5 18.2 10 18.2 10 15 15.5 10 15.5 1.8 10 1.8 10z" stroke="#525D57" stroke-width="1.6"/><circle cx="10" cy="10" r="2.6" fill="#525D57"/></svg> Read only</span><span class="tag done"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Done</span></div></div>
+    <p class="step-out num"><b style="color:var(--text)">45 matched, 4 flagged</b> of 49 invoices.</p><ul style="list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:4px;font-size:13.5px"><li style="display:flex;gap:8px;align-items:flex-start"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 17.5V3" stroke="#8A4700" stroke-width="2" stroke-linecap="round"/><path d="M5 3.5h10l-2.4 3.6L15 10.7H5z" fill="#8A4700"/></svg><span><b>Calder Freight Co. · INV-2291</b> — Amount mismatch</span></li><li style="display:flex;gap:8px;align-items:flex-start"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 17.5V3" stroke="#8A4700" stroke-width="2" stroke-linecap="round"/><path d="M5 3.5h10l-2.4 3.6L15 10.7H5z" fill="#8A4700"/></svg><span><b>Pellucid Cloud · INV-88120</b> — Duplicate charge</span></li><li style="display:flex;gap:8px;align-items:flex-start"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 17.5V3" stroke="#8A4700" stroke-width="2" stroke-linecap="round"/><path d="M5 3.5h10l-2.4 3.6L15 10.7H5z" fill="#8A4700"/></svg><span><b>Marisol Catering · INV-4410</b> — FX difference</span></li><li style="display:flex;gap:8px;align-items:flex-start"><svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 17.5V3" stroke="#8A4700" stroke-width="2" stroke-linecap="round"/><path d="M5 3.5h10l-2.4 3.6L15 10.7H5z" fill="#8A4700"/></svg><span><b>Brightline Janitorial · INV-7702</b> — No payment found</span></li></ul>
+  </div>
+</li>
+        <li class="step is-wait compact">
+  <div class="marker"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="9.4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg></div>
+  <div>
+    <div class="step-head"><h3 class="step-title"><small>Step 4 of 5</small>Draft a payment batch for unpaid invoices due by 30 Sep</h3><div class="tags"><span class="tag money"><svg width="12" height="12" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3.5" y="8.5" width="13" height="9" rx="2" fill="#8A4700"/><path d="M6.5 8.5V6a3.5 3.5 0 0 1 7 0v2.5" stroke="#8A4700" stroke-width="1.8"/></svg> Moves money · needs approval</span><span class="tag wait"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/><rect x="9.4" y="3.5" width="2.6" height="9" rx="1" fill="currentColor"/></svg> Needs your approval</span></div></div>
+    <p class="step-out muted">Paused on the payment batch above.</p>
+  </div>
+</li>
+        <li class="step is-todo">
+  <div class="marker"><span>5</span></div>
+  <div>
+    <div class="step-head"><h3 class="step-title"><small>Step 5 of 5</small>Write a reconciliation summary and attach it to the August close checklist</h3><div class="tags"><span class="tag ro">Adds to close checklist</span><span class="tag todo"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.6"/><path d="M8 4.8V8l2.2 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Waiting</span></div></div>
+    <p class="step-out muted">Starts after you decide on the payment batch.</p>
+  </div>
+</li>
+      </ol>
+    </section>
+  </div>
+  <aside class="rail">
+    <div class="card"><div class="card-h"><h2>Run details</h2></div><div class="card-b"><dl class="dl"><dt>Status</dt><dd class="num">Waiting for you</dd><dt>Waiting since</dt><dd class="num">10:03:12</dd><dt>Started</dt><dd class="num">Mon 28 Sep, 10:00:00</dd><dt>Accounts</dt><dd class="num">Operating ••4417<br>Card ••0385</dd></dl></div></div>
+    <div class="card"><div class="card-h"><h2>Approval policy</h2></div><div class="card-b" style="display:flex;flex-direction:column;gap:10px;font-size:13.5px">
+      <p>Batches over <b class="num">$10,000</b> need approval from someone with the <b>Payments</b> role.</p>
+      <p style="display:flex;gap:8px;align-items:flex-start"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="#1C7342"/><path d="M6 10.3l2.7 2.7L14 7.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Dana Whitlock has the Payments role and can approve this batch.</span></p>
+      <p class="note">Your decision and the time are recorded in the run’s audit log.</p>
+    </div></div>
+    <div class="card"><div class="card-h"><h2>What the assistant may do</h2></div><div class="card-b">
+<ul class="perm-list">
+  <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M1.8 10S5 4.5 10 4.5 18.2 10 18.2 10 15 15.5 10 15.5 1.8 10 1.8 10z" stroke="#525D57" stroke-width="1.6"/><circle cx="10" cy="10" r="2.6" fill="#525D57"/></svg><div><b>Read automatically</b><span>Bills, bank transactions and matching run without asking.</span></div></li>
+  <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3.5" y="8.5" width="13" height="9" rx="2" fill="#8A4700"/><path d="M6.5 8.5V6a3.5 3.5 0 0 1 7 0v2.5" stroke="#8A4700" stroke-width="1.8"/></svg><div><b>Wait for you before moving money</b><span>Payments are only sent after a person with the Payments role approves.</span></div></li>
+</ul></div></div>
+  </aside>
+</div></main>
+</div></div></body></html>

@@ -1,0 +1,107 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "no-skill-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/detail-01.png",
+      "render/detail-02.png",
+      "render/list-01.png",
+      "render/list-02.png",
+      "render/list-empty-01.png",
+      "render/list-error-01.png",
+      "render/list-loading-01.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/01-ops-console-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "为了让 1440×900 首屏放下 ≥10 行数据，列表行用两行结构：「设备」上行是编号、下行是名称；「位置」上行是厂区、下行是区域/产线；时间列上行是时刻、下行是日期",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: two-line cells in 设备/位置/创建时间/更新时间 (e.g. ZS-03-117 / 注塑机, 一厂 / A区·注塑线3, 09:12 / 09-27); 11 data rows (0413 through 0359) visible within 900px"
+    },
+    {
+      "claim": "「修复剩 3时30分」显示为「剩 3时30分」，下方小字注「修复时限」；「响应已超时 12分」显示为「已超时 12分 / 响应时限」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png SLA column: row 0413 '剩 3时30分' over '修复时限'; row 0402 '已超时 12分' over '响应时限'; completed rows keep '按时修复' and '超时 20分修复'"
+    },
+    {
+      "claim": "SLA 用图标区分（时钟＝剩余，三角警告＝已超时，暂停＝计时暂停，对勾＝按时，叉＝超时修复）；超时的行在左边另加一条红色竖线",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: clock icon on 剩…, triangle on 已超时 (rows 0402, 0371), pause icon on 计时暂停, check on 按时修复, circled x on 超时 20分修复; red left bars on rows 0402 and 0371"
+    },
+    {
+      "claim": "「已挂起（等备件）」显示为状态标签「已挂起」，下方小字写「等备件」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png row GD-20260926-0380: '已挂起' pill with '等备件' below"
+    },
+    {
+      "claim": "状态标签都带图标和文字；优先级标签写明 P 级别和文字（例如 P1 紧急），P1 用实心红底",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: status pills show icon plus text (处理中 wrench, 已派单 person, 待派单 dashed circle, 待验收 clipboard, 已关闭 check); 'P1 紧急' is solid red, P2–P4 are outlined tags"
+    },
+    {
+      "claim": "「已超时」「待派单」两个快捷视图的计数做了强调（红色和琥珀色）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png tabs: 已超时 has a warning icon, red label and red '4' badge; 待派单 '7' has an amber badge; other counts are grey"
+    },
+    {
+      "claim": "选中了第 2、3 行，所以表头的复选框显示为半选状态；批量操作栏取代了表格工具栏，另有「取消选择」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: rows 0409 and 0402 checked; header checkbox shows indeterminate dash; bar reads '已选 2 项 | 批量派单 | 批量修改优先级 | 导出所选 | 取消选择'"
+    },
+    {
+      "claim": "待派单的行把「派单」放在「查看」前面，并加粗显示",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png row 0402 操作 column: '派单' then '查看'. The order is clear. At this resolution the bold weight is barely different from 查看."
+    },
+    {
+      "claim": "空状态：三个生效的筛选条件同时显示在筛选控件上（高亮）和一行可逐个移除的标签里；页面给出「清除全部筛选」和「移除『厂区/产线』条件」两个下一步。快捷视图的计数照常显示。",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-empty-01.png: 状态/厂区/负责人 dropdowns highlighted; '已生效的筛选' row has 3 chips with ×; buttons '清除全部筛选' and '移除「厂区/产线」条件'; tabs still show 1,286/23/7/4/12"
+    },
+    {
+      "claim": "加载中：首次进入时快捷视图的计数还没返回，用骨架占位；筛选区可以操作；表格显示 12 行骨架，工具栏写「正在加载工单…」；不显示分页。",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-loading-01.png: tab counts are grey skeleton pills; spinner with '正在加载工单...'; 12 skeleton rows; no pagination. Whether filters are operable cannot be seen in a static render."
+    },
+    {
+      "claim": "出错：…快捷视图的计数…照常显示…错误面板给出 HTTP 502、请求编号、发生时间，操作是「重试」和「复制请求编号」，并提示多次失败时联系系统管理员",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-error-01.png: tabs show counts including 已超时 4; panel lists 'HTTP 502 Bad Gateway', '7f3a-91c2-0d44', '2026-09-27 09:42:17'; buttons 重试 and 复制请求编号; footnote '多次重试仍失败时，请把请求编号发给系统管理员排查。'"
+    },
+    {
+      "claim": "「更多（打印工单、复制链接、关闭工单）」没有收进下拉菜单，而是放在操作栏右侧直接显示…「关闭工单」用红色文字，并用分隔线和其他操作隔开",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png action bar, right side: 打印工单, 复制链接, a divider, then red '关闭工单'"
+    }
+  ],
+  "notes": "Other NOTES claims also match the renders: the 86-page pagination (list-02.png), SLA progress bars at about 60% and 12.5% (detail-01.png), the chart's 55 °C dashed limit with '08:50 超限' and the 68.4 °C label, and the striped photo placeholders (detail-02.png). NOTES makes no AA claim. facts.md shows one text node below AA on every page: the '李' avatar at 4.47:1.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.no-skill-s2/check.reply.txt",
+    "sha256": "321ad365c59a04be56928fad273769e0262002cae92abb4dd96e9655af32b523"
+  }
+}

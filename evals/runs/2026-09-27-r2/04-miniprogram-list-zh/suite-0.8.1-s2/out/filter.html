@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=375, initial-scale=1">
+<title>筛选 · 拾光到家</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="screen" data-platform="wechat-miniprogram" data-canvas="375x812">
+
+  <div class="sys-status" data-system="status-bar" aria-hidden="true">
+    <span class="time num">13:20</span>
+    <span class="icons">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="#1B1D1C"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#1B1D1C"><path d="M8 2.2c2.4 0 4.6.9 6.2 2.5l1.3-1.3A10.6 10.6 0 0 0 8 .3 10.6 10.6 0 0 0 .5 3.4l1.3 1.3A8.7 8.7 0 0 1 8 2.2zm0 3.7c1.4 0 2.7.5 3.6 1.4l1.3-1.3A7 7 0 0 0 8 4a7 7 0 0 0-4.9 2l1.3 1.3c.9-.9 2.2-1.4 3.6-1.4zM8 9.4l-2 2 2 .6 2-.6z"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" fill="none" stroke="#1B1D1C" opacity=".4"/><rect x="2" y="2" width="16" height="9" rx="2" fill="#1B1D1C"/><rect x="25" y="4.5" width="1.6" height="4" rx=".8" fill="#1B1D1C" opacity=".4"/></svg>
+    </span>
+  </div>
+  <div class="sys-capsule" data-system="wechat-capsule" aria-hidden="true">
+    <span><svg width="20" height="6" viewBox="0 0 20 6" fill="#1B1D1C"><circle cx="3" cy="3" r="2.4"/><circle cx="10" cy="3" r="2.4"/><circle cx="17" cy="3" r="2.4"/></svg></span>
+    <i></i>
+    <span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#1B1D1C" stroke-width="2"><circle cx="9" cy="9" r="7"/><circle cx="9" cy="9" r="2.4" fill="#1B1D1C" stroke="none"/></svg></span>
+  </div>
+
+  
+  <header class="appbar" data-component="CustomNavBar">
+    <div class="nav">
+      <button class="loc" data-component="LocationSwitch" aria-label="当前位置：苏州 工业园区 星湖街，点按切换">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E6B5E" stroke-width="2" aria-hidden="true"><path d="M12 21s-6.5-5.8-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.2-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg><span class="city">苏州 · 工业园区 ·</span><b>星湖街</b><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B1D1C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+    <div class="search-row">
+      <div class="search" role="search" data-component="SearchEntry"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#626864" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>搜索服务，如「空调清洗」</span></div>
+    </div>
+    <nav class="cats" role="tablist" aria-label="服务类目" data-component="CategoryTabs">
+      <button class="cat" role="tab" aria-selected="false">全部</button><button class="cat" role="tab" aria-selected="false">日常保洁</button><button class="cat" role="tab" aria-selected="true">家电清洗</button><button class="cat" role="tab" aria-selected="false">家居维修</button><button class="cat" role="tab" aria-selected="false">管道疏通</button><button class="cat" role="tab" aria-selected="false">收纳整理</button><button class="cat" role="tab" aria-selected="false">搬家</button>
+      <span class="cats-fade"></span><button class="cats-more" aria-label="全部类目"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A504D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    </nav>
+    <div class="sortbar" data-component="SortFilterBar">
+      <button class="sort" aria-pressed="true">综合排序</button><button class="sort" aria-pressed="false">距离最近</button><button class="sort" aria-pressed="false">评分最高</button><button class="sort" aria-pressed="false">价格最低</button>
+      <span class="spacer"></span><span class="divider"></span>
+      <button class="filter-btn" data-active aria-expanded="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E6B5E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>筛选<span class="badge num">3</span>
+      </button>
+    </div>
+  </header>
+  <main class="content">
+    
+      <article class="svc" data-component="ServiceRow">
+        <div class="svc-top"><h3>空调清洗（挂机）</h3><span class="dist num">2.6 km</span></div>
+        <div class="svc-meta">
+          <span class="prov">蓝鲸家电清洗</span><span class="sep"></span>
+          <span class="rate num" aria-label="评分 4.8"><svg width="13" height="13" viewBox="0 0 24 24" fill="#D98300" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.8</span>
+          <span class="done num">已服务 3,216 次</span>
+        </div>
+        <div class="tags"><span class="tag">高温蒸汽</span><span class="tag">可开发票</span></div>
+        <div class="svc-bottom">
+          <span class="slot" data-when="tomorrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B5A4F" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="lbl">最早可约</span><b class="num">明天 09:00</b></span>
+          <span class="price">
+            <span class="amt"><b>¥89</b><small>/ 台</small></span>
+            
+          </span>
+        </div>
+      </article>
+      <article class="svc" data-component="ServiceRow">
+        <div class="svc-top"><h3>油烟机深度清洗</h3><span class="dist num">2.6 km</span></div>
+        <div class="svc-meta">
+          <span class="prov">蓝鲸家电清洗</span><span class="sep"></span>
+          <span class="rate num" aria-label="评分 4.7"><svg width="13" height="13" viewBox="0 0 24 24" fill="#D98300" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.7</span>
+          <span class="done num">已服务 1,905 次</span>
+        </div>
+        <div class="tags"><span class="tag">拆洗</span><span class="tag">可开发票</span></div>
+        <div class="svc-bottom">
+          <span class="slot" data-when="tomorrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B5A4F" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="lbl">最早可约</span><b class="num">明天 14:00</b></span>
+          <span class="price">
+            <span class="amt"><b>¥159</b><small>/ 台</small></span>
+            
+          </span>
+        </div>
+      </article>
+      <article class="svc" data-component="ServiceRow">
+        <div class="svc-top"><h3>滚筒洗衣机清洗</h3><span class="dist num">5.2 km</span></div>
+        <div class="svc-meta">
+          <span class="prov">洁程家电服务</span><span class="sep"></span>
+          <span class="rate num" aria-label="评分 4.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="#D98300" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>4.5</span>
+          <span class="done num">已服务 598 次</span>
+        </div>
+        <div class="tags"><span class="tag">可开发票</span></div>
+        <div class="svc-bottom">
+          <span class="slot" data-when="tomorrow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0B5A4F" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span class="lbl">最早可约</span><b class="num">明天 10:30</b></span>
+          <span class="price">
+            <span class="amt"><b>¥119</b><small>/ 台</small></span>
+            
+          </span>
+        </div>
+      </article>
+    <div class="scrim" aria-hidden="true"></div>
+    <div class="panel" role="dialog" aria-label="筛选" data-component="FilterPanel" style="bottom:auto">
+      <div class="panel-body">
+        
+        <section class="fgroup" data-component="FilterGroup">
+          <div class="fgroup-head"><h4>上门时间</h4><span class="hint">改成明天：6 个</span></div>
+          <div class="opts" role="group" aria-label="上门时间">
+            <button class="opt num" role="checkbox" aria-checked="true">今天</button><button class="opt num" role="checkbox" aria-checked="false">明天</button><button class="opt num" role="checkbox" aria-checked="false">9/29 周二</button><button class="opt num" role="checkbox" aria-checked="false">指定日期</button>
+          </div>
+        </section>
+        
+        <section class="fgroup" data-component="FilterGroup">
+          <div class="fgroup-head"><h4>距离</h4><span class="hint">放宽到 3 km 内：4 个</span></div>
+          <div class="opts" role="group" aria-label="距离">
+            <button class="opt num" role="checkbox" aria-checked="true">1 km 内</button><button class="opt num" role="checkbox" aria-checked="false">3 km 内</button><button class="opt num" role="checkbox" aria-checked="false">5 km 内</button><button class="opt num" role="checkbox" aria-checked="false">不限</button>
+          </div>
+        </section>
+        
+        <section class="fgroup" data-component="FilterGroup">
+          <div class="fgroup-head"><h4>价格</h4></div>
+          <div class="opts" role="group" aria-label="价格">
+            <button class="opt num" role="checkbox" aria-checked="false">¥100 以下</button><button class="opt num" role="checkbox" aria-checked="false">¥100–200</button><button class="opt num" role="checkbox" aria-checked="false">¥200–400</button><button class="opt num" role="checkbox" aria-checked="false">¥400 以上</button>
+          </div>
+        </section>
+        
+        <section class="fgroup" data-component="FilterGroup">
+          <div class="fgroup-head"><h4>服务保障</h4><span class="hint">去掉「可开发票」：1 个</span></div>
+          <div class="opts" role="group" aria-label="服务保障">
+            <button class="opt num" role="checkbox" aria-checked="false">平台担保</button><button class="opt num" role="checkbox" aria-checked="true">可开发票</button><button class="opt num" role="checkbox" aria-checked="false">爽约赔付</button><button class="opt num" role="checkbox" aria-checked="false">自带工具</button>
+          </div>
+        </section>
+        
+        <section class="fgroup" data-component="FilterGroup">
+          <div class="fgroup-head"><h4>服务人员</h4></div>
+          <div class="opts two" role="group" aria-label="服务人员">
+            <button class="opt num" role="checkbox" aria-checked="true">不限</button><button class="opt num" role="checkbox" aria-checked="false">女性服务人员</button>
+          </div>
+        </section>
+      </div>
+      <div class="panel-foot">
+        <button class="btn btn-ghost">重置</button>
+        <button class="btn btn-primary">查看结果（<span class="num">0</span>&nbsp;个）</button>
+      </div>
+    </div>
+  </main>
+
+  <nav class="tabbar" data-system="native-tabbar" aria-label="标签栏">
+    <a class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>首页</a>
+    <a class="tab" aria-current="page"><svg width="24" height="24" viewBox="0 0 24 24" fill="#0E6B5E"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="2"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="2"/><rect x="13" y="13" width="7.5" height="7.5" rx="3.75"/></svg>服务</a>
+    <a class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 9h6M9 13h6M9 17h3.5"/></svg>订单</a>
+    <a class="tab"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-3.8 4.2-5.8 7.5-5.8s6.3 2 7.5 5.8"/></svg>我的</a>
+    <span class="home-ind" data-system="home-indicator" aria-hidden="true"></span>
+  </nav>
+</div>
+</body>
+</html>

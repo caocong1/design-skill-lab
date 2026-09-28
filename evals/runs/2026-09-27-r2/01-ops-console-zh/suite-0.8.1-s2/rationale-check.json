@@ -1,0 +1,108 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "suite-0.8.1-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/detail-01.png",
+      "render/detail-02.png",
+      "render/list-01.png",
+      "render/list-02.png",
+      "render/list-empty-01.png",
+      "render/list-error-01.png",
+      "render/list-loading-01.png",
+      "render/list-loading-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/01-ops-console-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "Overdue is the only solid red on the list: a red-tinted row with a left rule, and a filled red 「已超时 …」 chip with a ⚠ icon",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: rows 0402 and 0371 have a red left rule, a filled red 已超时 chip and a ⚠ icon. Row 0371 has a red tint. Row 0402 is selected, so it shows the blue selection tint instead of red. The only other solid red is the 已超时 count pill, which NOTES also describes."
+    },
+    {
+      "claim": "P1 badges are outlined rather than filled, and the priority badge is muted on 已关闭 rows",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png/list-02.png: P1 紧急 is red text on a light tint with an outline, not filled. On 已关闭 rows (0376, 0366, 0359, 0340, 0321) the priority badges are grey, including P1 on 0340."
+    },
+    {
+      "claim": "「响应剩 35分」 is shown in amber as 即将超时 (under 1 hour left)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png row 0409: SLA reads 剩 35分 / 响应时限 in amber with a clock icon. No 即将超时 text label is shown, so the state is marked only by colour and icon."
+    },
+    {
+      "claim": "Selecting rows 2 and 3 replaces the table toolbar with a bulk bar: 「已选 2 项（本页）」, 批量派单, 批量修改优先级, 导出所选 and 取消选择",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png toolbar: 已选 2 项（本页）, 批量派单, 批量修改优先级, 导出所选, 取消选择. Rows 0409 and 0402 are checked."
+    },
+    {
+      "claim": "the 「更多」 items (打印工单, 复制链接, 关闭工单) are shown as quiet visible buttons under the main actions … 关闭工单 is deliberately not red",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png top right: a 更多 label with 打印工单, 复制链接 and 关闭工单 as plain text buttons under the action row. 关闭工单 is grey."
+    },
+    {
+      "claim": "Detail: 添加处理记录 is the primary action",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png: 添加处理记录 is the only filled blue button. 申请备件, 转派, 挂起 and 提交验收 are outlined."
+    },
+    {
+      "claim": "Detail: 处理记录 is ordered newest first (labelled 「最新在上」)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-02.png: the header reads 6 条 · 最新在上, and the timeline runs from 09:40 at the top to 09:12 at the bottom."
+    },
+    {
+      "claim": "the 3 active filters are highlighted in the filter bar and echoed as removable chips",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-empty-01.png: the 状态 待验收, 厂区/产线 二厂 and 负责人 王建国 filters are highlighted in blue with ×. The empty state repeats them as three × chips and adds a 清除全部筛选 button."
+    },
+    {
+      "claim": "Loading state: quick-view counts, rows and pagination are skeletons; the filters stay usable; the toolbar says 「正在加载工单…」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-loading-01.png: the quick-view counts and 15 rows are skeletons, the toolbar shows a spinner with 正在加载工单..., and the filters render normally. list-loading-02.png: the pagination is a skeleton."
+    },
+    {
+      "claim": "Error state: quick-view counts show 「—」 … offers 重新加载 … shows 请求编号 7f3a-91c2-0d44, 时间 09:42:17 and 状态码 502",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-error-01.png: every quick-view count shows —. The message mentions HTTP 502 and gives the next step. There is a 重新加载 button and an info strip with 请求编号 7f3a-91c2-0d44, 时间 09:42:17 and 状态码 502."
+    },
+    {
+      "claim": "holding 15 rows at about 50 px each, so 10+ rows fit in the first 900 px",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: 11 full rows (0413 to 0359) plus part of the 12th show above the 900 px fold, along with the quick views, filters and table header."
+    },
+    {
+      "claim": "Every text pair was computed at ≥ 4.5:1 … the lint contrast floor passes on all 5 pages",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: text below AA is 0 of 328, 77, 57, 72 and 177 measured text nodes across the 5 pages."
+    }
+  ],
+  "notes": "No claim was contradicted. Two small gaps: NOTES calls 剩 35分 '即将超时', but the screen shows no such label, only amber colour and a clock icon. Row 0402 is overdue and selected, and the blue selection tint replaces its red row tint; the red left rule and chip remain. Other claims also match the renders but are not listed: 86 pages, the 已挂起（等备件） two-line badge, and amber for 超时 20分修复.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.suite-0.8.1-s2/check.reply.txt",
+    "sha256": "c5c4e4a772e382669b440835143da5a9f8e5bb2befc23f1cf020456ff479cbae"
+  }
+}

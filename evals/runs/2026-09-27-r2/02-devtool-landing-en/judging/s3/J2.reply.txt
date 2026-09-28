@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "02-devtool-landing-en",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 3,
+          "evidence": ["A/mobile-01.png: mobile header shows only the GitHub icon and Get started; Docs, Pricing and the other nav links have no menu replacement", "A/desktop-03.png: icon-tile bento feature grid and traffic-light code window are stock devtool tropes; with the name swapped, nothing would look wrong"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/desktop-02.png: 'Two people edit the same row offline' phone/laptop/merged panels show per-column merge using the product's own data model, answering the audience's 'what's the catch'", "B/desktop-01.png: the merge card floats top right while the code block drops below it, leaving the lower-left column empty; the hero composition feels disjointed"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B's concrete offline merge demo and Plex Sans/Mono voice explain local-first specifically; A is more polished but its bento grid is generic, and mobile loses nav links."}
+  ],
+  "notes": "Both pages are clean on the facts (0 AA failures, no overflow) and show no invented social proof. A has the tighter display type and a balanced hero, but its identity leans on generic devtool patterns. B's mono numerals and mono prices give it character, though 'Custom' set in mono for Enterprise looks slightly odd. On mobile, B wraps code with hanging indents, keeps a Menu button and puts Copy buttons on every install command."
+}
+```

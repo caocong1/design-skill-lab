@@ -1,0 +1,109 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "suite-0.8.1-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/run-approval-01.png",
+      "render/run-approval-02.png",
+      "render/run-approval-03.png",
+      "render/run-error-01.png",
+      "render/run-error-02.png",
+      "render/run-progress-01.png",
+      "render/run-progress-02.png",
+      "render/run-result-01.png",
+      "render/run-result-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/05-agent-approvals.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "The dark left navigation (Assistant current) and the top bar stay visible on every screen. A 332 px right rail holds run facts, permissions and the activity log.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All -01 PNGs show the dark nav with Assistant highlighted and the breadcrumb top bar. The right rail (about x 1076–1408) has THIS RUN, WHAT THE ASSISTANT MAY DO and ACTIVITY LOG in progress, approval and error. In run-result-01.png the rail has AUDIT LOG, FILES and THIS RUN instead, with no permissions card."
+    },
+    {
+      "claim": "header (request, status pill with icon and word) → the block that needs Dana (approval, error or outcome) → the 5-step plan → rail. Moment 1 has no decision, so the plan comes first, with step 3 expanded in place.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01/02, run-error-01/02 and run-result-01/02 each show the pill, then the decision, error or outcome card, then Plan. run-progress-01.png shows the plan right after the pill, with step 3 expanded to show a progress bar, a flag table and the NOW line."
+    },
+    {
+      "claim": "all four choices are visible in the first 900 px next to the facts they act on",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: Approve without Oakridge, Approve and schedule all 7, Edit batch and Reject all sit in the YOUR DECISION column beside the payment table, above y=700."
+    },
+    {
+      "claim": "\"Approve without Oakridge\" is the filled primary button and comes first; \"Approve and schedule all 7\" is equal size but outlined … No button is labelled \"recommended\".",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: a filled dark-green 'Approve without Oakridge' at the top, then an outlined 'Approve and schedule all 7' of the same width. No 'recommended' label appears."
+    },
+    {
+      "claim": "\"Wed 30 Sep\" arrival … there is no post-payment balance.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png, Pay date cell: 'ACH, arrives Wed 30 Sep'. The From cell shows only 'Available $212,480.19'."
+    },
+    {
+      "claim": "Error (separate run): step 1 is shown as done but without counts.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-error-01.png Already done: 'Step 1: August vendor invoices collected from Bills'. run-error-02.png shows step 1 as 'bills.list succeeded' and the log as 'bills.list · succeeded', with no 52/49 counts."
+    },
+    {
+      "claim": "Progress: the activity log uses step labels instead of clock times",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-02.png ACTIVITY LOG rows are labelled Step 1, Step 2 and Step 3, with no timestamps."
+    },
+    {
+      "claim": "the flag actions that would move money read \"Draft … payment\" and carry a lock icon",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-02.png: 'Draft $252.00 payment' (Calder) and 'Draft payment' (Brightline) both have a lock icon. The other actions (Review refund email, Mark as matched, Keep flagged, Mark as paid) have none."
+    },
+    {
+      "claim": "a persistent \"AI\" mark next to \"Fernhill Assistant\" in every header, plus one line in the rail. The result carries a \"Prepared by Fernhill Assistant (AI)\" line.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "An [AI] badge appears before 'Fernhill Assistant' in all four -01 headers. There is a rail footnote in run-progress-02, run-approval-03 and run-error-02, and run-result-01.png's rail says 'Prepared by Fernhill Assistant (AI)…'."
+    },
+    {
+      "claim": "each step has a distinct mark shape (filled check, ring with dot, pause bars, cross, dashed circle) and a state word. Flags carry a warning icon and a label.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "Check with 'Done' and dashed circle with 'Not started' (run-progress-02); ring with dot and 'Running' (run-progress-01); pause bars and 'Waiting for you' (run-approval-02); cross and 'Failed for 1 of 2 accounts' (run-error-02). Flag rows show ⚠ with labels such as 'Amount mismatch'."
+    },
+    {
+      "claim": "Streaming is shown as a static \"Now\" line with a solid caret.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png: a dashed box reading 'NOW Checking Oakridge Office Supply INV-1057 ($2,315.40) against card transactions…' followed by a solid blue caret block."
+    },
+    {
+      "claim": "Every text pair was computed at WCAG AA or better",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: text below AA was 0 of 132, 0 of 209, 0 of 128 and 0 of 152 measured text nodes across the four files."
+    }
+  ],
+  "notes": "The first claim is only partly accurate for the result screen. There, the rail swaps permissions and activity log for Audit log and Files. Everything else matched the renders. Right-aligned amounts are visible in run-approval-01.png. The 'Approved by Dana Whitlock, 10:05:40' tag on step 4 is visible in run-result-02.png.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.suite-0.8.1-s3/check.reply.txt",
+    "sha256": "5a0694141ffb6168a0d29ea43e0db844cc1b642e79289ad1532dcfcad3c56802"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "no-skill-s1",
+  "model": "claude-opus-5-5",
+  "start": 1790505417,
+  "end": 1790505943,
+  "wall_seconds": 526,
+  "exit_code": 0,
+  "ended": "completed",
+  "start_iso": "2026-09-27T10:36:57+00:00",
+  "end_iso": "2026-09-27T10:45:43+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json",
+    "skills_dir": null
+  },
+  "result_event": true,
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "num_turns": 42,
+  "duration_api_ms": 491409,
+  "dollars": 2.1556,
+  "tokens": {
+    "input": 74,
+    "output": 48541,
+    "thinking": 18288,
+    "cache_read": 2261360,
+    "cache_creation": 91530
+  },
+  "tokens_note": "tokens = sum over modelUsage (main session + subagents); tokens_main_thread = result.usage",
+  "tokens_main_thread": {
+    "input": 74,
+    "output": 48541,
+    "thinking": 18288,
+    "cache_read": 2261360,
+    "cache_creation": 91530
+  },
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 74,
+      "outputTokens": 48541,
+      "cacheReadInputTokens": 2261360,
+      "cacheCreationInputTokens": 91530,
+      "webSearchRequests": 0,
+      "costUSD": 2.155628000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 18288,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "final \"result\" event of the stream-json transcript (total_cost_usd, usage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/18e3c357-aef0-47e5-94ab-78cf9c592c1c/scratchpad/eval-2026-09-27/transcripts/03-ios-consumer-screen.no-skill.transcript.jsonl",
+    "sha256": "2565058beba71d4b00fdb4c863ea38993c230baa70023350a136ad845d0a216e",
+    "bytes": 6533562,
+    "exists_now": false
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": [],
+  "sample": "s1",
+  "arm_base": "no-skill",
+  "source": {
+    "round": "2026-09-27",
+    "path": "evals/runs/2026-09-27/03-ios-consumer-screen/no-skill/",
+    "note": "Round 1 no-skill output reused as sample s1 (out/ and run.json copied unchanged; render and facts regenerated in this round). The transcript path recorded below is round 1 scratch; its sha256 is as recorded then."
+  }
+}

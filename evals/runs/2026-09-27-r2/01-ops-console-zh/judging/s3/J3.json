@@ -1,0 +1,40 @@
+{
+ "brief": "01-ops-console-zh",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list-01.png: overdue SLA shown as red text plus warning icon and a red row edge, single-line tabular timestamps; titles wrap in a narrow column",
+    "A/detail-01.png: trend chart has a 55 °C threshold line and a value table below, with readings above the limit in red"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/list-01.png: overdue SLA as a filled red badge with icon and '已超时 12分' plus a 响应时限 label, and '选择全部 1,286 项' in the bulk bar",
+    "B/detail-01.png: chart title states '2 小时内升高 22.3 °C，仍在上升' and marks '08:50 越过阈值'; SLA cards carry 达标/计时中 text labels",
+    "B/list-empty-01.png: empty state names the cause and offers a targeted '移除「负责人 = 王建国」' as well as clearing all filters"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B marks overdue SLA as filled icon-and-text badges and its detail chart states the rise and the 08:50 threshold crossing; A's overdue cues are quieter."
+  }
+ ],
+ "notes": "Both have clean fact sheets (0 AA failures, 0 target failures) and never show status by colour alone. They are close. A is stronger in its one-line timestamps and the value table under its chart. B wraps timestamps onto two lines and has no data table, but its overdue signal and task-specific empty and error states are clearer for a supervisor who fears missing a P1."
+}

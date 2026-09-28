@@ -1,0 +1,41 @@
+{
+ "brief": "03-ios-consumer-screen",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 5,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/today.png + A/empty.png: dog-eared corner on the book covers and the empty-state placeholder, with serif titles on warm paper, ties the look to the name Dogear",
+    "A/book.png: the highlight is set as serif reading text at full width, not squeezed",
+    "A/today.png: only Middlemarch shows fully in Currently Reading; Walden fades under the tab bar and The Pillow Book is off-screen"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/today.png: all three current books are visible above the fold, and Start Session is tied to Middlemarch",
+    "B/today.png: the Sunday bar is labelled 'Today' but is not marked as in progress",
+    "B/empty.png: facts report 2 targets under 44 pt"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A has a Dogear-specific look (dog-eared covers, serif reading text), marks Sunday as in progress, and sets the highlight as reading text; B looks like stock iOS."
+  }
+ ],
+ "notes": "Both have a floating glass tab bar with Search on its own, a large title, glass back and more buttons, and one primary action per screen. B's Today gets more done in a glance (all three books, Start Session tied to a book). A's Start Session doesn't say which book it starts. A's empty state explains the streak rule without faking data."
+}

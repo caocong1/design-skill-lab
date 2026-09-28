@@ -1,0 +1,40 @@
+{
+ "brief": "03-ios-consumer-screen",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 5,
+   "craft": 4,
+   "typography": 5,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/today.png, top and middle: the covers and the empty-state page have a folded corner that matches the Dogear name, set on warm paper with bottle-green ink. Nothing about it looks generic.",
+    "A/book.png, Highlights card: the Middlemarch quotation is set in a serif at reading size with marker-style highlight bands. Page and chapter are in SF below it. The serif and SF are paired well.",
+    "A/today.png, goal card: the week chart has a value over every bar, Wed shows a flat 0, and the Sun bar is drawn part-filled. The chart is labelled and honest."
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 5,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/today.png, top card: the ring, '8 min to go', the streak pill and Start Session with 'continue from page 312' all read in one glance, which suits a few-second visit.",
+    "B/today.png, cover thumbnails: the author text is too small to read, and facts.md measures 'H. D. Thoreau' at 4.43:1 on the cover. This is decorative art, not primary text."
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "right",
+   "reason": "A has a product-specific identity (dog-eared covers, a literary serif, a labelled week chart, the quote set as reading text). B is well-ordered but reads as a generic habit tracker."
+  }
+ ],
+ "notes": "Both use a floating tab bar with a separate Search button and round glass buttons on the book screen. B is slightly more native: grouped grey background, segmented control, a sessions table with aligned numbers. But its rust accent, flame streak and ring would fit any habit app, and its chart has no values. A's empty state uses a file icon and its headline wraps to leave 'reading' alone on the second line. These are minor faults."
+}

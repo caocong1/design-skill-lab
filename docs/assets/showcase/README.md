@@ -28,6 +28,10 @@
 
 一行对应一轮评测（`date`）里的一个 brief。页面按 `date` 分组，最新一轮展开，更早的折叠；所有汇总（每组胜了几个 brief、各维度平均分、没有明确胜者的个数）都由页面从这些行算出来，这里不写汇总数。
 
+一轮有几个对照组，就看这一轮的行里出现了哪些 id：页面的表头、汇总和并排截图都跟着数据走，不装 skill 的一组排最前，套件按版本号排。首轮是三组，第二轮（2026-09-28）是 `no-skill` 和 `suite-0.8.1` 两组。
+
+一格有多个样本的轮次（第二轮起，一格三个样本），一行仍然是一个 brief：`means` 是这个 brief 几个样本的平均，`winner` 是赢下多数样本的一组，各赢了几组写在 `note_zh` / `note_en` 里。算法见下文“从 `results.json` 生成”。
+
 ```json
 {
   "date": "2026-10-01",
@@ -56,21 +60,31 @@
 
 | 字段 | 必填 | 说明 |
 |---|---|---|
-| `date` | 是 | 这一轮的日期，即 `results.json` 的 `round.date` |
+| `date` | 是 | 这一轮的日期，即 `results.json` 的 `round.date`；轮次的文件夹名可以不同（第二轮的文件夹是 `evals/runs/2026-09-27-r2/`，`date` 是 `2026-09-28`） |
 | `brief` | 是 | brief id，和 `evals/briefs/<brief>.md` 同名；页面用它链到 brief 原文 |
 | `title_zh` / `title_en` | 否 | 分数板上显示的短标题；没有就显示 `brief` |
-| `arms` | 是 | 键是对照组 id：`no-skill`、`suite-0.7.0`、`suite-0.8.0`（与 `evals/results.schema.json` 的 `armId` 一致；出现别的 id 也会显示，排在后面）。值取 `results.json` 里该 brief 该组的 `status` 和 `means` |
+| `arms` | 是 | 键是对照组 id：`no-skill` 或 `suite-<版本>`（与 `evals/results.schema.json` 的 `armId` 一致）。首轮是 `no-skill`、`suite-0.7.0`、`suite-0.8.0`；别的 id 同样可以用，例如第二轮的 `suite-0.8.1`。同一轮的各行用同一组 id。值取 `results.json` 里该 brief 该组的 `status` 和 `means` |
 | `arms.<id>.status` | 否 | `ok` · `partial` · `empty`；`empty` 在分数板上显示为“空” |
-| `arms.<id>.means` | 是 | `fit` `hierarchy` `identity` `craft` `typography` `platform_a11y` `overall`，1–5 的平均分；空组按评测规则是 0，照写 |
-| `winner` | 是 | 胜出组 id，没有明确胜者时为 `null` |
+| `arms.<id>.means` | 是 | `fit` `hierarchy` `identity` `craft` `typography` `platform_a11y` `overall`，1–5 的平均分；空组按评测规则是 0，照写。一格多个样本时，是这个 brief 各样本的平均，保留两位小数 |
+| `winner` | 是 | 胜出组 id，没有明确胜者时为 `null`。一格多个样本时，是赢下多数样本的一组 |
 | `winner_reason` | 否 | `condorcet` · `cycle` · `ties` · `all-empty`；`winner` 为 `null` 时页面显示原因 |
 | `shots` | 否 | 每组的首屏截图（统一渲染的 PNG 转 WebP，每张不超过 150 KB，放在本目录的 `<date>-evals/<brief>/<arm>.webp`），`{src, w, h, alt_zh, alt_en}`；`w`、`h` 是 WebP 的实际像素 |
 | `report` | 否 | 这一轮的 `report.md`；同一轮各行写同一个链接即可 |
-| `note_zh` / `note_en` | 否 | 这个 brief 的备注：重跑、超时、身份泄露等 |
+| `note_zh` / `note_en` | 否 | 这个 brief 的备注：重跑、重评、超时、身份泄露等。一格多个样本时，写明赢了几组、输了几组 |
 
 ### 从 `results.json` 生成
 
-`results.json` 的 `briefs[]` 每一项生成一行：`date` ← `round.date`，`brief` ← `brief`，`arms.<id>` ← `arms.<id>` 的 `status` 与 `means`，`winner` 与 `winner_reason` 原样照抄。只搬这些字段，不重新计算、不挑选，也不删掉输掉的 brief。
+一格一个样本的轮次（首轮）：`results.json` 的 `briefs[]` 每一项生成一行：`date` ← `round.date`，`brief` ← `brief`，`arms.<id>` ← `arms.<id>` 的 `status` 与 `means`，`winner` 与 `winner_reason` 原样照抄。只搬这些字段，不重新计算、不挑选，也不删掉输掉的 brief。
+
+一格多个样本的轮次（`round.samples_per_cell` 大于 1）：`briefs[]` 每一项是一个样本（一组盲评），同一个 `brief` 的几项合成一行，用脚本算，不手算：
+
+- `arms.<id>.means`：每个维度先在一个样本里对三位评审的分数取平均，再对这个 brief 的几个样本取平均；`overall` 是六个维度平均分的平均。保留两位小数。这和 `evals/tools/aggregate.py` 算每份 brief 均分的办法相同，结果与 `report.md` 逐份表里的总分一致。
+- `arms.<id>.status`：几个样本都是 `ok` 才写 `ok`。
+- `winner`：赢下多数样本的一组；`winner_reason` 照抄各样本的值。
+- `note_zh` / `note_en`：写明这一组赢了几组、输了几组；有重跑或重评的也写在这里。
+- `shots`：每组取样本 1 的首屏，取哪一帧和首轮一致。
+
+同样不挑选，也不删掉输掉的样本或 brief。
 
 ## `triggers[]`：触发评测（代理）
 

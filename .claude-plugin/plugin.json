@@ -1,7 +1,7 @@
 {
   "name": "design-skill-lab",
   "displayName": "Design Skill Lab",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A designer for coding agents: design-studio takes any design intent from brief to handoff (truth files, captured references, options board, DESIGN.md and tokens, screens across states and platforms), critique-design reviews and accepts builds with a fresh eye, implement-design builds an existing design in your stack. Draws in HTML/CSS/SVG and checks by rendering. Chinese and English triggers.",
   "author": {
     "name": "caocong1"

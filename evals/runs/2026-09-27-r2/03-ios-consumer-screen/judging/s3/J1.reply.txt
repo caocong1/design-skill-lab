@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "03-ios-consumer-screen",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/empty.png: one-line explanation of what Dogear does, Scan barcode is the only filled button, the goal stepper is preset to 20, and the streak is promised for later rather than faked", "A/today.png: 20-segment minute bar and a week chart labelled with a value for every day (Wed 0, Sun half-filled as in progress)", "A/book.png: the p.194 highlight is set as serif reading text rather than squeezed"]},
+    "B": {"fit": 4, "hierarchy": 5, "identity": 3, "craft": 4, "typography": 3, "platform_a11y": 3,
+          "evidence": ["B/today.png: top card reads in order: ring 12/20, then '8 min to go' with the streak chip, then the week chart, then Start Session with 'continue from page 312'; all three books fit above the tab bar"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's week chart shows each day's minutes and its serif, dog-eared paper style feels like Dogear. B's bars have no values, and its flame-and-orange streak look is generic."}
+  ],
+  "notes": "Both have floating tab bars with a separate Search button, glass back and more buttons, and one primary action per screen. B's Today screen is faster to take in at a glance, but its chart relies on bar height against a 20-minute line, and it shows highlights only behind a segmented tab. A leaves the Pillow Book row under the tab bar. B has 2 targets under 44 pt and a failing text measurement on its cover art, which is not primary text."
+}
+```

@@ -1,0 +1,27 @@
+[
+  {
+    "file": "schedule.html",
+    "viewport": "1280x800@1",
+    "status": "ok",
+    "method": "evals/tools/facts.mjs",
+    "frames_measured": 1,
+    "text_nodes": 361,
+    "contrast_measured": 358,
+    "contrast_from_pixels": 7,
+    "contrast_failures": 0,
+    "lowest_contrast": 5.27,
+    "lowest_contrast_where": null,
+    "contrast_failure_examples": [],
+    "contrast_unmeasured": 2,
+    "contrast_unmeasured_reasons": {
+      "gradient or image-filled text": 2
+    },
+    "contrast_exempt_disabled": 0,
+    "contrast_skipped_covered": 1,
+    "targets_checked": 47,
+    "targets_under_24": 0,
+    "targets_under_24_examples": [],
+    "images_missing_alt": 0,
+    "horizontal_overflow": false
+  }
+]

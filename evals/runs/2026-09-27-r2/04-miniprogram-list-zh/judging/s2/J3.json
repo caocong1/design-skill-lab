@@ -1,0 +1,41 @@
+{
+ "brief": "04-miniprogram-list-zh",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list.png: the location row is vertically centred on the capsule and ends before it; tab bar shows 4 items with 服务 active",
+    "A/filter.png: footer message '当前条件下 0 个服务' is generic; the brief's relaxation counts appear only on empty.png",
+    "facts: 3 separator '|' nodes in list.html at 1.94:1, decorative, not primary text"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/filter.png: each group header shows the real relaxed count (改成明天：6 个, 放宽到 3 km 内：4 个, 去掉「可开发票」：1 个) beside the selected chips",
+    "B/list.png: 最早可约 pill filled for today and outlined for tomorrow, so the text states the day and colour is not the only cue",
+    "facts: 0 AA failures and 0 targets under 44 px on all three screens"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B's open filter panel shows the brief's real relaxation counts next to each group, so users see the fix before tapping; A shows only a generic hint."
+  }
+ ],
+ "notes": "The two are close. Both honour the capsule, the native tab bar and the safe area, and both keep the panel buttons above the tab bar. A's orange-red prices lean slightly promotional; B's black prices are calmer and fit the trustworthy tone. Both category rails fade the fifth tab to show it scrolls. B adds an expand chevron."
+}

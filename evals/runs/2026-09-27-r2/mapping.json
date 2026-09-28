@@ -1,0 +1,703 @@
+{
+  "round": "2026-09-27-r2",
+  "nonce": "dsl",
+  "python": "Python 3.14.5 (random.Random, string seed)",
+  "arms": [
+    "no-skill",
+    "suite-0.8.1"
+  ],
+  "samples": [
+    "s1",
+    "s2",
+    "s3"
+  ],
+  "arm_permutation_code": "python3 -c \"import random,sys; a=['no-skill','suite-0.8.1']; random.Random(sys.argv[1]).shuffle(a); print(dict(zip('AB', a)))\" '2026-09-27-r2-<brief>-s<k>-dsl'",
+  "pair_order_code": "r=random.Random(seed); p=[('A','B')]; r.shuffle(p); p=[(y,x) if r.random()<0.5 else (x,y) for x,y in p]  # seed = '2026-09-27-r2-<brief>-s<k>-dsl-<judge>'; judging.md section 3 code with the single pair of a two-arm round",
+  "note": "Judged set = brief x sample k (judging.md section 9): no-skill-s<k> vs suite-0.8.1-s<k>. no-skill-s1 is round 1's no-skill output. Permutations taken exactly as drawn.",
+  "sets": {
+    "01-ops-console-zh.s1": {
+      "brief": "01-ops-console-zh",
+      "sample": "s1",
+      "seed": "2026-09-27-r2-01-ops-console-zh-s1-dsl",
+      "mapping": {
+        "A": "no-skill-s1",
+        "B": "suite-0.8.1-s1"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s1-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s1-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s1-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "01-ops-console-zh.s2": {
+      "brief": "01-ops-console-zh",
+      "sample": "s2",
+      "seed": "2026-09-27-r2-01-ops-console-zh-s2-dsl",
+      "mapping": {
+        "A": "no-skill-s2",
+        "B": "suite-0.8.1-s2"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s2-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s2-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s2-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "01-ops-console-zh.s3": {
+      "brief": "01-ops-console-zh",
+      "sample": "s3",
+      "seed": "2026-09-27-r2-01-ops-console-zh-s3-dsl",
+      "mapping": {
+        "A": "no-skill-s3",
+        "B": "suite-0.8.1-s3"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s3-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s3-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-01-ops-console-zh-s3-dsl-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "02-devtool-landing-en.s1": {
+      "brief": "02-devtool-landing-en",
+      "sample": "s1",
+      "seed": "2026-09-27-r2-02-devtool-landing-en-s1-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s1",
+        "B": "no-skill-s1"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s1-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s1-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s1-dsl-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "02-devtool-landing-en.s2": {
+      "brief": "02-devtool-landing-en",
+      "sample": "s2",
+      "seed": "2026-09-27-r2-02-devtool-landing-en-s2-dsl",
+      "mapping": {
+        "A": "no-skill-s2",
+        "B": "suite-0.8.1-s2"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s2-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s2-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s2-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "02-devtool-landing-en.s3": {
+      "brief": "02-devtool-landing-en",
+      "sample": "s3",
+      "seed": "2026-09-27-r2-02-devtool-landing-en-s3-dsl",
+      "mapping": {
+        "A": "no-skill-s3",
+        "B": "suite-0.8.1-s3"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s3-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s3-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-02-devtool-landing-en-s3-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "03-ios-consumer-screen.s1": {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s1",
+      "seed": "2026-09-27-r2-03-ios-consumer-screen-s1-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s1",
+        "B": "no-skill-s1"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s1-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s1-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s1-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "03-ios-consumer-screen.s2": {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s2",
+      "seed": "2026-09-27-r2-03-ios-consumer-screen-s2-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s2",
+        "B": "no-skill-s2"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s2-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s2-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s2-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "03-ios-consumer-screen.s3": {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s3",
+      "seed": "2026-09-27-r2-03-ios-consumer-screen-s3-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s3",
+        "B": "no-skill-s3"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s3-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s3-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-03-ios-consumer-screen-s3-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "04-miniprogram-list-zh.s1": {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s1",
+      "seed": "2026-09-27-r2-04-miniprogram-list-zh-s1-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s1",
+        "B": "no-skill-s1"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s1-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s1-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s1-dsl-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "04-miniprogram-list-zh.s2": {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s2",
+      "seed": "2026-09-27-r2-04-miniprogram-list-zh-s2-dsl",
+      "mapping": {
+        "A": "no-skill-s2",
+        "B": "suite-0.8.1-s2"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s2-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s2-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s2-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "04-miniprogram-list-zh.s3": {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s3",
+      "seed": "2026-09-27-r2-04-miniprogram-list-zh-s3-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s3",
+        "B": "no-skill-s3"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s3-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s3-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-04-miniprogram-list-zh-s3-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "05-agent-approvals.s1": {
+      "brief": "05-agent-approvals",
+      "sample": "s1",
+      "seed": "2026-09-27-r2-05-agent-approvals-s1-dsl",
+      "mapping": {
+        "A": "no-skill-s1",
+        "B": "suite-0.8.1-s1"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s1-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s1-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s1-dsl-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "05-agent-approvals.s2": {
+      "brief": "05-agent-approvals",
+      "sample": "s2",
+      "seed": "2026-09-27-r2-05-agent-approvals-s2-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s2",
+        "B": "no-skill-s2"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s2-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s2-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s2-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "05-agent-approvals.s3": {
+      "brief": "05-agent-approvals",
+      "sample": "s3",
+      "seed": "2026-09-27-r2-05-agent-approvals-s3-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s3",
+        "B": "no-skill-s3"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s3-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s3-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-05-agent-approvals-s3-dsl-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "06-redesign-legacy.s1": {
+      "brief": "06-redesign-legacy",
+      "sample": "s1",
+      "seed": "2026-09-27-r2-06-redesign-legacy-s1-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s1",
+        "B": "no-skill-s1"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s1-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s1-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s1-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    },
+    "06-redesign-legacy.s2": {
+      "brief": "06-redesign-legacy",
+      "sample": "s2",
+      "seed": "2026-09-27-r2-06-redesign-legacy-s2-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s2",
+        "B": "no-skill-s2"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s2-dsl-J1",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s2-dsl-J2",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s2-dsl-J3",
+          "pairs": [
+            {
+              "left": "B",
+              "right": "A"
+            }
+          ]
+        }
+      }
+    },
+    "06-redesign-legacy.s3": {
+      "brief": "06-redesign-legacy",
+      "sample": "s3",
+      "seed": "2026-09-27-r2-06-redesign-legacy-s3-dsl",
+      "mapping": {
+        "A": "suite-0.8.1-s3",
+        "B": "no-skill-s3"
+      },
+      "judges": {
+        "J1": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s3-dsl-J1",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J2": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s3-dsl-J2",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        },
+        "J3": {
+          "seed": "2026-09-27-r2-06-redesign-legacy-s3-dsl-J3",
+          "pairs": [
+            {
+              "left": "A",
+              "right": "B"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+ "brief": "06-redesign-legacy",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/schedule.png: the right panel puts alerts first, then a check-in checklist (Checked in, Insurance, Copay with a primary Collect $25.00 button, Room). The left rail has Waiting room / In a room / Due next with Check in buttons, and a 2× badge marks the 10:15 Feld double booking."
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/schedule.png: patient search is centred in the header. The left rail shows Waiting room with '$ copay due', In a room with minutes, Expected next with Check In buttons, Needs attention and Waitlist. The grid shows 8:00 to 1:30 PM with a 2× double-booking badge and a 'Now 8:04' marker."
+   ]
+  },
+  "R": {
+   "fit": 3,
+   "hierarchy": 2,
+   "identity": 3,
+   "craft": 2,
+   "typography": 2,
+   "platform_a11y": 2,
+   "evidence": [
+    "before.png: 12 equal buttons in the right panel, and Patient Alerts sit below them.",
+    "before.png: grid names are truncated ('BRENNAN, HAROLD 75M F/...', 'JOHANSSON, MIA 4F 4yr sh...').",
+    "before.png: small all-caps text at about 11px throughout, and toolbar buttons and the search field look about 20px tall."
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A's selected panel turns check-in into a checklist with Collect copay as the primary action, and grid cells keep type as text (F/U, Sick). B leaves type mostly unlabelled."
+  }
+ ],
+ "notes": "This was close. Both show status with text and icons rather than colour alone, pass contrast, and have no small targets. B's one contrast failure is a visually hidden 'Find patient' label (white on white), which no user sees, so I did not count it against primary text. B shows a longer span of the day and keeps the waitlist on screen. A's workflow for the 42% check-in task is sharper."
+}

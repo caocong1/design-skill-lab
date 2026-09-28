@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Schedule · AlderCare Scheduler</title>
+<meta name="viewport" content="width=1280">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1b365a;
+    --navy-2: #24446e;
+    --ink: #17202c;
+    --muted: #4a5465;
+    --faint: #5f6878;
+    --line: #d6dce4;
+    --line-2: #e6eaf0;
+    --bg: #eef1f5;
+    --panel: #ffffff;
+
+    --here: #13642f;      --here-bg: #e3f3e8;
+    --room: #1b4a93;      --room-bg: #e5edfa;
+    --unconf: #7a4500;    --unconf-bg: #fdecc6;
+    --alert: #a1201a;     --alert-bg: #fdeceb;   --alert-line: #e8b4b0;
+    --now: #c8321f;
+    --focus: #1f6fe0;
+
+    /* appointment-type hues, kept from 3.2 and always paired with a text code */
+    --t-np: #e0668a; --t-fu: #5fae47; --t-ph: #4f8ad8; --t-sk: #e0a21f;
+    --t-vx: #9469d6; --t-th: #26a6a6; --t-pr: #d9584a;
+
+    --row: 31px;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: "Atkinson Hyperlegible Next", "Segoe UI", system-ui, sans-serif;
+    font-size: 13px; line-height: 1.3; color: var(--ink); background: var(--bg);
+    display: grid; grid-template-rows: 36px 32px 44px 1fr; overflow: hidden;
+  }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  /* ---------- app bar ---------- */
+  .appbar { background: var(--navy); color: #fff; display: flex; align-items: center; gap: 16px; padding: 0 12px 0 16px; }
+  .wordmark { font-weight: 700; font-size: 16px; letter-spacing: -0.2px; }
+  .wordmark span { font-weight: 400; color: #c9d6e8; margin-left: 5px; font-size: 13px; }
+  .loc { background: var(--navy-2); color: #fff; border: 1px solid #4a6a94; border-radius: 4px; height: 26px; padding: 0 6px; font-size: 13px; }
+  .appbar .spacer { flex: 1; }
+  .maint { font-size: 12px; color: #d3dfee; }
+  .clock { font-weight: 600; font-size: 13px; }
+  .clock span { font-weight: 400; color: #d3dfee; margin-right: 6px; }
+  .user { background: transparent; border: 1px solid #4a6a94; color: #fff; border-radius: 4px; height: 26px; padding: 0 8px; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .user b { font-weight: 600; }
+
+  /* ---------- tabs (labels and order unchanged from 3.2) ---------- */
+  .tabs { background: var(--panel); border-bottom: 1px solid var(--line); display: flex; align-items: stretch; padding: 0 8px; gap: 2px; }
+  .tabs a { display: flex; align-items: center; padding: 0 10px; color: var(--muted); text-decoration: none; font-size: 13px; border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+  .tabs a.on { color: var(--navy); font-weight: 700; border-bottom-color: var(--navy); }
+  .tabs .count { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 5px; border-radius: 9px; background: var(--line-2); color: var(--ink); font-size: 12px; font-weight: 600; text-align: center; line-height: 17px; }
+  .tabs .count.hot { background: var(--alert); color: #fff; }
+
+  /* ---------- day toolbar ---------- */
+  .toolbar { background: var(--panel); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 8px; padding: 0 12px; }
+  .btn { height: 30px; min-width: 30px; padding: 0 10px; border-radius: 5px; border: 1px solid #b9c2cf; background: #fff; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+  .btn:hover { background: #f4f6f9; }
+  .btn.primary { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; }
+  .btn.icon { padding: 0; width: 30px; }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .daybtn { border: 0; background: none; text-align: left; padding: 0 6px; margin: 0 4px; border-radius: 5px; height: 40px; display: flex; flex-direction: column; justify-content: center; }
+  .daybtn:hover { background: #f4f6f9; }
+  .day { font-size: 16px; font-weight: 700; white-space: nowrap; display: flex; align-items: center; gap: 6px; line-height: 19px; }
+  .day svg { width: 15px; height: 15px; color: var(--muted); }
+  .seg { display: inline-flex; border: 1px solid #b9c2cf; border-radius: 5px; overflow: hidden; height: 30px; }
+  .seg button { border: 0; background: #fff; padding: 0 10px; font-size: 13px; border-right: 1px solid #b9c2cf; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; font-weight: 600; }
+  .sel { height: 30px; border: 1px solid #b9c2cf; border-radius: 5px; background: #fff; padding: 0 6px; font-size: 13px; }
+  .daystats { color: var(--muted); font-size: 12px; line-height: 15px; white-space: nowrap; }
+  .daystats b { color: var(--ink); font-weight: 600; }
+  .toolbar .spacer { flex: 1; }
+  .vsep { width: 1px; height: 22px; background: var(--line); }
+
+  /* ---------- main three-column ---------- */
+  .main { display: grid; grid-template-columns: 252px minmax(0, 1fr) 316px; min-height: 0; }
+
+  /* left: front-desk queue */
+  .queue { background: var(--panel); border-right: 1px solid var(--line); padding: 9px 10px 6px; display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; }
+  .search { position: relative; }
+  .search input { width: 100%; height: 38px; border: 2px solid var(--navy); border-radius: 6px; padding: 0 34px 0 32px; font-size: 14px; background: #fff; }
+  .search input::placeholder { color: var(--faint); }
+  .search svg { position: absolute; left: 9px; top: 11px; width: 16px; height: 16px; color: var(--navy); }
+  .search kbd { position: absolute; right: 8px; top: 10px; font-size: 11px; font-weight: 600; line-height: 16px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 0 5px; background: #f6f7f9; }
+  .qsec h2 { margin: 0 0 3px; font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); display: flex; align-items: baseline; gap: 6px; }
+  .qsec h2 .n { color: var(--ink); font-size: 13px; letter-spacing: 0; }
+  .qsec h2 .hint { margin-left: auto; text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 12px; }
+  .qlist { list-style: none; margin: 0; padding: 0; }
+  .qitem { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 8px; padding: 4px 8px 4px 9px; border-radius: 5px; border-left: 4px solid transparent; }
+  .qitem + .qitem { margin-top: 2px; }
+  .qitem.w { background: var(--here-bg); border-left-color: var(--here); }
+  .qitem.r { background: var(--room-bg); border-left-color: var(--room); }
+  .qitem.selected { box-shadow: inset 0 0 0 2px var(--navy); }
+  .qname { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .qmeta { grid-column: 1; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .qtime { grid-row: 1 / span 2; grid-column: 2; text-align: right; line-height: 1.1; }
+  .qtime b { display: block; font-size: 16px; font-weight: 700; }
+  .qitem.w .qtime b { color: var(--here); }
+  .qitem.r .qtime b { color: var(--room); }
+  .qtime small { font-size: 12px; color: var(--muted); }
+  .flag { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; color: var(--alert); background: #fff; border: 1px solid var(--alert-line); border-radius: 3px; padding: 0 4px; line-height: 15px; vertical-align: 1px; margin-left: 4px; }
+  .due { display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 0 6px; padding: 3px 0; border-bottom: 1px solid var(--line-2); }
+  .due:last-child { border-bottom: 0; }
+  .due .t { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .due .nm { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .due .nm small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
+  .btn.ci { height: 28px; padding: 0 9px; background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; font-size: 13px; }
+  .todo { list-style: none; margin: 0; padding: 0; }
+  .todo li { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px; padding: 3px 0; border-bottom: 1px solid var(--line-2); font-size: 13px; }
+  .todo li:last-child { border-bottom: 0; }
+  .todo small { display: block; color: var(--muted); font-size: 12px; }
+  .btn.sm { height: 26px; padding: 0 8px; font-size: 12px; }
+
+  /* centre: day grid */
+  .gridwrap { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--panel); }
+  .sched { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; position: relative; }
+  .g { display: grid; grid-template-columns: 50px repeat(4, minmax(0, 1fr)); position: relative; }
+  .colh { position: sticky; top: 0; z-index: 3; background: #f7f8fa; border-bottom: 1px solid #b9c2cf; padding: 3px 8px; height: 50px; border-left: 1px solid var(--line); }
+  .colh:first-child { border-left: 0; }
+  .colh b { display: block; line-height: 16px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .colh small { display: block; line-height: 14px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .colh small .w { color: var(--here); font-weight: 700; }
+  .colh small .r { color: var(--room); font-weight: 700; }
+  .tm { font-size: 12px; color: var(--muted); text-align: right; padding: 3px 6px 0 0; border-top: 1px solid var(--line-2); }
+  .tm.hr { color: var(--ink); font-weight: 700; border-top-color: #c4ccd7; }
+  .slotbg { border-top: 1px solid var(--line-2); border-left: 1px solid var(--line); }
+  .slotbg.hr { border-top-color: #c4ccd7; }
+  .lunch { grid-column: 2 / span 4; border-top: 1px solid #c4ccd7; border-left: 1px solid var(--line); background: repeating-linear-gradient(45deg, #f1f3f6 0 5px, #e9ecf0 5px 10px); color: var(--muted); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; letter-spacing: .4px; }
+  .tm.lunchtm { font-weight: 700; color: var(--ink); border-top-color: #c4ccd7; padding-top: 3px; }
+
+  .ap { position: relative; margin: 1px 2px 1px 3px; border-radius: 4px; border: 1px solid var(--line); border-left: 5px solid var(--tc); background: #fff; padding: 0 5px 0 6px; justify-content: center !important; text-align: left; min-width: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-start; z-index: 1; }
+  .ap:hover { border-color: #9aa6b6; border-left-color: var(--tc); }
+  .ap .nm { font-weight: 700; font-size: 13px; line-height: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ap .nm .fn { font-weight: 500; }
+  .ap .mt { font-size: 12px; line-height: 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 4px; }
+  .ap .mt .rs { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .ap .mt .code { font-weight: 700; color: var(--ink); flex: none; }
+  .ap .rs2 { font-size: 12px; line-height: 14px; color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .ap .x3 { font-size: 12px; line-height: 14px; color: var(--muted); }
+  .st { flex: none; display: inline-flex; align-items: center; gap: 2px; border-radius: 3px; padding: 0 4px; font-size: 11px; line-height: 14px; font-weight: 700; }
+  .st.here { background: var(--here); color: #fff; }
+  .st.room { background: var(--room); color: #fff; }
+  .st.unconf { background: #fbe0a3; color: var(--unconf); }
+  .st.conf { color: var(--here); padding: 0 1px 0 0; font-weight: 700; }
+  .ap.is-here { background: var(--here-bg); border-color: #9cc9aa; }
+  .ap.is-room { background: var(--room-bg); border-color: #a9bfe3; }
+  .ap.is-cx { background: #f4f5f7; border-left-color: #b3bac4; }
+  .ap.is-cx .nm { text-decoration: line-through; color: var(--muted); font-weight: 600; }
+  .ap.selected { box-shadow: 0 0 0 2px var(--navy); z-index: 2; }
+  .ap .flags { position: absolute; right: 3px; top: 2px; display: flex; gap: 2px; }
+  .ap .flags i { font-style: normal; font-size: 11px; font-weight: 700; line-height: 13px; padding: 0 3px; border-radius: 3px; background: #fff; color: var(--alert); border: 1px solid var(--alert-line); }
+  .ap.has-flags .nm { padding-right: 34px; }
+  .ap .flags i.ins { color: var(--unconf); border-color: #d9a445; background: var(--unconf-bg); }
+  .ap .insl { color: var(--unconf); font-weight: 700; }
+  .ap.has-ins .rs2 { -webkit-line-clamp: 1; }
+  .ap.dbl { background: #fff; border-color: var(--alert); border-style: solid; border-width: 1px 1px 1px 5px; border-left-color: var(--alert); padding-top: 1px; }
+  .ap.dbl .row { display: flex; align-items: baseline; gap: 4px; font-size: 12px; line-height: 13px; white-space: nowrap; overflow: hidden; }
+  .ap.dbl .row b { overflow: hidden; text-overflow: ellipsis; }
+  .ap.dbl { padding-right: 30px; }
+  .ap.tall { justify-content: flex-start !important; padding-top: 3px; }
+  .ap.dbl .row .code { font-weight: 700; font-size: 11px; }
+  .ap.dbl .tag { position: absolute; right: 3px; top: 50%; margin-top: -9px; background: var(--alert); color: #fff; font-size: 12px; font-weight: 700; line-height: 18px; padding: 0 5px; border-radius: 3px; }
+  .blk { margin: 1px 2px 1px 3px; border-radius: 4px; background: repeating-linear-gradient(45deg, #f1f3f6 0 5px, #e8ebef 5px 10px); color: var(--muted); font-size: 12px; font-style: italic; padding: 3px 7px; z-index: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .open { margin: 2px 3px 2px 4px; border: 1px dashed #97a3b3; border-radius: 4px; background: #fbfcfd; color: var(--muted); font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; padding: 0 7px; z-index: 1; }
+  .open:hover { background: #eef4ff; border-color: var(--focus); color: var(--navy); }
+  .nowline { position: absolute; left: 44px; right: 0; height: 0; border-top: 2px solid var(--now); z-index: 0; pointer-events: none; }
+  .nowlabel { position: absolute; left: 40px; width: 0; height: 0; z-index: 5; border: 5px solid transparent; border-left: 7px solid var(--now); transform: translateY(-5px); }
+  .corner { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; padding: 0 5px 0 0 !important; }
+  .corner span { background: var(--now); color: #fff; font-size: 12px; font-weight: 700; border-radius: 3px; padding: 0 4px; line-height: 16px; }
+  .corner small { font-size: 11px; color: var(--now); font-weight: 700; }
+
+  .key { flex: none; height: 26px; border-top: 1px solid var(--line); background: #f7f8fa; display: flex; align-items: center; gap: 8px; padding: 0 8px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; }
+  .key .k { display: inline-flex; align-items: center; gap: 4px; }
+  .key .sw { width: 5px; height: 13px; border-radius: 1px; background: var(--tc); }
+  .key b { color: var(--ink); }
+  .key .kt { font-style: normal; font-weight: 700; font-size: 11px; line-height: 14px; padding: 0 3px; border-radius: 3px; }
+  .key .kt.dbl { background: var(--alert); color: #fff; }
+  .key .kt.ins { background: var(--unconf-bg); color: var(--unconf); border: 1px solid #d9a445; }
+
+  /* right: selected appointment */
+  .detail { background: var(--panel); border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+  .dhead { padding: 10px 14px 8px; border-bottom: 1px solid var(--line-2); }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; }
+  .pname { margin: 2px 0 1px; font-size: 20px; line-height: 24px; font-weight: 700; }
+  .pname a { color: var(--ink); text-decoration: none; border-bottom: 1px solid #b9c2cf; }
+  .pid { font-size: 13px; color: var(--muted); }
+  .pid b { color: var(--ink); font-weight: 600; }
+  .alerts { margin: 8px 14px 0; border: 1px solid var(--alert-line); background: var(--alert-bg); border-radius: 6px; padding: 6px 10px 6px; }
+  .alerts h3 { margin: 0 0 3px; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; color: var(--alert); display: flex; align-items: center; gap: 5px; }
+  .alerts ul { margin: 0; padding: 0; list-style: none; }
+  .alerts li { font-size: 13px; line-height: 18px; display: flex; gap: 6px; }
+  .alerts li b { color: var(--alert); min-width: 58px; font-weight: 700; }
+  .ck { margin: 8px 14px 0; }
+  .ck h3, .dsec h3 { margin: 0 0 3px; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; }
+  .ck h3 span { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--ink); }
+  .step { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 6px; min-height: 34px; border-bottom: 1px solid var(--line-2); font-size: 13px; }
+  .step:last-child { border-bottom: 0; }
+  .step .ic { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+  .step.done .ic { background: var(--here); color: #fff; }
+  .step.todo .ic { border: 2px solid #8b95a4; }
+  .step small { display: block; color: var(--muted); font-size: 12px; line-height: 13px; }
+  .step .v { font-weight: 600; }
+  .step .v.warn { color: var(--alert); }
+  .btn.go { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; height: 30px; }
+  .acts { margin: 8px 14px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .acts .btn { height: 28px; padding: 0 4px; font-size: 13px; }
+  .acts .btn.danger { color: var(--alert); border-color: var(--alert-line); }
+  .dsec { margin: 7px 14px 0; }
+  .kv { display: grid; grid-template-columns: 70px 1fr; gap: 1px 8px; font-size: 13px; line-height: 17px; margin: 0; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; }
+  .visits { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .visits td { padding: 1px 0; color: var(--ink); border-top: 1px solid var(--line-2); }
+  .visits td:nth-child(2), .visits td:nth-child(3) { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="wordmark">AlderCare<span>Scheduler</span></div>
+  <select class="loc" aria-label="Location"><option>Alder Street Family Practice – Main</option><option>Alder Street – Eastside Annex</option></select>
+  <div class="spacer"></div>
+  <div class="maint">Maintenance Sat 3 Oct, 10 PM – 2 AM</div>
+  <div class="clock"><span>Mon 28 Sep</span>8:04 AM</div>
+  <button class="user" aria-haspopup="menu" aria-controls="m-user">mlopez · <b>Front Desk</b>
+    <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+</header>
+
+<nav class="tabs" aria-label="Main">
+  <a href="#">Home</a>
+  <a href="#" class="on" aria-current="page">Schedule</a>
+  <a href="#">Patients</a>
+  <a href="#">Check-In</a>
+  <a href="#">Waitlist<span class="count">4</span></a>
+  <a href="#">Recalls</a>
+  <a href="#">Billing</a>
+  <a href="#">Insurance / Eligibility</a>
+  <a href="#">Reports</a>
+  <a href="#">Messages<span class="count hot">3</span></a>
+  <a href="#">Tasks</a>
+  <a href="#">Inventory</a>
+  <a href="#">Admin</a>
+  <a href="#">Help</a>
+</nav>
+
+<div class="toolbar">
+  <button class="btn icon" aria-label="Previous day"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  <button class="btn">Today</button>
+  <button class="btn icon" aria-label="Next day"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+  <button class="daybtn" aria-haspopup="dialog" aria-label="Monday 28 September 2026, pick a date">
+    <span class="day">Monday 28 September 2026<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.5h12M5 1.5v3M11 1.5v3" stroke="currentColor" stroke-width="1.5"/></svg></span>
+    </button>
+  <div class="seg" role="group" aria-label="View"><button aria-pressed="true">Day</button><button aria-pressed="false">Week</button><button aria-pressed="false">Month</button></div>
+  <select class="sel" aria-label="Provider"><option>All providers</option></select>
+  <div class="spacer"></div>
+  <button class="btn primary"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="2"/></svg>New appt</button>
+  <button class="btn"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.8"/></svg>Find slot</button>
+  <button class="btn">Walk-in</button>
+  <button class="btn">Block time</button>
+  <button class="btn" aria-haspopup="menu" aria-controls="m-print">Print / Export
+    <svg viewBox="0 0 10 10" style="width:10px;height:10px" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <button class="btn icon" aria-label="Refresh"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8a5 5 0 1 1-1.5-3.6M13 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
+</div>
+
+<ul id="m-print" role="menu" hidden><li role="menuitem">Print day</li><li role="menuitem">Print labels</li><li role="menuitem">Export</li></ul>
+<ul id="m-user" role="menu" hidden><li role="menuitem">Preferences</li><li role="menuitem">Change password</li><li role="menuitem">Log out</li><li role="presentation">Server ACS-APP02 · Build 3.2.7.1184</li></ul>
+
+<div class="main">
+  <!-- ======== front-desk queue ======== -->
+  <aside class="queue" aria-label="Front desk">
+    <div class="search">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="2"/></svg>
+      <input type="search" aria-label="Find patient" placeholder="Name, DOB or MRN">
+      <kbd>/</kbd>
+    </div>
+
+    <section class="qsec">
+      <h2>Waiting room <span class="n">3</span><span class="hint">waited</span></h2>
+      <ul class="qlist">
+        <li class="qitem w selected"><div class="qname">Brennan, Harold</div><div class="qmeta">Rao · 8:00 · since 7:52</div><div class="qtime"><b>12 min</b></div></li>
+        <li class="qitem w"><div class="qname">Chen, Robert</div><div class="qmeta">Kim · 8:15 · since 7:58</div><div class="qtime"><b>6 min</b></div></li>
+        <li class="qitem w"><div class="qname">Natarajan, Priya</div><div class="qmeta">Rao · 8:15 · since 8:01</div><div class="qtime"><b>3 min</b></div></li>
+      </ul>
+    </section>
+
+    <section class="qsec">
+      <h2>In a room <span class="n">2</span></h2>
+      <ul class="qlist">
+        <li class="qitem r"><div class="qname">Wright, Jamal</div><div class="qmeta">Room 7 · Ortega · since 7:55</div><div class="qtime"><b>9 min</b></div></li>
+        <li class="qitem r"><div class="qname">Johansson, Mia</div><div class="qmeta">Room 4 · Feld · since 7:57</div><div class="qtime"><b>7 min</b></div></li>
+      </ul>
+    </section>
+
+    <section class="qsec">
+      <h2>Expected next <span class="n">4</span><span class="hint">none late</span></h2>
+      <div class="due"><span class="t">8:15</span><span class="nm">Abernathy, Noah<small>Feld · Well child</small></span><button class="btn ci">Check in</button></div>
+      <div class="due"><span class="t">8:30</span><span class="nm">Okafor, Walter<small>Rao · Physical</small></span><button class="btn ci">Check in</button></div>
+      <div class="due"><span class="t">8:30</span><span class="nm">Fairbanks, Linda<small>Kim · Vaccine</small></span><button class="btn ci">Check in</button></div>
+      <div class="due"><span class="t">8:30</span><span class="nm">Olsen, Hannah<small>Ortega · Follow-up</small></span><button class="btn ci">Check in</button></div>
+    </section>
+
+    <section class="qsec">
+      <h2>To do today</h2>
+      <ul class="todo">
+        <li><span><b>8</b> unconfirmed today<small>+ 3 unconfirmed tomorrow</small></span><button class="btn sm">Send reminders</button></li>
+        <li><span><b>2</b> insurance not verified<small>Liu 9:30 · Soto 10:30</small></span><button class="btn sm">Eligibility</button></li>
+        <li><span><b>4</b> on waitlist<small>7 open slots before 1:45</small></span><button class="btn sm">Fill gaps</button></li>
+      </ul>
+    </section>
+  </aside>
+
+  <!-- ======== day grid ======== -->
+  <section class="gridwrap" aria-label="Day schedule">
+    <div class="sched" id="sched">
+      <div class="g" id="g"></div>
+    </div>
+    <div class="key" aria-label="Appointment type key">
+      <b>Type</b>
+      <span class="k"><i class="sw" style="--tc:var(--t-np)"></i>NP New</span>
+      <span class="k"><i class="sw" style="--tc:var(--t-fu)"></i>FU Follow-up</span>
+      <span class="k"><i class="sw" style="--tc:var(--t-ph)"></i>PH Physical</span>
+      <span class="k"><i class="sw" style="--tc:var(--t-sk)"></i>SK Sick</span>
+      <span class="k"><i class="sw" style="--tc:var(--t-vx)"></i>VX Vaccine</span>
+      <span class="k"><i class="sw" style="--tc:var(--t-th)"></i>TH Tele</span>
+      <span class="k"><i class="sw" style="--tc:var(--t-pr)"></i>PR Procedure</span>
+      <span class="k" style="margin-left:auto"><i class="kt dbl">2×</i>Double</span>
+      <span class="k"><i class="kt ins">Ins?</i>Unverified</span>
+    </div>
+  </section>
+
+  <!-- ======== selected appointment ======== -->
+  <aside class="detail" aria-label="Selected appointment">
+    <div class="dhead">
+      <div class="eyebrow"><span>8:00 – 8:15 AM · Rao</span><span style="color:var(--here)">Arrived 7:52</span></div>
+      <h2 class="pname"><a href="#">Brennan, Harold J</a></h2>
+      <div class="pid"><b>75 y M</b> · DOB 03/14/1951 · MRN <b>00482913</b></div>
+      <div class="pid">(555) 014-2297 H · (555) 014-8830 C</div>
+    </div>
+
+    <div class="alerts" role="note" aria-label="Patient alerts">
+      <h3><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5L15 14H1z" fill="currentColor"/><path d="M8 6v4" stroke="#fff" stroke-width="1.8"/><circle cx="8" cy="12" r="1" fill="#fff"/></svg>Patient alerts</h3>
+      <ul>
+        <li><b>Allergy</b><span>PENICILLIN (rash)</span></li>
+        <li><b>Balance</b><span>$140.00 overdue (64 days)</span></li>
+        <li><b>Needs</b><span>Large-print forms · hard of hearing R ear</span></li>
+      </ul>
+    </div>
+
+    <div class="ck">
+      <h3>Check-in <span>2 of 4 done</span></h3>
+      <div class="step done"><span class="ic" aria-hidden="true">✓</span><span>Arrived<small>Checked in 7:52 AM</small></span><span class="v">7:52</span></div>
+      <div class="step done"><span class="ic" aria-hidden="true">✓</span><span>Insurance · BlueStar PPO<small>#BSP-7730-2291 · verified 09/25</small></span><button class="btn sm">Eligibility</button></div>
+      <div class="step todo"><span class="ic" aria-hidden="true"></span><span>Copay <span class="v warn">$25.00</span><small>Not collected</small></span><button class="btn go">Collect copay</button></div>
+      <div class="step todo"><span class="ic" aria-hidden="true"></span><span>Room<small>Not assigned · Rao uses Rm 1–3</small></span><button class="btn sm">Room…</button></div>
+    </div>
+
+    <div class="acts" aria-label="Appointment actions">
+      <button class="btn">Check out</button>
+      <button class="btn">Reschedule</button>
+      <button class="btn">Edit</button>
+      <button class="btn">Reminder</button>
+      <button class="btn">Notes</button>
+      <button class="btn">Print</button>
+      <button class="btn danger">No show</button>
+      <button class="btn danger">Cancel appt</button>
+      <button class="btn" disabled style="color:var(--muted);background:#f4f5f7">Check in ✓</button>
+    </div>
+
+    <div class="dsec">
+      <h3>Appointment</h3>
+      <dl class="kv">
+        <dt>Type</dt><dd>Follow-up · 15 min</dd>
+        <dt>Reason</dt><dd>F/U hypertension, BP recheck after med change</dd>
+        <dt>Reminder</dt><dd>SMS 09/27 6:00 PM · replied C</dd>
+        <dt>Booked</dt><dd>jsmith · 09/14/2026 2:31 PM</dd>
+      </dl>
+    </div>
+
+    <div class="dsec">
+      <h3>Recent visits</h3>
+      <table class="visits">
+        <tr><td>08/31/2026</td><td>Rao</td><td>Follow-up</td></tr>
+        <tr><td>07/02/2026</td><td>Rao</td><td>Sick</td></tr>
+        <tr><td>01/19/2026</td><td>Rao</td><td>Physical</td></tr>
+        <tr><td>10/06/2025</td><td>Kim</td><td>Vaccine</td></tr>
+      </table>
+    </div>
+  </aside>
+</div>
+
+<script>
+/* The day as data. slot 0 = 8:00, 15 = 11:45, 16 = lunch (12:00–1:00), 17 = 1:00 ... 19 = 1:30 */
+const COLS = [
+  { n: 'Rao, Anita MD',    s: 'Family Med · Rm 1–3',   q: '<span class="w">2 waiting</span>' },
+  { n: 'Feld, Marcus MD',  s: 'Pediatrics · Rm 4–5',   q: '<span class="r">1 in room</span>' },
+  { n: 'Kim, Joanna NP',   s: 'Family Med · Rm 6',     q: '<span class="w">1 waiting</span>' },
+  { n: 'Ortega, Luis PA',  s: 'Urgent / Sick · Rm 7',  q: '<span class="r">1 in room</span>' },
+];
+const TIMES = ['8:00','8:15','8:30','8:45','9:00','9:15','9:30','9:45','10:00','10:15','10:30','10:45','11:00','11:15','11:30','11:45','12:00','1:00','1:15','1:30'];
+const HOUR = { 0:1, 4:1, 8:1, 12:1, 16:1, 17:1 };
+// [col, slot, span, last, first, ageSex, type, reason, status, extra]
+const A = [
+  [0,0,1,'Brennan','Harold','75M','FU','F/U HTN','here','12m',{sel:1, flags:['!','$']}],
+  [0,1,1,'Natarajan','Priya','34F','SK','sore throat','here','3m'],
+  [0,2,3,'Okafor','Walter','58M','PH','Annual physical + fasting labs','C'],
+  [0,6,2,'Liu','Grace','29F','NP','New pt – transfer from Dr. Marsh','U','',{ins:1}],
+  [0,8,1,'Herrera','Tomas','47M','FU','F/U diabetes A1c','C'],
+  [0,9,1,'Marsh','Evelyn','81F','FU','F/U – needs wheelchair','C'],
+  [0,10,1,'Kowalski','Daniel','39M','TH','Tele F/U anxiety','C'],
+  [0,12,2,'Whitfield','Sarah','52F','PR','Skin biopsy (shave) L shoulder','C'],
+  [0,14,1,'Rossi','Maria','64F','FU','F/U osteoporosis','C'],
+  [0,15,1,'Dubois','Claire','37F','FU','F/U migraine','U'],
+  [0,17,2,'Asante','Kofi','40M','NP','New pt','C'],
+  [0,19,1,'Coleman','Ruth','67F','FU','F/U arthritis','C'],
+
+  [1,0,1,'Johansson','Mia','4F','VX','4 yr shots','room','Rm 4'],
+  [1,1,2,'Abernathy','Noah','9mo M','PH','WCC 9 mo','C'],
+  [1,3,1,'Castillo','Liam','7M','SK','ear pain','U'],
+  [1,4,1,'Thompson','Ava','12F','FU','F/U asthma','C'],
+  [1,5,1,'Park','Ethan','2M','VX','MMR #2','C'],
+  [1,6,3,'Bennett','Zoe','15F','PH','Sports physical – needs form','U'],
+  [1,10,1,'Nguyen','Oliver','6M','SK','rash','C'],
+  [1,12,1,'Moore','Isabella','10F','VX','Tdap/HPV','C'],
+  [1,13,1,'Walsh','Henry','5M','FU','F/U ear','C'],
+  [1,14,1,'Greene','Amara','11F','SK','sore throat','C'],
+  [1,17,3,'Singh','Arjun','5M','PH','WCC 5 yr + vision','C'],
+
+  [2,1,1,'Chen','Robert','66M','FU','INR check','here','6m'],
+  [2,2,1,'Fairbanks','Linda','71F','VX','flu vaccine','C'],
+  [2,3,1,'Jordan','Marcus','44M','SK','cough 2 wks','C'],
+  [2,4,2,'Rahman','Aisha','31F','NP','New pt – est. care','C'],
+  [2,6,1,"O’Brien",'Kevin','55M','TH','Tele F/U lipids','C'],
+  [2,7,1,'Gomez','Patricia','49F','FU','F/U','X'],
+  [2,8,1,'Delgado','Frank','62M','FU','F/U knee','C'],
+  [2,12,1,'Stein','Rachel','38F','SK','sinus','U'],
+  [2,13,1,'Patel','Nikhil','58M','FU','F/U gout','C'],
+  [2,14,1,'Lindqvist','Erik','45M','TH','Tele F/U','C'],
+  [2,15,1,'Ward','Betty','77F','VX','B12 inj','C'],
+  [2,17,1,'Holland','Jean','69F','FU','F/U CHF','C'],
+  [2,18,1,'Fairbanks','Tom','73M','VX','flu vaccine','C'],
+  [2,19,1,'Ibarra','Sofia','42F','FU','F/U labs','U'],
+
+  [3,0,1,'Wright','Jamal','27M','SK','ankle sprain','room','Rm 7'],
+  [3,2,1,'Olsen','Hannah','45F','FU','F/U thyroid','C'],
+  [3,3,1,'Petrov','Victor','68M','FU','F/U BP meds','C'],
+  [3,4,2,'Clarke','Megan','36F','PR','Wart removal (cryo)','C'],
+  [3,7,1,'Brooks','Samuel','50M','TH','Tele med review','C'],
+  [3,8,1,'Foster','Diane','59F','FU','F/U labs','U'],
+  [3,9,1,'Hassan','Ahmed','41M','SK','back pain','C'],
+  [3,10,1,'Soto','Elena','23F','SK','UTI sx','U','',{ins:1}],
+  [3,11,1,'Morales','Juan','71M','FU','F/U COPD','C'],
+  [3,12,1,'Yamamoto','Ken','33M','SK','wrist pain','C'],
+  [3,14,1,'Okonkwo','Chidi','29M','SK','cut R hand','C'],
+  [3,15,1,'Mendez','Raul','52M','SK','rash','C'],
+  [3,18,1,'Baker','Lily','19F','SK','nausea','C'],
+  [3,19,1,'Novak','Petr','36M','SK','fever','C'],
+];
+const BLOCKS = [ [0,5,1,'Rx refills / admin'], [2,9,3,'Flu clinic – walk-ins'], [1,15,1,'Hold – same-day sick'] ];
+const OPEN = [ [2,0], [3,1], [3,6], [0,11], [1,11], [3,13], [3,17] ];
+const DOUBLE = [1,9]; // Feld 10:15: Reyes + Adams
+
+const g = document.getElementById('g');
+const rows = ['50px'];
+TIMES.forEach((t,i) => rows.push(i === 16 ? '22px' : 'var(--row)'));
+g.style.gridTemplateRows = rows.join(' ');
+const R = s => s + 2; // grid line of a slot (row 1 is the header)
+const el = (tag, cls, html, css) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; if (css) Object.assign(e.style, css); g.appendChild(e); return e; };
+
+el('div','colh corner','<small>NOW</small><span>8:04</span>', {gridColumn:1, gridRow:1});
+COLS.forEach((c,i) => el('div','colh', `<b>${c.n}</b><small>${c.s}</small><small>${c.q}</small>`, {gridColumn:i+2, gridRow:1}));
+
+TIMES.forEach((t,i) => {
+  if (i === 16) {
+    el('div','tm lunchtm','12:00', {gridColumn:1, gridRow:R(i)});
+    el('div','lunch','LUNCH 12:00 – 1:00', {gridRow:R(i)});
+    return;
+  }
+  const label = HOUR[i] ? t.replace(':00','') + (i < 16 ? ' AM' : ' PM') : t;
+  el('div','tm' + (HOUR[i] ? ' hr' : ''), label, {gridColumn:1, gridRow:R(i)});
+  for (let c = 0; c < 4; c++) el('div','slotbg' + (HOUR[i] ? ' hr' : ''), '', {gridColumn:c+2, gridRow:R(i)});
+});
+
+const TYPEN = {NP:'New patient',FU:'Follow-up',PH:'Physical / well child',SK:'Sick visit',VX:'Vaccine / nurse',TH:'Telehealth',PR:'Procedure'};
+function status(st, x) {
+  if (st === 'here') return `<span class="st here">Here ${x}</span>`;
+  if (st === 'room') return `<span class="st room">${x}</span>`;
+  if (st === 'U') return `<span class="st unconf">Unconf.</span>`;
+  if (st === 'X') return `<span class="st" style="color:var(--muted);padding-left:0">Cancelled</span>`;
+  return `<span class="st conf" aria-label="Confirmed">✓</span>`;
+}
+A.forEach(([c,s,span,last,first,as,type,reason,st,x,o={}]) => {
+  const cls = ['ap'];
+  if (st === 'here') cls.push('is-here');
+  if (st === 'room') cls.push('is-room');
+  if (st === 'X') cls.push('is-cx');
+  if (o.sel) cls.push('selected');
+  if (o.flags) cls.push('has-flags');
+  if (span > 1) cls.push('tall');
+  if (o.ins && span > 1) cls.push('has-ins');
+  let flags = o.flags ? `<span class="flags"><i title="Allergy: penicillin" aria-label="Allergy">!</i><i title="Balance overdue $140.00" aria-label="Balance overdue">$</i></span>` : '';
+  if (o.ins && span === 1) { flags = `<span class="flags"><i class="ins" title="Insurance not verified">Ins?</i></span>`; cls.push('has-flags'); }
+  const ins = o.ins ? (span > 1 ? `<span class="x3 insl">Insurance not verified</span>` : '') : '';
+  const html = `${flags}<span class="nm">${last.toUpperCase()}, <span class="fn">${first}</span></span>` +
+    (span > 1 ? `<span class="mt">${status(st,x)}<span class="code">${type}</span><span class="rs">${as}</span></span><span class="rs2">${reason}</span>` : `<span class="mt">${status(st,x)}<span class="code">${type}</span><span class="rs">${as} · ${reason}</span></span>`) + ins;
+  const b = el('button', cls.join(' '), html, {gridColumn:c+2, gridRow:`${R(s)} / span ${span}`});
+  b.style.setProperty('--tc', `var(--t-${type.toLowerCase()})`);
+  b.setAttribute('aria-label', `${first} ${last}, ${TIMES[s]}, ${TYPEN[type]}, ${reason}`);
+  b.title = `${last}, ${first} · ${as} · ${TYPEN[type]} · ${reason}`;
+  if (o.sel) b.setAttribute('aria-pressed','true');
+});
+BLOCKS.forEach(([c,s,span,t]) => el('div','blk', t, {gridColumn:c+2, gridRow:`${R(s)} / span ${span}`}));
+OPEN.forEach(([c,s]) => el('button','open', `<span aria-hidden="true">+</span> ${s === 0 ? 'Open now · book' : 'Open · book'}`, {gridColumn:c+2, gridRow:R(s)}));
+{
+  const [c,s] = DOUBLE;
+  const b = el('button','ap dbl',
+    `<span class="tag" title="Double-booked">2×</span>` +
+    `<span class="row"><span class="st conf">✓</span><b>REYES, Lucas</b></span>` +
+    `<span class="row"><span class="st conf">✓</span><b>ADAMS, Chloe</b></span>`,
+    {gridColumn:c+2, gridRow:R(s)});
+  b.setAttribute('aria-label','Double-booked 10:15: Lucas Reyes, sick visit, fever; Chloe Adams, follow-up');
+}
+/* now line: 8:04 = 4/15 into the 8:00 slot */
+const rowH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--row'));
+const y = 50 + rowH * (4/15);
+const nl = el('div','nowline','', {top: y + 'px'}); nl.style.gridColumn = '1 / -1'; nl.style.position='absolute';
+const lab = el('div','nowlabel','', {top: y + 'px'}); lab.style.position='absolute';
+</script>
+</body>
+</html>

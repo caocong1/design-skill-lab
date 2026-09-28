@@ -67,7 +67,7 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.8.1（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `design-studio` | 0.8.2（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
 | `critique-design` | 0.2.1 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
 | `implement-design` | 0.3.0 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
@@ -138,7 +138,7 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 - `research/sources/`：一份一手来源一个摘要。头部写 url、抓取日期、方法、复核期限；正文是转述，不做镜像。2026-09-27 共 40 份：16 份从旧摘要迁入并重读，24 份新增（Apple Liquid Glass、Material 3 Expressive、HarmonyOS、Fluent 2、WCAG 2.2 与各地无障碍法规、Web Baseline、DTCG 2025.10、DESIGN.md、MCP Apps / Apps SDK / A2UI、AI 标识法规、同类 skill、OOUX、变更厌恶、jlreq、CJK 字体授权）。新增的每份都由独立 agent 对照原文核对过。
 - `research/topics/`：9 篇中文主题综合。每篇写当前结论、论证、未决问题、对 skill 的约束和变更记录。
-- `research/field/`：现场证据，包括本站自用记录、匿名化的宿主复盘和评测汇总（首轮：`evals-2026-09-27.md`）。
+- `research/field/`：现场证据，包括本站自用记录、匿名化的宿主复盘和评测汇总（`evals-2026-09-27.md`、`evals-2026-09-28.md`）。
 - `research/INDEX.md`：由 `scripts/build-research-index.py` 生成，列出每份来源被哪些 skill 文件引用。复核期限一过，闸门就会失败。
 - skill 的每份 reference 在 frontmatter 里写明证据等级（`digest` / `practice` / `measured`）、来源 id 和复核期限（易腐 +90 天，耐久 +365 天）。
 
@@ -153,7 +153,14 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
   - 0.7.0 对不装 skill：赢 2 份、输 4 份，3.94 对 4.00。
   - 0.8.0 对 0.7.0：赢 4 份、输 2 份（输在 iOS 界面和旧应用重设计），4.17 对 3.94。
   - 0.8.0 工艺均分 3.7，三组最低；每份花费约为不装 skill 的 2.2 倍（$3.62 对 $1.63），用时 1.7 倍。
-  - 按套件自己的可证伪条件，要改的是套件。改什么见[完整报告](evals/runs/2026-09-27/report.md)第 8 节和 [research/field/evals-2026-09-27.md](research/field/evals-2026-09-27.md)。
+  - 按套件自己的可证伪条件，要改的是套件。改什么见[完整报告](evals/runs/2026-09-27/report.md)第 8 节和 [research/field/evals-2026-09-27.md](research/field/evals-2026-09-27.md)。0.8.1 就是照这一节改的。
+- **第二轮结果（2026-09-28，0.8.1 对不装 skill，一格三个样本，共 18 组盲评）：规则仍然不允许说“更好”，这次只差在分差上。**
+  - 0.8.1 赢了全部 6 份 brief（每份按三个样本的多数算）、18 组里的 17 组、54 张评审票里的 49 张；按 brief 做的符号翻转检验 p = 0.031，这是 6 份 brief 能得到的最小值。
+  - 平均总分 4.11 对 3.83，只高 0.28，不到规则要求的 0.5。规则是第一轮之前定的，不事后改，所以结论仍写“没有明确差别”，数字照列。
+  - 两半规则打架的原因：648 个评分里 74% 是 4 分，评审之间从不相差超过 1 分，量表被压扁了；成对偏好比均分灵敏。重新标定量表是第三轮开始前要做的事，不是这一轮的结论。
+  - 差距在贴合度（+0.68）和辨识度（+0.53）；层级持平；工艺 +0.09。输掉的唯一一组是审批流的第二个样本：有一个收款方被标了风险，套件样本仍把“整批通过”做成主按钮。它也是 18 次套件运行里唯一没有派出新上下文评审的一次。
+  - 花费是不装 skill 的 2.0 倍（每次 $3.17 对 $1.55），用时也是 2.0 倍。
+  - 这一轮查出评测工具自己的一个缺陷：`facts.mjs` 把帧底边上的一行深底浅字读成了白底，报出一条假的对比度失败（记在套件样本头上）。已修复并加了回归测试，两轮 54 份产物全部重测，只有这一条事实有变；受影响的那一组用正确的事实重评，旧评审存档但不计。见[报告](evals/runs/2026-09-27-r2/report.md)第 5 节和 [research/field/evals-2026-09-28.md](research/field/evals-2026-09-28.md)。
 - **触发评测（代理）**：角色视图准确率 0.8.0 为 100%，0.7.0 为 99%。0.7.0 有两条“UI 打磨”类冲突行被判给了实现者（t041、t042）。0.8.0 的描述写在这套题之后，题目标签又按同一套角色定义写成，所以 100% 只能当上限看，不能当改进的证据。
 - 各轮结果在 `evals/runs/` 和站点的[套件页](https://caocong1.github.io/design-skill-lab/skills/)，汇总写进 `research/field/`，输了也照样公布。方法见 `evals/README.md`，评审规则见 `evals/judging.md`。
 
@@ -221,7 +228,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 
 ## 已知局限
 
-- **输出评测样本少，评审是模型。** 首轮每个 brief、每种条件只跑一次（一格一个样本），评审和设计用的是同一个模型，评分也被压缩在 3–5 分之间。差距小于同一条件两次运行之间的波动时分不出来；首轮的结论就是“没有明确差别”。以 `evals/runs/` 和套件页为准，包括输的部分。
+- **输出评测的评审是模型，brief 只有 6 份。** 评审和设计用的是同一个模型，没有人类评审；评分被压缩在 3–5 分之间。6 份 brief 是本仓库自己写的，0.8.1 的改动又来自第一轮在这 6 份上输掉的地方，第二轮等于在出题的卷子上复测；缺一套没读过 skill 的人写的留出 brief。两轮按事先登记的规则都是“没有明确差别”。以 `evals/runs/` 和套件页为准，包括输的部分。
 - **触发评测是代理。** 模型只看三份描述、被要求必须选一个，所以会高估触发率，也看不出"该触发却没触发"；真实宿主还会看到其他已装的 skill 和项目上下文。结果只能叫"触发评测（代理）"，不是触发率。
 - **平台事实是有日期的。** iOS 26–27、Android 16、HarmonyOS 5/6、Web Baseline 等内容写于 2026-09-27，易腐来源 90 天后到期，到期后闸门变红，直到有人复核。到期之前平台也可能已经变了。
 - **证据等级不均。** 平台规范、标准、token 格式、动效有一手摘要；品牌、平面、营销站点的不少规则仍是业内共识（`evidence: practice`）。
@@ -257,6 +264,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.8.1），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.8.2），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

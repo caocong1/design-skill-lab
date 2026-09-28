@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "01-ops-console-zh",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 3,
+          "evidence": ["A/list-01.png: overdue SLA shows red text with a warning icon, but the overdue rows are only marked by a thin left rule, so the eye does not land on them first.",
+                       "A/detail-01.png: the header packs status, P1, both SLA cards and all actions above the fold; the chart has a dashed 55 °C line and a label at the 08:50 crossing."]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/list-01.png: overdue rows 0402 and 0371 have a pink tint and a solid red '已超时' chip with an icon. The closed P1 row 0340 (list-02) is set in a muted outline chip, so live P1s stand out.",
+                       "B/detail-02.png: the chart title says '08:50 超过报警线，仍在上升', and the chart marks the 09:12 alarm and the 09:28 throttle on its time axis. It reads as an incident, not as a plain chart."]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "In B, overdue rows get a tint and a solid red SLA chip, closed P1s are muted, and the detail chart is annotated with the alarm and throttle events, which answers the supervisor's fear of missing overdue P1s."}
+  ],
+  "notes": "Both designs come from the same restrained, admin-style design system. They are close in craft, and CJK setting is clean in both. B's large SLA figure '剩余 3 时 30 分' uses consistent CJK–numeral spacing; A sets it as '3时30分'. B's device-card title mixes monospace with CJK bold, which is slightly awkward. A's error state is a bit richer (it has a copy-request-ID button). In A, the 12 px avatar text measures 4.47:1, just under AA."
+}
+```

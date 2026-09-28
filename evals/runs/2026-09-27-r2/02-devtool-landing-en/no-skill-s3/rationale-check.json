@@ -1,0 +1,117 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "no-skill-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/desktop-01.png",
+      "render/desktop-02.png",
+      "render/desktop-03.png",
+      "render/desktop-04.png",
+      "render/desktop-05.png",
+      "render/desktop-06.png",
+      "render/desktop-07.png",
+      "render/mobile-01.png",
+      "render/mobile-02.png",
+      "render/mobile-03.png",
+      "render/mobile-04.png",
+      "render/mobile-05.png",
+      "render/mobile-06.png",
+      "render/mobile-07.png",
+      "render/mobile-08.png",
+      "render/mobile-09.png",
+      "render/mobile-10.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/02-devtool-landing-en.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "The first screen at both sizes shows: what it is (headline and one-line definition), the `npm install` command with a copy button, and Get started / Docs.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png and mobile-01.png: the headline 'Your app's data lives on the device first.', the definition paragraph, the '$ npm install @driftless/client' block with a copy button (labelled 'Copy' on desktop, icon only on mobile), then the 'Get started' and 'Read the docs' buttons."
+    },
+    {
+      "claim": "On desktop the code sample is in the first screen too; on mobile it comes right after.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png: the notes.ts code window is on the right of the hero. mobile-01.png: the code window starts right below the stats row (lines 1–9) and continues at the top of mobile-02.png."
+    },
+    {
+      "claim": "re-wrapped the long lines ... so the longest line is about 43 characters. That lets the same sample be read at 390 px without horizontal scrolling or soft-wrapping.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png/mobile-02.png: all 18 numbered lines sit on one line each with no soft-wrap. The longest line (18, 'VALUES (${id}, ${body}, ${Date.now()})`;') fits in the width. facts.md: no horizontal overflow at 390."
+    },
+    {
+      "claim": "Social proof is limited to the allowed stats (18.4k stars, 236 contributors, 1.2M npm downloads/month). The GitHub star count also appears next to the GitHub nav link.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png: the hero stats row and 'GitHub 18.4k' in the nav. No logos or testimonials in any frame. On mobile the nav shows only a GitHub icon without the count (mobile-01.png)."
+    },
+    {
+      "claim": "Benchmarks are shown as three numbers with the stated setup (M3 MacBook Air, Chrome 140, OPFS) ... I did not add bars or comparisons against other databases.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-04.png and mobile-06.png: three cards (0.2 ms, 0.8 ms, 1.9 s) with the caption 'Setup: M3 MacBook Air · Chrome 140 · OPFS'. No bars or competitor comparison."
+    },
+    {
+      "claim": "I added \"pending changes survive restarts\" to the offline-writes row",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-03.png, Offline writes row, Driftless column: 'Built in; pending changes survive restarts'. The same text is in mobile-04.png."
+    },
+    {
+      "claim": "Cloud Pro is visually emphasised as the middle managed option ... so there is no badge.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-05.png: the Cloud Pro card has a heavy dark border and the only filled black CTA, 'Start with Pro'. It carries no badge. mobile-08.png shows the same dark border and filled button."
+    },
+    {
+      "claim": "The 1.4 release pill says \"30% smaller bundle\" on mobile (the shorter pill); the \"What's new in 1.4\" block states the facts in full, including 19 Aug 2026.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png pill: 'Shapes GA · Bun · 30% smaller bundle'. desktop-01.png pill: 'Shapes are generally available · Bun support'. desktop-04.png and mobile-06.png: 'What's new in 1.4', 'Released 19 Aug 2026' and three items."
+    },
+    {
+      "claim": "the \"how it works\" intro paragraph, the benchmark intro paragraph, the first step's mini-diagram, the feature icons and the closing CTA band are hidden below 760 px.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-02.png: the How it works heading goes straight into step 1, with no intro text and no diagram in step 1 (desktop-02.png has the diagram). mobile-06.png: no benchmark intro paragraph. mobile-04/05.png: feature cards have no icons. mobile-10.png: the FAQ runs straight into the footer with no CTA band (desktop-07.png has it)."
+    },
+    {
+      "claim": "all FAQ answers are shown open, and the three install methods are shown side by side, not in tabs.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-06/07.png: all 4 FAQ answers are expanded, and the npm, SPM and Gradle cards sit side by side in 3 columns. On mobile they are stacked (mobile-08/09.png), with no tabs."
+    },
+    {
+      "claim": "warm \"paper\" background with faint contour lines ... one deep green accent and a lime highlight used only on dark surfaces.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png: cream background with faint wavy lines, and 'first.' in deep green. Lime appears only on dark surfaces: benchmark units and bars (desktop-04.png), code-footer values, the CTA-band button (desktop-07.png) and the logo mark."
+    },
+    {
+      "claim": "To keep all content within the reviewed 10 screens",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: mobile has 10 frames and a page height of 7973 px, and no page is truncated at 10 screens. mobile-10.png ends with the footer and '© 2026 Driftless Labs'."
+    }
+  ],
+  "notes": "The render matches all 12 claims. facts.md reports 0 AA text failures and no mobile overflow. The design's own NOTES mention only one mobile difference, the shorter release pill, but the render shows two more: the nav GitHub link loses its star count, and the copy button loses its 'Copy' label. Neither contradicts a claim.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.no-skill-s3/check.reply.txt",
+    "sha256": "477d567ae11834f9a42bf06a014203f184890159ea357549bdd451fc59e00a73"
+  }
+}

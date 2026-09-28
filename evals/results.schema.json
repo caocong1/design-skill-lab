@@ -35,7 +35,8 @@
     },
     "arms": {
       "type": "array",
-      "minItems": 3,
+      "minItems": 2,
+      "maxItems": 3,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -93,7 +94,7 @@
     }
   },
   "$defs": {
-    "armId": {"enum": ["no-skill", "suite-0.7.0", "suite-0.8.0"]},
+    "armId": {"type": "string", "pattern": "^(no-skill|suite-[0-9]+\\.[0-9]+\\.[0-9]+)$", "description": "no-skill, or suite-<version>. A round compares two or three arms; samples of one arm share its id."},
     "label": {"enum": ["A", "B", "C"]},
     "judgeId": {"enum": ["J1", "J2", "J3"]},
     "score": {"type": "integer", "minimum": 0, "maximum": 5, "description": "1-5 per judging.md section 6; 0 only for an empty arm."},
@@ -266,13 +267,12 @@
         "sample": {"type": "integer", "minimum": 1, "description": "Which sample of the cell this is; required when round.samples_per_cell > 1."},
         "mapping": {
           "type": "object",
-          "additionalProperties": false,
-          "required": ["A", "B", "C"],
-          "properties": {
-            "A": {"$ref": "#/$defs/armId"},
-            "B": {"$ref": "#/$defs/armId"},
-            "C": {"$ref": "#/$defs/armId"}
-          }
+          "description": "Label to arm, one label per arm in the round (A and B, or A, B and C).",
+          "propertyNames": {"$ref": "#/$defs/label"},
+          "additionalProperties": {"$ref": "#/$defs/armId"},
+          "required": ["A", "B"],
+          "minProperties": 2,
+          "maxProperties": 3
         },
         "mapping_seed": {"type": "string"},
         "judges": {
@@ -292,13 +292,11 @@
         },
         "arms": {
           "type": "object",
-          "additionalProperties": false,
-          "required": ["no-skill", "suite-0.7.0", "suite-0.8.0"],
-          "properties": {
-            "no-skill": {"$ref": "#/$defs/armResult"},
-            "suite-0.7.0": {"$ref": "#/$defs/armResult"},
-            "suite-0.8.0": {"$ref": "#/$defs/armResult"}
-          }
+          "description": "One result per arm of the round, keyed by arm id.",
+          "propertyNames": {"$ref": "#/$defs/armId"},
+          "additionalProperties": {"$ref": "#/$defs/armResult"},
+          "minProperties": 2,
+          "maxProperties": 3
         },
         "reference": {
           "type": "object",

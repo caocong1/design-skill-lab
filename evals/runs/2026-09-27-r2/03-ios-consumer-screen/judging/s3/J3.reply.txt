@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "03-ios-consumer-screen",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 5, "platform_a11y": 4,
+          "evidence": ["A/book.png: highlight quotation set in a large serif as real reading text, with a small sans p. 194 · Chapter 20 caption beneath it; the page-count numerals are clearly legible in the progress card",
+                       "A/today.png: every day in the week chart has a number (Wed 0, Sun 12 drawn as a partly filled bar with a bold label), so status never depends on colour; facts: 0 AA failures and 0 targets under 44 on all three screens"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/today.png: week bars have no minute values, only a dashed 20 line; Sun in progress is shown by a stripe pattern, not colour alone; the one AA failure (4.43:1) is decorative cover text on the Walden cover",
+                       "B/book.png: iOS segmented control switches between Sessions and Highlights (2), so the quotation is not on the first screen; facts report 2 targets under 44 on book and 2 on empty (likely the segment control and stepper)"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A labels every day's minutes and sets the highlight as serif reading text, with a dog-ear motif; B's chart has no values and hides the quote behind a tab."}
+  ],
+  "notes": "Both use a floating rounded tab bar with Search at the trailing end, round back and more buttons on the detail screen, and one filled primary action per screen. B is more stock-iOS: a segmented control, a stepper, title-case buttons and a ring, with a flame streak chip that looks like any habit app. B's Today shows all three books; A's third book sits beneath the tab bar. A has the cleaner fact sheet and a warmer paper-and-serif character that fits evening readers."
+}
+```

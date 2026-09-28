@@ -1,0 +1,24 @@
+```json
+{
+  "brief": "04-miniprogram-list-zh",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": [
+            "A/list.png: each card opens with a left tile showing the next slot (今天 16:00 可上门), which answers 什么时候能上门 first; price and distance sit in a right column that is easy to compare",
+            "A/filter.png: the panel shows the 3 selected options, 查看结果（0 个）, and one-change suggestions with the brief's real counts (改成明天 6 个 · 3 km 内 4 个 · 不限发票 1 个)",
+            "A/list.png + facts: nav content is centred on the capsule and stops left of it; 0 AA text failures and 0 targets under 44 px on all three screens"
+          ]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 3, "typography": 4, "platform_a11y": 4,
+          "evidence": [
+            "B/list.png: the sort row shows only 综合排序 / 距离最近 / 价格最低, so 评分最高 is hidden; icon tiles and the orange-red price read as a generic O2O template",
+            "B/filter.png: the checkmark badges sit on the bottom-right corner of the chips and crowd the labels (可开发票, 1 km 内)",
+            "facts: the grey '·' separators in the location line are 2.64:1 on every screen; they are decorative, not primary text"
+          ]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A leads each card with a large next-slot time tile and puts the real relax counts inside the filter panel; B uses generic icon tiles, hides 评分最高 and has badges crowding chip labels."}
+  ],
+  "notes": "Both are strong and honour the capsule, tab bar and safe area. A is calm and specific to the task: time-first cards and restrained green. Its weak spot is the empty state, where 修改筛选 and 清除筛选 have equal weight. B's empty state is better ranked (primary 清除筛选, shows the original value next to each suggestion), but its list looks more like a promo app, with heavy bold on the location line."
+}
+```

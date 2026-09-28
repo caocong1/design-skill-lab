@@ -1,0 +1,20 @@
+I've reviewed the brief, the facts sheet and all 18 renders for A and B, and I'm writing up the scores now.
+
+```json
+{
+  "brief": "05-agent-approvals",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/run-approval-01.png: payee table and Oakridge warning are clear, but the Approve/Reject buttons only appear in run-approval-02.png, below the first screen"]},
+    "B": {"fit": 5, "hierarchy": 5, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": ["B/run-approval-01.png: account, date, 7 payees, total, Oakridge warning, all four choices with what each does, and the cancel-by time all fit in the first viewport",
+                       "B/run-error-01.png: Pulled vs Failed shown with check and cross icons plus text labels; three choice cards each say what they will do, including the 12 unverified invoices",
+                       "B/run-progress-02.png: step states use distinct shapes (check, dot, dashed circle, pause) plus text and a labelled dashed approval-gate line; facts show 0 AA failures and 0 target failures"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "left", "reason": "B puts the whole approval decision, including every choice and what it does, next to the batch on the first screen; A's approve and reject buttons need a scroll."}
+  ],
+  "notes": "Neither label has a measured contrast or target failure, and both show status with icons and text, not colour alone. B's result opens with a plain outcome sentence and adds the approval gate to the plan. A is careful and clean but more like a generic dashboard, and its sticky sidebar leaves dead space in the lower frames. B's 'Stop the whole run' is a text link, not a button, which is a minor issue."
+}
+```

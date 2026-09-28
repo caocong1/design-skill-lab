@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "03-ios-consumer-screen",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 3,
+          "evidence": ["A/today.png: week chart labels each day's minutes, shows Wed 0, marks Today as in progress with hatching, and has a legend for met goal and the 20-min goal line; A/empty.png: explains the app in one line, makes Scan Barcode the single primary button, and describes streaks without showing any fake data"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/today.png: week bars carry no minute values and use one colour for every day, so met-goal days can only be judged against the dashed line"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's week chart has values and a met-goal legend, its dog-ear motif is specific to Dogear, and its empty state explains the app; B is cleaner on contrast but more generic."}
+  ],
+  "notes": "Both use a floating tab bar with Search at the trailing end, a large title, glass back and more buttons, and one filled primary per screen. A's selected 'Today' tab label measures 2.68:1 (10px), which is navigation text, not primary text. B passes every measured contrast check but has 2 targets under 44 px on empty.png. B's day initials (M T W T F S) are ambiguous, and B uses an Activity-style ring. The name-swap test caps B's Identity at 3."
+}
+```

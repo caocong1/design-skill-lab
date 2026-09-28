@@ -59,8 +59,27 @@ across versions are not compared.
 | `suite-0.7.0` | the brief + the 0.7.0 design skills, read from a copy of `skills/` at commit `05b1244` (without `iterate-design-lab`, the lab's maintainer skill) |
 | `suite-0.8.0` | the brief + the 0.8.0 skills (`design-studio`, `critique-design`, `implement-design`) at the commit under test |
 
+A round may compare two or three arms and other versions; arm ids are `no-skill` or `suite-<version>` (round 2:
+`no-skill` and `suite-0.8.1`, three samples per cell).
+
 Everything else is identical: model, host and version, tools (Node, Playwright with Chrome, web access), the 60-minute
 limit, the working rules, and isolation (no other skills, plugins, CLAUDE.md or memory visible to any arm).
+
+## Tools
+
+| Tool | What it does |
+|---|---|
+| [tools/run_round.sh](tools/run_round.sh) | Steps 0-2 below, headless: prepares the work folders and skill copies, then runs every brief x arm as its own `claude -p --safe-mode` process. Arm names may carry a sample suffix (`suite-0.8.1-s2`). Keeps the machine awake. |
+| [render.mjs](render.mjs) | The canonical frames judges see. |
+| [tools/facts.mjs](tools/facts.mjs) | The measured facts judges are given. |
+| [tools/selftest.mjs](tools/selftest.mjs) | Runs `facts.mjs` on fixtures with known answers (`npm run test:evals`); CI runs it. |
+| [tools/run_judges.sh](tools/run_judges.sh) | One fresh headless session per judge prompt; a judge can read only its own packet. |
+| [tools/aggregate.py](tools/aggregate.py) | De-anonymises, applies the rules of judging.md sections 8 and 9, writes `results.json` and prints every number a report uses. Handles several samples per cell. |
+
+The harness is software. Round 2 found a bug in `facts.mjs` that reported light text on a dark band as 1.12:1 (a
+frame-edge hit test); a judge used the false fact. Since then: **open every reported failure next to the frame it
+describes before the facts sheet goes to judges**, and treat a facts sheet that turns out wrong as a protocol error
+(honesty rule below).
 
 ## Running a round
 
@@ -155,13 +174,16 @@ node <repo>/evals/tools/facts.mjs <repo>/evals/briefs/<brief>.md runs/<date>/<br
 
 ### 5. Judge
 
+With several samples per cell, each judged set (brief x sample k) gets its own mapping, packet and judges;
+`mapping.json` then holds `sets: {"<brief>.s<k>": {brief, sample, seed, mapping, judges}}`, the shape `aggregate.py` reads.
+
 Follow [judging.md](judging.md): random mapping to A/B/C per brief (`runs/<date>/mapping.json`), packets built in
 `$EVAL_TMP/judge/<brief>/`, three fresh judge subagents per brief, replies saved verbatim to
 `runs/<date>/<brief>/judging/J1.json` etc., then the rationale-vs-render check per arm.
 
 ### 6. Aggregate and report
 
-De-anonymise, aggregate (judging.md section 9) into `runs/<date>/results.json`, validate it against
+Run `python3 evals/tools/aggregate.py runs/<date> --write`: it de-anonymises and aggregates (judging.md section 9) into `runs/<date>/results.json`. Validate it against
 `results.schema.json`, and write `runs/<date>/report.md`:
 
 1. Headline: the claims the claim rule allows, losses and "no clear difference" as prominent as wins.

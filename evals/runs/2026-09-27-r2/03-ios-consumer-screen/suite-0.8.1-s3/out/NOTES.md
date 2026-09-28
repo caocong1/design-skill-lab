@@ -1,0 +1,30 @@
+# Dogear: notes and assumptions
+
+- Design read: a quiet, bookish daily tool opened for seconds at a time. Operate mode: the goal, the streak and "Start session" answer at a glance; personality lives in type (serif for books and quotes), a warm paper background and one bookcloth-green accent.
+- One idea: the dogear. A folded corner marks your place: on the cover of the book you are in (Today, Book detail), and as the blank page on the first-run screen.
+- Effort: standard (three screens). Light appearance only, as briefed; dark and increased-contrast variants of the custom colours are not drawn.
+- Frame: 402 × 874 pt drawn edge to edge; 1 CSS px = 1 pt. Status bar (9:41, signal, Wi-Fi, battery), Dynamic Island and home indicator are drawn stand-ins for system chrome.
+- Navigation: iOS 26 floating Liquid Glass tab bar with Today, Library, Stats, and Search as the separate trailing search tab. Glass is a CSS approximation (data-material="glass-regular"); the system draws the real material.
+- Tab bar placement: lifted so its bottom edge sits above the 34 pt home-indicator inset (brief: nothing interactive under it). The real system bar sits slightly lower; use the system component.
+- Scroll edge effect: a soft fade of the page colour under the floating tab bar, where content scrolls beneath it. Only the platform draws the real effect.
+- Primary action: "Start session" sits with the book it times (the Middlemarch card on Today, under the header on Book detail). It is not in the tab bar, because tabs are for navigation only.
+- Start session on Today starts a session for the book read most recently (Middlemarch); other books start from their own detail page.
+- Book detail is shown pushed from Library, so Library is the selected tab. Back is a bare chevron in a glass circle (no "Back" text).
+- The "More" (ellipsis) toolbar button holds Mark as finished, Edit goal and Remove from library (destructive role, set apart). The open menu is not drawn.
+- "Edit goal" in the brief's More menu is read as the daily reading goal (minutes). The brief gives no per-book goal.
+- Derived, not invented: "8 min to go today" (20 − 12), "125 min" this week (sum of the daily minutes), and the goal line at 20 min on the week chart.
+- Streak: 4 days = Thu–Sun (Wed had 0 minutes); best 23. Shown on the Today goal card.
+- Sessions list shows the 4 given sessions. "See all" leads to all 23.
+- First run: "Scan barcode" is the prominent first step; "Search by title" (tinted) and "Import from a CSV file" (plain) are the alternatives. The 20 min goal is preset and adjusted with − / + (44 pt targets). An "After your first session" list says where the streak, this week and highlights will appear. The tab bar stays fully enabled.
+- Copy on the first-run screen ("Add the book you're reading", "Dogear keeps your place, times your sessions and counts your streak.", "A little every day. You can change this later.") is UI copy I wrote. It adds no data.
+- Type: SF Pro via the system font stack (Dynamic Type styles: Large Title 34, Title 3 20, Headline/Body 17, Subhead 15, Footnote 13, tab labels 10 as iOS draws them). The serif is New York, the iOS system serif, loaded from the Mac's /System/Library/Fonts/NewYork.ttf. If that file is missing it falls back to Source Serif 4 (Google Fonts, SIL OFL), then Georgia. The shipped app uses New York via the system serif design.
+- Larger text: sizes follow the Large (default) Dynamic Type styles, and the layouts are single-column stacks that reflow. An AX size render was not made in the time available.
+- Contrast (computed with color_tools.py and lint.mjs, all pass AA): label #1C1B19; secondary #5F594F is 6.9:1 on white and 6.2:1 on the page; accent #1E5A4C with white text is 8.0:1; accent on the tinted fill #E3EDE9 is 6.7:1; text on the highlighter wash is 14:1. Tab labels sit on an 86 % opaque light glass fill; text passing under it still measures at least 4.5:1.
+- iOS system secondaryLabel (about 3.5:1 on white) was replaced with a darker warm grey so small secondary text meets AA.
+- Covers are designed placeholders in CSS (cloth colour, spine shade, serif title). No external images are used.
+- Icons are hand-drawn inline SVG stand-ins for SF Symbols; data-icon names the symbol to use (book.fill, books.vertical.fill, chart.bar.fill, magnifyingglass, chevron.backward, ellipsis, play.fill, book.pages, highlighter, barcode.viewfinder, doc.text, plus, minus).
+- Licences: Source Serif 4 is SIL OFL 1.1 (Google Fonts). New York and SF Pro are Apple system fonts, used here only for the mockup render. No other third-party assets.
+- Not attempted: dark mode, the minimised tab bar state, a running-session state (it would use the tab bar accessory, like the MiniPlayer), loading and error states, and the open More menu.
+- Sources: src/ holds the source HTML and CSS; out/*.html are self-contained builds of it (CSS and icons inlined).
+- Critique round (fresh critic, one round), fixed: the week's minutes moved into the Today goal card as a 7-day strip; Book detail shows Highlights above Sessions so the quotation is on the first screen; goal numerals set in SF (serif is kept for titles and quotes); Walden and The Pillow Book got stamped covers; section headers aligned to the card content; the stray section header near the tab bar removed.
+- Still open: Today's "Recent highlight" and Book's session list start below the 874 pt first screen (the content scrolls on). No Dynamic Type AX-size render was made. At AX sizes, the side-by-side button pair and the three-column stats row should stack.

@@ -1,0 +1,110 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "no-skill-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/book.png",
+      "render/empty.png",
+      "render/today.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/03-ios-consumer-screen.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 10,
+    "contradicted": 1,
+    "not checkable": 1
+  },
+  "report_line": "claims: 10 verified, 1 contradicted, 1 not checkable",
+  "contradicted": [
+    {
+      "claim": "Text is at least 13 pt except the 10 pt tab labels",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "today.png, small cards at about y 1440–1470 px: the cover titles 'WALDEN' and 'THE PILLOW BOOK' are tiny, about 5–6 pt. NOTES says the covers are made in HTML/CSS, so this is text under 13 pt."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "a floating Liquid Glass tab bar (Today, Library, Stats) with Search as a separate circular glass button on the right",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, book.png, empty.png, bottom: a floating capsule holds Today, Library and Stats, and a separate circular search button sits to its right."
+    },
+    {
+      "claim": "The tab bar sits at y 774–836, above the 34 pt home-indicator zone",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All three PNGs: the tab bar spans about 1548–1672 px at 2x, which is about 774–836 pt. The home indicator at about 1726 px sits below it with nothing interactive over it."
+    },
+    {
+      "claim": "The status bar shows 9:41, signal, Wi-Fi and a full battery",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All three PNGs, top: 9:41, signal bars, Wi-Fi, a full battery and a black Dynamic Island pill."
+    },
+    {
+      "claim": "This keeps tab labels above AA contrast whatever scrolls under them",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: 0 of 46, 0 of 34 and 0 of 15 measured text nodes are below AA on today, book and empty."
+    },
+    {
+      "claim": "Text is at least 13 pt except the 10 pt tab labels",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "today.png, small cards at about y 1440–1470 px: the cover titles 'WALDEN' and 'THE PILLOW BOOK' are tiny, about 5–6 pt. NOTES says the covers are made in HTML/CSS, so this is text under 13 pt."
+    },
+    {
+      "claim": "the goal ring, \"8 min to go\", the streak (4 days, best 23) and this week's minutes share one card",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, top card: the ring reads '12 of 20', then '8 min to go', '4-day streak · Best 23', and the This Week bar chart, all inside one white card."
+    },
+    {
+      "claim": "Today's 12 min is labelled \"Today\". The dashed line marks the 20-min goal.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, chart: the last bar reads '12' with 'Today' in the accent colour. A dashed line runs across the chart with the legend '---- Goal 20 min'."
+    },
+    {
+      "claim": "\"Continue Reading\" puts Start Session and Log Pages on the last-read book (Middlemarch). Walden and The Pillow Book appear as compact cards with progress and last-session day.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, middle: the Middlemarch card has a filled Start Session button and a grey Log Pages button. Below it are the compact cards 'Walden 61% · Thu' and 'The Pillow Book 18% · 14 Sep'."
+    },
+    {
+      "claim": "The recent highlight continues below the fold.",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "today.png shows no highlight in the first 874 pt, and content below the fold is not rendered."
+    },
+    {
+      "claim": "the tab bar stays visible with Library selected. The back button is the iOS 26 chevron-only glass circle.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: the Library tab is highlighted in the accent colour. At the top left is a circular button showing only a chevron, and at the top right is a '…' circle."
+    },
+    {
+      "claim": "\"At your pace: about 21 h left\" is shown as \"At Your Pace ~21 h left\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png, progress card: the third stat column reads 'At Your Pace' over '~21 h left'."
+    },
+    {
+      "claim": "the first step is the single filled button, Scan Barcode. Search by Title is secondary and Import from CSV File is tertiary. The daily goal shows the 20-minute preset with an iOS stepper. There is no streak, sessions or highlights.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: Scan Barcode is the only filled button. Search by Title is a grey capsule and Import from CSV File is a text link. The Daily Goal card shows '20 minutes a day' with a −/+ stepper. There is no streak, session or highlight."
+    }
+  ],
+  "notes": "NOTES says 'Sessions list the four given entries', but book.png shows only three in the first screen. The fourth row sits under the tab bar, where only a divider shows. facts.md reports 2 targets under 44 px on empty.html, and NOTES makes no claim about target sizes.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.no-skill-s1/check.reply.txt",
+    "sha256": "9542fc91fe3a6dfbfd65fe63b467fc03d64de7f308dcf2cbc9d4ecead4cde112"
+  }
+}

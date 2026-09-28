@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "06-redesign-legacy",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/schedule.png: left rail has 'Here now' with wait timers and a 'Due next' list with a Check In button per row; right panel shows a check-in checklist (2 of 4 done) with Collect Copay as the primary button for the arrived patient; alerts sit on top", "A/schedule.png: Feld 10:15 cell labelled 'DOUBLE-BOOKED (2)' with Reyes and Adams; WAITING/UNCONF./IN RM 4 text labels in cells; all four columns, 8:00–11:00 visible"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 3, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/schedule.png: large green 'Check In' button under the alerts, but Harold already shows 'Here · waiting 12 min', so the main action does not match his state", "B/schedule.png grid: chips crowd short cells; 'Castillo … ear pain' and 'Kowalski … anxiety' are cut off at the cell bottom, 'Soto … UT…' is truncated"]},
+    "R": {"fit": 3, "hierarchy": 2, "identity": 2, "craft": 3, "typography": 2, "platform_a11y": 2,
+          "evidence": ["before.png right panel: 12 equal grey action buttons, with patient alerts below them", "before.png grid: tiny, truncated names in cells coloured by type; status is only a bracket code; the Feld 10:15 double booking cannot be seen", "before.png toolbar/tabs: small controls around 20 px, and the legend relies on colour"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "right", "reason": "A's check-in checklist (Collect Copay next) and Due-next Check In buttons match each patient's state; B's big Check In duplicates an already-arrived status, and its cells clip."}
+  ],
+  "notes": "Both are real structural redesigns: waiting-room rail, status as text, visible double booking, alerts on top, tabs kept for temps. B's legend strip with counts over the grid and its prominent search are strong. A's panel follows the actual check-in sequence better, and its grid cells read more cleanly."
+}
+```

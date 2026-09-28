@@ -67,7 +67,8 @@ run() {
   local tmp=$1 p=${2:-6}
   for b in $BRIEFS; do while read -r arm commit; do
     [ -f "$tmp/work/$b/$arm.run.json" ] || echo "$tmp $b $arm $commit"
-  done < "$tmp/arms.txt"; done | xargs -P "$p" -L 1 bash -c 'one "$0" "$1" "$2" "$3"'
+  done < "$tmp/arms.txt"; done | $(command -v caffeinate >/dev/null && echo 'caffeinate -i') \
+    xargs -P "$p" -L 1 bash -c 'one "$0" "$1" "$2" "$3"'   # caffeinate: a sleeping Mac drops the API connection
 }
 
 case ${1:-} in

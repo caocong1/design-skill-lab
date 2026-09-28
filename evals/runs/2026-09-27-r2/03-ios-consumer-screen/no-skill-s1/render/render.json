@@ -1,0 +1,42 @@
+{
+  "brief": "evals/briefs/03-ios-consumer-screen.md",
+  "rendered": "2026-09-28T01:30:11.510Z",
+  "items": [
+    {
+      "html": "today.html",
+      "viewport": "402x874@2",
+      "status": "ok",
+      "frames": [
+        "today.png"
+      ],
+      "page_height": 874,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "book.html",
+      "viewport": "402x874@2",
+      "status": "ok",
+      "frames": [
+        "book.png"
+      ],
+      "page_height": 874,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "empty.html",
+      "viewport": "402x874@2",
+      "status": "ok",
+      "frames": [
+        "empty.png"
+      ],
+      "page_height": 874,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

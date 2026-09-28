@@ -1,0 +1,117 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "no-skill-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/desktop-01.png",
+      "render/desktop-02.png",
+      "render/desktop-03.png",
+      "render/desktop-04.png",
+      "render/desktop-05.png",
+      "render/desktop-06.png",
+      "render/desktop-07.png",
+      "render/mobile-01.png",
+      "render/mobile-02.png",
+      "render/mobile-03.png",
+      "render/mobile-04.png",
+      "render/mobile-05.png",
+      "render/mobile-06.png",
+      "render/mobile-07.png",
+      "render/mobile-08.png",
+      "render/mobile-09.png",
+      "render/mobile-10.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/02-devtool-landing-en.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "Headline uses the brief's message nearly verbatim (\"Your app's data lives on the device first.\")",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png and mobile-01.png: the hero H1 reads \"Your app's data lives on the device first.\" with \"device first.\" in green"
+    },
+    {
+      "claim": "the lede adds what it is (open-source, local-first SQL database) so the first screen answers \"what is it\" and \"how do I start\" (npm install + Get started)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png and mobile-01.png: the lede starts with a bold \"Driftless is an open-source, local-first SQL database\". Below it are the npm install box with Copy, a \"Get started\" button and a \"How it works\" button, all in the first screen"
+    },
+    {
+      "claim": "line breaks and indentation inside the tagged SQL templates are rewrapped (max ~41 chars per line) so it stays legible at 390 px with no horizontal scroll and no clipping",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png and mobile-02.png: the 19 code lines fit inside the panel and none are cut at the right edge. The SQL is split across lines 9–12 and 14–15. facts.md: no horizontal overflow at 390"
+    },
+    {
+      "claim": "the hero shows only the npm command (most of the audience is web) with a pointer to the others",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png: the hero has only the npm install box, plus the line \"Swift and Gradle packages below\". desktop-06.png: the Get started block lists npm, Swift Package Manager and Gradle"
+    },
+    {
+      "claim": "Step 2 and step 3 illustrations (a \"title\"/\"done\" row merged per column; a shape `WHERE team_id = ?` relaying to two of three devices)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-02.png: step 02 shows a Laptop/Phone/Merged table with title and done columns. Step 03 shows a Sync server card with \"shape: WHERE team_id = ?\" and three devices: Browser and Android (team 7 ✓), Desktop (team 9 –, dashed)"
+    },
+    {
+      "claim": "The 0.8 ms figure shown under step 1 is the published local write p50 benchmark.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-02.png, step 01: \"local write · p50 0.8 ms\". desktop-03.png: the benchmark card reads 0.8 ms \"Local write, p50\""
+    },
+    {
+      "claim": "\"Works offline\" card says changes \"sync when the network returns\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-04.png and mobile-06.png, Works offline card: \"Pending changes survive restarts and sync when the network returns.\""
+    },
+    {
+      "claim": "\"690 KB in the browser\" card: says storage is OPFS (from the brief) and that data persists between sessions",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-04.png and mobile-06.png: \"Storage is OPFS, so data persists between sessions.\""
+    },
+    {
+      "claim": "Cloud Pro is visually outlined because it is the paid self-serve plan; no \"most popular\" or similar claim is made.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-05.png: only the Pro card has a heavy dark border and a filled black \"Start with Pro\" button. There is no badge or popularity label. mobile-07.png and mobile-08.png show the same"
+    },
+    {
+      "claim": "Plan rows are ordered so synced data / devices / support line up between Hobby and Pro.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-05.png: row 1 is 1 GB / 25 GB synced data, row 2 is 500 / 25,000 devices and row 4 is Community / Email support, at the same heights. Row 3 differs (1 project vs 7-day restore)"
+    },
+    {
+      "claim": "On mobile the plans are titled \"Cloud Hobby / Cloud Pro / Cloud Enterprise\" (the brief's names) instead of a separate \"Driftless Cloud\" label",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-07.png: \"Cloud Hobby\" and \"Cloud Pro\". mobile-08.png: \"Cloud Enterprise\". There is no DRIFTLESS CLOUD eyebrow, unlike desktop-05.png"
+    },
+    {
+      "claim": "Nav on mobile collapses to logo + Get started + a menu button (simple JS toggle); all page content is visible without interaction.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png: the header shows only the logo, a \"Get started\" button and a hamburger button. mobile-01.png to mobile-10.png show every section without opening the menu. Whether the toggle works cannot be seen in a static render"
+    }
+  ],
+  "notes": "I also checked two claims not listed above. Social proof is limited to 18.4k stars, 236 contributors and 1.2M downloads (desktop-01.png). The mobile page is 8055 px and was not truncated (facts.md). NOTES.md makes no contrast claim, but facts.md reports 2 text nodes below AA at both sizes. The lowest is 4.24:1: the orange \"Q3 roadmap\" text in the step 2 illustration.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.no-skill-s1/check.reply.txt",
+    "sha256": "421bffd0ab3e285740b8694c8099bca1f611d53e0ac755b02386db1ca7ef1efe"
+  }
+}

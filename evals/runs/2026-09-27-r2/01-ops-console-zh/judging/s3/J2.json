@@ -1,0 +1,37 @@
+{
+ "brief": "01-ops-console-zh",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list-01.png: SLA cell breaks awkwardly as '修复剩 / 3时30分' across two lines, and the overdue rows are marked only by red text plus a thin left bar"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/list-01.png: overdue SLA shown as a solid red '⚠ 已超时 12分' pill with the '响应时限' type underneath, and 派单 is a filled button on the 待派单 row; B/list-empty-01.png: specific '移除「负责人 = 王建国」' action; B/detail-01.png: chart headline '2 小时内升高 22.3 °C，仍在上升' plus '08:50 越过阈值' marker"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B's solid red overdue SLA pills and a trend chart that states the rise and marks the threshold crossing make risk quicker to read than A's text-only SLA cells."
+  }
+ ],
+ "notes": "Both share a near-identical system-font admin idiom; neither passes the name-swap test beyond competent restraint. A keeps dates and locations on one line, which scans better. B wraps 创建/更新时间 and 位置 onto two lines, which costs rhythm but keeps rows the same height. A's dark top bar adds slight character. B's detail header groups the actions better, and its per-SLA progress cards are clearer. CJK setting is clean in both, with full-width punctuation and no tofu."
+}

@@ -1,0 +1,39 @@
+{
+ "brief": "01-ops-console-zh",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list-01.png: 11 rows above the fold, overdue SLA shown with ⚠ icon and red text, overdue rows marked by a left bar; P1 is a solid red chip even on closed tickets",
+    "A/detail-01.png: SLA cards sit beside the title, the chart has a 55 °C limit line and a '08:50 超限' marker, and actions are in the header"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/detail-01.png: chart title '液压油温 08:50 超过报警线，仍在上升' plus markers for the 09:12 alarm and the 09:28 cut to 80% line speed, with the limit line; this is shaped around the supervisor's decision",
+    "B/list-01.png: overdue SLA is a solid red chip with ⚠ and the row is tinted; P1 on the closed QC-01 ticket is toned down; 派单 is a filled button on the 待派单 row"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B makes overdue SLA louder (solid red chip, tinted row), tones down closed P1s, and its trend chart marks the alarm and mitigation events. Otherwise both are equally complete."
+  }
+ ],
+ "notes": "Both designs are very close and strong: all states are present, the empty state is tied to the filters, and the error state shows HTTP 502, the request ID and retry. In A's error state the quick-view counts still show while the list failed, which is slightly odd. B shows '—' there. A's only AA miss is the 4.47:1 avatar initial, which is not primary text. B's detail puts the SLA in its own band, so the chart starts lower on the first screen."
+}

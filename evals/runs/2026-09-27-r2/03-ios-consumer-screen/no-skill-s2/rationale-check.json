@@ -1,0 +1,103 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "no-skill-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/book.png",
+      "render/empty.png",
+      "render/today.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/03-ios-consumer-screen.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 0,
+    "not checkable": 1
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "a floating Liquid Glass tab bar (Today, Library, Stats) with Search as a separate glass button on the right",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, book.png, empty.png: bottom of screen shows a floating rounded bar with Today, Library and Stats tabs, and a separate round search button on the right."
+    },
+    {
+      "claim": "The tab bar sits entirely above the bottom 34 pt (y 774–836), so nothing you can tap overlaps the home-indicator area.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All three PNGs: the tab bar runs from about 1548 to 1672 px (774–836 pt), which ends above 840 pt. Only the home indicator (about 863 pt) is below it."
+    },
+    {
+      "claim": "The top 62 pt contain only the status bar.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png and empty.png: the avatar starts at about 66 pt. book.png: the back and '…' buttons start at about 66 pt. Above that there is only 9:41, signal, Wi-Fi and battery."
+    },
+    {
+      "claim": "Accent colour is terracotta #A8431B: 6.0:1 on white, 5.4:1 on #F2F2F7 ... Secondary text is #5E5E63 (≥5.8:1)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: text below AA is 0 of 41 (today), 0 of 39 (book) and 0 of 15 (empty). This confirms AA is met. The exact ratios were not measured."
+    },
+    {
+      "claim": "The dashed line marks the 20-minute goal. Today's bar is hatched and labelled \"Today\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, This Week chart: dashed line labelled 'Goal 20'. The last bar is short, hatched, and labelled 'Today' in accent colour. Bar heights are in proportion to 24/18/0/31/18/22/12."
+    },
+    {
+      "claim": "\"8 min to go\" (20 − 12) and \"This Week · 125 min\" (the sum of the given daily minutes)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the goal card shows '8 min to go' and 'This Week … 125 min'. 24+18+0+31+18+22+12 = 125."
+    },
+    {
+      "claim": "the top-right \"M\" avatar is the account button (Maya). On the first-run screen it is a generic person icon",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png top right: terracotta circle with 'M'. empty.png top right: glass circle with a generic person icon."
+    },
+    {
+      "claim": "Book detail is pushed inside the Library tab, so the tab bar stays visible with Library selected. The back button is an iOS 26 glass chevron.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: Library tab is highlighted in the tab bar, and a round glass chevron button is at top left."
+    },
+    {
+      "claim": "Start Session is the prominent tinted button; Log Pages and Add Highlight are grey secondary buttons.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: full-width terracotta 'Start Session' below the header. Below it, 'Log Pages' and 'Add Highlight' sit side by side on grey fill with terracotta labels."
+    },
+    {
+      "claim": "Mark as Finished, Edit Goal and Remove from Library sit behind the \"…\" glass button (a pull-down menu, shown closed)",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "book.png: a glass '…' button is at top right and the three actions do not appear on screen. What the closed menu contains cannot be seen in a static render."
+    },
+    {
+      "claim": "\"See All\" under Sessions stands for the full list of 23 sessions; four are shown. The Highlights section (both quotes) is below the first screen.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: Sessions header with 'See All' and four rows (Today, Sat 26, Fri 25, Thu 24 Sep). No highlights on the first screen. That the list links to all 23 sessions is behaviour and not checkable."
+    },
+    {
+      "claim": "First run: Scan Barcode is the single prominent action. Search by Title and Import from CSV File are secondary list rows. The daily goal is preset to 20 minutes and changed with an iOS stepper.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the only filled button is the terracotta 'Scan Barcode' in the hero card. 'Search by Title' and 'Import from CSV File' are chevron list rows below it. The Daily Goal card shows '20 minutes' with a −/+ stepper."
+    }
+  ],
+  "notes": "Not listed: the scroll-edge fade can't be checked. Content does stop cleanly above the tab bar in today.png and book.png. Date format 'Sunday, 27 September' matches. facts.md reports 2 targets under 44 px in empty.html. The notes make no 44 pt claim, but this is a platform-fit consideration. No overflow and no console errors.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.no-skill-s2/check.reply.txt",
+    "sha256": "8a313db5673b580dc50eca5b016a31d8b455aab5df51be8299ab77b09e92f258"
+  }
+}

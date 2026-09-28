@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>GD-20260927-0413 · 恒川设备云</title>
+<meta name="viewport" content="width=1440">
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#fff; --line:#e3e7ee; --line-strong:#cfd5df;
+  --ink:#1b2230; --ink-2:#4a5568; --ink-3:#5f6b7d; --muted:#667085;
+  --primary:#1d56d8; --primary-hover:#1747b5; --primary-bg:#ebf1ff; --primary-line:#bcd0fb;
+  --red:#b42318; --red-bg:#fef0ee; --red-line:#f6c4bd; --red-solid:#c8281c;
+  --amber:#a15208; --amber-bg:#fff5e6; --amber-line:#f5d3a1;
+  --green:#157042; --green-bg:#ecf8f1; --green-line:#b9e3cb;
+  --violet:#5b3cc4; --violet-bg:#f2eeff; --violet-line:#d6cbfb;
+  --teal:#0e6e75; --gray-bg:#f1f3f6;
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:13px; line-height:1.5; color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums; min-width:1440px}
+a{color:var(--primary); text-decoration:none}
+button{font:inherit; color:inherit}
+.ic{flex:none; display:inline-block; vertical-align:middle}
+.mono{font-family:var(--mono); font-size:12px; letter-spacing:-.1px}
+
+/* ---- shell ---- */
+.topbar{height:52px; background:#141b2b; color:#e6eaf2; display:flex; align-items:center; padding:0 20px 0 0; gap:16px}
+.brand{width:200px; display:flex; align-items:center; gap:10px; padding-left:20px; font-weight:600; font-size:15px; color:#fff; letter-spacing:.5px}
+.brand-mark{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#3b7bff,#1d56d8);display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700}
+.org{display:flex; align-items:center; gap:6px; height:32px; padding:0 10px; border:1px solid #2c3750; border-radius:6px; color:#dfe5ef; background:#1b2436}
+.gsearch{margin-left:12px; width:340px; height:32px; display:flex; align-items:center; gap:8px; padding:0 10px; border-radius:6px; background:#1f2940; color:#a9b4c7; border:1px solid #2c3750}
+.gsearch span{color:#a9b4c7}
+.topbar .spacer{flex:1}
+.bell{position:relative; width:36px; height:36px; display:grid; place-items:center; color:#dfe5ef; border-radius:6px}
+.bell .badge{position:absolute; top:2px; right:0; min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:#c8281c; color:#fff; font-size:11px; font-weight:600; line-height:18px; text-align:center; border:2px solid #141b2b}
+.me{display:flex; align-items:center; gap:8px; color:#e6eaf2}
+.avatar{width:28px;height:28px;border-radius:50%;background:#3a4a6b;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:600}
+.me .role{color:#a9b4c7}
+
+.frame{display:flex; min-height:calc(100vh - 52px)}
+.side{width:200px; flex:none; background:#fff; border-right:1px solid var(--line); padding:12px 10px}
+.nav-item{display:flex; align-items:center; gap:10px; height:38px; padding:0 12px; border-radius:6px; color:var(--ink-2); font-size:13.5px}
+.nav-item .ic{color:var(--ink-3)}
+.nav-item .caret{margin-left:auto}
+.nav-group-open{color:var(--ink); font-weight:600}
+.nav-sub{display:flex; align-items:center; height:34px; padding-left:40px; border-radius:6px; color:var(--ink-2); font-size:13px; margin:1px 0}
+.nav-sub.active{background:var(--primary-bg); color:var(--primary); font-weight:600; position:relative}
+.nav-sub.active::before{content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:2px; background:var(--primary)}
+.main{flex:1; min-width:0; padding:16px 20px 28px}
+
+/* ---- common ---- */
+.btn{display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px; border-radius:6px; border:1px solid var(--line-strong); background:#fff; color:var(--ink); font-size:13px; white-space:nowrap; cursor:pointer}
+.btn.primary{background:var(--primary); border-color:var(--primary); color:#fff; font-weight:500}
+.btn.ghost{border-color:transparent; background:transparent; color:var(--ink-2)}
+.btn.sm{height:28px; padding:0 10px; font-size:12.5px}
+.btn.danger-text{color:var(--red)}
+.btn[disabled]{color:#5f6b7d; background:#f4f6f9; border-color:var(--line); cursor:not-allowed}
+.btn.primary[disabled]{background:#9db5ec; border-color:#9db5ec; color:#fff}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:8px}
+
+.page-head{display:flex; align-items:center; gap:12px; margin-bottom:12px}
+.page-head h1{font-size:18px; margin:0; font-weight:600}
+.page-head .actions{margin-left:auto; display:flex; gap:8px}
+.crumbs{display:flex; align-items:center; gap:6px; color:var(--ink-3); font-size:12.5px; margin-bottom:6px}
+.crumbs .ic{color:var(--muted)}
+
+/* priority + status tags */
+.pri{display:inline-flex; align-items:center; gap:4px; height:22px; padding:0 7px; border-radius:4px; font-size:12px; font-weight:600; white-space:nowrap; border:1px solid transparent}
+.pri b{font-family:var(--mono); font-weight:700; font-size:11.5px}
+.pri.p1{background:var(--red-solid); color:#fff}
+.pri.p2{background:var(--amber-bg); color:var(--amber); border-color:var(--amber-line)}
+.pri.p3{background:#eef2f7; color:#3d4a5c; border-color:#d7dee8}
+.pri.p4{background:#fff; color:var(--ink-3); border-color:var(--line-strong); font-weight:500}
+.st{display:inline-flex; align-items:center; gap:5px; height:22px; padding:0 8px 0 6px; border-radius:11px; font-size:12px; white-space:nowrap; font-weight:500}
+.st .ic{width:13px;height:13px}
+.st.s-wait{background:var(--amber-bg); color:var(--amber)}
+.st.s-sent{background:var(--primary-bg); color:var(--primary)}
+.st.s-doing{background:#e6f4f5; color:var(--teal)}
+.st.s-hold{background:var(--gray-bg); color:#4a5568}
+.st.s-check{background:var(--violet-bg); color:var(--violet)}
+.st.s-closed{background:transparent; color:var(--ink-3); padding-left:0}
+.st small{font-size:11.5px; font-weight:400; opacity:.95}
+
+.head{padding:16px 20px 0; margin-bottom:16px}
+.title-row{display:flex; align-items:flex-start; gap:16px}
+.title-row h1{font-size:20px; margin:0; font-weight:600; line-height:30px}
+.title-row .tags{display:flex; gap:8px; align-items:center; height:30px}
+.title-row .actions{margin-left:auto; display:flex; gap:8px; flex:none}
+.meta{display:flex; flex-wrap:wrap; gap:6px 20px; margin-top:8px; color:var(--ink-2)}
+.meta .k{color:var(--ink-3); margin-right:6px}
+.meta .src{display:inline-flex; align-items:center; gap:6px}
+.rule{font-family:var(--mono); font-size:12px; background:var(--gray-bg); border-radius:4px; padding:1px 6px; color:var(--ink)}
+.sla-strip{display:grid; grid-template-columns:360px 1fr; margin:16px -20px 0; border-top:1px solid var(--line)}
+.sla-cell{padding:14px 20px}
+.sla-cell + .sla-cell{border-left:1px solid var(--line)}
+.sla-cell .k{color:var(--ink-3); font-size:12.5px; display:flex; align-items:center; gap:6px}
+.sla-cell .big{font-size:20px; font-weight:600; margin-top:4px; display:flex; align-items:center; gap:8px}
+.sla-cell .big small{font-size:13px; font-weight:400; color:var(--ink-2)}
+.ok-tag{display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; color:var(--green); background:var(--green-bg); border:1px solid var(--green-line); border-radius:4px; padding:0 6px; height:22px}
+.fix{display:grid; grid-template-columns:230px 1fr; gap:24px; align-items:center}
+.bar{position:relative; height:8px; border-radius:4px; background:#e7ebf1; margin-top:22px}
+.bar .fill{position:absolute; left:0; top:0; bottom:0; width:12.5%; background:var(--teal); border-radius:4px}
+.bar .now{position:absolute; left:12.5%; top:-20px; transform:translateX(-50%); font-size:11.5px; color:var(--ink); font-weight:600; white-space:nowrap}
+.bar .now::after{content:""; position:absolute; left:50%; top:17px; width:2px; height:14px; background:var(--ink); transform:translateX(-50%)}
+.bar-ends{display:flex; justify-content:space-between; font-size:12px; color:var(--ink-3); margin-top:6px}
+.bar-ends b{color:var(--ink); font-weight:600}
+
+.grid{display:grid; grid-template-columns:1fr 372px; gap:16px; align-items:start}
+.col{display:flex; flex-direction:column; gap:16px}
+.card h2{font-size:15px; font-weight:600; margin:0}
+.card-h{display:flex; align-items:center; gap:10px; padding:14px 20px; border-bottom:1px solid var(--line)}
+.card-h .aside{margin-left:auto; color:var(--ink-3); font-size:12.5px; display:flex; align-items:center; gap:6px}
+.card-b{padding:16px 20px}
+
+.readings{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.rd{border:1px solid var(--line); border-radius:8px; padding:12px 14px}
+.rd.bad{border-color:var(--red-line); background:#fffafa}
+.rd .n{color:var(--ink-2); font-size:12.5px}
+.rd .v{font-size:24px; font-weight:600; margin:2px 0 2px; letter-spacing:-.3px}
+.rd .v small{font-size:13px; font-weight:500; color:var(--ink-2); margin-left:3px}
+.rd.bad .v{color:var(--red)}
+.rd .r{display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--ink-3)}
+.flag{display:inline-flex; align-items:center; gap:3px; font-size:12px; font-weight:600}
+.flag.bad{color:var(--red)}
+.flag.ok{color:var(--green)}
+.sub-h{display:flex; align-items:baseline; gap:10px; margin:22px 0 8px}
+.sub-h h3{font-size:13.5px; margin:0; font-weight:600}
+.sub-h .aside{color:var(--ink-3); font-size:12px}
+.legend{margin-left:auto; display:flex; gap:14px; font-size:12px; color:var(--ink-2)}
+.legend i{display:inline-block; vertical-align:middle; margin-right:5px}
+.chart .ax{font-size:11px; fill:#5f6b7d}
+.chart .lbl{font-size:11.5px; fill:#4a5568}
+.chart .lbl.red{fill:#b42318; font-weight:600}
+.chart .lbl.strong{fill:#1b2230; font-weight:700; font-size:12.5px}
+.trend-table{width:100%; border-collapse:collapse; margin-top:8px; font-size:11.5px; table-layout:fixed}
+.trend-table th, .trend-table td{text-align:center; padding:3px 0; border-top:1px solid var(--line)}
+.trend-table th{font-weight:400; color:var(--ink-3)}
+.trend-table td{color:var(--ink)}
+.trend-table td.hi{color:var(--red); font-weight:600}
+.trend-table .rh{text-align:left; color:var(--ink-3); width:44px; font-weight:400}
+
+.tl{list-style:none; margin:0; padding:4px 0 0}
+.tl li{display:grid; grid-template-columns:48px 22px 1fr; column-gap:8px; position:relative; padding-bottom:16px}
+.tl li:last-child{padding-bottom:0}
+.tl .t{color:var(--ink-2); font-weight:600; font-size:12.5px; padding-top:1px}
+.tl .dot{width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid #9aa4b4; margin:5px auto 0; position:relative; z-index:1}
+.tl li:not(:last-child)::before{content:""; position:absolute; left:66px; top:16px; bottom:-6px; width:2px; background:#d3d9e2}
+.tl .dot.owner{border-color:var(--primary)}
+.tl .dot.co{border-color:var(--teal)}
+.tl .dot.lead{border-color:#4a5568}
+.tl .who{font-weight:600; margin-right:6px}
+.tl .role{font-size:11.5px; color:var(--ink-3); background:var(--gray-bg); border-radius:3px; padding:0 5px; margin-right:6px}
+.photos{display:flex; gap:10px; margin-top:8px}
+.photo{width:132px}
+.photo .ph{height:84px; border-radius:6px; background:#e9edf3 repeating-linear-gradient(135deg,#e9edf3 0 8px,#e2e7ee 8px 16px); display:grid; place-items:center; color:#7b8697; border:1px solid var(--line)}
+.photo .cap{font-size:12px; color:var(--ink-2); margin-top:4px}
+
+.parts{width:100%; border-collapse:collapse}
+.parts th{text-align:left; font-weight:600; font-size:12.5px; color:var(--ink-2); padding:8px 0; border-bottom:1px solid var(--line)}
+.parts td{padding:10px 0; border-bottom:1px solid #edf0f4}
+.parts tr:last-child td{border-bottom:none}
+.ps{display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:500; height:22px; padding:0 8px; border-radius:11px}
+.ps.out{background:var(--green-bg); color:var(--green)}
+.ps.wait{background:var(--amber-bg); color:var(--amber)}
+
+.dl{display:grid; grid-template-columns:76px 1fr; gap:10px 12px; margin:0}
+.dl dt{color:var(--ink-3)}
+.dl dd{margin:0; color:var(--ink)}
+.dl dd .muted{color:var(--ink-3)}
+.alarm-n{display:inline-flex; align-items:center; gap:4px; color:var(--amber); font-weight:600}
+.people{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px}
+.people li{display:flex; align-items:center; gap:10px}
+.people .av{width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-weight:600; color:#fff; flex:none}
+.people .nm{font-weight:600}
+.people .ds{color:var(--ink-3); font-size:12px}
+.people .r{margin-left:auto; font-size:12px; color:var(--ink-2); background:var(--gray-bg); border-radius:4px; padding:1px 7px}
+.people .tel{display:inline-flex; align-items:center; gap:4px; color:var(--ink-2); font-size:12px}
+.related{list-style:none; margin:0; padding:0}
+.related li{padding:10px 0; border-bottom:1px solid #edf0f4}
+.related li:first-child{padding-top:0}
+.related li:last-child{border-bottom:none; padding-bottom:0}
+.related .id{font-family:var(--mono); font-size:12px; color:var(--primary)}
+.related .tt{margin-top:2px; display:flex; align-items:center; justify-content:space-between; gap:8px}
+.related .note{color:var(--ink-3); font-size:12px}
+.more{display:flex; flex-direction:column; gap:4px}
+.more .btn{justify-content:flex-start; border-color:transparent; padding:0 8px; color:var(--ink-2)}
+.more .btn.danger-text{color:var(--red)}
+</style></head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">恒</span>恒川设备云</div>
+  <div class="org">恒川精密 · 苏州一厂 <svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+  <div class="gsearch"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>搜索工单号、设备编号</span></div>
+  <div class="spacer"></div>
+  <div class="bell" aria-label="通知，5 条未读"><svg class="ic " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span class="badge">5</span></div>
+  <div class="me"><span class="avatar">李</span><span>李敏</span><span class="role">· 运维主管</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+</header>
+<div class="frame">
+  <nav class="side" aria-label="主导航">
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>工作台</a>
+    <a class="nav-item nav-group-open"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4z"/><path d="M13 6v2M13 11v2M13 16v2"/></svg>工单管理<svg class="ic caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+    <a class="nav-sub active">工单列表</a><a class="nav-sub">我的工单</a><a class="nav-sub">工单统计</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>设备台账</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h8a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h8"/></svg>巡检计划</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>保养计划</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>备件库存</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>报表中心</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>系统设置</a>
+  </nav>
+  <main class="main">
+  <section class="card head">
+    <div class="crumbs">工单管理 <svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg> 工单列表 <svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg> <span style="color:var(--ink)">GD-20260927-0413</span></div>
+    <div class="title-row">
+      <h1>3号注塑机液压油温过高</h1>
+      <div class="tags"><span class="pri p1"><b>P1</b>紧急</span><span class="st s-doing"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>处理中</span></div>
+      <div class="actions">
+        <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h13l-4-4M17 17H4l4 4"/></svg>转派</button>
+        <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>挂起</button>
+        <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-8 8"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>申请备件</button>
+        <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/></svg>提交验收</button>
+        <button class="btn primary"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>添加处理记录</button>
+      </div>
+    </div>
+    <div class="meta">
+      <span><span class="k">工单号</span><span class="mono">GD-20260927-0413</span></span>
+      <span class="src"><span class="k">来源</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>IoT 自动报警 <span class="rule">R-HYD-02</span>液压油温 &gt; 55°C 持续 20 分钟</span>
+      <span><span class="k">创建</span>2026-09-27 09:12</span>
+    </div>
+    <div class="sla-strip">
+      <div class="sla-cell">
+        <div class="k"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>响应时限 15 分钟</div>
+        <div class="big"><span class="ok-tag"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>达标</span>用时 9 分钟 <small>09:21 到场</small></div>
+      </div>
+      <div class="sla-cell fix">
+        <div>
+          <div class="k"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>修复时限 4 小时</div>
+          <div class="big">剩余 3 时 30 分 <small>截止 13:12</small></div>
+        </div>
+        <div>
+          <div class="bar" role="img" aria-label="修复时限已用 30 分钟，共 4 小时"><div class="fill"></div><div class="now">现在 09:42</div></div>
+          <div class="bar-ends"><span>09:12 创建</span><span>已用 30 分 / 共 4 小时</span><span><b>13:12</b> 截止</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <div class="col">
+      <section class="card">
+        <div class="card-h"><h2>设备实时读数</h2><span class="aside"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5M3 21v-5h5"/></svg>09:41 更新</span></div>
+        <div class="card-b">
+          <div class="readings"><div class="rd bad">
+      <div class="n">液压油温</div>
+      <div class="v">68.4<small>°C</small></div>
+      <div class="r"><span>正常 ≤ 55 °C</span><span class="flag bad"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>超限</span></div>
+    </div><div class="rd">
+      <div class="n">系统油压</div>
+      <div class="v">14.2<small>MPa</small></div>
+      <div class="r"><span>正常 13–16 MPa</span><span class="flag ok"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>正常</span></div>
+    </div><div class="rd bad">
+      <div class="n">冷却水进水温度</div>
+      <div class="v">31.5<small>°C</small></div>
+      <div class="r"><span>正常 ≤ 28 °C</span><span class="flag bad"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>超限</span></div>
+    </div><div class="rd">
+      <div class="n">主电机电流</div>
+      <div class="v">87<small>A</small></div>
+      <div class="r"><span>正常 ≤ 110 A</span><span class="flag ok"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>正常</span></div>
+    </div></div>
+          <div class="sub-h"><h3>液压油温趋势</h3><span class="aside">近 2 小时 · 每 10 分钟 · °C</span>
+            <div class="legend"><span><i style="width:16px;height:2px;background:#1d56d8"></i>液压油温</span><span><i style="width:16px;border-top:2px dashed #b42318"></i>报警阈值</span><span><i style="width:12px;height:10px;background:#fdf1ef;border:1px solid #f6c4bd"></i>超限区间</span></div>
+          </div>
+          <svg class="chart" width="760" height="230" viewBox="0 0 760 230" role="img" aria-label="液压油温近 2 小时趋势，从 07:40 的 46.1 °C 升至 09:40 的 68.4 °C，08:50 起超过 55 °C 阈值">
+    <rect x="44" y="16" width="624" height="92" fill="#fdf1ef" /><line x1="44" x2="668" y1="200" y2="200" stroke="#eceff4" /><text x="36" y="204" text-anchor="end" class="ax">40</text><line x1="44" x2="668" y1="169.33333333333334" y2="169.33333333333334" stroke="#eceff4" /><text x="36" y="173.33333333333334" text-anchor="end" class="ax">45</text><line x1="44" x2="668" y1="138.66666666666669" y2="138.66666666666669" stroke="#eceff4" /><text x="36" y="142.66666666666669" text-anchor="end" class="ax">50</text><line x1="44" x2="668" y1="108" y2="108" stroke="#eceff4" /><text x="36" y="112" text-anchor="end" class="ax">55</text><line x1="44" x2="668" y1="77.33333333333334" y2="77.33333333333334" stroke="#eceff4" /><text x="36" y="81.33333333333334" text-anchor="end" class="ax">60</text><line x1="44" x2="668" y1="46.66666666666666" y2="46.66666666666666" stroke="#eceff4" /><text x="36" y="50.66666666666666" text-anchor="end" class="ax">65</text><line x1="44" x2="668" y1="16" y2="16" stroke="#eceff4" /><text x="36" y="20" text-anchor="end" class="ax">70</text><text x="44" y="222" text-anchor="middle" class="ax">07:40</text><text x="148" y="222" text-anchor="middle" class="ax">08:00</text><text x="252" y="222" text-anchor="middle" class="ax">08:20</text><text x="356" y="222" text-anchor="middle" class="ax">08:40</text><text x="460" y="222" text-anchor="middle" class="ax">09:00</text><text x="564" y="222" text-anchor="middle" class="ax">09:20</text><text x="668" y="222" text-anchor="middle" class="ax">09:40</text><line x1="44" x2="668" y1="108" y2="108" stroke="#b42318" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="676" y="112" class="lbl red">阈值 55 °C</text><line x1="522.4000000000001" x2="522.4000000000001" y1="16" y2="200" stroke="#5f6b7d" stroke-width="1" stroke-dasharray="2 3"/>
+    <text x="516.4000000000001" y="28" text-anchor="end" class="lbl">09:12 工单创建</text>
+    <path d="M44.0,162.6 L96.0,158.3 L148.0,154.0 L200.0,145.4 L252.0,137.4 L304.0,126.4 L356.0,116.0 L408.0,105.5 L460.0,90.2 L512.0,70.0 L564.0,47.9 L616.0,33.8 L668.0,25.8" fill="none" stroke="#1d56d8" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="668" cy="25.813333333333293" r="5" fill="#1d56d8" stroke="#fff" stroke-width="2"/>
+    <text x="678" y="29.813333333333293" class="lbl strong">68.4 °C</text><g class="pt"><rect x="18" y="16" width="52" height="184" fill="transparent"><title>07:40 · 46.1 °C</title></rect></g><g class="pt"><rect x="70" y="16" width="52" height="184" fill="transparent"><title>07:50 · 46.8 °C</title></rect></g><g class="pt"><rect x="122" y="16" width="52" height="184" fill="transparent"><title>08:00 · 47.5 °C</title></rect></g><g class="pt"><rect x="174" y="16" width="52" height="184" fill="transparent"><title>08:10 · 48.9 °C</title></rect></g><g class="pt"><rect x="226" y="16" width="52" height="184" fill="transparent"><title>08:20 · 50.2 °C</title></rect></g><g class="pt"><rect x="278" y="16" width="52" height="184" fill="transparent"><title>08:30 · 52.0 °C</title></rect></g><g class="pt"><rect x="330" y="16" width="52" height="184" fill="transparent"><title>08:40 · 53.7 °C</title></rect></g><g class="pt"><rect x="382" y="16" width="52" height="184" fill="transparent"><title>08:50 · 55.4 °C</title></rect></g><g class="pt"><rect x="434" y="16" width="52" height="184" fill="transparent"><title>09:00 · 57.9 °C</title></rect></g><g class="pt"><rect x="486" y="16" width="52" height="184" fill="transparent"><title>09:10 · 61.2 °C</title></rect></g><g class="pt"><rect x="538" y="16" width="52" height="184" fill="transparent"><title>09:20 · 64.8 °C</title></rect></g><g class="pt"><rect x="590" y="16" width="52" height="184" fill="transparent"><title>09:30 · 67.1 °C</title></rect></g><g class="pt"><rect x="642" y="16" width="52" height="184" fill="transparent"><title>09:40 · 68.4 °C</title></rect></g>
+  </svg>
+          <table class="trend-table"><tr><th class="rh">时间</th><th>07:40</th><th>07:50</th><th>08:00</th><th>08:10</th><th>08:20</th><th>08:30</th><th>08:40</th><th>08:50</th><th>09:00</th><th>09:10</th><th>09:20</th><th>09:30</th><th>09:40</th></tr>
+          <tr><th class="rh">°C</th><td class="">46.1</td><td class="">46.8</td><td class="">47.5</td><td class="">48.9</td><td class="">50.2</td><td class="">52.0</td><td class="">53.7</td><td class="hi">55.4</td><td class="hi">57.9</td><td class="hi">61.2</td><td class="hi">64.8</td><td class="hi">67.1</td><td class="hi">68.4</td></tr></table>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>处理记录</h2><span class="aside">共 6 条 · 按时间先后</span></div>
+        <div class="card-b"><ol class="tl"><li>
+      <span class="t">09:12</span><span class="dot sys"></span>
+      <div><span class="who">系统</span><span>自动创建工单（报警规则 R-HYD-02）</span>
+      
+      </div></li><li>
+      <span class="t">09:14</span><span class="dot lead"></span>
+      <div><span class="who">李敏</span><span class="role">运维主管</span><span>派单给王建国，优先级 P1</span>
+      
+      </div></li><li>
+      <span class="t">09:21</span><span class="dot owner"></span>
+      <div><span class="who">王建国</span><span class="role">负责人</span><span>到场签到（一厂 A区）</span>
+      
+      </div></li><li>
+      <span class="t">09:28</span><span class="dot owner"></span>
+      <div><span class="who">王建国</span><span class="role">负责人</span><span>初步判断冷却水进水温度偏高，冷却器可能结垢；已将生产节拍降到 80%</span>
+      
+      </div></li><li>
+      <span class="t">09:35</span><span class="dot owner"></span>
+      <div><span class="who">王建国</span><span class="role">负责人</span><span>上传照片 3 张（冷却器外观、滤网、温控表）</span>
+      <div class="photos"><div class="photo"><div class="ph"><svg class="ic " width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div><div class="cap">冷却器外观</div></div><div class="photo"><div class="ph"><svg class="ic " width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div><div class="cap">滤网</div></div><div class="photo"><div class="ph"><svg class="ic " width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg></div><div class="cap">温控表</div></div></div>
+      </div></li><li>
+      <span class="t">09:40</span><span class="dot co"></span>
+      <div><span class="who">周强</span><span class="role">协作</span><span>确认冷却水泵运行正常，电流 12.4 A</span>
+      
+      </div></li></ol></div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>备件</h2><span class="aside"><a class="btn sm"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-8 8"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>申请备件</a></span></div>
+        <div class="card-b" style="padding-top:4px">
+          <table class="parts">
+            <tr><th>备件</th><th style="width:90px">数量</th><th style="width:90px">库存</th><th style="width:110px">状态</th></tr>
+            <tr><td>板式冷却器滤芯 <span class="mono">BL-220</span></td><td>× 1</td><td>4</td><td><span class="ps out"><svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已出库</span></td></tr>
+            <tr><td>抗磨液压油 46# 18L</td><td>× 1</td><td>12</td><td><span class="ps wait"><svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>待领用</span></td></tr>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card">
+        <div class="card-h"><h2>设备信息</h2></div>
+        <div class="card-b">
+          <dl class="dl">
+            <dt>设备编号</dt><dd class="mono">ZS-03-117</dd>
+            <dt>型号</dt><dd>注塑机 JM-3800<br><span class="muted">锁模力 380 吨</span></dd>
+            <dt>位置</dt><dd>一厂 A区 注塑线3 · 3号机位</dd>
+            <dt>投用时间</dt><dd>2021-04</dd>
+            <dt>上次保养</dt><dd>2026-08-30 <span class="muted">季度保养</span></dd>
+            <dt>本月报警</dt><dd><span class="alarm-n"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>3 次</span></dd>
+          </dl>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>人员</h2></div>
+        <div class="card-b">
+          <ul class="people">
+            <li><span class="av" style="background:#1d56d8">王</span><div><div class="nm">王建国</div><div class="ds">机修组 · <span class="tel"><svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>138****2716</span></div></div><span class="r">负责人</span></li>
+            <li><span class="av" style="background:#0e6e75">周</span><div><div class="nm">周强</div><div class="ds">电气组</div></div><span class="r">协作</span></li>
+            <li><span class="av" style="background:#4a5568">李</span><div><div class="nm">李敏</div><div class="ds">运维主管</div></div><span class="r">抄送</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>同设备近 30 天工单</h2><span class="aside">3 条</span></div>
+        <div class="card-b">
+          <ul class="related">
+            <li><a class="id">GD-20260925-0359</a><div class="tt"><span>模温机漏水</span><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></div></li>
+            <li><a class="id">GD-20260911-0288</a><div class="tt"><span>液压油温偏高 <span class="note">· 更换滤芯</span></span><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></div></li>
+            <li><a class="id">GD-20260902-0241</a><div class="tt"><span>季度保养</span><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></div></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h"><h2>更多操作</h2></div>
+        <div class="card-b more" style="padding:10px 12px">
+          <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>打印工单</button>
+          <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>复制链接</button>
+          <button class="btn danger-text"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>关闭工单</button>
+        </div>
+      </section>
+    </div>
+  </div></main>
+</div>
+</body></html>

@@ -1,0 +1,103 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "no-skill-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/empty.png",
+      "render/filter.png",
+      "render/list.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/04-miniprogram-list-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 0,
+    "not checkable": 1
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "状态栏 0–44，自定义导航栏 44–88（胶囊位于 left 281 / top 50 / 87 × 32），原生标签栏 729–778，底部安全区 778–812（含 Home 指示条）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png/filter.png/empty.png: the capsule outline runs from about x 281–368 and y 50–82 in CSS px. The tab bar's top border sits at about y 730. The home indicator sits in the bottom safe area on all three screens."
+    },
+    {
+      "claim": "导航栏左侧只放位置切换（苏州 · 工业园区 · 星湖街 ▾），右边界约 217 px，与胶囊（281 起）留出足够距离",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png top-left: the location row with its chevron ends at about x 210 CSS px. There is no page title, and there is a clear gap before the capsule."
+    },
+    {
+      "claim": "类目标签横向滚动，右侧渐隐提示还有「收纳整理 / 搬家」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png category row: 「管道疏通」 fades out at the right edge. 收纳整理 and 搬家 are off-screen, which matches a scroll edge."
+    },
+    {
+      "claim": "排序四项直接平铺（当前「综合排序」），筛选入口放在同一行最右，有已选条件时显示数量角标",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the four sort items are in one row, 综合排序 is in green, and 筛选 is at the far right with no badge. filter.png/empty.png: 筛选 shows a badge of 3."
+    },
+    {
+      "claim": "筛选面板做成从排序栏下方展开的下拉面板……遮罩只盖到标签栏上沿，标签栏保持可见、未被遮罩",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the panel opens below the sort bar. A dark mask strip sits at about y 705–730 CSS px, and the tab bar below it is not dimmed."
+    },
+    {
+      "claim": "「服务保障」标注可多选……「服务人员」默认选中「不限」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the 服务保障 heading carries a grey 「可多选」 label. 服务人员 has 不限 selected with a checkmark."
+    },
+    {
+      "claim": "「查看结果（0）」按钮保持可点……面板底部同时实时提示匹配数为 0",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png footer: the text reads 「当前条件下匹配 0 个服务，可放宽距离或上门时间」 above the green primary button 查看结果（0） and the 重置 button."
+    },
+    {
+      "claim": "筛选面板背后的列表示意为「家电清洗」类目中已知的 3 个服务……被遮罩压暗，仅作背景",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "filter.png: the panel covers the whole list area. The only visible masked strip is plain grey with no card content."
+    },
+    {
+      "claim": "空状态：标题 + 具体原因……三条「放宽一个条件」建议按可得数量从多到少排序（明天 6、3 km 内 4、去掉可开发票 1）……底部为「修改筛选」「清除筛选」；顶部已选条件可逐个点 × 移除",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the 已选 chips 今天 / 1 km 内 / 可开发票 each have an ×. The title 没有找到符合条件的服务 has a reason line below it. The suggestion rows show 6, 4 and 1 个服务, each with a chevron. The 修改筛选 and 清除筛选 buttons sit side by side."
+    },
+    {
+      "claim": "「最近可约」为今天的时间用品牌绿色强调，其余为深色正文色",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: 「今天 16:00」 is green, while 「明天 09:00」 and 「明天 14:00」 are dark text."
+    },
+    {
+      "claim": "列表顶部显示「共 26 个服务」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: 「共 26 个服务」 appears above the first card."
+    },
+    {
+      "claim": "所有文字对比度均满足 WCAG AA",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: text below AA is 0 of 57 (list), 0 of 48 (filter) and 0 of 38 (empty)."
+    }
+  ],
+  "notes": "One NOTES claim is only partly checkable: no card has a separate 预约 button (visible), but the 4th card, which holds the long 「上门费 ¥50」 price, is cut off at the fold. So the claim that this price fits on one line can't be checked in the first screen.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.no-skill-s1/check.reply.txt",
+    "sha256": "58cc09efc55a86c695f3b57494d593b205545cc2e86a7657ebbea92dd7e43742"
+  }
+}

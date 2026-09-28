@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "06-redesign-legacy",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/schedule.png: left rail lists waiting room with minutes and filled Check in buttons; right panel puts alerts above a '2 of 4 done' check-in checklist; the Reyes/Adams 10:15 cell is outlined in red with a 2× badge"]},
+    "B": {"fit": 5, "hierarchy": 5, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/schedule.png: wide search at top-left, waiting room / in a room / arriving next in the rail, alerts first in the details panel with Collect copay as the single primary; type written in words, so the grid needs no colour legend", "B/schedule.png: grid shows status in text ('Waiting 12 min', 'Room 4 · 7 min', '? Unconfirmed', 'Verify ins.', '2 booked'), not colour alone"]},
+    "R": {"fit": 3, "hierarchy": 2, "identity": 2, "craft": 3, "typography": 2, "platform_a11y": 3,
+          "evidence": ["before.png: 12 equal grey buttons in the right panel; patient alerts sit below them; names are set small, all caps and cut off in the grid", "before.png: generic 2000s web-form look with the default bevelled tabs and select boxes"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B's grid is calmer: type written in words, status in plain phrases, names full width with little truncation. A's grid stacks type codes, coloured bars and a legend on cramped cells."}
+  ],
+  "notes": "Structurally the two are near twins, and both fix the legacy problems: check-in rail, alerts first, double booking flagged, four columns from 8:00 to 1:30. A's slashed-zero numerals are a deliberate touch that suits MRNs but look odd in times like 8:3Ø, and the NOW badge crowds the 8 AM label. A's filled Check in buttons do stand out more than B's outlined ones. Both keep all 14 tabs as a lighter nav rather than cutting them down."
+}
+```

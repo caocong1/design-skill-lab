@@ -1,0 +1,103 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "suite-0.8.1-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/empty.png",
+      "render/filter.png",
+      "render/list.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/04-miniprogram-list-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "The location control ends at x 233, left of the capsule (281) with a 48 px gap.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the location text ends at about x 222 CSS (445 px ÷ 2), with its chevron just after. The capsule starts at about x 281, so the two don't overlap."
+    },
+    {
+      "claim": "The capsule is drawn as a neutral light-scheme placeholder at left 281, top 50, 87 × 32.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png, filter.png, empty.png: a white pill with ••• and ◎ spans about x 281–368 and y 50–82 CSS. Nothing overlaps it."
+    },
+    {
+      "claim": "The filter panel drops down from the sort bar and ends above the native tab bar",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the panel starts below the sort bar (y ≈ 229) and ends at about y 716. A thin grey dim strip follows, then the tab bar at about y 729. Location, search, categories and sort bar stay visible above the panel."
+    },
+    {
+      "claim": "\"不限\" is the default. It shows as tinted but has no check badge, so the three badges match the \"筛选 3\" count.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: check badges appear only on 今天, 1 km 内 and 可开发票. 不限 is teal-tinted with no badge. The sort bar shows 筛选 with a '3' badge."
+    },
+    {
+      "claim": "The fifth tab (管道疏通) fades out at the right edge on purpose, as the scroll cue.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png, filter.png, empty.png: the category row ends with '管道疏…', which fades out at the right edge."
+    },
+    {
+      "claim": "No per-row \"预约\" button, to keep rows calm",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the rows show slot, title, provider, rating, tags, distance and price. None of them has a 预约 button."
+    },
+    {
+      "claim": "It is teal when the slot is today and neutral for later days",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: rows 1 and 4 (今天 16:00, 今天 18:30) have teal stubs. Rows 2 and 3 (明天 09:00, 明天 14:00) have neutral grey stubs."
+    },
+    {
+      "claim": "Counts are shown exactly as the brief gives them (12,480 次), not rounded to 万",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: '已服务 12,480 次', '3,216 次' and '1,905 次' match the brief."
+    },
+    {
+      "claim": "The no-results suggestions are sorted by how many results they give: 明天 6, 3 km 内 4, 去掉可开发票 1.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the suggestion rows read 改成明天上门 6 个服务, 放宽到 3 km 内 4 个服务, 去掉「可开发票」1 个服务, in that order, each with a chevron."
+    },
+    {
+      "claim": "In the filter panel the relaxation \"去掉「可开发票」\" is shortened to \"不限发票\" ... The no-results screen uses the full wording.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the hint line reads '不限发票 1 个'. empty.png: the row reads '去掉「可开发票」'."
+    },
+    {
+      "claim": "Both buttons have the same secondary weight, because the suggestion rows are the main path.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: 修改筛选 and 清除筛选 are two grey pills of the same size and style. Neither has the primary teal fill."
+    },
+    {
+      "claim": "All text pairs pass AA. ... Targets are at least 44 px, including chips and inline links.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: 0 text nodes below AA on any page (0/62, 0/54, 0/35). Targets under 44 px: 0 on all three pages."
+    }
+  ],
+  "notes": "All 12 claims match the renders or facts.md. I found no contradictions. Caveat: facts.md only counts targets that are marked up as interactive, so the 44 px result is a lower bound. Claims about behaviour (tapping chips or suggestions, what 修改筛选 and 清除筛选 do) and the large-font variants that weren't drawn can't be checked from a static render, so I left them out.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.suite-0.8.1-s3/check.reply.txt",
+    "sha256": "9872080e19fb68bc8455ab3dc0c02c18b2d0f7c7ebada6fc06e93ccea4b8de44"
+  }
+}

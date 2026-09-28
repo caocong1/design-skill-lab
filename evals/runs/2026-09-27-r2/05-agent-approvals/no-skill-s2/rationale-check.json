@@ -1,0 +1,117 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "no-skill-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/run-approval-01.png",
+      "render/run-approval-02.png",
+      "render/run-approval-03.png",
+      "render/run-error-01.png",
+      "render/run-error-02.png",
+      "render/run-progress-01.png",
+      "render/run-progress-02.png",
+      "render/run-result-01.png",
+      "render/run-result-02.png",
+      "render/run-result-03.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/05-agent-approvals.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "Every step shows its permission level (Read only / Moves money · needs approval / Adds to close checklist) plus a status tag with an icon and text, so state never relies on colour alone.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "run-progress-02.png: the permission tags are on every step, but the step 4 and step 5 'Not started' status tags are text only, with no icon. The other status tags (Done, Running, Waiting, Needs your approval, Partly failed, Approved) do have icons. Status still does not depend on colour alone, so only the 'with an icon' part fails."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "a right rail holds run details, permissions and policy",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: the right rail has the 'Run details', 'Approval policy' and 'What the assistant may do' cards. run-progress-01.png: the rail has 'Run details', 'What the assistant may do' and 'Need to stop?'."
+    },
+    {
+      "claim": "Every step shows its permission level (Read only / Moves money · needs approval / Adds to close checklist) plus a status tag with an icon and text, so state never relies on colour alone.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "run-progress-02.png: the permission tags are on every step, but the step 4 and step 5 'Not started' status tags are text only, with no icon. The other status tags (Done, Running, Waiting, Needs your approval, Partly failed, Approved) do have icons. Status still does not depend on colour alone, so only the 'with an icon' part fails."
+    },
+    {
+      "claim": "Tool names (`bills.list`, `bank_feed.fetch`, `payments.create_batch`) appear as small secondary labels",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png: small code chips 'bills.list · 1.2 s' and 'bank_feed.fetch ×2 · 4.8 s' sit under the outcome text. run-approval-01.png: 'payments.create_batch' appears inline in the card."
+    },
+    {
+      "claim": "the progress bar is 39/49 (shown as 80%); the \"currently writing\" text is shown mid-stream with a static caret",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png: step 3 reads '39 of 49 invoices checked' with an '80%' bar. run-progress-02.png: the 'Checking Oakridge Office Supply INV-1057 ($2,315.40) against card transactions…' line ends in a block caret."
+    },
+    {
+      "claim": "\"Stop run\" says stopping ends the run after the current check",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png, right rail 'Need to stop?': 'Stopping ends the run after the current check.' A Stop run button is in the header and in the rail."
+    },
+    {
+      "claim": "the approval card sits above the plan so it is the first thing Dana sees; steps 1–3 are summarised below it",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: the 'Approve payment batch' card comes right after the header. run-approval-02/03.png: 'Plan and progress' with steps 1–3 marked Done follows below it."
+    },
+    {
+      "claim": "\"Approve without Oakridge\" is styled as the primary choice ... All four choices are shown with what each one does.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: 'Approve without Oakridge' is the only filled green button. 'Approve and schedule all 7', 'Edit batch' and 'Reject' are outlined buttons, and each has a description next to it."
+    },
+    {
+      "claim": "\"Not in this batch\" lists the 4 flagged invoices",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: the 'Not in this batch' box lists Calder Freight INV-2291, Pellucid Cloud INV-88120, Marisol Catering INV-4410 and Brightline Janitorial INV-7702."
+    },
+    {
+      "claim": "this separate run shows step 1 as done with the same counts (52 found, 49 to reconcile)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-error-01.png: step 1 is marked Done with '52 invoices found, 3 duplicates skipped, 49 to reconcile.'"
+    },
+    {
+      "claim": "no elapsed time is shown; the header shows \"Paused at 10:00:47\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-error-01.png: the header meta reads 'Paused at 10:00:47', with no start time or elapsed time. Run details shows 'Now 10:00:47'."
+    },
+    {
+      "claim": "the cancel deadline (5:00 pm ET, 29 Sep) is carried over from the approval moment",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01.png: the banner reads '...You can cancel it in Payments until 5:00 pm ET on Tue 29 Sep.'"
+    },
+    {
+      "claim": "the flagged-item buttons turn each suggested action in the brief into a button ... \"Mark details confirmed\" on the Oakridge hold",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01/02.png: the buttons are Request corrected invoice, Pay $252.00 difference, Review refund email, Mark as matched / Keep flagged, Mark as paid another way / Pay now. The Oakridge hold card has a 'Mark details confirmed' button."
+    }
+  ],
+  "notes": "facts.md reports all four pages with 0 text nodes below AA, 0 target failures and no overflow. It also shows no truncation. The one mismatch is the claim that every status tag has an icon: the 'Not started' tags in run-progress-02.png are text only. The Stop run and Retry outcomes are described on screen, but the behaviour itself can't be checked in a static render.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.no-skill-s2/check.reply.txt",
+    "sha256": "7c77cf70aa630d8b3b64bfb8adccbedeed5740def2562a3666491122064f7f81"
+  }
+}

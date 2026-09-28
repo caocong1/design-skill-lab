@@ -1,0 +1,44 @@
+{
+ "brief": "02-devtool-landing-en",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 3,
+   "evidence": [
+    "A/desktop-01.png: install command with Copy, Get started and legible 18-line code card all above the fold",
+    "A/desktop-02.png: three how-it-works cards with small per-step diagrams (column merge table, relay list)",
+    "A/mobile-01.png: header keeps only GitHub icon and Get started; Docs, Pricing and other nav links have no menu replacement",
+    "A/desktop-01.png: cream background with faint wave lines, dark code card and green accent; competent but a familiar dev-tool look"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 2,
+   "evidence": [
+    "B/desktop-02.png: worked example 'Two people edit the same row offline' shows phone, laptop and the per-column merged result, explaining local-first concretely",
+    "B/desktop-01.png: hero merge-preview card floats top right, apart from the code block, so the composition feels slightly disjointed",
+    "facts.md: desktop 'npm install @driftless/client' measured 1.12:1; primary install text fails AA",
+    "B/mobile-01.png: Menu button replaces nav; code wraps with hanging indents and stays readable",
+    "B/desktop-04.png: Plex Mono numerals set the benchmark figures with character"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B's worked example of offline edits merging per column, plus 'The catch, answered', speaks directly to sceptical developers; A explains the idea with more generic cards."
+  }
+ ],
+ "notes": "B's stacked-bar logo reads like a hamburger icon next to its Menu button, which is confusing. B's measured contrast failure looks like a scroll-fade state, but it counts under the rules. A is polished and consistent, with strong tight display type. It loses on mobile nav and is less specific in character."
+}

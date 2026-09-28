@@ -1,0 +1,12 @@
+# Assumptions
+- Lunch 12:00–1:00 is collapsed to one short band so the whole 8:00 AM–1:45 PM range fits without scrolling. The schedule itself is unchanged.
+- Minutes waited and minutes in a room are worked out from 8:04 AM and the recorded arrival and rooming times.
+- "Late" means past start time and not arrived. At 8:04 nobody is, so the screen shows "0 late".
+- "8 unconfirmed today" counts the [U] appointments in the given data (8:00 AM–1:45 PM). Afternoon data beyond 1:45 PM is not available.
+- "Arriving next" lists the confirmed patients not yet arrived for the next two slots (8:15 and 8:30).
+- Harold is already marked arrived (7:52), so his panel shows check-in as done. The remaining steps (copay, room) are the primary actions. A **Check in** button appears in the rail for patients not yet arrived.
+- "replied C" to the SMS reminder is shown as "confirmed" (C = Confirmed in the legacy status codes).
+- The status palette (green = waiting, blue = in room, amber = unconfirmed, red = alerts) is new. Every status is also written in words.
+- The Insurance / Eligibility tab label is shortened to "Insurance" to fit all 14 tabs on one row.
+- Server name and build number move to Help › About (not shown).
+- The Inter font loads from Google Fonts. The system sans font is the fallback.

@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>GD-20260927-0413 工单详情 · 恒川设备云</title>
+<style>
+:root{
+  --bg:#f3f5f8;
+  --surface:#ffffff;
+  --surface-2:#f7f8fa;
+  --line:#e3e7ed;
+  --line-strong:#cfd5de;
+  --text:#1b2230;
+  --text-2:#4a5364;
+  --text-3:#5f6878;
+  --primary:#1d5fd1;
+  --primary-hover:#174fb0;
+  --primary-soft:#eaf1fd;
+  --primary-line:#b9cff5;
+  --red:#b42318;
+  --red-strong:#c0271b;
+  --red-soft:#fdeceb;
+  --red-line:#f3c1bc;
+  --amber:#8a4b00;
+  --amber-soft:#fff4e0;
+  --amber-line:#f2d29b;
+  --green:#18743a;
+  --green-soft:#e8f5ec;
+  --green-line:#b7dfc4;
+  --violet:#5b3cc4;
+  --violet-soft:#f0ecfd;
+  --violet-line:#d3c8f6;
+  --grey-soft:#eef0f3;
+  --grey-line:#d6dae1;
+  --sidebar:#141b2b;
+  --sidebar-text:#c3cad7;
+  --radius:6px;
+  --mono:"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:13px;line-height:1.45;color:var(--text);background:var(--bg);
+  min-width:1440px;-webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;
+}
+a{color:var(--primary);text-decoration:none}
+button{font:inherit;color:inherit}
+svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+svg.i.s14{width:14px;height:14px}
+svg.i.s12{width:12px;height:12px}
+svg.i.s18{width:18px;height:18px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:-.1px}
+.muted{color:var(--text-3)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:200px 1fr;grid-template-rows:48px auto;min-height:100vh}
+.topbar{grid-column:1 / -1;display:flex;align-items:center;gap:16px;height:48px;padding:0 20px 0 0;background:#fff;border-bottom:1px solid var(--line)}
+.brand{width:200px;height:48px;display:flex;align-items:center;gap:10px;padding-left:18px;background:var(--sidebar);color:#fff;font-weight:600;font-size:15px;letter-spacing:.5px}
+.brand-mark{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#3b82f6,#1d5fd1);display:grid;place-items:center;font-size:13px;font-weight:700}
+.org{display:flex;align-items:center;gap:6px;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:var(--radius);color:var(--text);background:#fff;cursor:pointer}
+.org .i{color:var(--text-3)}
+.gsearch{display:flex;align-items:center;gap:8px;width:340px;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface-2);color:var(--text-3)}
+.gsearch kbd{margin-left:auto;font-family:var(--mono);font-size:11px;border:1px solid var(--line-strong);border-radius:4px;padding:0 5px;color:var(--text-3);background:#fff}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:22px}
+.clock{color:var(--text-3)}
+.bell{position:relative;display:grid;place-items:center;width:32px;height:32px;border-radius:var(--radius);color:var(--text-2)}
+.bell .dot{position:absolute;top:-1px;right:-11px;min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:var(--red-strong);color:#fff;font-size:11px;font-weight:600;line-height:16px;text-align:center;border:2px solid #fff;box-sizing:content-box}
+.user{display:flex;align-items:center;gap:8px}
+.avatar{width:28px;height:28px;border-radius:50%;background:#dbe6fb;color:#1d4fa8;display:grid;place-items:center;font-weight:600;font-size:12px}
+.user b{font-weight:600}
+.user span{color:var(--text-3)}
+
+.sidebar{background:var(--sidebar);color:var(--sidebar-text);padding:12px 10px}
+.nav a{display:flex;align-items:center;gap:10px;height:38px;padding:0 12px;border-radius:6px;color:var(--sidebar-text);font-size:13.5px}
+.nav a .i{color:#8e98ab}
+.nav .grp>a{color:#fff}
+.nav .grp>a .i{color:#fff}
+.nav .grp>a .chev{margin-left:auto}
+.nav .sub a{height:34px;padding-left:38px;font-size:13px}
+.nav .sub a.on{background:#1d5fd1;color:#fff;font-weight:500}
+.nav .sep{height:1px;background:#263047;margin:8px 4px}
+
+.main{padding:16px 20px 28px;min-width:0}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:var(--radius);border:1px solid var(--line-strong);background:#fff;color:var(--text);font-size:13px;white-space:nowrap;cursor:pointer}
+.btn:hover{border-color:#aab3c2}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.primary:hover{background:var(--primary-hover)}
+.btn.sm{height:28px;padding:0 10px;font-size:12.5px}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--text-2)}
+.btn.ghost:hover{background:var(--grey-soft)}
+.btn.danger-text{border-color:transparent;background:transparent;color:var(--red)}
+.btn.on-blue{background:#fff;border-color:var(--primary-line);color:var(--primary)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.link-btn{background:none;border:0;padding:0;color:var(--primary);cursor:pointer;font-size:13px}
+
+/* ---------- page header ---------- */
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
+.crumbs{display:flex;align-items:center;gap:6px;color:var(--text-3);font-size:12px;margin-bottom:2px}
+.crumbs .i{width:12px;height:12px}
+.crumbs a{color:var(--text-3)}
+h1{margin:0;font-size:20px;font-weight:600;line-height:28px}
+.head-actions{display:flex;gap:8px}
+
+/* ---------- quick views ---------- */
+.views{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.view{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;color:var(--text-2);border-bottom:2px solid transparent;margin-bottom:-1px;font-size:13.5px;cursor:pointer}
+.view.on{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+.view .n{min-width:22px;height:20px;padding:0 7px;border-radius:10px;background:var(--grey-soft);color:var(--text-2);font-size:12px;font-weight:500;line-height:20px;text-align:center}
+.view.on .n{background:var(--primary-soft);color:var(--primary)}
+.view.alert .n{background:var(--red-strong);color:#fff;font-weight:600}
+.view.alert{color:var(--red)}
+.view.warn .n{background:var(--amber-soft);color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber-line)}
+.view .sk{width:26px;height:12px;border-radius:6px}
+
+/* ---------- filters ---------- */
+.filters{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:8px 8px 0 0;border-bottom:0}
+.field{display:flex;align-items:center;gap:6px;height:32px;padding:0 8px 0 10px;border:1px solid var(--line-strong);border-radius:var(--radius);background:#fff;white-space:nowrap;cursor:pointer}
+.field .lab{color:var(--text-3)}
+.field .val{color:var(--text)}
+.field .val.ph{color:var(--text-3)}
+.field .i{color:var(--text-3)}
+.field.kw{width:228px;cursor:text}
+.field.kw .ph{color:var(--text-3)}
+.field.date{gap:8px}
+.field.active{border-color:var(--primary);background:var(--primary-soft)}
+.field.active .val{color:var(--primary);font-weight:600}
+.filters .spacer{flex:1}
+.chips{display:flex;align-items:center;gap:8px;padding:0 12px 10px;background:#fff;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 6px 0 10px;border-radius:13px;background:var(--primary-soft);color:#16479e;font-size:12.5px;border:1px solid var(--primary-line)}
+.chip .x{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;color:#16479e}
+.chips .lbl{color:var(--text-3);font-size:12.5px}
+
+/* ---------- table card ---------- */
+.tcard{background:#fff;border:1px solid var(--line);border-radius:0 0 8px 8px}
+.tbar{display:flex;align-items:center;gap:10px;height:48px;padding:0 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tbar .count{color:var(--text-2)}
+.tbar .count b{color:var(--text);font-weight:600}
+.tbar .right{margin-left:auto;display:flex;align-items:center;gap:12px;color:var(--text-3)}
+.tbar.selected{background:var(--primary-soft);border-bottom-color:var(--primary-line)}
+.tbar.selected .count{color:#16479e;font-weight:600}
+.tbar .vsep{width:1px;height:18px;background:var(--line-strong)}
+.sortnote{display:flex;align-items:center;gap:4px}
+
+table.grid{width:100%;border-collapse:collapse;table-layout:fixed}
+.grid th{height:38px;padding:0 8px;text-align:left;font-weight:500;color:var(--text-2);background:var(--surface-2);border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px}
+.grid th.sorted{color:var(--text)}
+.grid th .i{width:13px;height:13px;margin-left:2px;color:var(--primary)}
+.grid td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.grid tr:last-child td{border-bottom:0}
+.grid tbody tr:hover td{background:#fafbfc}
+.grid tr.sel td{background:#f1f6fe}
+.grid tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--primary)}
+.grid td.cb,.grid th.cb{padding:0 0 0 14px}
+.cbx{width:16px;height:16px;border:1.5px solid #9aa3b2;border-radius:4px;background:#fff;display:grid;place-items:center}
+.cbx.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.cbx.part{background:var(--primary);border-color:var(--primary)}
+.cbx.part::after{content:"";width:8px;height:2px;background:#fff;border-radius:1px}
+.cbx .i{width:12px;height:12px;stroke-width:3}
+.cbx.dis{background:var(--grey-soft);border-color:var(--grey-line)}
+.two{display:flex;flex-direction:column;gap:1px;min-width:0}
+.two .l1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.two .l2{font-size:12px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ttl{color:var(--text);font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+a.ttl:hover{color:var(--primary)}
+.id{color:var(--primary)}
+.time .l1{font-size:12.5px}
+.ops{display:flex;gap:12px;white-space:nowrap}
+.ops .strong{font-weight:600}
+
+/* priority */
+.pri{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 7px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap}
+.pri .lv{font-family:var(--mono);font-size:11.5px;font-weight:700}
+.pri.p1{background:var(--red-strong);color:#fff}
+.pri.p2{background:#fff0e4;color:#9a3d06;box-shadow:inset 0 0 0 1px #f5c9a6}
+.pri.p3{background:#eef3fb;color:#2c4b7a;box-shadow:inset 0 0 0 1px #cfdcf0}
+.pri.p4{background:#fff;color:var(--text-2);box-shadow:inset 0 0 0 1px var(--grey-line)}
+
+/* status */
+.st{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px 0 6px;border-radius:11px;font-size:12px;font-weight:500;white-space:nowrap}
+.st .i{width:13px;height:13px}
+.st.pending{background:var(--amber-soft);color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber-line)}
+.st.assigned{background:var(--primary-soft);color:#1a4fae;box-shadow:inset 0 0 0 1px var(--primary-line)}
+.st.doing{background:#1d5fd1;color:#fff}
+.st.hold{background:var(--grey-soft);color:#454d5c;box-shadow:inset 0 0 0 1px var(--grey-line)}
+.st.accept{background:var(--violet-soft);color:var(--violet);box-shadow:inset 0 0 0 1px var(--violet-line)}
+.st.closed{background:#fff;color:var(--text-3);box-shadow:inset 0 0 0 1px var(--grey-line)}
+.st-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.st-wrap .l2{font-size:12px;color:var(--text-3);padding-left:6px}
+
+/* SLA */
+.sla{display:flex;align-items:flex-start;gap:5px}
+.sla .i{margin-top:2px;width:14px;height:14px}
+.sla .v{font-weight:600;white-space:nowrap}
+.sla .k{font-size:12px;color:var(--text-3);white-space:nowrap}
+.sla.ok .i{color:var(--text-3)}
+.sla.ok .v{font-weight:500}
+.sla.soon{color:var(--amber)}
+.sla.over .v{color:var(--red)}
+.sla.over .i{color:var(--red)}
+.sla.over .tag{display:inline-block}
+.sla.paused{color:var(--text-3)}
+.sla.paused .v{font-weight:500}
+.sla.done{color:var(--green)}
+.sla.done .v{font-weight:500}
+.sla.late{color:#a33a12}
+.sla.late .v{font-weight:500}
+tr.overdue td:nth-child(2){box-shadow:none}
+tr.overdue td:first-child{box-shadow:inset 3px 0 0 var(--red-strong)}
+tr.sel.overdue td:first-child{box-shadow:inset 3px 0 0 var(--red-strong)}
+
+/* pagination */
+.pager{display:flex;align-items:center;gap:6px;height:52px;padding:0 12px;border-top:1px solid var(--line);color:var(--text-2)}
+.pager .total{margin-right:auto}
+.pg{min-width:30px;height:30px;padding:0 6px;border:1px solid var(--line-strong);border-radius:var(--radius);display:grid;place-items:center;background:#fff;color:var(--text)}
+.pg.on{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+.pg.dis{color:#a4acb9;background:var(--surface-2)}
+.pg.dots{border:0;background:none}
+.pager .field{height:30px}
+.jump{display:flex;align-items:center;gap:6px;margin-left:8px}
+.jump .in{width:44px;height:30px;border:1px solid var(--line-strong);border-radius:var(--radius);display:grid;place-items:center;color:var(--text-3)}
+
+/* ---------- states ---------- */
+.state{padding:56px 24px 64px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.state .ico{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px}
+.state .ico .i{width:26px;height:26px}
+.state h2{margin:0 0 6px;font-size:16px;font-weight:600}
+.state p{margin:0;color:var(--text-2);max-width:640px}
+.state .acts{display:flex;gap:10px;margin-top:20px}
+.state.empty .ico{background:var(--grey-soft);color:var(--text-2)}
+.state.error .ico{background:var(--red-soft);color:var(--red)}
+.errbox{margin-top:16px;display:grid;grid-template-columns:auto auto;gap:4px 16px;padding:12px 16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface-2);text-align:left;font-size:12.5px}
+.errbox dt{color:var(--text-3)}
+.errbox dd{margin:0;color:var(--text)}
+.hint{margin-top:14px;font-size:12.5px;color:var(--text-3)}
+
+.sk{display:block;background:linear-gradient(90deg,#eceff3 0%,#f6f7f9 40%,#eceff3 80%);background-size:300% 100%;border-radius:4px;animation:sh 1.4s ease-in-out infinite}
+@keyframes sh{0%{background-position:100% 0}100%{background-position:0 0}}
+.sk.h12{height:12px}.sk.h10{height:10px}.sk.h20{height:20px;border-radius:10px}
+.loadbar{display:flex;align-items:center;gap:8px;color:var(--text-2)}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid #cbd7ee;border-top-color:var(--primary);animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ---------- detail ---------- */
+.card{background:#fff;border:1px solid var(--line);border-radius:8px}
+.card-h{display:flex;align-items:center;gap:10px;height:46px;padding:0 16px;border-bottom:1px solid var(--line)}
+.card-h h3{margin:0;font-size:14px;font-weight:600}
+.card-h .aside{margin-left:auto;color:var(--text-3);font-size:12.5px;display:flex;align-items:center;gap:6px}
+.card-b{padding:14px 16px}
+.dhead{padding:16px 20px 0}
+.dhead-top{display:flex;gap:24px}
+.dh-left{flex:1;min-width:0}
+.idline{display:flex;align-items:center;gap:10px;color:var(--text-2);margin-bottom:6px}
+.idline .mono{font-size:13px;color:var(--text)}
+.idline .sep{width:1px;height:12px;background:var(--line-strong)}
+.dtitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.dtitle h1{font-size:22px;line-height:30px}
+.pri.lg,.st.lg{height:26px;font-size:13px;padding:0 10px}
+.st.lg{border-radius:13px;padding-left:8px}
+.st.lg .i{width:15px;height:15px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:10px;color:var(--text-2)}
+.meta .m{display:flex;align-items:center;gap:6px}
+.meta .m .i{color:var(--text-3);width:14px;height:14px}
+.meta .k{color:var(--text-3)}
+.slabox{width:500px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slai{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.slai .t{display:flex;align-items:center;justify-content:space-between;color:var(--text-2);font-size:12.5px}
+.slai .big{font-size:20px;font-weight:600;line-height:28px;margin-top:2px}
+.slai .sub{font-size:12px;color:var(--text-3)}
+.slai.okk{background:var(--green-soft);border-color:var(--green-line)}
+.slai.okk .big{color:var(--green)}
+.slai.run{background:#fff;border-color:var(--primary-line)}
+.badge-ok{display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 7px;border-radius:10px;background:#fff;color:var(--green);font-size:12px;font-weight:600;box-shadow:inset 0 0 0 1px var(--green-line)}
+.badge-run{display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 7px;border-radius:10px;background:var(--primary-soft);color:#1a4fae;font-size:12px;font-weight:600}
+.bar{height:6px;border-radius:3px;background:#e4e9f2;margin:8px 0 5px;position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--primary)}
+.bar.full i{background:var(--green)}
+.bar-scale{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-3)}
+.actbar{display:flex;align-items:center;gap:8px;margin-top:14px;padding:12px 0 14px;border-top:1px solid var(--line)}
+.actbar .vsep{width:1px;height:20px;background:var(--line);margin:0 4px}
+.actbar .grow{flex:1}
+
+.dgrid{display:grid;grid-template-columns:minmax(0,1fr) 384px;gap:16px;margin-top:16px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px}
+.readings{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rd{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.rd .n{color:var(--text-2);font-size:12.5px;display:flex;align-items:center;justify-content:space-between}
+.rd .v{font-size:22px;font-weight:600;line-height:30px;margin-top:4px}
+.rd .v small{font-size:13px;font-weight:500;color:var(--text-2);margin-left:3px}
+.rd .r{font-size:12px;color:var(--text-3)}
+.rd.bad{border-color:var(--red-line);background:var(--red-soft)}
+.rd.bad .v{color:var(--red)}
+.flag{display:inline-flex;align-items:center;gap:3px;height:20px;padding:0 6px;border-radius:4px;font-size:11.5px;font-weight:600}
+.flag.bad{background:var(--red-strong);color:#fff}
+.flag.ok{background:var(--green-soft);color:var(--green);box-shadow:inset 0 0 0 1px var(--green-line)}
+.flag .i{width:12px;height:12px;stroke-width:2.5}
+.chart-h{display:flex;align-items:baseline;justify-content:space-between;margin:18px 0 6px}
+.chart-h b{font-size:13px;font-weight:600}
+.legend{display:flex;gap:16px;color:var(--text-2);font-size:12px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg-line{width:16px;height:2px;background:var(--primary);border-radius:1px}
+.lg-dash{width:16px;height:0;border-top:2px dashed var(--red-strong)}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font-family:inherit;font-size:11.5px;fill:var(--text-3)}
+
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:48px 20px 1fr;gap:0 10px;position:relative;padding-bottom:16px}
+.tl li:last-child{padding-bottom:0}
+.tl .tm{color:var(--text-2);font-family:var(--mono);font-size:12px;padding-top:1px;text-align:right}
+.tl .dot{position:relative;display:flex;justify-content:center}
+.tl .dot::before{content:"";position:absolute;top:18px;bottom:-16px;width:2px;background:var(--line)}
+.tl li:last-child .dot::before{display:none}
+.tl .dot span{position:relative;z-index:1;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line-strong);color:var(--text-2)}
+.tl .dot span .i{width:11px;height:11px;stroke-width:2.5}
+.tl .dot span.sys{background:var(--grey-soft)}
+.tl .dot span.me{background:var(--primary-soft);box-shadow:inset 0 0 0 1.5px var(--primary-line);color:var(--primary)}
+.tl .who{font-weight:600;margin-right:6px}
+.tl .role{color:var(--text-3);font-size:12px;margin-right:8px}
+.tl .txt{color:var(--text)}
+.tl .ev{color:var(--text-3);font-size:12px}
+.photos{display:flex;gap:10px;margin-top:8px}
+.photo{width:132px}
+.photo .ph{height:88px;border-radius:6px;border:1px solid var(--line);background:repeating-linear-gradient(135deg,#eef1f5 0 8px,#e6eaf0 8px 16px);display:grid;place-items:center;color:#7a8394}
+.photo .ph .i{width:22px;height:22px}
+.photo .cap{font-size:12px;color:var(--text-2);margin-top:4px}
+
+table.plain{width:100%;border-collapse:collapse}
+.plain th{text-align:left;font-weight:500;color:var(--text-3);font-size:12.5px;padding:0 0 8px;border-bottom:1px solid var(--line)}
+.plain td{padding:10px 0;border-bottom:1px solid var(--line)}
+.plain tr:last-child td{border-bottom:0}
+.plain .num{text-align:right;padding-right:24px}
+.plain th.num{padding-right:24px}
+.pill{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:500}
+.pill .i{width:12px;height:12px}
+.pill.out{background:var(--green-soft);color:var(--green);box-shadow:inset 0 0 0 1px var(--green-line)}
+.pill.wait{background:var(--amber-soft);color:var(--amber);box-shadow:inset 0 0 0 1px var(--amber-line)}
+
+dl.kv{display:grid;grid-template-columns:84px 1fr;gap:9px 12px;margin:0}
+dl.kv dt{color:var(--text-3)}
+dl.kv dd{margin:0;color:var(--text)}
+.dev-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.dev-ico{width:40px;height:40px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center}
+.dev-ico .i{width:20px;height:20px}
+.dev-head b{display:block;font-size:14px}
+.warnline{display:inline-flex;align-items:center;gap:4px;color:var(--amber);font-weight:600}
+.warnline .i{width:14px;height:14px}
+.people{display:flex;flex-direction:column;gap:12px}
+.person{display:flex;align-items:center;gap:10px}
+.person .avatar{width:34px;height:34px;font-size:13px}
+.person .nm{font-weight:600}
+.person .rl{font-size:12px;color:var(--text-3)}
+.person .tag{margin-left:auto;font-size:12px;color:var(--text-2);background:var(--grey-soft);border-radius:4px;padding:1px 7px}
+.person .tag.lead{background:var(--primary-soft);color:#1a4fae;font-weight:600}
+.person .tel{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-2);font-family:var(--mono)}
+.hist{list-style:none;margin:0;padding:0}
+.hist li{padding:10px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center}
+.hist li:first-child{padding-top:0}
+.hist li:last-child{border-bottom:0;padding-bottom:0}
+.hist .mono{color:var(--primary)}
+.hist .d{grid-column:1 / 2;color:var(--text);font-size:13px}
+.hist .d em{font-style:normal;color:var(--text-3);font-size:12px}
+.hist .st{grid-row:1 / 3;grid-column:2}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">恒</span>恒川设备云</div>
+    <button class="org" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1M10 21v-4h4v4"/></svg>恒川精密 · 苏州一厂<svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    <label class="gsearch"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>搜索工单号、设备编号</span><kbd>/</kbd></label>
+    <div class="top-right">
+      <span class="clock">2026-09-27 周日 09:42</span>
+      <a class="bell" href="#" aria-label="通知，5 条未读"><svg class="i s18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="dot">5</span></a>
+      <div class="user"><span class="avatar">李</span><b>李敏</b><span>· 运维主管</span><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    </div>
+  </header>
+  <nav class="sidebar nav" aria-label="主导航">
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>工作台</a>
+    <div class="grp">
+      <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h6"/></svg>工单管理<svg class="i s14 chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></a>
+      <div class="sub">
+        <a href="list.html" class="on" aria-current="page">工单列表</a>
+        <a href="#">我的工单</a>
+        <a href="#">工单统计</a>
+      </div>
+    </div>
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg>设备台账</a>
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>巡检计划</a>
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg>保养计划</a>
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>备件库存</a>
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-9"/></svg>报表中心</a>
+    <div class="sep"></div>
+    <a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>系统设置</a>
+  </nav>
+  <main class="main">
+
+<div class="crumbs" style="margin-bottom:10px"><a href="#">工单管理</a><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg><a href="list.html">工单列表</a><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg><span>GD-20260927-0413</span></div>
+<section class="card dhead">
+  <div class="dhead-top">
+    <div class="dh-left">
+      <div class="idline"><span class="mono">GD-20260927-0413</span><span class="sep"></span><span>创建于 09-27 09:12</span><span class="sep"></span><span>更新于 09-27 09:40</span></div>
+      <div class="dtitle"><h1>3号注塑机液压油温过高</h1><span class="pri p1 lg"><span class="lv">P1</span>紧急</span><span class="st doing lg"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>处理中</span></div>
+      <div class="meta">
+        <span class="m"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg><span class="k">来源</span>IoT 自动报警（规则 R-HYD-02：液压油温 &gt; 55°C 持续 20 分钟）</span>
+        <span class="m"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg><span class="k">设备</span><span class="mono">ZS-03-117</span> 注塑机 JM-3800</span>
+        <span class="m"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="k">位置</span>一厂 · A区 · 注塑线3 · 3号机位</span>
+        <span class="m"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg><span class="k">负责人</span>王建国</span>
+      </div>
+    </div>
+    <div class="slabox" aria-label="SLA">
+      <div class="slai okk">
+        <div class="t"><span>响应时限 15 分钟</span><span class="badge-ok"><svg class="i s12" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>达标</span></div>
+        <div class="big">用时 9 分钟</div>
+        <div class="bar full"><i style="width:60%"></i></div>
+        <div class="sub">09:21 到场签到</div>
+      </div>
+      <div class="slai run">
+        <div class="t"><span>修复时限 4 小时</span><span class="badge-run"><svg class="i s12" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>计时中</span></div>
+        <div class="big">剩余 3时30分</div>
+        <div class="bar"><i style="width:12.5%"></i></div>
+        <div class="bar-scale"><span>09:12 开始</span><span>截止 13:12</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="actbar">
+    <button class="btn primary" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>添加处理记录</button>
+    <button class="btn" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>提交验收</button>
+    <button class="btn" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>申请备件</button>
+    <button class="btn" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 3 4 4-4 4M20 7H4M8 21l-4-4 4-4M4 17h16"/></svg>转派</button>
+    <button class="btn" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H7v14h3zM17 5h-3v14h3z"/></svg>挂起</button>
+    <span class="grow"></span>
+    <button class="btn ghost" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>打印工单</button>
+    <button class="btn ghost" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>复制链接</button>
+    <span class="vsep"></span>
+    <button class="btn danger-text" type="button"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/></svg>关闭工单</button>
+  </div>
+</section>
+
+<div class="dgrid">
+  <div class="col">
+    <section class="card">
+      <div class="card-h"><h3>实时读数</h3><span class="aside"><svg class="i s14" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>09:41 更新</span></div>
+      <div class="card-b">
+        <div class="readings">
+          <div class="rd bad">
+  <div class="n">液压油温<span class="flag bad"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>超限</span></div>
+  <div class="v">68.4<small>°C</small></div>
+  <div class="r">正常范围 ≤ 55 °C</div>
+</div>
+          <div class="rd ">
+  <div class="n">系统油压<span class="flag ok"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>正常</span></div>
+  <div class="v">14.2<small>MPa</small></div>
+  <div class="r">正常范围 13–16 MPa</div>
+</div>
+          <div class="rd bad">
+  <div class="n">冷却水进水温度<span class="flag bad"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>超限</span></div>
+  <div class="v">31.5<small>°C</small></div>
+  <div class="r">正常范围 ≤ 28 °C</div>
+</div>
+          <div class="rd ">
+  <div class="n">主电机电流<span class="flag ok"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>正常</span></div>
+  <div class="v">87<small>A</small></div>
+  <div class="r">正常范围 ≤ 110 A</div>
+</div>
+        </div>
+        <div class="chart-h"><b>液压油温趋势 · 近 2 小时（每 10 分钟，°C）</b>
+          <span class="legend"><span><i class="lg-line"></i>液压油温</span><span><i class="lg-dash"></i>正常上限 55 °C</span></span></div>
+        <div class="chart"><svg viewBox="0 0 720 220" role="img" aria-label="液压油温近 2 小时趋势：07:40 为 46.1 °C，08:50 起超过 55 °C 上限，09:40 升至 68.4 °C">
+<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d5fd1" stop-opacity=".14"/><stop offset="1" stop-color="#1d5fd1" stop-opacity="0"/></linearGradient></defs>
+<rect x="40" y="12" width="604" height="95.625" fill="#c0271b" opacity=".05"/><line x1="40" x2="644" y1="192" y2="192" stroke="#c9d0da" stroke-width="1"/><text x="32" y="196" text-anchor="end">40</text><line x1="40" x2="644" y1="163.875" y2="163.875" stroke="#eceff3" stroke-width="1"/><text x="32" y="167.875" text-anchor="end">45</text><line x1="40" x2="644" y1="135.75" y2="135.75" stroke="#eceff3" stroke-width="1"/><text x="32" y="139.75" text-anchor="end">50</text><line x1="40" x2="644" y1="107.625" y2="107.625" stroke="#eceff3" stroke-width="1"/><text x="32" y="111.625" text-anchor="end">55</text><line x1="40" x2="644" y1="79.5" y2="79.5" stroke="#eceff3" stroke-width="1"/><text x="32" y="83.5" text-anchor="end">60</text><line x1="40" x2="644" y1="51.375" y2="51.375" stroke="#eceff3" stroke-width="1"/><text x="32" y="55.375" text-anchor="end">65</text><line x1="40" x2="644" y1="23.25" y2="23.25" stroke="#eceff3" stroke-width="1"/><text x="32" y="27.25" text-anchor="end">70</text><path d="M40.0,157.7 L90.3,153.8 L140.7,149.8 L191.0,141.9 L241.3,134.6 L291.7,124.5 L342.0,114.9 L392.3,105.4 L442.7,91.3 L493.0,72.7 L543.3,52.5 L593.7,39.6 L644.0,32.2 L644,192 L40,192 Z" fill="url(#ga)"/><line x1="40" x2="644" y1="107.625" y2="107.625" stroke="#c0271b" stroke-width="1.5" stroke-dasharray="5 4"/><text x="652" y="111.625" style="fill:#b42318;font-weight:600">上限 55</text><path d="M40.0,157.7 L90.3,153.8 L140.7,149.8 L191.0,141.9 L241.3,134.6 L291.7,124.5 L342.0,114.9 L392.3,105.4 L442.7,91.3 L493.0,72.7 L543.3,52.5 L593.7,39.6 L644.0,32.2" fill="none" stroke="#1d5fd1" stroke-width="2" stroke-linejoin="round"/><circle cx="40" cy="157.6875" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>07:40 · 46.1 °C</title></circle><circle cx="90.33333333333334" cy="153.75" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>07:50 · 46.8 °C</title></circle><circle cx="140.66666666666669" cy="149.8125" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>08:00 · 47.5 °C</title></circle><circle cx="191" cy="141.9375" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>08:10 · 48.9 °C</title></circle><circle cx="241.33333333333334" cy="134.625" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>08:20 · 50.2 °C</title></circle><circle cx="291.66666666666663" cy="124.5" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>08:30 · 52 °C</title></circle><circle cx="342" cy="114.93749999999999" r="3.5" fill="#1d5fd1" stroke="#fff" stroke-width="2"><title>08:40 · 53.7 °C</title></circle><circle cx="392.3333333333333" cy="105.37500000000001" r="3.5" fill="#c0271b" stroke="#fff" stroke-width="2"><title>08:50 · 55.4 °C</title></circle><circle cx="442.6666666666667" cy="91.31250000000001" r="3.5" fill="#c0271b" stroke="#fff" stroke-width="2"><title>09:00 · 57.9 °C</title></circle><circle cx="493" cy="72.74999999999999" r="3.5" fill="#c0271b" stroke="#fff" stroke-width="2"><title>09:10 · 61.2 °C</title></circle><circle cx="543.3333333333333" cy="52.50000000000003" r="3.5" fill="#c0271b" stroke="#fff" stroke-width="2"><title>09:20 · 64.8 °C</title></circle><circle cx="593.6666666666666" cy="39.56250000000003" r="3.5" fill="#c0271b" stroke="#fff" stroke-width="2"><title>09:30 · 67.1 °C</title></circle><circle cx="644" cy="32.24999999999997" r="5" fill="#c0271b" stroke="#fff" stroke-width="2"><title>09:40 · 68.4 °C</title></circle><text x="654" y="36.24999999999997" style="fill:#1b2230;font-weight:600;font-size:12.5px">68.4 °C</text><text x="392.3333333333333" y="93.37500000000001" text-anchor="middle" style="fill:#b42318;font-size:11.5px">08:50 超限</text><text x="40" y="212" text-anchor="middle">07:40</text><text x="140.66666666666669" y="212" text-anchor="middle">08:00</text><text x="241.33333333333334" y="212" text-anchor="middle">08:20</text><text x="342" y="212" text-anchor="middle">08:40</text><text x="442.6666666666667" y="212" text-anchor="middle">09:00</text><text x="543.3333333333333" y="212" text-anchor="middle">09:20</text><text x="644" y="212" text-anchor="middle">09:40</text>
+</svg>
+<table class="sr-only"><caption>液压油温（°C）</caption><tr><th>时间</th><th>油温</th></tr><tr><td>07:40</td><td>46.1</td></tr><tr><td>07:50</td><td>46.8</td></tr><tr><td>08:00</td><td>47.5</td></tr><tr><td>08:10</td><td>48.9</td></tr><tr><td>08:20</td><td>50.2</td></tr><tr><td>08:30</td><td>52</td></tr><tr><td>08:40</td><td>53.7</td></tr><tr><td>08:50</td><td>55.4</td></tr><tr><td>09:00</td><td>57.9</td></tr><tr><td>09:10</td><td>61.2</td></tr><tr><td>09:20</td><td>64.8</td></tr><tr><td>09:30</td><td>67.1</td></tr><tr><td>09:40</td><td>68.4</td></tr></table></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h3>处理记录</h3><span class="aside">共 6 条</span></div>
+      <div class="card-b"><ol class="tl"><li>
+  <span class="tm">09:12</span>
+  <span class="dot"><span class="sys"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span></span>
+  <div><span class="who">系统</span><div class="txt">自动创建工单（报警规则 R-HYD-02）</div></div>
+</li><li>
+  <span class="tm">09:14</span>
+  <span class="dot"><span class="me"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span></span>
+  <div><span class="who">李敏</span><span class="role">运维主管</span><div class="txt">派单给王建国，优先级 P1</div></div>
+</li><li>
+  <span class="tm">09:21</span>
+  <span class="dot"><span class=""><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span></span>
+  <div><span class="who">王建国</span><span class="role">机修组</span><div class="txt">到场签到（一厂 A区）</div></div>
+</li><li>
+  <span class="tm">09:28</span>
+  <span class="dot"><span class=""><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span></span>
+  <div><span class="who">王建国</span><span class="role">机修组</span><div class="txt">初步判断冷却水进水温度偏高，冷却器可能结垢；已将生产节拍降到 80%</div></div>
+</li><li>
+  <span class="tm">09:35</span>
+  <span class="dot"><span class=""><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg></span></span>
+  <div><span class="who">王建国</span><span class="role">机修组</span><div class="txt">上传照片 3 张（冷却器外观、滤网、温控表）</div><div class="photos"><div class="photo"><div class="ph"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></div><div class="cap">冷却器外观</div></div><div class="photo"><div class="ph"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></div><div class="cap">滤网</div></div><div class="photo"><div class="ph"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></div><div class="cap">温控表</div></div></div></div>
+</li><li>
+  <span class="tm">09:40</span>
+  <span class="dot"><span class=""><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span></span>
+  <div><span class="who">周强</span><span class="role">电气组</span><div class="txt">确认冷却水泵运行正常，电流 12.4 A</div></div>
+</li></ol></div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h3>备件</h3><span class="aside">2 项</span></div>
+      <div class="card-b">
+        <table class="plain">
+          <thead><tr><th>备件</th><th class="num">数量</th><th class="num">库存</th><th>状态</th></tr></thead>
+          <tbody>
+            <tr><td>板式冷却器滤芯 <span class="mono">BL-220</span></td><td class="num">× 1</td><td class="num">4</td><td><span class="pill out"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已出库</span></td></tr>
+            <tr><td>抗磨液压油 46# 18L</td><td class="num">× 1</td><td class="num">12</td><td><span class="pill wait"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>待领用</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div class="col">
+    <section class="card">
+      <div class="card-h"><h3>设备信息</h3></div>
+      <div class="card-b">
+        <div class="dev-head"><span class="dev-ico"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></svg></span><div><b class="mono" style="font-size:14px">ZS-03-117</b><span class="muted">注塑机 JM-3800</span></div></div>
+        <dl class="kv">
+          <dt>锁模力</dt><dd>380 吨</dd>
+          <dt>位置</dt><dd>一厂 A区 注塑线3 · 3号机位</dd>
+          <dt>投用时间</dt><dd>2021-04</dd>
+          <dt>上次保养</dt><dd>2026-08-30（季度保养）</dd>
+          <dt>本月报警</dt><dd><span class="warnline"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>3 次</span></dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h3>人员</h3></div>
+      <div class="card-b people">
+        <div class="person"><span class="avatar">王</span><div><div class="nm">王建国</div><div class="rl">机修组</div></div><div style="margin-left:auto;text-align:right"><span class="tag lead">负责人</span><div class="tel" style="margin-top:3px"><svg class="i s12" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>138****2716</div></div></div>
+        <div class="person"><span class="avatar" style="background:#e5e7eb;color:#374151">周</span><div><div class="nm">周强</div><div class="rl">电气组</div></div><span class="tag">协作</span></div>
+        <div class="person"><span class="avatar" style="background:#e5e7eb;color:#374151">李</span><div><div class="nm">李敏</div><div class="rl">运维主管</div></div><span class="tag">抄送</span></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-h"><h3>同设备近 30 天工单</h3><span class="aside">3 条</span></div>
+      <div class="card-b">
+        <ul class="hist">
+          <li><a class="mono" href="#">GD-20260925-0359</a><span class="st closed "><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已关闭</span><span class="d">模温机漏水</span></li>
+          <li><a class="mono" href="#">GD-20260911-0288</a><span class="st closed "><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已关闭</span><span class="d">液压油温偏高 <em>· 更换滤芯</em></span></li>
+          <li><a class="mono" href="#">GD-20260902-0241</a><span class="st closed "><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已关闭</span><span class="d">季度保养</span></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</div>
+  </main>
+</div>
+</body>
+</html>

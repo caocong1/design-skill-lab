@@ -1,0 +1,49 @@
+{
+ "brief": "06-redesign-legacy",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/schedule.png: left rail 'Here now' with waiting minutes and 'Due next' Check In buttons; the selected Brennan panel leads with Collect Copay, not Check In"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/schedule.png: wide patient search in the header, a full-width Check In under the alerts in the right panel, and the 10:15 Feld card labelled 'Double-booked' in text"
+   ]
+  },
+  "R": {
+   "fit": 3,
+   "hierarchy": 2,
+   "identity": 3,
+   "craft": 3,
+   "typography": 2,
+   "platform_a11y": 2,
+   "evidence": [
+    "before.png: 12 equal-weight action buttons, with patient alerts at the bottom of the right panel",
+    "before.png: tiny grid names cut off ('BRENNAN, HAROLD 75M F/...') and status shown only as bracket codes plus colour"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B puts search in the header and a full-width Check In beside the alerts; A's selected panel leads with Collect Copay and puts Check In in a side list."
+  }
+ ],
+ "notes": "Both pass all measured contrast and target checks, show status as text chips and mark the double booking. A's 'Due next' queue and check-in checklist are strong. Both keep the familiar clinician-column day view."
+}

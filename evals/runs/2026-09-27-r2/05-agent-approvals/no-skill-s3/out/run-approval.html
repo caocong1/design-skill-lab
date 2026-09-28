@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>Waiting for approval · Assistant · Fernhill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F3F4F1;--surface:#fff;--line:#DDE1DA;--line-2:#C7CDC4;
+  --ink:#17201C;--ink-2:#36413B;--muted:#56615B;
+  --brand:#1C5E41;--brand-2:#154A33;
+  --blue:#1A56AD;--blue-bg:#EBF2FC;--blue-line:#B8CEF0;
+  --green:#18683E;--green-bg:#E7F3EB;--green-line:#A9D3B8;
+  --amber:#7A4800;--amber-ic:#B86E00;--amber-bg:#FFF4D9;--amber-line:#E6B650;
+  --red:#A8221B;--red-bg:#FDEDEB;--red-line:#EDB1AB;
+  --violet:#5B3AA8;--violet-bg:#F1EDFB;
+}
+html{background:var(--bg)}
+body{font-family:Inter,system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;color:var(--ink);-webkit-font-smoothing:antialiased}
+svg{width:16px;height:16px;flex:none;display:inline-block;vertical-align:middle}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+code,.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:12.5px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:13px;color:var(--ink-2)}
+strong{font-weight:600}
+
+/* ---------- frame ---------- */
+.app{display:grid;grid-template-columns:224px 1fr;min-height:100vh}
+.side{background:#132A1F;color:#DDE8E1;padding:18px 12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:#fff;padding:4px 10px 22px;letter-spacing:-.01em}
+.logo{width:30px;height:30px;border-radius:8px;background:#2E7A55;display:grid;place-items:center;color:#fff}
+.logo svg{width:20px;height:20px}
+.side ul{list-style:none;display:flex;flex-direction:column;gap:2px}
+.side a{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:7px;font-weight:500;color:#D3E0D8}
+.side a.current{background:#FFFFFF;color:#132A1F;font-weight:600;box-shadow:inset 4px 0 0 #2E7A55}
+.navtag{font-size:11px;font-weight:500;color:#40574A}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{height:60px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.company{display:flex;gap:10px;align-items:center}
+.co-badge{width:32px;height:32px;border-radius:8px;background:#E6EDE8;color:var(--brand-2);font-weight:700;font-size:12px;display:grid;place-items:center}
+.co-name{font-weight:600;line-height:1.2}
+.co-sub,.u-role{font-size:12px;color:var(--muted);line-height:1.3}
+.user{display:flex;gap:10px;align-items:center;text-align:right}
+.u-name{font-weight:600;line-height:1.2}
+.avatar{width:34px;height:34px;border-radius:50%;background:#2E4B8F;color:#fff;font-weight:600;font-size:12px;display:grid;place-items:center;flex:none}
+.avatar.sm{width:28px;height:28px;font-size:11px}
+.content{padding:22px 32px 48px}
+
+/* ---------- run header ---------- */
+.crumbs{display:flex;gap:8px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.crumbs a{color:var(--brand);font-weight:500}
+.runhead h1{font-size:22px;line-height:1.3;letter-spacing:-.015em;font-weight:700}
+.request{display:flex;gap:10px;align-items:flex-start;margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;max-width:none}
+.req-meta{font-size:12.5px;color:var(--muted)}
+.req-meta strong{color:var(--ink)}
+.req-text{font-size:14px;color:var(--ink);margin-top:1px}
+
+/* ---------- status bar ---------- */
+.statusbar{display:flex;align-items:center;gap:14px;margin-top:14px;padding:14px 16px;border-radius:10px;border:1px solid;border-left-width:5px}
+.sb-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none}
+.sb-icon svg{width:20px;height:20px}
+.sb-text{flex:1;min-width:0}
+.sb-title{font-weight:700;font-size:15.5px;line-height:1.35}
+.sb-sub{font-size:13.5px;color:var(--ink-2);margin-top:1px}
+.sb-right{display:flex;align-items:center;gap:16px;flex:none}
+.sb-meta{display:flex;flex-direction:column;align-items:flex-end;font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.sb-running{background:var(--blue-bg);border-color:var(--blue-line);border-left-color:var(--blue)}
+.sb-running .sb-icon{background:#fff;color:var(--blue)}
+.sb-approval{background:var(--amber-bg);border-color:var(--amber-line);border-left-color:var(--amber-ic)}
+.sb-approval .sb-icon{background:var(--amber-ic);color:#fff}
+.sb-failed{background:var(--red-bg);border-color:var(--red-line);border-left-color:var(--red)}
+.sb-failed .sb-icon{background:var(--red);color:#fff}
+.sb-done{background:var(--green-bg);border-color:var(--green-line);border-left-color:var(--green)}
+.sb-done .sb-icon{background:var(--green);color:#fff}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;padding:0 14px;border-radius:8px;border:1px solid transparent;font-weight:600;font-size:13.5px;white-space:nowrap;line-height:1}
+.btn svg{width:14px;height:14px}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary-alt{background:#fff;color:var(--brand-2);border:1.5px solid var(--brand)}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost{background:transparent;color:var(--ink-2);border-color:transparent;text-decoration:underline;text-underline-offset:3px}
+.btn-stop{background:#fff;color:var(--red);border-color:var(--red-line)}
+.btn-danger-ghost{background:#fff;color:var(--red);border-color:var(--red-line)}
+.btn.full{width:100%;margin-top:12px}
+
+/* ---------- layout ---------- */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;margin-top:22px;align-items:start}
+.col-rail{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.card.pad{padding:16px 18px}
+.sec-h{font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec-h.mt{margin-top:28px}
+.sec-sub{font-size:13px;font-weight:400;color:var(--muted)}
+
+/* ---------- steps ---------- */
+.steps{list-style:none;position:relative}
+.step{position:relative;display:grid;grid-template-columns:32px minmax(0,1fr);gap:14px;padding-bottom:12px}
+.step:not(:last-child)::before{content:"";position:absolute;left:15px;top:34px;bottom:0;width:2px;background:var(--line-2)}
+.step.s-done:not(:last-child)::before{background:var(--green-line)}
+.marker{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;margin-top:10px;position:relative;z-index:1}
+.marker svg{width:16px;height:16px}
+.s-done .marker{background:var(--green);color:#fff}
+.s-running .marker{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.s-approval .marker{background:var(--amber-ic);color:#fff}
+.s-failed .marker{background:var(--red);color:#fff}
+.s-todo .marker{background:#fff;color:#7A847E;border:1.5px dashed #8E9892}
+.step-main{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:0}
+.step.is-current .step-main{box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(20,40,30,.06)}
+.s-running.is-current .step-main{border-color:var(--blue-line);border-width:1.5px}
+.s-approval.is-current .step-main{border-color:var(--amber-line);border-width:1.5px}
+.s-failed.is-current .step-main{border-color:var(--red-line);border-width:1.5px}
+.s-todo .step-main{background:transparent;border-style:dashed;border-color:var(--line-2)}
+.step-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.step-eyebrow{font-size:12px;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.step-title{font-size:14.5px;font-weight:600;line-height:1.4;margin-top:2px}
+.step-body{margin-top:8px;color:var(--ink-2)}
+.step-body>p{margin-bottom:6px}
+.step-body>p:last-child{margin-bottom:0}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;line-height:1.5}
+.tag svg{width:12px;height:12px}
+.tag-read{background:#EEF1EC;color:#3D4842}
+.tag-approve{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-line)}
+.state{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap;flex:none}
+.state svg{width:13px;height:13px}
+.state.sm{font-size:12px;padding:3px 9px}
+.st-done{background:var(--green-bg);color:var(--green)}
+.st-running{background:var(--blue-bg);color:var(--blue)}
+.st-approval{background:var(--amber-bg);color:var(--amber)}
+.st-failed{background:var(--red-bg);color:var(--red)}
+.st-todo{background:#EEF0EC;color:#4B5650}
+.inline-state{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.inline-state svg{width:14px;height:14px}
+.inline-state.st-running,.inline-state.st-approval,.inline-state.st-failed{background:none;padding:0}
+.tool{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);background:#F4F5F2;border:1px solid var(--line);border-radius:6px;padding:2px 8px;margin-top:2px}
+.tool code{color:var(--ink-2);font-size:12px}
+.tool-meta::before{content:"·";margin-right:8px}
+p .tool{margin-top:0;padding:0 6px}
+
+.compact .step{padding-bottom:8px}
+.compact .step-main{padding:9px 14px}
+.compact .marker{margin-top:6px;width:28px;height:28px}
+.compact .step{grid-template-columns:28px minmax(0,1fr)}
+.compact .step:not(:last-child)::before{left:13px;top:30px}
+.compact .step-body{margin-top:3px;font-size:13.5px}
+
+/* progress */
+.progress{display:flex;align-items:center;gap:14px;margin:4px 0 12px}
+.bar{flex:1;height:8px;background:#E3E8F1;border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--blue);border-radius:99px}
+.prog-label{font-size:13px;color:var(--ink-2);white-space:nowrap}
+.sofar{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#FAFBF9}
+.sofar-h{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.sofar-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.sofar-list li{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;line-height:1.45}
+.sofar-list svg{margin-top:2px;width:15px;height:15px}
+.sofar-list .ok svg{color:var(--green)}
+.sofar-list .fl svg{color:var(--violet)}
+.live{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--blue-bg);font-size:13.5px}
+.live-label{display:inline-flex;align-items:center;gap:5px;font-weight:700;color:var(--blue);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding-top:1px;flex:none}
+.live-label svg{width:13px;height:13px}
+.live-text{color:var(--ink)}
+.caret{display:inline-block;width:7px;height:15px;background:var(--blue);vertical-align:-2px;margin-left:3px;border-radius:1px}
+
+/* facts */
+.facts{display:flex;flex-direction:column}
+.facts>div{display:grid;grid-template-columns:112px 1fr;gap:10px;padding:7px 0;border-top:1px solid #ECEEEA;font-size:13.5px}
+.facts>div:first-child{border-top:0;padding-top:0}
+.facts dt{color:var(--muted)}
+.facts dd{color:var(--ink);font-weight:500}
+.rail-card{padding:16px 18px}
+.rail-h{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);margin-bottom:12px}
+.rail-h2{font-size:12.5px;font-weight:600;color:var(--ink-2);margin:14px 0 8px}
+.rules{list-style:none;display:flex;flex-direction:column;gap:10px}
+.rules li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}
+.rules li svg{margin-top:2px;color:var(--brand)}
+.rules strong{display:block}
+.rules span{color:var(--muted);font-size:12.5px}
+
+/* approval */
+.approval{margin-top:4px}
+.ap-title{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.ap-sub{color:var(--ink-2);margin-top:2px;font-size:13.5px}
+.ap-sub .tool{margin:0 2px}
+.ap-facts{display:grid;grid-template-columns:1.2fr 1.2fr .7fr 1fr;border:1px solid var(--line);border-radius:10px;margin-top:14px;overflow:hidden}
+.ap-facts>div{padding:11px 14px;border-left:1px solid var(--line)}
+.ap-facts>div:first-child{border-left:0}
+.k{font-size:12px;color:var(--muted);font-weight:500}
+.v{font-size:15px;font-weight:600;color:var(--ink);margin-top:1px}
+.s{font-size:12.5px;color:var(--ink-2)}
+.ap-facts .total{background:#F1F6F2}
+.ap-facts .total .v{font-size:20px;color:var(--brand-2);line-height:1.2}
+.tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+.tbl th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);padding:0 12px 8px;border-bottom:1px solid var(--line-2)}
+.tbl td{padding:9px 12px;border-bottom:1px solid #EAEDE8;vertical-align:top;color:var(--ink)}
+.tbl th:first-child,.tbl td:first-child{padding-left:4px}
+.tbl th:last-child,.tbl td:last-child{padding-right:4px}
+.tbl .amt{text-align:right;white-space:nowrap}
+.tbl td.amt{font-weight:500}
+.tbl td.mono{color:var(--ink-2)}
+.tbl tfoot td{font-weight:700;border-bottom:0;border-top:1.5px solid var(--ink);padding-top:10px}
+.tbl tfoot td.amt{font-size:15px}
+.vendor{display:flex;align-items:center;gap:7px;font-weight:500}
+.row-warn td{background:var(--amber-bg)}
+.warn-ic svg{color:var(--amber-ic);width:15px;height:15px}
+.row-note{font-size:12.5px;color:var(--amber);font-weight:600;margin-top:2px;padding-left:22px}
+.callout{display:flex;gap:10px;padding:12px 14px;border-radius:8px;margin-top:14px;font-size:13.5px;line-height:1.5}
+.c-warn{background:var(--amber-bg);border:1px solid var(--amber-line);color:#3E2A00}
+.c-ic svg{color:var(--amber-ic);width:18px;height:18px;margin-top:1px}
+.ap-notes{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.note{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--ink-2)}
+.note svg{margin-top:2px;color:var(--muted);width:15px;height:15px}
+.note strong{color:var(--ink)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.choice{display:flex;flex-direction:column;gap:6px}
+.choice .btn{width:100%;height:40px}
+.choice p{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+
+/* rail mini stats */
+.mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini-stats>div{display:flex;flex-direction:column;background:#F6F7F4;border-radius:8px;padding:8px 10px}
+.mini-stats .big{font-size:20px;font-weight:700;line-height:1.2}
+.mini-stats span:last-child{font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:4px}
+.mini-stats svg{width:12px;height:12px}
+.mini-stats .flagged{background:var(--violet-bg)}
+.mini-stats .flagged .big{color:var(--violet)}
+.fmini{list-style:none;display:flex;flex-direction:column}
+.fmini li{display:flex;flex-direction:column;padding:8px 0;border-top:1px solid #ECEEEA;font-size:13px}
+.fmini li:first-child{border-top:0;padding-top:0}
+.ftype{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--violet)}
+.ftype svg{width:12px;height:12px}
+.fwho{font-weight:600;color:var(--ink)}
+.fdet{color:var(--ink-2);font-size:12.5px}
+
+/* error */
+.sources{list-style:none;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sources>li{display:grid;grid-template-columns:24px 1fr auto;gap:10px;padding:12px 14px;align-items:start}
+.sources>li+li{border-top:1px solid var(--line)}
+.src-bad{background:#FFF8F7}
+.src-ic{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;margin-top:1px}
+.src-ic svg{width:13px;height:13px}
+.src-ok .src-ic{background:var(--green);color:#fff}
+.src-bad .src-ic{background:var(--red);color:#fff}
+.src-name{font-weight:600}
+.src-det{font-size:13.5px;color:var(--ink-2);margin-top:2px}
+.timeline{list-style:none;margin:8px 0 6px;border-left:2px solid var(--red-line);padding-left:12px;display:flex;flex-direction:column;gap:4px}
+.timeline li{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--ink-2)}
+.timeline .t{font-weight:600;color:var(--ink);width:62px;flex:none}
+.timeline .tool{margin:0 4px 0 0;padding:0 6px}
+.decide{margin-top:14px}
+.decide-h{font-size:15px;font-weight:700;margin-bottom:10px}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.option{border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.option .btn{width:100%;height:auto;min-height:44px;padding:8px 12px;white-space:normal;line-height:1.2;text-align:center}
+.option p{font-size:13px;color:var(--ink-2);line-height:1.45}
+.okl{list-style:none;display:flex;flex-direction:column;gap:7px}
+.okl li{display:flex;gap:8px;align-items:flex-start;font-size:13.5px}
+.okl svg{color:var(--green);margin-top:2px;width:15px;height:15px}
+.okl.bad svg{color:var(--red)}
+
+/* result */
+.outcomes{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:14px;margin-top:16px}
+.oc{padding:14px 16px;border-top:4px solid var(--line-2)}
+.oc-k{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.oc-k svg{width:14px;height:14px}
+.oc-v{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-top:4px}
+.oc-of{font-size:15px;font-weight:500;color:var(--muted);letter-spacing:0}
+.oc-s{font-size:13px;color:var(--ink-2)}
+.oc-good{border-top-color:var(--green)}
+.oc-good .oc-k{color:var(--green)}
+.oc-warn{border-top-color:var(--amber-ic)}
+.oc-warn .oc-k{color:var(--amber)}
+.oc-flag{border-top-color:var(--violet)}
+.oc-flag .oc-k{color:var(--violet)}
+.flags{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.flag,.held{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 16px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:10px}
+.held{border-left-color:var(--amber-ic)}
+.ftag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--violet);background:var(--violet-bg);padding:2px 8px;border-radius:999px}
+.ftag svg{width:12px;height:12px}
+.ftag-held{color:var(--amber);background:var(--amber-bg)}
+.flag-who{margin-top:6px;font-size:14.5px}
+.flag-det{font-size:13.5px;color:var(--ink-2);margin-top:1px}
+.flag-sug{display:flex;gap:7px;align-items:flex-start;font-size:13.5px;color:var(--ink);margin-top:6px}
+.flag-sug svg{width:14px;height:14px;margin-top:3px;color:var(--brand)}
+.flag-r{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:200px}
+.batch-meta{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:12px;padding-bottom:4px}
+.batch-meta .v{font-size:14px}
+.batch-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px}
+.attach{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}
+.attach svg{width:18px;height:18px;color:var(--brand);margin-top:1px}
+.attach strong{display:block}
+.attach span{color:var(--ink-2)}
+.file{display:flex;align-items:center;gap:8px;color:var(--brand);font-weight:500;text-decoration:underline;text-underline-offset:3px}
+.file .mono{font-size:12.5px}
+.nw{white-space:nowrap}
+.tbl td.mono{padding-top:11px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 14.5V6M8 9.5C5.5 9.5 3.5 7.8 3 5c2.6 0 4.6 1.5 5 4.5zM8 7c.4-2.6 2.2-4.3 5-4.5-.3 2.9-2.3 4.5-5 4.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg></span>Fernhill</div>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#">Home</a></li><li><a href="#">Bills</a></li><li><a href="#">Invoices</a></li><li><a href="#">Banking</a></li><li><a href="#">Payments</a></li><li><a href="#">Reports</a></li><li><a href="#">Close</a></li><li><a href="#" class="current" aria-current="page">Assistant</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <div class="company"><span class="co-badge" aria-hidden="true">LO</span><div><div class="co-name">Larkspur Outdoor Co.</div><div class="co-sub">Company</div></div></div>
+      <div class="user"><div class="u-text"><div class="u-name">Dana Whitlock</div><div class="u-role">Controller</div></div><span class="avatar" aria-hidden="true">DW</span></div>
+    </header>
+    <main class="content">
+
+
+<div class="crumbs"><a href="#">Assistant</a><span aria-hidden="true">/</span><span>Run</span></div>
+<div class="runhead">
+  <h1>Reconcile August vendor invoices and prepare payments</h1>
+  <div class="request">
+    <span class="avatar sm" aria-hidden="true">DW</span>
+    <div>
+      <div class="req-meta"><strong>Dana Whitlock</strong> asked · Mon 28 Sep 2026, 09:58</div>
+      <p class="req-text">“Reconcile August vendor invoices against the bank feed, flag anything that doesn’t match, and prepare payments for everything due by Sep 30.”</p>
+    </div>
+  </div>
+</div>
+
+<section class="statusbar sb-approval" aria-label="Run status">
+  <span class="sb-icon" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="4.5" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/><rect x="9.1" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/></svg></span>
+  <div class="sb-text"><div class="sb-title">Paused · waiting for your approval to schedule 7 payments ($18,940.55)</div><div class="sb-sub">Steps 1–3 are done. Nothing has been sent. The run continues when you decide.</div></div>
+  <div class="sb-right"><div class="sb-meta"><span>Started 10:00:00</span><span class="num">Paused at 10:03:12</span></div><button class="btn btn-stop"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="4" y="4" width="8" height="8" rx="1.5" fill="currentColor"/></svg>Stop run</button></div>
+</section>
+<div class="grid">
+  <section class="col-main" aria-label="Plan and progress">
+    <h2 class="sec-h">Plan <span class="sec-sub">Proposed by the assistant · 5 steps</span></h2>
+    <ol class="steps">
+      
+<li class="step s-done">
+  <span class="marker" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  <div class="step-main">
+    <div class="step-top">
+      <div>
+        <div class="step-eyebrow">Step 1 of 5 <span class="tag tag-read"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>Read only</span></div>
+        <h3 class="step-title">Collect August vendor invoices from Bills</h3>
+      </div>
+      <span class="state st-done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Done</span>
+    </div>
+    <div class="step-body"><p>52 invoices found, 3 duplicates skipped. <strong>49 to reconcile.</strong></p></div>
+  </div>
+</li>
+      
+<li class="step s-done">
+  <span class="marker" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  <div class="step-main">
+    <div class="step-top">
+      <div>
+        <div class="step-eyebrow">Step 2 of 5 <span class="tag tag-read"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>Read only</span></div>
+        <h3 class="step-title">Pull bank transactions from 1 Aug to 27 Sep for Operating ••4417 and Card ••0385</h3>
+      </div>
+      <span class="state st-done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Done</span>
+    </div>
+    <div class="step-body"><p><strong>318 transactions</strong> from Operating ••4417 and Card ••0385.</p></div>
+  </div>
+</li>
+      
+<li class="step s-done">
+  <span class="marker" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  <div class="step-main">
+    <div class="step-top">
+      <div>
+        <div class="step-eyebrow">Step 3 of 5 <span class="tag tag-read"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>Read only</span></div>
+        <h3 class="step-title">Match invoices to transactions and flag mismatches</h3>
+      </div>
+      <span class="state st-done"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Done</span>
+    </div>
+    <div class="step-body"><p><strong>45 matched</strong>, <strong>4 flagged</strong>. Flagged invoices are listed on the right and are not in the payment batch.</p></div>
+  </div>
+</li>
+      
+<li class="step s-approval is-current">
+  <span class="marker" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="4.5" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/><rect x="9.1" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/></svg></span>
+  <div class="step-main">
+    <div class="step-top">
+      <div>
+        <div class="step-eyebrow">Step 4 of 5 <span class="tag tag-approve"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5.2 7V5.3a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Needs your approval before anything is sent</span></div>
+        <h3 class="step-title">Draft a payment batch for unpaid invoices due by 30 Sep</h3>
+      </div>
+      <span class="state st-approval"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="4.5" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/><rect x="9.1" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/></svg>Waiting for your approval</span>
+    </div>
+    <div class="step-body">
+        <div class="approval" role="region" aria-label="Payment approval">
+          <div class="ap-head">
+            <div>
+              <h4 class="ap-title">Approve this payment batch?</h4>
+              <p class="ap-sub">The assistant stopped before calling <span class="tool"><code>payments.create_batch</code></span>. This is exactly what will be scheduled.</p>
+            </div>
+          </div>
+          <div class="ap-facts">
+            <div><div class="k">Pay from</div><div class="v">Operating ••4417</div><div class="s num">Available $212,480.19</div></div>
+            <div><div class="k">Pay date</div><div class="v">Tue 29 Sep 2026</div><div class="s">ACH · arrives Wed 30 Sep</div></div>
+            <div><div class="k">Payments</div><div class="v num">7</div><div class="s">Due 29–30 Sep</div></div>
+            <div class="total"><div class="k">Total</div><div class="v num">$18,940.55</div><div class="s">&nbsp;</div></div>
+          </div>
+          <table class="tbl">
+            <thead><tr><th>Vendor</th><th>Invoice</th><th>Due</th><th class="amt">Amount</th></tr></thead>
+            <tbody>
+<tr>
+  <td><div class="vendor">Brightline Janitorial</div></td>
+  <td class="mono">INV-7731</td>
+  <td>30 Sep</td>
+  <td class="amt num">$2,150.00</td>
+</tr>
+<tr>
+  <td><div class="vendor">Calder Freight Co.</div></td>
+  <td class="mono">INV-2304</td>
+  <td>30 Sep</td>
+  <td class="amt num">$3,862.10</td>
+</tr>
+<tr>
+  <td><div class="vendor">Harrow & Pike LLP</div></td>
+  <td class="mono">INV-0918</td>
+  <td>29 Sep</td>
+  <td class="amt num">$6,400.00</td>
+</tr>
+<tr>
+  <td><div class="vendor">Northgate Electric</div></td>
+  <td class="mono">INV-55210</td>
+  <td>30 Sep</td>
+  <td class="amt num">$1,187.45</td>
+</tr>
+<tr class="row-warn">
+  <td><div class="vendor"><span class="warn-ic"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.8l6.6 11.6H1.4z" fill="currentColor"/><path d="M8 6v3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.4" r=".95" fill="#fff"/></svg></span>Oakridge Office Supply</div><div class="row-note">Bank details changed 26 Sep · first payment to new account ••7710</div></td>
+  <td class="mono">INV-1057</td>
+  <td>30 Sep</td>
+  <td class="amt num">$2,315.40</td>
+</tr>
+<tr>
+  <td><div class="vendor">Quillon Software</div></td>
+  <td class="mono">INV-2026-09</td>
+  <td>30 Sep</td>
+  <td class="amt num">$1,450.00</td>
+</tr>
+<tr>
+  <td><div class="vendor">Tern Water Co.</div></td>
+  <td class="mono">INV-33871</td>
+  <td>29 Sep</td>
+  <td class="amt num">$1,575.60</td>
+</tr></tbody>
+            <tfoot><tr><td colspan="3">Total · 7 payments</td><td class="amt num">$18,940.55</td></tr></tfoot>
+          </table>
+          <div class="callout c-warn">
+            <span class="c-ic"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.8l6.6 11.6H1.4z" fill="currentColor"/><path d="M8 6v3.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.4" r=".95" fill="#fff"/></svg></span>
+            <div><strong>Check before paying Oakridge Office Supply.</strong> Its bank details were changed 2 days ago (26 Sep). This would be the first payment to the new account ••7710. Changed bank details are a common route for payment fraud; confirm them with the vendor using the phone number already on file.</div>
+          </div>
+          <div class="ap-notes">
+            <div class="note"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M12.5 5.5A5 5 0 1 0 13 9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M13 2.5v3.3H9.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><div><strong>How to undo:</strong> you can cancel these payments until <strong>5:00 pm ET on Tue 29 Sep</strong>. After that, getting money back needs an ACH return, which takes 2–5 business days.</div></div>
+            <div class="note"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 14V2.5M3.5 3h8l-1.8 3 1.8 3h-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg><div><strong>Not included:</strong> the 4 flagged invoices are excluded from this batch.</div></div>
+            <div class="note"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5.2 7V5.3a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><div><strong>Policy:</strong> batches over $10,000 need approval from someone with the Payments role. You have it. Your approval is recorded in the audit log under your name.</div></div>
+          </div>
+          <div class="choices">
+            <div class="choice">
+              <button class="btn btn-primary-alt">Approve and schedule</button>
+              <p>Schedules all <span class="num">7 payments, $18,940.55</span>, including Oakridge to ••7710.</p>
+            </div>
+            <div class="choice">
+              <button class="btn btn-primary">Approve without Oakridge</button>
+              <p>Schedules <span class="num">6 payments, $16,625.15</span>. Oakridge INV-1057 is held.</p>
+            </div>
+            <div class="choice">
+              <button class="btn btn-sec">Edit batch</button>
+              <p>Adjust the batch yourself before approving it.</p>
+            </div>
+            <div class="choice">
+              <button class="btn btn-danger-ghost">Reject</button>
+              <p>No payments. The assistant continues to step 5.</p>
+            </div>
+          </div>
+        </div></div>
+  </div>
+</li>
+      
+<li class="step s-todo">
+  <span class="marker" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+  <div class="step-main">
+    <div class="step-top">
+      <div>
+        <div class="step-eyebrow">Step 5 of 5 </div>
+        <h3 class="step-title">Write a reconciliation summary and attach it to the August close checklist</h3>
+      </div>
+      <span class="state st-todo"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Not started</span>
+    </div>
+    
+  </div>
+</li>
+    </ol>
+  </section>
+  <aside class="col-rail" aria-label="Run details">
+    <div class="card rail-card">
+      <h2 class="rail-h">Reconciliation so far</h2>
+      <div class="mini-stats">
+        <div><span class="num big">49</span><span>invoices</span></div>
+        <div><span class="num big">45</span><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> matched</span></div>
+        <div class="flagged"><span class="num big">4</span><span><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 14V2.5M3.5 3h8l-1.8 3 1.8 3h-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg> flagged</span></div>
+      </div>
+      <h3 class="rail-h2">Flagged · excluded from the batch</h3>
+      <ul class="fmini"><li><span class="ftype"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 14V2.5M3.5 3h8l-1.8 3 1.8 3h-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Amount mismatch</span><span class="fwho">Calder Freight Co. · INV-2291</span><span class="fdet">Invoice $4,280.00 · debit $4,028.00</span></li><li><span class="ftype"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 14V2.5M3.5 3h8l-1.8 3 1.8 3h-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>Duplicate charge</span><span class="fwho">Pellucid Cloud · INV-88120</span><span class="fdet">$612.00 charged 3 Aug and 4 Aug</span></li><li><span class="ftype"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 14V2.5M3.5 3h8l-1.8 3 1.8 3h-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>FX difference</span><span class="fwho">Marisol Catering · INV-4410</span><span class="fdet">EUR 1,150.00 · USD 1,274.35 debited</span></li><li><span class="ftype"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 14V2.5M3.5 3h8l-1.8 3 1.8 3h-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>No payment found</span><span class="fwho">Brightline Janitorial · INV-7702</span><span class="fdet">$2,150.00 due 31 Aug · no transaction</span></li></ul>
+    </div>
+    <div class="card rail-card">
+      <h2 class="rail-h">Run details</h2>
+      <dl class="facts"><div><dt>Status</dt><dd><span class="inline-state st-approval"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="4.5" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/><rect x="9.1" y="3.5" width="2.4" height="9" rx="1" fill="currentColor"/></svg>Waiting for you</span></dd></div><div><dt>Started</dt><dd>Mon 28 Sep, 10:00:00</dd></div><div><dt>Paused at</dt><dd>10:03:12</dd></div><div><dt>Payments sent</dt><dd>None</dd></div></dl>
+    </div>
+    
+<div class="card rail-card">
+  <h2 class="rail-h">What the assistant may do</h2>
+  <ul class="rules">
+    <li><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg><div><strong>Read automatically</strong><span>Bills, bank feeds, matching</span></div></li>
+    <li><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5.2 7V5.3a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><div><strong>Move money only with your approval</strong><span>Every payment waits for a person</span></div></li>
+  </ul>
+</div>
+  </aside>
+</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

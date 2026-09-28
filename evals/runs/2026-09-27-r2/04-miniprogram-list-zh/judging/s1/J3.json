@@ -1,0 +1,38 @@
+{
+ "brief": "04-miniprogram-list-zh",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list.png: each card opens with a large 今天/明天 + time block on the left and the price on the right, so the next slot and the price compare at a glance; the price units (起, / 台, 上门费 ¥50 材料另计) are clearly separated",
+    "A/empty.png: already-applied chips can be removed, the reason repeats the filters, and three tappable options give the real counts 4/6/1 above 修改筛选/清除筛选"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/list.png: standard e-commerce card with an icon tile, the 最近可约 time in the card footer and orange-red prices; it reads as a generic template"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "right",
+   "reason": "A leads every card with a large next-slot time block, so time and price are easy to compare; B's generic cards push time into the footer with promo-orange prices."
+  }
+ ],
+ "notes": "Both sit the nav content left of the capsule and vertically centred with it, have no back button, keep the filter actions above the tab bar, and pass all measured AA checks. B marks selected filters with a checkmark (not colour alone), uses a filled icon for the current tab, and dims the page behind the filter panel; these are small platform advantages. A's filter panel has no dimmed backdrop, so it is less clearly an overlay. B's list facts show 0 marked targets, so that count proves nothing."
+}

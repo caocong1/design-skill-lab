@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "05-agent-approvals",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": ["A/run-progress-02.png: every step state has a text label and an icon (Done, Running, Not started, Needs you, Failed) as well as colour; facts show 0 AA failures and 0 target failures across 4 files",
+                       "A/run-approval-02.png: 'Approve and schedule' all 7 is the filled primary button, while the Oakridge warning is only an inline tinted row in the table"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": ["B/run-approval-02.png: 'Approve without Oakridge' is the primary button, and each of the four choices has its consequence written beside it; the Oakridge warning is a separate callout above the table (approval-01)",
+                       "B/run-approval-03.png: step states use labelled pills (Done, Needs your approval, Waiting) and numbered or dashed circles, not colour alone; facts clean on all 4 files"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B puts the Oakridge warning in its own callout and makes the safer 'Approve without Oakridge' the primary button; A's primary button approves all 7."}
+  ],
+  "notes": "Both pass every measured check and show state with text and shape. A has more character (Plex type, warm paper tone, AI tag) and keeps the error choices above the fold. In B the error choices sit below the fold behind a 'See options' button. B's result screen has a stray space before a comma in the duration line. The deciding factor is B's approval flow: it is safer and each choice explains what it does."
+}
+```

@@ -1,0 +1,464 @@
+{
+  "round": "2026-09-27-r2",
+  "method": "Before judging: every canonical frame of the 30 new arm-samples looked at as contact sheets (render/*.png at 700 px height, 3-4 per row; brief 06 frames at full size). no-skill-s1 renders come from the same out/ as round 1's no-skill arm, whose frames were looked at in round 1; that check is carried over. Visible text of every out/*.html (text nodes plus aria-label, alt, title, placeholder; script/style excluded) scanned in all 36 arm-samples for skill, suite and process vocabulary (skill, suite, direction, contract, own-world, elevate, design read, truth file, options board, DESIGN.md, critique, rationale, WCAG, a11y, annotation, mockup, reviewer, brief, token, prototype, wireframe, placeholder, fictional, contrast, AA, 4.5, studio, design-studio, critique-design, implement-design, 标注, 评审, 设计说明, 方案, 虚构, 示意). All text hits are product content: search-field placeholders (01, 06), \"token\" in code samples (02), \"4.5\" ratings (04).",
+  "summary": "0 identity leaks and 0 reviewer-addressed annotations in 36 arm-samples. Borderline items (sample-data labels on 02 suite illustrations) are listed per arm and not counted.",
+  "arms": [
+    {
+      "brief": "01-ops-console-zh",
+      "sample": "s1",
+      "arm": "no-skill-s1",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": [
+        "Same out/ as round 1 no-skill; round 1 visual check carried over, text scan rerun."
+      ]
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "sample": "s1",
+      "arm": "suite-0.8.1-s1",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "detail.html: [placeholder] 搜索工单号、设备编号",
+        "list-empty.html: [placeholder] 搜索工单号、设备编号",
+        "list-empty.html: [placeholder] 搜索工单号、标题、设备",
+        "list-error.html: [placeholder] 搜索工单号、设备编号",
+        "list-error.html: [placeholder] 搜索工单号、标题、设备",
+        "list-loading.html: [placeholder] 搜索工单号、设备编号",
+        "list-loading.html: [placeholder] 搜索工单号、标题、设备",
+        "list.html: [placeholder] 搜索工单号、设备编号",
+        "list.html: [placeholder] 搜索工单号、标题、设备"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "sample": "s2",
+      "arm": "no-skill-s2",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "sample": "s2",
+      "arm": "suite-0.8.1-s2",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "detail.html: [placeholder] 搜索工单号、设备编号",
+        "list-empty.html: [placeholder] 搜索工单号、设备编号",
+        "list-empty.html: [placeholder] 关键词：标题、设备、位置",
+        "list-error.html: [placeholder] 搜索工单号、设备编号",
+        "list-error.html: [placeholder] 关键词：标题、设备、位置",
+        "list-loading.html: [placeholder] 搜索工单号、设备编号",
+        "list-loading.html: [placeholder] 关键词：标题、设备、位置",
+        "list.html: [placeholder] 搜索工单号、设备编号",
+        "list.html: [placeholder] 关键词：标题、设备、位置"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "sample": "s3",
+      "arm": "no-skill-s3",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "01-ops-console-zh",
+      "sample": "s3",
+      "arm": "suite-0.8.1-s3",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "detail.html: [placeholder] 搜索工单号、设备编号",
+        "list-empty.html: [placeholder] 搜索工单号、设备编号",
+        "list-empty.html: [placeholder] 关键词：工单号、标题",
+        "list-error.html: [placeholder] 搜索工单号、设备编号",
+        "list-error.html: [placeholder] 关键词：工单号、标题",
+        "list-loading.html: [placeholder] 搜索工单号、设备编号",
+        "list-loading.html: [placeholder] 关键词：工单号、标题",
+        "list.html: [placeholder] 搜索工单号、设备编号",
+        "list.html: [placeholder] 关键词：工单号、标题"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "sample": "s1",
+      "arm": "suite-0.8.1-s1",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "index.html: , token });",
+        "index.html: ,\n  token,\n});"
+      ],
+      "notes": [
+        "Borderline, not counted: the conflict diagram carries a small \"example data\" tag (desktop-02, mobile-02/03). It labels the illustration for the page visitor, not the reviewer."
+      ]
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "sample": "s1",
+      "arm": "no-skill-s1",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "index.html: token,"
+      ],
+      "notes": [
+        "Not a leak: sticky header covers the top of the benchmarks heading in desktop-03 (\"Local reads are sub-millisecond\" cut off). Craft issue for judges, recorded only as an observation.",
+        "Same out/ as round 1 no-skill; round 1 visual check carried over, text scan rerun."
+      ]
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "sample": "s2",
+      "arm": "no-skill-s2",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "index.html: ,\n  token,\n});"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "sample": "s2",
+      "arm": "suite-0.8.1-s2",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "index.html: , token });"
+      ],
+      "notes": [
+        "Borderline, not counted: caption under the merge illustration \"Sample data. Illustration of per-column merge, not a benchmark.\" (desktop-03, mobile-02) and a pricing footnote \"A dash means the plan lists no figure for that row.\" Both address the page visitor."
+      ]
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "sample": "s3",
+      "arm": "no-skill-s3",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "index.html: token"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "02-devtool-landing-en",
+      "sample": "s3",
+      "arm": "suite-0.8.1-s3",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "index.html: , token });"
+      ],
+      "notes": [
+        "Borderline, not counted: \"sample data\" tags on the hero and conflict illustrations (desktop-01/02, mobile). They label the illustration for the page visitor."
+      ]
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s1",
+      "arm": "suite-0.8.1-s1",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s1",
+      "arm": "no-skill-s1",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": [
+        "Same out/ as round 1 no-skill; round 1 visual check carried over, text scan rerun."
+      ]
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s2",
+      "arm": "suite-0.8.1-s2",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s2",
+      "arm": "no-skill-s2",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s3",
+      "arm": "suite-0.8.1-s3",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "03-ios-consumer-screen",
+      "sample": "s3",
+      "arm": "no-skill-s3",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s1",
+      "arm": "suite-0.8.1-s1",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "filter.html: [aria-label] 滚筒洗衣机清洗，洁程家电服务，评分 4.5，已服务 598 次，¥119/ 台，最近可约 明天 10:30，距离 5.2 km",
+        "filter.html: 4.5",
+        "list.html: [aria-label] 滚筒洗衣机清洗，洁程家电服务，评分 4.5，已服务 598 次，¥119/ 台，最近可约 明天 10:30，距离 5.2 km",
+        "list.html: 4.5"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s1",
+      "arm": "no-skill-s1",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "filter.html: 4.5",
+        "list.html: 4.5"
+      ],
+      "notes": [
+        "Same out/ as round 1 no-skill; round 1 visual check carried over, text scan rerun."
+      ]
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s2",
+      "arm": "no-skill-s2",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "filter.html: 4.5",
+        "list.html: 4.5"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s2",
+      "arm": "suite-0.8.1-s2",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "filter.html: [aria-label] 评分 4.5",
+        "filter.html: 4.5",
+        "list.html: [aria-label] 评分 4.5",
+        "list.html: 4.5"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s3",
+      "arm": "suite-0.8.1-s3",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "list.html: [aria-label] 滚筒洗衣机清洗，洁程家电服务，评分 4.5，最近可约 明天 10:30，¥119 / 台，距离 5.2 km",
+        "list.html: 4.5"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "04-miniprogram-list-zh",
+      "sample": "s3",
+      "arm": "no-skill-s3",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "filter.html: 4.5",
+        "list.html: 4.5"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "sample": "s1",
+      "arm": "no-skill-s1",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": [
+        "Not a leak: run-result shows a \"For your auditors\" panel; it addresses the product's users (auditors), not reviewers.",
+        "Same out/ as round 1 no-skill; round 1 visual check carried over, text scan rerun."
+      ]
+    },
+    {
+      "brief": "05-agent-approvals",
+      "sample": "s1",
+      "arm": "suite-0.8.1-s1",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "sample": "s2",
+      "arm": "suite-0.8.1-s2",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "sample": "s2",
+      "arm": "no-skill-s2",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "sample": "s3",
+      "arm": "suite-0.8.1-s3",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "05-agent-approvals",
+      "sample": "s3",
+      "arm": "no-skill-s3",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [],
+      "notes": []
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "sample": "s1",
+      "arm": "suite-0.8.1-s1",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "schedule.html: [placeholder] Name, DOB or MRN"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "sample": "s1",
+      "arm": "no-skill-s1",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "schedule.html: [placeholder] Find patient: name, DOB or MRN"
+      ],
+      "notes": [
+        "Same out/ as round 1 no-skill; round 1 visual check carried over, text scan rerun."
+      ]
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "sample": "s2",
+      "arm": "suite-0.8.1-s2",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "schedule.html: [placeholder] Find patient: last, first, DOB or MRN"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "sample": "s2",
+      "arm": "no-skill-s2",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "schedule.html: [placeholder] Find patient: last name, first name, DOB or MRN"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "sample": "s3",
+      "arm": "suite-0.8.1-s3",
+      "label": "A",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "schedule.html: [placeholder] Find: Last, First or MRN"
+      ],
+      "notes": []
+    },
+    {
+      "brief": "06-redesign-legacy",
+      "sample": "s3",
+      "arm": "no-skill-s3",
+      "label": "B",
+      "identity_leak": false,
+      "reviewer_addressed_text": false,
+      "text_hits": [
+        "schedule.html: [placeholder] Find patient: Last, First or MRN"
+      ],
+      "notes": []
+    }
+  ]
+}

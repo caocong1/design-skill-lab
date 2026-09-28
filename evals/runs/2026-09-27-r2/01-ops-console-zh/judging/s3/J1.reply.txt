@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "01-ops-console-zh",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/list-01.png: overdue SLA shown as red warning icon + text with red row edge; about 12 rows, the views, filters and header all above the fold", "A/detail-01.png: 55 °C threshold line, over-limit band and a value table under the chart; both SLAs in the header band"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/list-01.png: SLA column uses filled red '已超时 12分/1时05分' badges, overdue row tinted, 待派单 row has an inline primary 派单 button, batch bar offers '选择全部 1,286 项'", "B/detail-01.png: chart titled '2 小时内升高 22.3 °C，仍在上升' with an '08:50 越过阈值' marker", "B/list-empty-01.png: targeted '移除「负责人 = 王建国」' action alongside clear-all"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B makes overdue SLAs unmissable with filled red badges and row tint, puts 派单 inline, and its trend chart states the rise and threshold crossing."}
+  ],
+  "notes": "Both are complete, AA-clean, and conventional admin consoles. A keeps date and time on one line, which scans a little better, and adds a value table under the chart. B wraps the date/time and location columns onto two lines, but it is more deliberate about the supervisor's fear of missing overdue work: newest-first processing log, a targeted empty-state action, and select-all across pages."
+}
+```

@@ -1,0 +1,69 @@
+{
+  "brief": "evals/briefs/01-ops-console-zh.md",
+  "rendered": "2026-09-28T01:28:58.434Z",
+  "items": [
+    {
+      "html": "list.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "list-01.png",
+        "list-02.png"
+      ],
+      "page_height": 1203,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "list-empty.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "list-empty-01.png"
+      ],
+      "page_height": 900,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "list-loading.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "list-loading-01.png",
+        "list-loading-02.png"
+      ],
+      "page_height": 1155,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "list-error.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "list-error-01.png"
+      ],
+      "page_height": 900,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "detail.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "detail-01.png",
+        "detail-02.png"
+      ],
+      "page_height": 1633,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

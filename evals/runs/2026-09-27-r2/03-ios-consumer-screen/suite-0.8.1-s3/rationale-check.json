@@ -1,0 +1,122 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.8.1-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/book.png",
+      "render/empty.png",
+      "render/today.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/03-ios-consumer-screen.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 9,
+    "contradicted": 3,
+    "not checkable": 0
+  },
+  "report_line": "claims: 9 verified, 3 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "Derived, not invented: \"8 min to go today\" (20 − 12), \"125 min\" this week … and the goal line at 20 min on the week chart",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "today.png goal card: '8 min to go today' and 'This week 125 min' are shown. The Mon–Sun bar chart below has no visible 20-min goal line."
+    },
+    {
+      "claim": "Copy on the first-run screen (… \"A little every day. You can change this later.\") is UI copy I wrote.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "empty.png: the goal card reads 'You can change this at any time.'. The text 'A little every day.' does not appear. The other two quoted lines do appear."
+    },
+    {
+      "claim": "An \"After your first session\" list says where the streak, this week and highlights will appear.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "empty.png: below the goal card there is one untitled sentence ('Your streak, this week's minutes and your highlights will appear here after your first reading session.'). There is no titled list."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "\"Start session\" sits with the book it times (the Middlemarch card on Today, under the header on Book detail)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: a filled green 'Start session' button sits inside the Middlemarch card, next to a tinted 'Log pages' button. book.png: a full-width 'Start session' sits directly under the cover and title block."
+    },
+    {
+      "claim": "iOS 26 floating Liquid Glass tab bar with Today, Library, Stats, and Search as the separate trailing search tab",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All three PNGs, bottom: a floating pill holds Today, Library and Stats, and a separate circular search button sits to its right."
+    },
+    {
+      "claim": "Tab bar placement: lifted so its bottom edge sits above the 34 pt home-indicator inset",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All PNGs: the tab bar ends at about y≈1675 px (≈838 pt), above the home indicator at about y≈1726 px. Nothing interactive overlaps the indicator."
+    },
+    {
+      "claim": "Book detail is shown pushed from Library, so Library is the selected tab. Back is a bare chevron in a glass circle (no \"Back\" text).",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: Library is highlighted in the tab bar, and the top-left circle shows only '<' with no text. A circular '…' button is at top right."
+    },
+    {
+      "claim": "A folded corner marks your place: on the cover of the book you are in (Today, Book detail), and as the blank page on the first-run screen",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png and book.png: the Middlemarch cover has a folded top-right corner. empty.png: a blank page illustration has a green folded corner."
+    },
+    {
+      "claim": "Derived, not invented: \"8 min to go today\" (20 − 12), \"125 min\" this week … and the goal line at 20 min on the week chart",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "today.png goal card: '8 min to go today' and 'This week 125 min' are shown. The Mon–Sun bar chart below has no visible 20-min goal line."
+    },
+    {
+      "claim": "Streak: 4 days … best 23. Shown on the Today goal card.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the goal card's top right reads 'Streak / 4 days / Best 23'."
+    },
+    {
+      "claim": "First run: \"Scan barcode\" is the prominent first step; \"Search by title\" (tinted) and \"Import from a CSV file\" (plain) are the alternatives.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: 'Scan barcode' is a filled green button, 'Search by title' a pale tinted button, and 'Import from a CSV file' a plain text link, in that order."
+    },
+    {
+      "claim": "The 20 min goal is preset and adjusted with − / + (44 pt targets).",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the 'Daily goal 20 min' card has circular − and + buttons. facts.md for empty.html: 'under 44 px: 0'."
+    },
+    {
+      "claim": "Copy on the first-run screen (… \"A little every day. You can change this later.\") is UI copy I wrote.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "empty.png: the goal card reads 'You can change this at any time.'. The text 'A little every day.' does not appear. The other two quoted lines do appear."
+    },
+    {
+      "claim": "An \"After your first session\" list says where the streak, this week and highlights will appear.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "empty.png: below the goal card there is one untitled sentence ('Your streak, this week's minutes and your highlights will appear here after your first reading session.'). There is no titled list."
+    },
+    {
+      "claim": "Book detail shows Highlights above Sessions so the quotation is on the first screen",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: 'Highlights 2' with the p. 194 quotation is fully visible above the tab bar. No Sessions section appears on the first screen."
+    }
+  ],
+  "notes": "Contrast claim ('all pass AA') is backed by facts.md: 0 of 44, 26 and 15 text nodes are below AA. The notes admit Today's 'Recent highlight' is off the first screen, and today.png confirms it. The two first-run contradictions look like copy that was changed without updating NOTES.md.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.suite-0.8.1-s3/check.reply.txt",
+    "sha256": "ce17c0de91e3fd040fea7412a7709474baa269140fe857a7ae4921b48246518b"
+  }
+}

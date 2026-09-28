@@ -1,0 +1,41 @@
+{
+ "brief": "01-ops-console-zh",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list-01.png: CJK titles break mid-word ('停在3/号通道', '吸嘴频繁堵/塞'); stacked two-line dates double row noise",
+    "A/list-01.png: priority badges carry signal-bar glyph plus text; mono ticket IDs scan well",
+    "A/detail-01.png: SLA cards and threshold line present, but readings values left-set, not aligned"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/detail-01.png: chart headline '2 小时内升高 22.3 °C，08:50 起超过上限', over-limit points marked red with legend; readings right-aligned with dimmed units",
+    "B/list-error-01.png: view counts replaced with '—' since data unknown, plus copy-request-ID action",
+    "B/list-01.png: overdue SLA cell wraps '12分' onto a second line inside red block"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B sets tighter one-line datetimes, breaks CJK titles at punctuation, and its detail chart and readings table state the anomaly outright; A breaks words mid-glyph."
+  }
+ ],
+ "notes": "Near-identical Ant-style shells; neither has a distinct identity beyond competent enterprise restraint. B edges on typographic setting (right-aligned numerals with subdued units, punctuation-aware wraps) and task-specific states (targeted '移除' buttons in empty, dashes for unknown counts in error). A's priority glyph redundancy and monospaced ticket IDs are its strengths. B's '关闭工单…' header ellipsis is a minor oddity."
+}

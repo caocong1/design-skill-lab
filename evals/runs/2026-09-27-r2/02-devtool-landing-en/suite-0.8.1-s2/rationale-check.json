@@ -1,0 +1,125 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "suite-0.8.1-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/desktop-01.png",
+      "render/desktop-02.png",
+      "render/desktop-03.png",
+      "render/desktop-04.png",
+      "render/desktop-05.png",
+      "render/desktop-06.png",
+      "render/desktop-07.png",
+      "render/desktop-08.png",
+      "render/mobile-01.png",
+      "render/mobile-02.png",
+      "render/mobile-03.png",
+      "render/mobile-04.png",
+      "render/mobile-05.png",
+      "render/mobile-06.png",
+      "render/mobile-07.png",
+      "render/mobile-08.png",
+      "render/mobile-09.png",
+      "render/mobile-10.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/02-devtool-landing-en.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "one green (#0A6650) that marks only actions",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Green is also used on things that are not actions: the 'Driftless' column header in the comparison (desktop-03.png, mobile-04.png), the step numbers 1/2/3 and the sync diagram lines (desktop-02.png), the dot next to 'Every device after sync' (mobile-04.png) and the Cloud Pro top border (desktop-06.png)."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "First viewport at both sizes: the headline (brief's message), one line on what it is, the copyable `npm install` command and one primary action (\"Get started\").",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png and mobile-01.png both show the H1 'Your app's data lives on the device first.', the 'Driftless is an open-source, embedded SQL database' line, the '$ npm install @driftless/client' box with a Copy button, a filled green 'Get started' button and an outlined 'How it works' button."
+    },
+    {
+      "claim": "The code sample sits beside the headline on desktop and directly below it on mobile.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png: the notes.ts code panel is in the right column, next to the H1. mobile-01.png: the code panel starts at the bottom of the first screen. It sits below the whole hero block (install box, CTAs, 'Runs in'), not directly under the H1."
+    },
+    {
+      "claim": "the per-column merge example (phone and laptop edit the same row offline, both edits are kept)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-03.png/mobile-04.png: 'Phone, offline edits title' and 'Laptop, offline edits done', then 'Every device after sync · both edits kept' with title 'Final agenda' and done '1'. desktop-02.png: three cards across."
+    },
+    {
+      "claim": "one green (#0A6650) that marks only actions",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Green is also used on things that are not actions: the 'Driftless' column header in the comparison (desktop-03.png, mobile-04.png), the step numbers 1/2/3 and the sync diagram lines (desktop-02.png), the dot next to 'Every device after sync' (mobile-04.png) and the Cloud Pro top border (desktop-06.png)."
+    },
+    {
+      "claim": "The code sample is verbatim. Numbered markers in the gutter point to three notes under it",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png: the code matches the brief. Yellow markers 1–3 on lines 3, 8 and 10 point to three notes below the code. mobile-01.png/mobile-02.png show the same code with wrapped lines."
+    },
+    {
+      "claim": "labelled \"Sample data\" on the page",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-03.png, top left, and mobile-04.png: 'Sample data. Illustration of per-column merge, not a benchmark.'"
+    },
+    {
+      "claim": "On mobile it becomes two columns under a label row, not a sideways-scrolling table.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-04.png/mobile-05.png: a header row 'Server-first + cache | Driftless', then each row label (Reads, Offline writes…) with two value cells under it. facts.md: no horizontal overflow at 390."
+    },
+    {
+      "claim": "Where the brief lists no figure the cell shows \"—\", with a note under the plans: \"A dash means the plan lists no figure for that row.\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-06.png: the four plans have the same six rows, which line up across columns, with dashes in empty cells. The note text sits under the plan grid."
+    },
+    {
+      "claim": "On mobile the empty rows are hidden. ... On mobile the per-plan secondary buttons are hidden to save height; the sticky \"Get started\" stays.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-07.png/mobile-08.png: Open source shows only Hosting and Also included, and Enterprise shows only Hosting and Also included. Only Cloud Pro has a button ('Choose Pro'). The header 'Get started' shows on every mobile frame."
+    },
+    {
+      "claim": "No \"most popular\" badge. Cloud Pro gets the one filled button",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-06.png: no badge. 'Choose Pro' is the only filled button; 'Read the docs', 'Start free' and 'Contact sales' are outlined. mobile-08.png is the same."
+    },
+    {
+      "claim": "The FAQ answers are always visible (no accordion)... It is titled \"The catch, answered\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-07.png: 'The catch, answered' with all four answers shown under their questions. mobile-08.png/mobile-09.png are the same."
+    },
+    {
+      "claim": "the final render is 8,082 px ... the whole mobile page falls inside the 10 reviewed screens",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: mobile page height 8082 px, 10 frames, 'no page truncated at 10 screens'. mobile-10.png ends with the footer and '© 2026 Driftless Labs'."
+    }
+  ],
+  "notes": "All text passes AA and nothing overflows (facts.md: 0 text nodes below AA, 0 overflow), which matches the lint claim. On desktop the merge example is split between desktop-02.png and desktop-03.png, and at the top of desktop-03 the sticky header covers part of the merged card. The yellow is also used to fill the step-1 'local' cylinder (desktop-02.png), which is not 'what changed'.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.suite-0.8.1-s2/check.reply.txt",
+    "sha256": "ed8f019ca55a1ca8c64638e7c054aceefbb017f467573973ebec438d5eb115ae"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "brief": "evals/briefs/05-agent-approvals.md",
+  "rendered": "2026-09-28T01:30:56.895Z",
+  "items": [
+    {
+      "html": "run-progress.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-progress-01.png",
+        "run-progress-02.png"
+      ],
+      "page_height": 1313,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "run-approval.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-approval-01.png",
+        "run-approval-02.png",
+        "run-approval-03.png"
+      ],
+      "page_height": 2239,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "run-error.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-error-01.png",
+        "run-error-02.png"
+      ],
+      "page_height": 1532,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "run-result.html",
+      "viewport": "1440x900@1",
+      "status": "ok",
+      "frames": [
+        "run-result-01.png",
+        "run-result-02.png",
+        "run-result-03.png"
+      ],
+      "page_height": 1890,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

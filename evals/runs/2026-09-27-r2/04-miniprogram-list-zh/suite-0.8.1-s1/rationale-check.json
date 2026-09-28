@@ -1,0 +1,110 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "suite-0.8.1-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/empty.png",
+      "render/filter.png",
+      "render/list.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/04-miniprogram-list-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "一个品牌青绿 #0A6E61，只用于选中、「今天」时间块和主按钮",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Teal also appears in places that are not a selection, a 今天 block or a primary button. list.png: the location pin icon and the 平台担保 tag. filter.png: the 筛选 3 badge and the link text 距离放宽到 3 km 内有 4 个. empty.png: the counts 4/6/1 个服务."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "每一行左侧是一个类似时刻表的「最近可约」时间块（日期 + 时间，「今天」用品牌青绿色底）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: every row starts with a date+time block on the left. The 今天 16:00 and 今天 18:30 blocks have a teal tint; the 明天 09:00 and 明天 14:00 blocks are grey."
+    },
+    {
+      "claim": "同一种时间块也用在空状态的三条建议上（「3 km」「明天」「发票」）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: each of the three suggestion rows starts with a grey rounded block like the list's time blocks, labelled 3 km, 明天 and 发票."
+    },
+    {
+      "claim": "价格用正文墨色，不用促销红",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the prices ¥129, ¥89, ¥159 and ¥50 are dark ink. No red appears anywhere on the screen."
+    },
+    {
+      "claim": "一个品牌青绿 #0A6E61，只用于选中、「今天」时间块和主按钮",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Teal also appears in places that are not a selection, a 今天 block or a primary button. list.png: the location pin icon and the 平台担保 tag. filter.png: the 筛选 3 badge and the link text 距离放宽到 3 km 内有 4 个. empty.png: the counts 4/6/1 个服务."
+    },
+    {
+      "claim": "列表用单列加分隔线，不用卡片",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the list is a single column on a white background with no cards. The rows seem to be separated by whitespace only; I could not see divider lines at this render resolution."
+    },
+    {
+      "claim": "位置选择器右边界不超过胶囊左侧 −8 px（x ≤ 273），胶囊区域内没有任何内容",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list/filter/empty.png: the location text and chevron end at about x=232 CSS px. The capsule at about 281–368 stands alone with nothing overlapping it."
+    },
+    {
+      "claim": "筛选面板设计为从排序栏向下展开的面板，不做底部弹层……面板在这台设备上正好铺到 tabBar 顶部",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the panel opens directly under the sort bar and the category tabs stay visible. The 重置/查看结果 footer ends just above the tab bar, and no mask is visible."
+    },
+    {
+      "claim": "类目……做成横向滚动：右侧有渐隐，末端有「展开全部类目」按钮。第 5 个类目被渐隐遮住",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png, category row: the fifth item, 管道…, fades out at the right edge, and a grid icon button sits at the end."
+    },
+    {
+      "claim": "触控区域 ≥ 44 px",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: in all three files, 0 marked-up targets are under 44 px (15, 36 and 20 targets measured)."
+    },
+    {
+      "claim": "首屏能完整看到 3 条，第 4 条露出一部分",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: 日常保洁, 空调清洗 and 油烟机深度清洗 are fully visible. 水龙头 / 花洒维修 is cut off by the tab bar at its rating line."
+    },
+    {
+      "claim": "筛选面板在 0 个匹配时不禁用「查看结果」。按钮上方加一行可点击的提示：「没有匹配的服务，距离放宽到 3 km 内有 4 个 ›」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: that hint line with a › chevron sits above the buttons, and 查看结果（0 个） is a filled teal button that looks enabled. The render also shows 今天, 1 km 内, 可开发票 and 不限 selected, with 可多选 noted."
+    },
+    {
+      "claim": "空状态的三条建议……每条都可直接点击，并注明其余条件保持不变。另外提供「修改筛选」和「清除筛选」两个按钮。已选的每个筛选条件也可以单独点 × 移除",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the three suggestion rows show 4, 6 and 1 个服务, each with a › chevron and a 保留… subline. 修改筛选 and 清除筛选 buttons are shown, and the 已选 chips 今天, 1 km 内 and 可开发票 each have an ×."
+    }
+  ],
+  "notes": "Only one claim is contradicted: the teal is used more widely than NOTES.md says. The 12/14/17/20 px type scale is not assessed because sizes can't be measured reliably from the PNGs. Tap behaviour and large-font handling are not checkable from static renders.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.suite-0.8.1-s1/check.reply.txt",
+    "sha256": "46def0b9b5040ce31f9d7c6194465b103c379f0622100fb5f63ec3095ce5929e"
+  }
+}

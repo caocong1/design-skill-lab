@@ -281,7 +281,7 @@
 .ev-notes { margin-top: var(--sp-3); list-style: none; display: grid; gap: 4px; font-size: var(--fs-1); color: var(--ink-2); }
 .ev-shots { margin-top: var(--sp-4); display: grid; gap: var(--sp-4); }
 .ev-shots h4 { font: 600 var(--fs-2)/1.3 var(--f-body); margin-bottom: 6px; }
-.ev-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); }
+.ev-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); }  /* a third each, whatever the number of arms: shots keep one size across rounds and are never enlarged */
 .ev-row figure { min-width: 0; }
 .ev-row figcaption { margin-top: 4px; font-size: var(--fs-1); color: var(--ink-2); }
 .ev-row figcaption b { color: var(--ink); }

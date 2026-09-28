@@ -1,0 +1,42 @@
+{
+ "brief": "03-ios-consumer-screen",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 5,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/today.png: the week chart labels every day with its minutes, shows Wed as 0 with a goal line and legend, and hatches Today as in progress",
+    "A/empty.png: one line explains the app, Scan Barcode is the only filled button, and the dashed 'After Your First Session' preview shows no fake streak",
+    "A/today.png, book.png, empty.png: a folded dog-ear corner on the cards and on the cover, plus serif book titles on warm paper, ties the look to the name Dogear",
+    "A/today.png tab bar: the 10px 'Today' label measures 2.68:1 (fails AA), but it is secondary text"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/today.png: the week chart has no per-day minute values, only a 125 min total, so Wed = 0 is shown only as a grey dash",
+    "B/today.png: the ring, the streak pill and the grey grouped background look like a generic habit app; the product name could be swapped with nothing looking wrong",
+    "B/empty.png: 2 targets under 44 pt per facts; everything else is clean and all measured text passes"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "right",
+   "reason": "A's dog-ear card corners and serif titles give Dogear its own character, and its week chart labels each day's minutes; B is competent but generic."
+  }
+ ],
+ "notes": "Both are idiomatic iOS 26: floating tab bar with Search on its own, round glass back and more buttons, large titles, one primary action per screen. A shows only two of three books above the tab bar; B shows all three and sets the macron in Shōnagon correctly. B's typographic Middlemarch cover is a nice detail. B's avatar/profile control is not in the brief, a minor point."
+}

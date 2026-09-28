@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "02-devtool-landing-en",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/desktop-01.png: first screen has the headline, the npm command with Copy, and the full code sample; nothing is invented", "A/desktop-06.png: the install rows for npm, Swift and Gradle have no copy control, so only the hero command can be copied"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/desktop-01.png: numbered markers in the code sample explain open, watch and the insert beside the code", "B/desktop-06.png: pricing set out as aligned rows (hosting, data, devices, restore, support) so plans compare at a glance", "B/desktop-07.png: every install row has its own Copy button"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B shows how it works: an annotated code sample, a demo of an offline per-column merge, and pricing in aligned rows. A says the same things in prose and cards."}
+  ],
+  "notes": "Both are clean. Both pass all measured contrast, target and overflow checks, and neither invents social proof. B's sample merge rows (Draft/Final agenda) are labelled as an illustration, not data. A is polished but reads like a generic developer-tool template. B puts more of the page toward a sceptical developer's questions, with 'The catch, answered' and 'Measured, with the setup'. On mobile, B leaves a slightly loose gap under the merge heading."
+}
+```

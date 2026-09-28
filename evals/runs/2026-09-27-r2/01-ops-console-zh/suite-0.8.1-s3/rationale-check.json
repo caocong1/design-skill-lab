@@ -1,0 +1,108 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "suite-0.8.1-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/detail-01.png",
+      "render/detail-02.png",
+      "render/list-01.png",
+      "render/list-02.png",
+      "render/list-empty-01.png",
+      "render/list-error-01.png",
+      "render/list-loading-01.png",
+      "render/list-loading-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/01-ops-console-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "每个状态标签都是「图标 + 文字」，图标形状各不相同",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png status column: 处理中 half-circle, 已派单 arrow, 待派单 dashed circle, 待验收 check-circle, 已挂起 pause, 已关闭 check. Every one has a text label."
+    },
+    {
+      "claim": "优先级标签始终带「P1–P4」代码和「紧急/高/中/低」文字",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png and list-02.png priority column: every row shows a code chip plus a word (P1 紧急, P2 高, P3 中, P4 低), and the fill gets lighter from P1 to P4."
+    },
+    {
+      "claim": "已超时且未完成的行（0402、0371）：SLA 显示为实心红色标签（白字 + 警示三角），行底色为浅红，行首加 4px 红色竖条。选中的超时行（0402）底色改为选中蓝",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png rows 0402 and 0371: solid red SLA chips with white text and a triangle ('已超时 12分', '已超时 1时05分') and a red left bar. 0371 has a light-red row background; the selected 0402 row has a blue background but keeps the red chip and bar."
+    },
+    {
+      "claim": "「修复剩 3时30分」→「剩 3时30分 / 修复时限」…「剩 2天」「剩 6天」就不加第二行",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png row 0413 SLA shows '剩 3时30分' over '修复时限'. Rows 0387 ('剩 2天') and 0333 (list-02.png, '剩 6天') are single-line."
+    },
+    {
+      "claim": "剩余时间少于 1 小时显示为「临近」（琥珀色时钟、加粗）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png row 0409: '剩 35分' is bold amber with an amber clock icon. Rows with more time left (0413, 0398) use a gray clock."
+    },
+    {
+      "claim": "批量操作栏显示「已选 2 项（本页）」，并提供「选择全部 1,286 项」的入口",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png bulk bar: '已选 2 项（本页）', 批量派单, 批量修改优先级, 导出所选, 取消选择 and the link '选择全部 1,286 项'. The header checkbox is indeterminate and rows 0409 and 0402 are checked."
+    },
+    {
+      "claim": "空状态：生效的三个条件在下拉框上高亮，并以可删除的标签列出；页面给出两个下一步",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-empty-01.png: the 状态, 厂区/产线 and 负责人 dropdowns have a blue highlight. The '已筛选' row has three removable chips plus 清除全部. The two buttons are '移除「负责人 = 王建国」' and '清除全部筛选'."
+    },
+    {
+      "claim": "加载状态：快捷视图的数量、表格行、总条数都显示为骨架，工具栏写「正在加载工单…」并带转圈图标",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-loading-01.png: the tab counts are gray pills, the table rows are skeletons, and the toolbar shows a spinner with '正在加载工单...'. list-loading-02.png footer shows '共 [skeleton] 条'. The filters render normally."
+    },
+    {
+      "claim": "出错状态：快捷视图不显示数量…写明 HTTP 502、请求编号 7f3a-91c2-0d44、时间 09:42:17…提供「重试」和「复制请求编号」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-error-01.png: the tabs have no counts. The body says 'HTTP 502' and '筛选条件已保留', and a box shows '请求编号 7f3a-91c2-0d44 时间 09:42:17'. The buttons are 复制请求编号 and 重试."
+    },
+    {
+      "claim": "「更多」操作…直接放在面包屑那一行右侧…「关闭工单」用红色文字",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png: the breadcrumb row's right side shows 打印工单, 复制链接 and 关闭工单, with 关闭工单 in red and a no-entry icon."
+    },
+    {
+      "claim": "标题直接说结论「2 小时内升高 22.3 °C，仍在上升」；55 °C 阈值画成虚线…标出 08:50 越过阈值",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png and detail-02.png chart: the title matches the quote. There is a red dashed line labeled '阈值 55', the points after 08:50 are red, and a dotted marker is labeled '08:50 越过阈值'."
+    },
+    {
+      "claim": "lint 的对比度、溢出、可访问名称三项检查全部通过",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: 0 text nodes below AA in all 5 files, no horizontal overflow, and 0 images without alt. 'Accessible names' is only partly covered by the images-without-alt count."
+    }
+  ],
+  "notes": "I found no claims that the renders contradict. Other NOTES claims also match the renders but were left out: 按时修复 has a gray check, 0359 is amber, there are 86 pages, the processing log is newest-first, the photos are placeholders, and the response SLA bar is about 9/15 full. A static render cannot show the reduced-motion, :focus-visible and screen-reader claims.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.suite-0.8.1-s3/check.reply.txt",
+    "sha256": "e9b4ba7fcd5e2e7dbae6b26dbef3f013f6923e5d67104dade4cb28a6de4470ee"
+  }
+}

@@ -1,0 +1,652 @@
+{
+  "brief": "06-redesign-legacy",
+  "arm": "suite-0.8.1-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/rationale.md",
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/schedule.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/06-redesign-legacy.md cut at the judge-notes line, plus its \"Function list (for the coverage check)\" subsection"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "functions_summary": {
+    "on_screen": 81,
+    "accounted_for": 6,
+    "missing": 2,
+    "total": 89
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable; functions: 81 on screen, 6 accounted for, 2 missing",
+  "contradicted": [
+    {
+      "claim": "Footer counts → under the date and in the queue",
+      "source": "rationale.md",
+      "verdict": "contradicted",
+      "evidence": "schedule.png: there are no counts under 'Monday 28 September 2026'. The queue shows Waiting room 3 and In a room 2, and the column headers show per-clinician waiting/in-room counts, but '96 appointments' and '0 no-shows' appear nowhere"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "the old left column (calendar, legends, waitlist) is now a front-desk queue. It holds patient search, the waiting room with minutes waited ..., who is in which room, and the next four patients, each with a **Check in** button",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png left column: 'Name, DOB or MRN' search; WAITING ROOM 3 (Brennan 12 min, Chen 6 min, Natarajan 3 min); IN A ROOM 2 (Wright Room 7, Johansson Room 4); EXPECTED NEXT 4, each row with a dark 'Check in' button"
+    },
+    {
+      "claim": "Cells are tinted and labelled with what the desk needs: *Here 12m*, *Rm 7*, *Unconf.*, ✓, *Cancelled*",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png grid: Brennan 'Here 12m', Wright 'Rm 7', several 'Unconf.' chips (Castillo, Liu, Foster…), ✓ marks on confirmed rows, Gomez 'Cancelled' struck through"
+    },
+    {
+      "claim": "The learned type colours are now a left stripe next to a text code (FU, SK…), explained in the key under the grid",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png: coloured left stripes on cells with codes FU/SK/PH/VX/NP/TH/PR; bottom key 'Type NP New, FU Follow-up, PH Physical, SK Sick, VX Vaccine, TH Tele, PR Procedure'"
+    },
+    {
+      "claim": "Feld's 10:15 double booking is a red cell with both names and **2×**",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png Feld column 10:15: red-bordered cell 'REYES, Lucas / ADAMS, Chloe' with red '2×' badge"
+    },
+    {
+      "claim": "Free slots read \"+ Open · book\"",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png: dashed '+ Open · book' cells (e.g. Rao 10:45, Feld 10:45, Ortega 8:15, 9:30); Kim 8:00 reads '+ Open now · book'"
+    },
+    {
+      "claim": "All four clinicians and 8:00–1:30 fit on one screen: no sideways scrolling, and lunch is collapsed",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png: Rao, Feld, Kim, Ortega columns, rows 8 AM to 1:30 visible, single 'LUNCH 12:00 – 1:00' row; facts.md: no horizontal overflow"
+    },
+    {
+      "claim": "Liu and Soto carry an unverified-insurance flag",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png: Liu (Rao 9:30) shows 'Insurance not verified'; Soto (Ortega 10:30) shows 'Ins?' badge, defined in the key as 'Unverified'"
+    },
+    {
+      "claim": "Harold Brennan's panel puts allergy, balance and needs right under his name",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png right panel: PATIENT ALERTS box (Allergy PENICILLIN, Balance $140.00 overdue (64 days), Needs large-print forms · hard of hearing R ear) directly below name/DOB/phones"
+    },
+    {
+      "claim": "copay $25 is not collected and no room is assigned, so **Collect copay** is the one primary button",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png right panel CHECK-IN 2 of 4 done: 'Copay $25.00 Not collected' with the only filled dark button 'Collect copay'; 'Room Not assigned' has an outlined 'Room…' button"
+    },
+    {
+      "claim": "No show and Cancel are red",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png right panel action grid: 'No show' and 'Cancel appt' have red text and red borders"
+    },
+    {
+      "claim": "Alert bar → *To do today* plus the maintenance line in the header",
+      "source": "rationale.md",
+      "verdict": "verified",
+      "evidence": "schedule.png: left column TO DO TODAY (unconfirmed, insurance not verified, waitlist); header 'Maintenance Sat 3 Oct, 10 PM – 2 AM'"
+    },
+    {
+      "claim": "Footer counts → under the date and in the queue",
+      "source": "rationale.md",
+      "verdict": "contradicted",
+      "evidence": "schedule.png: there are no counts under 'Monday 28 September 2026'. The queue shows Waiting room 3 and In a room 2, and the column headers show per-clinician waiting/in-room counts, but '96 appointments' and '0 no-shows' appear nowhere"
+    }
+  ],
+  "functions": [
+    {
+      "group": "Header",
+      "function": "clinic location switcher (Main / Eastside Annex)",
+      "status": "on screen",
+      "where": "schedule.png header: 'Alder Street Family Practice – Main' dropdown"
+    },
+    {
+      "group": "Header",
+      "function": "signed-in user",
+      "status": "on screen",
+      "where": "schedule.png header right: 'mlopez · Front Desk'"
+    },
+    {
+      "group": "Header",
+      "function": "preferences",
+      "status": "accounted for",
+      "where": "rationale.md: mlopez user menu"
+    },
+    {
+      "group": "Header",
+      "function": "change password",
+      "status": "accounted for",
+      "where": "rationale.md: mlopez user menu"
+    },
+    {
+      "group": "Header",
+      "function": "log out",
+      "status": "accounted for",
+      "where": "rationale.md: mlopez user menu"
+    },
+    {
+      "group": "Header",
+      "function": "date and time",
+      "status": "on screen",
+      "where": "schedule.png header: 'Mon 28 Sep 8:04 AM'"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Home",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Schedule",
+      "status": "on screen",
+      "where": "schedule.png tab bar (active)"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Patients",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Check-In",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Waitlist (4)",
+      "status": "on screen",
+      "where": "schedule.png tab bar: 'Waitlist 4'"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Recalls",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Billing",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Insurance / Eligibility",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Reports",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Messages (3)",
+      "status": "on screen",
+      "where": "schedule.png tab bar: 'Messages 3'"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Tasks",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Inventory",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Admin",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Top tabs",
+      "function": "Help",
+      "status": "on screen",
+      "where": "schedule.png tab bar"
+    },
+    {
+      "group": "Alert banner",
+      "function": "3 appointments unconfirmed for tomorrow",
+      "status": "on screen",
+      "where": "schedule.png To do today: '+ 3 unconfirmed tomorrow' with Send reminders"
+    },
+    {
+      "group": "Alert banner",
+      "function": "2 patients today whose insurance could not be verified",
+      "status": "on screen",
+      "where": "schedule.png To do today: '2 insurance not verified, Liu 9:30 · Soto 10:30' with Eligibility"
+    },
+    {
+      "group": "Alert banner",
+      "function": "maintenance notice (Sat 10/03, 10:00 PM – 2:00 AM)",
+      "status": "on screen",
+      "where": "schedule.png header: 'Maintenance Sat 3 Oct, 10 PM – 2 AM'"
+    },
+    {
+      "group": "Toolbar",
+      "function": "New appointment",
+      "status": "on screen",
+      "where": "schedule.png toolbar: 'New appt'"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Find slot",
+      "status": "on screen",
+      "where": "schedule.png toolbar: 'Find slot'"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Block time",
+      "status": "on screen",
+      "where": "schedule.png toolbar: 'Block time'"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Walk-in",
+      "status": "on screen",
+      "where": "schedule.png toolbar: 'Walk-in'"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print day",
+      "status": "on screen",
+      "where": "schedule.png toolbar: behind 'Print / Export' menu (rationale.md)"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Print labels",
+      "status": "on screen",
+      "where": "schedule.png toolbar: behind 'Print / Export' menu (rationale.md)"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Export",
+      "status": "on screen",
+      "where": "schedule.png toolbar: behind 'Print / Export' menu"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Refresh",
+      "status": "on screen",
+      "where": "schedule.png toolbar far right: refresh icon button"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Day / Week / Month",
+      "status": "on screen",
+      "where": "schedule.png toolbar segmented control"
+    },
+    {
+      "group": "Toolbar",
+      "function": "provider filter",
+      "status": "on screen",
+      "where": "schedule.png toolbar: 'All providers' dropdown"
+    },
+    {
+      "group": "Toolbar",
+      "function": "date back",
+      "status": "on screen",
+      "where": "schedule.png toolbar: '<' button"
+    },
+    {
+      "group": "Toolbar",
+      "function": "date forward",
+      "status": "on screen",
+      "where": "schedule.png toolbar: '>' button"
+    },
+    {
+      "group": "Toolbar",
+      "function": "date picker",
+      "status": "on screen",
+      "where": "schedule.png toolbar: calendar icon beside 'Monday 28 September 2026'"
+    },
+    {
+      "group": "Toolbar",
+      "function": "Today",
+      "status": "on screen",
+      "where": "schedule.png toolbar: 'Today' button"
+    },
+    {
+      "group": "Toolbar",
+      "function": "patient search (name or MRN)",
+      "status": "on screen",
+      "where": "schedule.png left column top: 'Name, DOB or MRN' search"
+    },
+    {
+      "group": "Left column",
+      "function": "month calendar",
+      "status": "accounted for",
+      "where": "rationale.md: mini-calendar → click the date (calendar icon visible)"
+    },
+    {
+      "group": "Left column",
+      "function": "appointment-type legend",
+      "status": "on screen",
+      "where": "schedule.png: Type key under the grid"
+    },
+    {
+      "group": "Left column",
+      "function": "status-code legend",
+      "status": "accounted for",
+      "where": "rationale.md: words on each cell; key also shows 2× Double, Ins? Unverified"
+    },
+    {
+      "group": "Left column",
+      "function": "waitlist (4 patients)",
+      "status": "on screen",
+      "where": "schedule.png: 'Waitlist 4' tab and To do today '4 on waitlist' with 'Fill gaps'"
+    },
+    {
+      "group": "Day grid",
+      "function": "four clinician columns (Rao, Feld, Kim, Ortega)",
+      "status": "on screen",
+      "where": "schedule.png grid headers"
+    },
+    {
+      "group": "Day grid",
+      "function": "clinician rooms",
+      "status": "on screen",
+      "where": "schedule.png headers: Rm 1–3, Rm 4–5, Rm 6, Rm 7"
+    },
+    {
+      "group": "Day grid",
+      "function": "15-minute rows",
+      "status": "on screen",
+      "where": "schedule.png time column 8 AM–1:30"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointment status",
+      "status": "on screen",
+      "where": "schedule.png cells: Here 12m, Rm 7, Unconf., ✓, Cancelled"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointment patient name",
+      "status": "on screen",
+      "where": "schedule.png cells: bold surnames"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointment age/sex",
+      "status": "on screen",
+      "where": "schedule.png cells: e.g. '75M', '4F'"
+    },
+    {
+      "group": "Day grid",
+      "function": "appointment reason",
+      "status": "on screen",
+      "where": "schedule.png cells: e.g. 'ankle sp…', 'flu vaccine'"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time: admin",
+      "status": "on screen",
+      "where": "schedule.png Rao 9:15: 'Rx refills / admin'"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time: flu clinic",
+      "status": "on screen",
+      "where": "schedule.png 10:15: 'Flu clinic – walk-ins'"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time: same-day hold",
+      "status": "on screen",
+      "where": "schedule.png Feld 11:45: 'Hold – same-day sick'"
+    },
+    {
+      "group": "Day grid",
+      "function": "blocked time: lunch",
+      "status": "on screen",
+      "where": "schedule.png: 'LUNCH 12:00 – 1:00' row"
+    },
+    {
+      "group": "Day grid",
+      "function": "cancelled appointments",
+      "status": "on screen",
+      "where": "schedule.png Kim 9:45: GOMEZ, Patricia 'Cancelled'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "patient",
+      "status": "on screen",
+      "where": "schedule.png right panel: 'Brennan, Harold J'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "DOB/age",
+      "status": "on screen",
+      "where": "schedule.png right panel: '75 y M · DOB 03/14/1951'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "MRN",
+      "status": "on screen",
+      "where": "schedule.png right panel: 'MRN 00482913'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "phones",
+      "status": "on screen",
+      "where": "schedule.png right panel: two phone numbers (H, C)"
+    },
+    {
+      "group": "Appointment details",
+      "function": "time",
+      "status": "on screen",
+      "where": "schedule.png right panel: '8:00 – 8:15 AM'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "type",
+      "status": "on screen",
+      "where": "schedule.png APPOINTMENT: 'Follow-up · 15 min'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "provider",
+      "status": "on screen",
+      "where": "schedule.png right panel header: 'RAO'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "reason",
+      "status": "on screen",
+      "where": "schedule.png APPOINTMENT: 'F/U hypertension, BP recheck after med change'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "status",
+      "status": "on screen",
+      "where": "schedule.png right panel: 'ARRIVED 7:52'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "room",
+      "status": "on screen",
+      "where": "schedule.png CHECK-IN: 'Room Not assigned · Rao uses Rm 1–3'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "insurance and eligibility",
+      "status": "on screen",
+      "where": "schedule.png CHECK-IN: 'Insurance · BlueStar PPO #BSP-7730-2291 · verified 09/25'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "copay",
+      "status": "on screen",
+      "where": "schedule.png CHECK-IN: 'Copay $25.00 Not collected'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "booked by",
+      "status": "on screen",
+      "where": "schedule.png APPOINTMENT: 'Booked jsmith · 09/14/2026 2:31 PM'"
+    },
+    {
+      "group": "Appointment details",
+      "function": "reminder status",
+      "status": "on screen",
+      "where": "schedule.png APPOINTMENT: 'Reminder SMS 09/27 6:00 PM · replied C'"
+    },
+    {
+      "group": "Actions",
+      "function": "Check in",
+      "status": "on screen",
+      "where": "schedule.png action grid: 'Check in ✓' (done)"
+    },
+    {
+      "group": "Actions",
+      "function": "Room",
+      "status": "on screen",
+      "where": "schedule.png CHECK-IN: 'Room…' button"
+    },
+    {
+      "group": "Actions",
+      "function": "Check out",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Actions",
+      "function": "Edit",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Actions",
+      "function": "Reschedule",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Actions",
+      "function": "Cancel",
+      "status": "on screen",
+      "where": "schedule.png action grid: 'Cancel appt'"
+    },
+    {
+      "group": "Actions",
+      "function": "No show",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Actions",
+      "function": "Copay",
+      "status": "on screen",
+      "where": "schedule.png CHECK-IN: 'Collect copay'"
+    },
+    {
+      "group": "Actions",
+      "function": "Eligibility",
+      "status": "on screen",
+      "where": "schedule.png CHECK-IN: 'Eligibility' button"
+    },
+    {
+      "group": "Actions",
+      "function": "Reminder",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Actions",
+      "function": "Notes",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Actions",
+      "function": "Print",
+      "status": "on screen",
+      "where": "schedule.png action grid"
+    },
+    {
+      "group": "Patient alerts",
+      "function": "balance overdue $140.00, 64 days",
+      "status": "on screen",
+      "where": "schedule.png PATIENT ALERTS: Balance"
+    },
+    {
+      "group": "Patient alerts",
+      "function": "penicillin allergy",
+      "status": "on screen",
+      "where": "schedule.png PATIENT ALERTS: Allergy PENICILLIN (rash)"
+    },
+    {
+      "group": "Patient alerts",
+      "function": "large-print forms, hard of hearing right ear",
+      "status": "on screen",
+      "where": "schedule.png PATIENT ALERTS: Needs"
+    },
+    {
+      "group": "Appointment details",
+      "function": "recent visits",
+      "status": "on screen",
+      "where": "schedule.png right panel: RECENT VISITS list"
+    },
+    {
+      "group": "Status bar",
+      "function": "96 appointments count",
+      "status": "missing",
+      "where": "rationale.md says 'under the date', but nothing appears under the date in schedule.png"
+    },
+    {
+      "group": "Status bar",
+      "function": "3 arrived count",
+      "status": "on screen",
+      "where": "schedule.png queue: 'WAITING ROOM 3'"
+    },
+    {
+      "group": "Status bar",
+      "function": "2 in room count",
+      "status": "on screen",
+      "where": "schedule.png queue: 'IN A ROOM 2'"
+    },
+    {
+      "group": "Status bar",
+      "function": "0 no-shows count",
+      "status": "missing",
+      "where": "not visible; 'none late' in Expected next is a different measure; the rationale's 'under the date' location shows nothing"
+    },
+    {
+      "group": "Status bar",
+      "function": "server and build",
+      "status": "accounted for",
+      "where": "rationale.md: mlopez user menu"
+    }
+  ],
+  "notes": "'Collect copay' is the only filled button in Brennan's panel. The toolbar 'New appt' and the queue 'Check in' buttons are also filled dark, so 'the one primary button' holds only within the panel. The rationale lists footer counts as 'under the date', but the render shows nothing there, so the 96-appointments and 0-no-shows counts are marked missing, not accounted for. Print day, Print labels and Export are counted as behind the visible 'Print / Export' menu.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-redesign-legacy.suite-0.8.1-s1/check.reply.txt",
+    "sha256": "7adbb3ee125db2fb2bd04dc0220b4aab6b4c0c818e5683bd2f89548ab272180c"
+  },
+  "rerun_note": "Second check. The first check (orchestrator protocol error) gave the checker the brief cut at the judge-notes line, which also cut the function list, so it walked the task table instead (claims: 11 verified, 1 contradicted, 0 not checkable; functions: 12 on screen, 1 accounted for, 0 missing). Rerun for all six 06 arm-samples with the function-list subsection added; judges were not involved. First result kept outside git at /private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/06-v1-superseded/suite-0.8.1-s1.rationale-check.json."
+}

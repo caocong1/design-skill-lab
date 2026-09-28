@@ -1,0 +1,75 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "no-skill-s3",
+  "skills_commit": "none",
+  "model": "claude-opus-5-5",
+  "start": 1790519239,
+  "end": 1790519673,
+  "wall_seconds": 434,
+  "exit_code": 0,
+  "ended": "completed",
+  "sample": "s3",
+  "arm_base": "no-skill",
+  "start_iso": "2026-09-27T14:27:19+00:00",
+  "end_iso": "2026-09-27T14:34:33+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json (evals/tools/run_round.sh)",
+    "skills_dir": null
+  },
+  "result_event": true,
+  "result_events": 1,
+  "result_origins": [
+    "prompt"
+  ],
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 28,
+  "num_turns_per_result": [
+    28
+  ],
+  "duration_api_ms": 390736,
+  "dollars": 1.5168,
+  "tokens": {
+    "input": 36,
+    "output": 38499,
+    "thinking": 7424,
+    "cache_read": 949755,
+    "cache_creation": 69595
+  },
+  "tokens_note": "tokens = sum over modelUsage of the last result event (cumulative for the session, main thread + subagents). A run whose background subagent finished after the first reply has a second result event (origin task-notification); total_cost_usd and modelUsage are cumulative, num_turns is summed over result events.",
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 36,
+      "outputTokens": 38499,
+      "cacheReadInputTokens": 949755,
+      "cacheCreationInputTokens": 69595,
+      "webSearchRequests": 0,
+      "costUSD": 1.516835,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 7424,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "last \"result\" event of the stream-json transcript (total_cost_usd, modelUsage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/transcripts/02-devtool-landing-en.no-skill-s3.transcript.jsonl",
+    "sha256": "a5686a33637c126acdeb2f696b58a6b136ff8e810a2498a6286041bcaff4128b",
+    "bytes": 7642931
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

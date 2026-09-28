@@ -1,0 +1,37 @@
+{
+ "brief": "02-devtool-landing-en",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 3,
+   "evidence": [
+    "A/mobile-01.png: header keeps only the GitHub icon and Get started; Docs, Pricing and the other links have no menu on mobile"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/desktop-02.png: 'Two people edit the same row offline' shows phone and laptop edits merging per column, answering the audience's question about conflicts with a worked example"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B shows per-column merge as a worked phone/laptop example, keeps a Menu on mobile, and gives every install command a Copy button; A drops mobile nav."
+  }
+ ],
+ "notes": "Both use only the allowed facts, have clean measurements and give full comparable pricing. A has more polish: a strong hero with the code sample and install command above the fold, plus a small diagram for each step. B's three-bar logo looks like a hamburger icon next to its Menu button on mobile, and B/desktop-03 has large empty bands. B still does more of the brief's real job: explaining the mechanism and getting developers to install on either screen size."
+}

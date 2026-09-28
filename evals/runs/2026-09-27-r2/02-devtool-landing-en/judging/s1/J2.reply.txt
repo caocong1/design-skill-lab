@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "02-devtool-landing-en",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/desktop-02.png right: 'One row, two offline devices' demo shows per-column merge with HLC timestamps; it explains the core mechanism rather than just claiming it", "A/desktop-03.png top: lone sync-server note with an empty right half, leaving a dead band before the comparison"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 3,
+          "evidence": ["B/desktop-01.png: contour-line ground, wave mark and warm paper/green palette tie to the 'Driftless' name; code sits beside the headline", "B/mobile-10.png install card: '· TAURI' wraps as an orphan under the platform label", "facts: 2 text nodes below AA ('Q3 roadmap' example value, 4.24:1), non-primary"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B has its own character (contour motif, wave mark, mono eyebrows, dark benchmark band), a tighter hero with the code visible, and cleaner card pricing. A reads like a generic blue-on-white template."}
+  ],
+  "notes": "Neither page invents social proof. A's conflict demo and 'Know the limits' block are the strongest explanatory content, and its fact sheet is clean. B is more crafted and memorable visually. B's per-step mini-diagrams also explain the mechanism, and it adds light inferences ('not trusted to the client', OPFS persistence) that are not forbidden facts. A has noticeable empty bands on desktop. On mobile, both reflow properly and keep the install command in the first screen."
+}
+```

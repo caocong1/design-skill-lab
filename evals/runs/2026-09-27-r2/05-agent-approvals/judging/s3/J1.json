@@ -1,0 +1,37 @@
+{
+ "brief": "05-agent-approvals",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/run-approval-01.png: first screen shows the batch, account, date, undo strip and the Oakridge warning row, with a decision rail that explains what each choice does, including Reject"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/run-approval-02.png: Approve, Edit and Reject sit about 1,500 px down, below the table, the warning and the undo text; none of them shows on the first screen"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A puts the approval choices, with what each one does, beside the batch on the first screen. B puts them below the fold after the table."
+  }
+ ],
+ "notes": "Both designs are close and strong: the plan stays visible, step states show text as well as colour, and the numbers match the brief. B's result screen is better, with outcome cards, a 'Needs your attention' list and the full batch shown again, and its Oakridge warning is more explicit. A wins on the approval and error moments, where the decision and every choice's outcome are visible without scrolling. Both look like a standard SaaS product, so Identity stays at 3."
+}

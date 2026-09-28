@@ -1,0 +1,21 @@
+```json
+{
+  "brief": "03-ios-consumer-screen",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 3,
+          "evidence": [
+            "A/today.png: week chart labels every day's minutes, shows Wed as 0, hatches Today as in progress and has a Met goal legend; 'Middlemarch · from page 312' under Start Session",
+            "A/empty.png: one line says what Dogear does, Scan Barcode is the single filled button, and the 'After Your First Session' preview uses dashed placeholders instead of fake data"
+          ]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": [
+            "B/today.png: week bars have no per-day values, only M–S letters and a 125 min total; the Currently Reading rows drop session minutes"
+          ]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "right", "reason": "A's Today has a labelled, honest week chart and a Log Pages shortcut, and its empty state explains the app in one line. B's chart has no values and its look is generic iOS."}
+  ],
+  "notes": "Both use a floating glass tab bar with a separate search button, large titles, round glass back and more buttons, and one primary action per screen. A's folded-corner cards and serif book titles fit the Dogear name. A has one AA failure (10px 'Today' tab label, 2.68:1), which is secondary text. B puts Start Session higher on the book screen, which is a real strength, but it adds a profile avatar and has 2 targets under 44 on the empty screen."
+}
+```

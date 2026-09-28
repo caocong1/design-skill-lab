@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "06-redesign-legacy",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/schedule.png: left rail shows the waiting room with large minute counts and filled Check In buttons under Expected next; the right panel puts patient alerts at the top above a check-in checklist ('2 of 4 done'); Feld 10:15 has a '2×' double-booking box"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/schedule.png: left rail has the waiting room and In a room with minutes; Feld 10:15 has a '2 booked' badge; unconfirmed slots show a '? Unconfirmed' label and a dashed border; alerts sit at the top of the right panel with ! and $ icons"]},
+    "R": {"fit": 3, "hierarchy": 2, "identity": 2, "craft": 3, "typography": 2, "platform_a11y": 2,
+          "evidence": ["before.png: 12 identical small buttons in the detail panel; patient alerts sit low in the right panel", "before.png: grid names are tiny, cramped and truncated ('BRENNAN, HAROLD 75M F/...'); colour encodes appointment type, not status", "before.png: generic 2000s intranet look (blue header, grey tabs) that could belong to any product"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's Expected-next Check In buttons are filled primary buttons and the check-in checklist is explicit. B's Check In buttons are outlined, so the 42% task stands out less."}
+  ],
+  "notes": "Both pass every measured check (AA, 24 px targets) and neither shows status by colour alone. B's grid cells read a little more easily because appointment types are spelled out as words, and its footer keeps the counts. A's tabular slashed-zero numerals give it more character. Both keep all 14 tabs in one lighter row instead of grouping them. Neither shows the server/build info. B puts Print and Export behind More."
+}
+```

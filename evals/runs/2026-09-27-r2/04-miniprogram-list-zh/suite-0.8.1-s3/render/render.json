@@ -1,0 +1,42 @@
+{
+  "brief": "evals/briefs/04-miniprogram-list-zh.md",
+  "rendered": "2026-09-28T01:30:40.364Z",
+  "items": [
+    {
+      "html": "list.html",
+      "viewport": "375x812@2",
+      "status": "ok",
+      "frames": [
+        "list.png"
+      ],
+      "page_height": 812,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "filter.html",
+      "viewport": "375x812@2",
+      "status": "ok",
+      "frames": [
+        "filter.png"
+      ],
+      "page_height": 812,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    },
+    {
+      "html": "empty.html",
+      "viewport": "375x812@2",
+      "status": "ok",
+      "frames": [
+        "empty.png"
+      ],
+      "page_height": 812,
+      "horizontal_overflow": false,
+      "truncated": false,
+      "console_errors": []
+    }
+  ]
+}

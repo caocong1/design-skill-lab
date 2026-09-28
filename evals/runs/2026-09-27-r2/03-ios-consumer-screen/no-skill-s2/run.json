@@ -1,0 +1,75 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "no-skill-s2",
+  "skills_commit": "none",
+  "model": "claude-opus-5-5",
+  "start": 1790519618,
+  "end": 1790520035,
+  "wall_seconds": 417,
+  "exit_code": 0,
+  "ended": "completed",
+  "sample": "s2",
+  "arm_base": "no-skill",
+  "start_iso": "2026-09-27T14:33:38+00:00",
+  "end_iso": "2026-09-27T14:40:35+00:00",
+  "host": {
+    "claude_code_version": "2.1.283",
+    "mode": "headless claude -p --safe-mode --permission-mode bypassPermissions --output-format stream-json (evals/tools/run_round.sh)",
+    "skills_dir": null
+  },
+  "result_event": true,
+  "result_events": 1,
+  "result_origins": [
+    "prompt"
+  ],
+  "result_subtype": "success",
+  "terminal_reason": "completed",
+  "is_error": false,
+  "api_error_status": null,
+  "num_turns": 20,
+  "num_turns_per_result": [
+    20
+  ],
+  "duration_api_ms": 392099,
+  "dollars": 1.289,
+  "tokens": {
+    "input": 28,
+    "output": 34497,
+    "thinking": 12642,
+    "cache_read": 598301,
+    "cache_creation": 59913
+  },
+  "tokens_note": "tokens = sum over modelUsage of the last result event (cumulative for the session, main thread + subagents). A run whose background subagent finished after the first reply has a second result event (origin task-notification); total_cost_usd and modelUsage are cumulative, num_turns is summed over result events.",
+  "model_usage": {
+    "claude-opus-5-5": {
+      "inputTokens": 28,
+      "outputTokens": 34497,
+      "cacheReadInputTokens": 598301,
+      "cacheCreationInputTokens": 59913,
+      "webSearchRequests": 0,
+      "costUSD": 1.2890161999999998,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 12642,
+      "canonicalModel": "claude-opus-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "subagents": {
+    "spawned": 0,
+    "completed": 0,
+    "failed": 0,
+    "max_depth": 0,
+    "by_type": {}
+  },
+  "cost_source": "last \"result\" event of the stream-json transcript (total_cost_usd, modelUsage, subagent_stats)",
+  "transcript": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/transcripts/03-ios-consumer-screen.no-skill-s2.transcript.jsonl",
+    "sha256": "496d3f273f6041e7cdbd5a71278fd43ba10a53babe930b1f2c511a85cfdeaa72",
+    "bytes": 3648440
+  },
+  "stderr_bytes": 0,
+  "feedback_files": [],
+  "reruns": []
+}

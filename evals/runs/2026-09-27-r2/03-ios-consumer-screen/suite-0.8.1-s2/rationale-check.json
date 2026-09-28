@@ -1,0 +1,103 @@
+{
+  "brief": "03-ios-consumer-screen",
+  "arm": "suite-0.8.1-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/book.png",
+      "render/empty.png",
+      "render/today.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/03-ios-consumer-screen.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "The card that holds your place has a folded top-trailing corner",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the goal card has a folded top-right corner; book.png: the progress card has one too; empty.png: the add-book card has one too"
+    },
+    {
+      "claim": "Middlemarch's cover has a folded corner on Today and on its detail screen",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the Middlemarch 'M' cover in Currently Reading has a folded top-right corner and the Walden cover does not; book.png: the large cover has the same fold"
+    },
+    {
+      "claim": "Today, Library, Stats in one glass capsule, Search as the separate trailing search tab",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png, book.png, empty.png: a capsule at the bottom holds Today/Library/Stats, with a separate round magnifier button on the right"
+    },
+    {
+      "claim": "\"Log Pages\" on Today is a text item in the top toolbar ... On the book screen it is a secondary button",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: a 'Log Pages' pill sits top-right under the status bar; book.png: 'Log Pages' is a grey secondary button under Start Session"
+    },
+    {
+      "claim": "Start Session on Today resumes the most recently read book (Middlemarch, from page 312); the caption under the button says so",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: the caption 'Middlemarch · from page 312' sits directly under the green Start Session button"
+    },
+    {
+      "claim": "First seen: today's minutes against the goal and the streak; second: Start Session; third: the week and the books",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png: from top to bottom: '12 of 20 min' plus the '4 days' streak, then Start Session, then This Week, then Currently Reading"
+    },
+    {
+      "claim": "under-goal days are a lighter green ... today is hatched as in progress; a \"Met goal\" key sits next to the goal-line key. Values are always printed",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png This Week: Mon/Thu/Sat bars are dark, Tue/Fri are lighter and Today is hatched; the 'Met goal' and '--- Goal 20 min' keys are shown; values 24,18,0,31,18,22,12 are printed above the bars"
+    },
+    {
+      "claim": "The More menu (ellipsis, toolbar trailing) ... It is a system menu, closed in the render",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: a round ellipsis button sits top-right; no menu is open"
+    },
+    {
+      "claim": "Book detail is pushed from Today ... so the Today tab stays selected and the back button returns to Today",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "book.png: a back chevron is at top-left and the Today tab is highlighted in the tab bar; that the button returns to Today is behaviour and can't be seen in a render"
+    },
+    {
+      "claim": "The floating tab bar sits with its bottom edge 38 pt above the screen edge ... so nothing interactive sits in the 34-pt home-indicator inset",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "today.png/book.png/empty.png: the tab bar's bottom edge is at about 1670 px of 1748 (≈39 pt from the bottom), above the home indicator; nothing interactive sits in the bottom inset"
+    },
+    {
+      "claim": "First-run screen: no toolbar `plus` ... the tabs stay visible and enabled",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: there is no toolbar button under the status bar; the tab bar is shown at full opacity with Today selected"
+    },
+    {
+      "claim": "Visible text above the tab bar measures at or above AA",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: book.html and empty.html have 0 failures; today.html's only failure is the 10px tab label span 'Today' (2.68:1), which is inside the tab bar, not above it"
+    }
+  ],
+  "notes": "The claim about text above the tab bar holds, but facts.md shows the 'Today' tab label itself fails AA on today.html (2.68:1). The brief requires AA for all text, including text on translucent surfaces. Content the notes place below the fold (the Today highlight, the Book highlights, The Pillow Book row) is not visible on the first screen and so can't be checked.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/03-ios-consumer-screen.suite-0.8.1-s2/check.reply.txt",
+    "sha256": "9cc0a4e5b69c1270f741efd9b6e69c5a91d909a7473d63e8773ecab0bf112b66"
+  }
+}

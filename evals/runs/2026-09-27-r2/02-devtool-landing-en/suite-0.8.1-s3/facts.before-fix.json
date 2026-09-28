@@ -1,0 +1,50 @@
+[
+  {
+    "file": "index.html",
+    "viewport": "1440x900@1",
+    "status": "ok",
+    "method": "evals/tools/facts.mjs",
+    "frames_measured": 7,
+    "text_nodes": 248,
+    "contrast_measured": 239,
+    "contrast_from_pixels": 0,
+    "contrast_failures": 1,
+    "lowest_contrast": 1.12,
+    "lowest_contrast_where": "1.12:1 (needs 4.5) code \"npm install @driftless/client\" #f4f2ea on #ffffff, 15px",
+    "contrast_failure_examples": [
+      "1.12:1 (needs 4.5) code \"npm install @driftless/client\" #f4f2ea on #ffffff, 15px"
+    ],
+    "contrast_unmeasured": 0,
+    "contrast_unmeasured_reasons": {},
+    "contrast_exempt_disabled": 0,
+    "contrast_skipped_covered": 9,
+    "targets_checked": 33,
+    "targets_under_24": 0,
+    "targets_under_24_examples": [],
+    "images_missing_alt": 0,
+    "horizontal_overflow": false
+  },
+  {
+    "file": "index.html",
+    "viewport": "390x844@2",
+    "status": "ok",
+    "method": "evals/tools/facts.mjs",
+    "frames_measured": 10,
+    "text_nodes": 226,
+    "contrast_measured": 220,
+    "contrast_from_pixels": 0,
+    "contrast_failures": 0,
+    "lowest_contrast": 5.89,
+    "lowest_contrast_where": null,
+    "contrast_failure_examples": [],
+    "contrast_unmeasured": 0,
+    "contrast_unmeasured_reasons": {},
+    "contrast_exempt_disabled": 0,
+    "contrast_skipped_covered": 6,
+    "targets_checked": 27,
+    "targets_under_24": 0,
+    "targets_under_24_examples": [],
+    "images_missing_alt": 0,
+    "horizontal_overflow": false
+  }
+]

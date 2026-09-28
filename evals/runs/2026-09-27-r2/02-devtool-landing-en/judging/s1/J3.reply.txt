@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "02-devtool-landing-en",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": ["A/desktop-02.png: the worked conflict example shows phone and laptop edits, HLC timestamps and the merged row, which is the mechanism rather than adjectives", "A/desktop-06.png: pricing is a row-by-row table (data, devices, restore, support) that compares plans at a glance", "A facts: 0 of 264 and 0 of 244 text nodes below AA, 0 failing targets, and device status reads 'offline' as text, not colour alone"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B facts: 2 diagram cells below AA ('Q3 roadmap' #b8561b on #f4f1ea, 4.24:1), secondary text only", "B/mobile-10.png: the install label 'WEB · NODE · … · TAURI' wraps and leaves an orphaned '· TAURI' line"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "right", "reason": "A passes every measured contrast check, its desktop pricing is a comparable table, and its conflict demo shows the merge concretely; B's feature-list pricing and failing diagram text lag."}
+  ],
+  "notes": "Both reflow properly on mobile, keep a hamburger menu plus Get started, and wrap code legibly without overflow. B has the more distinctive character (warm paper, contour lines, dark code window). A's navy and wide display face are clean but less specific. Neither invents social proof."
+}
+```

@@ -1,0 +1,37 @@
+{
+ "brief": "02-devtool-landing-en",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/desktop-05.png: pricing is four feature-list cards with different rows, so plans have to be read card by card rather than compared across"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/desktop-02.png: a worked phone/laptop per-column merge demo and HLC-stamped diagrams explain the mechanism, and B/desktop-06.png sets pricing as a matrix with aligned rows (data, devices, restore, support) and dashes for gaps"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B shows how local-first works (numbered code notes, a worked merge demo) and prices plans in aligned rows; A is polished but a generic cards-and-diagram template."
+  }
+ ],
+ "notes": "Both are clean. Neither invents facts or fails AA. B's heavy, tightly tracked grotesk display and yellow marker highlights give it more of its own voice. A's warm paper, green accent and contour lines are handsome but could belong to any product. B has a stray gap between heading and body on mobile (B/mobile-03.png) and rewraps the code sample onto fewer lines. A keeps the given line breaks."
+}

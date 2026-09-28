@@ -1,0 +1,22 @@
+```json
+{
+  "brief": "06-redesign-legacy",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/schedule.png: right panel puts Patient Alerts at the top, then a 'Check-in 2 of 4 done' checklist with a primary Collect copay button; the Brennan grid cell carries ! and $ alert flags; Feld 10:15 is marked 2x"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": []},
+    "R": {"fit": 2, "hierarchy": 2, "identity": 2, "craft": 3, "typography": 2, "platform_a11y": 2,
+          "evidence": ["before.png: Feld 10:15 shows only REYES, so the double booking is invisible; Patient Alerts sit below the 12 equal action buttons in the right panel",
+                       "before.png: 12 identical small buttons in the details panel; Check In gets no more weight than Print",
+                       "before.png: every grid cell is small and truncated ('BRENNAN, HAROLD 75M F/...'); names get no more weight than reason text",
+                       "before.png: default grey form-control look, which could belong to any legacy intranet tool",
+                       "before.png: toolbar and action buttons look shorter than 24 px; status is shown by colour plus letter codes only"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "right", "reason": "A turns check-in into a step checklist with alerts above it, flags alerts inside grid cells, and keeps Block time and Print/Export visible; B hides these under More."}
+  ],
+  "notes": "Very close pair. Both keep the four-column day view, add a waiting-room list with wait times, show the double booking and put alerts first. B answers the 'colour means type' complaint better: colour shows only status and types are written as words. A still uses type colour bars and a legend, but adds clear status badges. Neither groups the 14 tabs much. The legacy screen covers the content but its structure fails the front-desk quotes."
+}
+```

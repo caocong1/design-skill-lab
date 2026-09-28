@@ -29,7 +29,7 @@
       ev_wins: function (a, n) { return a + ' 胜 ' + n + ' 个'; }, ev_nowin: function (n) { return n + ' 个没有明确胜者'; },
       ev_report: '完整报告', ev_tA: '各维度平均分（1–5，三位评审，所有 brief 平均）', ev_tB: '逐个 brief：总分和胜者',
       ev_arm: '对照组', ev_brief: 'brief', ev_winner: '胜者', ev_bwins: '胜出', ev_none: '无', ev_empty: '空',
-      ev_reason: { cycle: '偏好成环', ties: '平票', 'all-empty': '三组都没交出东西' },
+      ev_reason: { cycle: '偏好成环', ties: '平票', 'all-empty': '各组都没交出东西' },
       ev_shots: '首屏并排', ev_notes: '备注', ev_old: function (d) { return d + ' 一轮（较早）'; },
       ev_trig: function (d) { return '触发评测（代理）· ' + d; }, ev_trig_cap: '各版本的路由结果（每条请求跑 3 轮）', ev_suite: '套件', ev_acc: '准确率（角色视图，全部样本）', ev_maj: '多数票准确率（按行）',
       ev_mis: '选错的行', ev_trig_note: '代理方法：模型只看 skill 描述、必须选一个，会高估触发率，也看不到漏触发。0.8.0 的描述写在这套题之后，它的分数只能当上限。',
@@ -145,8 +145,8 @@
     o_rule2: 'A host system of record (DESIGN.md, a token file, a themed library) is updated in place, never forked into .design/system/.',
     o_rule3: 'Keep the brief and decisions short; quick work can be answered in chat.', o_tpl: 'All templates on GitHub',
     evals_h: 'Evals',
-    evals_cap: 'The same model on the same fixed briefs, in three arms: no skill, suite 0.7.0, suite 0.8.0. Judges never see which arm made what; they score from the brief and canonical PNG renders and compare in pairs. Measurable facts (contrast, target sizes) are measured by script and handed to them. Losses are published too.',
-    ev_state: 'The fixed briefs, blind judging rules and results format are in <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>. The first round (2026-09-27) has run; see the <a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md">full report</a>. The scoreboard appears once the page script loads.',
+    evals_cap: 'The same model on the same fixed briefs, with and without the suite: round 1 had three arms (no skill, suite 0.7.0, suite 0.8.0) and one sample per cell; round 2 had two (no skill, suite 0.8.1) and three samples per cell. Judges never see which arm made what; they score from the brief and canonical PNG renders and compare in pairs. Measurable facts (contrast, target sizes) are measured by script and handed to them. A “better” claim needs at least 5 of the 6 briefs won and a mean overall at least 0.5 higher; neither round met both, so both report “no clear difference”. Losses are published too.',
+    ev_state: 'The fixed briefs, blind judging rules and results format are in <a href="https://github.com/caocong1/design-skill-lab/tree/main/evals">evals/</a>. Two rounds have run: see the <a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27/report.md">round 1 report</a> (2026-09-27) and the <a href="https://github.com/caocong1/design-skill-lab/blob/main/evals/runs/2026-09-27-r2/report.md">round 2 report</a> (2026-09-28). The scoreboard appears once the page script loads.',
     ev_briefs_h: 'The fixed briefs',
     bf1: 'Equipment maintenance tickets: list, detail, and empty, loading and error states (Chinese admin, desktop)',
     bf2: 'Landing page for a local-first database, with no invented social proof (desktop and mobile)',
@@ -202,13 +202,16 @@
   }
 
   /* ---------- showcase: the eval scoreboard (runs) ---------- */
-  var ORDER = ['no-skill', 'suite-0.7.0', 'suite-0.8.0'];
   var DIMS = ['fit', 'hierarchy', 'identity', 'craft', 'typography', 'platform_a11y', 'overall'];
   function armName(k) { return k === 'no-skill' ? t('arm_none') : t('arm_suite', k.replace(/^suite-/, '')); }
+  /* a round's arms are the ids its rows carry: no-skill first, then the suites by version */
   function armKeys(rs) {
     var seen = {};
     rs.forEach(function (r) { Object.keys(r.arms).forEach(function (k) { seen[k] = 1; }); });
-    return ORDER.filter(function (k) { return seen[k]; }).concat(Object.keys(seen).filter(function (k) { return ORDER.indexOf(k) < 0; }).sort());
+    return Object.keys(seen).sort(function (a, b) {
+      if (a === 'no-skill' || b === 'no-skill') return a === b ? 0 : a === 'no-skill' ? -1 : 1;
+      return a.localeCompare(b, 'en', { numeric: true });
+    });
   }
   function val(r, k, d) { var a = r.arms[k], v = a && a.means && a.means[d]; return typeof v === 'number' && isFinite(v) ? v : null; }
   function mean(xs) { xs = xs.filter(function (x) { return x !== null; }); return xs.length ? xs.reduce(function (s, x) { return s + x; }, 0) / xs.length : null; }
@@ -252,6 +255,13 @@
       (notes.length ? '<ul class="ev-notes" aria-label="' + esc(t('ev_notes')) + '">' + notes.join('') + '</ul>' : '') +
       (shots.length ? '<h4 class="sub-h">' + esc(t('ev_shots')) + '</h4><div class="ev-shots">' + shots.join('') + '</div>' : '');
   }
+  /* .shot images fade in once they arrive (site.css); until then the slot is the paper well */
+  function reveal(scope) {
+    scope.querySelectorAll('.shot img:not(.in)').forEach(function (im) {
+      if (im.complete && im.naturalWidth) im.classList.add('in');
+      else im.addEventListener('load', function () { im.classList.add('in'); }, { once: true });
+    });
+  }
   function setRuns(runs) {
     runs = runs.filter(function (r) { return r && r.date && r.brief && r.arms && typeof r.arms === 'object'; });
     if (!runs.length) return;                       /* nothing judged yet: the static 评测进行中 state stays */
@@ -262,8 +272,18 @@
     board.innerHTML = dates.map(function (d, i) {
       return i === 0
         ? '<section class="ev-round" aria-labelledby="ev-r0"><h3 id="ev-r0">' + esc(t('ev_round', d)) + '</h3>' + round(d, byDate[d]) + '</section>'
-        : '<details class="ev-old"><summary>' + esc(t('ev_old', d)) + '</summary>' + round(d, byDate[d]) + '</details>';
+        : '<details class="ev-old" data-round="' + esc(d) + '"><summary>' + esc(t('ev_old', d)) + '</summary></details>';
     }).join('');
+    /* an earlier round is drawn when it is first opened: lazy images inside a closed <details> would never load */
+    board.querySelectorAll('.ev-old').forEach(function (el) {
+      el.addEventListener('toggle', function () {
+        if (!el.open || el.children.length > 1) return;
+        var d = el.getAttribute('data-round');
+        el.insertAdjacentHTML('beforeend', round(d, byDate[d]));
+        reveal(el);
+      });
+    });
+    reveal(board);
     board.hidden = false;
     D.getElementById('ev-pending').hidden = true;
   }

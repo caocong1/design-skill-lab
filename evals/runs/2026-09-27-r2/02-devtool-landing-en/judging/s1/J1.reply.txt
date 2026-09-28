@@ -1,0 +1,18 @@
+Finished reviewing all frames for A and B; the scores follow.
+
+```json
+{
+  "brief": "02-devtool-landing-en",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/desktop-02.png: conflict demo shows the row before, each offline edit with column and HLC, and the merged row with its source per column; it explains local-first by mechanism", "A/desktop-06.png: pricing is a true plan-by-row matrix (projects, data, devices, restore, support), and 'Know the limits' callout in desktop-05 answers 'what's the catch'"]},
+    "B": {"fit": 4, "hierarchy": 5, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/desktop-01.png: first screen holds headline, install with copy, Get started, full line-numbered code sample, proof stats and runtime chips in a clear left-to-right order", "B/desktop-02.png: step 02 merge table ('Q3 plan' vs 'Q3 roadmap') gives no before row, so it is unclear which device changed the title"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's before/after conflict walkthrough and row-by-row pricing matrix answer the skeptical developer's questions more concretely; B is more distinctive but its merge example is ambiguous."}
+  ],
+  "notes": "Close call. B has the stronger identity: warm paper tones, contour lines that suit the name, mono eyebrow labels. Its mobile comparison also reflows well. A wins on getting the job done: its explanations are more concrete and its plans are easier to compare. Neither invents social proof. B has two small AA failures in the diagram text ('Q3 roadmap', 4.24:1), and none on primary text."
+}
+```

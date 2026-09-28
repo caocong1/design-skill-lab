@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driftless: the local-first SQL database</title>
+<meta name="description" content="Driftless is an open-source, embedded SQL database. Your app's data lives on the device first: reads and writes are instant and work offline, and Driftless keeps every copy in sync.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F3F4F0;
+  --paper-2: #E9EBE4;
+  --white: #FFFFFF;
+  --ink: #101713;
+  --ink-2: #3B4741;
+  --ink-3: #56625B;
+  --line: #CDD2C9;
+  --accent: #0A6650;
+  --accent-ink: #FFFFFF;
+  --accent-deep: #07503F;
+  --mark: #F2C94C;
+  --mark-soft: #FBEAB2;
+  --code-bg: #0E1512;
+  --code-line: #24302B;
+  --code-fg: #E4ECE7;
+  --code-dim: #93A69C;
+  --code-kw: #F0A6CA;
+  --code-str: #8FDDB8;
+  --code-fn: #A9C8FF;
+  --code-tag: #F5A97F;
+
+  --font: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
+  --r: 6px;
+  --wrap: 1200px;
+  --gut: 40px;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.55; }
+a { color: inherit; }
+code, pre, kbd { font-family: var(--mono); }
+.wrap { max-width: calc(var(--wrap) + 2 * var(--gut)); margin: 0 auto; padding: 0 var(--gut); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.facts :focus-visible, .code :focus-visible { outline-color: var(--mark); }
+
+/* ---------- header ---------- */
+.top { position: sticky; top: 0; z-index: 10; background: rgba(243,244,240,.94); backdrop-filter: saturate(1.4) blur(8px); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: var(--s6); height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 21px; letter-spacing: -0.02em; }
+.brand svg { display: block; }
+.nav { display: flex; gap: var(--s5); font-size: 15px; font-weight: 500; }
+.nav a { text-decoration: none; color: var(--ink-2); padding: 10px 0; }
+.nav a:hover { color: var(--ink); }
+.top-actions { margin-left: auto; display: flex; align-items: center; gap: var(--s4); font-size: 15px; font-weight: 500; }
+.top-actions .signin { text-decoration: none; color: var(--ink-2); padding: 10px 4px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: var(--r); font: 600 15px/1 var(--font); text-decoration: none; white-space: nowrap; border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-deep); }
+.btn-quiet { color: var(--ink); border-color: var(--line); background: var(--white); }
+.btn-quiet:hover { border-color: var(--ink-3); }
+.menu-btn { display: none; }
+
+/* ---------- hero ---------- */
+.hero { padding: 72px 0 88px; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 4.6fr) minmax(0, 7.4fr); gap: 56px; align-items: center; }
+.hero h1 { font-size: 58px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 800; margin: 0 0 var(--s5); text-wrap: balance; }
+.lede { font-size: 20px; line-height: 1.5; color: var(--ink-2); margin: 0 0 var(--s6); max-width: 34em; }
+.lede strong { color: var(--ink); font-weight: 600; }
+.install { display: flex; align-items: stretch; border: 1px solid var(--ink); border-radius: var(--r); background: var(--white); max-width: 460px; }
+.install code { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; padding: 0 16px; min-height: 52px; font-size: 16px; white-space: nowrap; overflow: hidden; }
+.install code .p { color: var(--ink-3); user-select: none; }
+.copy { border: 0; border-left: 1px solid var(--line); background: transparent; font: 600 14px/1 var(--font); color: var(--ink); padding: 0 16px; cursor: pointer; min-width: 72px; border-radius: 0 var(--r) var(--r) 0; }
+.copy:hover { background: var(--paper-2); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s4); }
+.hero-actions .btn { min-height: 48px; padding: 0 22px; font-size: 16px; }
+.runs { margin: var(--s6) 0 0; padding: var(--s5) 0 0; border-top: 1px solid var(--line); font-size: 15px; color: var(--ink-2); display: grid; grid-template-columns: auto 1fr; gap: 6px var(--s4); }
+.runs dt { font-weight: 600; color: var(--ink); }
+.runs dd { margin: 0; }
+
+/* code window */
+.code { background: var(--code-bg); color: var(--code-fg); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 24px 48px -24px rgba(16,23,19,.45); }
+.code-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--code-line); font: 500 13px/1.2 var(--mono); color: var(--code-dim); }
+.code-head b { color: var(--code-fg); font-weight: 500; }
+.code pre { margin: 0; padding: 20px 0 22px; font-size: 13.5px; line-height: 1.8; counter-reset: ln; }
+.code pre .l { display: block; padding: 0 16px 0 52px; text-indent: -52px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.code pre .l::before { counter-increment: ln; content: counter(ln); display: inline-block; width: 40px; margin-right: 12px; text-indent: 0; text-align: center; color: #7D8F86; }
+.code pre .l.hl { background: rgba(242,201,76,.09); box-shadow: inset 3px 0 0 var(--mark); }
+.code pre .l.hl::before { content: attr(data-pin); color: var(--ink); font: 700 12px/1 var(--font); vertical-align: 1px; height: 20px; line-height: 20px; background: radial-gradient(circle at 20px 50%, var(--mark) 0 10px, transparent 10.5px); }
+.k { color: var(--code-kw); } .s { color: var(--code-str); } .f { color: var(--code-fn); } .t { color: var(--code-tag); } .d { color: var(--code-dim); }
+.pin { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--mark); color: var(--ink); font: 700 12px/1 var(--font); vertical-align: 1px; margin-left: 10px; }
+.code-notes { list-style: none; margin: 0; padding: 18px 22px 20px; border-top: 1px solid var(--code-line); display: grid; gap: 10px; font-size: 14.5px; line-height: 1.5; color: #C9D5CF; }
+.code-notes li { display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: start; }
+.code-notes .pin { margin: 1px 0 0; }
+.code-notes code { color: var(--code-fg); font-size: 13.5px; background: #24302B; }
+
+/* ---------- sections ---------- */
+section { scroll-margin-top: 72px; }
+.sec { padding: var(--s10) 0; }
+.sec-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: end; margin-bottom: var(--s8); }
+.sec-head h2, h2.solo { font-size: 44px; line-height: 1.06; letter-spacing: -0.03em; font-weight: 800; margin: 0; text-wrap: balance; }
+.sec-head p { margin: 0; font-size: 18px; color: var(--ink-2); max-width: 36em; }
+h3 { font-size: 20px; line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 var(--s2); font-weight: 700; }
+p code, li code, td code, dd code { font-size: .88em; background: var(--paper-2); padding: 1px 5px; border-radius: 4px; }
+
+/* how it works: flow */
+.how { background: var(--white); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.flow { display: grid; grid-template-columns: 1fr 1fr 1fr; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.step { padding: var(--s6) var(--s6) var(--s6); position: relative; }
+.step + .step { border-left: 1px solid var(--line); }
+.step .n { font: 700 14px/1 var(--mono); color: var(--accent); display: block; margin-bottom: var(--s4); }
+.step p { margin: 0; color: var(--ink-2); font-size: 16px; }
+.step .fig { margin-top: var(--s5); height: 120px; display: flex; align-items: center; }
+.step .fig svg { width: 100%; height: 100%; }
+
+/* merge example */
+.merge { margin-top: var(--s9); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s6); }
+.merge-copy { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: end; }
+.merge-copy h3 { margin: 0; }
+.merge-copy .mc-p p:last-child { margin-bottom: 0; }
+.merge-copy h3 { font-size: 36px; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: var(--s4); }
+.merge-copy p { color: var(--ink-2); margin: 0 0 var(--s4); }
+.merge-board { display: grid; grid-template-columns: 1fr 1fr auto 1.15fr; gap: var(--s4); align-items: center; }
+.dev { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); padding: var(--s4); }
+.dev-h { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; margin-bottom: var(--s3); }
+.dev-h b { font-weight: 700; }
+.dev-h span { color: var(--ink-3); font-family: var(--mono); font-size: 12.5px; }
+.row { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 15px; background: var(--white); border: 1px solid var(--line); }
+.row th, .row td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.row tr:last-child th, .row tr:last-child td { border-bottom: 0; }
+.row th { width: 72px; color: var(--ink-3); font-weight: 400; }
+.row .chg { background: var(--mark-soft); box-shadow: inset 3px 0 0 var(--mark); color: var(--ink); font-weight: 700; }
+.row .was { display: block; color: var(--ink-3); text-decoration: line-through; font-weight: 400; }
+.result { border: 2px solid var(--ink); box-shadow: 0 16px 32px -20px rgba(16,23,19,.4); border-radius: 8px; background: var(--white); padding: var(--s4); position: relative; }
+.result .dev-h b::before { content: ""; display: inline-block; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; margin-right: 8px; vertical-align: 0; }
+.join { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; line-height: 1.3; color: var(--ink-2); text-align: center; width: 92px; }
+
+.sample { font-size: 13px; color: var(--ink-3); margin: var(--s3) 0 0; }
+
+/* comparison */
+.cmp { width: 100%; border-collapse: collapse; font-size: 17px; }
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+.cmp thead th { font-size: 14px; font-weight: 600; color: var(--ink-2); padding-top: 0; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+.cmp thead th.us { color: var(--accent); }
+.cmp tbody th { font-weight: 700; width: 22%; padding-left: 0; }
+.cmp td { color: var(--ink-2); width: 39%; }
+.cmp td.us { color: var(--ink); font-weight: 600; background: rgba(10,102,80,.06); }
+.cmp td .lbl { display: none; }
+
+/* spec sheet */
+.spec { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 64px; margin: 0; }
+.spec > div { display: grid; grid-template-columns: 180px 1fr; gap: var(--s5); padding: 22px 0; border-top: 1px solid var(--line); }
+.spec dt { font-weight: 700; font-size: 17px; }
+.spec dd { margin: 0; color: var(--ink-2); font-size: 16px; }
+
+/* numbers + release */
+.facts { background: var(--ink); color: #E8EEEA; }
+.facts .wrap { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 80px; }
+.facts h2 { color: var(--white); font-size: 36px; line-height: 1.1; letter-spacing: -0.025em; margin: 0 0 var(--s3); font-weight: 800; }
+.facts .setup { color: #B4C2BA; font-size: 15px; margin: 0 0 var(--s6); }
+.bench { margin: 0; }
+.bench > div { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: var(--s5); padding: 18px 0; border-top: 1px solid #33413A; }
+.bench > div:last-child { border-bottom: 1px solid #33413A; }
+.bench dt { font-size: 17px; color: #D9E2DD; }
+.bench dd { margin: 0; font: 700 40px/1 var(--font); letter-spacing: -0.02em; color: var(--white); }
+.bench dd small { font-size: 18px; font-weight: 600; color: #B4C2BA; margin-left: 4px; letter-spacing: 0; }
+.release { border-left: 1px solid #33413A; padding-left: 48px; }
+.release time { font: 500 14px/1 var(--mono); color: #B4C2BA; }
+.release ul { margin: var(--s4) 0 var(--s5); padding: 0; list-style: none; }
+.release li { padding: 14px 0; border-top: 1px solid #33413A; font-size: 17px; color: #E8EEEA; }
+.release li:last-child { border-bottom: 1px solid #33413A; }
+.release a { color: var(--white); font-weight: 600; text-underline-offset: 4px; }
+.proof { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid #33413A; color: #B4C2BA; font-size: 15px; }
+.proof { list-style: none; margin-bottom: 0; padding-left: 0; display: flex; flex-wrap: wrap; gap: 6px 28px; }
+.facts .proof li { border: 0; padding: 0; font-size: 15px; color: #B4C2BA; }
+.proof strong { color: var(--white); font-weight: 700; font-size: 17px; }
+.facts .proof li.when { flex-basis: 100%; font-size: 14px; }
+
+/* pricing */
+.plans { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(11, auto); border: 1px solid var(--line); border-radius: 10px; background: var(--white); overflow: hidden; }
+.plan { padding: var(--s6) 28px; display: grid; grid-row: span 11; grid-template-rows: subgrid; row-gap: 0; }
+.plan dl { display: contents; }
+.plan .na dd { color: var(--ink-3); }
+.plan + .plan { border-left: 1px solid var(--line); }
+.plan h3 { font-size: 18px; margin-bottom: var(--s4); }
+.plan .kind { font-size: 13px; font-weight: 600; color: var(--ink-3); margin: -10px 0 var(--s4); }
+.price { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin: 0 0 6px; }
+.per { font-size: 14px; color: var(--ink-3); margin: 0 0 var(--s5); min-height: 21px; }
+.plan dl div { padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.plan dt { font-size: 12.5px; color: var(--ink-3); font-weight: 600; }
+.plan dd { margin: 2px 0 0; color: var(--ink); }
+.plan .btn { margin-top: var(--s5); width: 100%; align-self: end; }
+.plan.pro { background: #F4FAF7; box-shadow: inset 0 3px 0 var(--accent); }
+.plans-note { margin: var(--s4) 0 0; font-size: 14px; color: var(--ink-3); }
+
+/* faq */
+.faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s7) 64px; }
+.faq h3 { font-size: 20px; }
+.faq p { margin: 0; color: var(--ink-2); }
+
+/* install / end */
+.end { background: var(--white); border-top: 1px solid var(--line); }
+.end .wrap { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; align-items: start; }
+.end h2 { font-size: 44px; line-height: 1.06; letter-spacing: -0.03em; margin: 0 0 var(--s4); font-weight: 800; }
+.end p { color: var(--ink-2); margin: 0 0 var(--s6); font-size: 18px; }
+.pkgs { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.pkg { display: grid; grid-template-columns: 190px 1fr auto; align-items: center; gap: var(--s4); padding: 14px 16px 14px 22px; }
+.pkg + .pkg { border-top: 1px solid var(--line); }
+.pkg span { font-weight: 600; font-size: 15px; }
+.pkg code { font-size: 15px; min-width: 0; }
+.pkg code .nw { white-space: nowrap; }
+.pkg .copy { border: 1px solid var(--line); border-radius: var(--r); min-height: 40px; }
+
+footer { padding: var(--s8) 0 var(--s7); font-size: 15px; color: var(--ink-2); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s5); align-items: center; }
+footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 24px; }
+footer a { text-decoration: none; display: inline-block; padding: 6px 0; }
+footer a:hover { text-decoration: underline; }
+
+/* ---------- tablet ---------- */
+@media (max-width: 1100px) {
+  :root { --gut: 32px; }
+  .nav { display: none; }
+  .hero .wrap, .sec-head, .merge, .merge-copy, .facts .wrap, .end .wrap { grid-template-columns: minmax(0, 1fr); gap: var(--s7); }
+  .hero h1 { font-size: 56px; }
+  .release { border-left: 0; padding-left: 0; }
+  .plans { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(22, auto); }
+  .plan:nth-child(3) { border-left: 0; }
+  .plan:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .spec { grid-template-columns: 1fr; }
+}
+
+/* ---------- phone ---------- */
+@media (max-width: 760px) {
+  :root { --gut: 20px; }
+  body { font-size: 16px; }
+  .top .wrap { height: 60px; gap: var(--s3); }
+  .brand { font-size: 19px; }
+  .top-actions { gap: var(--s2); }
+  .top-actions .signin { display: none; }
+  .top-actions .btn { min-height: 44px; padding: 0 14px; font-size: 15px; }
+  .menu-btn { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: var(--r); background: var(--white); }
+  .hero { padding: 32px 0 56px; }
+  .hero h1 { font-size: 40px; line-height: 1.05; margin-bottom: var(--s4); }
+  .lede { font-size: 17px; margin-bottom: var(--s5); }
+  .install code { font-size: 13px; padding: 0 10px; gap: 8px; min-height: 50px; }
+  .install .copy { min-width: 60px; padding: 0 12px; }
+  .hero-actions .btn { flex: 1; }
+  .runs { grid-template-columns: 1fr; gap: 2px; font-size: 14.5px; }
+  .runs dd + dt { margin-top: 10px; }
+  .code { border-radius: 8px; margin: 0 calc(-1 * var(--s2)); }
+  .code pre { font-size: 12.5px; line-height: 1.7; padding: 14px 0 16px; }
+  .code pre .l { padding-left: 38px; text-indent: -38px; padding-right: 12px; }
+  .code pre .l::before { width: 30px; margin-right: 8px; }
+  .code pre .l.hl::before { background: radial-gradient(circle at 15px 50%, var(--mark) 0 9.5px, transparent 10px); }
+  .code-notes { padding: 16px; font-size: 14px; }
+  .code-head { padding: 10px 14px; }
+
+  .sec { padding: 40px 0; }
+  .plans-note { display: none; }
+  .end h2 { margin-bottom: var(--s2); }
+  .end p { margin-bottom: var(--s4); font-size: 16px; }
+  .end .wrap { gap: var(--s4); }
+  .hero .wrap { gap: var(--s6); }
+  .runs dt:nth-of-type(2), .runs dd:nth-of-type(2) { display: none; }
+  .runs { margin-top: var(--s5); padding-top: var(--s4); }
+  .sec-head { margin-bottom: var(--s6); gap: var(--s4); }
+  .sec-head h2, h2.solo, .end h2 { font-size: 27px; }
+  .sec-head p { font-size: 16px; }
+  .flow { grid-template-columns: 1fr; }
+  .step { padding: 18px 20px; }
+  .step + .step { border-left: 0; border-top: 1px solid var(--line); }
+  .step .fig { display: none; }
+  .step .n { margin-bottom: var(--s2); }
+  .step h3 { font-size: 18px; }
+  .merge { margin-top: var(--s7); gap: var(--s5); }
+  .merge-copy h3 { font-size: 24px; }
+  .merge-board { grid-template-columns: 1fr 1fr; gap: var(--s2); align-items: start; }
+  .result { grid-column: 1 / -1; }
+  .join { grid-column: 1 / -1; width: auto; flex-direction: row; font-size: 13px; }
+  .join svg { transform: rotate(90deg); width: 28px; }
+  .merge-copy h3 { font-size: 24px; }
+  .dev, .result { padding: 10px; }
+  .dev-h { flex-direction: column; gap: 0; font-size: 13px; margin-bottom: 8px; }
+  .dev-h span { font-size: 12px; }
+  .result .dev-h { flex-direction: row; justify-content: space-between; }
+  .join { font-size: 13px; padding: 0; }
+  .row { font-size: 12.5px; }
+  .row th { width: 42px; }
+  .row tr:first-child { display: none; }
+  .row th, .row td { padding: 5px 6px; }
+  .merge-copy p:last-child { margin-bottom: 0; }
+
+  .cmp thead { display: block; }
+  .cmp thead tr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 0 8px; border: 0; border-bottom: 2px solid var(--ink); }
+  .cmp thead th { padding: 0 10px; border: 0; font-size: 13px; }
+  .cmp thead th:first-child { display: none; }
+  .cmp, .cmp tbody, .cmp th, .cmp td { display: block; width: auto !important; }
+  .cmp tbody tr { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; }
+  .cmp tbody tr { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .cmp th, .cmp td { border: 0; padding: 0; }
+  .cmp tbody th { grid-column: 1 / -1; font-size: 16px; margin: 0; }
+  .cmp td { font-size: 14.5px; line-height: 1.45; padding: 6px 10px; }
+  .cmp td.us { border-radius: 4px; }
+
+  .spec > div { display: block; padding: 10px 0; }
+  .spec dt { display: inline; font-size: 16px; }
+  .spec dt::after { content: ". "; }
+  .spec dd { display: inline; }
+  .spec dd { font-size: 15px; }
+
+  .facts .wrap { gap: var(--s6); }
+  .facts .setup { margin-bottom: var(--s4); }
+  .bench > div { padding: 10px 0; }
+  .release h2 { margin-top: 10px !important; }
+  .release ul { margin: var(--s3) 0 var(--s4); }
+  .release li { padding: 10px 0; font-size: 16px; }
+  .proof { margin-top: var(--s5); }
+  .facts h2 { font-size: 28px; }
+  .bench dd { font-size: 30px; }
+  .bench dt { font-size: 15.5px; }
+
+  .plans { grid-template-columns: 1fr; grid-template-rows: none; border: 0; background: transparent; gap: var(--s3); overflow: visible; }
+  .plan { border: 1px solid var(--line) !important; border-radius: 10px; background: var(--white); padding: 16px 18px; display: grid; grid-template-columns: 1fr auto; column-gap: 12px; }
+  .plan > * { grid-column: 1 / -1; }
+  .plan h3 { grid-column: 1; margin: 0; align-self: center; }
+  .plan .price { grid-column: 2; grid-row: 1 / span 2; text-align: right; align-self: start; }
+  .plan .kind { grid-column: 1; grid-row: 2; margin: 2px 0 0; }
+  .plan .price { grid-row: 1; }
+  .plan .per { grid-column: 2; grid-row: 2; text-align: right; margin: 2px 0 0 !important; }
+  .plan { grid-row: auto; grid-template-rows: none; grid-template-columns: 1fr 1fr; }
+  .plan .na { display: none; }
+  .plan dl div { grid-column: auto !important; padding: 6px 0; font-size: 14.5px; }
+  .plan .kind, .plan .per { margin-bottom: 8px !important; }
+  .plan .btn { margin-top: var(--s3); }
+  .plan .btn { margin-top: var(--s4); }
+  .plan.pro { background: #F4FAF7; box-shadow: inset 0 3px 0 var(--accent); }
+  .plan .per { min-height: 0; margin-bottom: var(--s4); }
+  .plan dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--s4); }
+  .plan dl div.wide { grid-column: 1 / -1; }
+  .price { font-size: 30px; }
+  .plan .price-text { font-size: 22px; line-height: 30px; }
+  .plan .btn-quiet { display: none; }
+  .step .n { display: inline; margin-right: 8px; }
+  .step h3 { display: inline; }
+  .step p { margin-top: 6px; }
+  footer .wrap { gap: var(--s2); }
+  footer ul { grid-template-columns: repeat(4, auto); gap: 0 16px; }
+  .plan dl div { padding: 8px 0; }
+
+  .faq { grid-template-columns: 1fr; gap: 20px; }
+  .faq h3 { font-size: 18px; }
+
+  .pkg { grid-template-columns: 1fr auto; padding: 14px 12px 14px 16px; gap: 4px 12px; }
+  .pkg span { grid-column: 1 / -1; font-size: 13px; color: var(--ink-3); }
+  .pkg code { font-size: 13px; }
+  .pkg code .nw { display: inline-block; }
+  .pkg .copy { min-height: 44px; }
+  footer { padding: var(--s4) 0 var(--s3); font-size: 14px; }
+  footer .wrap { flex-direction: column; align-items: flex-start; gap: var(--s3); }
+  footer ul { display: grid; grid-template-columns: repeat(3, auto); gap: 0 20px; }
+  footer a { padding: 12px 0; }
+  .brand { min-height: 44px; }
+  .spec dd code { white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+        <rect width="28" height="28" rx="6" fill="#101713"/>
+        <rect x="6" y="8" width="16" height="4" rx="1" fill="#F2C94C"/>
+        <rect x="6" y="16" width="16" height="4" rx="1" fill="#FFFFFF"/>
+      </svg>
+      driftless
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#docs">Docs</a>
+      <a href="#guides">Guides</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#blog">Blog</a>
+      <a href="#changelog">Changelog</a>
+      <a href="#github">GitHub</a>
+    </nav>
+    <div class="top-actions">
+      <a class="signin" href="#signin">Sign in</a>
+      <a class="btn btn-primary" href="#start">Get started</a>
+      <button class="menu-btn" type="button" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 9h14M2 13h14" stroke="#101713" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="start">
+    <div class="wrap">
+      <div>
+        <h1>Your app’s data lives on the device first.</h1>
+        <p class="lede"><strong>Driftless is an open-source, embedded SQL database.</strong> Reads and writes hit the local copy, so they are instant and keep working offline. Driftless syncs every copy in the background.</p>
+        <div class="install">
+          <code><span class="p" aria-hidden="true">$</span>npm install @driftless/client</code>
+          <button class="copy" type="button" aria-label="Copy install command">Copy</button>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#docs">Get started</a>
+          <a class="btn btn-quiet" href="#how">How it works</a>
+        </div>
+        <dl class="runs">
+          <dt>Runs in</dt>
+          <dd>Browser (WebAssembly + OPFS), iOS, Android, Electron, Tauri, Node, Bun, Deno</dd>
+          <dt>Open source</dt>
+          <dd>Apache-2.0 &nbsp;/&nbsp; 18.4k GitHub stars &nbsp;/&nbsp; 1.2M npm downloads a month</dd>
+        </dl>
+      </div>
+
+      <figure class="code" aria-label="Code sample: a synced notes table in TypeScript" style="margin:0">
+        <div class="code-head"><b>notes.ts</b><span>TypeScript</span></div>
+<pre><code><span class="l"><span class="k">import</span> { open } <span class="k">from</span> <span class="s">"@driftless/client"</span>;</span><span class="l blank"> </span><span class="l hl" data-pin="1"><span class="k">const</span> db = <span class="k">await</span> <span class="f">open</span>(<span class="s">"notes.db"</span>, { sync: <span class="s">"wss://sync.example.dev"</span>, token });</span><span class="l blank"> </span><span class="l"><span class="k">await</span> db.<span class="f">exec</span><span class="s">`CREATE TABLE IF NOT EXISTS notes (</span></span><span class="l"><span class="s">  id TEXT PRIMARY KEY, body TEXT, updated_at INTEGER)`</span>;</span><span class="l blank"> </span><span class="l hl" data-pin="2">db.<span class="f">watch</span><span class="s">`SELECT * FROM notes ORDER BY updated_at DESC`</span>.<span class="f">subscribe</span>(render);</span><span class="l blank"> </span><span class="l hl" data-pin="3"><span class="k">await</span> db.<span class="f">exec</span><span class="s">`INSERT INTO notes VALUES (</span><span class="t">${</span>id<span class="t">}</span><span class="s">, </span><span class="t">${</span>body<span class="t">}</span><span class="s">, </span><span class="t">${</span>Date.<span class="f">now</span>()<span class="t">}</span><span class="s">)`</span>;</span></code></pre>
+        <ol class="code-notes">
+          <li><span class="pin">1</span><span>Opens a local SQLite-compatible database and starts background sync with your JWT.</span></li>
+          <li><span class="pin">2</span><span><code>db.watch</code> re-runs the query whenever matching rows change, locally or from sync.</span></li>
+          <li><span class="pin">3</span><span>The write lands locally; sync sends it to every other device that holds matching rows.</span></li>
+        </ol>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec how" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>How it works</h2>
+        <p>Your app never waits on the network. It talks to a real SQL database on the device; Driftless handles the rest in the background.</p>
+      </div>
+
+      <div class="flow">
+        <div class="step">
+          <span class="n">1</span>
+          <h3>Your app writes to its local database</h3>
+          <p>Reads and writes are local. The app keeps working offline, and pending changes survive restarts.</p>
+          <div class="fig" aria-hidden="true">
+            <svg viewBox="0 0 300 110" preserveAspectRatio="xMinYMid meet">
+              <rect x="1" y="15" width="118" height="80" rx="8" fill="#FFFFFF" stroke="#101713" stroke-width="1.5"/>
+              <text x="16" y="44" font-family="Schibsted Grotesk, sans-serif" font-size="14" font-weight="700" fill="#101713">Your app</text>
+              <text x="16" y="66" font-family="JetBrains Mono, monospace" font-size="11" fill="#56625B">db.exec`…`</text>
+              <path d="M124 55 H168" stroke="#0A6650" stroke-width="2"/><path d="M166 49 L176 55 L166 61" fill="none" stroke="#0A6650" stroke-width="2"/>
+              <g transform="translate(184 18)">
+                <ellipse cx="50" cy="10" rx="50" ry="10" fill="#FBEAB2" stroke="#101713" stroke-width="1.5"/>
+                <path d="M0 10 V64 A50 10 0 0 0 100 64 V10" fill="#FBEAB2" stroke="#101713" stroke-width="1.5"/>
+                <text x="50" y="46" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#101713">local</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="step">
+          <span class="n">2</span>
+          <h3>Driftless records and merges the change</h3>
+          <p>Each change is stamped with a hybrid logical clock, so concurrent edits merge per column.</p>
+          <div class="fig" aria-hidden="true">
+            <svg viewBox="0 0 300 110" preserveAspectRatio="xMinYMid meet">
+              <g font-family="JetBrains Mono, monospace" font-size="12">
+                <rect x="1" y="12" width="280" height="26" rx="4" fill="#FFFFFF" stroke="#CDD2C9"/>
+                <text x="12" y="30" fill="#56625B">phone</text><text x="84" y="30" fill="#101713">set title</text><text x="200" y="30" fill="#56625B">hlc …031</text>
+                <rect x="1" y="44" width="280" height="26" rx="4" fill="#FFFFFF" stroke="#CDD2C9"/>
+                <text x="12" y="62" fill="#56625B">laptop</text><text x="84" y="62" fill="#101713">set done</text><text x="200" y="62" fill="#56625B">hlc …032</text>
+                <rect x="1" y="76" width="280" height="26" rx="4" fill="#FFFFFF" stroke="#101713" stroke-width="1.5"/>
+                <text x="12" y="94" fill="#101713" font-weight="700">order</text><text x="84" y="94" fill="#101713">…031 before …032</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="step">
+          <span class="n">3</span>
+          <h3>The sync server relays it to other devices</h3>
+          <p>Only devices that hold matching rows receive the change. Run the open-source server yourself, or use Driftless Cloud.</p>
+          <div class="fig" aria-hidden="true">
+            <svg viewBox="0 0 300 110" preserveAspectRatio="xMinYMid meet">
+              <rect x="1" y="30" width="96" height="50" rx="8" fill="#101713"/>
+              <text x="49" y="60" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFFFFF">sync</text>
+              <g stroke="#0A6650" stroke-width="2" fill="none">
+                <path d="M97 45 C140 45 150 20 190 20"/><path d="M97 55 H190"/><path d="M97 65 C140 65 150 90 190 90"/>
+              </g>
+              <g font-family="Schibsted Grotesk, sans-serif" font-size="12" fill="#101713">
+                <rect x="194" y="8" width="96" height="24" rx="5" fill="#FFFFFF" stroke="#101713" stroke-width="1.2"/><text x="206" y="24">phone</text>
+                <rect x="194" y="43" width="96" height="24" rx="5" fill="#FFFFFF" stroke="#101713" stroke-width="1.2"/><text x="206" y="59">laptop</text>
+                <rect x="194" y="78" width="96" height="24" rx="5" fill="#F3F4F0" stroke="#CDD2C9" stroke-width="1.2" stroke-dasharray="3 3"/><text x="206" y="94" fill="#56625B">no match: skip</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="merge">
+        <div class="merge-copy">
+          <h3>Two people edit the same row offline. Nothing is lost.</h3>
+          <div class="mc-p"><p>Conflicts merge automatically per column, ordered by hybrid logical clocks. You do not hand-write conflict code.</p>
+          <p>For counters, lists and rich text, register a custom merge function.</p></div>
+        </div>
+        <div>
+          <div class="merge-board">
+            <div class="dev">
+              <div class="dev-h"><b>Phone, offline</b><span>edits title</span></div>
+              <table class="row">
+                <tr><th>id</th><td>t_81</td></tr>
+                <tr><th>title</th><td class="chg"><span class="was">Draft agenda</span>Final agenda</td></tr>
+                <tr><th>done</th><td>0</td></tr>
+              </table>
+            </div>
+            <div class="dev">
+              <div class="dev-h"><b>Laptop, offline</b><span>edits done</span></div>
+              <table class="row">
+                <tr><th>id</th><td>t_81</td></tr>
+                <tr><th>title</th><td>Draft agenda</td></tr>
+                <tr><th>done</th><td class="chg"><span class="was">0</span>1</td></tr>
+              </table>
+            </div>
+            <div class="join"><span>both reconnect, sync merges per column</span><svg width="48" height="14" viewBox="0 0 48 14" aria-hidden="true"><path d="M0 7H44M37 1l7 6-7 6" fill="none" stroke="#101713" stroke-width="2"/></svg></div>
+            <div class="result">
+              <div class="dev-h"><b>Every device after sync</b><span>both edits kept</span></div>
+              <table class="row">
+                <tr><th>id</th><td>t_81</td></tr>
+                <tr><th>title</th><td class="chg">Final agenda</td></tr>
+                <tr><th>done</th><td class="chg">1</td></tr>
+              </table>
+            </div>
+          </div>
+          <p class="sample">Sample data. Illustration of per-column merge, not a benchmark.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="compare">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Server-first with a cache, or data on the device</h2>
+        <p>What changes when the database moves into the app, and your server becomes one more copy.</p>
+      </div>
+      <table class="cmp">
+        <thead><tr><th scope="col"><span class="sr-only">Aspect</span></th><th scope="col">Server-first + cache</th><th scope="col" class="us">Driftless</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Reads</th><td><span class="lbl">Server + cache</span>Network round trip, or a possibly stale cache</td><td class="us"><span class="lbl">Driftless</span>Local, sub-millisecond</td></tr>
+          <tr><th scope="row">Offline writes</th><td><span class="lbl">Server + cache</span>Usually blocked, or a custom queue you maintain</td><td class="us"><span class="lbl">Driftless</span>Built in</td></tr>
+          <tr><th scope="row">Conflicts</th><td><span class="lbl">Server + cache</span>Hand-written</td><td class="us"><span class="lbl">Driftless</span>Automatic per column, customisable</td></tr>
+          <tr><th scope="row">Live updates</th><td><span class="lbl">Server + cache</span>A separate realtime service</td><td class="us"><span class="lbl">Driftless</span>Reactive queries included</td></tr>
+          <tr><th scope="row">Where data lives</th><td><span class="lbl">Server + cache</span>Your server</td><td class="us"><span class="lbl">Driftless</span>Each device and your server</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" id="docs" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>What you get</h2>
+        <p>The details a code review will ask about.</p>
+      </div>
+      <dl class="spec">
+        <div><dt>SQL dialect</dt><dd>SQLite-compatible. The engine is a fork of SQLite 3.46 with sync metadata.</dd></div>
+        <div><dt>Reactive queries</dt><dd><code>db.watch</code> re-runs a query whenever matching rows change, locally or from sync.</dd></div>
+        <div><dt>Partial sync</dt><dd>Shapes: each user syncs only the rows a filter selects, for example <code>WHERE team_id = ?</code>.</dd></div>
+        <div><dt>Auth</dt><dd>Bring your own JWT. Row-level rules are checked by the sync server.</dd></div>
+        <div><dt>Sync server</dt><dd>Open source, one binary, backed by Postgres or SQLite. Or Driftless Cloud, managed.</dd></div>
+        <div><dt>Offline</dt><dd>The app keeps working offline; pending changes survive restarts.</dd></div>
+        <div><dt>Platforms</dt><dd>Browser (WebAssembly + OPFS), iOS and Android (native library), Electron, Tauri, Node, Bun, Deno.</dd></div>
+        <div><dt>Browser bundle</dt><dd>690 KB gzipped.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec facts" id="changelog">
+    <div class="wrap">
+      <div>
+        <h2>Measured, with the setup</h2>
+        <p class="setup">From the project’s published benchmark page. M3 MacBook Air, Chrome 140, OPFS.</p>
+        <dl class="bench">
+          <div><dt>Local indexed read, p50</dt><dd>0.2<small>ms</small></dd></div>
+          <div><dt>Local write, p50</dt><dd>0.8<small>ms</small></dd></div>
+          <div><dt>10,000 row changes reaching a second device over a throttled 4G profile</dt><dd>1.9<small>s</small></dd></div>
+        </dl>
+      </div>
+      <div class="release">
+        <time datetime="2026-08-19">1.4 &middot; 19 Aug 2026</time>
+        <h2 style="margin-top:14px">New in 1.4</h2>
+        <ul>
+          <li>Shapes are generally available</li>
+          <li>Bun support</li>
+          <li>WebAssembly bundle 30% smaller</li>
+        </ul>
+        <a href="#changelog">Read the changelog</a>
+        <ul class="proof"><li><strong>18.4k</strong> GitHub stars</li><li><strong>236</strong> contributors</li><li><strong>1.2M</strong> npm downloads a month</li><li class="when">August 2026</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Free to self-host. Pay for Cloud if you want it managed.</h2>
+        <p>The client libraries and the sync server are Apache-2.0. Driftless Cloud runs the sync server for you.</p>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <h3>Open source</h3>
+          <p class="kind">Self-hosted</p>
+          <p class="price">Free</p>
+          <p class="per">Apache-2.0</p>
+          <dl>
+            <div><dt>Hosting</dt><dd>You run the sync server</dd></div>
+            <div class="na"><dt>Synced data</dt><dd>—</dd></div>
+            <div class="na"><dt>Monthly active devices</dt><dd>—</dd></div>
+            <div class="na"><dt>Restore</dt><dd>—</dd></div>
+            <div class="na"><dt>Support</dt><dd>—</dd></div>
+            <div><dt>Also included</dt><dd>Client libraries and the sync server</dd></div>
+          </dl>
+          <a class="btn btn-quiet" href="#docs">Read the docs</a>
+        </div>
+        <div class="plan">
+          <h3>Cloud Hobby</h3>
+          <p class="kind">Managed</p>
+          <p class="price">$0</p>
+          <p class="per">per month</p>
+          <dl>
+            <div><dt>Hosting</dt><dd>Driftless Cloud, 1 project</dd></div>
+            <div><dt>Synced data</dt><dd>1 GB</dd></div>
+            <div><dt>Monthly active devices</dt><dd>500</dd></div>
+            <div class="na"><dt>Restore</dt><dd>—</dd></div>
+            <div><dt>Support</dt><dd>Community</dd></div>
+            <div class="na"><dt>Also included</dt><dd>—</dd></div>
+          </dl>
+          <a class="btn btn-quiet" href="#signup">Start free</a>
+        </div>
+        <div class="plan pro">
+          <h3>Cloud Pro</h3>
+          <p class="kind">Managed</p>
+          <p class="price">$39</p>
+          <p class="per">per month, per project</p>
+          <dl>
+            <div><dt>Hosting</dt><dd>Driftless Cloud</dd></div>
+            <div><dt>Synced data</dt><dd>25 GB</dd></div>
+            <div><dt>Monthly active devices</dt><dd>25,000</dd></div>
+            <div><dt>Restore</dt><dd>7-day point-in-time</dd></div>
+            <div><dt>Support</dt><dd>Email</dd></div>
+            <div class="na"><dt>Also included</dt><dd>—</dd></div>
+          </dl>
+          <a class="btn btn-primary" href="#signup">Choose Pro</a>
+        </div>
+        <div class="plan">
+          <h3>Enterprise</h3>
+          <p class="kind">Managed</p>
+          <p class="price price-text">Contact us</p>
+          <p class="per">&nbsp;</p>
+          <dl>
+            <div><dt>Hosting</dt><dd>Dedicated region: EU, US or APAC</dd></div>
+            <div class="na"><dt>Synced data</dt><dd>—</dd></div>
+            <div class="na"><dt>Monthly active devices</dt><dd>—</dd></div>
+            <div class="na"><dt>Restore</dt><dd>—</dd></div>
+            <div class="na"><dt>Support</dt><dd>—</dd></div>
+            <div><dt>Also included</dt><dd>SSO / SAML, 99.95% uptime SLA, audit log export</dd></div>
+          </dl>
+          <a class="btn btn-quiet" href="#contact">Contact sales</a>
+        </div>
+      </div>
+      <p class="plans-note">A dash means the plan lists no figure for that row.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2>The catch, answered</h2></div>
+      <div class="faq">
+        <div>
+          <h3>Is it SQLite?</h3>
+          <p>The storage engine is a fork of SQLite 3.46 with sync metadata; most SQLite SQL runs unchanged. Extensions that change the file format are not supported.</p>
+        </div>
+        <div>
+          <h3>Do I need Driftless Cloud?</h3>
+          <p>No. The sync server is a single open-source binary you can run anywhere; Cloud is the managed version.</p>
+        </div>
+        <div>
+          <h3>How big can a local database get?</h3>
+          <p>Browser storage limits apply (usually a share of free disk). On native platforms the tested limit is 50 GB.</p>
+        </div>
+        <div>
+          <h3>What happens when two people edit the same row offline?</h3>
+          <p>Each column merges by hybrid logical clock; register custom merge functions for counters, lists and rich text.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec end" id="install">
+    <div class="wrap">
+      <div>
+        <h2>Install it</h2>
+        <p>Latest release: 1.4, 19 Aug 2026.</p>
+        <a class="btn btn-primary" href="#docs" style="min-height:48px;padding:0 22px;font-size:16px">Read the quick start</a>
+      </div>
+      <div class="pkgs">
+        <div class="pkg"><span>npm</span><code>npm install @driftless/client</code><button class="copy" type="button" aria-label="Copy npm command">Copy</button></div>
+        <div class="pkg"><span>Swift Package Manager</span><code><span class="nw">github.com/</span><wbr><span class="nw">driftless-db/driftless-swift</span></code><button class="copy" type="button" aria-label="Copy Swift package URL">Copy</button></div>
+        <div class="pkg"><span>Gradle</span><code><span class="nw">dev.driftless:</span><wbr><span class="nw">driftless-android:1.4.0</span></code><button class="copy" type="button" aria-label="Copy Gradle coordinate">Copy</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home" style="font-size:18px">
+      <svg width="24" height="24" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="6" fill="#101713"/><rect x="6" y="8" width="16" height="4" rx="1" fill="#F2C94C"/><rect x="6" y="16" width="16" height="4" rx="1" fill="#FFFFFF"/></svg>
+      driftless
+    </a>
+    <ul>
+      <li><a href="#docs">Docs</a></li><li><a href="#api">API reference</a></li><li><a href="#status">Status</a></li><li><a href="#security">Security</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#terms">Terms</a></li><li><a href="#changelog">Changelog</a></li><li><a href="#github">GitHub</a></li>
+    </ul>
+    <p style="margin:0">&copy; 2026 Driftless Labs</p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var c = b.parentElement.querySelector('code');
+    var t = c.textContent.replace(/^\$/, '').trim();
+    if (navigator.clipboard) navigator.clipboard.writeText(t);
+    b.textContent = 'Copied';
+    setTimeout(function () { b.textContent = 'Copy'; }, 1600);
+  });
+});
+</script>
+</body>
+</html>

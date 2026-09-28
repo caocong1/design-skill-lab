@@ -1,0 +1,18 @@
+```json
+{
+  "brief": "06-redesign-legacy",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/schedule.png: the left rail has Here now with waiting times, Due next with a Check In button per row, and Needs attention (double-booked, insurance, unconfirmed), which fits the 42% check-in task", "A/schedule.png: in the right panel, alerts sit above a check-in checklist (Arrived, Insurance verified, Copay with a Collect Copay button, Room), so check-in happens next to the alerts"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 3, "typography": 3, "platform_a11y": 4,
+          "evidence": ["B/schedule.png: the right panel has a large green Check In button under the alerts, the clearest primary action of the three screens", "B/schedule.png: grid cards are cramped, e.g. Castillo 'ear pain' and Stein 'sinus' are cut at the card bottom, Soto 'UT…' and Abernathy '9m…' are truncated, and recent visits is a run-on line"]},
+    "R": {"fit": 3, "hierarchy": 2, "identity": 2, "craft": 3, "typography": 2, "platform_a11y": 3,
+          "evidence": ["before.png: the details panel has 12 identical grey action buttons and patient alerts at the bottom right", "before.png: all names are small same-weight uppercase text truncated with '…' in every grid cell, e.g. 'BRENNAN, HAROLD 75M F/…'", "before.png: default grey browser-form look with no character of its own"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "right", "reason": "A's grid cards set cleanly without clipped text, and its Due next queue has Check In per row. B's cards clip lines and cram chips."}
+  ],
+  "notes": "Both restructure well: waiting and in-room times, a visible double booking, alerts on top, consolidated toolbars. B's big Check In button is strong, though it shows for a patient already marked Here. A's type setting is calmer and more consistent: names are bold, meta lines are secondary, and times align. B's large waiting-minute numerals are a nice touch, but its grid cards are overloaded."
+}
+```

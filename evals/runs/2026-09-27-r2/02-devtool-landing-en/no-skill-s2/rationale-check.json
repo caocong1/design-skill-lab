@@ -1,0 +1,117 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "no-skill-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/desktop-01.png",
+      "render/desktop-02.png",
+      "render/desktop-03.png",
+      "render/desktop-04.png",
+      "render/desktop-05.png",
+      "render/desktop-06.png",
+      "render/desktop-07.png",
+      "render/mobile-01.png",
+      "render/mobile-02.png",
+      "render/mobile-03.png",
+      "render/mobile-04.png",
+      "render/mobile-05.png",
+      "render/mobile-06.png",
+      "render/mobile-07.png",
+      "render/mobile-08.png",
+      "render/mobile-09.png",
+      "render/mobile-10.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/02-devtool-landing-en.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 0,
+    "not checkable": 1
+  },
+  "report_line": "claims: 11 verified, 0 contradicted, 1 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "I re-wrapped long lines (the `open()` options object and the SQL inside the template literals) so it stays readable at 390 px without horizontal scrolling",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png lower half: the open() options object and the CREATE TABLE SQL are split across lines, and every line fits inside the code block; mobile-02.png top: the INSERT line wraps too. facts.md: horizontal overflow: no (390x844)."
+    },
+    {
+      "claim": "The two captions under the code (\"no network on the write path\", \"render() re-runs when matching rows change\")",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png, code panel footer: both ✓ captions are there; mobile-02.png shows them under the code block."
+    },
+    {
+      "claim": "Hero install shows the npm command only; the Swift Package Manager and Gradle coordinates are in the Install section, linked from the hero.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png / mobile-01.png: the hero shows only `npm install @driftless/client`, with underlined 'Also for Swift and Android (Gradle)' links. desktop-06.png and mobile-08.png: the Install section lists the SPM and Gradle coordinates."
+    },
+    {
+      "claim": "\"Contact us\" for Enterprise is shown as a \"Custom\" price plus a \"Contact us\" button.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-05.png, right card: Enterprise shows 'Custom' with a 'Contact us' button. On mobile, 'Custom' is at the bottom of mobile-07.png and the button is in mobile-08.png."
+    },
+    {
+      "claim": "No plan is labelled \"popular\"; Pro just gets a heavier border.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-05.png: no badge on any card, and the Pro card has a dark border while the others have light ones (its 'Choose Pro' button is also the only filled one). mobile-07.png: same on mobile."
+    },
+    {
+      "claim": "Platform list in the diagram (Web app / Mobile app on iOS)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-02.png, right-hand diagram: 'Web app · Browser · Wasm' and 'Mobile app · iOS · native library' connect to the Driftless Sync Server. mobile-03.png shows the same diagram."
+    },
+    {
+      "claim": "Proof strip uses only the allowed figures (18.4k stars, 236 contributors, 1.2M npm downloads/month, Aug 2026) plus the Apache-2.0 licence",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png, bottom strip: 18.4k GitHub stars, 236 contributors, 1.2M npm downloads / month (Aug 2026), Apache-2.0. No other proof appears on any frame. mobile-02.png shows the same 2×2 grid."
+    },
+    {
+      "claim": "On mobile, two feature tiles (\"Offline is the default\", \"Self-host or managed\") are hidden",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-04.png shows all 8 tiles. On mobile, mobile-05.png and mobile-06.png show only 6: Runs where your app runs, Per-column merges, Reactive queries, Partial sync, Bring your own auth, 690 KB gzipped. The Offline and Self-host tiles are missing."
+    },
+    {
+      "claim": "this keeps the mobile page within 10 screens",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: the mobile page is 8029 px tall (about 9.5 screens of 844 px), 10 frames, 'no page truncated at 10 screens'. mobile-10.png ends with the footer and © 2026 Driftless Labs."
+    },
+    {
+      "claim": "The nav collapses into a `<details>` menu on mobile; \"Get started\" stays visible.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png to mobile-10.png: the header shows only the logo, a 'Get started' button and a hamburger button, and it stays visible on every frame. Whether the menu is a `<details>` element can't be seen in a static render."
+    },
+    {
+      "claim": "Wordmark \"driftless\" and logo mark (two contour lines) are my own design.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png, top-left: the lowercase 'driftless' wordmark sits next to a dark square mark with two wavy lines (plus a small dot). desktop-07.png and mobile-10.png: the same mark is in the footer. Who made it can't be checked."
+    },
+    {
+      "claim": "\"Changelog\", \"Docs\", \"see methodology\" etc. are placeholder `#` links",
+      "source": "NOTES.md",
+      "verdict": "not checkable",
+      "evidence": "desktop-03.png shows 'see methodology' underlined as a link, but link targets can't be seen in a static render."
+    }
+  ],
+  "notes": "All 12 claims check out or can't be checked visually; the renders contradict none of them. Font choice (Geist) and asset sources weren't listed as separate claims because a render can't prove them. facts.md reports 0 AA text failures, 0 undersized targets and no horizontal overflow at either size. The Driftless comparison column uses a green tint on desktop and a green left rule on mobile. NOTES.md doesn't claim this, so it isn't graded.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.no-skill-s2/check.reply.txt",
+    "sha256": "011e07c7a04684e87efc8404ec5a627969e5a2b7a27256bdd9d15311f265058c"
+  }
+}

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GD-20260927-0413 · 恒川设备云</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<div class="shell">
+
+<aside class="side" aria-label="主导航">
+  <div class="side-brand"><span class="mark"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 5v14M19 5v14M5 12h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg></span>恒川设备云</div>
+  <ul class="side-nav">
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>工作台</a></li>
+    <li class="group"><a href="#" aria-expanded="true"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>工单管理<span class="chev"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></span></a>
+      <ul class="sub">
+        <li><a href="list.html" aria-current="page">工单列表</a></li>
+        <li><a href="#">我的工单</a></li>
+        <li><a href="#">工单统计</a></li>
+      </ul>
+    </li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>设备台账</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.5"/></svg>巡检计划</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-3.5-3.5 8-8"/><path d="M14.7 6.3 13 4.6a4 4 0 0 0-5 5L3 14.6 6.5 18"/></svg>保养计划</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>备件库存</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg>报表中心</a></li>
+    <li><a href="#"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>系统设置</a></li>
+  </ul>
+</aside>
+<div class="main">
+
+<header class="topbar">
+  <button class="org" type="button" aria-haspopup="listbox" aria-label="切换组织：当前 恒川精密 · 苏州一厂"><span class="dot" aria-hidden="true"></span>恒川精密 · 苏州一厂<svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+  <label class="gsearch"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr-only">全局搜索</span><input type="search" placeholder="搜索工单号、设备编号"></label>
+  <span class="spacer"></span>
+  <span class="clock num">2026-09-27 周日 09:42</span>
+  <button class="bell" type="button" aria-label="通知，5 条未读"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span class="count">5</span></button>
+  <span class="user"><span class="avatar" aria-hidden="true">李</span>李敏<span class="role">· 运维主管</span></span>
+</header>
+<main class="page">
+
+<style>
+.d-head { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px 20px; margin: 8px 0 16px; }
+.d-top { display: flex; align-items: flex-start; gap: 16px; }
+.d-title { flex: 1; min-width: 0; }
+.d-title .idline { display: flex; align-items: center; gap: 8px; font-size: var(--fs-13); color: var(--text-3); }
+.d-title h1 { font-size: 22px; line-height: 30px; font-weight: 600; margin: 4px 0 8px; display: flex; align-items: center; gap: 10px; }
+.d-meta { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: var(--fs-13); color: var(--text-2); }
+.d-meta .k { color: var(--text-3); margin-right: 6px; }
+.d-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.d-actions .row { display: flex; gap: 8px; }
+.d-actions .util { display: flex; gap: 2px; }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) 352px; gap: 16px; align-items: start; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.sec { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); }
+.sec > h2 { display: flex; align-items: center; gap: 8px; margin: 0; padding: 14px 20px 0; font-size: 15px; font-weight: 600; }
+.sec > h2 .aside { margin-left: auto; font-size: var(--fs-13); font-weight: 400; color: var(--text-3); }
+.sec .body { padding: 12px 20px 18px; }
+/* SLA */
+.sla-grid { display: grid; grid-template-columns: 1fr 1.5fr; }
+.sla-cell { padding: 16px 20px 18px; }
+.sla-cell + .sla-cell { border-left: 1px solid var(--line); }
+.sla-cell .lbl { font-size: var(--fs-13); color: var(--text-2); display: flex; align-items: center; gap: 8px; }
+.sla-cell .big { display: flex; align-items: baseline; gap: 10px; margin: 6px 0 10px; }
+.sla-cell .big strong { font-size: 30px; line-height: 36px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.sla-cell .big span { font-size: var(--fs-13); color: var(--text-2); }
+.tag { white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 11px; font-size: var(--fs-12); font-weight: 600; }
+.tag svg { width: 12px; height: 12px; stroke-width: 2.4; }
+.tag-ok { background: var(--ok-weak); color: var(--ok); }
+.tag-over { background: var(--danger-weak); color: var(--danger); }
+.tag-run { background: var(--primary-weak); color: var(--primary); }
+.tag-mute { background: #EDEFF3; color: var(--text-2); }
+.tag-warn { background: var(--warn-weak); color: var(--warn); }
+.bar { position: relative; height: 8px; background: #E9EDF2; border-radius: 4px; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+.bar .now { position: absolute; top: -4px; width: 2px; height: 16px; background: var(--text); border-radius: 1px; }
+.bar-scale { display: flex; justify-content: space-between; font-size: var(--fs-12); color: var(--text-3); margin-top: 6px; font-variant-numeric: tabular-nums; }
+/* readings */
+.reads { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); margin-top: 12px; }
+.read { padding: 14px 20px 16px; }
+.read + .read { border-left: 1px solid var(--line); }
+.read .n { font-size: var(--fs-13); color: var(--text-2); }
+.read .v { display: flex; align-items: baseline; gap: 4px; margin: 4px 0 6px; }
+.read .v strong { font-size: 24px; line-height: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.read .v > span:not(.tag) { font-size: var(--fs-13); color: var(--text-2); }
+.read .v .tag { margin-left: auto; align-self: center; }
+.read.over .v strong { color: var(--danger); }
+.read .rg { font-size: var(--fs-12); color: var(--text-3); display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.chart-wrap { padding: 4px 20px 16px; }
+.chart .ax { font-size: 12px; fill: #5E6B7E; font-family: var(--font); }
+.chart .an { font-size: 12px; fill: #475467; font-family: var(--font); }
+.chart .thr { font-size: 12px; fill: #B42318; font-weight: 600; font-family: var(--font); }
+.chart .end { font-size: 13px; fill: #B42318; font-weight: 700; font-family: var(--font); }
+.chart-cap { font-size: var(--fs-13); color: var(--text-2); padding: 0 20px; margin-top: 2px; }
+.chart-cap b { color: var(--text); font-weight: 600; }
+/* log */
+.log { list-style: none; margin: 0; padding: 4px 20px 16px; }
+.log li { display: grid; grid-template-columns: 52px 20px 1fr; gap: 0 10px; position: relative; padding-bottom: 14px; }
+.log li:last-child { padding-bottom: 0; }
+.log .t { font-size: var(--fs-13); color: var(--text-2); font-variant-numeric: tabular-nums; text-align: right; line-height: 20px; }
+.log .dot { position: relative; display: flex; justify-content: center; }
+.log .dot::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #fff; border: 2px solid var(--line-strong); margin-top: 5px; z-index: 1; }
+.log li:first-child .dot::before { border-color: var(--primary); background: var(--primary); }
+.log .dot::after { content: ""; position: absolute; top: 12px; bottom: -14px; width: 2px; background: var(--line); }
+.log li:last-child .dot::after { display: none; }
+.log .who { font-size: var(--fs-13); line-height: 20px; }
+.log .who b { font-weight: 600; }
+.log .who .r { color: var(--text-3); margin-left: 6px; }
+.log .what { font-size: var(--fs-14); margin-top: 2px; }
+.photos { display: flex; gap: 8px; margin-top: 8px; }
+.photo { width: 132px; height: 88px; border-radius: var(--r-md); background: #EEF1F5; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--text-3); font-size: var(--fs-12); }
+.photo svg { width: 20px; height: 20px; }
+/* aside */
+.kvs { margin: 0; }
+.kv { display: grid; grid-template-columns: 76px 1fr; gap: 8px; padding: 6px 0; font-size: var(--fs-13); }
+.kv dt { color: var(--text-3); }
+.kv dd { margin: 0; color: var(--text); }
+.dev-name { font-size: var(--fs-14); font-weight: 600; margin: 0 0 2px; }
+.person { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+.person + .person { border-top: 1px solid var(--line); }
+.person .avatar { width: 32px; height: 32px; font-size: 13px; }
+.person .who { flex: 1; font-size: var(--fs-13); line-height: 18px; }
+.person .who b { font-size: var(--fs-14); font-weight: 600; }
+.person .role-tag { font-size: var(--fs-12); color: var(--text-3); border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; line-height: 20px; white-space: nowrap; }
+.part { padding: 10px 0; font-size: var(--fs-13); }
+.part + .part { border-top: 1px solid var(--line); }
+.part .nm { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: var(--fs-14); }
+.part .inv { color: var(--text-3); margin-top: 2px; }
+.rel { padding: 9px 0; font-size: var(--fs-13); }
+.rel + .rel { border-top: 1px solid var(--line); }
+.rel .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.rel .tt { color: var(--text); margin-top: 2px; }
+</style>
+
+<nav class="crumb" aria-label="面包屑"><a href="#">工单管理</a><span class="sep" aria-hidden="true">/</span><a href="list.html">工单列表</a><span class="sep" aria-hidden="true">/</span><span class="num">GD-20260927-0413</span></nav>
+
+<header class="d-head">
+  <div class="d-top">
+    <div class="d-title">
+      <div class="idline"><span class="mono" style="color:var(--text-2)">GD-20260927-0413</span></div>
+      <h1>3号注塑机液压油温过高
+        <span class="pri pri-1"><b>P1</b>紧急</span>
+        <span class="st st-doing"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-3.5-3.5 8-8"/><path d="M14.7 6.3 13 4.6a4 4 0 0 0-5 5L3 14.6 6.5 18"/></svg>处理中</span>
+      </h1>
+      <div class="d-meta">
+        <span><span class="k">来源</span>IoT 自动报警（规则 R-HYD-02：液压油温 &gt; 55 °C 持续 20 分钟）</span>
+        <span><span class="k">设备</span>ZS-03-117 注塑机 · 一厂 A区 注塑线3</span>
+        <span><span class="k">负责人</span>王建国</span>
+        <span class="num"><span class="k">创建</span>09-27 09:12</span>
+        <span class="num"><span class="k">更新</span>09-27 09:40</span>
+      </div>
+    </div>
+    <div class="d-actions">
+      <div class="row">
+        <button class="btn" type="button">申请备件</button>
+        <button class="btn" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h14l-3-3M20 17H6l3 3"/></svg>转派</button>
+        <button class="btn" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>挂起</button>
+        <button class="btn" type="button">提交验收</button>
+        <button class="btn btn-primary" type="button"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>添加处理记录</button>
+      </div>
+      <div class="util" role="group" aria-label="更多"><span style="font-size:var(--fs-13);color:var(--text-3);align-self:center;margin-right:2px">更多</span>
+        <button class="btn btn-ghost btn-sm" type="button"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg>打印工单</button>
+        <button class="btn btn-ghost btn-sm" type="button"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>复制链接</button>
+        <button class="btn btn-ghost btn-sm" type="button"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg>关闭工单</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="cols">
+  <div class="stack">
+    <section class="sec" aria-labelledby="h-sla">
+      <h2 id="h-sla"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>SLA<span class="aside num">当前 09:42</span></h2>
+      <div class="sla-grid">
+        <div class="sla-cell">
+          <div class="lbl">响应时限 15 分钟 <span class="tag tag-ok"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>达标</span></div>
+          <div class="big"><strong>9 分钟</strong><span>09:21 到场</span></div>
+          <div class="bar" aria-hidden="true"><i style="width:60%;background:#2E8B57"></i></div>
+          <div class="bar-scale"><span>09:12 报警</span><span>09:27 时限</span></div>
+        </div>
+        <div class="sla-cell">
+          <div class="lbl">修复时限 4 小时 <span class="tag tag-run"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>计时中</span></div>
+          <div class="big"><strong>剩余 3 时 30 分</strong><span>截止 13:12</span></div>
+          <div class="bar" role="img" aria-label="修复时限已用 30 分钟，共 4 小时"><i style="width:12.5%;background:var(--primary)"></i><span class="now" style="left:calc(12.5% - 1px)"></span></div>
+          <div class="bar-scale"><span>09:12 开始 · 已用 30 分</span><span>13:12 截止</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-read">
+      <h2 id="h-read"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>实时读数<span class="aside num">09:41 更新</span></h2>
+      <div class="reads">
+        <div class="read over">
+          <div class="n">液压油温</div>
+          <div class="v"><strong>68.4</strong><span>°C</span><span class="tag tag-over"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>超限</span></div>
+          <div class="rg">正常范围 ≤ 55 °C</div>
+        </div><div class="read ok">
+          <div class="n">系统油压</div>
+          <div class="v"><strong>14.2</strong><span>MPa</span><span class="tag tag-ok"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>正常</span></div>
+          <div class="rg">正常范围 13–16 MPa</div>
+        </div><div class="read over">
+          <div class="n">冷却水进水温度</div>
+          <div class="v"><strong>31.5</strong><span>°C</span><span class="tag tag-over"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>超限</span></div>
+          <div class="rg">正常范围 ≤ 28 °C</div>
+        </div><div class="read ok">
+          <div class="n">主电机电流</div>
+          <div class="v"><strong>87</strong><span>A</span><span class="tag tag-ok"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>正常</span></div>
+          <div class="rg">正常范围 ≤ 110 A</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-trend">
+      <h2 id="h-trend">液压油温 08:50 超过报警线，仍在上升<span class="aside">近 2 小时 · 每 10 分钟 · °C</span></h2>
+      <div class="chart-wrap"><svg viewBox="0 0 772 232" width="772" height="232" role="img" aria-labelledby="ct-t ct-d" class="chart">
+  <title id="ct-t">液压油温趋势，近 2 小时</title>
+  <desc id="ct-d">07:40 为 46.1 °C，08:50 升到 55.4 °C 首次超过 55 °C 报警线，09:40 为 68.4 °C，持续上升。</desc>
+  <defs><clipPath id="ab"><rect x="40" y="28" width="668" height="93.5"/></clipPath></defs>
+  <line x1="40" x2="708" y1="204" y2="204" stroke="#EEF0F3"/><text x="32" y="208" text-anchor="end" class="ax">40</text><line x1="40" x2="708" y1="176.5" y2="176.5" stroke="#EEF0F3"/><text x="32" y="180.5" text-anchor="end" class="ax">45</text><line x1="40" x2="708" y1="149" y2="149" stroke="#EEF0F3"/><text x="32" y="153" text-anchor="end" class="ax">50</text><line x1="40" x2="708" y1="121.5" y2="121.5" stroke="#EEF0F3"/><text x="32" y="125.5" text-anchor="end" class="ax">55</text><line x1="40" x2="708" y1="94" y2="94" stroke="#EEF0F3"/><text x="32" y="98" text-anchor="end" class="ax">60</text><line x1="40" x2="708" y1="66.5" y2="66.5" stroke="#EEF0F3"/><text x="32" y="70.5" text-anchor="end" class="ax">65</text><line x1="40" x2="708" y1="39" y2="39" stroke="#EEF0F3"/><text x="32" y="43" text-anchor="end" class="ax">70</text><polygon points="40,121.5 40.0,170.4 95.7,166.6 151.3,162.8 207.0,155.1 262.7,147.9 318.3,138.0 374.0,128.6 429.7,119.3 485.3,105.6 541.0,87.4 596.7,67.6 652.3,55.0 708.0,47.8 708,121.5" fill="#FDECEA" clip-path="url(#ab)"/>
+  <line x1="40" x2="708" y1="121.5" y2="121.5" stroke="#B42318" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="46" y="115.5" class="thr">报警线 55 °C</text>
+  <line x1="552.1333333333333" x2="552.1333333333333" y1="24" y2="204" stroke="#98A2B3" stroke-dasharray="3 3"/><text x="546.1333333333333" y="18" text-anchor="end" class="an">09:12 自动报警</text>
+  <line x1="641.2" x2="641.2" y1="24" y2="204" stroke="#98A2B3" stroke-dasharray="3 3"/><text x="647.2" y="18" text-anchor="start" class="an">09:28 节拍降至 80%</text>
+  <polyline points="40.0,170.4 95.7,166.6 151.3,162.8 207.0,155.1 262.7,147.9 318.3,138.0 374.0,128.6 429.7,119.3 485.3,105.6 541.0,87.4 596.7,67.6 652.3,55.0 708.0,47.8" fill="none" stroke="#1F4FB5" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="40" cy="170.45" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="95.66666666666666" cy="166.60000000000002" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="151.33333333333331" cy="162.75" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="207" cy="155.05" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="262.66666666666663" cy="147.89999999999998" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="318.33333333333337" cy="138" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="374" cy="128.64999999999998" r="2.5" fill="#1F4FB5" stroke="#fff" stroke-width="1.5"/><circle cx="429.6666666666667" cy="119.30000000000001" r="2.5" fill="#B42318" stroke="#fff" stroke-width="1.5"/><circle cx="485.3333333333333" cy="105.55000000000001" r="2.5" fill="#B42318" stroke="#fff" stroke-width="1.5"/><circle cx="541" cy="87.39999999999998" r="2.5" fill="#B42318" stroke="#fff" stroke-width="1.5"/><circle cx="596.6666666666667" cy="67.60000000000002" r="2.5" fill="#B42318" stroke="#fff" stroke-width="1.5"/><circle cx="652.3333333333333" cy="54.95000000000003" r="2.5" fill="#B42318" stroke="#fff" stroke-width="1.5"/><circle cx="708" cy="47.79999999999997" r="4" fill="#B42318" stroke="#fff" stroke-width="1.5"/>
+  <text x="718" y="51.79999999999997" class="end">68.4 °C</text>
+  <text x="40" y="224" text-anchor="middle" class="ax">07:40</text><text x="151.33333333333331" y="224" text-anchor="middle" class="ax">08:00</text><text x="262.66666666666663" y="224" text-anchor="middle" class="ax">08:20</text><text x="374" y="224" text-anchor="middle" class="ax">08:40</text><text x="485.3333333333333" y="224" text-anchor="middle" class="ax">09:00</text><text x="596.6666666666667" y="224" text-anchor="middle" class="ax">09:20</text><text x="708" y="224" text-anchor="middle" class="ax">09:40</text>
+</svg></div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-log">
+      <h2 id="h-log">处理记录<span class="aside">6 条 · 最新在上</span></h2>
+      <ol class="log">
+        <li>
+          <span class="t">09:40</span><span class="dot" aria-hidden="true"></span>
+          <div>
+            <div class="who"><b>周强</b><span class="r">电气组</span></div>
+            <div class="what">确认冷却水泵运行正常，电流 12.4 A</div>
+            
+          </div>
+        </li><li>
+          <span class="t">09:35</span><span class="dot" aria-hidden="true"></span>
+          <div>
+            <div class="who"><b>王建国</b><span class="r">负责人</span></div>
+            <div class="what">上传照片 3 张</div>
+            <div class="photos"><div class="photo"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="3.5"/></svg>冷却器外观</div><div class="photo"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="3.5"/></svg>滤网</div><div class="photo"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="3.5"/></svg>温控表</div></div>
+          </div>
+        </li><li>
+          <span class="t">09:28</span><span class="dot" aria-hidden="true"></span>
+          <div>
+            <div class="who"><b>王建国</b><span class="r">负责人</span></div>
+            <div class="what">初步判断冷却水进水温度偏高，冷却器可能结垢；已将生产节拍降到 80%</div>
+            
+          </div>
+        </li><li>
+          <span class="t">09:21</span><span class="dot" aria-hidden="true"></span>
+          <div>
+            <div class="who"><b>王建国</b><span class="r">负责人</span></div>
+            <div class="what">到场签到（一厂 A区）</div>
+            
+          </div>
+        </li><li>
+          <span class="t">09:14</span><span class="dot" aria-hidden="true"></span>
+          <div>
+            <div class="who"><b>李敏</b><span class="r">运维主管</span></div>
+            <div class="what">派单给王建国，优先级 P1</div>
+            
+          </div>
+        </li><li>
+          <span class="t">09:12</span><span class="dot" aria-hidden="true"></span>
+          <div>
+            <div class="who"><b>系统</b></div>
+            <div class="what">自动创建工单（报警规则 R-HYD-02）</div>
+            
+          </div>
+        </li>
+      </ol>
+    </section>
+  </div>
+
+  <aside class="stack" aria-label="工单信息">
+    <section class="sec" aria-labelledby="h-dev">
+      <h2 id="h-dev"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>设备</h2>
+      <div class="body">
+        <p class="dev-name"><span class="mono" style="font-size:13px">ZS-03-117</span> 注塑机 JM-3800</p>
+        <dl class="kvs">
+          <div class="kv"><dt>锁模力</dt><dd>380 吨</dd></div>
+          <div class="kv"><dt>位置</dt><dd>一厂 A区 注塑线3 · 3号机位</dd></div>
+          <div class="kv"><dt>投用</dt><dd>2021-04</dd></div>
+          <div class="kv"><dt>上次保养</dt><dd>2026-08-30（季度保养）</dd></div>
+          <div class="kv"><dt>本月报警</dt><dd><b style="color:var(--danger)">3 次</b></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-ppl">
+      <h2 id="h-ppl"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>人员</h2>
+      <div class="body" style="padding-top:6px">
+        <div class="person"><span class="avatar" aria-hidden="true">王</span><div class="who"><b>王建国</b><br><span class="t2">机修组 · <span class="num">138****2716</span></span></div><span class="role-tag">负责人</span></div>
+        <div class="person"><span class="avatar" aria-hidden="true" style="background:#EDEFF3;color:var(--text-2)">周</span><div class="who"><b>周强</b><br><span class="t2">电气组</span></div><span class="role-tag">协作</span></div>
+        <div class="person"><span class="avatar" aria-hidden="true" style="background:#EDEFF3;color:var(--text-2)">李</span><div class="who"><b>李敏</b><br><span class="t2">运维主管</span></div><span class="role-tag">抄送</span></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-parts">
+      <h2 id="h-parts"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>备件</h2>
+      <div class="body" style="padding-top:4px">
+        <div class="part"><div class="nm"><span>板式冷却器滤芯 BL-220 × 1</span><span class="tag tag-ok">已出库</span></div><div class="inv">库存 4</div></div>
+        <div class="part"><div class="nm"><span>抗磨液压油 46# 18L × 1</span><span class="tag tag-warn">待领用</span></div><div class="inv">库存 12</div></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-rel">
+      <h2 id="h-rel"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>同设备近 30 天工单</h2>
+      <div class="body" style="padding-top:4px">
+        <div class="rel"><div class="top"><a class="id" href="#">GD-20260925-0359</a><span class="st st-closed"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>已关闭</span></div><div class="tt">模温机漏水</div></div>
+        <div class="rel"><div class="top"><a class="id" href="#">GD-20260911-0288</a><span class="st st-closed"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>已关闭</span></div><div class="tt">液压油温偏高 <span class="t2">· 更换滤芯</span></div></div>
+        <div class="rel"><div class="top"><a class="id" href="#">GD-20260902-0241</a><span class="st st-closed"><svg class="i " viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>已关闭</span></div><div class="tt">季度保养</div></div>
+      </div>
+    </section>
+  </aside>
+</div>
+
+</main>
+</div>
+</div>
+</body>
+</html>

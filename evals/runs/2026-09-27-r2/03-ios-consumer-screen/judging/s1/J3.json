@@ -1,0 +1,41 @@
+{
+ "brief": "03-ios-consumer-screen",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/today.png: Sunday bar is hatched as well as labelled, so 'in progress' is not shown by colour alone; Wed 0 drawn as a flat stub",
+    "A/book.png: the Middlemarch highlight is set in serif at reading size, not squeezed",
+    "A/empty.png: a one-line app explanation plus a streak rule, with no fake streak or data"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/today.png: all three current books are visible above the floating tab bar; Sunday is marked by the 'Today' label, but the bar has no in-progress treatment",
+    "B/book.png: sessions list is visible, highlights sit below the fold",
+    "B/empty.png: facts report 2 targets under 44 pt"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A hatches Sunday's in-progress bar, sets the highlight as serif reading text and explains streaks in its empty state; B is tidier but closer to a system default."
+  }
+ ],
+ "notes": "Both designs use the iOS 26 layout well: a floating glass-style tab bar with a separate Search control, a large title, round glass back and more buttons, and one filled primary action. Measured contrast is clean for both. B fits more books on Today and its grey background feels more native. A's paper tone and serif book titles give it a reading-app character that would look wrong on another product."
+}

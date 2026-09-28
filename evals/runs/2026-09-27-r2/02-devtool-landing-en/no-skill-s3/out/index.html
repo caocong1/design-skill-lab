@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driftless — the local-first SQL database</title>
+<meta name="description" content="Driftless is an open-source, local-first SQL database. Your app's data lives on the device first: reads and writes are instant and work offline, and every copy stays in sync.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F3EC;
+    --paper-2: #ECE9DF;
+    --card: #FFFFFF;
+    --ink: #15171B;
+    --ink-2: #3B4049;
+    --muted: #59606B;
+    --line: #D9D5C8;
+    --line-2: #C9C4B4;
+    --green: #0A6A4E;
+    --green-ink: #07513B;
+    --green-soft: #DDEFE6;
+    --lime: #C8F169;
+    --code-bg: #101317;
+    --code-bg-2: #171B21;
+    --code-line: #262C35;
+    --code-text: #E4E7EB;
+    --code-dim: #8D96A3;
+    --radius: 12px;
+    --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  code, kbd, pre { font-family: var(--mono); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(245, 243, 236, 0.92);
+    backdrop-filter: saturate(1.4) blur(10px);
+    -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; height: 64px; gap: 28px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 650; font-size: 19px; letter-spacing: -0.02em; }
+  .brand svg { display: block; }
+  .nav-links { display: flex; gap: 22px; font-size: 14.5px; color: var(--ink-2); }
+  .nav-links a { text-decoration: none; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-right { margin-left: auto; display: flex; align-items: center; gap: 18px; font-size: 14.5px; }
+  .nav-right .gh { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: var(--ink-2); }
+  .nav-right .gh b { font-weight: 500; color: var(--muted); font-family: var(--mono); font-size: 13px; }
+  .nav-right .signin { text-decoration: none; color: var(--ink-2); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 44px; padding: 0 18px; border-radius: 9px;
+    font: 550 15px/1 var(--sans); text-decoration: none; white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: #000; }
+  .btn-ghost { border-color: var(--line-2); color: var(--ink); background: transparent; }
+  .btn-sm { height: 36px; padding: 0 14px; font-size: 14px; border-radius: 8px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .contours { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .55; }
+  .hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); gap: 56px; align-items: center; padding-top: 64px; padding-bottom: 72px; }
+  .release {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 5px 12px 5px 5px; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--line);
+    font-size: 13.5px; color: var(--ink-2); text-decoration: none;
+  }
+  .release .tag { background: var(--green); color: #fff; font-weight: 600; font-size: 12px; padding: 3px 9px; border-radius: 999px; }
+  .release .arrow { color: var(--muted); }
+  h1 {
+    font-size: 60px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 650;
+    margin: 22px 0 20px; text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--green); }
+  .lede { font-size: 19px; line-height: 1.5; color: var(--ink-2); max-width: 34em; margin: 0 0 30px; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .install {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--code-bg); color: var(--code-text);
+    border-radius: 10px; padding: 0 8px 0 18px; height: 54px; max-width: 460px;
+    font-family: var(--mono); font-size: 15px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 30px -12px rgba(16,19,23,.45);
+  }
+  .install .prompt { color: var(--lime); user-select: none; }
+  .install code { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .copy {
+    display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 12px;
+    border-radius: 7px; border: 1px solid #3A424D; background: #1C2128; color: #D5DAE1;
+    font: 500 13px/1 var(--sans); cursor: pointer;
+  }
+  .copy:hover { background: #242A33; }
+  .cta-row { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .proof { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 30px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
+  .proof li { display: inline-flex; align-items: center; gap: 7px; }
+  .proof strong { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .proof svg { color: var(--ink-2); }
+
+  /* ---------- code panel ---------- */
+  .editor {
+    background: var(--code-bg); border-radius: 14px; color: var(--code-text);
+    border: 1px solid #0B0D10;
+    box-shadow: 0 30px 60px -30px rgba(16,19,23,.55), 0 2px 6px rgba(16,19,23,.12);
+    overflow: hidden;
+  }
+  .editor-bar { display: flex; align-items: center; gap: 14px; height: 44px; padding: 0 16px; border-bottom: 1px solid var(--code-line); background: var(--code-bg-2); }
+  .dots { display: flex; gap: 7px; }
+  .dots i { width: 11px; height: 11px; border-radius: 50%; background: #343B45; display: block; }
+  .editor-bar .file { font-family: var(--mono); font-size: 13px; color: #C3CAD3; }
+  .editor-bar .lang { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--code-dim); }
+  pre.code {
+    margin: 0; padding: 18px 20px 20px 0; overflow: hidden;
+    font-size: 14px; line-height: 1.62; tab-size: 2;
+    counter-reset: ln;
+  }
+  pre.code .l { display: block; padding-left: 58px; position: relative; min-height: 1.62em; }
+  pre.code .l::before {
+    counter-increment: ln; content: counter(ln);
+    position: absolute; left: 0; width: 38px; text-align: right; color: #7A8491; user-select: none;
+  }
+  .k { color: #FF9E8A; }      /* keyword */
+  .s { color: #B6E57A; }      /* string */
+  .f { color: #8CC8FF; }      /* function */
+  .q { color: #F4D58D; }      /* sql keyword */
+  .v { color: #E4E7EB; }
+  .p { color: #9AA4B1; }      /* punctuation */
+  .i { color: #D7B8FF; }      /* interpolation */
+  .c { color: #8D96A3; font-style: italic; }
+  .editor-foot {
+    display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 12px 20px; border-top: 1px solid var(--code-line);
+    font-family: var(--mono); font-size: 12.5px; color: #AEB6C1; background: var(--code-bg-2);
+  }
+  .editor-foot span b { color: var(--lime); font-weight: 500; }
+
+  /* ---------- sections ---------- */
+  section { padding: 96px 0; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--green); margin: 0 0 14px; font-weight: 500; }
+  h2 { font-size: 42px; line-height: 1.08; letter-spacing: -0.03em; font-weight: 650; margin: 0 0 16px; text-wrap: balance; }
+  .sub { font-size: 18px; color: var(--ink-2); max-width: 40em; margin: 0; }
+  .head { margin-bottom: 48px; }
+  .head.split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+
+  /* how it works */
+  .how { background: var(--card); border-bottom: 1px solid var(--line); }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; position: relative; list-style: none; padding: 0; margin: 0; }
+  .step { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); padding: 22px; display: flex; flex-direction: column; }
+  .step-n { font-family: var(--mono); font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .step-n b { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 500; font-size: 13px; }
+  .step h3 { font-size: 21px; letter-spacing: -0.02em; margin: 14px 0 6px; font-weight: 600; line-height: 1.25; }
+  .step p { margin: 0 0 18px; color: var(--ink-2); font-size: 15.5px; }
+  .viz { margin-top: auto; border-radius: 9px; background: var(--card); border: 1px solid var(--line); padding: 14px; font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); min-height: 150px; }
+  .viz .row { display: flex; align-items: center; gap: 8px; }
+  .viz .row + .row { margin-top: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-2); border-radius: 6px; padding: 3px 8px; background: var(--paper); white-space: nowrap; }
+  .chip.dark { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .chip.green { background: var(--green-soft); border-color: #A9D5BF; color: var(--green-ink); }
+  .viz .lbl { color: var(--muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; }
+  .merge { display: grid; grid-template-columns: auto 1fr 1fr; gap: 6px 10px; align-items: center; font-size: 12px; }
+  .merge .h { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .merge .win { background: var(--green-soft); color: var(--green-ink); border-radius: 4px; padding: 1px 6px; }
+  .merge .lose { color: #6B717B; text-decoration: line-through; }
+  .fan { display: grid; grid-template-columns: auto 1fr; gap: 10px 12px; align-items: center; }
+  .fan svg { display: block; }
+  .dev { display: flex; flex-direction: column; gap: 8px; }
+
+  /* comparison */
+  .compare { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--card); }
+  .crow { display: grid; grid-template-columns: 200px 1fr 1fr; border-top: 1px solid var(--line); }
+  .crow:first-child { border-top: 0; }
+  .crow > div { padding: 18px 22px; font-size: 16px; }
+  .crow .ch { font-weight: 600; color: var(--ink); }
+  .crow .old { color: var(--ink-2); }
+  .crow .new { background: #F1F8F4; color: var(--ink); font-weight: 500; display: flex; gap: 10px; }
+  .crow .new svg { flex: none; margin-top: 4px; color: var(--green); }
+  .crow.th > div { font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding-top: 14px; padding-bottom: 14px; background: var(--paper); font-weight: 500; }
+  .crow.th .new { background: var(--green); color: #fff; }
+  .mlabel { display: none; }
+
+  /* features */
+  .features { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .feat { background: var(--paper); padding: 24px 22px 26px; }
+  .feat .ico { width: 34px; height: 34px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); display: grid; place-items: center; color: var(--green); margin-bottom: 16px; }
+  .feat h3 { margin: 0 0 6px; font-size: 16.5px; font-weight: 600; letter-spacing: -0.01em; }
+  .feat p { margin: 0; font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+  .feat code { font-size: 13px; background: var(--paper-2); border-radius: 4px; padding: 1px 5px; color: var(--ink); }
+  .platforms { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; align-items: center; }
+  .platforms .lbl { font-family: var(--mono); font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-right: 6px; }
+  .platforms span.p2 { border: 1px solid var(--line-2); background: var(--card); border-radius: 999px; padding: 5px 12px; font-size: 14px; color: var(--ink-2); }
+
+  /* numbers */
+  .dark { background: var(--code-bg); color: var(--code-text); }
+  .dark .eyebrow { color: var(--lime); }
+  .dark .sub { color: #B9C1CB; }
+  .bench { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; }
+  .metric { border: 1px solid #2A313B; border-radius: var(--radius); padding: 26px 24px; background: #151A20; }
+  .metric .num { font-size: 60px; letter-spacing: -0.04em; font-weight: 600; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+  .metric .num small { font-size: 24px; letter-spacing: -0.01em; color: var(--lime); margin-left: 6px; font-weight: 500; }
+  .metric .what { margin-top: 14px; font-size: 15.5px; color: #CDD3DB; }
+  .bar { height: 6px; border-radius: 3px; background: #262D36; margin-top: 20px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--lime); border-radius: 3px; }
+  .setup { margin-top: 20px; font-family: var(--mono); font-size: 13px; color: #A9B2BE; }
+  .new14 { margin-top: 56px; display: grid; grid-template-columns: 260px 1fr; gap: 32px; border-top: 1px solid #2A313B; padding-top: 36px; }
+  .new14 h3 { margin: 0; font-size: 22px; letter-spacing: -0.02em; color: #fff; font-weight: 600; }
+  .new14 .date { font-family: var(--mono); font-size: 13px; color: #A9B2BE; margin-top: 6px; }
+  .new14 ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .new14 li { font-size: 15.5px; color: #CDD3DB; border-left: 2px solid var(--lime); padding-left: 14px; }
+  .new14 li b { display: block; color: #fff; font-weight: 600; font-size: 16.5px; margin-bottom: 2px; }
+
+  /* pricing */
+  .plans { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; }
+  .plan { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; }
+  .plan.featured { border: 2px solid var(--ink); padding: 23px; position: relative; }
+  .plan .pname { font-weight: 600; font-size: 17px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .plan .badge { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; background: var(--lime); color: var(--ink); padding: 3px 8px; border-radius: 999px; font-weight: 500; }
+  .plan .kind { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+  .price { margin: 20px 0 4px; font-size: 40px; font-weight: 650; letter-spacing: -0.03em; line-height: 1; }
+  .price small { font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+  .plan ul { list-style: none; padding: 0; margin: 20px 0 24px; border-top: 1px solid var(--line); }
+  .plan li { display: flex; gap: 10px; font-size: 14.5px; padding: 9px 0; border-bottom: 1px solid #EEEBE3; color: var(--ink-2); }
+  .plan li svg { flex: none; margin-top: 4px; color: var(--green); }
+  .plan li b { color: var(--ink); font-weight: 600; }
+  .plan .btn { margin-top: auto; width: 100%; }
+  .price-text { font-size: 30px; }
+  .release .short { display: none; }
+  .feat code { white-space: nowrap; }
+  .price-note { margin-top: 20px; font-size: 14.5px; color: var(--muted); }
+
+  /* install */
+  .get { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .installs { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+  .inst { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--paper); }
+  .inst .it { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; font-weight: 600; font-size: 15px; }
+  .inst .it span { font-weight: 400; color: var(--muted); font-size: 13.5px; }
+  .inst pre { margin: 0; background: var(--code-bg); color: var(--code-text); padding: 16px 18px; font-size: 13.5px; white-space: pre-wrap; word-break: break-all; }
+  .inst pre .pr { color: var(--lime); }
+
+  /* faq */
+  .faq { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+  .qa { border-top: 1px solid var(--line-2); padding: 22px 0 26px; }
+  .qa h3 { margin: 0 0 8px; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+  .qa p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+
+  /* final cta */
+  .final { padding: 0 0 96px; }
+  .final-box { border-radius: 16px; background: var(--ink); color: #fff; padding: 48px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; position: relative; overflow: hidden; }
+  .final-box h2 { color: #fff; margin: 0 0 8px; font-size: 36px; }
+  .final-box p { margin: 0; color: #C3CAD3; font-size: 17px; }
+  .final-box .btn-primary { background: var(--lime); color: var(--ink); }
+  .final-box .btn-ghost { color: #fff; border-color: #4A525E; }
+  .final-box .cta-row { margin: 0; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0 44px; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  footer nav { display: flex; gap: 8px 20px; flex-wrap: wrap; }
+  footer nav a { text-decoration: none; color: var(--ink-2); }
+  footer .copy-r { margin-left: auto; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1100px) {
+    .nav-links { display: none; }
+    .hero .wrap { grid-template-columns: 1fr; }
+    .features { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .plans { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  }
+  @media (max-width: 760px) {
+    .wrap { padding: 0 18px; }
+    .nav .wrap { height: 56px; gap: 12px; }
+    .nav-right { gap: 12px; }
+    .nav-right .signin, .nav-right .gh b { display: none; }
+    .hero .wrap { padding-top: 32px; padding-bottom: 44px; gap: 36px; }
+    h1 { font-size: 40px; margin: 18px 0 14px; letter-spacing: -0.03em; }
+    .lede { font-size: 17px; margin-bottom: 22px; }
+    .install { height: 50px; font-size: 14px; padding-left: 14px; max-width: none; }
+    .copy { height: 34px; padding: 0 10px; }
+    .copy .t { display: none; }
+    .cta-row .btn { flex: 1; }
+    .proof { margin-top: 22px; gap: 6px 16px; font-size: 13.5px; }
+    .editor { margin: 0 -18px; border-radius: 0; border-left: 0; border-right: 0; }
+    pre.code { font-size: 13px; padding: 14px 16px 16px 0; }
+    pre.code .l { padding-left: 38px; }
+    pre.code .l::before { width: 22px; font-size: 11px; }
+    .editor-foot { padding: 10px 16px; font-size: 12px; }
+
+    section { padding: 60px 0; }
+    h2 { font-size: 31px; }
+    .sub { font-size: 16.5px; }
+    .head { margin-bottom: 28px; }
+    .head.split { grid-template-columns: 1fr; gap: 12px; }
+    .steps { grid-template-columns: 1fr; gap: 12px; }
+    .step { padding: 18px; }
+    .step h3 { font-size: 19px; margin-top: 10px; }
+    .step p { margin-bottom: 14px; font-size: 15px; }
+    .viz { min-height: 0; }
+
+    .crow { grid-template-columns: 1fr 1fr; }
+    .crow.th { display: none; }
+    .crow .ch { grid-column: 1 / -1; padding: 14px 16px 4px; font-size: 15px; }
+    .crow > div { padding: 6px 16px 14px; font-size: 14.5px; }
+    .crow .new { background: transparent; }
+    .crow .old, .crow .new { display: block; }
+    .crow .new svg { display: none; }
+    .mlabel { display: block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 500; margin-bottom: 2px; }
+    .crow .new .mlabel { color: var(--green); }
+
+    .features { grid-template-columns: 1fr; }
+    .feat { padding: 16px 18px; display: grid; grid-template-columns: 34px 1fr; gap: 0 14px; }
+    .feat .ico { margin: 0; grid-row: span 2; }
+    .platforms { margin-top: 20px; gap: 6px; }
+    .platforms .lbl { width: 100%; }
+    .platforms span.p2 { font-size: 13px; padding: 4px 10px; }
+
+    .bench { grid-template-columns: 1fr; gap: 10px; }
+    .metric { padding: 18px 18px 20px; display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; align-items: center; }
+    .metric .num { font-size: 40px; }
+    .metric .num small { font-size: 17px; margin-left: 3px; }
+    .metric .what { margin: 0; font-size: 14.5px; }
+    .metric .bar { grid-column: 1 / -1; margin-top: 12px; }
+    .new14 { grid-template-columns: 1fr; gap: 16px; margin-top: 36px; padding-top: 28px; }
+    .new14 ul { grid-template-columns: 1fr; gap: 12px; }
+
+    .plans { grid-template-columns: 1fr; gap: 12px; }
+    .plan { padding: 18px 18px 20px; }
+    .plan.featured { padding: 17px 17px 19px; }
+    .price { margin: 12px 0 0; font-size: 34px; }
+    .plan ul { margin: 14px 0 16px; }
+    .plan li { padding: 7px 0; font-size: 14px; }
+
+    .installs { grid-template-columns: 1fr; gap: 12px; }
+    .faq { grid-template-columns: 1fr; }
+    .qa { padding: 18px 0 20px; }
+    .qa h3 { font-size: 17px; }
+    .qa p { font-size: 15px; }
+
+    .final { padding-bottom: 60px; }
+    .final-box { grid-template-columns: 1fr; padding: 28px 22px; gap: 22px; }
+    .final-box h2 { font-size: 28px; }
+    footer .wrap { flex-direction: column; align-items: flex-start; gap: 16px; }
+    footer .copy-r { margin-left: 0; }
+    /* compact mobile rhythm */
+    section { padding: 48px 0; }
+    .final { padding-bottom: 48px; }
+    .release .long { display: none; }
+    .release .short { display: inline; }
+    .how .head .sub { display: none; }
+    .step p { margin-bottom: 12px; font-size: 14.5px; line-height: 1.5; }
+    .step h3 { font-size: 18px; margin: 8px 0 4px; }
+    .viz { padding: 10px 12px; }
+    .compare .crow .ch { padding-top: 12px; }
+    .crow > div { padding-bottom: 12px; font-size: 14px; line-height: 1.45; }
+    .feat { padding: 12px 16px 14px; display: block; }
+    .feat .ico { display: none; }
+    .feat h3 { font-size: 15.5px; margin-bottom: 2px; }
+    .feat p { font-size: 14px; }
+    #new .head .sub { display: none; }
+    .metric { padding: 14px 16px; }
+    .setup { margin-top: 12px; font-size: 12px; }
+    .new14 li { font-size: 14.5px; }
+    .ptop { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .ptop .price { margin: 0; font-size: 30px; text-align: right; }
+    .ptop .price small { display: block; font-size: 13px; margin-top: 4px; }
+    .ptop .price-text { font-size: 22px; padding-top: 4px; }
+    .plan ul { margin: 12px 0 14px; }
+    .plan li { padding: 5px 0; border-bottom: 0; font-size: 14px; }
+    .plan .btn { height: 40px; }
+    .head .sub { font-size: 15.5px; }
+    .inst .it { padding: 10px 14px; font-size: 14px; }
+    .inst pre { padding: 12px 14px; font-size: 13px; }
+    .qa { padding: 14px 0 16px; }
+    .steps .step:first-child .viz { display: none; }
+    pre.code { line-height: 1.55; }
+    .new14 { margin-top: 28px; padding-top: 24px; }
+    .new14 ul { gap: 10px; }
+    .final { display: none; }
+    #faq { padding-bottom: 36px; }
+    .faq .qa:last-child { padding-bottom: 0; }
+    footer { padding: 28px 0 32px; }
+  }
+  @media (max-width: 400px) {
+    h1 { font-size: 37px; }
+    .nav-right .gh span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+        <rect width="28" height="28" rx="7" fill="#15171B"/>
+        <path d="M5 10.5c3-2.6 6-2.6 9 0s6 2.6 9 0" fill="none" stroke="#C8F169" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M5 17.5c3-2.6 6-2.6 9 0s6 2.6 9 0" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".9"/>
+      </svg>
+      Driftless
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#">Docs</a>
+      <a href="#">Guides</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#">Blog</a>
+      <a href="#">Changelog</a>
+    </nav>
+    <div class="nav-right">
+      <a class="gh" href="#" aria-label="Driftless on GitHub, 18.4k stars">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span>GitHub</span> <b>18.4k</b>
+      </a>
+      <a class="signin" href="#">Sign in</a>
+      <a class="btn btn-primary btn-sm" href="#get-started">Get started</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" style="padding:0">
+  <svg class="contours" viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g fill="none" stroke="#CFCABB" stroke-width="1">
+      <path d="M-40 620 C 200 560, 360 700, 620 640 S 1000 520, 1480 600"/>
+      <path d="M-40 660 C 220 600, 380 740, 640 680 S 1020 560, 1480 640"/>
+      <path d="M-40 700 C 240 640, 400 780, 660 720 S 1040 600, 1480 680"/>
+      <path d="M-40 580 C 180 520, 340 660, 600 600 S 980 480, 1480 560"/>
+      <path d="M-40 540 C 160 480, 320 620, 580 560 S 960 440, 1480 520"/>
+      <path d="M-40 110 C 260 60, 420 170, 700 120 S 1100 40, 1480 90"/>
+      <path d="M-40 70 C 240 20, 400 130, 680 80 S 1080 0, 1480 50"/>
+      <path d="M-40 30 C 220 -20, 380 90, 660 40 S 1060 -40, 1480 10"/>
+    </g>
+  </svg>
+  <div class="wrap">
+    <div>
+      <a class="release" href="#new">
+        <span class="tag">v1.4</span>
+        <span class="long">Shapes are generally available · Bun support</span><span class="short">Shapes GA · Bun · 30% smaller bundle</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <h1>Your app’s data lives on the device <em>first.</em></h1>
+      <p class="lede">Driftless is an open-source, local-first SQL database that runs inside your app. <strong>Reads and writes are instant and work offline</strong>, and Driftless keeps every copy in sync in the background.</p>
+
+      <div class="install" id="get-started">
+        <span class="prompt" aria-hidden="true">$</span>
+        <code>npm install @driftless/client</code>
+        <button class="copy" type="button" aria-label="Copy install command" onclick="navigator.clipboard&&navigator.clipboard.writeText('npm install @driftless/client');this.querySelector('.t').textContent='Copied'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          <span class="t">Copy</span>
+        </button>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#">Get started</a>
+        <a class="btn btn-ghost" href="#">Read the docs</a>
+      </div>
+      <ul class="proof" aria-label="Project activity">
+        <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg><span><strong>18.4k</strong> GitHub stars</span></li>
+        <li><span><strong>236</strong> contributors</span></li>
+        <li><span><strong>1.2M</strong> npm downloads / month</span></li>
+      </ul>
+    </div>
+
+    <div class="editor" role="figure" aria-label="Code sample: open a synced database, create a table, watch a query and insert a row">
+      <div class="editor-bar">
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span class="file">notes.ts</span>
+        <span class="lang">TypeScript</span>
+      </div>
+<pre class="code"><code><span class="l"><span class="k">import</span> <span class="p">{</span> open <span class="p">}</span> <span class="k">from</span> <span class="s">"@driftless/client"</span><span class="p">;</span></span><span class="l"></span><span class="l"><span class="k">const</span> db <span class="p">=</span> <span class="k">await</span> <span class="f">open</span><span class="p">(</span><span class="s">"notes.db"</span><span class="p">, {</span></span><span class="l">  sync<span class="p">:</span> <span class="s">"wss://sync.example.dev"</span><span class="p">,</span></span><span class="l">  token<span class="p">,</span></span><span class="l"><span class="p">});</span></span><span class="l"></span><span class="l"><span class="k">await</span> db<span class="p">.</span><span class="f">exec</span><span class="s">`</span></span><span class="l"><span class="s">  <span class="q">CREATE TABLE IF NOT EXISTS</span> notes (</span></span><span class="l"><span class="s">    id <span class="q">TEXT PRIMARY KEY</span>, body <span class="q">TEXT</span>,</span></span><span class="l"><span class="s">    updated_at <span class="q">INTEGER</span>)`</span><span class="p">;</span></span><span class="l"></span><span class="l">db<span class="p">.</span><span class="f">watch</span><span class="s">`<span class="q">SELECT</span> * <span class="q">FROM</span> notes</span></span><span class="l"><span class="s">  <span class="q">ORDER BY</span> updated_at <span class="q">DESC</span>`</span></span><span class="l">  <span class="p">.</span><span class="f">subscribe</span><span class="p">(</span>render<span class="p">);</span></span><span class="l"></span><span class="l"><span class="k">await</span> db<span class="p">.</span><span class="f">exec</span><span class="s">`<span class="q">INSERT INTO</span> notes</span></span><span class="l"><span class="s">  <span class="q">VALUES</span> (<span class="i">${</span><span class="v">id</span><span class="i">}</span>, <span class="i">${</span><span class="v">body</span><span class="i">}</span>, <span class="i">${</span><span class="v">Date</span><span class="p">.</span><span class="f">now</span><span class="p">()</span><span class="i">}</span>)`</span><span class="p">;</span></span></code></pre>
+      <div class="editor-foot">
+        <span>local read p50 <b>0.2 ms</b></span>
+        <span>local write p50 <b>0.8 ms</b></span>
+        <span>works offline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="head split">
+      <div>
+        <p class="eyebrow">How it works</p>
+        <h2>The database is in your app. The network is optional.</h2>
+      </div>
+      <p class="sub">Instead of asking a server and caching the answer, every device holds a real SQL database. Driftless moves changes between the copies in the background.</p>
+    </div>
+    <ol class="steps">
+      <li class="step">
+        <div class="step-n"><b>1</b> Write</div>
+        <h3>Your app writes to its local database</h3>
+        <p>Plain SQL against an embedded, SQLite-compatible engine. No round trip, no loading state, no offline branch.</p>
+        <div class="viz" aria-hidden="true">
+          <div class="row"><span class="lbl">This device</span></div>
+          <div class="row"><span class="chip dark">app</span><span>→</span><span class="chip">INSERT INTO notes …</span></div>
+          <div class="row"><span class="chip">notes.db</span><span class="chip green">committed locally</span></div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-n"><b>2</b> Record &amp; merge</div>
+        <h3>Driftless records the change and merges per column</h3>
+        <p>Every change is stamped with a hybrid logical clock. Concurrent edits to different columns both survive.</p>
+        <div class="viz" aria-hidden="true">
+          <div class="merge">
+            <span class="h">col</span><span class="h">phone</span><span class="h">laptop</span>
+            <span>title</span><span class="win">“Q3 plan”</span><span class="lose">“Plan”</span>
+            <span>body</span><span class="lose">“draft”</span><span class="win">“final”</span>
+            <span>done</span><span class="win">true</span><span>—</span>
+          </div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-n"><b>3</b> Relay</div>
+        <h3>The sync server relays it to every matching device</h3>
+        <p>Only devices that hold matching rows get the change. When one is offline, it catches up when it reconnects.</p>
+        <div class="viz" aria-hidden="true">
+          <div class="fan">
+            <span class="chip dark">sync server</span>
+            <div class="dev">
+              <span class="chip">→ browser</span>
+              <span class="chip">→ iOS app</span>
+              <span class="chip">→ desktop</span>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section id="compare">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Server-first vs local-first</p>
+      <h2>What changes when the data is already on the device</h2>
+    </div>
+    <div class="compare" role="table" aria-label="Server-first app with a cache compared with Driftless">
+      <div class="crow th" role="row"><div role="columnheader"></div><div class="old" role="columnheader">Server-first + cache</div><div class="new" role="columnheader">Driftless</div></div>
+      <div class="crow" role="row"><div class="ch" role="rowheader">Reads</div><div class="old" role="cell"><span class="mlabel">Server-first</span>Network round trip, or a possibly stale cache</div><div class="new" role="cell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><span class="mlabel">Driftless</span>Local, sub-millisecond</span></div></div>
+      <div class="crow" role="row"><div class="ch" role="rowheader">Offline writes</div><div class="old" role="cell"><span class="mlabel">Server-first</span>Usually blocked, or a custom queue you maintain</div><div class="new" role="cell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><span class="mlabel">Driftless</span>Built in; pending changes survive restarts</span></div></div>
+      <div class="crow" role="row"><div class="ch" role="rowheader">Conflicts</div><div class="old" role="cell"><span class="mlabel">Server-first</span>Hand-written</div><div class="new" role="cell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><span class="mlabel">Driftless</span>Automatic per column, customisable</span></div></div>
+      <div class="crow" role="row"><div class="ch" role="rowheader">Live updates</div><div class="old" role="cell"><span class="mlabel">Server-first</span>A separate realtime service</div><div class="new" role="cell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><span class="mlabel">Driftless</span>Reactive queries included</span></div></div>
+      <div class="crow" role="row"><div class="ch" role="rowheader">Where data lives</div><div class="old" role="cell"><span class="mlabel">Server-first</span>Your server</div><div class="new" role="cell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><span class="mlabel">Driftless</span>Each device and your server</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section id="features" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">What you get</p>
+      <h2>One database, everywhere your app runs</h2>
+    </div>
+    <div class="features">
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h3>Embedded SQL</h3>
+        <p>SQLite-compatible dialect on a fork of SQLite 3.46. Most SQLite SQL runs unchanged.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/></svg></div>
+        <h3>Background sync</h3>
+        <p>Through the open-source Sync Server (one binary, Postgres or SQLite) or Driftless Cloud.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3v7a6 6 0 0 0 12 0V3M6 21h12M12 16v5"/></svg></div>
+        <h3>Per-column merges</h3>
+        <p>Hybrid logical clocks resolve conflicts automatically. Custom merges for counters, lists and rich text.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div>
+        <h3>Reactive queries</h3>
+        <p><code>db.watch</code> re-runs a query whenever matching rows change, locally or from sync.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg></div>
+        <h3>Partial sync with shapes</h3>
+        <p>Each user syncs only the rows a filter selects, e.g. <code>WHERE team_id = ?</code></p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3>Your auth, your rules</h3>
+        <p>Bring your own JWT. Row-level rules are checked by the sync server.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0M12 19h.01M3 3l18 18"/></svg></div>
+        <h3>Offline by default</h3>
+        <p>The app keeps working offline, and pending changes survive restarts.</p>
+      </div>
+      <div class="feat">
+        <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"/></svg></div>
+        <h3>690 KB in the browser</h3>
+        <p>Gzipped WebAssembly bundle, storing data in OPFS. 30% smaller in 1.4.</p>
+      </div>
+    </div>
+    <div class="platforms">
+      <span class="lbl">Runs on</span>
+      <span class="p2">Browser · WebAssembly + OPFS</span>
+      <span class="p2">iOS</span>
+      <span class="p2">Android</span>
+      <span class="p2">Electron</span>
+      <span class="p2">Tauri</span>
+      <span class="p2">Node</span>
+      <span class="p2">Bun</span>
+      <span class="p2">Deno</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENCHMARKS + 1.4 ============ -->
+<section class="dark" id="new">
+  <div class="wrap">
+    <div class="head split">
+      <div>
+        <p class="eyebrow">Benchmarks</p>
+        <h2 style="color:#fff">Fast because it never waits for the network</h2>
+      </div>
+      <p class="sub">Numbers from the project’s published benchmark page. Reads and writes hit the local database; sync happens after.</p>
+    </div>
+    <div class="bench">
+      <div class="metric">
+        <div class="num">0.2<small>ms</small></div>
+        <div class="what">Local indexed read, p50</div>
+      </div>
+      <div class="metric">
+        <div class="num">0.8<small>ms</small></div>
+        <div class="what">Local write, p50</div>
+      </div>
+      <div class="metric">
+        <div class="num">1.9<small>s</small></div>
+        <div class="what">10,000 row changes reaching a second device over throttled 4G</div>
+      </div>
+    </div>
+    <p class="setup">Setup: M3 MacBook Air · Chrome 140 · OPFS</p>
+
+    <div class="new14">
+      <div>
+        <h3>What’s new in 1.4</h3>
+        <div class="date">Released 19 Aug 2026</div>
+      </div>
+      <ul>
+        <li><b>Shapes are GA</b>Partial sync by filter is generally available.</li>
+        <li><b>Bun support</b>Run Driftless on Node, Bun or Deno.</li>
+        <li><b>30% smaller bundle</b>The WebAssembly build is now 690 KB gzipped.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="head split">
+      <div>
+        <p class="eyebrow">Pricing</p>
+        <h2>Free to self-host. Pay only if you want us to run sync.</h2>
+      </div>
+      <p class="sub">The client libraries and the sync server are open source under Apache-2.0. Driftless Cloud is the managed sync server.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <div class="ptop"><div><div class="pname">Open source</div>
+        <div class="kind">Self-hosted</div></div><div class="price">Free</div></div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Client libraries</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Self-hosted sync server</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Apache-2.0</span></li>
+        </ul>
+        <a class="btn btn-ghost" href="#">View on GitHub</a>
+      </div>
+      <div class="plan">
+        <div class="ptop"><div><div class="pname">Cloud Hobby</div>
+        <div class="kind">Managed</div></div><div class="price">$0 <small>/ month</small></div></div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>1</b> project</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>1 GB</b> synced data</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>500</b> monthly active devices</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Community support</span></li>
+        </ul>
+        <a class="btn btn-ghost" href="#">Start free</a>
+      </div>
+      <div class="plan featured">
+        <div class="ptop"><div><div class="pname">Cloud Pro</div>
+        <div class="kind">Managed</div></div><div class="price">$39 <small>/ month per project</small></div></div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>25 GB</b> synced data</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>25,000</b> monthly active devices</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>7-day</b> point-in-time restore</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Email support</span></li>
+        </ul>
+        <a class="btn btn-primary" href="#">Start with Pro</a>
+      </div>
+      <div class="plan">
+        <div class="ptop"><div><div class="pname">Enterprise</div>
+        <div class="kind">Managed</div></div><div class="price price-text">Contact us</div></div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>SSO / SAML</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Dedicated region: EU, US or APAC</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span><b>99.95%</b> uptime SLA</span></li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Audit log export</span></li>
+        </ul>
+        <a class="btn btn-ghost" href="#">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTALL ============ -->
+<section class="get" id="install">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">Install</p>
+      <h2>Add it to your app</h2>
+    </div>
+    <div class="installs">
+      <div class="inst">
+        <div class="it">JavaScript &amp; TypeScript <span>npm</span></div>
+        <pre><span class="pr">$ </span>npm install @driftless/client</pre>
+      </div>
+      <div class="inst">
+        <div class="it">iOS <span>Swift Package Manager</span></div>
+        <pre>github.com/driftless-db/driftless-swift</pre>
+      </div>
+      <div class="inst">
+        <div class="it">Android <span>Gradle</span></div>
+        <pre>dev.driftless:driftless-android:1.4.0</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="head">
+      <p class="eyebrow">FAQ</p>
+      <h2>The questions you should ask</h2>
+    </div>
+    <div class="faq">
+      <div class="qa">
+        <h3>Is it SQLite?</h3>
+        <p>The storage engine is a fork of SQLite 3.46 with sync metadata; most SQLite SQL runs unchanged. Extensions that change the file format are not supported.</p>
+      </div>
+      <div class="qa">
+        <h3>Do I need Driftless Cloud?</h3>
+        <p>No. The sync server is a single open-source binary you can run anywhere; Cloud is the managed version.</p>
+      </div>
+      <div class="qa">
+        <h3>How big can a local database get?</h3>
+        <p>Browser storage limits apply (usually a share of free disk). On native platforms the tested limit is 50 GB.</p>
+      </div>
+      <div class="qa">
+        <h3>What happens when two people edit the same row offline?</h3>
+        <p>Each column merges by hybrid logical clock. Register custom merge functions for counters, lists and rich text.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <div class="final-box">
+      <div>
+        <h2>Build the fast version of your app.</h2>
+        <p><code style="font-size:15px;color:#fff">npm install @driftless/client</code> — then open a database and start writing.</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#">Get started</a>
+        <a class="btn btn-ghost" href="#">Read the docs</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="Driftless home" style="font-size:16px;color:var(--ink)">
+      <svg width="22" height="22" viewBox="0 0 28 28" aria-hidden="true">
+        <rect width="28" height="28" rx="7" fill="#15171B"/>
+        <path d="M5 10.5c3-2.6 6-2.6 9 0s6 2.6 9 0" fill="none" stroke="#C8F169" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M5 17.5c3-2.6 6-2.6 9 0s6 2.6 9 0" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".9"/>
+      </svg>
+      Driftless
+    </a>
+    <nav aria-label="Footer">
+      <a href="#">Docs</a><a href="#">API reference</a><a href="#">Status</a><a href="#">Security</a><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Changelog</a><a href="#">GitHub</a>
+    </nav>
+    <span class="copy-r">© 2026 Driftless Labs</span>
+  </div>
+</footer>
+
+</body>
+</html>

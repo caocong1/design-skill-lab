@@ -1,0 +1,108 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "no-skill-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/detail-01.png",
+      "render/detail-02.png",
+      "render/list-01.png",
+      "render/list-02.png",
+      "render/list-empty-01.png",
+      "render/list-error-01.png",
+      "render/list-loading-01.png",
+      "render/list-loading-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/01-ops-console-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "选中第 2、3 行时，表头复选框显示半选状态，工具栏变为批量操作栏（已选 2 项 / 批量派单 / 批量修改优先级 / 导出所选 / 取消选择）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: rows 0409 and 0402 are checked, the header checkbox shows the indeterminate '−', and the bar reads 已选 2 项 · 批量派单 · 批量修改优先级 · 导出所选 · 取消选择"
+    },
+    {
+      "claim": "已超时 = 红色 + 警示图标 + 行首红色竖条",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: rows 0402 (响应已超时 12分) and 0371 (修复已超时 1时05分) show red text, a warning triangle and a red bar on the left edge of the row"
+    },
+    {
+      "claim": "剩余不足 1 小时（响应剩 35分）= 橙色",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: row 0409 shows 响应剩 35分 in orange with an orange clock icon"
+    },
+    {
+      "claim": "「已挂起（等备件）」显示为「已挂起」状态标签 + 下方小字「等备件」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: row 0380 shows the 已挂起 tag with small 等备件 text beneath it, and its SLA cell shows 计时暂停 with a grey pause icon"
+    },
+    {
+      "claim": "状态标签每种都有独立图标（待派单虚线圈、已派单纸飞机、处理中半圆、已挂起暂停、待验收清单、已关闭对勾）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png / list-02.png: the Status column shows a dashed circle (待派单), a paper plane (已派单), a half-filled circle (处理中), a pause icon (已挂起), a clipboard (待验收) and a check (已关闭), each next to its text"
+    },
+    {
+      "claim": "列表把「设备」拆成两行（编号 / 名称），「SLA」拆成「类型 / 时长」两行 … 放下全部 10 列且不截断",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: Device cells show two lines (e.g. ZS-03-117 / 注塑机), and SLA cells with a remaining or overdue time show two lines (修复剩 / 3时30分). All 10 columns plus 操作 fit, and facts.md reports no horizontal overflow. Single-value SLA cells (按时修复, 剩 2天) stay on one line"
+    },
+    {
+      "claim": "分页：1,286 / 15 = 86 页，每页条数以下拉形式显示「15 条/页」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-02.png footer: 共 1,286 条，第 1–15 条, page buttons 1–5 … 86, a '15 条/页' dropdown and a 跳至 field"
+    },
+    {
+      "claim": "空状态：三个筛选条件在筛选栏高亮并以可移除的标签列出，给出「清除全部筛选」和「新建工单」两个出口",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-empty-01.png: the 状态, 厂区/产线 and 负责人 filters are highlighted in blue; the 已生效 row lists three tags with × buttons; the empty panel offers 清除全部筛选 (primary) and 新建工单"
+    },
+    {
+      "claim": "加载中：快捷视图数量、表格行均为骨架屏，工具栏显示「正在加载工单…」，批量操作禁用",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-loading-01.png: the tab counts are grey pills, the table rows are skeleton bars, the toolbar shows a spinner with 正在加载工单…, and the batch buttons are greyed out; list-loading-02.png shows 共 — 条"
+    },
+    {
+      "claim": "出错：…数量显示「—」；展示 HTTP 502、请求编号、时间，提供「重试」和「复制请求编号」；文案建议连续失败时联系系统管理员",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-error-01.png: the tab counts show —; the panel lists HTTP 502, 7f3a-91c2-0d44 and 2026-09-27 09:42:17 with 重试 and 复制请求编号 buttons; the copy says to send the request ID to the system administrator if it keeps failing"
+    },
+    {
+      "claim": "打印工单、复制链接、关闭工单做成右栏「更多操作」卡片常显",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-02.png: the right-column card 更多操作 lists 打印工单, 复制链接 and 关闭工单 (in red), always visible"
+    },
+    {
+      "claim": "趋势图标注了阈值 55 °C、超限区间和 09:12 工单创建时刻；图下附 13 个点的数值表",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png: the chart has a red dashed line labelled 阈值 55 °C, a pink over-limit band, and a dotted line labelled 09:12 工单创建; below it a table lists 13 time/value points from 07:40 46.1 to 09:40 68.4"
+    }
+  ],
+  "notes": "All 12 claims match the renders. Two further NOTES claims were also confirmed but left out of the list because of the 12-claim limit: the detail SLA progress bar shows 已用 30 分 / 共 4 小时, and the processing log has role tags. facts.md reports 0 text nodes below AA, 0 failing targets and no overflow across all five pages. The empty and error pages fit on one screen (900 px tall). The claim about the PingFang SC font can't be checked from the renders.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.no-skill-s3/check.reply.txt",
+    "sha256": "2f3e42217d529c75f0f4c20ecce8967d252462072fc262817d5ecad1de3818f0"
+  }
+}

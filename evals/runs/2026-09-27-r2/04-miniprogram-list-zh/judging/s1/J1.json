@@ -1,0 +1,35 @@
+{
+ "brief": "04-miniprogram-list-zh",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/empty.png: suggestions show the real counts (3 km has 4, tomorrow has 6, dropping invoice has 1) and list the filters each one keeps; A/filter.png footer already suggests '距离放宽到 3 km 内有 4 个' before the user taps 查看结果（0 个）"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 3,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": []
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A leads each card with a time badge that shows when someone can come, and its filter and empty states show exact counts for relaxing a filter. B's filter hint is vague, and its check marks crowd the chip labels."
+  }
+ ],
+ "notes": "Both avoid the capsule, place buttons above the tab bar and pass AA. A has no card icons, so it fits more rows, and its green or grey badge splits today from tomorrow, backed by text. B's filter sheet has a dimmed strip that shows only between the sheet and the tab bar, which looks odd. B's orange-red prices lean slightly promotional. In both designs the last visible category tab is cut off by a fade."
+}

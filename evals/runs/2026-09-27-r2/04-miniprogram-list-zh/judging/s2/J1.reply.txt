@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "04-miniprogram-list-zh",
+  "judge": "J1",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/filter.png: bottom strip reads '当前条件下 0 个服务，可放宽距离或上门时间' and 查看结果（0 个）, but the real relaxation counts only appear on the empty screen", "A/empty.png: washing-machine illustration, cause sentence, three tappable relax rows with counts (6/4/1), and 修改/清除 buttons"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/filter.png: each section header shows its real relaxation count (改成明天：6 个, 放宽到 3 km 内：4 个, 去掉「可开发票」：1 个) while the user is still choosing", "B/list.png: availability is set as a chip (solid for today, outlined for later), and the start of a 4th service is visible above the tab bar"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "left", "reason": "B's filter panel shows the real counts for relaxing each condition before the user hits 0 results; A only gives a generic hint there."}
+  ],
+  "notes": "Both designs handle the capsule button, tab bar and safe area correctly, and both have a strong empty state. A's cards make price easier to compare (large orange-red price). B's flat rows are denser, but its availability chip can look like a button. A's only AA failure is a decorative '|' divider, not primary text."
+}
+```

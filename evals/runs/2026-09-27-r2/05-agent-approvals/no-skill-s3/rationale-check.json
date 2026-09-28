@@ -1,0 +1,117 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "no-skill-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/run-approval-01.png",
+      "render/run-approval-02.png",
+      "render/run-approval-03.png",
+      "render/run-error-01.png",
+      "render/run-error-02.png",
+      "render/run-progress-01.png",
+      "render/run-progress-02.png",
+      "render/run-result-01.png",
+      "render/run-result-02.png",
+      "render/run-result-03.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/05-agent-approvals.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "The same structure is used in every moment: Dana's request, a status bar (state, time, main control), the 5-step plan with a state on each step, and a right rail with details.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Progress and approval match (the status bar has Stop run). run-error-01.png: the status bar shows only state and 'Last update 10:00:47', with no control; the choices are inside step 2. run-result-01.png: the status bar has no control, and the plan moves to the bottom as 'What the assistant did' (run-result-03.png), below outcome cards and flagged items"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dark left nav with Assistant marked current, top bar with company and user",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png, run-approval-01.png, run-error-01.png, run-result-01.png: dark green left nav with Assistant highlighted; top bar shows Larkspur Outdoor Co. / Company on the left and Dana Whitlock, Controller on the right"
+    },
+    {
+      "claim": "The same structure is used in every moment: Dana's request, a status bar (state, time, main control), the 5-step plan with a state on each step, and a right rail with details.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "Progress and approval match (the status bar has Stop run). run-error-01.png: the status bar shows only state and 'Last update 10:00:47', with no control; the choices are inside step 2. run-result-01.png: the status bar has no control, and the plan moves to the bottom as 'What the assistant did' (run-result-03.png), below outcome cards and flagged items"
+    },
+    {
+      "claim": "Each step has an icon (check, spinner, pause, !, dashed circle, clock) and a text label (Done, Running, Waiting for your approval, Failed · needs your decision, Not started, Waiting).",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-02.png: check+Done, spinner+Running, dashed circle+Not started; run-approval-01.png: pause+Waiting for your approval; run-error-01/02.png: !+Failed · needs your decision, clock+Waiting"
+    },
+    {
+      "claim": "I show step 1 as done without numbers and the header only shows \"Last update 10:00:47\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-error-01.png: step 1 reads 'Collected August vendor invoices.' with a bills.list chip and no count or duration; the status bar's right side shows only 'Last update 10:00:47'"
+    },
+    {
+      "claim": "\"Stop run\" consequence text only states facts from the plan (steps 4–5 won't run, nothing has been sent).",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-02.png: the 'If you stop the run' card says 'Steps 4 and 5 won't run, so no payment batch is drafted. Nothing has been sent.'"
+    },
+    {
+      "claim": "\"Approve without Oakridge\" is the filled primary button and \"Approve and schedule\" is outlined.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: 'Approve without Oakridge' is a filled dark green button; 'Approve and schedule' has a green outline and white fill"
+    },
+    {
+      "claim": "All four choices from the brief are shown, each with what it will do.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: Approve and schedule, Approve without Oakridge, Edit batch and Reject, each with a consequence line below (e.g. 'No payments. The assistant continues to step 5.')"
+    },
+    {
+      "claim": "\"Pay date Tue 29 Sep, arrives Wed 30 Sep\" ... \"Due 29–30 Sep\" comes from the batch table.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png summary strip: 'Tue 29 Sep 2026 / ACH · arrives Wed 30 Sep' and 'Payments 7 / Due 29–30 Sep'"
+    },
+    {
+      "claim": "The flag type labels in Moment 1 (\"Amount mismatch\", \"Duplicate charge\") reuse the labels from the Moment 4 table.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png Findings so far: 'Amount mismatch · Calder Freight Co. INV-2291…' and 'Duplicate charge · Pellucid Cloud INV-88120…'; the same tags appear in run-result-01.png"
+    },
+    {
+      "claim": "Result action buttons ... Request corrected invoice / Pay $252.00 difference; Review refund email; Mark as matched / Keep flagged; Paid another way / Pay now; and for Oakridge, Show number on file.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01.png: Show number on file, Request corrected invoice, Pay $252.00 difference, Review refund email; run-result-02.png: Mark as matched, Keep flagged (link style), Paid another way, Pay now"
+    },
+    {
+      "claim": "The result lists the 6 scheduled payments (the approval table minus Oakridge) and repeats the cancel window",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-02.png: Payment batch PB-0928 table with 6 rows (no Oakridge), 'Total · 6 payments $16,625.15', and 'You can cancel this batch until 5:00 pm ET on Tue 29 Sep' with a Cancel batch button"
+    },
+    {
+      "claim": "Streaming is shown statically as a \"Now\" line with a text caret. Step 3 progress is a bar at 39/49.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-02.png: a 'NOW' row reads 'Checking Oakridge Office Supply INV-1057 ($2,315.40) against card transactions…' followed by a block caret; the progress bar is about 80% full, labelled '39 of 49 checked'"
+    }
+  ],
+  "notes": "The only contradiction is the 'same structure' claim. The error and result status bars have no main control, and the result screen moves the plan to the bottom. facts.md reports 0 text nodes below AA, 0 failing targets and no overflow on all four screens, but NOTES.md does not claim these.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.no-skill-s3/check.reply.txt",
+    "sha256": "f815dbbd2045b4b43938989fc56abbfe49e59411c3ce640e416a9da3f1ae6d84"
+  }
+}

@@ -1,0 +1,43 @@
+{
+ "brief": "02-devtool-landing-en",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 3,
+   "evidence": [
+    "A/desktop-01.png: install command with Copy, Get started and the full code sample, kept in its original line breaks, all in the first screen",
+    "A/desktop-02.png: the three how-it-works cards carry small diagrams (committed locally, per-column diff, relay), but they read as generic cards",
+    "A/mobile-01.png: the header keeps only a GitHub icon and Get started; Docs and Pricing are gone and there is no menu",
+    "A/mobile-10.png: the closing CTA band shown on desktop is missing on mobile; FAQ runs straight into the footer"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 3,
+   "evidence": [
+    "B/desktop-02.png: a worked 'Two people edit the same row offline' demo shows phone and laptop edits merged per column, with where each value came from. This answers the audience's conflict worry with the mechanism, not adjectives",
+    "B/mobile-01.png: install command, Copy, Get started and a Menu button all sit above the fold; the code wraps with hanging indents and stays readable",
+    "B/mobile-10.png: npm, Swift and Gradle install lines each have their own Copy button",
+    "facts.md: 1 desktop text node fails AA (repeated 'npm install' in the closing section, 1.12:1). The hero command passes, so I don't treat it as primary text"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B shows local-first working in a concrete offline-merge example and keeps a Menu on mobile; A explains with generic step cards and drops navigation at 390."
+  }
+ ],
+ "notes": "Both designs are complete and accurate: no invented social proof, all required content, pricing easy to compare. A keeps the given code formatting and has a slightly more polished hero. B joins some code lines on desktop but stays legible. On product fit, B's merge demo, the 'The catch, answered' FAQ and the install section with a copy button per platform suit a sceptical developer better."
+}

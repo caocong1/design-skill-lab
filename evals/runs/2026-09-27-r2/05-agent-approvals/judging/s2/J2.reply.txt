@@ -1,0 +1,18 @@
+Finished reviewing all 19 frames. Scoring now.
+
+```json
+{
+  "brief": "05-agent-approvals",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 5, "platform_a11y": 4,
+          "evidence": ["A/run-approval-01.png: IBM Plex Sans with Plex Mono invoice numbers and tool names; amounts right-aligned in tabular figures with a double-ruled total of $18,940.55, so the money is set like a ledger", "A/run-progress-01.png: fixed status column (Done/Running/Not started, each with its own icon) keeps the plan readable at a glance", "A/run-approval-01.png: Oakridge warning is only an amber row inside the table, weaker than a standalone alert"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 3, "platform_a11y": 4,
+          "evidence": ["B/run-approval-01.png: standalone Oakridge fraud-risk banner above the payee table; B/run-approval-02.png: each of the four choices has a sentence saying what it will do", "B/run-approval-03.png: two amber chips side by side ('Moves money · needs approval' + 'Needs your approval') repeat each other; step titles wrap onto two lines in several places"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's Plex type pairing, ledger-set tabular money and calm status column feel built for finance; B is a competent but generic Inter/dark-sidebar template with redundant pills."}
+  ],
+  "notes": "Close call. B handles the Oakridge warning and the choice explanations better, which matters for the brief. A wins on identity, typographic craft and density. A makes 'Approve and schedule' the solid primary button. B makes the safer partial approval primary instead. B's sparkle icon is minor decoration. Both keep the app frame and pass every AA and target check."
+}
+```

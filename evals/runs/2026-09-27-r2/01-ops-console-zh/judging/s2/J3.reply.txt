@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "01-ops-console-zh",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/list-01.png: overdue SLA uses a warning icon and red text, with a red left bar on the row; status badges have icon plus text", "facts.md: only failure is the 12px avatar initial at 4.47:1, not primary text", "A/list-error-01.png: tabs still show counts like 1,286 while the list failed to load, a small inconsistency"]},
+    "B": {"fit": 5, "hierarchy": 5, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 5,
+          "evidence": ["B/detail-01.png: trend chart is titled '08:50 超过报警线，仍在上升' and marks the 09:12 alarm and 09:28 throttle events from the log, so it only makes sense for this brief", "B/list-01.png: overdue SLA shows as a filled red label with icon, the overdue row is tinted, and 派单 is a filled button, so the P1/overdue scan is effortless", "facts.md: 0 text nodes below AA and 0 target failures on all five pages; status and priority always carry text"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B makes overdue SLAs filled red labels with tinted rows, and its detail chart marks the alarm and throttle events; A's overdue cues are quieter."}
+  ],
+  "notes": "Both are strong, idiomatic Chinese admin consoles with tabular numerals, clearable filter chips and complete states. B's error state blanks the tab counts, B mutes priority on closed tickets so open P1s stand out, and B's loading skeleton includes pagination. A's empty state has a useful '移除厂区条件' shortcut. Neither passes the name-swap test, so Identity stays at 3 for both."
+}
+```

@@ -1,0 +1,21 @@
+```json
+{
+  "brief": "05-agent-approvals",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/run-approval-02.png: the approve and reject buttons sit below the fold; in frame 01 you see the batch and the warning but no decision yet",
+                       "A/run-result-01.png: three outcome tiles lead the page (scheduled / held / 45 matched · 4 flagged), with a button on each flag",
+                       "A/run-error-01.png: a full-width red banner plus a red-bordered step block; it clearly says Operating ••4417 was fetched"]},
+    "B": {"fit": 5, "hierarchy": 5, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/run-approval-01.png: the question headline 'Pay 7 vendors $18,940.55 from Operating ••4417 on Tue 29 Sep?' comes first; next to the payee table is a column of choices, each with its outcome and the Oakridge warning, plus the cancel-by-5pm note, all above the fold",
+                       "B/run-approval-02.png: a dashed 'Approval gate' line in the plan marks where money starts to move. This fits the product and reads as its own look",
+                       "B/run-error-01.png: three choice cards (Retry / Continue without card / Stop), each with what it does; '12 invoices … unverified' is stated",
+                       "B/run-result-01.png: opens with a one-sentence result, then three figures, then 'Needs your decision' rows with their actions"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "left", "reason": "B puts the Oakridge warning, all four choices with their outcomes, and the undo deadline beside the payee table on the first screen. A pushes the approve and reject buttons below the fold."}
+  ],
+  "notes": "Both are careful, AA-clean and have the right structure. Amounts are right-aligned with a tabular total in both. B's IBM Plex Sans/Mono pairing, dark green sidebar and approval-gate line give it more of its own character. A is clean but looks like a stock Inter-style dashboard. In B, the mono invoice IDs sit about 1px high against the sans vendor names, which is a small flaw. No CJK content in either."
+}
+```

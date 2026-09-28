@@ -1,0 +1,115 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "suite-0.8.1-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/detail-01.png",
+      "render/detail-02.png",
+      "render/list-01.png",
+      "render/list-02.png",
+      "render/list-empty-01.png",
+      "render/list-error-01.png",
+      "render/list-loading-01.png",
+      "render/list-loading-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/01-ops-console-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "标题列最多两行，只在空格和标点处换行（keep-all），不会把「LC-01」这类编号拆开",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "list-02.png, row GD-20260924-0333: the title wraps as '季度保养：激光切割机 LC-' / '01', so the code LC-01 is split across lines."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "快捷视图「已超时 4」是唯一红色的标签页，带警示图标",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: in the tab row, 已超时 is the only red tab, with a ⚠ icon and a red 4 badge. The other tabs are neutral or blue."
+    },
+    {
+      "claim": "已超时的行在最左侧有 3 px 红色竖条，SLA 单元格是浅红底",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: rows GD-20260927-0402 and GD-20260926-0371 each have a red bar on the left edge and a light-red SLA cell. No other row does."
+    },
+    {
+      "claim": "工具栏切换为批量操作条：「已选 2 项」、批量派单、批量修改优先级、导出所选、「选择全部 1,286 条」、取消选择。全选框显示为半选",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: the bar at y≈250 shows all six items, and the header checkbox shows a dash (half-selected). Rows 2 and 3 are checked with a light-blue background."
+    },
+    {
+      "claim": "P1 实心红底白字（已关闭、已挂起的 P1 改为红色描边…），P2 橙色描边，P3 灰底，P4 仅描边",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-02.png: 0413 has a solid red P1 badge. 0380 (已挂起) and 0340 (已关闭) have red-outline P1 badges. P2 badges have an orange outline, P3 badges a gray fill, and P4 badges (0387, 0333) are outline only."
+    },
+    {
+      "claim": "状态徽标每种都带文字 + 独立图标，不只靠颜色",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-02.png: every status badge has an icon next to its text: 处理中 wrench, 已派单 arrow, 待派单 circle, 待验收 check, 已挂起 pause, 已关闭 ×."
+    },
+    {
+      "claim": "剩余 < 1 小时（响应剩 35分）为琥珀色；已超时为红色 + 警示图标，超时时长单独一行加粗；计时暂停为灰色暂停图标；按时完成为绿色对勾",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: 响应剩 35分 is amber. 响应已超时 12分 and 修复已超时 1时05分 are red with ⚠, and the bold duration sits on its own line. 计时暂停 is gray with a pause icon, and 按时修复 is green with a check."
+    },
+    {
+      "claim": "标题列最多两行，只在空格和标点处换行（keep-all），不会把「LC-01」这类编号拆开",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "list-02.png, row GD-20260924-0333: the title wraps as '季度保养：激光切割机 LC-' / '01', so the code LC-01 is split across lines."
+    },
+    {
+      "claim": "空状态：快捷视图数量是全局数，保持不变；筛选条件同时显示在筛选控件（高亮）和已筛选标签里，提供「移除负责人」「移除厂区」「清除全部筛选」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-empty-01.png: the tab counts still read 1,286/23/7/4/12. The 状态, 厂区/产线 and 负责人 controls are highlighted, and 已筛选 shows three chips. The buttons read 移除「负责人：王建国」, 移除「厂区：二厂」 and 清除全部筛选."
+    },
+    {
+      "claim": "加载中：快捷视图数量显示「…」…「已超时」在加载时不标红；表格显示 15 行骨架和「正在加载工单列表…」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-loading-01.png: every tab count shows '…', 已超时 is not red, and a spinner sits next to 正在加载工单列表…. list-loading-02.png: 15 skeleton rows plus a skeleton footer."
+    },
+    {
+      "claim": "出错：…数量和列表总数都显示「—」，「已超时」不标红…提供「重新加载」和「复制请求编号」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-error-01.png: the tab counts and 共 — 条 all show —, and 已超时 is neutral. The page shows HTTP 502, request ID 7f3a-91c2-0d44 and 09:42:17, with 重新加载 as the primary button and 复制请求编号 as a secondary button."
+    },
+    {
+      "claim": "复制链接放在工单号旁，打印工单和关闭工单放在操作区上方一行。「关闭工单…」用中性色，带省略号",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png: 复制链接 sits next to GD-20260927-0413. 打印工单 and 关闭工单… are in a neutral row above the action buttons (申请备件/转派/挂起/提交验收/添加处理记录)."
+    },
+    {
+      "claim": "超过 55 °C 上限的点改为红色方块…上限画成红色虚线；09:12 报警建单用竖向虚线标注",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-02.png: points from 08:50 onward are red squares and earlier points are blue circles. There is a red dashed line labeled 上限 55 and a gray vertical dotted line labeled 09:12 报警建单, and the legend explains all three."
+    }
+  ],
+  "notes": "One contradiction: the notes say titles never split codes like LC-01, but the render splits it. Other claims were also verified but not listed: the derived values (已用 30 分, 超出 13.4/3.5 °C, 升高 22.3 °C, a progress bar at about 12.5%), 86 pages, the descending arrow on 创建时间, the masked phone number, and 添加处理记录/申请备件 each appearing twice. The facts file reports 0 text nodes below AA and no overflow.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.suite-0.8.1-s1/check.reply.txt",
+    "sha256": "3ee4004067c3626cdc2f06b8744355bd1e90d6cabe640cb41a0f20081e2b6a73"
+  }
+}

@@ -1,0 +1,37 @@
+{
+ "brief": "05-agent-approvals",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/run-approval-01.png: Oakridge warning only inline in its table row; A/run-approval-02.png: 'Approve and schedule' all 7 is the filled primary button, full-batch approval is the default nudge"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/run-approval-01.png: separate Oakridge bank-change banner above the payee table; B/run-approval-02.png: every choice (Approve without Oakridge, Approve all 7, Edit, Reject) has its consequence written beside it"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "left",
+   "reason": "B's approval puts the Oakridge fraud warning in its own banner, makes 'Approve without Oakridge' primary and states each choice's consequence; A makes full-batch approval the primary button."
+  }
+ ],
+ "notes": "Both are strong and nothing is missing: all four moments, the app frame, plan states shown with text and icon, tool calls, reversibility, an outcome-first result with actionable flags. A's error screen summary (what failed / already done, kept) is slightly clearer than B's. B's result shows the held payment as its own item with an action. The approval moment decided it."
+}

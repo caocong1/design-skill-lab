@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "04-miniprogram-list-zh",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/empty.png: shows the removable filter chips, explains the cause and lists three fixes with their real counts (6/4/1), plus two buttons", "A/list.png: the brick-red prices are strong and readable; the '|' divider measures 1.94:1, but it is decorative, not primary text"]},
+    "B": {"fit": 5, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/filter.png: each filter group's header shows the real count if you loosen it (改成明天：6 个, 放宽到 3 km 内：4 个, 去掉「可开发票」：1 个), which fits this brief's 0-result state", "B/list.png: the filled teal 最早可约 pill on the first row outweighs the black price and looks like a button"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "right", "reason": "B's filter panel puts the real relaxation counts in each group's header, so the user sees the way out before tapping 查看结果（0 个）; A shows one generic warning line."}
+  ],
+  "notes": "Both are very close: the same capsule clearance, native tab bar, full-width CJK punctuation and 「」 brackets. A's card rhythm and price setting look more crafted. B's flat list feels a little plainer, and its availability pills are heavy. Both use a restrained green with no promo styling. Both empty states use the real counts well. B wins on how well the filter screen fits the task."
+}
+```

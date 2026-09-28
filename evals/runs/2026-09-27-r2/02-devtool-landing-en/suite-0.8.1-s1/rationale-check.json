@@ -1,0 +1,125 @@
+{
+  "brief": "02-devtool-landing-en",
+  "arm": "suite-0.8.1-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/desktop-01.png",
+      "render/desktop-02.png",
+      "render/desktop-03.png",
+      "render/desktop-04.png",
+      "render/desktop-05.png",
+      "render/desktop-06.png",
+      "render/desktop-07.png",
+      "render/desktop-08.png",
+      "render/mobile-01.png",
+      "render/mobile-02.png",
+      "render/mobile-03.png",
+      "render/mobile-04.png",
+      "render/mobile-05.png",
+      "render/mobile-06.png",
+      "render/mobile-07.png",
+      "render/mobile-08.png",
+      "render/mobile-09.png",
+      "render/mobile-10.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/02-devtool-landing-en.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "Deliberately avoided: ... a hero-metric block.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "desktop-01.png/mobile-01.png: the hero includes a row of three large-number metrics (18.4k / 236 / 1.2M) under the CTAs, which reads as a hero-metric block."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "The \"1.4\" link line in the hero ... is a text link, not a pill badge.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png top of hero: brown 'v1.4' followed by the underlined text 'Shapes are generally available, plus Bun support'. There is no pill. mobile-01.png shows the same."
+    },
+    {
+      "claim": "a line-broken copy under 640 px so it stays legible at 390 without sideways scrolling",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png/mobile-02.png: the code sample is re-wrapped (open(...) options and the SQL template strings split across lines). facts.md: no horizontal overflow at 390x844."
+    },
+    {
+      "claim": "It is labelled \"example data\" on the page",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-02.png: 'example data' tag at the top right of the 'One row, two offline devices' panel. mobile-03.png shows the same."
+    },
+    {
+      "claim": "Open-source limits read \"Your infrastructure\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-06.png: the Open source column reads 'Your infrastructure' for Projects, Synced data and Monthly active devices. mobile-07.png shows the same."
+    },
+    {
+      "claim": "Enterprise cells read \"Contact us\" instead of \"—\".",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-06.png: the Enterprise column reads 'Contact us' for every limit row. mobile-08.png Enterprise card: 'Contact us' for Projects, Synced data, Active devices, Restore and Support."
+    },
+    {
+      "claim": "The social proof is only the three numbers from the brief",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-01.png hero: 18.4k GitHub stars, 236 contributors, 1.2M npm downloads a month, with 'npm figure for August 2026'. No logos or testimonials appear in desktop-01 to desktop-08."
+    },
+    {
+      "claim": "The header Get started is an outline button on mobile, so only one filled primary shows per view.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-01.png: outlined header 'Get started' next to a hamburger menu. The only filled button is the hero 'Get started'. mobile-08.png: 'Start Pro' is the only filled button."
+    },
+    {
+      "claim": "The merge signature is not in the first viewport; it starts on screen 2.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-02.png: the 'Two people edit the same row offline' heading and the merge panel start here, not in desktop-01.png. On mobile the heading is at the bottom of mobile-02.png and the panel is in mobile-03.png."
+    },
+    {
+      "claim": "Every text pair was computed with color_tools.py (≥ 4.5:1), and lint.mjs passes contrast at both sizes.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "facts.md: text below AA is 0 of 264 nodes at desktop and 0 of 244 at mobile."
+    },
+    {
+      "claim": "The Swift and Gradle strings wrap instead of clipping.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "desktop-07.png/desktop-08.png: the Swift and Gradle strings wrap to two lines inside their boxes. mobile-10.png: Swift wraps and Gradle fits on one line. Nothing is clipped."
+    },
+    {
+      "claim": "hiding content that repeats elsewhere, at ≤ 640 px only: ... the server note and the \"before\" row table; the limits small print; the section ledes; a secondary button",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "mobile-03.png: no 'Row before' table and no server note after step 3 (both appear in desktop-02.png/desktop-03.png). mobile-06.png: the 1.4 card has no 'Know the limits' text (desktop-05.png has it). mobile-04.png: no comparison lede. mobile-10.png: only 'Read the quick start', with no 'Browse the source'."
+    },
+    {
+      "claim": "Deliberately avoided: ... a hero-metric block.",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "desktop-01.png/mobile-01.png: the hero includes a row of three large-number metrics (18.4k / 236 / 1.2M) under the CTAs, which reads as a hero-metric block."
+    }
+  ],
+  "notes": "'Dark mode' was avoided as a theme, but the 'Add it to your app' section has a dark band (desktop-07/08, mobile-09/10). Blue also appears in code syntax highlighting, although NOTES says it is used 'only for actions and highlights'. Exact hex values can't be checked from the renders. The mobile plan row set matching the desktop table is not fully checkable because the desktop table's first row is hidden between frames.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/02-devtool-landing-en.suite-0.8.1-s1/check.reply.txt",
+    "sha256": "79cb7a3151a8d7deaf1fa55c336273fe93e76fea32f04b4872e1c079af2e36ff"
+  }
+}

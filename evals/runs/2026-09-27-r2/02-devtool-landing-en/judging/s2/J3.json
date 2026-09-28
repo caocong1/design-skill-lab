@@ -1,0 +1,38 @@
+{
+ "brief": "02-devtool-landing-en",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/desktop-06.png: the install block shows npm, SPM and Gradle lines with no copy buttons; only the hero command in A/desktop-01.png has Copy"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/desktop-02.png: the phone and laptop offline-merge tables show per-column conflict resolution, and B/desktop-06.png lines the plan rows up so pricing compares at a glance",
+    "B/desktop-01.png: numbered callouts 1-3 on the code are tied to explanations below; the badges replace line numbers 3, 8 and 10, which is a little odd"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B shows the mechanism with annotated code and a two-device merge demo, lines pricing up as a row matrix, and puts a Copy button on every install line."
+  }
+ ],
+ "notes": "Both pass every measured check: 0 AA failures, no undersized targets, no overflow. Both reflow properly on mobile, keep the hamburger menu with a visible Get started button, and show the install command in the first screen. A is clean and warm but looks like many dev-tool pages. B's merge demo is labelled as sample data, so I don't count it as an invented fact. B leaves a large gap under a heading in B/mobile-03.png."
+}

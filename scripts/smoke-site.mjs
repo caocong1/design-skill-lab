@@ -183,7 +183,7 @@ async function run(browser, base, axe, v, vp, scheme = 'light') {
     if (v.weight && (isText(t) || t === 'font')) bodies.push(r.body().then((b) => ({ url: r.url().replace(origin, ''), type: t, raw: b.length, gz: t === 'font' ? b.length : zlib.gzipSync(b).length })).catch(() => null));
   });
   try {
-    await page.goto(base + v.path, { waitUntil: 'load', timeout: 30000 });
+    await open(page, base + v.path, (m) => res.external.push(m));
     if (v.expect) {
       await page.waitForURL(v.expect, { timeout: 10000 }).catch(() => {});
       res.redirect = { to: page.url().replace(origin, ''), ok: v.expect.test(page.url()) };
@@ -249,7 +249,7 @@ async function run(browser, base, axe, v, vp, scheme = 'light') {
 async function searchGoldens(browser, base) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
-  await page.goto(base + 'catalog/', { waitUntil: 'load' });
+  await open(page, base + 'catalog/');
   await page.waitForFunction(() => window.DSL && typeof DSL.catalogSearch === 'function' && window.CATALOG_V2, null, { timeout: 15000 });
   const out = [];
   for (const c of goldens) {
@@ -282,7 +282,7 @@ async function searchGoldens(browser, base) {
     out.push({ q: c.q, expect, ...r });
   }
   for (const q of ['配色', 'font', '动效曲线', 'figma mcp']) {
-    await page.goto(base + 'catalog/?q=' + enc(q), { waitUntil: 'load' });
+    await open(page, base + 'catalog/?q=' + enc(q));
     await page.waitForSelector('#out [data-id]', { timeout: 10000 }).catch(() => {});
     const same = await page.evaluate(() => {
       const dom = [...document.querySelectorAll('#out [data-id]')].map((e) => e.dataset.id);
@@ -325,7 +325,7 @@ async function extraGates(browser, base) {
   /* no script */
   const nj = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
   const np = await nj.newPage();
-  await np.goto(base, { waitUntil: 'load' });
+  await open(np, base);
   const nh = await np.evaluate(() => ({
     cells: document.querySelectorAll('#case-rows .cell').length, picks: [...document.querySelectorAll('.picks a')].filter((a) => a.getClientRects().length).length,
     tools: [...document.querySelectorAll('.tool[data-act]')].filter((b) => b.getClientRects().length).length,
@@ -333,7 +333,7 @@ async function extraGates(browser, base) {
   }));
   gate('no script: home shows the case, picks and proofs', nh.cells === catalog.domains.length && nh.picks > 0 && nh.proofs > 0, JSON.stringify(nh));
   gate('no script: no language/theme switch shown', nh.tools === 0, nh.tools + ' visible');
-  await np.goto(base + 'catalog/', { waitUntil: 'load' });
+  await open(np, base + 'catalog/');
   const nc = await np.evaluate(() => [...document.querySelectorAll('.static-list li')].filter((li) => li.getClientRects().length).length);
   gate('no script: the catalogue lists every entry', nc === catalog.resources.length, `${nc} / ${catalog.resources.length}`);
   await nj.close();
@@ -341,7 +341,8 @@ async function extraGates(browser, base) {
   const n3 = await browser.newContext({ viewport: { width: 320, height: 640 }, isMobile: true, hasTouch: true });
   const p3 = await n3.newPage();
   for (const path of ['', 'catalog/', 'skills/']) {
-    await p3.goto(base + path, { waitUntil: 'networkidle' });
+    await open(p3, base + path);
+    await p3.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {}); // own scripts have run; other hosts may hang
     const sw = await p3.evaluate(() => document.documentElement.scrollWidth);
     gate(`320 px reflow: /${path}`, sw <= 321, 'scrollWidth ' + sw);
   }
@@ -349,7 +350,7 @@ async function extraGates(browser, base) {
   /* keys: / type Enter from home, then o */
   const nk = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const pk = await nk.newPage();
-  await pk.goto(base, { waitUntil: 'load' });
+  await open(pk, base);
   await pk.keyboard.press('/');
   await pk.keyboard.type('配色');
   await pk.keyboard.press('Enter');
@@ -372,6 +373,14 @@ const { proc, base } = await serve();
 const stop = () => { try { proc.kill(); } catch { /* gone */ } };
 process.on('exit', stop);
 process.on('SIGINT', () => { stop(); process.exit(130); });
+// Navigation never depends on other hosts: the pages must work when the font CDN hangs, and then the load event
+// can be minutes away. Wait for the document, then for load at most 15 s; a late load is reported, not gated.
+async function open(page, url, note) {
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  await page.waitForLoadState('load', { timeout: 15000 })
+    .catch(() => note && note('load event not reached within 15 s (a request to another host is still pending)'));
+}
+
 const browser = await chromium.launch();
 let axe = null;
 try { axe = await axeSource(); } catch (e) { console.error('WARN ' + e.message + ' (axe checks skipped, counted as a failure)'); }

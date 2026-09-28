@@ -1,0 +1,108 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "no-skill-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/run-approval-01.png",
+      "render/run-approval-02.png",
+      "render/run-error-01.png",
+      "render/run-error-02.png",
+      "render/run-progress-01.png",
+      "render/run-progress-02.png",
+      "render/run-result-01.png",
+      "render/run-result-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/05-agent-approvals.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "full-page run view inside the Fernhill frame (left nav with Assistant current, top bar with company and user); main column for the plan or decision, right rail for run facts, permissions and audit info",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All -01 frames show the left nav with Assistant highlighted and a top bar reading 'Larkspur Outdoor Co. · Dana Whitlock'. Each has a right rail: 'This run', 'What the assistant may do' and, in run-result-02.png, 'For your auditors'."
+    },
+    {
+      "claim": "the approval card is moved to the top of the main column (the full plan sits in the right rail) so the decision, account, date, total and Oakridge warning are visible above the fold",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: the approval card sits at the top of the main column. Operating ••4417, Tue 29 Sep 2026 · ACH, $18,940.55 and the Oakridge warning all appear above y=900. The plan is in the right rail. The approve/reject buttons are below the fold, in run-approval-02.png."
+    },
+    {
+      "claim": "\"Approve without Oakridge\" gets the primary button style ... \"Approve all 7\" is still a full, clearly labelled option",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: 'Approve without Oakridge · 6 payments · $16,625.15' is a filled green button. 'Approve and schedule all 7 · $18,940.55' is an outlined, full-width button below it."
+    },
+    {
+      "claim": "Each approve button states its payment count and total; Reject and Edit batch are secondary. Reject's consequence (no payments, continue to step 5) is written next to it.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: both approve buttons show a count and a total. 'Edit batch' and 'Reject' are small outlined buttons. Next to them: 'Reject: no payments are made; the assistant goes on to step 5.'"
+    },
+    {
+      "claim": "Step 5 is tagged \"Adds to close checklist\" instead of \"Read only\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "The Step 5 row has an 'Adds to close checklist' tag in run-progress-02.png and run-error-02.png. Steps 1–3 are tagged 'Read only'."
+    },
+    {
+      "claim": "step 1 shows as done without numbers and the header shows only \"Updated 10:00:47\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-error-01.png: Step 1 shows 'Done' with the text 'August vendor invoices collected from Bills.' and no counts. At the top right it says only 'Updated 10:00:47', with no start time."
+    },
+    {
+      "claim": "\"Stop the run\" explains that steps 3–5 won't run",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-error-02.png: next to 'Stop the run' it says 'Ends the run here. Steps 3–5 don't run, so nothing is matched, drafted or attached.'"
+    },
+    {
+      "claim": "the tool-call list shows only the calls the brief names (bills.list, bank_feed.fetch ×2) ... no per-call durations are shown for the fetches",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png, 'Tool calls so far 3' in the right rail: 'bills.list · 1.2 s · read' and two 'bank_feed.fetch' rows (Operating ••4417 / Card ••0385), each labelled 'read' with no duration."
+    },
+    {
+      "claim": "\"Waiting for your approval\" shows the current time (10:03:12) but not when the pause began",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: the header reads 'Started 10:00:00 · now 10:03:12'. No pause-start time appears anywhere."
+    },
+    {
+      "claim": "the action buttons map one-to-one to the suggested actions in the brief. For Oakridge ... the button opens the vendor record",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01.png and -02.png show one action per suggestion. Oakridge: 'Open vendor record'. Calder: 'Request corrected invoice' / 'Pay $252.00 difference'. Pellucid: 'Review refund email'. Marisol: 'Mark as matched'. Brightline: 'Mark paid another way' / 'Pay now'."
+    },
+    {
+      "claim": "the scheduled-batch table lists the 6 approved payments from the Moment 2 batch minus Oakridge (total $16,625.15 checks out)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-02.png: the 'Payment batch PB-0928' table lists 6 rows (all except Oakridge) and the total row reads 'Total · 6 payments ... $16,625.15'."
+    },
+    {
+      "claim": "Status never relies on colour alone: every step and payment state has an icon plus a text label (Done / Running / Waiting for your approval / Failed / Not started / Held / Scheduled)",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "Step states in progress, approval and error pair an icon with a text label ('Done', 'Running', 'Failed – needs your decision', 'Not started'). In the result: 'Held · 1 payment' with a pause icon and '✓ Scheduled'. Exception: the Steps list in the right rail of run-result-01.png and -02.png has checkmarks but no 'Done' word."
+    }
+  ],
+  "notes": "Every claim holds up against the renders. Two small caveats: the approval action buttons sit below the 900px fold (run-approval-02.png), and the Steps list in the result's right rail uses checkmark icons without the 'Done' word. Claims about fonts and the build scripts can't be checked from the renders, so I left them out. facts.md: 0 AA text failures and no overflow on any page.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.no-skill-s1/check.reply.txt",
+    "sha256": "91baf790b3e4ae67c8c730c0bfa94979c7d4d2a18c6e99295ee8b4361fa523bf"
+  }
+}

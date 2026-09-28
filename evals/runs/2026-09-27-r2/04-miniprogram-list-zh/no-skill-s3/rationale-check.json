@@ -1,0 +1,110 @@
+{
+  "brief": "04-miniprogram-list-zh",
+  "arm": "no-skill-s3",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/empty.png",
+      "render/filter.png",
+      "render/list.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/04-miniprogram-list-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "颜色对比度已按 WCAG 公式检查",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "facts.md: each page has 2 text nodes below AA. The lowest is span.dot '·' #9aa0a6 on #ffffff at 2.64:1 (needs 4.5), which appears as the separator dots in the location bar. The individual ratios NOTES lists were not measured separately."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "自定义导航栏只在左侧放位置切换（右边界 243px），不放页面标题，避开胶囊",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png/filter.png/empty.png: the location selector '苏州 · 工业园区 · 星湖街 ⌄' ends at about x≈237pt. There is no page title. The capsule placeholder at the top right (about 281–368, 50–82) is clear of other content."
+    },
+    {
+      "claim": "只完整显示前 4 个，右侧「类目宫格」按钮打开全部类目",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the category row shows 全部 / 日常保洁 / 家电清洗 / 家居维修 in full, with a grid icon at the right. No category label is cut off."
+    },
+    {
+      "claim": "直接显示「综合排序▾ / 距离最近 / 价格最低」，「评分最高」收在「综合排序」下拉里",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the sort bar shows 综合排序⌄ (green), 距离最近, 价格最低, a divider, then 筛选. 评分最高 is not visible, which matches the claim that it sits in the dropdown."
+    },
+    {
+      "claim": "「自营」小标只加在「拾光自营保洁队」上",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: the first card shows a green '自营' badge before 拾光自营保洁队. Cards 2–3 (蓝鲸家电清洗) have no badge. The other self-run card (新房开荒) is below the first screen."
+    },
+    {
+      "claim": "“今天”可约的时间用品牌绿突出，其他日期用深色文字",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: '今天 16:00' is in green. '明天 09:00' and '明天 14:00' are in dark text."
+    },
+    {
+      "claim": "距离用导航箭头图标 + km，放在评分行右侧",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: each card shows an arrow icon plus 1.2 km / 2.6 km / 2.6 km at the right end of the rating row."
+    },
+    {
+      "claim": "保证第一屏完整看到 3 个服务的价格、评分、最近可约",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list.png: three full cards show rating (4.9/4.8/4.7), 最近可约 time and price (¥129起, ¥89/台, ¥159/台) above the tab bar. The fourth card is only a sliver."
+    },
+    {
+      "claim": "筛选面板用从排序条下拉的面板 + 遮罩…标签栏保持可见、不变暗",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the panel drops down from below the sort bar, and a dark scrim covers the list behind it (about y 690–729pt). The native tab bar (首页/服务/订单/我的) stays at full brightness."
+    },
+    {
+      "claim": "「查看结果」按钮显示 0 个并附一行“当前条件下暂无匹配服务”",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: the green primary button reads '查看结果（0 个）' with the subline '当前条件下暂无匹配服务'. It sits next to an outlined 重置 button."
+    },
+    {
+      "claim": "「服务人员」默认选中「不限」（单选组）；「服务保障」为多选；…价格组未选",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "filter.png: 今天, 1 km 内, 可开发票 and 不限 are selected (green border plus check). No price chip is selected. 服务保障 carries the hint '可多选'."
+    },
+    {
+      "claim": "空状态：顶部保留已生效的筛选条件（可单独移除），说明原因，并列出 brief 给出的 3 个放宽建议…底部「修改筛选」「清除筛选」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "empty.png: the chips 今天×, 1 km 内× and 可开发票× appear with 清除全部. The reason line is '今天在星湖街 1 km 内，没有可开发票的家电清洗服务'. Three tappable rows follow (4个服务 / 6个服务 / 1个服务 ›). The bottom buttons are 修改筛选 (outlined) and 清除筛选 (filled)."
+    },
+    {
+      "claim": "颜色对比度已按 WCAG 公式检查",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "facts.md: each page has 2 text nodes below AA. The lowest is span.dot '·' #9aa0a6 on #ffffff at 2.64:1 (needs 4.5), which appears as the separator dots in the location bar. The individual ratios NOTES lists were not measured separately."
+    }
+  ],
+  "notes": "Nearly everything NOTES describes shows up in the renders. The only mismatch is the contrast claim: the grey '·' separator in the location bar measures 2.64:1, which fails AA on all three screens. NOTES's layout numbers (content from 216px, tab bar top at 729) also roughly match the renders. The claims about type size and generation process can't be checked from a static render.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/04-miniprogram-list-zh.no-skill-s3/check.reply.txt",
+    "sha256": "72066f74e900c467ededa320d8cea59c44f6a7ef4479b0b81afeb49f8b6a298f"
+  }
+}

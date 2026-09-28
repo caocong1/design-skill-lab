@@ -1,0 +1,42 @@
+{
+ "brief": "01-ops-console-zh",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list-01.png: P1 badges are solid red with signal-bar icon + text on every P1 row, closed ones too (0340), so closed P1s pull focus as much as the open one",
+    "A/list-error-01.png: view counts (1,286, 已超时 4) still show while the list API has failed",
+    "A/detail-01.png: readings flagged with ⚠ 超上限 text chips; trend has a dashed 阈值 55 line, but the line carries no point markers"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 5,
+   "evidence": [
+    "B/list-01.png: P1 filled red only for the active 0413; suspended/closed P1s are outlined, so the open P1 stands out",
+    "B/list-empty-01.png: active-filter chip row, per-filter 移除 buttons and 清除全部筛选; the reason is spelled out in plain words",
+    "B/detail-02.png: trend points above the limit are square markers vs round ones, with a legend, so the breach doesn't rely on colour",
+    "B/list-01.png: overdue SLA text wraps to two lines inside a tinted box (0402, 0371), making rows taller"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B marks only the open P1 as solid red, shows breaches by marker shape plus a legend, and its empty state gives per-filter removal buttons. A is equally clean but less specific."
+  }
+ ],
+ "notes": "Both pass every measured check: 0 AA failures, 0 target failures, no overflow, all 5 files present. Both show more than 10 rows above the fold, use icon+text for status and priority, and use proper CJK fonts with full-width punctuation. A's monospace IDs and two-line timestamps are readable but less compact than B's single-line tabular times. B's error state shows — for counts and offers 复制请求编号, which fits a failed API better."
+}

@@ -1,0 +1,39 @@
+{
+ "brief": "05-agent-approvals",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/run-approval-02.png: approve/reject buttons sit below the fold, under the table and the undo/policy cards; the Oakridge warning is above the fold in -01"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 5,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/run-approval-01.png: account, date, 7 payees, total, the Oakridge warning, all four choices with their consequences and the cancel window all fit in the first viewport, above the plan",
+    "B/run-result-01.png: opens with a one-sentence outcome headline, then scheduled/held/reconciled figures, then items that each have their own buttons",
+    "B/run-error-01.png: pulled and failed accounts shown side by side; Retry, Continue and Stop each say what they do, including the 12 invoices marked unverified"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B puts the whole approval decision (payees, warning, every choice and its consequence, the undo window) above the fold, ahead of the plan. A pushes the approve/reject buttons into the second screen."
+  }
+ ],
+ "notes": "Both are complete, accurate and pass AA. A is clean and consistent but reads like a generic dashboard. B's dashed 'approval gate' line in the plan and its decision-first layout on the approval and error screens are specific to this brief. B defect: the monospace invoice numbers sit slightly above the row baseline."
+}

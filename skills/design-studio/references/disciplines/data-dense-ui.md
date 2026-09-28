@@ -2,7 +2,7 @@
 title: Data-dense UI (tables, dashboards, big screens, charts)
 evidence: practice
 sources: [wcag-22, vercel-web-interface-guidelines]
-reviewed: 2026-09-27
+reviewed: 2026-09-28
 review_by: 2027-09-27
 ---
 
@@ -62,6 +62,8 @@ Structure:
 - Truncate text with an ellipsis and reveal it on hover, focus or expand. Never truncate numbers or identifiers people compare. Columns are resizable and choosable; views can be saved.
 - Status is a badge with colour + label (+ icon) from one fixed, product-wide vocabulary (草稿 / 待审核 / 已通过 / 已驳回), the same colour everywhere.
 - Inline editing only for frequent small edits: affordance on hover and focus, Enter or blur saves, Esc cancels, errors per cell.
+- A cell in a grid or calendar carries at most two encodings beside its text (a colour bar and a code, a code and a status). For a third, drop one or give the cell more room; text never truncates to fit a decoration.
+- A panel that serves one task orders its controls by the task's steps, with the step the user is on as the one primary action.
 - Admin data gets pagination with a total count and page size (people return to page 7); infinite scroll is for feeds. Coming back from a detail restores page, filters and scroll.
 - Large data: virtualise past about 50 rendered rows; sort and filter on the server; never load everything to paginate on the client.
 - Narrow widths: cards with the two or three key fields, or horizontal scroll with a sticky identifier. Decide per table and draw it.

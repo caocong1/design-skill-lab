@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "03-ios-consumer-screen",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 5, "platform_a11y": 4,
+          "evidence": ["A/book.png: Eliot quotation set as serif reading text with generous leading; serif book titles contrast cleanly with the SF interface type, so the type carries both hierarchy and character"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/today.png: all three books, the ring and the week chart sit above the fold; in B/book.png the session list has pages and minutes aligned in columns"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A's warm paper ground, serif titles and quotation set as reading text give Dogear a literary voice; B is tidy but default grouped-gray iOS with SF everywhere."}
+  ],
+  "notes": "Both float the tab bar with Search set apart, use glass back and more buttons on the detail screen, and give each screen one filled primary action. A marks Sunday as in progress with a hatched bar, which is more honest. A pushes Walden and The Pillow Book below the tab bar, and B packs them in. B's book detail shows sessions but no highlights. B's empty screen has 2 targets under 44 pt."
+}
+```

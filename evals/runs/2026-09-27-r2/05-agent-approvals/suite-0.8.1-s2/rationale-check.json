@@ -1,0 +1,116 @@
+{
+  "brief": "05-agent-approvals",
+  "arm": "suite-0.8.1-s2",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/run-approval-01.png",
+      "render/run-approval-02.png",
+      "render/run-approval-03.png",
+      "render/run-error-01.png",
+      "render/run-error-02.png",
+      "render/run-progress-01.png",
+      "render/run-progress-02.png",
+      "render/run-result-01.png",
+      "render/run-result-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/05-agent-approvals.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 11,
+    "contradicted": 1,
+    "not checkable": 0
+  },
+  "report_line": "claims: 11 verified, 1 contradicted, 0 not checkable",
+  "contradicted": [
+    {
+      "claim": "The Oakridge warning sits on that payment's row, right above both approve buttons",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "run-approval-01.png: the warning is on the Oakridge row (y≈685). The Quillon and Tern rows, the total and the undo/approver notes come between it and the buttons. The buttons are only in run-approval-02.png, about 300 px lower, so 'right above' does not hold."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "the run is a full page inside the app frame (sidebar nav + top bar stay visible), with a narrow run-details rail on the right",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-01.png, run-approval-01.png, run-error-01.png, run-result-01.png: the Fernhill sidebar nav (Assistant current) and the top bar with breadcrumb and Dana Whitlock appear on every screen. A right rail holds 'This run' and other cards."
+    },
+    {
+      "claim": "the decision block (approval / error) or the outcome (result) comes first. The plan ledger always sits below it",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01/02.png: the approval card sits above PLAN AND PROGRESS. run-error-01.png: the 'Couldn't pull transactions' card sits above the plan. run-result-01/02.png: the outcome card and flagged invoices sit above WHAT THE ASSISTANT DID."
+    },
+    {
+      "claim": "Moment 4: \"2 min 28 s waiting\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01.png header: '7 min 52 s, including 2 min 28 s waiting for approval'"
+    },
+    {
+      "claim": "\"5 items need your follow-up\" = 4 flagged invoices + the held Oakridge payment",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01.png: the headline reads '...5 items need your follow-up.' The HELD · NOT PAID column shows Oakridge, and FLAGGED INVOICES shows '4 need a decision'."
+    },
+    {
+      "claim": "Button labels on flagged items (e.g. \"Request corrected invoice\", \"Pay $252.00 difference\", \"Review refund email\", \"Mark as matched\")... \"Open vendor contact\" and \"View batch PB-0928\"",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-result-01.png: 'Request corrected invoice', 'Pay $252.00 difference', 'View batch PB-0928' and 'Open vendor contact' are shown. 'Review refund email' is split across the bottom of result-01 and the top of result-02. run-result-02.png: 'Mark as matched' is shown."
+    },
+    {
+      "claim": "\"Approve and schedule\" is the filled primary button",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: 'Approve and schedule · 7 payments, $18,940.55' is a filled dark-green button. 'Approve without Oakridge', 'Edit batch' and 'Reject' are outlined."
+    },
+    {
+      "claim": "The Oakridge warning sits on that payment's row, right above both approve buttons",
+      "source": "NOTES.md",
+      "verdict": "contradicted",
+      "evidence": "run-approval-01.png: the warning is on the Oakridge row (y≈685). The Quillon and Tern rows, the total and the undo/approver notes come between it and the buttons. The buttons are only in run-approval-02.png, about 300 px lower, so 'right above' does not hold."
+    },
+    {
+      "claim": "The raw tool call (payments.create_batch) sits behind a \"View exact payload\" link",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-02.png: 'For audit: paused on tool call payments.create_batch · View exact payload'"
+    },
+    {
+      "claim": "an \"AI\" label plus the name \"Fernhill Assistant\" on every run header",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "All four *-01.png: '[AI] Fernhill Assistant run · started 10:00:00' sits above the title."
+    },
+    {
+      "claim": "every state has an icon and a word, and flagged rows have a warning icon and text",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-02.png: Done/Running/Not started have icons. run-approval-02.png: 'Needs you' has a pause icon. run-error-02.png: Failed/Waiting have icons. Flagged rows have a ⚠ icon plus 'Flagged' (run-progress-01.png, run-approval-02.png)."
+    },
+    {
+      "claim": "The money-moving step sits under a double rule (the accounting total mark), and so does the batch total",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-progress-02.png, run-approval-03.png, run-result-02.png: a double line appears above step 4. run-approval-01.png: '$18,940.55' in the Total row is double-underlined."
+    },
+    {
+      "claim": "The approval's action buttons sit about 90 px below the 900 px fold on first load; the decision summary (account, date, total, payees) is above the fold.",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "run-approval-01.png: pay-from, pay-date, total and all 7 payee rows are visible and no approve buttons are. run-approval-02.png: the buttons appear near the top of the next frame, just below the fold."
+    }
+  ],
+  "notes": "11 of the 12 claims are verified and 1 is contradicted. The one that fails is the Oakridge warning: it is on its row, but that row is far from the approve buttons, with two payment rows, the total and a notes band in between. Other claims are consistent with facts.md: 0 text nodes below AA and no horizontal overflow. The '5.5:1 or higher' contrast figure was not checked because facts.md only reports AA pass/fail.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/05-agent-approvals.suite-0.8.1-s2/check.reply.txt",
+    "sha256": "f989378a3483882ab37f179d1a749288ea64608a77cd4b2ec2d1bf0254704687"
+  }
+}

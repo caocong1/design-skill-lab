@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "04-miniprogram-list-zh",
+  "judge": "J2",
+  "scores": {
+    "A": {"fit": 5, "hierarchy": 4, "identity": 4, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["A/list.png: each card leads with a large 'today/tomorrow + time' block, which answers 'when can someone come' first; A/empty.png: each suggestion states which filters it keeps (保留今天、可开发票) and gives the real count (4/6/1)"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 3, "typography": 4, "platform_a11y": 4,
+          "evidence": ["B/filter.png: the corner checkmarks on selected chips crowd the chip text ('1 km 内', '可开发票'), and the '筛选 3' pill nearly touches the right screen edge"]}
+  },
+  "pairs": [
+    {"left": "B", "right": "A", "prefer": "right", "reason": "A makes the soonest bookable time the lead of every card with bold numerals, and its empty state says which filters each suggestion keeps. B is a generic icon-card list."}
+  ],
+  "notes": "Both avoid the capsule, keep the native tab bar and safe area, and pass contrast. A's type scale is generous, good for users who enlarge WeChat fonts. The 'nothing matches; widen to 3 km for 4' hint inside A's filter panel suits this brief. In B, the tangerine price colour moves toward promo styling, and the illustrated empty state is more generic."
+}
+```

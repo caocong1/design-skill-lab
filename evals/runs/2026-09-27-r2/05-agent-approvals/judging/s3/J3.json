@@ -1,0 +1,37 @@
+{
+ "brief": "05-agent-approvals",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/run-approval-01.png: above the fold, the right-hand 'Your decision' column lists all four choices, each with its consequence. The account, pay date and undo deadline sit in a strip above the payee table. The Oakridge row is highlighted in place."
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/run-approval-02.png: Approve, Reject and Edit only appear after about 1,100 px of scrolling, below the table and the callouts. B/run-result-03.png: step 4 is marked Done but still carries the 'Needs your approval' badge."
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "right",
+   "reason": "A shows the approval decision and each choice's consequence beside the batch on the first screen. In B the Approve and Reject buttons sit far below the fold, under the table."
+  }
+ ],
+ "notes": "Both have clean fact sheets: 0 AA failures and 0 undersized targets. Neither relies on colour alone for step or payment states: both use icons plus text labels (Done, Running, Waiting, Failed). B's result screen is strong, leading with outcome cards and making each flag actionable. B's error screen uses more red. A keeps tool calls easy to inspect without crowding the page."
+}

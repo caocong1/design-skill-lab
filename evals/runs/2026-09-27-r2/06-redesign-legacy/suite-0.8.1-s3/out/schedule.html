@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>Schedule · AlderCare Scheduler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=block" rel="stylesheet">
+<style>
+  :root {
+    /* surfaces */
+    --navy: #1b365a;          /* AlderCare trust colour, kept */
+    --navy-2: #24466f;
+    --ink: #17202b;
+    --ink-2: #3f4a57;         /* secondary text, 8.9:1 on white */
+    --ink-3: #5a6573;         /* meta text, 5.9:1 on white */
+    --line: #d5dbe2;
+    --line-2: #b9c2cc;
+    --canvas: #f2f4f6;
+    --panel: #ffffff;
+    --focus: #1d5fd1;
+    /* status: the only saturated colour on the screen */
+    --wait: #0b6b3a; --wait-bg: #dcf2e4; --wait-line: #2f9e5f;
+    --room: #1c4fb8; --room-bg: #e3ecfc; --room-line: #5b86d6;
+    --unconf: #8a4b00; --unconf-bg: #fff3d6; --unconf-line: #c98a1a;
+    --alert: #a3141c; --alert-bg: #fde8e8; --alert-line: #d9535a;
+    --cancel: #5a6573;
+    /* appointment type: legacy hues kept as a stripe, always with a text code */
+    --t-np: #e0527a; --t-fu: #4f9a2c; --t-pe: #3b7fd9; --t-sk: #d99100;
+    --t-vx: #8a5cd6; --t-th: #17a3a3; --t-pr: #d9503f;
+    --row: 35px;
+    --lunch: 30px;
+    font-family: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { width: 1280px; height: 800px; overflow: hidden; background: var(--canvas); display: flex; flex-direction: column; font-size: 13px; line-height: 1.3; }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  svg.i { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---------- top bar ---------- */
+  .top { height: 42px; flex: none; background: var(--navy); color: #fff; display: flex; align-items: center; gap: 16px; padding: 0 12px 0 16px; }
+  .brand { font-weight: 700; font-size: 17px; letter-spacing: -0.2px; white-space: nowrap; }
+  .brand span { font-weight: 400; font-size: 12px; color: #c6d4e6; margin-left: 6px; }
+  .top select { height: 30px; border-radius: 6px; border: 1px solid #50698c; background: var(--navy-2); color: #fff; padding: 0 8px; font-size: 13px; }
+  .top .spacer { flex: 1; }
+  .clock { font-size: 14px; white-space: nowrap; color: #fff; }
+  .clock b { font-weight: 700; }
+  .topbtn { height: 30px; display: inline-flex; align-items: center; gap: 6px; padding: 0 10px; border-radius: 6px; border: 1px solid #50698c; background: transparent; color: #fff; font-size: 13px; white-space: nowrap; }
+  .topbtn .n { background: #fff; color: var(--navy); border-radius: 9px; padding: 0 6px; font-weight: 700; font-size: 12px; line-height: 18px; }
+
+  /* ---------- tabs (labels and order unchanged) ---------- */
+  .tabs { height: 32px; flex: none; background: #fff; border-bottom: 1px solid var(--line); display: flex; align-items: stretch; padding: 0 8px; gap: 2px; }
+  .tabs a { display: flex; align-items: center; padding: 0 9px; color: var(--ink-2); text-decoration: none; font-size: 13px; white-space: nowrap; border-bottom: 3px solid transparent; border-top: 3px solid transparent; }
+  .tabs a.on { color: var(--navy); font-weight: 700; border-bottom-color: var(--navy); }
+  .tabs a .n { margin-left: 4px; font-weight: 700; color: var(--alert); }
+
+  /* ---------- schedule toolbar ---------- */
+  .tb { height: 46px; flex: none; display: flex; align-items: center; gap: 6px; padding: 0 12px; background: #fff; border-bottom: 1px solid var(--line); }
+  .btn { height: 32px; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line-2); background: #fff; color: var(--ink); font-size: 13px; font-weight: 500; white-space: nowrap; }
+  .btn.sm { height: 28px; padding: 0 10px; }
+  .btn.icon { width: 32px; padding: 0; justify-content: center; }
+  .btn.primary { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 700; }
+  .btn.go { background: var(--wait); border-color: var(--wait); color: #fff; font-weight: 700; }
+  .btn.danger { color: var(--alert); }
+  .btn .chev { width: 12px; height: 12px; }
+  .seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 6px; overflow: hidden; height: 32px; }
+  .seg button { border: 0; background: #fff; padding: 0 9px; font-size: 13px; color: var(--ink-2); border-right: 1px solid var(--line-2); }
+  .seg button:last-child { border-right: 0; }
+  .seg button.on { background: #e8edf3; color: var(--navy); font-weight: 700; }
+  .datebtn { font-weight: 700; font-size: 15px; color: var(--ink); border-color: transparent; padding: 0 8px; }
+  .tb .div { width: 1px; height: 24px; background: var(--line); margin: 0 2px; }
+  .tb .spacer { flex: 1; }
+  .tb label.lbl { font-size: 12px; color: var(--ink-3); }
+  .tb select { height: 32px; border-radius: 6px; border: 1px solid var(--line-2); background: #fff; padding: 0 6px; font-size: 13px; }
+
+  /* ---------- main ---------- */
+  .main { flex: 1; min-height: 0; display: flex; }
+
+  /* front-desk rail */
+  .rail { width: 262px; flex: none; background: #fff; border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+  .search { padding: 10px 10px 8px; border-bottom: 1px solid var(--line); }
+  .search .field { height: 40px; display: flex; align-items: center; gap: 8px; border: 2px solid var(--navy); border-radius: 8px; padding: 0 10px; background: #fff; }
+  .search input { border: 0; outline: 0; flex: 1; min-width: 0; font-size: 14.5px; background: transparent; }
+  .search input::placeholder { color: var(--ink-3); }
+  .search .field svg { color: var(--navy); }
+  .rail-body { flex: 1; min-height: 0; overflow: auto; padding: 4px 0 8px; }
+  .sec { padding: 7px 8px 1px; }
+  .sec h2 { margin: 0 0 4px; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+  .sec h2 .cnt { font-size: 12px; min-width: 20px; height: 18px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px; letter-spacing: 0; }
+  .cnt.wait { background: var(--wait); color: #fff; }
+  .cnt.room { background: var(--room); color: #fff; }
+  .cnt.plain { background: #e8edf3; color: var(--ink-2); }
+  .cnt.warn { background: var(--alert); color: #fff; }
+  .person { display: flex; align-items: center; gap: 8px; padding: 2px 6px; border-radius: 6px; min-height: 36px; }
+  .person.sel { background: #edf2f8; box-shadow: inset 3px 0 0 var(--navy); }
+  .person .who { flex: 1; min-width: 0; }
+  .person .nm { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .person .meta { font-size: 12px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .timer { flex: none; text-align: right; font-weight: 700; font-size: 15px; line-height: 1.05; }
+  .timer small { display: block; font-size: 11px; font-weight: 500; color: var(--ink-3); }
+  .timer.wait { color: var(--wait); }
+  .timer.room { color: var(--room); }
+  .roomtag { flex: none; font-weight: 700; font-size: 12px; color: var(--room); border: 1.5px solid var(--room-line); border-radius: 5px; padding: 1px 5px; background: var(--room-bg); }
+  .due { display: flex; align-items: center; gap: 6px; padding: 2px 6px; min-height: 34px; }
+  .due .t { width: 34px; flex: none; font-weight: 700; font-size: 13px; color: var(--ink-2); }
+  .due .who { flex: 1; min-width: 0; }
+  .due .nm { font-weight: 700; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .due .meta { font-size: 12px; color: var(--ink-3); }
+  .todo { display: flex; align-items: flex-start; gap: 8px; padding: 5px 6px; font-size: 12.5px; color: var(--ink); border-radius: 6px; }
+  .todo + .todo { border-top: 1px solid #eef1f4; }
+  .todo .ic { flex: none; min-width: 20px; padding: 0 2px; height: 20px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; margin-top: 1px; }
+  .ic.dbl { background: var(--alert-bg); color: var(--alert); border: 1.5px solid var(--alert-line); }
+  .ic.ins { background: var(--alert-bg); color: var(--alert); border: 1.5px solid var(--alert-line); }
+  .ic.unc { background: var(--unconf-bg); color: var(--unconf); border: 1.5px dashed var(--unconf-line); border-radius: 10px; }
+  .todo .tx { flex: 1; min-width: 0; }
+  .todo .tx b { font-weight: 700; }
+  .todo .tx .meta { color: var(--ink-3); font-size: 12px; }
+  .todo .act { flex: none; align-self: center; }
+  .linkbtn { background: none; border: 0; padding: 0 2px; min-height: 24px; color: var(--focus); font-weight: 700; font-size: 12.5px; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------- day grid ---------- */
+  .gridwrap { flex: 1; min-width: 0; display: flex; flex-direction: column; background: #fff; border-right: 1px solid var(--line); }
+  .ghead { flex: none; display: grid; grid-template-columns: 46px repeat(4, 1fr); border-bottom: 1px solid var(--line-2); background: #fff; }
+  .ghead .c { padding: 4px 8px 4px; border-left: 1px solid var(--line); min-width: 0; }
+  .ghead .c:first-child { border-left: 0; }
+  .ghead .dr { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ghead .sub { font-size: 11.5px; color: var(--ink-3); white-space: nowrap; display: flex; gap: 6px; align-items: center; }
+  .ghead .sub .pill { font-weight: 700; font-size: 11.5px; border-radius: 4px; padding: 0 4px; }
+  .pill.wait { color: var(--wait); background: var(--wait-bg); }
+  .pill.room { color: var(--room); background: var(--room-bg); }
+  .gscroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; position: relative; }
+  .grid { position: relative; display: grid; grid-template-columns: 46px repeat(4, 1fr); }
+  .tm { font-size: 12px; line-height: 13px; color: var(--ink-3); text-align: right; padding: 4px 6px 0 0; border-top: 1px solid #eceff3; background: #fafbfc; }
+  .tm.hr { color: var(--ink); font-weight: 700; font-size: 13px; border-top-color: var(--line-2); }
+  .tm small { display: block; font-size: 10.5px; font-weight: 500; color: var(--ink-3); }
+  .bg { border-left: 1px solid var(--line); border-top: 1px solid #eceff3; }
+  .bg.hr { border-top-color: var(--line-2); }
+  .appt { position: relative; z-index: 1; margin: 1px 2px 0 3px; border-radius: 4px; border: 1px solid var(--line-2); background: #fff; padding: 1px 5px 0 10px; min-width: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-start; }
+  .appt::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--tc); }
+  .appt .l1 { display: flex; align-items: center; gap: 4px; min-width: 0; height: 16px; }
+  .appt .nm { font-weight: 700; font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+  .appt .l2 { font-size: 12px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; height: 15px; line-height: 15px; }
+  .appt.tall .l2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .appt.tall .l2.one { -webkit-line-clamp: 1; }
+  .appt .l2 .ty { font-weight: 700; color: var(--ink); }
+  .appt.tall .l2 { white-space: normal; height: auto; line-height: 15px; }
+  .st { flex: none; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11.5px; line-height: 15px; border-radius: 3px; padding: 0 3px; }
+  /* status treatments: fill + label + glyph */
+  .appt.s-wait { background: var(--wait-bg); border-color: var(--wait-line); }
+  .appt.s-wait .st { background: var(--wait); color: #fff; }
+  .appt.s-room { background: var(--room-bg); border-color: var(--room-line); }
+  .appt.s-room .st { background: var(--room); color: #fff; }
+  .appt.s-unc { border: 1.5px dashed var(--unconf-line); background: #fffaf0; }
+  .appt.s-unc .st { color: #7a4200; border: 1.5px solid var(--unconf-line); border-radius: 9px; width: 17px; height: 16px; padding: 0; background: #fff; }
+  .appt.s-x { background: #f4f5f7; border-color: #dde1e6; }
+  .appt.s-x .nm, .appt.s-x .l2 { text-decoration: line-through; color: var(--cancel); }
+  .appt.s-x .st { color: var(--cancel); border: 1px solid #b9c2cc; }
+  .appt .ins { flex: none; font-weight: 700; font-size: 10.5px; color: var(--alert); border: 1.5px solid var(--alert-line); background: var(--alert-bg); border-radius: 3px; padding: 0 3px; line-height: 13px; }
+  .appt.sel { border: 2px solid var(--navy); padding: 0 4px 0 9px; z-index: 2; }
+  .appt.sel .l1 { height: 15px; } .appt.sel .l2 { height: 14px; line-height: 14px; }
+  .appt.sel::after { content: ""; position: absolute; right: -1px; top: 50%; margin-top: -5px; border: 5px solid transparent; border-right-color: var(--navy); }
+  .appt.dbl { border: 2px solid var(--alert-line); background: #fff; padding-top: 0; }
+  .appt.dbl .l1 { height: 15px; }
+  .appt.dbl .nm { font-size: 13px; }
+  .appt.dbl .am { font-weight: 500; font-size: 12px; color: var(--ink-2); }
+  .appt.dbl .st { width: 17px; height: 16px; padding: 0; }
+  .appt.dbl .st { background: var(--alert); color: #fff; }
+  .blk { position: relative; z-index: 1; margin: 1px 2px 1px 3px; border-radius: 4px; background: repeating-linear-gradient(135deg, #eef1f4 0 6px, #f7f8fa 6px 12px); color: var(--ink-3); font-size: 12px; font-style: italic; padding: 5px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .open { position: relative; z-index: 1; margin: 2px 3px 2px 4px; border-radius: 4px; border: 1.5px dashed #aeb8c3; color: var(--ink-2); font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; padding: 0 8px; background: #fff; }
+  .open svg { width: 13px; height: 13px; }
+  .lunch { position: relative; z-index: 1; grid-column: 2 / 6; margin: 1px 2px 1px 3px; border-radius: 4px; background: repeating-linear-gradient(135deg, #eef1f4 0 6px, #f7f8fa 6px 12px); color: var(--ink-3); font-size: 12px; font-weight: 700; letter-spacing: .5px; display: flex; align-items: center; justify-content: center; }
+  .now { position: absolute; left: 46px; right: 0; height: 0; border-top: 2px solid var(--alert); z-index: 0; pointer-events: none; }
+  .now::before { content: ""; position: absolute; left: -4px; top: -5px; width: 8px; height: 8px; border-radius: 50%; background: var(--alert); }
+  .gfoot { flex: none; height: 26px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 6px; padding: 0 6px; font-size: 11.5px; color: var(--ink-2); background: #fafbfc; white-space: nowrap; }
+  .gfoot .k { display: inline-flex; align-items: center; gap: 4px; }
+  .gfoot .sw { width: 5px; height: 13px; border-radius: 1px; display: inline-block; }
+  .gfoot .k b { color: var(--ink); }
+  .gfoot .lg { display: inline-flex; align-items: center; justify-content: center; min-width: 17px; height: 15px; padding: 0 3px; border-radius: 3px; font-weight: 700; font-size: 11px; }
+  .gfoot .div { width: 1px; height: 16px; background: var(--line); }
+
+  /* ---------- appointment panel ---------- */
+  .detail { width: 312px; flex: none; background: #fff; display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+  .dhead { padding: 8px 14px 7px; border-bottom: 1px solid var(--line); }
+  .dhead .when { font-size: 12px; color: var(--ink-3); display: flex; justify-content: space-between; }
+  .dhead .when b { color: var(--ink-2); }
+  .dhead h1 { margin: 1px 0 1px; font-size: 20px; line-height: 1.15; font-weight: 700; }
+  .dhead h1 a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+  .dhead .id { font-size: 12.5px; color: var(--ink-2); }
+  .alerts { margin: 7px 14px 0; border: 1.5px solid var(--alert-line); border-radius: 6px; background: var(--alert-bg); padding: 5px 8px 6px; }
+  .alerts h3 { margin: 0 0 2px; font-size: 11.5px; letter-spacing: .5px; text-transform: uppercase; color: var(--alert); display: flex; align-items: center; gap: 5px; }
+  .alerts h3 svg { width: 14px; height: 14px; }
+  .alerts ul { margin: 0; padding: 0; list-style: none; }
+  .alerts li { font-size: 13px; line-height: 17px; display: flex; gap: 6px; }
+  .alerts li .k { width: 60px; flex: none; color: var(--alert); font-weight: 700; font-size: 12px; }
+  .alerts li b { font-weight: 700; }
+  .flow { margin: 7px 14px 0; }
+  .flow h3, .dsec h3 { margin: 0 0 4px; font-size: 12px; letter-spacing: .4px; text-transform: uppercase; color: var(--ink-2); }
+  .step { display: flex; align-items: center; gap: 8px; min-height: 30px; border-bottom: 1px solid #eef1f4; }
+  .step .ck { width: 20px; height: 20px; flex: none; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+  .step .ck svg { width: 13px; height: 13px; stroke-width: 3; }
+  .step.done .ck { background: var(--wait); color: #fff; }
+  .step.todo .ck { border: 2px solid var(--line-2); }
+  .step .lab { flex: 1; min-width: 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .step .lab b { font-weight: 700; }
+  .step .lab .meta { color: var(--ink-3); font-size: 12px; }
+  .step.todo .lab .owed { color: var(--alert); font-weight: 700; }
+  .step .btn { flex: none; }
+  .acts { margin: 7px 14px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+  .acts .btn { padding: 0 4px; justify-content: center; font-size: 12.5px; }
+  .dsec { margin: 7px 14px 0; }
+  .kv { display: grid; grid-template-columns: 74px 1fr; column-gap: 8px; row-gap: 1px; font-size: 12.5px; }
+  .kv dt { color: var(--ink-3); }
+  .kv dd { margin: 0; color: var(--ink); }
+  .kv dd .ok { color: var(--wait); font-weight: 700; }
+  .visits { font-size: 12px; color: var(--ink-2); display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; row-gap: 1px; }
+  .visits span b { font-weight: 500; color: var(--ink-3); margin-right: 4px; }
+  
+
+  /* ---------- status bar ---------- */
+  .foot { height: 22px; flex: none; background: #e8ecf0; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 16px; padding: 0 12px; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
+  .foot .spacer { flex: 1; }
+  .foot .maint { color: var(--unconf); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="brand">AlderCare<span>Scheduler</span></div>
+  <select aria-label="Location"><option>Alder Street Family Practice - Main</option><option>Alder Street - Eastside Annex</option></select>
+  <div class="spacer"></div>
+  <div class="clock">Mon 28 Sep 2026 · <b>8:04 AM</b></div>
+  <button class="topbtn" aria-label="Messages, 3 unread"><svg class="i"><use href="#i-mail"/></svg>Messages <span class="n">3</span></button>
+  <button class="topbtn"><svg class="i"><use href="#i-user"/></svg>mlopez · Front Desk<svg class="i chev" style="width:12px;height:12px"><use href="#i-chev"/></svg></button>
+</header>
+
+<nav class="tabs" aria-label="Main">
+  <a href="#">Home</a><a href="#" class="on" aria-current="page">Schedule</a><a href="#">Patients</a><a href="#">Check-In</a><a href="#">Waitlist (4)</a><a href="#">Recalls</a><a href="#">Billing</a><a href="#">Insurance / Eligibility</a><a href="#">Reports</a><a href="#">Messages<span class="n">(3)</span></a><a href="#">Tasks</a><a href="#">Inventory</a><a href="#">Admin</a><a href="#">Help</a>
+</nav>
+
+<div class="tb">
+  <button class="btn icon" aria-label="Previous day"><svg class="i"><use href="#i-left"/></svg></button>
+  <button class="btn sm">Today</button>
+  <button class="btn icon" aria-label="Next day"><svg class="i"><use href="#i-right"/></svg></button>
+  <button class="btn datebtn" aria-label="Pick date, 09/28/2026">Monday, 28 September 2026<svg class="i chev"><use href="#i-chev"/></svg></button>
+  <div class="seg" role="group" aria-label="View"><button class="on" aria-pressed="true">Day</button><button>Week</button><button>Month</button></div>
+  <select id="prov" aria-label="Provider"><option>All providers</option><option>Rao, Anita MD</option><option>Feld, Marcus MD</option><option>Kim, Joanna NP</option><option>Ortega, Luis PA</option></select>
+  <div class="spacer"></div>
+  <button class="btn primary"><svg class="i"><use href="#i-plus"/></svg>New appt</button>
+  <button class="btn">Find slot</button>
+  <button class="btn">Walk-in</button>
+  <button class="btn">Block time</button>
+  <button class="btn">Print / Export<svg class="i chev"><use href="#i-chev"/></svg></button>
+  <button class="btn icon" aria-label="Refresh"><svg class="i"><use href="#i-refresh"/></svg></button>
+</div>
+
+<div class="main">
+
+  <!-- Front desk rail: who is here, who is next, what needs doing -->
+  <aside class="rail" aria-label="Front desk">
+    <div class="search">
+      <label class="field"><svg class="i"><use href="#i-search"/></svg><input placeholder="Find: Last, First or MRN" aria-label="Find patient"></label>
+    </div>
+    <div class="rail-body">
+      <section class="sec">
+        <h2>Waiting room <span class="cnt wait">3</span></h2>
+        <div class="person sel">
+          <div class="who"><div class="nm">Brennan, Harold</div><div class="meta">Rao · 8:00 · arrived 7:52</div></div>
+          <div class="timer wait">12 min<small>waiting</small></div>
+        </div>
+        <div class="person">
+          <div class="who"><div class="nm">Chen, Robert</div><div class="meta">Kim · 8:15 · arrived 7:58</div></div>
+          <div class="timer wait">6 min<small>waiting</small></div>
+        </div>
+        <div class="person">
+          <div class="who"><div class="nm">Natarajan, Priya</div><div class="meta">Rao · 8:15 · arrived 8:01</div></div>
+          <div class="timer wait">3 min<small>waiting</small></div>
+        </div>
+      </section>
+      <section class="sec">
+        <h2>In a room <span class="cnt room">2</span></h2>
+        <div class="person">
+          <div class="who"><div class="nm">Wright, Jamal</div><div class="meta">Ortega · since 7:55</div></div>
+          <span class="roomtag">Room 7</span>
+        </div>
+        <div class="person">
+          <div class="who"><div class="nm">Johansson, Mia</div><div class="meta">Feld · since 7:57</div></div>
+          <span class="roomtag">Room 4</span>
+        </div>
+      </section>
+      <section class="sec">
+        <h2>Due next <span class="cnt plain">4</span></h2>
+        <div class="due"><span class="t">8:15</span><div class="who"><div class="nm">Abernathy, Noah</div><div class="meta">Feld · 9 mo</div></div><button class="btn go sm">Check in</button></div>
+        <div class="due"><span class="t">8:30</span><div class="who"><div class="nm">Okafor, Walter</div><div class="meta">Rao · 58M</div></div><button class="btn go sm">Check in</button></div>
+        <div class="due"><span class="t">8:30</span><div class="who"><div class="nm">Fairbanks, Linda</div><div class="meta">Kim · 71F</div></div><button class="btn go sm">Check in</button></div>
+        <div class="due"><span class="t">8:30</span><div class="who"><div class="nm">Olsen, Hannah</div><div class="meta">Ortega · 45F</div></div><button class="btn go sm">Check in</button></div>
+      </section>
+      <section class="sec">
+        <h2>Needs attention <span class="cnt warn">3</span></h2>
+        <div class="todo"><span class="ic dbl">2</span><div class="tx"><b>Double-booked</b> Feld 10:15<div class="meta">Reyes, Lucas · Adams, Chloe</div></div><button class="linkbtn act">Fix</button></div>
+        <div class="todo"><span class="ic ins" style="font-size:9.5px">INS</span><div class="tx"><b>Insurance not verified</b><div class="meta">Liu 9:30 · Soto 10:30</div></div><button class="linkbtn act">Verify</button></div>
+        <div class="todo"><span class="ic unc">?</span><div class="tx"><b>Unconfirmed</b><div class="meta">8 today · 3 tomorrow</div></div><button class="linkbtn act">Remind</button></div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- Day grid -->
+  <section class="gridwrap" aria-label="Day schedule">
+    <div class="ghead">
+      <div class="c"></div>
+      <div class="c"><div class="dr">Rao, Anita MD</div><div class="sub">Family Med · Rm 1-3</div></div>
+      <div class="c"><div class="dr">Feld, Marcus MD</div><div class="sub">Pediatrics · Rm 4-5</div></div>
+      <div class="c"><div class="dr">Kim, Joanna NP</div><div class="sub">Family Med · Rm 6</div></div>
+      <div class="c"><div class="dr">Ortega, Luis PA</div><div class="sub">Urgent / Sick · Rm 7</div></div>
+    </div>
+    <div class="gscroll"><div class="grid" id="grid"></div></div>
+    <div class="gfoot" aria-label="Legend">
+      <span class="k"><span class="lg" style="background:var(--wait);color:#fff">12m</span>waiting</span>
+      <span class="k"><span class="lg" style="background:var(--room);color:#fff">Rm</span>in room</span>
+      <span class="k"><span class="lg" style="border:1.5px solid var(--unconf-line);color:#7a4200;border-radius:9px">?</span>unconfirmed</span>
+      <span class="k"><span class="lg" style="border:1.5px solid var(--alert-line);color:var(--alert);background:var(--alert-bg)">INS</span>unverified</span>
+      <span class="k"><span class="lg" style="background:var(--alert);color:#fff">2</span>in slot</span>
+      <span class="div"></span>
+      <span class="k"><b>Type</b></span>
+      <span class="k"><i class="sw" style="background:var(--t-np)"></i>New</span>
+      <span class="k"><i class="sw" style="background:var(--t-fu)"></i>F/U</span>
+      <span class="k"><i class="sw" style="background:var(--t-pe)"></i>Phys</span>
+      <span class="k"><i class="sw" style="background:var(--t-sk)"></i>Sick</span>
+      <span class="k"><i class="sw" style="background:var(--t-vx)"></i>Vacc</span>
+      <span class="k"><i class="sw" style="background:var(--t-th)"></i>Tele</span>
+      <span class="k"><i class="sw" style="background:var(--t-pr)"></i>Proc</span>
+    </div>
+  </section>
+
+  <!-- Selected appointment -->
+  <aside class="detail" aria-label="Selected appointment">
+    <div class="dhead">
+      <div class="when"><span><b>8:00-8:15 AM</b> · Follow-Up · 15 min</span><span>Rao, Anita MD</span></div>
+      <h1><a href="#">Brennan, Harold J</a></h1>
+      <div class="id">75 y · M · DOB 03/14/1951 · MRN 00482913</div>
+    </div>
+
+    <div class="alerts" role="note" aria-label="Patient alerts">
+      <h3><svg class="i"><use href="#i-alert"/></svg>Patient alerts</h3>
+      <ul>
+        <li><span class="k">Allergy</span><span><b>PENICILLIN</b> (rash)</span></li>
+        <li><span class="k">Balance</span><span><b>$140.00 overdue</b> (64 days)</span></li>
+        <li><span class="k">Needs</span><span>Large-print forms · hard of hearing R ear</span></li>
+      </ul>
+    </div>
+
+    <div class="flow">
+      <h3>Check-in</h3>
+      <div class="step done"><span class="ck"><svg class="i"><use href="#i-check"/></svg></span><div class="lab"><b>Checked in</b> <span class="meta">arrived 7:52 AM · waiting 12 min</span></div></div>
+      <div class="step done"><span class="ck"><svg class="i"><use href="#i-check"/></svg></span><div class="lab"><b>Insurance</b> <span class="meta">verified 09/25</span></div><button class="btn sm">Eligibility</button></div>
+      <div class="step todo"><span class="ck"></span><div class="lab"><b>Copay</b> <span class="owed">not collected</span></div><button class="btn go sm">Collect $25.00</button></div>
+      <div class="step todo"><span class="ck"></span><div class="lab"><b>Room</b> <span class="meta">not assigned</span></div><button class="btn sm">Room<svg class="i chev"><use href="#i-chev"/></svg></button></div>
+    </div>
+
+    <div class="acts">
+      <button class="btn sm">Check Out</button>
+      <button class="btn sm">Resched.</button>
+      <button class="btn sm">Edit</button>
+      <button class="btn sm">Notes</button>
+      <button class="btn sm">Reminder</button>
+      <button class="btn sm">Print</button>
+      <button class="btn sm danger">No Show</button>
+      <button class="btn sm danger">Cancel</button>
+    </div>
+
+    <div class="dsec">
+      <dl class="kv">
+        <dt>Reason</dt><dd>F/U hypertension, BP recheck after med change</dd>
+        <dt>Phone</dt><dd>H (555) 014-2297<br>C (555) 014-8830</dd>
+        <dt>Insurance</dt><dd>BlueStar PPO #BSP-7730-2291</dd>
+        <dt>Reminder</dt><dd>SMS 09/27 6:00 PM · <span class="ok">replied C</span></dd>
+        <dt>Booked by</dt><dd>jsmith 09/14/2026 2:31 PM</dd>
+      </dl>
+    </div>
+    <div class="dsec">
+      <h3>Recent visits</h3>
+      <div class="visits"><span><b>08/31/26</b>Rao · F/U</span><span><b>07/02/26</b>Rao · Sick</span><span><b>01/19/26</b>Rao · Physical</span><span><b>10/06/25</b>Kim · Vaccine</span></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="foot">
+  <span>Ready · updated 8:04 AM</span>
+  <span><b>96</b> appts · <b>3</b> arrived · <b>2</b> in room · <b>0</b> no-show · <b>14</b> open</span>
+  <span class="maint">System maintenance: Sat 10/03 10:00 PM - Sun 2:00 AM</span>
+  <span class="spacer"></span>
+  <span>Server ACS-APP02 · Build 3.2.7.1184</span>
+</footer>
+
+<script>
+/* The same appointments as AlderCare 3.2 (legacy/index.html), 8:00 AM - 1:45 PM.
+   [col, start, slots, kind, name, age/sex, type, reason, extra] */
+const T = { np:["New","--t-np"], fu:["F/U","--t-fu"], pe:["Phys","--t-pe"], sk:["Sick","--t-sk"], vx:["Vacc","--t-vx"], th:["Tele","--t-th"], pr:["Proc","--t-pr"] };
+const A = [
+  [0,"8:00",1,"wait","Brennan, Harold","75M","fu","HTN",{t:"12m",sel:1}],
+  [0,"8:15",1,"wait","Natarajan, Priya","34F","sk","sore throat",{t:"3m"}],
+  [0,"8:30",3,"c","Okafor, Walter","58M","pe","Annual physical + fasting labs"],
+  [0,"9:15",1,"blk","Rx refills / admin"],
+  [0,"9:30",2,"unc","Liu, Grace","29F","np","New pt - transfer from Dr. Marsh",{ins:1}],
+  [0,"10:00",1,"c","Herrera, Tomas","47M","fu","diabetes A1c"],
+  [0,"10:15",1,"c","Marsh, Evelyn","81F","fu","needs wheelchair"],
+  [0,"10:30",1,"c","Kowalski, Daniel","39M","th","F/U anxiety"],
+  [0,"10:45",1,"open"],
+  [0,"11:00",2,"c","Whitfield, Sarah","52F","pr","Skin biopsy (shave) L shoulder"],
+  [0,"11:30",1,"c","Rossi, Maria","64F","fu","osteoporosis"],
+  [0,"11:45",1,"unc","Dubois, Claire","37F","fu","migraine"],
+  [0,"1:00",2,"c","Asante, Kofi","40M","np","New pt"],
+  [0,"1:30",1,"c","Coleman, Ruth","67F","fu","arthritis"],
+
+  [1,"8:00",1,"room","Johansson, Mia","4F","vx","4yr shots",{t:"Rm 4"}],
+  [1,"8:15",2,"c","Abernathy, Noah","9mo M","pe","WCC 9 mo"],
+  [1,"8:45",1,"unc","Castillo, Liam","7M","sk","ear pain"],
+  [1,"9:00",1,"c","Thompson, Ava","12F","fu","asthma"],
+  [1,"9:15",1,"c","Park, Ethan","2M","vx","MMR #2"],
+  [1,"9:30",3,"unc","Bennett, Zoe","15F","pe","Sports physical - needs form"],
+  [1,"10:15",1,"dbl"],
+  [1,"10:30",1,"c","Nguyen, Oliver","6M","sk","rash"],
+  [1,"10:45",1,"open"],
+  [1,"11:00",1,"c","Moore, Isabella","10F","vx","Tdap/HPV"],
+  [1,"11:15",1,"c","Walsh, Henry","5M","fu","ear"],
+  [1,"11:30",1,"c","Greene, Amara","11F","sk","sore throat"],
+  [1,"11:45",1,"blk","Hold - same day sick"],
+  [1,"1:00",3,"c","Singh, Arjun","5M","pe","WCC 5 yr + vision"],
+
+  [2,"8:00",1,"open"],
+  [2,"8:15",1,"wait","Chen, Robert","66M","fu","INR check",{t:"6m"}],
+  [2,"8:30",1,"c","Fairbanks, Linda","71F","vx","flu vaccine"],
+  [2,"8:45",1,"c","Jordan, Marcus","44M","sk","cough 2 wks"],
+  [2,"9:00",2,"c","Rahman, Aisha","31F","np","New pt - est. care"],
+  [2,"9:30",1,"c","O'Brien, Kevin","55M","th","F/U lipids"],
+  [2,"9:45",1,"x","Gomez, Patricia","49F","fu","cancelled"],
+  [2,"10:00",1,"c","Delgado, Frank","62M","fu","knee"],
+  [2,"10:15",3,"blk","Flu clinic - walk-ins"],
+  [2,"11:00",1,"unc","Stein, Rachel","38F","sk","sinus"],
+  [2,"11:15",1,"c","Patel, Nikhil","58M","fu","gout"],
+  [2,"11:30",1,"c","Lindqvist, Erik","45M","th","F/U"],
+  [2,"11:45",1,"c","Ward, Betty","77F","vx","B12 inj"],
+  [2,"1:00",1,"c","Holland, Jean","69F","fu","CHF"],
+  [2,"1:15",1,"c","Fairbanks, Tom","73M","vx","flu vaccine"],
+  [2,"1:30",1,"unc","Ibarra, Sofia","42F","fu","labs"],
+
+  [3,"8:00",1,"room","Wright, Jamal","27M","sk","ankle sprain",{t:"Rm 7"}],
+  [3,"8:15",1,"open"],
+  [3,"8:30",1,"c","Olsen, Hannah","45F","fu","thyroid"],
+  [3,"8:45",1,"c","Petrov, Victor","68M","fu","BP meds"],
+  [3,"9:00",2,"c","Clarke, Megan","36F","pr","Wart removal (cryo)"],
+  [3,"9:30",1,"open"],
+  [3,"9:45",1,"c","Brooks, Samuel","50M","th","med review"],
+  [3,"10:00",1,"unc","Foster, Diane","59F","fu","labs"],
+  [3,"10:15",1,"c","Hassan, Ahmed","41M","sk","back pain"],
+  [3,"10:30",1,"unc","Soto, Elena","23F","sk","UTI sx",{ins:1}],
+  [3,"10:45",1,"c","Morales, Juan","71M","fu","COPD"],
+  [3,"11:00",1,"c","Yamamoto, Ken","33M","sk","wrist pain"],
+  [3,"11:15",1,"open"],
+  [3,"11:30",1,"c","Okonkwo, Chidi","29M","sk","cut R hand"],
+  [3,"11:45",1,"c","Mendez, Raul","52M","sk","rash"],
+  [3,"1:00",1,"open"],
+  [3,"1:15",1,"c","Baker, Lily","19F","sk","nausea"],
+  [3,"1:30",1,"c","Novak, Petr","36M","sk","fever"],
+];
+const times = ["8:00","8:15","8:30","8:45","9:00","9:15","9:30","9:45","10:00","10:15","10:30","10:45","11:00","11:15","11:30","11:45","LUNCH","1:00","1:15","1:30"];
+const g = document.getElementById("grid");
+g.style.gridTemplateRows = times.map(t => t==="LUNCH" ? "var(--lunch)" : "var(--row)").join(" ");
+const rowOf = t => times.indexOf(t) + 1;
+const el = (cls, html, css) => { const d = document.createElement("div"); d.className = cls; if (html) d.innerHTML = html; Object.assign(d.style, css||{}); g.appendChild(d); return d; };
+const hourLabel = t => t + "<small>" + (["8","9","10","11"].includes(t.split(":")[0]) ? "AM" : "PM") + "</small>";
+
+times.forEach((t, i) => {
+  if (t === "LUNCH") {
+    el("tm", "12:00", { gridRow: i+1, gridColumn: 1, fontWeight: 700, color: "var(--ink)", borderTopColor: "var(--line-2)" });
+    el("lunch", "LUNCH 12:00 - 1:00 PM · afternoon continues below", { gridRow: i+1 });
+    return;
+  }
+  const hr = t.endsWith(":00");
+  el("tm" + (hr ? " hr" : ""), hr ? hourLabel(t) : t, { gridRow: i+1, gridColumn: 1 });
+  for (let c = 0; c < 4; c++) el("bg" + (hr ? " hr" : ""), "", { gridRow: i+1, gridColumn: c+2 });
+});
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+A.forEach(([c, t, n, kind, name, as, ty, reason, x]) => {
+  const pos = { gridRow: `${rowOf(t)} / span ${n}`, gridColumn: c+2 };
+  if (kind === "blk") return el("blk", esc(name), pos);
+  if (kind === "open") return el("open", '<svg class="i"><use href="#i-plus"/></svg>Open', pos);
+  if (kind === "dbl") {
+    return el("appt dbl", `<div class="l1"><span class="nm">Reyes, Lucas <span class="am">3M</span></span><span class="st" title="Double-booked: two patients in one slot">2</span></div><div class="l1"><span class="nm">Adams, Chloe <span class="am">8F F/U</span></span></div>`,
+      Object.assign(pos, { "--tc": "var(--t-sk)" }));
+  }
+  x = x || {};
+  let badge = "";
+  if (kind === "wait") badge = `<span class="st">${x.t}</span>`;
+  else if (kind === "room") badge = `<span class="st">${x.t}</span>`;
+  else if (kind === "unc") badge = `<span class="st" title="Unconfirmed">?</span>`;
+  
+  const ins = x.ins ? `<span class="ins" title="Insurance not verified">INS</span>` : "";
+  const cls = { wait:"s-wait", room:"s-room", unc:"s-unc", x:"s-x", c:"" }[kind];
+  const status = { wait:"Waiting", room:"In room", unc:"Unconfirmed", x:"Cancelled", c:"" }[kind];
+  const l2 = kind === "x" ? `Cancelled · ${as} ${T[ty][0]}` : `<span class="ty">${T[ty][0]}</span> ${as} · ${esc(reason)}`;
+  const tall = n > 1;
+  const extra = tall && status ? `<div class="l2" style="margin-top:1px;font-weight:700;color:var(--${kind==="unc"?"unconf":"ink-2"})">${status}${x.ins ? " · insurance not verified" : ""}</div>` : "";
+  el(`appt ${cls}${x.sel ? " sel" : ""}${tall ? " tall" : ""}`,
+     `<div class="l1"><span class="nm">${esc(name)}</span>${ins}${badge}</div><div class="l2${x.ins ? " one" : ""}">${l2}</div>${extra}`,
+     Object.assign(pos, { "--tc": `var(${T[ty][1]})` }));
+});
+
+/* now line at 8:04 inside the 8:00 row */
+const now = document.createElement("div"); now.className = "now";
+now.style.top = (4/15) * 35 + "px"; g.appendChild(now);
+</script>
+</body>
+</html>

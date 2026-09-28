@@ -1,0 +1,108 @@
+{
+  "brief": "01-ops-console-zh",
+  "arm": "no-skill-s1",
+  "checker": "rationale-vs-render (judging.md section 10): one fresh headless session per arm-sample, claude -p --safe-mode --model claude-opus-5-5 --tools Read, run after all three judges of the brief had replied; it saw only this arm-sample's own text, its canonical renders, its facts and the design brief (without judge notes); no scoring, no comparison",
+  "inputs": {
+    "rationale": [
+      "out/NOTES.md"
+    ],
+    "renders": [
+      "render/detail-01.png",
+      "render/detail-02.png",
+      "render/list-01.png",
+      "render/list-02.png",
+      "render/list-empty-01.png",
+      "render/list-error-01.png",
+      "render/list-loading-01.png",
+      "render/list-loading-02.png"
+    ],
+    "facts": "facts.json (as facts.md sentences)",
+    "brief": "evals/briefs/01-ops-console-zh.md, cut at the judge-notes line"
+  },
+  "claims_summary": {
+    "verified": 12,
+    "contradicted": 0,
+    "not checkable": 0
+  },
+  "report_line": "claims: 12 verified, 0 contradicted, 0 not checkable",
+  "contradicted": [],
+  "claims": [
+    {
+      "claim": "为了在 1440 宽度内放下全部 10 列并在首屏显示 10 行以上",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: all 10 data columns plus 操作 fit at 1440 with no horizontal overflow (facts.md), and 11 data rows are visible above the fold (0413 through 0359)."
+    },
+    {
+      "claim": "已超时的行在行首加一条红色竖线，SLA 文字用红色加警告图标",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: rows GD-20260927-0402 (已超时 12分) and GD-20260926-0371 (已超时 1时05分) have a red left edge bar and red SLA text with a warning-triangle icon."
+    },
+    {
+      "claim": "剩余不到 1 小时的（响应剩 35分）用琥珀色加时钟图标",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: row GD-20260927-0409 shows the SLA \"剩 35分\" in amber with a clock icon, and 响应时限 in small text below it."
+    },
+    {
+      "claim": "优先级徽标 = 文字（P1 紧急 等）+ 信号格数量（4/3/2/1 格）+ 颜色；状态 = 文字 + 各自的图标 + 颜色",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png / list-02.png: the priority badges show signal bars with text (P1 紧急 red with full bars, P4 低 grey with one filled bar). Each status has its own icon (wrench 处理中, send 已派单, spinner 待派单, flag 待验收, check-circle 已关闭, pause 已挂起)."
+    },
+    {
+      "claim": "待派单的工单负责人为空，显示「未指派」而不是「—」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: row GD-20260927-0402 shows 未指派 in muted text in the 负责人 column."
+    },
+    {
+      "claim": "批量操作栏在选中行时替代工具栏；没选中时显示一行提示…表头复选框在部分选中时显示半选",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: with 2 rows checked, the bar reads 已选 2 条 · 批量派单 / 批量修改优先级 / 导出所选 / 取消选择 and the header checkbox shows the indeterminate dash. list-empty-01.png and list-error-01.png show the hint 勾选工单后可批量派单、批量修改优先级、导出所选 instead."
+    },
+    {
+      "claim": "「默认排序：创建时间倒序」同时标在工具栏上和「创建时间」列头上",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-01.png: the toolbar right side reads 默认排序：创建时间倒序, and the 创建时间 header is blue with a down chevron."
+    },
+    {
+      "claim": "空状态：三个筛选条件在筛选栏中高亮，也在空状态里以可移除的标签列出；主要操作是「清除全部筛选」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-empty-01.png: the 状态 待验收, 厂区/产线 二厂 and 负责人 王建国 filter controls are highlighted in blue, three chips with × are shown in the empty panel, and the primary button reads 清除全部筛选."
+    },
+    {
+      "claim": "加载中：快捷视图数量、表格行和分页都显示骨架占位…工具栏写「正在加载工单…」",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-loading-01.png: the tab counts are grey pills and the toolbar reads 正在加载工单…. list-loading-02.png: 15 skeleton rows, and the pagination footer is shown as skeleton bars."
+    },
+    {
+      "claim": "出错…显示错误代码、请求编号、发生时间（写成完整日期 2026-09-27 09:42:17），并提供「重新加载」按钮和联系管理员的提示。出错时不显示分页",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "list-error-01.png: the panel shows HTTP 502, 7f3a-91c2-0d44 and 2026-09-27 09:42:17, a 重新加载 button, and the hint 请把请求编号发给系统管理员排查. There is no pagination footer."
+    },
+    {
+      "claim": "详情页实时读数表格加了「判定」列（超上限 13.4 °C / 3.5 °C）",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png: the 实时读数 table has a 判定 column showing 超上限 13.4 °C and 超上限 3.5 °C with warning icons, and 正常 for 油压 and 电流."
+    },
+    {
+      "claim": "趋势图：单条折线，用虚线标出 55 °C 报警阈值，阈值以上区域加了浅红底色；另用一条竖线标出 09:12 创建工单…悬停时显示十字线和数值提示",
+      "source": "NOTES.md",
+      "verdict": "verified",
+      "evidence": "detail-01.png: one blue line, a red dashed 阈值 55 line, a pink band above the threshold, and a vertical line labelled 09:12 创建工单 at about x=815, which matches 09:12 on the axis. The hover crosshair can't be checked in a static render."
+    }
+  ],
+  "notes": "Other NOTES claims also match the renders: 已挂起 with 等备件 below it (list-01, row 0380); 剩 2天 and 剩 6天 with no small text below; 86 pages in the pager (list-02); the repair-SLA progress bar at about 12.5% (detail-01); the three captioned photo placeholders (detail-02); the 更多 dropdown collapsed. Two NOTES items can't be checked from renders: the self-contained, no-CDN HTML and the hover behaviour. No NOTES claim is contradicted.",
+  "checker_reply": {
+    "path": "/private/tmp/claude-502/-Users-dongli-Workspace-design-skill-lab/ea5e692a-13b4-4a25-9871-f7c5e504fcde/scratchpad/eval-r2/check/01-ops-console-zh.no-skill-s1/check.reply.txt",
+    "sha256": "9aa0dc1b085397e5f2f099b0533e2cdd452ed9185809b31d88a6331de83b46d0"
+  }
+}

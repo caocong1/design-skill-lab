@@ -1,0 +1,37 @@
+{
+ "brief": "05-agent-approvals",
+ "judge": "J2",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/run-approval-01.png: account, pay date, undo cutoff, 7-row table with Oakridge warning inline, and a decision rail stating each choice's outcome, all in the first viewport"
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/run-approval-02.png: Approve/Reject buttons sit ~1,100 px down, below table and notices; first viewport shows only the summary strip"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A puts the approval decision rail beside the payee table in the first viewport; B's approve and reject buttons only appear after scrolling past the table."
+  }
+ ],
+ "notes": "Both are close: the same dark-green frame, a timeline plan, read-only chips and right-aligned amounts. A's Plex face with mono invoice IDs and a small AI tag reads more like a finance tool. B's result screen is strong: KPI cards and a 'needs your attention' list with actions. Minor nits: in B/run-error-01.png the 'Continue without card transactions' button wraps to two lines; in A's result flag table 'Brightline Janitorial' wraps. Both give the safer partial approval the filled style."
+}

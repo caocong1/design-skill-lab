@@ -1,0 +1,16 @@
+```json
+{
+  "brief": "02-devtool-landing-en",
+  "judge": "J3",
+  "scores": {
+    "A": {"fit": 4, "hierarchy": 4, "identity": 3, "craft": 4, "typography": 4, "platform_a11y": 4,
+          "evidence": ["facts.md: 0 of 296 desktop and 0 of 268 mobile text nodes below AA, no target failures; A/mobile-01.png: nav collapses to GitHub icon + Get started with no menu, so Docs and Pricing are only reachable from the footer"]},
+    "B": {"fit": 4, "hierarchy": 4, "identity": 4, "craft": 3, "typography": 4, "platform_a11y": 3,
+          "evidence": ["facts.md: 1 desktop node below AA, 'npm install @driftless/client' measured 1.12:1; B/mobile-01.png: install box and code block run to about 10px from the right edge vs 20px on the left, so the gutters are uneven", "B/desktop-02.png: the 'Two people edit the same row offline' merge demo shows per-column merging concretely"]}
+  },
+  "pairs": [
+    {"left": "A", "right": "B", "prefer": "left", "reason": "A passes every measured contrast check and keeps even mobile gutters. B has a measured install-command contrast failure and its hero overhangs the right gutter, despite a better mobile menu."}
+  ],
+  "notes": "Neither label invents social proof; both use only the allowed stars, contributors and downloads. B's merge demo is the clearest explanation of local-first and gives it a stronger identity. A's feature grid looks more generic. On mobile, B has a Menu button and A drops the primary nav links. B's code wraps with hanging indents on mobile; A's code fits without wrapping. Both have clean targets and no overflow."
+}
+```

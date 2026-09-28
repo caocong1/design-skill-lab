@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=402, initial-scale=1">
+<title>Dogear · Today (first run)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&display=block" rel="stylesheet">
+<style>
+/* ---- tokens ------------------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+  /* colour roles (light). Custom colours; dark and increased-contrast variants are listed in NOTES.md */
+  --paper: #F5F2EB;            /* content background: warm paper instead of cool systemGroupedBackground */
+  --surface: #FFFFFF;          /* cards and inset lists */
+  --label: #1D1B18;            /* 17.2:1 on surface, 15.4:1 on paper */
+  --label-2: #6B665E;          /* 5.7:1 on surface, 5.1:1 on paper */
+  --fill: rgb(60 50 40 / 0.07);/* secondary button, stepper, tick track */
+  --separator: rgb(60 50 40 / 0.14);
+  --accent: #2E6B55;           /* bookcloth green: 6.3:1 on surface, 5.6:1 on paper, white on it 6.3:1 */
+  --accent-soft: #6E9A86;      /* under-goal bars, 3.2:1 on surface; values are always printed too */
+  --track: #E6E1D6;
+  --on-accent: #FFFFFF;
+  --flame: #B4480F;            /* streak symbol only, 5.2:1 on surface */
+  /* glass approximation (functional layer). Apple publishes no values: drawing values, not a spec */
+  --glass-fill: rgb(252 251 248 / 0.62);
+  --glass-rim: rgb(0 0 0 / 0.08);
+  --glass-hi: rgb(255 255 255 / 0.95);
+  --glass-shadow: rgb(40 30 20 / 0.10);
+
+  /* type: iOS Dynamic Type, Large (default) size */
+  --ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, sans-serif;
+  --serif: "New York", "Newsreader", Georgia, serif;   /* ships as New York (system serif); Newsreader stands in on the render machine */
+
+  /* spacing (4-pt scale) and radii */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+  --margin: 20px;
+  --r-card: 26px;              /* concentric with a 50-pt capsule button inset 16 pt: 25 + 1 */
+  --r-cover: 4px;
+
+  --safe-top: 62px; --safe-bottom: 34px; --toolbar-h: 44px;
+  --tab-h: 62px; --tab-inset: 21px; --tab-bottom: 38px;   /* bar lifted clear of the 34-pt home-indicator inset */
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 402px; height: 874px; overflow: hidden; background: var(--paper); }
+body { font-family: var(--ui); color: var(--label); -webkit-font-smoothing: antialiased; font-size: 17px; line-height: 22px; letter-spacing: -0.43px; }
+h1, h2, h3, p, ul, ol, figure, blockquote { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+button { font: inherit; color: inherit; letter-spacing: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+.i { width: 22px; height: 22px; flex: none; fill: currentColor; }
+.num { font-variant-numeric: tabular-nums; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* type styles */
+.t-large   { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: 0.4px; }
+.t-title1  { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: 0.38px; }
+.t-title2  { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -0.26px; }
+.t-title3  { font-size: 20px; line-height: 25px; font-weight: 600; letter-spacing: -0.45px; }
+.t-head    { font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; }
+.t-body    { font-size: 17px; line-height: 22px; letter-spacing: -0.43px; }
+.t-callout { font-size: 16px; line-height: 21px; letter-spacing: -0.31px; }
+.t-sub     { font-size: 15px; line-height: 20px; letter-spacing: -0.23px; }
+.t-foot    { font-size: 13px; line-height: 18px; letter-spacing: -0.08px; }
+.t-cap     { font-size: 12px; line-height: 16px; letter-spacing: 0; }
+.muted { color: var(--label-2); }
+.serif { font-family: var(--serif); letter-spacing: 0; }
+
+/* ---- frame and system chrome ------------------------------------------------------------- */
+.screen { position: relative; width: 402px; height: 874px; overflow: hidden; }
+.island { position: absolute; z-index: 9; top: 11px; left: 50%; translate: -50% 0; width: 124px; height: 36px; border-radius: 18px; background: #000; }
+.status { position: absolute; z-index: 8; inset: 0 0 auto; height: var(--safe-top); display: flex; align-items: center; justify-content: space-between;
+  padding: 0 30px 0 50px; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; font-variant-numeric: tabular-nums; color: #000; pointer-events: none; }
+.status-icons { display: flex; align-items: center; gap: 6px; }
+.status-icons svg { display: block; height: 12px; fill: #000; }
+.home { position: absolute; z-index: 8; inset: auto 0 0; height: var(--safe-bottom); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px; pointer-events: none; }
+.home i { width: 140px; height: 5px; border-radius: 3px; background: #000; }
+
+/* the one scrolling region runs full height, under the status bar, toolbar and tab bar */
+.scroll { position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none;
+  padding: calc(var(--safe-top) + var(--toolbar-h)) 0 calc(var(--tab-bottom) + var(--tab-h) + 24px);
+  scroll-padding: calc(var(--safe-top) + var(--toolbar-h)) 0 calc(var(--tab-bottom) + var(--tab-h) + 24px); }
+.scroll::-webkit-scrollbar { display: none; }
+
+/* glass, functional layer only (labelled approximation of Liquid Glass regular) */
+.glass { background: var(--glass-fill); -webkit-backdrop-filter: blur(14px) saturate(1.6); backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow: inset 0 0 0 0.5px var(--glass-rim), inset 0 0 0 1px rgb(255 255 255 / 0.55), inset 0 1px 0 var(--glass-hi), 0 4px 12px var(--glass-shadow); }
+@media (prefers-reduced-transparency: reduce) { .glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: #F4F2EE; } }
+
+/* scroll edge effect under the floating tab bar (system-drawn; here approximated) */
+.edge-bottom { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; height: 100px; pointer-events: none;
+  background: linear-gradient(rgb(245 242 235 / 0), rgb(245 242 235 / 0.94) 22px, var(--paper) 34px);
+  -webkit-mask: linear-gradient(transparent, #000 16px); mask: linear-gradient(transparent, #000 16px); }
+
+/* top toolbar (navigation bar): symbols in glass circles, no bar background at rest */
+.toolbar { position: absolute; z-index: 5; top: var(--safe-top); left: 0; right: 0; height: var(--toolbar-h); padding: 0 16px;
+  display: flex; align-items: center; gap: 8px; }
+.toolbar .spacer { flex: 1; }
+.tb-btn { width: 44px; height: 44px; border-radius: 22px; display: grid; place-items: center; color: var(--label); }
+.tb-btn .i { width: 22px; height: 22px; }
+
+/* floating tab bar: three tabs in one capsule, Search as its own trailing circle */
+.tabbar { position: absolute; z-index: 6; left: var(--tab-inset); right: var(--tab-inset); bottom: var(--tab-bottom); display: flex; gap: 10px; }
+.tabs { flex: 1; height: var(--tab-h); border-radius: 31px; display: flex; align-items: center; padding: 4px; }
+.tab { flex: 1; height: 54px; border-radius: 27px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: 0.1px; color: var(--label); text-decoration: none; }
+.tab .i { width: 26px; height: 26px; }
+.tab[aria-current="page"] { color: var(--accent); background: rgb(46 107 85 / 0.10); }
+.tb-text { height: 44px; padding: 0 16px; border-radius: 22px; display: flex; align-items: center; gap: 6px; font-size: 17px; font-weight: 600; letter-spacing: -0.43px; color: var(--label); }
+.tb-text .i { width: 20px; height: 20px; }
+.search-tab { flex: none; width: var(--tab-h); height: var(--tab-h); border-radius: 50%; display: grid; place-items: center; color: var(--label); }
+.search-tab .i { width: 24px; height: 24px; }
+
+/* ---- content ----------------------------------------------------------------------------- */
+.page { padding: 0 var(--margin); display: flex; flex-direction: column; }
+.lt { padding: 0 var(--sp-1) var(--sp-4); }   /* large title block, aligned with card content inset */
+.lt p { margin-top: 2px; }
+.card { position: relative; background: var(--surface); border-radius: var(--r-card); padding: var(--sp-4); }
+.section-h { display: flex; align-items: baseline; justify-content: space-between; padding: var(--sp-6) var(--sp-1) var(--sp-2); }
+
+/* the dogear: the product's one mark, a folded top-trailing corner on the card that holds your place */
+.dogear { position: absolute; top: 0; right: 0; width: 30px; height: 30px; pointer-events: none; }
+
+/* buttons */
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 var(--sp-5); border-radius: 25px;
+  font-size: 17px; line-height: 22px; font-weight: 600; letter-spacing: -0.43px; white-space: nowrap; }
+.btn .i { width: 20px; height: 20px; }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-gray { background: var(--fill); color: var(--accent); }
+.btn-row { display: flex; gap: var(--sp-3); }
+.btn-row .btn { flex: 1; min-height: 44px; border-radius: 22px; padding: 0 var(--sp-3); }
+
+/* inset grouped list */
+.list { background: var(--surface); border-radius: var(--r-card); overflow: hidden; }
+.list > li { position: relative; display: flex; align-items: center; gap: var(--sp-3); padding: 0 var(--sp-4); min-height: 52px; }
+.list > li + li::before { content: ""; position: absolute; top: 0; right: 0; left: var(--sep-inset, 16px); height: 0.5px; background: var(--separator); }
+.chev { width: 12px; height: 12px; color: rgb(60 50 40 / 0.45); flex: none; }
+
+/* generated cover placeholders: cloth colour + serif initial, decorative */
+.cover { position: relative; flex: none; border-radius: var(--r-cover); overflow: hidden; display: flex; align-items: center; justify-content: center;
+  color: #F4EAD6; font-family: var(--serif); font-weight: 600; box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.2), 0 1px 2px rgb(40 30 20 / 0.18); }
+.cover::before { content: ""; position: absolute; top: 0; bottom: 0; left: 5%; width: 2px; background: rgb(0 0 0 / 0.18); }   /* spine crease, decorative */
+.cover .rule { position: absolute; left: 18%; right: 12%; height: 1px; background: rgb(244 234 214 / 0.55); }
+.cover-mm { background: #7A2E24; }
+.cover-wa { background: #4F5B35; }
+.cover-pb { background: #2F3A5F; }
+
+/* progress bar */
+.bar { position: relative; height: 6px; border-radius: 3px; background: var(--track); }
+.bar > i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--accent); }
+
+.welcome { padding: var(--sp-5) var(--sp-4) var(--sp-4); }
+.welcome h2 { padding-right: 28px; }
+.welcome > p { margin-top: var(--sp-2); padding-right: var(--sp-2); text-wrap: pretty; }
+.welcome .btn-primary { margin-top: var(--sp-5); }
+.alt { margin-top: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }
+.alt .btn { justify-content: flex-start; min-height: 50px; padding: 0 var(--sp-4); background: var(--fill); color: var(--label); font-weight: 400; }
+.alt .btn .i { color: var(--accent); width: 22px; height: 22px; }
+.alt .btn .chev { margin-left: auto; }
+.goal-set { display: flex; align-items: center; gap: var(--sp-3); }
+.goal-set > div:first-child { flex: 1; min-width: 0; }
+.goal-set b { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: 0.38px; }
+.stepper { display: flex; align-items: center; height: 36px; border-radius: 18px; background: var(--fill); }
+.stepper button { width: 50px; height: 44px; display: grid; place-items: center; color: var(--label); }
+.stepper button .i { width: 18px; height: 18px; }
+.stepper span { width: 1px; height: 18px; background: var(--separator); }
+.later { --sep-inset: 56px; background: transparent; border: 1px dashed rgb(60 50 40 / 0.22); }
+.later > li { min-height: 60px; }
+.later .i { width: 24px; height: 24px; color: var(--label-2); }
+.later .t-foot { margin-top: 1px; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- book.fill -->
+    <symbol id="s-book" viewBox="0 0 28 28"><path d="M3 6.2c3.6-1.3 7.3-1 10 .9v16.1c-2.8-1.7-6.4-2-10-.8zM25 6.2c-3.6-1.3-7.3-1-10 .9v16.1c2.8-1.7 6.4-2 10-.8z"/></symbol>
+    <!-- books.vertical.fill -->
+    <symbol id="s-books" viewBox="0 0 28 28"><rect x="3.5" y="5" width="5" height="18" rx="1.2"/><rect x="10" y="5" width="5" height="18" rx="1.2"/><path d="M16.4 7.6l4.4-1.6 5 16.2-4.4 1.6z"/></symbol>
+    <!-- chart.bar.fill -->
+    <symbol id="s-chart" viewBox="0 0 28 28"><rect x="4" y="14" width="5" height="10" rx="1.4"/><rect x="11.5" y="5" width="5" height="19" rx="1.4"/><rect x="19" y="10" width="5" height="14" rx="1.4"/></symbol>
+    <!-- magnifyingglass -->
+    <symbol id="s-search" viewBox="0 0 28 28"><path fill-rule="evenodd" d="M12 3.5a8.5 8.5 0 0 1 6.8 13.6l5.5 5.5a1.3 1.3 0 0 1-1.8 1.8l-5.5-5.5A8.5 8.5 0 1 1 12 3.5zm0 2.4a6.1 6.1 0 1 0 0 12.2 6.1 6.1 0 0 0 0-12.2z"/></symbol>
+    <!-- plus -->
+    <symbol id="s-plus" viewBox="0 0 28 28"><path d="M14 4.5a1.4 1.4 0 0 1 1.4 1.4v6.7h6.7a1.4 1.4 0 0 1 0 2.8h-6.7v6.7a1.4 1.4 0 0 1-2.8 0v-6.7H5.9a1.4 1.4 0 0 1 0-2.8h6.7V5.9A1.4 1.4 0 0 1 14 4.5z"/></symbol>
+    <!-- minus -->
+    <symbol id="s-minus" viewBox="0 0 28 28"><path d="M5.9 12.6h16.2a1.4 1.4 0 0 1 0 2.8H5.9a1.4 1.4 0 0 1 0-2.8z"/></symbol>
+    <!-- chevron.left -->
+    <symbol id="s-back" viewBox="0 0 28 28"><path d="M17.6 4.6a1.5 1.5 0 0 1 0 2.1L10.3 14l7.3 7.3a1.5 1.5 0 1 1-2.1 2.1l-8.4-8.4a1.5 1.5 0 0 1 0-2.1l8.4-8.4a1.5 1.5 0 0 1 2.1 0z"/></symbol>
+    <!-- chevron.right (list disclosure) -->
+    <symbol id="s-chev" viewBox="0 0 12 12"><path d="M4 1.5l4.5 4.5L4 10.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <!-- ellipsis -->
+    <symbol id="s-more" viewBox="0 0 28 28"><circle cx="6.5" cy="14" r="2.2"/><circle cx="14" cy="14" r="2.2"/><circle cx="21.5" cy="14" r="2.2"/></symbol>
+    <!-- flame.fill -->
+    <symbol id="s-flame" viewBox="0 0 28 28"><path d="M14.6 2.8c.6 3.6-1 5.6-2.8 7.6-1.9 2-3.8 4.1-3.8 7.4A6 6 0 0 0 14 24a6 6 0 0 0 6-6.2c0-2.6-1.1-4.3-2.3-5.8-.1 1.6-.8 2.9-2 3.4.6-4.4-.2-8.4-1.1-12.6zM14 22.2c-1.7 0-2.9-1.2-2.9-2.9 0-1.9 1.4-2.9 2.6-4.5.2 1.8 1.1 2.4 1.8 3.1.8.8 1.4 1.3 1.4 2.4 0 1.1-1.2 1.9-2.9 1.9z"/></symbol>
+    <!-- play.fill -->
+    <symbol id="s-play" viewBox="0 0 28 28"><path d="M8.5 5.4c0-1.1 1.2-1.8 2.2-1.2l13 7.9c.9.6.9 1.9 0 2.4l-13 7.9c-1 .6-2.2-.1-2.2-1.2z"/></symbol>
+    <!-- barcode.viewfinder -->
+    <symbol id="s-barcode" viewBox="0 0 28 28"><path d="M3 9V6a3 3 0 0 1 3-3h3v2.2H6a.8.8 0 0 0-.8.8v3zM19 3h3a3 3 0 0 1 3 3v3h-2.2V6a.8.8 0 0 0-.8-.8h-3zM25 19v3a3 3 0 0 1-3 3h-3v-2.2h3a.8.8 0 0 0 .8-.8v-3zM9 25H6a3 3 0 0 1-3-3v-3h2.2v3a.8.8 0 0 0 .8.8h3z"/><rect x="8" y="8.5" width="1.8" height="11"/><rect x="11.2" y="8.5" width="1" height="11"/><rect x="13.4" y="8.5" width="2" height="11"/><rect x="16.6" y="8.5" width="1" height="11"/><rect x="18.4" y="8.5" width="1.8" height="11"/></symbol>
+    <!-- doc.badge.plus stand-in: tray.and.arrow.down -->
+    <symbol id="s-import" viewBox="0 0 28 28"><path d="M14 3.5a1.3 1.3 0 0 1 1.3 1.3v9.6l3-3a1.3 1.3 0 1 1 1.8 1.8l-5.2 5.2a1.3 1.3 0 0 1-1.8 0l-5.2-5.2a1.3 1.3 0 1 1 1.8-1.8l3 3V4.8A1.3 1.3 0 0 1 14 3.5z"/><path d="M4 16.5a1.3 1.3 0 0 1 2.6 0v4.2c0 .5.4.9.9.9h13c.5 0 .9-.4.9-.9v-4.2a1.3 1.3 0 0 1 2.6 0v4.2a3.5 3.5 0 0 1-3.5 3.5h-13A3.5 3.5 0 0 1 4 20.7z"/></symbol>
+    <!-- highlighter -->
+    <symbol id="s-highlight" viewBox="0 0 28 28"><path d="M17.8 3.9a1.6 1.6 0 0 1 2.3 0l3.9 3.9a1.6 1.6 0 0 1 0 2.3l-8.6 8.6-6.2-6.2zM8.1 13.6l6.2 6.2-1.6 1.6H9.2l-.9.9H4.3l3.6-3.6v-3.5z"/><rect x="3" y="24" width="22" height="1.8" rx=".9"/></symbol>
+    <!-- book.pages / log pages -->
+    <symbol id="s-pages" viewBox="0 0 28 28"><path d="M7 3.5h10.5L23 9v13.5A2.5 2.5 0 0 1 20.5 25h-13A2.5 2.5 0 0 1 5 22.5v-16.5A2.5 2.5 0 0 1 7 3.5zm9.8 2v4.1h4.1zM9 14.5a1 1 0 0 0 0 2h10a1 1 0 0 0 0-2zm0 4a1 1 0 0 0 0 2h7a1 1 0 0 0 0-2z"/></symbol>
+    <!-- quote.opening -->
+    <symbol id="s-quote" viewBox="0 0 28 28"><path d="M5 19.5c0-5.4 2.3-9 6.8-11l.9 1.6c-2.6 1.4-3.9 3.2-4.1 5.4h.3a3 3 0 0 1 0 6H8.4A3.3 3.3 0 0 1 5 19.5zm10 0c0-5.4 2.3-9 6.8-11l.9 1.6c-2.6 1.4-3.9 3.2-4.1 5.4h.3a3 3 0 0 1 0 6h-.5a3.3 3.3 0 0 1-3.4-2z"/></symbol>
+  </defs>
+</svg>
+<div class="screen">
+
+<main class="scroll" aria-label="Today">
+  <div class="page">
+    <header class="lt">
+      <h1 class="t-large">Today</h1>
+      <p class="t-sub muted">Sunday, 27 September</p>
+    </header>
+
+    <section class="card welcome" aria-labelledby="add-h">
+      
+  <svg class="dogear" viewBox="0 0 30 30" aria-hidden="true">
+    <path d="M0 0H30V30Z" fill="var(--paper)"/>
+    <path d="M0 0L30 30H6A6 6 0 0 1 0 24Z" fill="#E9E3D6"/>
+    <path d="M0 0L30 30" stroke="rgb(60 50 40 / .18)" stroke-width=".75"/>
+  </svg>
+      <h2 id="add-h" class="t-title2">Add the book you’re reading</h2>
+      <p class="t-callout muted">Dogear times your reading, keeps your place and saves your highlights. It starts with one book.</p>
+      <button class="btn btn-primary" style="width:100%"><svg class="i" aria-hidden="true"><use href="#s-barcode"/></svg>Scan Barcode</button>
+      <div class="alt">
+        <button class="btn"><svg class="i" aria-hidden="true"><use href="#s-search"/></svg>Search by Title<svg class="chev" aria-hidden="true"><use href="#s-chev"/></svg></button>
+        <button class="btn"><svg class="i" aria-hidden="true"><use href="#s-import"/></svg>Import from a CSV File<svg class="chev" aria-hidden="true"><use href="#s-chev"/></svg></button>
+      </div>
+    </section>
+
+    <div class="section-h"><h2 class="t-title3">Daily Goal</h2></div>
+    <section class="card goal-set" aria-label="Daily goal">
+      <div>
+        <p class="num"><b>20</b> <span class="t-body muted">minutes a day</span></p>
+        <p class="t-foot muted">Change it now or any time later.</p>
+      </div>
+      <div class="stepper" data-system="UIStepper">
+        <button aria-label="Decrease daily goal"><svg class="i" aria-hidden="true"><use href="#s-minus"/></svg></button><span></span><button aria-label="Increase daily goal"><svg class="i" aria-hidden="true"><use href="#s-plus"/></svg></button>
+      </div>
+    </section>
+
+    <div class="section-h"><h2 class="t-title3">After Your First Session</h2></div>
+    <ul class="list later">
+      <li><svg class="i" aria-hidden="true"><use href="#s-flame"/></svg><div><p class="t-body">Your streak</p><p class="t-foot muted">Days with at least one session</p></div></li>
+      <li><svg class="i" aria-hidden="true"><use href="#s-chart"/></svg><div><p class="t-body">Minutes this week</p><p class="t-foot muted">Each day against your goal</p></div></li>
+      <li><svg class="i" aria-hidden="true"><use href="#s-quote"/></svg><div><p class="t-body">Highlights</p><p class="t-foot muted">Passages you save while reading</p></div></li>
+    </ul>
+  </div>
+</main>
+<div class="edge-bottom" aria-hidden="true"></div>
+
+  <nav class="tabbar" aria-label="Sections" data-system="UITabBar / TabView">
+    <div class="tabs glass">
+      <a class="tab" href="#" aria-current="page" data-symbol="book.fill"><svg class="i" aria-hidden="true"><use href="#s-book"/></svg><span>Today</span></a>
+      <a class="tab" href="#"  data-symbol="books.vertical.fill"><svg class="i" aria-hidden="true"><use href="#s-books"/></svg><span>Library</span></a>
+      <a class="tab" href="#"  data-symbol="chart.bar.fill"><svg class="i" aria-hidden="true"><use href="#s-chart"/></svg><span>Stats</span></a>
+    </div>
+    <a class="search-tab glass" href="#" aria-label="Search" data-symbol="magnifyingglass" data-role="search"><svg class="i" aria-hidden="true"><use href="#s-search"/></svg></a>
+  </nav>
+
+  <div class="island" aria-hidden="true"></div>
+  <div class="status" aria-hidden="true">
+    <span>9:41</span>
+    <span class="status-icons">
+      <svg viewBox="0 0 18 12" width="18"><rect y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" width="3" height="12" rx=".8"/></svg>
+      <svg viewBox="0 0 16 12" width="16"><path d="M8 11.6 5.7 9.3a3.3 3.3 0 0 1 4.6 0zM3.1 6.7a6.9 6.9 0 0 1 9.8 0l-1.4 1.4a4.9 4.9 0 0 0-7 0zM.4 4a10.7 10.7 0 0 1 15.2 0l-1.4 1.4a8.7 8.7 0 0 0-12.4 0z"/></svg>
+      <svg viewBox="0 0 27 12" width="27"><rect x=".5" y=".5" width="23" height="11" rx="3.4" fill="none" stroke="#000" stroke-opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="2"/><path d="M25 4v4c.8-.3 1.4-1 1.4-2S25.8 4.3 25 4z" fill-opacity=".4"/></svg>
+    </span>
+  </div>
+<div class="home" aria-hidden="true"><i></i></div>
+</div>
+</body>
+</html>

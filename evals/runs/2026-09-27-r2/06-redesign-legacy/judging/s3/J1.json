@@ -1,0 +1,50 @@
+{
+ "brief": "06-redesign-legacy",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/schedule.png: the left column is built around the front desk's day: Waiting room with minutes, In a room, Due next with filled Check in buttons, and Needs attention listing the Feld 10:15 double booking, unverified insurance and unconfirmed appointments. The right panel puts patient alerts first, then a check-in checklist with Collect $25.00 as the primary action."
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/schedule.png: the left rail has Waiting room (with '$ copay due' on Brennan), In a room, Expected next with Check In, Needs attention and Waitlist. Grid cells state status in text ('Unconfirmed', 'Insurance not verified'), show 2× on Reyes/Adams at 10:15, and the grid shows 8:00 to 1:30 with a Now 8:04 marker."
+   ]
+  },
+  "R": {
+   "fit": 3,
+   "hierarchy": 2,
+   "identity": 2,
+   "craft": 3,
+   "typography": 2,
+   "platform_a11y": 3,
+   "evidence": [
+    "before.png: the right panel has 12 identical gray action buttons, and Patient Alerts (allergy, balance) sit below them.",
+    "before.png: grid names are small uppercase text in cells coloured by type, arrival shows only as a bracketed [A] code, and the 10:15 Feld double booking shows only Reyes.",
+    "before.png: the chrome is a default 2014-era table/tab look with 14 equal tabs."
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "left",
+   "reason": "A's detail panel is a check-in checklist with one filled Collect $25.00 action and filled Check in buttons; B's actions are outlined, so the check-in path stands out less."
+  }
+ ],
+ "notes": "It was close. B shows more of the day (to 1:30), keeps the waitlist on screen and writes status as text in grid cells. A marks unconfirmed only with '?' icons plus a legend. A has a stronger task flow for the 42% check-in case and more prominent alerts. Both keep all 14 tabs, so navigation was barely consolidated. B's single contrast failure is an sr-only label and doesn't show on screen."
+}

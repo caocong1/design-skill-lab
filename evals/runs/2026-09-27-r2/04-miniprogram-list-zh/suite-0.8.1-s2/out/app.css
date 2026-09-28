@@ -1,0 +1,165 @@
+/* 拾光到家 · 服务标签页 — mockup tokens and components.
+   1 CSS px = 2 rpx (375 design width). System chrome (status bar, capsule, native tabBar,
+   home indicator) is drawn only to show keep-out zones; WeChat renders it. */
+
+:root {
+  /* colour roles (contrast computed, see NOTES.md) */
+  --ink: #1B1D1C;          /* primary text 16.9:1 on white */
+  --ink-2: #4A504D;        /* secondary text 8.2:1 */
+  --ink-3: #626864;        /* tertiary text, >= 4.8:1 on --chip and --bg */
+  --line: #E7E5E0;
+  --bg: #F5F4F0;
+  --surface: #FFFFFF;
+  --chip: #F2F1EC;
+  --brand: #0E6B5E;        /* 6.4:1 on white */
+  --brand-tint: #E4F1EE;
+  --brand-ink: #0B5A4F;    /* 7.0:1 on --brand-tint */
+  --star: #D98300;         /* graphic only, beside the number */
+  --scrim: rgb(20 24 22 / 0.45);
+
+  /* type */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  --t-title: 600 17px/24px var(--font);
+  --t-row-title: 600 16px/22px var(--font);
+  --t-body: 400 15px/22px var(--font);
+  --t-label: 400 14px/20px var(--font);
+  --t-meta: 400 13px/18px var(--font);
+  --t-small: 400 12px/16px var(--font);
+
+  /* spacing, radius */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px;
+  --r-s: 6px; --r-m: 10px; --r-pill: 999px;
+
+  /* system metrics (read at runtime in the build) */
+  --status-h: 44px;
+  --cap-left: 281px; --cap-top: 50px; --cap-w: 87px; --cap-h: 32px;
+  --nav-h: 44px;           /* 44 + 32 + 2 × (50 − 44) = 88 total with status bar */
+  --tab-h: 49px;
+  --safe-bottom: 34px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 375px; height: 812px; overflow: hidden; background: var(--surface); }
+body { font: var(--t-body); color: var(--ink); -webkit-font-smoothing: antialiased; text-autospace: normal; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+svg { display: block; flex: none; }
+.num { font-variant-numeric: tabular-nums; }
+
+.screen { position: relative; width: 375px; height: 812px; display: flex; flex-direction: column; overflow: hidden; background: var(--surface); }
+
+/* ---- system: status bar ---- */
+.sys-status { position: absolute; z-index: 20; top: 0; left: 0; right: 0; height: var(--status-h);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 22px 0 30px; pointer-events: none; }
+.sys-status .time { font: 600 16px/20px var(--font); letter-spacing: -0.2px; }
+.sys-status .icons { display: flex; gap: 6px; align-items: center; }
+
+/* ---- system: WeChat capsule (neutral placeholder, WeChat draws it) ---- */
+.sys-capsule { position: absolute; z-index: 20; left: var(--cap-left); top: var(--cap-top); width: var(--cap-w); height: var(--cap-h);
+  border-radius: 16px; display: flex; align-items: center; background: rgb(255 255 255 / 0.7);
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.16); }
+.sys-capsule span { flex: 1; display: flex; align-items: center; justify-content: center; }
+.sys-capsule i { width: 0.5px; height: 18px; background: rgb(0 0 0 / 0.2); }
+
+/* ---- custom navigation bar ---- */
+.appbar { flex: none; padding-top: var(--status-h); background: var(--surface); }
+.nav { height: var(--nav-h); display: flex; align-items: center; padding: 0 var(--s-4); }
+/* content stays left of the capsule: max right edge = 281 − 12 = 269 */
+.loc { display: flex; align-items: center; gap: 4px; height: 44px; max-width: 253px; font: var(--t-body); color: var(--ink); }
+.loc .city { color: var(--ink-2); white-space: nowrap; }
+.loc b { font-weight: 600; white-space: nowrap; }
+
+.search-row { padding: 2px var(--s-4) var(--s-2); }
+.search { height: 38px; border-radius: var(--r-pill); background: var(--chip); display: flex; align-items: center; gap: 8px;
+  padding: 0 var(--s-4); font: var(--t-label); color: var(--ink-3); width: 100%; }
+
+/* ---- category tabs (horizontal scroll) ---- */
+.cats { position: relative; height: 44px; display: flex; gap: 4px; padding: 0 60px 0 8px; overflow: hidden; white-space: nowrap; }
+.cat { position: relative; flex: none; min-width: 44px; height: 44px; padding: 0 8px; display: flex; align-items: center; justify-content: center; font: var(--t-body); color: var(--ink-2); }
+.cat[aria-selected="true"] { color: var(--ink); font-weight: 600; }
+.cat[aria-selected="true"]::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 18px; height: 3px; margin-left: -9px; border-radius: 2px; background: var(--brand); }
+.cats-fade { position: absolute; right: 44px; top: 0; bottom: 0; width: 48px; background: linear-gradient(90deg, rgb(255 255 255 / 0), var(--surface)); pointer-events: none; }
+.cats-more { position: absolute; right: 0; top: 0; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: var(--surface); }
+
+/* ---- sort + filter bar ---- */
+.sortbar { height: 44px; display: flex; align-items: center; padding: 0 6px 0 11px; border-top: 0.5px solid var(--line); border-bottom: 0.5px solid var(--line); background: var(--surface); }
+.sort { height: 44px; padding: 0 5px; display: flex; align-items: center; font: var(--t-label); color: var(--ink-2); white-space: nowrap; }
+.sort[aria-pressed="true"] { color: var(--brand); font-weight: 600; }
+.sortbar .spacer { flex: 1; }
+.sortbar .divider { width: 0.5px; height: 16px; background: var(--line); margin: 0 2px; }
+.filter-btn { height: 44px; padding: 0 6px; display: flex; align-items: center; gap: 3px; font: var(--t-label); color: var(--ink-2); white-space: nowrap; }
+.filter-btn[data-active] { color: var(--brand); font-weight: 600; }
+.filter-btn[aria-expanded="true"] { background: linear-gradient(var(--brand-tint), var(--brand-tint)) center / 100% 32px no-repeat; }
+.badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--brand); color: #fff; font: 600 12px/18px var(--font); text-align: center; }
+
+/* ---- content region ---- */
+.content { position: relative; flex: 1; min-height: 0; overflow: hidden; background: var(--surface); }
+.list-head { display: flex; align-items: center; justify-content: space-between; padding: 10px var(--s-4) 2px; font: var(--t-meta); color: var(--ink-3); }
+
+/* service row */
+.svc { padding: 14px var(--s-4) 14px; border-bottom: 0.5px solid var(--line); margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.svc-top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
+.svc h3 { font: var(--t-row-title); color: var(--ink); }
+.dist { font: var(--t-meta); color: var(--ink-3); white-space: nowrap; }
+.svc-meta { display: flex; align-items: center; gap: 6px; font: var(--t-meta); color: var(--ink-2); white-space: nowrap; }
+.svc-meta .sep { width: 0.5px; height: 11px; background: #C9C7C1; }
+.rate { display: flex; align-items: center; gap: 2px; color: var(--ink); font-weight: 600; }
+.done { color: var(--ink-3); }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { height: 22px; padding: 0 7px; border-radius: 4px; background: var(--chip); color: var(--ink-2); font: var(--t-small); display: flex; align-items: center; gap: 3px; white-space: nowrap; }
+.tag[data-kind="guarantee"] { color: var(--ink); }
+.svc-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-3); margin-top: 4px; }
+
+/* the soonest slot: the thing users ask first ("什么时候能来") */
+.slot { height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 10px 0 8px; border-radius: var(--r-s); font: var(--t-label); white-space: nowrap; background: var(--chip); color: var(--ink-2); }
+.slot .lbl { font: var(--t-small); }
+.slot b { font-weight: 600; color: var(--ink); }
+.slot[data-when="today"] { background: var(--brand); color: rgb(255 255 255 / 0.9); }
+.slot[data-when="today"] b { color: #fff; }
+.slot[data-when="tomorrow"] { background: var(--brand-tint); color: var(--brand-ink); box-shadow: inset 0 0 0 1px var(--brand); }
+.slot[data-when="tomorrow"] b { color: var(--brand-ink); }
+
+.price { display: flex; flex-direction: column; align-items: flex-end; white-space: nowrap; }
+.price .amt { display: flex; align-items: baseline; gap: 2px; color: var(--ink); }
+.price .amt b { font: 600 18px/24px var(--font); font-variant-numeric: tabular-nums; letter-spacing: -0.2px; }
+.price .amt small { font: var(--t-meta); color: var(--ink-2); }
+.price .note { font: var(--t-small); color: var(--ink-3); }
+
+/* ---- native tab bar (WeChat draws it; colours set in app.json) ---- */
+.tabbar { flex: none; height: calc(var(--tab-h) + var(--safe-bottom)); padding-bottom: var(--safe-bottom); display: flex; background: #F7F7F7; box-shadow: inset 0 0.5px 0 rgb(0 0 0 / 0.15); position: relative; z-index: 5; }
+.tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font: 400 10px/14px var(--font); color: #5C5C5C; }
+.tab[aria-current="page"] { color: var(--brand); }
+.home-ind { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: #1B1D1C; }
+
+/* ---- filter dropdown panel (sits under the sort bar, above the native tab bar) ---- */
+.scrim { position: absolute; inset: 0; background: var(--scrim); }
+.panel { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: var(--surface); display: flex; flex-direction: column; border-radius: 0 0 14px 14px; box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.3); }
+.panel-body { flex: 1; min-height: 0; padding: 12px var(--s-4) 0; display: flex; flex-direction: column; gap: 12px; }
+.fgroup-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+.fgroup-head h4 { font: 600 15px/20px var(--font); color: var(--ink); }
+.hint { font: var(--t-meta); color: var(--brand-ink); white-space: nowrap; }
+.opts { display: flex; gap: 8px; }
+.opt { flex: 1; min-width: 0; height: 44px; border-radius: var(--r-s); background: var(--chip); color: var(--ink); font: var(--t-label); display: flex; align-items: center; justify-content: center; white-space: nowrap; border: 1px solid transparent; }
+.opt[aria-checked="true"] { background: var(--brand-tint); color: var(--brand-ink); border-color: var(--brand); font-weight: 600; }
+.opts.two .opt { flex: 0 0 calc((100% - 24px) / 4 * 2 + 8px); }
+.panel-foot { flex: none; display: flex; gap: 10px; padding: 12px var(--s-4); border-top: 0.5px solid var(--line); }
+.btn { height: 44px; border-radius: 22px; font: 600 16px/22px var(--font); display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.btn-ghost { flex: none; width: 104px; background: var(--chip); color: var(--ink); }
+.btn-primary { flex: 1; background: var(--brand); color: #fff; }
+.btn-outline { background: var(--surface); color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+
+/* ---- active filters row + empty state ---- */
+.active-filters { display: flex; align-items: center; gap: 8px; padding: 2px var(--s-4); border-bottom: 0.5px solid var(--line); }
+.afbtn { height: 44px; display: flex; align-items: center; }
+.afchip { height: 32px; padding: 0 8px 0 12px; border-radius: var(--r-pill); background: var(--brand-tint); color: var(--brand-ink); font: var(--t-label); display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.empty { padding: 18px var(--s-4) 0; display: flex; flex-direction: column; align-items: stretch; }
+.empty-illo { align-self: center; }
+.empty h2 { font: 600 18px/26px var(--font); text-align: center; margin-top: 10px; }
+.empty .why { font: var(--t-label); color: var(--ink-2); text-align: center; margin-top: 6px; }
+.suggest { margin-top: 16px; border-radius: 12px; background: var(--bg); padding: 4px 0; }
+.suggest-head { font: var(--t-meta); color: var(--ink-3); padding: 8px 14px 4px; }
+.sugg { height: 48px; display: flex; align-items: center; gap: 10px; padding: 0 12px 0 14px; width: 100%; text-align: left; }
+.sugg + .sugg { border-top: 0.5px solid var(--line); }
+.sugg .what { flex: 1; font: var(--t-body); color: var(--ink); }
+.sugg .count { font: var(--t-label); color: var(--brand-ink); font-weight: 600; white-space: nowrap; }
+.empty-actions { display: flex; gap: 10px; margin-top: 16px; }
+.empty-actions .btn { flex: 1; }

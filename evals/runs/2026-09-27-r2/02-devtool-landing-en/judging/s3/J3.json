@@ -1,0 +1,37 @@
+{
+ "brief": "02-devtool-landing-en",
+ "judge": "J3",
+ "scores": {
+  "A": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 3,
+   "evidence": [
+    "A/mobile-01.png: header keeps only a GitHub icon and Get started; Docs, Pricing and Sign in are hidden with no menu to replace them, so mobile navigation is lost (measured text and targets are all clean)"
+   ]
+  },
+  "B": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "B/desktop-02.png: 'Two people edit the same row offline' shows phone, laptop and merged panels, so per-column merging is explained with sample rows rather than adjectives, which fits this audience exactly"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "A",
+   "right": "B",
+   "prefer": "right",
+   "reason": "B's mobile header has a Menu button and every install line has Copy. Its per-column merge demo explains local-first concretely; A drops the mobile nav with no replacement."
+  }
+ ],
+ "notes": "Both pass all measured contrast and target checks, and neither shows horizontal overflow or invented social proof. On mobile, B's hero install box and code block run past the right gutter used by the rest of the page. B's logo looks like a hamburger icon sitting next to its Menu button, which is ambiguous. A's cards and pricing are polished, but its cream-and-green style is fairly generic. A's closing CTA band appears on desktop but not in the mobile frames."
+}

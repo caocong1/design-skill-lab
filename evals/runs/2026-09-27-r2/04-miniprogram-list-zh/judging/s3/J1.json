@@ -1,0 +1,41 @@
+{
+ "brief": "04-miniprogram-list-zh",
+ "judge": "J1",
+ "scores": {
+  "A": {
+   "fit": 5,
+   "hierarchy": 4,
+   "identity": 4,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 4,
+   "evidence": [
+    "A/list.png: each card opens with a time block ('今天 16:00 可上门', tinted for today). It answers the resident's first question, 'when can someone come?', before the service name.",
+    "A/filter.png: above 重置 / 查看结果（0 个）, the panel shows one-tap relaxations with real counts (改成明天 6 个 · 3 km 内 4 个 · 不限发票 1 个), so the dead end is fixed without leaving the panel.",
+    "A/empty.png: the headline repeats the exact reason. Below it are three tappable suggestions with the brief's counts, plus 修改筛选 / 清除筛选, all above the tab bar."
+   ]
+  },
+  "B": {
+   "fit": 4,
+   "hierarchy": 4,
+   "identity": 3,
+   "craft": 4,
+   "typography": 4,
+   "platform_a11y": 3,
+   "evidence": [
+    "B/list.png: the sort row leaves out 评分最高 ('is it reliable?'), which the brief lists and which these users care about.",
+    "B/empty.png: a clear reason, relaxation rows with counts and the original value in brackets, and 清除全部 in the chip row. Good, but close to the standard pattern.",
+    "B/filter.png: behind the dimmed scrim, the edge of a list card and its price still show above the tab bar. The price ranges use a long dash (¥100—200)."
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "left": "B",
+   "right": "A",
+   "prefer": "right",
+   "reason": "A puts the next available time first on every card and shows real-count relaxations inside the filter panel. B drops the 评分最高 sort and uses generic icon cards."
+  }
+ ],
+ "notes": "Both designs keep clear of the capsule, have no back button, show the tab bar and safe area, and put the panel buttons above the tab bar. B's AA failures are only the decorative '·' separators in the location line, which is not primary text, so the 3 is not capped. B's orange-red prices are close to a promotional tone but stay restrained. A's 'soonest time' column is a choice that only makes sense for this brief."
+}

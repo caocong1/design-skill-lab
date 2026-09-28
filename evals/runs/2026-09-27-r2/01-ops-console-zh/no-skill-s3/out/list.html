@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>工单列表 · 恒川设备云</title>
+<meta name="viewport" content="width=1440">
+<style>
+:root{
+  --bg:#f3f5f8; --surface:#fff; --line:#e3e7ee; --line-strong:#cfd5df;
+  --ink:#1b2230; --ink-2:#4a5568; --ink-3:#5f6b7d; --muted:#667085;
+  --primary:#1d56d8; --primary-hover:#1747b5; --primary-bg:#ebf1ff; --primary-line:#bcd0fb;
+  --red:#b42318; --red-bg:#fef0ee; --red-line:#f6c4bd; --red-solid:#c8281c;
+  --amber:#a15208; --amber-bg:#fff5e6; --amber-line:#f5d3a1;
+  --green:#157042; --green-bg:#ecf8f1; --green-line:#b9e3cb;
+  --violet:#5b3cc4; --violet-bg:#f2eeff; --violet-line:#d6cbfb;
+  --teal:#0e6e75; --gray-bg:#f1f3f6;
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+  font-size:13px; line-height:1.5; color:var(--ink); background:var(--bg); -webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums; min-width:1440px}
+a{color:var(--primary); text-decoration:none}
+button{font:inherit; color:inherit}
+.ic{flex:none; display:inline-block; vertical-align:middle}
+.mono{font-family:var(--mono); font-size:12px; letter-spacing:-.1px}
+
+/* ---- shell ---- */
+.topbar{height:52px; background:#141b2b; color:#e6eaf2; display:flex; align-items:center; padding:0 20px 0 0; gap:16px}
+.brand{width:200px; display:flex; align-items:center; gap:10px; padding-left:20px; font-weight:600; font-size:15px; color:#fff; letter-spacing:.5px}
+.brand-mark{width:26px;height:26px;border-radius:6px;background:linear-gradient(135deg,#3b7bff,#1d56d8);display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700}
+.org{display:flex; align-items:center; gap:6px; height:32px; padding:0 10px; border:1px solid #2c3750; border-radius:6px; color:#dfe5ef; background:#1b2436}
+.gsearch{margin-left:12px; width:340px; height:32px; display:flex; align-items:center; gap:8px; padding:0 10px; border-radius:6px; background:#1f2940; color:#a9b4c7; border:1px solid #2c3750}
+.gsearch span{color:#a9b4c7}
+.topbar .spacer{flex:1}
+.bell{position:relative; width:36px; height:36px; display:grid; place-items:center; color:#dfe5ef; border-radius:6px}
+.bell .badge{position:absolute; top:2px; right:0; min-width:18px; height:18px; padding:0 5px; border-radius:9px; background:#c8281c; color:#fff; font-size:11px; font-weight:600; line-height:18px; text-align:center; border:2px solid #141b2b}
+.me{display:flex; align-items:center; gap:8px; color:#e6eaf2}
+.avatar{width:28px;height:28px;border-radius:50%;background:#3a4a6b;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:600}
+.me .role{color:#a9b4c7}
+
+.frame{display:flex; min-height:calc(100vh - 52px)}
+.side{width:200px; flex:none; background:#fff; border-right:1px solid var(--line); padding:12px 10px}
+.nav-item{display:flex; align-items:center; gap:10px; height:38px; padding:0 12px; border-radius:6px; color:var(--ink-2); font-size:13.5px}
+.nav-item .ic{color:var(--ink-3)}
+.nav-item .caret{margin-left:auto}
+.nav-group-open{color:var(--ink); font-weight:600}
+.nav-sub{display:flex; align-items:center; height:34px; padding-left:40px; border-radius:6px; color:var(--ink-2); font-size:13px; margin:1px 0}
+.nav-sub.active{background:var(--primary-bg); color:var(--primary); font-weight:600; position:relative}
+.nav-sub.active::before{content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:2px; background:var(--primary)}
+.main{flex:1; min-width:0; padding:16px 20px 28px}
+
+/* ---- common ---- */
+.btn{display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 12px; border-radius:6px; border:1px solid var(--line-strong); background:#fff; color:var(--ink); font-size:13px; white-space:nowrap; cursor:pointer}
+.btn.primary{background:var(--primary); border-color:var(--primary); color:#fff; font-weight:500}
+.btn.ghost{border-color:transparent; background:transparent; color:var(--ink-2)}
+.btn.sm{height:28px; padding:0 10px; font-size:12.5px}
+.btn.danger-text{color:var(--red)}
+.btn[disabled]{color:#5f6b7d; background:#f4f6f9; border-color:var(--line); cursor:not-allowed}
+.btn.primary[disabled]{background:#9db5ec; border-color:#9db5ec; color:#fff}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:8px}
+
+.page-head{display:flex; align-items:center; gap:12px; margin-bottom:12px}
+.page-head h1{font-size:18px; margin:0; font-weight:600}
+.page-head .actions{margin-left:auto; display:flex; gap:8px}
+.crumbs{display:flex; align-items:center; gap:6px; color:var(--ink-3); font-size:12.5px; margin-bottom:6px}
+.crumbs .ic{color:var(--muted)}
+
+/* priority + status tags */
+.pri{display:inline-flex; align-items:center; gap:4px; height:22px; padding:0 7px; border-radius:4px; font-size:12px; font-weight:600; white-space:nowrap; border:1px solid transparent}
+.pri b{font-family:var(--mono); font-weight:700; font-size:11.5px}
+.pri.p1{background:var(--red-solid); color:#fff}
+.pri.p2{background:var(--amber-bg); color:var(--amber); border-color:var(--amber-line)}
+.pri.p3{background:#eef2f7; color:#3d4a5c; border-color:#d7dee8}
+.pri.p4{background:#fff; color:var(--ink-3); border-color:var(--line-strong); font-weight:500}
+.st{display:inline-flex; align-items:center; gap:5px; height:22px; padding:0 8px 0 6px; border-radius:11px; font-size:12px; white-space:nowrap; font-weight:500}
+.st .ic{width:13px;height:13px}
+.st.s-wait{background:var(--amber-bg); color:var(--amber)}
+.st.s-sent{background:var(--primary-bg); color:var(--primary)}
+.st.s-doing{background:#e6f4f5; color:var(--teal)}
+.st.s-hold{background:var(--gray-bg); color:#4a5568}
+.st.s-check{background:var(--violet-bg); color:var(--violet)}
+.st.s-closed{background:transparent; color:var(--ink-3); padding-left:0}
+.st small{font-size:11.5px; font-weight:400; opacity:.95}
+
+.wrap{overflow:hidden}
+.views{display:flex; align-items:flex-end; gap:4px; padding:0 16px; border-bottom:1px solid var(--line); height:46px}
+.view{display:flex; align-items:center; gap:6px; height:46px; padding:0 12px; color:var(--ink-2); font-size:13.5px; border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap}
+.view .n{font-size:12px; color:var(--ink-3); background:var(--gray-bg); border-radius:9px; padding:0 7px; line-height:18px; font-weight:500}
+.view.on{color:var(--primary); border-bottom-color:var(--primary); font-weight:600}
+.view.on .n{background:var(--primary-bg); color:var(--primary)}
+.view.alarm .n{background:var(--red-solid); color:#fff; font-weight:600}
+.view.alarm{color:var(--red)}
+.view.alarm .ic{color:var(--red)}
+.view .n.sk{width:34px; height:16px; background:#e8ecf2}
+
+.filters{display:flex; align-items:center; gap:8px; padding:12px 16px}
+.sel{display:flex; align-items:center; gap:6px; height:32px; padding:0 8px 0 10px; border:1px solid var(--line-strong); border-radius:6px; background:#fff; white-space:nowrap; flex:none}
+.sel .k{color:var(--ink-3)}
+.sel .v{color:var(--muted); flex:1}
+.sel .ic{color:var(--muted)}
+.sel.on{border-color:var(--primary); background:var(--primary-bg)}
+.sel.on .k{color:var(--ink-2)}
+.sel.on .v{color:var(--primary); font-weight:600}
+.sel.on .ic{color:var(--primary)}
+.sel.kw{flex:1; min-width:150px}
+.sel.kw .v{color:var(--muted)}
+.filters .btns{display:flex; gap:8px; flex:none}
+
+.applied{display:flex; align-items:center; gap:8px; padding:0 16px 12px; flex-wrap:wrap}
+.applied .lbl{color:var(--ink-3)}
+.chip{display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 6px 0 10px; border-radius:13px; background:var(--primary-bg); color:#173f9e; border:1px solid var(--primary-line); font-size:12.5px}
+.chip .ic{color:#173f9e}
+.clear{color:var(--primary); font-size:12.5px; margin-left:4px}
+
+.toolbar{display:flex; align-items:center; gap:8px; height:48px; padding:0 16px; border-top:1px solid var(--line)}
+.toolbar .meta{margin-left:auto; color:var(--ink-3); display:flex; align-items:center; gap:12px}
+.batch{display:flex; align-items:center; gap:8px; height:48px; padding:0 16px; background:#edf3ff; border-top:1px solid var(--primary-line); border-bottom:1px solid var(--primary-line)}
+.batch .count{font-weight:600; color:#173f9e; margin-right:8px}
+.batch .count b{font-size:14px}
+.batch .cancel{color:var(--primary); margin-left:4px}
+.batch .meta{margin-left:auto; color:var(--ink-3); display:flex; align-items:center; gap:12px}
+
+table{width:100%; border-collapse:collapse; table-layout:fixed}
+thead th{height:38px; background:#f7f8fa; color:var(--ink-2); font-weight:600; font-size:12.5px; text-align:left; padding:0 8px; border-bottom:1px solid var(--line); border-top:1px solid var(--line); white-space:nowrap}
+thead th .ic{color:var(--muted); margin-left:2px}
+thead th.sorted{color:var(--ink)}
+thead th.sorted .ic{color:var(--primary)}
+tbody td{padding:7px 8px; border-bottom:1px solid #edf0f4; vertical-align:middle; line-height:18px}
+tbody tr.is-sel td{background:#f3f7ff}
+tbody tr.overdue td:first-child{box-shadow:inset 3px 0 0 var(--red-solid)}
+tbody tr.is-sel.overdue td:first-child{box-shadow:inset 3px 0 0 var(--red-solid)}
+.c-chk{width:40px; padding-left:14px !important}
+th.c-chk{padding-left:14px}
+.cb{width:16px; height:16px; border-radius:4px; border:1.5px solid #9aa4b4; display:grid; place-items:center; background:#fff; color:#fff}
+.cb.on{background:var(--primary); border-color:var(--primary)}
+.cb.mixed{background:var(--primary); border-color:var(--primary)}
+.cb.mixed::after{content:""; width:8px; height:2px; background:#fff; border-radius:1px}
+.cb.dis{background:#f1f3f6; border-color:#d0d6df}
+.c-id a{color:var(--primary)}
+.nw{white-space:nowrap}
+.c-title .t{color:var(--ink); font-weight:500}
+.c-dev .code{color:var(--ink)}
+.sub{color:var(--ink-3); font-size:12px}
+.sub.hold{margin-top:2px; padding-left:6px}
+.c-loc{color:var(--ink-2); white-space:nowrap}
+.c-loc .dot{font-style:normal; color:var(--muted); margin:0 3px}
+.c-owner .none{color:var(--muted)}
+.c-time{color:var(--ink-2); white-space:nowrap; font-size:12.5px}
+.c-op{white-space:nowrap}
+.c-op a{color:var(--primary)}
+.c-op a+a{margin-left:12px}
+.c-op a.dispatch{font-weight:600}
+.sla{display:flex; align-items:center; gap:4px; white-space:nowrap; font-size:12.5px}
+.sla.run{color:var(--ink-2)} .sla.run .ic{color:var(--muted)}
+.sla.warn{color:var(--amber); font-weight:600}
+.sla.over{color:var(--red); font-weight:600}
+.sla.done{color:var(--green)}
+.sla.pause{color:var(--ink-3)}
+.sla.late{color:var(--amber)}
+.sla-v{padding-left:18px; font-weight:600; color:var(--ink); font-size:12.5px}
+.sla-v.over{color:var(--red)}
+.sla-v.warn{color:var(--amber)}
+
+.pager{display:flex; align-items:center; gap:6px; padding:12px 16px; border-top:1px solid var(--line)}
+.pager .total{color:var(--ink-2); margin-right:auto}
+.pg{min-width:30px; height:30px; padding:0 6px; border-radius:6px; border:1px solid var(--line-strong); display:grid; place-items:center; background:#fff; color:var(--ink-2)}
+.pg.on{background:var(--primary); border-color:var(--primary); color:#fff; font-weight:600}
+.pg.dis{color:#aab2bf; background:#f7f8fa}
+.pg.gap{border:none; background:none}
+.pager .size{margin-left:8px}
+.pager .jump{display:flex; align-items:center; gap:6px; color:var(--ink-2); margin-left:8px}
+.pager .jump .box{width:48px; height:30px; border:1px solid var(--line-strong); border-radius:6px; background:#fff}
+
+/* states */
+.state{padding:56px 24px 64px; display:flex; flex-direction:column; align-items:center; text-align:center}
+.state .pic{width:56px; height:56px; border-radius:50%; display:grid; place-items:center; margin-bottom:14px}
+.state h2{font-size:16px; margin:0 0 6px; font-weight:600}
+.state p{margin:0; color:var(--ink-2); max-width:560px}
+.state .acts{display:flex; gap:8px; margin-top:18px}
+.state.empty .pic{background:var(--gray-bg); color:var(--ink-3)}
+.state.error .pic{background:var(--red-bg); color:var(--red)}
+.errbox{margin-top:16px; display:grid; grid-template-columns:auto auto; gap:4px 16px; text-align:left; background:#f7f8fa; border:1px solid var(--line); border-radius:6px; padding:10px 14px; font-size:12.5px}
+.errbox dt{color:var(--ink-3)}
+.errbox dd{margin:0; color:var(--ink)}
+.sk{display:block; height:12px; border-radius:4px; background:linear-gradient(90deg,#e9edf2 0%,#f3f5f8 50%,#e9edf2 100%); background-size:200% 100%; animation:sh 1.4s ease-in-out infinite}
+@keyframes sh{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.loading-note{display:flex; align-items:center; gap:8px; color:var(--ink-2)}
+.spin{width:14px; height:14px; border-radius:50%; border:2px solid #cdd8f3; border-top-color:var(--primary); animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+tr.skr td{height:50px}
+</style></head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">恒</span>恒川设备云</div>
+  <div class="org">恒川精密 · 苏州一厂 <svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+  <div class="gsearch"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>搜索工单号、设备编号</span></div>
+  <div class="spacer"></div>
+  <div class="bell" aria-label="通知，5 条未读"><svg class="ic " width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><span class="badge">5</span></div>
+  <div class="me"><span class="avatar">李</span><span>李敏</span><span class="role">· 运维主管</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+</header>
+<div class="frame">
+  <nav class="side" aria-label="主导航">
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>工作台</a>
+    <a class="nav-item nav-group-open"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4z"/><path d="M13 6v2M13 11v2M13 16v2"/></svg>工单管理<svg class="ic caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></a>
+    <a class="nav-sub active">工单列表</a><a class="nav-sub">我的工单</a><a class="nav-sub">工单统计</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>设备台账</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h8a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h8"/></svg>巡检计划</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>保养计划</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>备件库存</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>报表中心</a>
+    <a class="nav-item"><svg class="ic " width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>系统设置</a>
+  </nav>
+  <main class="main">
+  <div class="page-head">
+    <h1>工单列表</h1>
+    <div class="actions">
+      <button class="btn"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 15v5h14v-5"/></svg>导出全部</button>
+      <button class="btn primary"><svg class="ic " width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>新建工单</button>
+    </div>
+  </div>
+  <section class="card wrap">
+    <div class="views" role="tablist"><a class="view on" role="tab">全部<span class="n">1,286</span></a><a class="view" role="tab">我负责的<span class="n">23</span></a><a class="view" role="tab">待派单<span class="n">7</span></a><a class="view alarm" role="tab"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>已超时<span class="n">4</span></a><a class="view" role="tab">待验收<span class="n">12</span></a></div>
+    <div class="filters">
+    <div class="sel" style="width:112px"><span class="k">状态</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="sel" style="width:112px"><span class="k">优先级</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="sel" style="width:124px"><span class="k">设备类型</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="sel" style="width:132px"><span class="k">厂区/产线</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="sel" style="width:124px"><span class="k">负责人</span><span class="v">全部</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="sel" style="width:226px"><span class="k">创建时间</span><span class="v">开始日期 ~ 结束日期</span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+    <div class="sel kw"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="v">关键词</span></div>
+    <div class="btns"><button class="btn primary">查询</button><button class="btn">重置</button></div>
+  </div>
+  
+    <div class="batch">
+      <span class="count">已选 <b>2</b> 项</span>
+      <button class="btn sm primary"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>批量派单</button>
+      <button class="btn sm">批量修改优先级</button>
+      <button class="btn sm"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 15v5h14v-5"/></svg>导出所选</button>
+      <a class="cancel">取消选择</a>
+      <div class="meta"><span>按创建时间倒序</span><button class="btn sm"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/></svg>列设置</button></div>
+    </div>
+    <table><colgroup><col style="width:40px"><col style="width:136px"><col><col style="width:112px"><col style="width:136px"><col style="width:74px"><col style="width:108px"><col style="width:62px"><col style="width:120px"><col style="width:86px"><col style="width:86px"><col style="width:84px"></colgroup>
+  <thead><tr>
+    <th class="c-chk"><span class="cb mixed" role="checkbox" aria-checked="mixed"></span></th><th>工单号</th><th>标题</th><th>设备</th><th>位置</th><th>优先级</th><th>状态</th><th>负责人</th><th>SLA</th>
+    <th class="sorted">创建时间<svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></th><th>更新时间</th><th>操作</th>
+  </tr></thead><tbody><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260927-0413</a></td>
+    <td class="c-title"><a class="t">3号注塑机液压油温过高</a></td>
+    <td class="c-dev"><div class="mono code">ZS-03-117</div><div class="sub">注塑机</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>A区<i class="dot">·</i>注塑线3</td>
+    <td class="c-pri"><span class="pri p1"><b>P1</b>紧急</span></td>
+    <td class="c-st"><span class="st s-doing"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>处理中</span></td>
+    <td class="c-owner">王建国</td>
+    <td class="c-sla"><div class="sla run"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>修复剩</span></div><div class="sla-v ">3时30分</div></td>
+    <td class="c-time">09-27 09:12</td>
+    <td class="c-time">09-27 09:40</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class="is-sel ">
+    <td class="c-chk"><span class="cb on" role="checkbox" aria-checked="true"><svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span></td>
+    <td class="c-id"><a class="mono">GD-20260927-0409</a></td>
+    <td class="c-title"><a class="t">2号空压机出口压力波动</a></td>
+    <td class="c-dev"><div class="mono code">KY-01-002</div><div class="sub">螺杆空压机</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>动力站</td>
+    <td class="c-pri"><span class="pri p2"><b>P2</b>高</span></td>
+    <td class="c-st"><span class="st s-sent"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>已派单</span></td>
+    <td class="c-owner">陈晓峰</td>
+    <td class="c-sla"><div class="sla warn"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>响应剩</span></div><div class="sla-v warn">35分</div></td>
+    <td class="c-time">09-27 08:47</td>
+    <td class="c-time">09-27 08:52</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class="is-sel overdue">
+    <td class="c-chk"><span class="cb on" role="checkbox" aria-checked="true"><svg class="ic " width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span></td>
+    <td class="c-id"><a class="mono">GD-20260927-0402</a></td>
+    <td class="c-title"><a class="t"><span class="nw">AGV-07</span> 导航丢失，停在3号通道</a></td>
+    <td class="c-dev"><div class="mono code">AGV-07</div><div class="sub">潜伏式AGV</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>仓储区</td>
+    <td class="c-pri"><span class="pri p2"><b>P2</b>高</span></td>
+    <td class="c-st"><span class="st s-wait"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-dasharray="3.5 3"/></svg>待派单</span></td>
+    <td class="c-owner"><span class="none" aria-label="未指派">—</span></td>
+    <td class="c-sla"><div class="sla over"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>响应已超时</span></div><div class="sla-v over">12分</div></td>
+    <td class="c-time">09-27 08:00</td>
+    <td class="c-time">09-27 08:00</td>
+    <td class="c-op"><a>查看</a><a class="dispatch">派单</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260927-0398</a></td>
+    <td class="c-title"><a class="t">冷却塔风机异响</a></td>
+    <td class="c-dev"><div class="mono code">LQ-02-001</div><div class="sub">冷却塔</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>屋面</td>
+    <td class="c-pri"><span class="pri p3"><b>P3</b>中</span></td>
+    <td class="c-st"><span class="st s-doing"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>处理中</span></td>
+    <td class="c-owner">赵磊</td>
+    <td class="c-sla"><div class="sla run"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>修复剩</span></div><div class="sla-v ">6时13分</div></td>
+    <td class="c-time">09-27 07:55</td>
+    <td class="c-time">09-27 09:10</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260926-0391</a></td>
+    <td class="c-title"><a class="t">贴片机 <span class="nw">SMT-2</span> 吸嘴频繁堵塞</a></td>
+    <td class="c-dev"><div class="mono code">TP-02-004</div><div class="sub">贴片机</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>SMT车间</td>
+    <td class="c-pri"><span class="pri p2"><b>P2</b>高</span></td>
+    <td class="c-st"><span class="st s-check"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/></svg>待验收</span></td>
+    <td class="c-owner">刘洋</td>
+    <td class="c-sla"><div class="sla done"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>按时修复</span></div></td>
+    <td class="c-time">09-26 21:40</td>
+    <td class="c-time">09-27 06:18</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260926-0387</a></td>
+    <td class="c-title"><a class="t">月度点检：配电柜 <span class="nw">DP-12</span></a></td>
+    <td class="c-dev"><div class="mono code">DP-12</div><div class="sub">低压配电柜</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>配电室</td>
+    <td class="c-pri"><span class="pri p4"><b>P4</b>低</span></td>
+    <td class="c-st"><span class="st s-sent"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>已派单</span></td>
+    <td class="c-owner">孙婷</td>
+    <td class="c-sla"><div class="sla run"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>剩 2天</span></div></td>
+    <td class="c-time">09-26 17:00</td>
+    <td class="c-time">09-26 17:02</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260926-0380</a></td>
+    <td class="c-title"><a class="t">焊接机器人 <span class="nw">R-05</span> 焊缝偏移</a></td>
+    <td class="c-dev"><div class="mono code">HJ-05-011</div><div class="sub">焊接机器人</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>焊装线</td>
+    <td class="c-pri"><span class="pri p1"><b>P1</b>紧急</span></td>
+    <td class="c-st"><span class="st s-hold"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>已挂起</span><div class="sub hold">等备件</div></td>
+    <td class="c-owner">周强</td>
+    <td class="c-sla"><div class="sla pause"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg><span>计时暂停</span></div></td>
+    <td class="c-time">09-26 15:22</td>
+    <td class="c-time">09-26 18:40</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260926-0376</a></td>
+    <td class="c-title"><a class="t">叉车 <span class="nw">FL-09</span> 电池充电异常</a></td>
+    <td class="c-dev"><div class="mono code">FL-09</div><div class="sub">电动叉车</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>仓储区</td>
+    <td class="c-pri"><span class="pri p3"><b>P3</b>中</span></td>
+    <td class="c-st"><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></td>
+    <td class="c-owner">陈晓峰</td>
+    <td class="c-sla"><div class="sla done"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>按时修复</span></div></td>
+    <td class="c-time">09-26 13:05</td>
+    <td class="c-time">09-26 16:47</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" overdue">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260926-0371</a></td>
+    <td class="c-title"><a class="t">烘箱 <span class="nw">HX-04</span> 温控超调</a></td>
+    <td class="c-dev"><div class="mono code">HX-04</div><div class="sub">热风烘箱</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>涂装线</td>
+    <td class="c-pri"><span class="pri p2"><b>P2</b>高</span></td>
+    <td class="c-st"><span class="st s-doing"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>处理中</span></td>
+    <td class="c-owner">刘洋</td>
+    <td class="c-sla"><div class="sla over"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>修复已超时</span></div><div class="sla-v over">1时05分</div></td>
+    <td class="c-time">09-26 08:37</td>
+    <td class="c-time">09-27 08:02</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260925-0366</a></td>
+    <td class="c-title"><a class="t">纯水机电导率超标</a></td>
+    <td class="c-dev"><div class="mono code">CS-01-001</div><div class="sub">纯水系统</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>动力站</td>
+    <td class="c-pri"><span class="pri p2"><b>P2</b>高</span></td>
+    <td class="c-st"><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></td>
+    <td class="c-owner">赵磊</td>
+    <td class="c-sla"><div class="sla done"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>按时修复</span></div></td>
+    <td class="c-time">09-25 22:14</td>
+    <td class="c-time">09-26 03:30</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260925-0359</a></td>
+    <td class="c-title"><a class="t">模温机漏水</a></td>
+    <td class="c-dev"><div class="mono code">ZS-03-109</div><div class="sub">模温机</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>A区<i class="dot">·</i>注塑线3</td>
+    <td class="c-pri"><span class="pri p3"><b>P3</b>中</span></td>
+    <td class="c-st"><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></td>
+    <td class="c-owner">王建国</td>
+    <td class="c-sla"><div class="sla late"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span>超时 20分修复</span></div></td>
+    <td class="c-time">09-25 14:48</td>
+    <td class="c-time">09-25 19:08</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260925-0352</a></td>
+    <td class="c-title"><a class="t">包装线皮带跑偏</a></td>
+    <td class="c-dev"><div class="mono code">SS-02-003</div><div class="sub">皮带输送线</div></td>
+    <td class="c-loc">一厂<i class="dot">·</i>包装区</td>
+    <td class="c-pri"><span class="pri p3"><b>P3</b>中</span></td>
+    <td class="c-st"><span class="st s-check"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/></svg>待验收</span></td>
+    <td class="c-owner">孙婷</td>
+    <td class="c-sla"><div class="sla done"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>按时修复</span></div></td>
+    <td class="c-time">09-25 11:20</td>
+    <td class="c-time">09-26 09:15</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260924-0340</a></td>
+    <td class="c-title"><a class="t">行车 <span class="nw">QC-01</span> 限位开关失灵</a></td>
+    <td class="c-dev"><div class="mono code">QC-01</div><div class="sub">桥式起重机</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>总装</td>
+    <td class="c-pri"><span class="pri p1"><b>P1</b>紧急</span></td>
+    <td class="c-st"><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></td>
+    <td class="c-owner">周强</td>
+    <td class="c-sla"><div class="sla done"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>按时修复</span></div></td>
+    <td class="c-time">09-24 16:02</td>
+    <td class="c-time">09-24 18:31</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260924-0333</a></td>
+    <td class="c-title"><a class="t">季度保养：激光切割机 <span class="nw">LC-01</span></a></td>
+    <td class="c-dev"><div class="mono code">LC-01</div><div class="sub">光纤激光切割机</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>钣金</td>
+    <td class="c-pri"><span class="pri p4"><b>P4</b>低</span></td>
+    <td class="c-st"><span class="st s-sent"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>已派单</span></td>
+    <td class="c-owner">陈晓峰</td>
+    <td class="c-sla"><div class="sla run"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>剩 6天</span></div></td>
+    <td class="c-time">09-24 09:00</td>
+    <td class="c-time">09-24 09:05</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr><tr class=" ">
+    <td class="c-chk"><span class="cb " role="checkbox" aria-checked="false"></span></td>
+    <td class="c-id"><a class="mono">GD-20260923-0321</a></td>
+    <td class="c-title"><a class="t">除尘器压差报警</a></td>
+    <td class="c-dev"><div class="mono code">CC-01-002</div><div class="sub">脉冲除尘器</div></td>
+    <td class="c-loc">二厂<i class="dot">·</i>打磨间</td>
+    <td class="c-pri"><span class="pri p3"><b>P3</b>中</span></td>
+    <td class="c-st"><span class="st s-closed"><svg class="ic " width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>已关闭</span></td>
+    <td class="c-owner">赵磊</td>
+    <td class="c-sla"><div class="sla done"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>按时修复</span></div></td>
+    <td class="c-time">09-23 13:37</td>
+    <td class="c-time">09-23 17:50</td>
+    <td class="c-op"><a>查看</a></td>
+  </tr></tbody></table>
+    
+    <div class="pager">
+    <span class="total">共 1,286 条，第 1–15 条</span>
+    <span class="pg dis"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></span><span class="pg on">1</span><span class="pg">2</span><span class="pg">3</span><span class="pg">4</span><span class="pg">5</span><span class="pg gap">…</span><span class="pg">86</span><span class="pg"><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+    <div class="sel size" style="width:100px"><span class="k" style="color:var(--ink)">15 条/页</span><span class="v"></span><svg class="ic " width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+    <div class="jump">跳至<span class="box"></span>页</div>
+  </div>
+  </section></main>
+</div>
+</body></html>
