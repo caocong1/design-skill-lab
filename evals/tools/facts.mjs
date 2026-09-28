@@ -20,7 +20,7 @@
 import { chromium } from 'playwright';
 import { existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { readManifest, preparePage, scrollTo, settle, frameCount } from './page.mjs';
+import { readManifest, preparePage, scrollTo, settle, frameCount, launch } from './page.mjs';
 
 const args = process.argv.slice(2);
 const opt = (name) => { const i = args.indexOf(name); return i >= 0 ? args.splice(i, 2)[1] : undefined; };
@@ -73,7 +73,9 @@ function measureFrame() {
   const painted = (c) => { const cs = getComputedStyle(c); return L.rgba(cs.backgroundColor)[3] > 0 || cs.backgroundImage !== 'none'; };
   const background = (el, x, y) => {
     const stack = document.elementsFromPoint(x, y);
-    const start = Math.max(0, stack.findIndex((c) => c === el || c.contains(el)));
+    const at = stack.findIndex((c) => c === el || c.contains(el));
+    if (at < 0) return 'missed'; // the hit test did not reach the text (pointer-events: none, a frame edge): never guess
+    const start = at;
     if (stack.slice(0, start).some((c) => !el.contains(c) && painted(c))) return 'covered';
     const layers = [];
     for (const c of stack.slice(start)) {
@@ -96,8 +98,13 @@ function measureFrame() {
     const range = document.createRange(); range.selectNodeContents(n);
     const rect = [...range.getClientRects()].find((r) => r.width > 0 && r.height > 0);
     if (!rect) continue;
-    const x = Math.min(Math.max(rect.left + rect.width / 2, 0), vw - 1), y = rect.top + Math.min(rect.height, 16) / 2;
+    const x = Math.min(Math.max(rect.left + rect.width / 2, 0), vw - 1);
+    let y = rect.top + Math.min(rect.height, 16) / 2;
     if (!inFrame(y) || rect.right <= 0 || rect.left >= vw) continue;
+    // A point in the last pixel row of the frame hits nothing (elementsFromPoint returns an empty stack there, and
+    // an empty stack once read as a white background). Sample one row up while that is still inside the text box;
+    // otherwise leave the node to the next frame.
+    if (y > vh - 1) { if (rect.top > vh - 1) continue; y = vh - 1; }
     F.seen.add(n);
     if (!el.checkVisibility({ opacityProperty: true, visibilityProperty: true, contentVisibilityAuto: true })) continue;
     if (el.closest(':disabled, [aria-disabled="true"]')) { F.exempt++; continue; }
@@ -114,6 +121,7 @@ function measureFrame() {
     const node = { min: large ? 3 : 4.5, size, where: where(el), sample: n.textContent.trim().replace(/\s+/g, ' ').slice(0, 40) };
     const bg = background(el, x, y);
     if (bg === 'covered') { F.covered++; continue; }
+    if (bg === 'missed') { F.unmeasured['hit test missed the text'] = (F.unmeasured['hit test missed the text'] || 0) + 1; continue; }
     if (!bg) {
       const box = [Math.max(rect.left, 0), Math.max(rect.top, 0), Math.min(rect.right, vw), Math.min(rect.bottom, vh)];
       F.pending.push({ ...node, fg, box });
@@ -210,7 +218,7 @@ function summarise(f) {
   };
 }
 
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launch(chromium);
 const results = [];
 for (const it of readManifest(briefPath)) {
   const src = resolve(outDir, it.html);

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>facts.mjs fixture: text at a frame edge, on a dark band</title>
+<!-- Regression fixture for evals/tools/selftest.mjs. At 800x600 the first line of the dark band has its sample
+     point in the last pixel row of frame 1 (y about 599.6). facts.mjs once read that as white and reported 1.12:1. -->
+<style>
+  html, body { margin: 0; }
+  body { font: 15px/23px monospace; background: #f4f2ea; color: #15171c; }
+  .lead { height: 589.6px; box-sizing: border-box; padding: 24px; }
+  .band { background: #15171c; color: #f4f2ea; height: 1000px; }
+  .band p { margin: 0; padding: 0 24px; }
+  .low { color: #8a8f98; background: #ffffff; padding: 0 24px; margin: 0; }
+</style>
+<div class="lead">A page with a dark band that starts just above the first frame's bottom edge.</div>
+<div class="band">
+  <p id="edge">npm install @example/client</p>
+  <p>light text on a dark band, measured in the second frame</p>
+</div>
+<p class="low" id="low">grey text on white that really fails AA</p>

@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "shoot": "node scripts/shoot-catalog.mjs",
-    "smoke": "node scripts/smoke-site.mjs"
+    "smoke": "node scripts/smoke-site.mjs",
+    "test:evals": "node evals/tools/selftest.mjs"
   },
   "devDependencies": {
     "axe-core": "4.10.3",

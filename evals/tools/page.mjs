@@ -3,6 +3,9 @@
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
+// System Chrome when it is installed (what the rounds so far were rendered with), else Playwright's own Chromium (CI).
+export const launch = (chromium) => chromium.launch({ channel: 'chrome' }).catch(() => chromium.launch());
+
 export const MAX_FRAMES = 10; // full-page items are judged on at most this many viewport-sized frames
 
 // The ```render-manifest block of a brief: {items: [{html, png, width, height, dpr, full_page}]}.

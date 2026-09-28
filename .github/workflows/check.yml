@@ -37,6 +37,8 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Eval harness self-test
+        run: npm run test:evals
       - name: Site smoke test
         run: npm run smoke -- --json smoke-report.json
       - name: Keep the report

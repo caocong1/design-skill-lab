@@ -12,7 +12,7 @@
 import { chromium } from 'playwright';
 import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, join } from 'node:path';
-import { readManifest, preparePage, scrollTo, settle, frameCount } from './tools/page.mjs';
+import { readManifest, preparePage, scrollTo, settle, frameCount, launch } from './tools/page.mjs';
 
 const [briefPath, outDir, pngDir] = process.argv.slice(2);
 if (!briefPath || !outDir || !pngDir) {
@@ -23,7 +23,7 @@ let items;
 try { items = readManifest(briefPath); } catch (e) { console.error(e.message); process.exit(2); }
 mkdirSync(pngDir, { recursive: true });
 
-const browser = await chromium.launch({ channel: 'chrome' });
+const browser = await launch(chromium);
 const results = [];
 for (const it of items) {
   const src = resolve(outDir, it.html);
