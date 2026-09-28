@@ -13,7 +13,7 @@ import { dirname, join, delimiter } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { writeFileSync, unlinkSync } from 'node:fs';
 
-export const PLAYWRIGHT_VERSION = '1.59.1';
+export const PLAYWRIGHT_VERSION = '1.63.0';
 
 // Pixel QA thresholds, calibrated on the lab's thumbnails at 800x500
 // (see the calibration note in scripts/shoot-catalog.mjs). A frame is rejected

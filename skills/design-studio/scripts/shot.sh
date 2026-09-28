@@ -116,7 +116,7 @@ case "$url" in http://*|https://*)
 esac
 
 pw_version="$(sed -n "s/^export const PLAYWRIGHT_VERSION = '\(.*\)';/\1/p" "$here/lib/capture-core.mjs" 2>/dev/null || true)"
-pw_version="${pw_version:-1.59.1}"
+pw_version="${pw_version:-1.63.0}"
 suffix=""; [ $dark -eq 1 ] && suffix="-dark"
 status=0
 for size in "${sizes[@]}"; do

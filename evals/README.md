@@ -93,7 +93,7 @@ EVAL_TMP=/tmp/dsl-eval-2026-10-01          # anywhere outside the repo
 mkdir -p $EVAL_TMP/suites/0.7.0 $EVAL_TMP/suites/0.8.0
 git -C <repo> archive 05b1244 skills | tar -x -C $EVAL_TMP/suites/0.7.0 --exclude 'skills/iterate-design-lab'
 git -C <repo> archive <commit-under-test> skills | tar -x -C $EVAL_TMP/suites/0.8.0
-(cd $EVAL_TMP && npm init -y >/dev/null && npm install playwright@1.59.1)   # same Playwright for every arm
+(cd $EVAL_TMP && npm init -y >/dev/null && npm install playwright@1.63.0)   # same Playwright for every arm
 (cd <repo> && npm ci)                  # the harness's own Playwright: render.mjs and facts.mjs resolve it from <repo>
 ```
 

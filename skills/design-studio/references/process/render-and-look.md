@@ -39,10 +39,10 @@ bash "$S/shot.sh" --help          # rung 2
 | 3 | a browser tool in the host (Chrome or Playwright MCP) | interactive checks: hover, focus order, computed styles, console errors, measuring | slow for batches |
 | 4 | nothing | - | deliver the artefact marked unverified (section 9) |
 
-- No Playwright in the project: `npx -y -p playwright@1.59.1 node "$S/capture.mjs" ...`. The loader
+- No Playwright in the project: `npx -y -p playwright@1.63.0 node "$S/capture.mjs" ...`. The loader
   finds the npx copy and drives the installed Google Chrome, so only the npm package downloads
   (measured). Without Chrome it falls back to Playwright's Chromium, which needs
-  `npx playwright@1.59.1 install chromium`.
+  `npx playwright@1.63.0 install chromium`.
 - Take flags and the manifest format from `--help`, never from memory: they are perishable.
 
 ## 2. What to capture

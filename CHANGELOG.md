@@ -12,6 +12,28 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.8.5] - 2026-09-28
+
+运行环境升到最新稳定版。suite 契约不变。
+
+### 变更（基础设施）
+
+- `.github/workflows/check.yml`：Node 22 → **26**，Python 3.12 → **3.14**（2026-09-28 的最新稳定线：Node v26.10.0、Python 3.14.7，也是本仓库本机开发用的大版本）。Node 26 目前是 Current 线，2026 年 10 月转为 LTS。
+- Playwright 1.59.1 → **1.63.0**（`package.json`、`package-lock.json`）。原因是实测出来的：在 CI 上用四种组合各跑一次浏览器安装，只有“Node 26 + Playwright 1.59.1”失败——浏览器能下完，卡在解压，直到超时；Node 24 配两个版本、Node 26 配 1.63.0 都正常。自带的 Chromium 随之从 147 换成 153。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.8.4 → **0.8.5**。
+- `skills/design-studio/scripts/lib/capture-core.mjs`、`scripts/shot.sh`、`references/process/render-and-look.md`：宿主项目没装 Playwright 时提示的版本改为 1.63.0。
+
+### 变更（评测）
+
+- `evals/README.md`：各臂统一安装的 Playwright 版本改为 1.63.0。渲染用的浏览器变了，之后的轮次与前两轮（Chromium 147）的渲染不再逐像素可比；分数本来也不跨轮比较。
+
+### 验证
+
+- 本机（Node 26.8.2）在 1.63.0 上跑通：9 道闸门、评测工具自测、站点冒烟测试、`lint.mjs`、`capture.mjs`、`evals/render.mjs`、`shoot-catalog.mjs`（单条）。
+
 ## [0.8.4] - 2026-09-28
 
 只动基础设施。suite 契约和 skill 正文都没变。
