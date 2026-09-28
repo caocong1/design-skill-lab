@@ -2,7 +2,7 @@
 title: Casebook (incident lore)
 evidence: measured
 sources: []
-reviewed: 2026-09-27
+reviewed: 2026-09-28
 review_by: 2027-09-27
 ---
 
@@ -13,7 +13,8 @@ render or a build is wrong in a way no rule explains. Each line is symptom > cau
 origin. A case becomes a rule in its owning file only after a second, independent occurrence; the lab
 does that, not a host session.
 
-Origins: *lab page* = the lab's own 16-direction showcase, rounds 1-3 (2026-09-21 to 09-23).
+Origins: *lab page* = the lab's own 16-direction showcase, rounds 1-3 (2026-09-21 to 09-23), and its
+first CI run (2026-09-28).
 *Host A* = a web business system with Office/WPS add-in panes. *Host B* = an AI-assistant web app.
 Both host rounds were on 2026-09-24.
 
@@ -33,6 +34,9 @@ Both host rounds were on 2026-09-24.
 - A small label is stretched to full width > a direct child of a column flex container stretches by default > `align-self: start`. *Lab page, round 2.*
 - A global control style (a custom select arrow) vanishes on one page > a page-level `background:` shorthand reset the longhand the global rule set > before adding global control styles, search for shorthands that touch the same property. *Host A.*
 
+- A narrow screen scrolls sideways on one machine and not on another > a text input sits in a flex row; its own width follows the font's average glyph (20 of them), and the flex item around it cannot shrink below that, so a wider fallback face overflows > `min-width: 0` on the input and on the flex or grid item that holds it; test with the web fonts blocked and the input's `size` raised. *Lab page on CI, 2026-09-28 (11 of 16 directions).*
+- A phone keeps the page a few px too wide though nothing overflows > an entrance animation scaled past 1 for a moment, and the phone sized its layout viewport from that moment > `overflow-x: clip` on the container of the animated elements; compare `innerWidth` with the device width after the animation, not only `scrollWidth`. *Lab page, 2026-09-28.*
+
 ## Diagrams and marks on a line
 
 - A station or timeline dot reads as fallen off the line > it was centred on the whole name-plus-description block > align each mark with the first line of the label it names. *Lab page, round 3.*
@@ -48,6 +52,8 @@ Both host rounds were on 2026-09-24.
 ## Rendering environment
 
 - A headless WebGPU page falls back to its 2D mode although it rendered > software WebGPU in headless Chrome reports `device.lost` with reason `destroyed` after the first frame > treat only losses with another reason as fatal. *Lab page, round 2.*
+
+- A check passes locally and fails in CI > the page's widths depended on fonts: the local run had the system faces, CI had the web fonts and other fallbacks > make the check independent of the machine (block the font CDN, exaggerate intrinsic widths) before trusting a green local run. *Lab smoke test, 2026-09-28.*
 
 ## Promoted to rules
 

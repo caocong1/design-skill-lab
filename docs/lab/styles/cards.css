@@ -132,7 +132,7 @@ html[data-style="cards"] ::selection { background: var(--red); color: var(--pape
   border: 1px solid rgb(247 240 221 / .45); padding: 4px 10px; border-radius: 2px;
   text-shadow: 0 1px 1px rgb(0 0 0 / .4); white-space: nowrap;
 }
-.cd-tools { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+.cd-tools { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 0; }
 .cd-tools input, .cd-tools select, .cd-tools button {
   font-family: var(--type); font-size: 13px;
   background: var(--paper2); color: var(--ink);

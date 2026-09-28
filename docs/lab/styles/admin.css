@@ -105,7 +105,7 @@ html[data-style="admin"] ::selection { background: var(--blue-bg); }
 .ad-crumb a:hover { color: var(--blue); }
 .ad-crumb i { font-style: normal; color: var(--line-strong); }
 .ad-crumb [aria-current] { color: var(--text); font-weight: 600; }
-.ad-search { display: flex; align-items: center; gap: 8px; width: min(360px, 40vw); height: 32px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+.ad-search { display: flex; align-items: center; gap: 8px; width: min(360px, 40vw); min-width: 0; height: 32px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
 .ad-search:focus-within { border-color: var(--blue); background: var(--panel); box-shadow: 0 0 0 2px var(--blue-bg); }
 .ad-search input { flex: 1; min-width: 0; border: 0; background: none; outline: 0; font-size: 13px; color: var(--text); }
 .ad-search input::placeholder { color: var(--sec); }

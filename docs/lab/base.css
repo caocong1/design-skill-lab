@@ -65,3 +65,7 @@ a { color: inherit; }
 @media (max-width: 720px) {
   #app pre:not(.tm-banner) { white-space: pre-wrap; overflow-wrap: anywhere; }
 }
+
+/* A text input's own width follows the font's average glyph (20 of them by default), so a wide face pushed narrow
+   screens sideways: found by CI on Linux, where the fallback faces are wider. An input may always shrink. */
+input[type="search"], input[type="text"], input:not([type]) { min-width: 0; max-width: 100%; }

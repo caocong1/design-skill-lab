@@ -17,6 +17,7 @@
 //                 ledger screenshot count; the catalogue's no-script list has one row per entry
 //   no script     home shows the case and the picks and no language/theme switch; the catalogue lists every entry
 //   320 px        /, /catalog/ and /skills/ reflow (no horizontal scroll)
+//   fonts         every page and lab direction fits 390 px with the font CDN blocked and wide inputs
 //   keys          from home: "/", type, Enter opens the top hit's note on /catalog/; "o" then opens that site
 // Reported only: axe on /lab/ and every /lab/?style=<id>; external (CDN) request failures; catalogue/skills weight.
 //
@@ -347,6 +348,24 @@ async function extraGates(browser, base) {
     gate(`320 px reflow: /${path}`, sw <= 321, 'scrollWidth ' + sw);
   }
   await n3.close();
+  /* fonts: a missing font CDN or a face with wide glyphs must not push 390 px sideways. CI found this on Linux
+     while the local run was green, so the check no longer depends on the machine's fonts. */
+  const nf = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  await nf.route(/cdn\.jsdelivr\.net/, (r) => r.abort());
+  const wide = [];
+  for (const path of ['', 'catalog/', 'skills/', ...(NO_LAB ? [] : STYLES.map((s) => 'lab/?style=' + s))]) {
+    const pf = await nf.newPage();
+    await open(pf, base + path);
+    await settle(pf);
+    const w = await pf.evaluate(() => {
+      document.querySelectorAll('input[type=search], input[type=text], input:not([type])').forEach((i) => { i.size = 60; });
+      return Math.max(document.documentElement.scrollWidth, innerWidth);
+    });
+    if (w > 391) wide.push(`/${path} ${w}px`);
+    await pf.close();
+  }
+  gate('390 px without the font CDN and with wide inputs', wide.length === 0, wide.join(', ') || 'every page fits');
+  await nf.close();
   /* keys: / type Enter from home, then o */
   const nk = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const pk = await nk.newPage();

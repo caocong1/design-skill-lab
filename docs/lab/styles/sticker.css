@@ -247,3 +247,8 @@ html[data-style="sticker"] ::selection { background: var(--ink); color: var(--ye
   .st-row { position: relative; }
   .st-row a { position: relative; }
 }
+
+/* Entrance overshoot: .st-pop scales past 1 for a moment, and with a wider fallback face the subtitle then reaches
+   past the right edge of a 390 px screen. A phone sizes its layout viewport from that moment and keeps the page
+   15 px too wide. clip, not hidden, so the sticky strip keeps working. */
+html[data-style="sticker"] #app { overflow-x: clip; }

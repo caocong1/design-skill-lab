@@ -58,7 +58,8 @@ html[data-style="console"] ::selection { background: var(--cyan); color: #0c1016
 
 /* ---- 主体：仪器轨 + 主区 ---- */
 .cc-body { display: grid; grid-template-columns: 264px minmax(0, 1fr); gap: 18px; padding: 18px clamp(12px, 2vw, 24px) 120px; max-width: 1560px; width: 100%; margin: 0 auto; }
-.cc-rail { display: flex; flex-direction: column; gap: 18px; align-self: start; position: sticky; top: 74px; }
+.cc-rail { display: flex; flex-direction: column; gap: 18px; align-self: start; position: sticky; top: 74px; min-width: 0; }
+.cc-rail > .cc-panel { min-width: 0; }
 .cc-main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 
 /* 面板：亮一层的底板 + 四角刻度（无发光） */

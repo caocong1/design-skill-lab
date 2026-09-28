@@ -72,7 +72,7 @@ html[data-style="label"] ::selection { background: var(--ink); color: var(--wall
 /* ---- 检索 ---- */
 .ml-rooms { padding: 30px 0 0; border-top: 1px solid var(--hair); }
 .ml-tools { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; align-items: center; padding: 22px 0 10px; }
-.ml-search { display: flex; align-items: baseline; gap: 12px; flex: 1 1 320px; }
+.ml-search { display: flex; align-items: baseline; gap: 12px; flex: 1 1 320px; min-width: 0; }
 .ml-search span { font-size: 13px; color: var(--faint); letter-spacing: .2em; }
 .ml-search input { flex: 1; border: 0; border-bottom: 1px solid var(--hair); background: none; padding: 8px 2px; color: var(--ink); font-size: 15px; }
 .ml-search input:focus { outline: none; border-bottom-color: var(--ink); }

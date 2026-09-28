@@ -134,7 +134,7 @@ html[data-style="songban"] ::selection { background: var(--zhu); color: var(--pa
 }
 .sb-find label { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 .sb-find label > span { color: var(--paper-hi); background: var(--ink); width: 26px; height: 26px; display: grid; place-items: center; font-size: 13px; }
-.sb-find-q { flex: 1 1 300px; }
+.sb-find-q { flex: 1 1 300px; min-width: 0; }
 #sb-q {
   flex: 1; border: 0; border-bottom: 1px solid var(--ink); background: transparent;
   font-family: var(--kai); font-size: 15px; color: var(--ink); padding: 4px 2px;
