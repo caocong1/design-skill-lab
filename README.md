@@ -80,9 +80,9 @@ python "$env:USERPROFILE\.codex\skills\design-studio\scripts\feedback_status.py"
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.12.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
-| `critique-design` | 0.3.3 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
-| `implement-design` | 0.3.2 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
+| `design-studio` | 0.13.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `critique-design` | 0.3.4 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
+| `implement-design` | 0.3.3 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
 **模式**（契约，名字不变）：`full`、`piece`、`options`（可以叠加在任何模式上）、`inspire`、`critique`、`redesign`、`handoff`、`implement`。"整体 UI 优化""改版"按 `redesign` 处理，从产品的功能重新出发，而不是打磨细节。
 
@@ -279,6 +279,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.12.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.13.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

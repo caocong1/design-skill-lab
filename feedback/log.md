@@ -93,3 +93,22 @@
 | 同一目录拍两次，报告被覆盖 `capture-report-overwritten` | B | 三个方向子 agent 和方案板组装都撞上。原因是一份样稿的两帧尺寸不同，只能分两次拍。0.12.0：路由表里每条路由可以有自己的视口和主题，`base` 可以是本地文件；`render-and-look.md` 第 2 节写明一次运行一份报告。没有做"往已有报告里追加"：一份报告对应一次运行，批次标识才有意义 |
 | 一个方向两帧没有约定 `two-frames-per-direction` | B | brief 写了两个目标就一定会遇到。0.12.0：`portable-mockups.md` 定下 `data-frame` 和 `?frame=`；`directions.md` 的任务包同步；方案板模板支持一个方向多帧 |
 | 出板之前要不要评审 `critique-before-board-unspecified` | B | 0.12.0：`directions.md` 第 10 节写明这一轮怎样算完成，评审等选定方向之后 |
+
+## 2026-09-29（五续）· 宿主 C 又一轮重设计写回的 5 条，0.13.0
+
+条目来自宿主 C（中文个人媒体库 Web）又一轮 redesign + implement，由主人收进 inbox。本仓库没有见到那一轮的原始记录，事实以条目为准；lint 的一条在本仓库复现了。
+
+| 簇 / 条目 | 分级 | 处置 |
+| --- | --- | --- |
+| 固定底栏下的文字被报对比度失败 `lint-contrast-under-fixed-tabbar` | A | 复现成立：整页截图里 fixed 层停在第一屏，栏下的行采样到栏的背景。0.13.0：`lint.mjs` 不采样被 fixed / sticky 层盖住的行，整段被盖住时用计算值并注明依据；三份仓库页面新旧输出相同 |
+| 截图改动了被拍应用的数据 `captures-mutate-app-state` | B | 一条，但是 major，而且它掩盖过一个数据丢失缺陷。0.13.0：`render-and-look.md` 第 4 节加"加载页面也会写数据"：一次性数据集、每轮重置、对比前后接口输出，变化要么报缺陷、要么写明副作用 |
+| 主题族的结构规则漏进嵌套预览 `family-preview-structural-css-leaks` | A | `system.md` 第 5 节的说法只对 token 成立，是事实错误。0.13.0 改正并给出 `@scope ... to ([data-family])`、iframe、静态示意三种做法；在 Chrome 154 上验证过 |
+| 评审子 agent 写不了报告文件 `critic-cannot-write-report` | A | 模板要求的写入在这个宿主里走不通。0.13.0：`critic-brief.md` 的 Return 加回退：整份报告放回复末尾的代码块，作者原样保存。critique-design 0.3.4 |
+| implement 模式下在构建里设计的界面算不算画过 `undrawn-surfaces-in-design-implement` | C → 实施 | 要放宽 0.10.1 按宿主 C 上一轮证据加的规则，只有一条 minor，先写成提案 P9。主人同意后在 0.13.0 实施：`handoff.md` 第 1 节加有四个前提的例外（契约先行、逐控件比、fresh 评审、过门槛），implement-design 0.3.3 同步 |
+
+主人随后要求把没验证的都处理掉：
+- lint 的遮挡判断原来认不出 `pointer-events: none` 的固定层，已修，复现页面验证。
+- 截图副作用加了脚本支持：`capture.mjs` 报告的 `writes` 列出页面发出的写请求，离开页面时的 beacon 也在内（只有浏览器级拦截看得到）。本地模拟应用上计数与服务器一致。
+- 评审报告的回退写法用无头会话实跑了一次，结果见 CHANGELOG 0.13.0 的"验证"。
+
+仍未验证：P9 的例外，以及宿主真实应用里的数据集重置和前后对比。

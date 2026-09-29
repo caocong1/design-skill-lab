@@ -37,6 +37,7 @@ Ordered by priority: look at the rows marked `first` before anything else.
 | | `shots/<queue>-focus-web-lg-light.png` | <queue> | keyboard focus on row 3 | 1280 x 800 @2 | light | <focus ring on a selected row> | <no> |
 
 Components changed this round: <Header, QueueRow, EmptyState>. Build stamp in every shot: <value>.
+Designed in build, no design shot (judge against its contract): <library, player; or "none">.
 Capture set: <.design/shots/r1/, `capture_id` from its capture-report.json>, frozen until your report is back;
 cite it in every finding.
 
@@ -109,6 +110,8 @@ it `needs confirmation`.
   `critique-design/templates/critique-report.md`. Acceptance: write
   `.design/handoff/<feature>/acceptance.md` from `design-studio/templates/acceptance-report.md`.
   Either way, one crop per finding (`NN-<slug>.png`) in `.design/critique/<date>-<target>/`.
+  If the host refuses the report write (some hosts let a subagent only return text), end your
+  reply with the whole report in one fenced block; the author saves it unchanged.
 - Put the disposition first in your reply (`ship`, `fix`, `rebuild` or `recapture`), then at most
   eight material fixes in order, then the rubric scores (fresh) or the deviation counts by class
   (acceptance).

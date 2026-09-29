@@ -81,3 +81,15 @@ evolve 模式把 Tier C 改动追加到这里，每条带证据条目链接与�
   - 经用户同意后提交到 GitHub：不做。那是对外发布，现在只有主人自己的机器在用，人工带回就够。
   - **验证（2026-09-29，0.11.1）**：自测在 macOS 和 CI 的 Windows 任务（Windows Server 2025，目录联接安装）上 6 项全过。宿主 C 那台机器（Windows 11，Codex Desktop）用同一个安装器升级到分支版本后实测：拷贝安装回答"关，拷贝安装"；设了环境变量回答"开"；变量指向不存在的路径时回答"关"且没有创建它。README 已写入经过验证的 Windows 写法。
   - **仍未验证**：Codex 认不认目录联接装的 skill。不影响使用：拷贝安装加环境变量已经能开采集。
+
+### P9 implement 模式下，在构建里设计的界面算不算"画过"（2026-09-29 提出）
+
+- **证据**：`feedback/archive/2026-09/2026-09-29-undrawn-surfaces-in-design-implement.md`（宿主 C，中文个人媒体库 Web）。一次 redesign + implement 里，方案板画了首页和详情两个界面，另外五个（目录、媒体库、管理、播放器、登录）直接在构建里按新系统设计，由新上下文评审看构建截图来评。`skills/design-studio/references/process/handoff.md` 第 1 节和 `skills/implement-design/SKILL.md` 第 4 节第 3 步要求没画过的界面族先画再写生产代码；宿主说样稿和构建都是 HTML/CSS，先画五张静态样稿等于同一份工作做两遍。
+- **和现有规则的关系**：这条规则是 0.10.1 按宿主 C 的上一轮加的：当时表单、设置和手动修正界面在生产 CSS 里边设计边实现，控件粗大、没对齐，而且没有渲染、底线检查和评审看过它们。规则写的理由是"跳过了渲染、底线和评审"；这一轮三样都做了，只是先写了代码。
+- **方案**：在 `handoff.md` 第 1 节写明例外，implement-design 第 4 节第 3 步同步。构建能在浏览器里渲染时，一个界面族可以直接在构建里设计，前提是：
+  1. 写代码之前先写它的界面契约（`templates/surface-contract.md`），在 decisions.md 里记一行"在构建里设计"；
+  2. 按声明的尺寸、主题、状态截图，跑底线，并和同一系统里画过的界面逐个控件比（`critique-design/references/heuristics.md` 第 6 节）；
+  3. 交新上下文评审时用 `fresh` 模式而不是 `acceptance`：没有设计稿可比，评审任务说明里带上它的界面契约，manifest 里标明这一行是"在构建里设计"；
+  4. 评审通过之后才算画过。原生、跨端或改一次要重新编译的构建，规则不变。
+- **为什么没直接做**：只有一条 minor；而且是放宽一条按证据刚加上的规则。例外的前提（契约先行、逐控件比、fresh 评审）能不能挡住上一轮的问题，要主人定。
+- **处置（2026-09-29 关闭，0.13.0）**：主人同意，按方案实施；适用范围写成"构建能在浏览器里渲染"，不再单列跨端和需要重新编译的构建。`skills/design-studio/references/process/handoff.md` 第 1 节写明例外和四个前提，确认后的截图当作验收清单里的设计稿；`skills/implement-design/SKILL.md` 第 4 节第 3 步指向它；`skills/critique-design/templates/critic-brief.md` 的 manifest 下加"Designed in build"一行。**仍未验证**：前提能不能挡住上一轮的问题，要等下一次 implement 模式的运行。

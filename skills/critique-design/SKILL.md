@@ -2,7 +2,7 @@
 name: critique-design
 description: "Reviews, audits and scores an existing design or build like a senior design lead: a site, app screen, flow, component, brand asset, deck or graphic, from screenshots, a URL, mockups or a Figma export. Judges the render against the brief first, then checks the mechanical floor (computed contrast, overflow, targets, focus, states), and returns ranked findings (severity and evidence basis, Before | After | Why), rubric scores and a disposition: ship, fix, rebuild or recapture. Also the fresh-context critic for design-studio's own work, accessibility (WCAG 2.2) audits, and design QA that accepts a build against its handoff screenshots. 评审、设计评审、走查、体验走查、验收、设计验收、还原度检查、哪里不好、这个页面哪里不好看、无障碍检查、设计 QA、打分。Not for: making a new design or redesigning one (use design-studio); building or fixing a design in code (use implement-design); code review with no visual question."
 metadata:
-  version: 0.3.3
+  version: 0.3.4
   short-description: Fresh-eye design review, scoring and build acceptance
 ---
 

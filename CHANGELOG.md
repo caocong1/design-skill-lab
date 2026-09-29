@@ -12,6 +12,44 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.13.0] - 2026-09-29
+
+宿主 C（中文个人媒体库 Web）又一轮重设计之后写回 5 条反馈：`lint.mjs` 的对比度误报、截图会改动被拍应用的数据、两处措辞与实际不符、implement 模式下没画过的界面能不能在构建里设计。截图报告多一个 `writes` 字段，implement 模式多一条有前提的例外（MINOR）。已有的命令行、报告字段、模板结构都还在。
+
+### 修复
+
+- `skills/design-studio/scripts/lint.mjs`：对比度在整页截图上测量，而 fixed 和 sticky 的层在整页截图里停在第一屏的位置。390 宽、底部固定标签栏时，恰好在栏下面的文字被当成"字色压在栏的背景上"，报出约 1.0:1 的"measured"失败，计算值其实是 10–17:1；宿主的作者和评审在六种主题组合里逐条手工排除。现在滚动位置 0 时被 fixed 或 sticky 层盖住的行不参与采样；整段都被盖住的文字改用计算值，依据写作 `computed, under a fixed or sticky layer at scroll 0`，真实的低对比照样判失败。判断遮挡用命中测试，测试期间所有元素临时接受命中，所以 `pointer-events: none` 的固定层也认得出。
+- `references/process/system.md` §5：原文说按属性划分作用域，"选择器就能在任意元素上实时预览任意主题族"。这只对 token 成立（自定义属性从最近的作用域继承）；`[data-family="a"] .item { display: none }` 这样的结构规则对任何一层 `a` 祖先都生效，嵌套在 `a` 页面里的 `b` 预览也会被套上 `a` 的结构。宿主因此放弃了实时预览，改成小的 SVG 示意图。现在写明区别，结构规则用 `@scope ([data-family="a"]) to ([data-family])`（Baseline 2026），或用 iframe、静态示意。
+- `critique-design/templates/critic-brief.md` 的 Return 一节：宿主拒绝子 agent 写报告文件时（宿主 C 的回复是"subagent 只能以文本返回报告"），把整份报告放在回复末尾的一个代码块里，作者原样保存。
+
+### 新增（skill）
+
+- `scripts/capture.mjs`：`capture-report.json` 新增 `writes`，列出这次运行里页面发出的 GET、HEAD、OPTIONS 以外的请求（方法、来源和路径，不带查询串）及次数，包括页面离开时在 `pagehide` 里发的 beacon；有写请求时控制台提示，不影响退出码。每张图拍完先把页面导航到 `about:blank`，让离开时的请求在运行期间发出。离开时的 beacon 只有浏览器级拦截（CDP `Fetch`）看得到，页面级的请求事件、页面级 CDP 和 Playwright 路由都收不到，所以按运行汇总，不归到单张图。登录脚本发的请求不算。浏览器不支持时写 `"not recorded"`。
+- `references/process/render-and-look.md` §4：截图和 lint 会执行被拍应用自己的脚本（自动保存、`pagehide` 时记播放进度、"最近查看"、统计），"只读"的步骤也会写数据。宿主那一轮里播放页每拍一次就保存一次进度，下一轮评的已经是另一份数据；独立评审是因为自己的截图改了接口输出，才发现这其实是一个数据丢失的缺陷。现在要求用一次性数据集、每轮之前重置、看报告的 `writes`、对比一轮前后界面所用接口的输出；有写请求或变化，要么作为缺陷报告，要么作为截图的副作用写明。
+- `references/process/handoff.md` §1（提案 P9，主人同意）：implement 模式里没画过的界面族仍然先画；构建能在浏览器里渲染时可以改在构建里设计，四条都满足才算画过：写代码前先写界面契约并在 decisions.md 记 `designed in build`；按声明的尺寸、主题、状态截图、过底线，并和画过的界面逐个控件比；新上下文评审用 `fresh` 模式，任务说明带上契约；那一轮评审过门槛，确认后的截图当作验收清单里的设计稿。原生、golden、模拟器的构建不适用。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.12.0 → **0.13.0**（正文未改）。
+- `skills/critique-design/SKILL.md` 0.3.3 → **0.3.4**（正文未改）；`templates/critic-brief.md` 除上面的 Return 外，manifest 下加一行"Designed in build, no design shot"。
+- `skills/implement-design/SKILL.md` 0.3.2 → **0.3.3**：§4 第 3 步的"退回设计"指向 handoff §1 的例外。
+
+### 变更（反馈闭环）
+
+- 5 条条目处置后归档，`feedback/log.md` 追加一节；提案 P9 提出后经主人同意实施，移到"已处置"。
+
+### 验证
+
+- `lint.mjs`：复现页面（底部固定栏盖住第 20、21 行）修复前 2 条 1.00:1 误报，修复后 0 条；栏设为 `pointer-events: none` 时同样为 0 条，去掉命中测试的处理就复现；把一行改成 `#bbb` 仍按计算值 1.92 报出。`templates/options-board.html`、`templates/artboard.html`、`docs/index.html` 新旧版本的 JSON 输出逐字相同。
+- `capture.mjs`：本地服务器的页面在加载时 POST `/api/seen`、在 `pagehide` 里 beacon `/api/progress?token=...`。改之前拍 2 张，服务器两个计数各加 2，报告里没有任何记录；改之后拍 4 张，`writes` 为 seen 4 次、progress 4 次，与服务器计数一致，查询串没有进报告。本地样稿 `writes` 为空；路由表加登录脚本时登录的 POST 不计入；`--freeze` 照常拒绝再写；公网 https 页面照常拍摄，http 200。
+- `@scope`：在 Chrome 154 上验证了三种写法：普通后代选择器漏进嵌套的另一个族，`@scope (…) to ([data-family])` 不漏且在页面上照常生效，颜色 token 按最近作用域继承。Firefox 和 Safari 没有测，支持版本取自 `research/sources/web-baseline-2026.md`。
+- 评审报告的回退：搭一个最小宿主（一张 390 深色播放页截图、冻结批次、按模板填好的 critic brief），用无头 Claude Code 会话当评审，只放行 Read / Glob / Grep，写文件和 Bash 都会被拒。它试了 1 次 Write、4 次 Bash，全被拒，然后按 Return 一节先给处置结论（`fix`）和修复列表，最后用一个代码块给出整份报告（7245 字符），第 1 轮该有的章节都在，引用了 `capture_id`。裁图做不出来，它改为给出每个区域的坐标。只运行了一次，费用 $1.04。
+
+### 未验证
+
+- P9 的例外还没有在宿主里跑过：它的前提能不能挡住 0.10.1 那一轮"表单控件粗大、不对齐"的问题，要等下一次 implement 模式的运行。
+- 截图副作用的做法只在本地模拟应用上验证了脚本部分；宿主真实应用里的数据集重置和前后对比没有再跑。
+
 ## [0.12.0] - 2026-09-29
 
 0.10.x 的指引第一次在真实运行里跑了一遍：一个全新的 agent 在模拟的拷贝安装里，照用户原话设计一个中文个人媒体库的首页并出三个方向。指引大多照着做了；这次运行自己又写回 5 条反馈，其中一条是截图脚本的缺陷。`capture.mjs` 多一种失败判定、路由表多两个键，样稿多一个帧约定（MINOR）。已有的命令行、报告字段、模板结构都还在。

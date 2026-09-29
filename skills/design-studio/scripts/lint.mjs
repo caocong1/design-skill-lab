@@ -18,6 +18,8 @@
 //                    and ancestor colours (group opacity included) and measured on the render: text made
 //                    transparent, background pixels under each line sampled, the ratio 90% of them meet.
 //                    The measurement wins when the two disagree (images, gradients, overlapping layers).
+//                    Lines a fixed or sticky layer paints over at scroll 0 (a bottom tab bar) are not
+//                    sampled; text wholly under one keeps the computed ratio.
 //   overflow         the page scrolls sideways at any viewport; names the element that sticks out.
 //   unnamed-control  a button, link, field or other control with an empty name in Chrome's a11y tree.
 //   above-fold       with --above-fold: a listed selector matches nothing, is not rendered, or an element
@@ -416,6 +418,20 @@ function PAGE([mode, opt = {}]) {
   for (const el of all) if (el.shadowRoot) collectText(el.shadowRoot);
   const range = document.createRange();
   let id = 0;
+  // Fixed and sticky layers sit over the first viewport of the full-page screenshot the contrast is measured
+  // on: a line they paint over at scroll 0 (a tab bar over a list) is not sampled. Hit testing skips
+  // pointer-events: none, so every element takes hits while the text is collected.
+  const hitAll = document.createElement('style');
+  hitAll.textContent = '*, *::before, *::after { pointer-events: auto !important; }';
+  (document.head || document.documentElement).appendChild(hitAll);
+  const overlays = elements().filter((el) => /^(fixed|sticky)$/.test(cs(el).position) && visible(el)).map((el) => [el, el.getBoundingClientRect()]);
+  const covered = (el, r) => overlays.some(([o, b]) => {
+    if (o.contains(el)) return false;
+    const x1 = Math.max(r.left, b.left), y1 = Math.max(r.top, b.top), x2 = Math.min(r.right, b.right), y2 = Math.min(r.bottom, b.bottom);
+    if (x2 - x1 < 1 || y2 - y1 < 1) return false;
+    const hit = document.elementFromPoint((x1 + x2) / 2, (y1 + y2) / 2);
+    return !!hit && o.contains(hit);
+  });
   const addText = (el, fgText, extra = {}) => {
     const s = cs(el), size = parseFloat(s.fontSize), weight = parseInt(s.fontWeight, 10) || 400;
     const fg = rgba(fgText);
@@ -426,7 +442,7 @@ function PAGE([mode, opt = {}]) {
     const T = screen(el, fg), B = screen(el, null);
     const t = { id: id++, sel: sel(el), text: extra.text, size, weight, large: size >= 24 || (size >= 18.66 && weight >= 700),
       fg: [fg[0], fg[1], fg[2], alpha], txt: T.c, bg: B.c, image: B.image, fixed: B.fixed, glass: B.glass, rects: extra.rects || [],
-      placeholder: !!extra.placeholder, unverified: gradient ? 'gradient text (background-clip: text)' : null };
+      under: !!extra.under, placeholder: !!extra.placeholder, unverified: gradient ? 'gradient text (background-clip: text)' : null };
     out.texts.push(t);
     return t;
   };
@@ -436,17 +452,19 @@ function PAGE([mode, opt = {}]) {
     if (el.offsetWidth > 4 && el.getBoundingClientRect().width / el.offsetWidth < 0.6) continue;
     const text = nodes.map((n) => n.data).join(' ').replace(/\s+/g, ' ').trim();
     const rects = [];
+    let under = false;
     for (const n of nodes) {
       range.selectNodeContents(n);
       for (const r of range.getClientRects()) {
         if (rects.length >= 8 || r.width < 1 || r.height < 1 || r.right + scrollX <= 0) continue;
         const c = clipRect(el, r);
-        if (c) rects.push(c);
+        if (c && covered(el, r)) under = true;
+        else if (c) rects.push(c);
       }
     }
-    if (!rects.length) continue;
+    if (!rects.length && !under) continue;
     const s = cs(el);
-    const t = addText(el, el instanceof SVGElement ? s.fill : s.webkitTextFillColor || s.color, { text: text.slice(0, 48), rects });
+    const t = addText(el, el instanceof SVGElement ? s.fill : s.webkitTextFillColor || s.color, { text: text.slice(0, 48), rects, under });
     if (!t) continue;
     count(inv.color, key(rgba(el instanceof SVGElement ? s.fill : s.color)));
     count(inv.fontSize, t.size);
@@ -466,6 +484,7 @@ function PAGE([mode, opt = {}]) {
       out.cjk.push(entry);
     }
   }
+  hitAll.remove();
   // Clipped text: the text's own line boxes run past an overflow hidden/clip ancestor that shows part of it
   // (an ellipsis or a line clamp included). Text hidden completely (carousels, sr-only) is not a finding.
   const vwText = document.documentElement.clientWidth;
@@ -894,8 +913,9 @@ function judgeContrast(t, sample) {
     if (computed != null && Math.abs(sample.ratio - computed) / computed < 0.1) return { ratio: computed, bg: t.bg, basis: 'computed', min };
     return { ratio: sample.ratio, bg: sample.bg, min, basis: computed == null ? 'measured over image' : `measured (computed ${computed.toFixed(2)})` };
   }
-  if (computed != null) return { ratio: computed, bg: t.bg, min, basis: t.glass ? 'computed, translucent fixed layer' : 'computed' };
-  return { unverified: 'text over an image or gradient outside the measured area' };
+  if (computed != null) return { ratio: computed, bg: t.bg, min,
+    basis: t.glass ? 'computed, translucent fixed layer' : t.under ? 'computed, under a fixed or sticky layer at scroll 0' : 'computed' };
+  return { unverified: t.under ? 'text over an image, under a fixed or sticky layer at scroll 0' : 'text over an image or gradient outside the measured area' };
 }
 
 function analyse(run, data, add) {

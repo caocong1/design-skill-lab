@@ -27,6 +27,21 @@ no drawn and rendered screen is drawn before its production code is written: des
 host's CSS skips the render, the floor and the critic. In a 2026-09 host round the undrawn form and
 settings screens were where the controls came out heavy and misaligned.
 
+Exception, when the build renders in a browser (the mockups' own medium): a family may be designed
+in the build instead, and counts as drawn once all four hold.
+
+1. Its surface contract is written before its code, and decisions.md records
+   `designed in build: <family>`.
+2. It is captured at every declared size, theme and state, passes the floor, and is compared control
+   by control with the drawn screens of the system
+   ([heuristics](../../../critique-design/references/heuristics.md) section 6).
+3. The fresh critic judges it in `fresh` mode, not `acceptance`: there is no design shot, so the
+   brief carries its contract and names it under "Designed in build".
+4. That critique round meets the gate. Its confirmed captures then stand in as the family's design
+   shots in the acceptance list.
+
+Builds that do not render in a browser (native, goldens, simulators) keep the rule.
+
 ## 2. Gate before packaging
 
 - The design passed the fresh critique at the gate in

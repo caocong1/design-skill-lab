@@ -103,7 +103,12 @@ A family that differs only in hue is a palette variant; label it so.
 - Every family passes the thumbnail test with and without its signature element on screen.
 - Layer the tokens: foundation constants > family structure (`[data-family]`: radius, density, type
   size, variant switches) > family x mode colour. Scope families on attributes, not only on `:root`,
-  so a picker can preview any family live on any element.
+  so a picker can preview any family's tokens live on any element: custom properties inherit from
+  the nearest scope. Structural rules do not. `[data-family="a"] .item { display: none }` matches
+  under any `a` ancestor, so a nested preview of family `b` inside an `a` page picks up `a`'s
+  structure too (checked in Chrome 154). Write them as `@scope ([data-family="a"]) to
+  ([data-family])` (Baseline 2026, [web](../platforms/web.md)), or preview in an iframe or a
+  static drawing.
 - After switching families in a build, search for the previous family's accent values: category
   labels and charts keep stale accents.
 - **Implementation.** CSS: `[data-family]` scopes as in the tokens.css starter. DTCG: one resolver

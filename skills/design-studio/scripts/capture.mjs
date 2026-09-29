@@ -28,7 +28,8 @@
 // Output: <out>/<name>-<state>-<W>x<H>-<theme>.png (state "default", or the variant slugged) and
 // <out>/capture-report.json listing every capture: path, url, http status, verdict, reason, pixel stats,
 // sha256 of the PNG and, for a local file, source_sha256 of that file (not of what it links to). The report
-// carries the run's capture_id, so a finding can name the set it was seen in.
+// carries the run's capture_id, so a finding can name the set it was seen in, and writes: the requests other
+// than GET, HEAD and OPTIONS the pages sent, on leaving included (autosave, beacons). Writes warn, not fail.
 // Exit: 0 every capture ok · 1 some capture is a wall, error page, redirect to login, blank, missing
 // its ready element or build stamp, or taller than Chrome can paint · 2 usage error, Playwright / Chrome
 // not available, or <out> holds a frozen set.
@@ -220,6 +221,24 @@ if (cfg.loginScript) {
   }
 }
 
+// Loading a page runs its scripts: autosave, "last seen", a progress beacon on pagehide. Record every request
+// other than GET, HEAD and OPTIONS the browser sends during the captures. Only a browser-level interception
+// sees what a page sends while it unloads; those requests cannot be told apart per capture.
+const writes = new Map();
+let net = null;
+try {
+  net = await browser.newBrowserCDPSession();
+  net.on('Fetch.requestPaused', ({ requestId, request }) => {
+    if (!/^(GET|HEAD|OPTIONS)$/.test(request.method)) {
+      let k = request.method;
+      try { const u = new URL(request.url); k += ` ${u.origin}${u.pathname}`; } catch { /* keep the method */ }
+      writes.set(k, (writes.get(k) || 0) + 1);
+    }
+    net.send('Fetch.continueRequest', { requestId }).catch(() => {});
+  });
+  await net.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
+} catch { net = null; }
+
 async function capture(job) {
   const t0 = Date.now();
   const rec = { path: job.path, url: job.url, route: job.route.id, state: job.state, viewport: `${job.w}x${job.h}`, theme: job.theme };
@@ -265,6 +284,9 @@ async function capture(job) {
   } catch (e) {
     return Object.assign(rec, { verdict: 'error', reason: String(e.message).split('\n')[0].slice(0, 200) });
   } finally {
+    // Leave the page while it is still observed: pagehide fires, and what it sends on leaving is recorded too.
+    await page.goto('about:blank', { timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(150).catch(() => {});
     if (pageErrors.length) rec.page_errors = pageErrors.slice(0, 5);
     rec.ms = Date.now() - t0;
     await page.context().close().catch(() => {});
@@ -287,7 +309,8 @@ await Promise.all(Array.from({ length: Math.min(cfg.concurrency, jobs.length) },
 const generated = new Date().toISOString();
 const report = {
   capture_id: `${generated.replace(/[-:]|\.\d+/g, '')}-${randomBytes(2).toString('hex')}`, generated, frozen: cfg.freeze,
-  target, build_stamp: cfg.buildStamp || null, locale: cfg.locale, timezone: cfg.timezone || 'machine', playwright: PLAYWRIGHT_VERSION, browser: browser.version(), captures: results,
+  target, build_stamp: cfg.buildStamp || null, locale: cfg.locale, timezone: cfg.timezone || 'machine', playwright: PLAYWRIGHT_VERSION, browser: browser.version(),
+  writes: net ? [...writes].map(([request, count]) => ({ request, count })) : 'not recorded', captures: results,
 };
 writeFileSync(reportPath, JSON.stringify(report, null, 1) + '\n');
 if (cfg.sheet) {
@@ -301,6 +324,11 @@ await browser.close();
 
 const bad = results.filter((r) => r.verdict !== 'ok');
 console.log(`\n${results.length - bad.length}/${results.length} ok · set ${report.capture_id}${cfg.freeze ? ' (frozen)' : ''} · report ${reportPath}`);
+if (writes.size) {
+  console.error('capture: the pages sent requests that may change data (report: writes):');
+  for (const [request, count] of [...writes].slice(0, 8)) console.error(`  ${count} x ${request}`);
+  console.error('  Diff the data the screens show before and after this run: a change is a bug to report or a side effect to disclose.');
+}
 if (bad.length) {
   console.error(`capture: ${bad.length} capture(s) failed - do not judge the design from them:`);
   for (const r of bad) console.error(`  ${r.verdict.padEnd(11)} ${basename(r.path)}  ${r.reason}`);

@@ -109,6 +109,13 @@ Each was hit in real runs; the first two were re-verified on Chrome 153.
   or a setting the login script saves into the session). The report records both.
 - **Read-only.** Against shared servers a capture navigates and reads; no step submits, deletes or
   changes data.
+- **Loading a page writes too.** Captures and lint runs execute the app's own scripts: autosave,
+  playback progress on `pagehide`, "last seen", analytics. `capture.mjs` lists every request other
+  than GET the pages sent, on leaving included, under `writes` in its report (`lint.mjs` and
+  `shot.sh` do not). Capture against a disposable dataset, reset it before each round, and diff the
+  API output the screens show before and after a round. A write or a change is a bug to report or a
+  capture side effect to disclose; either way the next round is judged on different data. In a
+  2026-09 host round the player page saved its position on every capture.
 - **Assert every route** by its landing URL or ready element. A silent redirect, a login page or a
   loading state is not evidence of that route. When `capture.mjs` exits 1, read which files it
   flagged (wall, login, error, blank, not-ready, stale-build, too-tall) and recapture those.
