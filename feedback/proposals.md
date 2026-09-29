@@ -4,19 +4,6 @@ evolve 模式把 Tier C 改动追加到这里，每条带证据条目链接与�
 
 ## 待办
 
-### P1 登录后逐路由截图的做法或脚本（2026-09-24 提出）
-
-- **证据**：`feedback/archive/2026-09/2026-09-24-authenticated-route-sweep.md`（宿主 A，带 Office/WPS 加载项的 Web 业务系统）。agent 为约 40 条需登录的路由手写了登录辅助、路由表和截图脚本；`skills/design-studio/scripts/shot.sh` 只接受单个 URL 或文件。
-- **方案**：在 `skills/design-studio/scripts/` 加一个扫路由脚本（或先在 `render-and-look.md` 写成做法）：登录一次、路由表带 ID、语言/时区/视口/倍率参数、对共享服务器只读、断言落地 URL 或就绪元素、输出每条路由一张 PNG 加清单。与 0.6.0 加进 `render-and-look.md` 的截图陷阱配套。
-- **为什么没直接做**：新增脚本属于 Tier C；目前只有一个项目的证据，等第二个需要登录的宿主项目再定接口。
-- **2026-09-24 更新**：第二个项目（宿主 B，需要登录的 AI 助手类 Web 应用）也撞上了，做法不同：Playwright 保存登录态，"之前"拍线上、"之后"用 `context.route` 把同源前端换成本地构建。0.7.0 已把这个做法写进 `render-and-look.md` 的工具梯级；脚本仍待定，接口要同时支持"登录 + 路由表"和"线上后端 + 本地前端"两种。
-
-### P2 评审证据提交哪些（2026-09-24 提出）
-
-- **证据**：`feedback/archive/2026-09/2026-09-24-commit-curated-evidence.md`（宿主 A）。`.design/shots/` 整个被忽略，提交进仓库的评审报告引用的截图不在仓库里。
-- **方案**：在 design-studio 的 Output Location 写明：每个问题的裁图或关键前后对比放 `.design/critique/<date>-<target>/`，随报告提交；批量扫图放 `.design/shots/` 并忽略。
-- **为什么没直接做**：改动产出目录约定（契约），且只有一条 nit 级证据。
-
 ### P3 风险被标出时，安全选项做主操作（2026-09-28 提出）
 
 - **证据**：[`evals/runs/2026-09-27-r2/report.md`](../evals/runs/2026-09-27-r2/report.md) 第 1、3、8 节，第二轮 05-agent-approvals 的样本 2。有一个收款方被标出风险，0.8.1 的产物仍把"整批批准"做成主按钮；三位评审里两位（J1、J3）偏好 no-skill，它把更安全的"不含 Oakridge 批准"做成了主按钮。这是 0.8.1 在 18 组里唯一输掉的一组。
@@ -47,18 +34,37 @@ evolve 模式把 Tier C 改动追加到这里，每条带证据条目链接与�
   6. 评审会话也计量花费。
 - **为什么没直接做**：第二轮必须按它开跑时的规则报完，规则不能事后改；改量表和门槛是评测契约的变更，要由人确认，并且在下一轮开跑之前登记。
 
+## 已处置
+
+### P1 登录后逐路由截图的做法或脚本（2026-09-24 提出）
+
+- **证据**：`feedback/archive/2026-09/2026-09-24-authenticated-route-sweep.md`（宿主 A，带 Office/WPS 加载项的 Web 业务系统）。agent 为约 40 条需登录的路由手写了登录辅助、路由表和截图脚本；`skills/design-studio/scripts/shot.sh` 只接受单个 URL 或文件。
+- **方案**：在 `skills/design-studio/scripts/` 加一个扫路由脚本（或先在 `render-and-look.md` 写成做法）：登录一次、路由表带 ID、语言/时区/视口/倍率参数、对共享服务器只读、断言落地 URL 或就绪元素、输出每条路由一张 PNG 加清单。与 0.6.0 加进 `render-and-look.md` 的截图陷阱配套。
+- **为什么没直接做**：新增脚本属于 Tier C；目前只有一个项目的证据，等第二个需要登录的宿主项目再定接口。
+- **2026-09-24 更新**：第二个项目（宿主 B，需要登录的 AI 助手类 Web 应用）也撞上了，做法不同：Playwright 保存登录态，"之前"拍线上、"之后"用 `context.route` 把同源前端换成本地构建。0.7.0 已把这个做法写进 `render-and-look.md` 的工具梯级；脚本仍待定，接口要同时支持"登录 + 路由表"和"线上后端 + 本地前端"两种。
+- **处置（2026-09-29 关闭）**：主体在 0.8.0 已经做了，当时没有把本条移下来。`skills/design-studio/scripts/capture.mjs` 支持登录一次复用会话（`--storage-state`、`--login-script`）、路由表（id、path、`ready`、states）、视口 × 主题 × 状态、落地页和就绪元素的断言、每条路由一张 PNG 加 `capture-report.json`。0.11.0 补上方案里剩下的语言和时区（`--locale`、`--timezone`，路由表里同名键），报告里记录两者。
+- **没有做的**："线上后端 + 本地前端"仍是 `render-and-look.md` 第 4 节里的文字做法，脚本没有内建路由替换。只有宿主 B 用过一次，哪些请求该换成本地文件取决于宿主的构建方式，接口定不下来；第二个宿主撞上再开新提案。
+
+### P2 评审证据提交哪些（2026-09-24 提出）
+
+- **证据**：`feedback/archive/2026-09/2026-09-24-commit-curated-evidence.md`（宿主 A）。`.design/shots/` 整个被忽略，提交进仓库的评审报告引用的截图不在仓库里。
+- **方案**：在 design-studio 的 Output Location 写明：每个问题的裁图或关键前后对比放 `.design/critique/<date>-<target>/`，随报告提交；批量扫图放 `.design/shots/` 并忽略。
+- **为什么没直接做**：改动产出目录约定（契约），且只有一条 nit 级证据。
+- **处置（2026-09-29 关闭）**：0.8.0 已经按方案做了，当时没有把本条移下来。`skills/design-studio/SKILL.md` 的 Output layout 写明 `critique/<date>-<target>/` 放报告和精选证据裁图并入库，`shots/` 放批量截图并忽略；critique-design 的 Output 一节同步。
+
 ### P7 截图批次要能被机器认出来（2026-09-29 提出）
 
 - **证据**：`feedback/archive/2026-09/2026-09-29-critique-on-moving-captures.md`（宿主 C，中文个人媒体库 Web）：首轮评审看的是实现还在改动时拍的图，出现了后来不成立的候选问题。同一个根因的第一次出现是 `feedback/archive/2026-09/2026-09-24-after-capture-wrong-build.md`（宿主 B）：一张图证明不了它拍的是代码的哪个状态。
 - **已经做的**：0.10.0 把做法写进了 `skills/design-studio/references/process/render-and-look.md` 第 5 节（每轮评审一个独立目录、报告回来之前不改不重拍、问题写明所在目录），评审任务说明模板多了一行 Capture set。
 - **方案**：`skills/design-studio/scripts/capture.mjs` 的 `capture-report.json` 给每次运行写 `capture_id`、捕获时间，以及被拍页面的来源标识（本地文件的摘要，或 `--build-stamp` 的值）；加一个选项，目标目录里已有上一轮的报告时拒绝覆盖。评审报告引用 `capture_id`。
 - **为什么没直接做**：改脚本的输出格式属于 Tier C；条目本身是一条 minor。先看 0.10.0 的文字做法在下一个宿主里够不够用。
+- **处置（2026-09-29 关闭，0.11.0）**：`capture.mjs` 的报告新增 `capture_id`、`frozen`、`build_stamp`，每张图带 PNG 的 `sha256`，本地文件另带 `source_sha256`（只覆盖入口文件，不含它引用的样式和脚本）。新增 `--freeze`：目标目录里已有冻结的一批时拒绝写入，退出码 2。不加 `--freeze` 时行为和以前一样，可以反复拍进同一个目录。`render-and-look.md` 第 5 节和评审任务说明模板改为引用 `capture_id`。
 
 ### P8 拷贝安装和插件安装的反馈怎么回到实验室（2026-09-29 提出）
 
 - **证据**：`feedback/archive/2026-09/2026-09-29-capture-off-not-diagnosable.md`（宿主 C）：套件是普通目录副本，采集按规则静默关闭，用户问起才发现一条都没记。采集没到达 inbox 已经是第三次：2026-09-24 宿主 A（agent 没记，路径还少上跳一级）、2026-09-27 评测沙箱（`evals/runs/2026-09-27/06-redesign-legacy/suite-0.7.0/feedback/`）、这一次。
 - **已经做的**：0.10.0 在 `skills/design-studio/references/feedback.md` 第 1 节加了"用户问起时"的路径：回答采集开还是关、为什么；采集关着时把复盘写成一事一文件的未提交草稿，由 `scripts/collect-feedback.py --import` 收回。自动采集的规则没有变。
-- **方案**（三选，可以叠加）：
+- **方案**（三选，可以叠加；处置见本条末尾）：
   1. 显式配置反馈目标：一个环境变量指向本仓库的检出目录，解析顺序排在路径上溯之前；写入前仍要验证目标下有 `.git` 和 `feedback/inbox`。
   2. 拷贝安装时默认把条目写进宿主的 `.design/skill-feedback/`（0.8.0 之前有过，后来删了），不再要求用户先问。
   3. 安装说明里给一条自检命令，装完就知道采集是开是关。
@@ -68,7 +74,9 @@ evolve 模式把 Tier C 改动追加到这里，每条带证据条目链接与�
   - 那台机器上没有本仓库的检出，方案 1 的环境变量无处可指。异地机器只剩两条路：宿主里留草稿再人工带回（0.10.0 已写明），或者经用户同意后提到 GitHub 上。后者是对外发布，要单独设计。
   - README 的手动安装只有 POSIX 写法（`ln -sfn`），`skills/design-studio/references/feedback.md` 第 1 节解析 inbox 的脚本也是 POSIX shell（`readlink -f`）。Windows 上的链接安装写法和解析脚本都没有验证过，没验证之前不往 README 里写命令。
   - 方案 3 的自检应当排在最前：不改契约，而且对所有安装方式都有用。
-
-## 已处置
-
-（空）
+- **处置（2026-09-29 关闭，0.11.0）**：
+  - 方案 3 做了：新增 `skills/design-studio/scripts/feedback_status.py`，回答采集是开是关、条目写到哪、为什么，关着时说明怎么打开。它取代了 `references/feedback.md` 第 1 节原来的 POSIX 脚本，只用 Python 标准库，所以解析逻辑不再依赖 shell。README 的安装步骤加了这条自检。
+  - 方案 1 做了，范围比原来宽：环境变量 `DESIGN_SKILL_LAB_INBOX` 指向任意一个已存在、可写的文件夹，不要求是本仓库的检出。这样没有检出的机器也能用（条目先落在那个文件夹，之后 `--import`）。变量由用户设；skill 写明 agent 不设它，也不替用户建文件夹。
+  - 方案 2 不做：默认在宿主项目里留文件，会让和实验室无关的普通用户的项目里多出他们没要的东西。想要这个效果的人把 `DESIGN_SKILL_LAB_INBOX` 指到项目里的文件夹即可，那是他们自己的选择。
+  - 经用户同意后提交到 GitHub：不做。那是对外发布，现在只有主人自己的机器在用，人工带回就够。
+  - **仍未验证**：`feedback_status.py` 在 macOS 上测了链接安装、拷贝安装、插件安装和环境变量的各种情况；Windows 上没有跑过，README 也仍然没有 Windows 的链接安装写法。要在那台机器上跑一次才算数。

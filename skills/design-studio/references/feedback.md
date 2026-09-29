@@ -14,19 +14,20 @@ the user anything, and writes only into the lab's own inbox.
 ## 1. Resolve the inbox, once per session
 
 ```sh
-# SKILL.md sits two levels below the lab root; readlink follows symlinked installs to the real file
-LAB=$(cd "$(dirname "$(readlink -f "<path of the SKILL.md you loaded>")")/../.." && pwd)
-case "$LAB" in */plugins/*) LAB= ;; esac   # an installed plugin copy is not the lab
-test -n "$LAB" && test -d "$LAB/.git" && test -d "$LAB/feedback/inbox" && echo "$LAB/feedback/inbox/"
+python3 "<directory of the design-studio SKILL.md>/scripts/feedback_status.py"   # python on Windows
 ```
 
-- It prints a path: capture is on for this session. Writing there is expected even though it is
-  outside the host repository.
-- It prints nothing, or the first write is refused: capture is off. Skip the rest of this file: no
-  fallback file, no message to the user, no retro line.
+It looks in two places, in order: the folder the user named in `DESIGN_SKILL_LAB_INBOX`, then the
+lab checkout this skill is linked from. The user sets that variable; you never set it and never
+create the folder it names.
+
+- `capture: on`: write entries into the `inbox:` folder it prints. Writing there is expected even
+  though it is outside the host repository.
+- `capture: off`, the script does not run, or the first write is refused: capture is off. Skip the
+  rest of this file: no fallback file, no message to the user, no retro line.
 - The user asks whether capture is on, or asks for a retro: that is a request, not capture, so
-  answer it either way. Say on or off and why (a copied folder, a plugin install, no inbox beside
-  it). With capture off, write the entries in the format of section 4, one file per event, into
+  answer it either way. Give the state with the script's `why:` and `turn on:` lines. With capture
+  off, write the entries in the format of section 4, one file per event, into
   `.design/skill-feedback/` or a folder the user names, and say they are drafts, not submitted.
   They reach the inbox through the lab's `scripts/collect-feedback.py --import <folder>`.
 
@@ -59,7 +60,7 @@ Each yes is one entry. End the final message with `Skill feedback: N entries` or
 
 The lab's `scripts/collect-feedback.py` validates every entry; keep the header exact.
 
-- File: `$LAB/feedback/inbox/YYYY-MM-DD-<short-slug>.md`, one event per file; add `-2`, `-3` on a collision.
+- File: `<inbox>/YYYY-MM-DD-<short-slug>.md`, one event per file; add `-2`, `-3` on a collision.
 - `skill`: the skill whose guidance was involved: `design-studio`, `critique-design` or `implement-design`.
   Name the reference file (e.g. `references/process/directions.md`) in the body.
 - `project`: a generic label for the kind of host, e.g. `zh-admin-web`, `ios-consumer-app`,

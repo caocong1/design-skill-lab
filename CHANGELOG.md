@@ -12,6 +12,49 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.11.0] - 2026-09-29
+
+把上一轮留下的提案做完：截图批次能被机器认出来，任何安装方式都能问出反馈采集是开是关，拷贝安装也能开采集。新增一个 skill 脚本、一个环境变量、`capture.mjs` 的三个选项（MINOR）。模式、交付物目录、reference 路径不变；已有的命令行和报告字段都还在，默认行为不变。
+
+### 为什么
+
+0.10.0 和 0.10.1 把做法写成了文字，但两件事光靠文字不牢靠：评审引用的图会不会被同名文件替换，靠的是作者自觉；采集开没开，靠的是一段只能在 POSIX shell 里跑的解析脚本，而第三个宿主正好在 Windows 上。主人要求把开着的提案都处理掉，P7、P8 因此从文字做法变成脚本；顺带清理了两条早已做完却还挂在"待办"的提案。
+
+### 新增（skill）
+
+- `skills/design-studio/scripts/feedback_status.py`：回答这份安装的反馈采集是开是关、条目写到哪、为什么，关着时说明怎么打开。按顺序看两处：环境变量 `DESIGN_SKILL_LAB_INBOX`（一个已存在、可写的文件夹），然后是 skill 链接自的实验室检出。只用 Python 标准库；退出码 0 开、1 关。
+- 环境变量 `DESIGN_SKILL_LAB_INBOX`：让拷贝安装和插件安装也能开采集。它可以指向本仓库的 `feedback/inbox/`，也可以指向任意文件夹（条目之后用 `scripts/collect-feedback.py --import` 收回），所以没有本仓库检出的机器也能用。由用户设置；skill 写明 agent 不设它，也不替用户建它指向的文件夹。
+- `skills/design-studio/scripts/capture.mjs`：
+  - 报告 `capture-report.json` 新增 `capture_id`、`frozen`、`build_stamp`、`locale`、`timezone`；每张图带 PNG 的 `sha256`，本地文件另带 `source_sha256`。
+  - `--freeze`：把这一批标为正在评审的那一批。之后任何一次运行只要目标目录里是冻结的一批就拒绝写入，退出码 2，并提示换目录。
+  - `--locale`、`--timezone`（路由表里的同名键）：浏览器语言和时区，默认仍是 en-US 和本机时区；填错时以退出码 2 结束并说明格式。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.10.1 → **0.11.0**（正文未改）。
+- `references/feedback.md` §1：解析 inbox 改为跑 `feedback_status.py`，原来的 POSIX 脚本删除；写明两处查找的顺序和环境变量归用户设置；用户问起时照脚本的 `why:` 和 `turn on:` 回答。§4 的文件路径写法从 `$LAB/feedback/inbox/` 改为 `<inbox>/`。
+- `references/process/render-and-look.md`：§1 工具表写上语言、时区和冻结，删去"语言固定为 en-US、没有时区选项"；§4 中文产品用 `--locale zh-CN --timezone Asia/Shanghai` 拍；§5 "冻结评审看到的那一批"改为用 `--freeze`，问题引用 `capture_id`。
+- `skills/design-studio/scripts/lib/capture-core.mjs`：`newPage` 多一个可选的 `timezoneId`，其余调用方不受影响。
+- `skills/critique-design/SKILL.md` 0.3.2 → **0.3.3**（正文未改）；`templates/critic-brief.md` 的 Capture set 一行改为写 `capture_id`，并要求每条问题引用它。
+
+### 变更（反馈闭环、工具与文档）
+
+- `feedback/proposals.md`：P1、P2、P7、P8 移到"已处置"，各自写明做了什么、没做什么和原因。P1、P2 的主体在 0.8.0 就做完了，当时没有移；P1 剩下的语言和时区这次补上，"线上后端 + 本地前端"的路由替换不做（只有一个宿主用过，接口定不下来）。P8 里"默认在宿主项目留草稿"和"提交到 GitHub"两项不做。P3–P6 没有动：它们要等第二次观察，或者要第三轮评测、留出的 brief 和人工评审。
+- `scripts/test-feedback-status.py`（新）：`feedback_status.py` 的自测，搭出链接、拷贝、插件、环境变量几种安装，核对脚本的回答；Windows 上用目录联接。
+- `.github/workflows/check.yml`：gates 任务多跑这条自测；新增 `windows` 任务在 `windows-latest` 上跑同一条自测。
+- `README.md`：安装步骤加自检命令；脚本表加 `feedback_status.py` 和 `test-feedback-status.py`；"使用反馈"写明三条路；版本表同步。`feedback/README.md` 的捕获约定同步。
+
+### 验证
+
+- `capture.mjs`：冻结的目录再次写入被拒绝（退出码 2）；报告里的 `sha256` 与磁盘上的 PNG 一致；不加 `--freeze` 时同一目录可以反复写入；`--locale` / `--timezone` 在命令行和路由表里都生效（页面里读到的语言、时区、日期格式随之变化），填错时退出码 2。
+- `feedback_status.py`：自测 6 项在 macOS 上通过。
+
+### 未验证
+
+- **Windows 上一次都没跑过。** `windows` 这个 CI 任务要等分支推上去才会第一次运行；`feedback_status.py` 在真实的 Codex Desktop 里、README 缺的 Windows 链接安装写法、Codex 认不认目录联接装的 skill，都要在那台机器上试。
+- `source_sha256` 只覆盖入口 HTML 文件，它引用的样式和脚本变了不会反映出来。
+- 0.10.0、0.10.1 的指引改动还没有在宿主项目或评测里跑过。
+
 ## [0.10.1] - 2026-09-29
 
 0.10.0 留下的四个未核实问题得到宿主那台机器的回复，据此修正归因并补两处指引。与 0.10.0 是同一轮反馈的收尾，契约不变，按 PATCH 计。

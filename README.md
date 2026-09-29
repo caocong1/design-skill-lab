@@ -31,9 +31,10 @@ git clone https://github.com/caocong1/design-skill-lab
 cd design-skill-lab
 mkdir -p ~/.claude/skills                       # Codex：~/.codex/skills
 for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"; done
+python3 ~/.claude/skills/design-studio/scripts/feedback_status.py   # 自检：反馈采集开着吗，为什么
 ```
 
-最好整套装：critique-design 和 implement-design 会读 design-studio 的参考文件和脚本。单独装时，它们的 SKILL.md 也能独立使用。用符号链接安装还有一个好处：`git pull` 就是升级，反馈也能写回本仓库（见下文"使用反馈"）。拷贝安装得到的是副本，升级要重装，反馈采集是关着的；宿主自带的安装器也可能是拷贝（2026-09 观察到 Codex 的 skill-installer 是整目录拷贝）。
+最好整套装：critique-design 和 implement-design 会读 design-studio 的参考文件和脚本。单独装时，它们的 SKILL.md 也能独立使用。用符号链接安装还有一个好处：`git pull` 就是升级，反馈也能写回本仓库（见下文"使用反馈"）。拷贝安装得到的是副本，升级要重装，反馈采集默认是关着的；宿主自带的安装器也可能是拷贝（2026-09 观察到 Codex 的 skill-installer 是整目录拷贝）。副本也能开采集：把环境变量 `DESIGN_SKILL_LAB_INBOX` 设成一个已存在的文件夹，条目就写到那里。任何安装方式装完都可以跑上面那条自检。
 
 从 0.7.x 升级：原来的 10 个子 skill 已经并入 design-studio，`iterate-design-lab` 移到了 `.claude/skills/`。清理失效链接的命令和旧名字的去向见 `CHANGELOG.md` 0.8.0 的"弃用与迁移"。
 
@@ -67,8 +68,8 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.10.1（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
-| `critique-design` | 0.3.2 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
+| `design-studio` | 0.11.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `critique-design` | 0.3.3 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
 | `implement-design` | 0.3.2 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
 **模式**（契约，名字不变）：`full`、`piece`、`options`（可以叠加在任何模式上）、`inspire`、`critique`、`redesign`、`handoff`、`implement`。"整体 UI 优化""改版"按 `redesign` 处理，从产品的功能重新出发，而不是打磨细节。
@@ -166,7 +167,7 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 ## 使用反馈与自我迭代
 
-套件在本地项目里使用时，如果 agent 能解析到本仓库的 `feedback/inbox/`（符号链接安装时可以），就会静默记下被纠正、指引出错、流程别扭、能力缺口和偏好，宿主项目只按形态描述，不写名字。`scripts/collect-feedback.py` 把它们聚合成 `feedback/report.md`；`iterate-design-lab` 的 evolve 模式分级消化。`scripts/evolve.sh` 可以挂 launchd 每周跑，但无人值守时只在 `evolve/<日期>` 分支上写提案和措辞修正，等主人合并。拷贝安装和插件安装解析不到 inbox，采集是关着的：可以直接问 agent"反馈采集开着吗"，或让它把复盘写成未提交的草稿，再用 `scripts/collect-feedback.py --import` 收进来。约定见 `feedback/README.md`。
+套件在本地项目里使用时，如果 agent 能解析到本仓库的 `feedback/inbox/`（符号链接安装时可以），就会静默记下被纠正、指引出错、流程别扭、能力缺口和偏好，宿主项目只按形态描述，不写名字。`scripts/collect-feedback.py` 把它们聚合成 `feedback/report.md`；`iterate-design-lab` 的 evolve 模式分级消化。`scripts/evolve.sh` 可以挂 launchd 每周跑，但无人值守时只在 `evolve/<日期>` 分支上写提案和措辞修正，等主人合并。拷贝安装和插件安装解析不到 inbox，采集默认是关着的。三条路：设 `DESIGN_SKILL_LAB_INBOX` 指向一个已存在的文件夹（本仓库的 `feedback/inbox/`，或任意文件夹，之后 `--import`）；直接问 agent"反馈采集开着吗"，它跑 `feedback_status.py` 回答；或让它把复盘写成未提交的草稿，再用 `scripts/collect-feedback.py --import` 收进来。约定见 `feedback/README.md`。
 
 ## 仓库结构
 
@@ -195,12 +196,13 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 
 | 脚本 | 做什么 |
 | --- | --- |
-| `capture.mjs` + `lib/capture-core.mjs` | Playwright 截图：地址 × 视口 × 明暗 × 状态；复用登录态、校验构建标记、移除同意弹窗；遇到反爬页、空白页、报错页时以非零码退出；`--sheet` 出联系表 |
+| `capture.mjs` + `lib/capture-core.mjs` | Playwright 截图：地址 × 视口 × 明暗 × 状态；语言与时区（`--locale`、`--timezone`）；复用登录态、校验构建标记、移除同意弹窗；遇到反爬页、空白页、报错页时以非零码退出；`--sheet` 出联系表；报告里有批次标识和每张图的摘要，`--freeze` 冻结交给评审的那一批 |
 | `shot.sh` | 零依赖兜底（Chrome 命令行），检测项比 capture.mjs 少 |
 | `lint.mjs` | 渲染后页面的确定性底线检查。不过就以退出码 1 结束的：文字对比度（计算加实测）、横向溢出、无名控件；只报警告的：点击区域、`transition: all`、减少动效、中文排版、token 漂移等 |
 | `color_tools.py` | WCAG / APCA 对比度、OKLCH 色阶、色觉模拟 `cvd`、`matrix --from tokens.css` |
 | `catalog.py` | 查资源目录：`find` / `show` / `route` / `recipes` / `domains`（标准库） |
 | `seed.py` | 发散时的种子抽取：由 brief、轮次和用户种子决定哪些参照上方案板、谁领头 |
+| `feedback_status.py` | 自检：这份安装的反馈采集是开是关、条目写到哪、为什么（标准库，macOS / Linux / Windows） |
 | `text_to_path.py` | 把字标按字体文件转成 SVG 路径（需要 venv 里的 fontTools） |
 
 **仓库工具**：在 `scripts/` 下。
@@ -214,6 +216,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 | `smoke-site.mjs` | 站点冒烟测试：控制台无报错、axe 无严重问题、390 和 320 宽无横向溢出、图片与链接可达、搜索黄金用例、首页体积预算、旧链接跳转、生成区块与数据一致 |
 | `build-research-index.py` | 校验来源头部并生成 `research/INDEX.md` |
 | `collect-feedback.py` · `evolve.sh` | 聚合反馈 · 无人值守的反馈消化（只出提案分支） |
+| `test-feedback-status.py` | skill 脚本 `feedback_status.py` 的自测：链接、拷贝、插件、环境变量四种安装各该怎么回答；CI 在 Linux 和 Windows 上跑 |
 
 依赖分三层，各管各的：skill 脚本只要 Python 标准库和一个 Chromium 系浏览器；`capture.mjs` 和 `lint.mjs` 需要 Playwright，项目里装了就用，没装时给出固定版本的 `npx` 命令，从不拉取未固定的版本。仓库工具里的 Python 全部只用标准库，截图和冒烟测试用 `package.json` 里固定版本的 Playwright。`evolve.sh` 需要本机装好 claude CLI。
 
@@ -264,6 +267,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.10.1），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.11.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

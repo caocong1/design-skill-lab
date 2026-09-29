@@ -12,37 +12,46 @@
 //   --full                 full-page capture instead of the viewport
 //   --dpr n                device scale factor (default 2)
 //   --reduced-motion       emulate prefers-reduced-motion: reduce
+//   --locale tag           browser language, e.g. zh-CN (default en-US)
+//   --timezone id          IANA time zone, e.g. Asia/Shanghai (default: this machine's)
 //   --storage-state file   Playwright storageState JSON (saved login) for every capture
 //   --login-script file    module whose default export async (page, {base}) logs in once; its session is reused
 //   --build-stamp text     fail any capture whose HTML does not contain this text (proves the build is the new one)
 //   --consent auto|dismiss|keep   remove cookie banners and newsletter modals: auto = on public sites only (default)
 //   --no-qa                skip the blank-frame check (walls and error pages are still detected)
 //   --sheet                also write <out>/contact-sheet.png
+//   --freeze               mark this set as the one under review: later runs refuse to write into <out>
 //   --name base            base name for a single url or file (default derived from it)
 //   --timeout ms           navigation timeout (default 30000)
 //   --concurrency n        pages in parallel (default 4)
 //
 // Output: <out>/<name>-<state>-<W>x<H>-<theme>.png (state "default", or the variant slugged) and
-// <out>/capture-report.json listing every capture: path, url, http status, verdict, reason, pixel stats.
+// <out>/capture-report.json listing every capture: path, url, http status, verdict, reason, pixel stats,
+// sha256 of the PNG and, for a local file, source_sha256 of that file (not of what it links to). The report
+// carries the run's capture_id, so a finding can name the set it was seen in.
 // Exit: 0 every capture ok · 1 some capture is a wall, error page, redirect to login, blank, missing
-// its ready element or build stamp · 2 usage error or Playwright / Chrome not available.
+// its ready element or build stamp · 2 usage error, Playwright / Chrome not available, or <out> holds a
+// frozen set.
 //
 // routes.json sweeps many routes of one app (paths relative to the file resolve against it):
 //   {"base": "https://staging.example.com", "routes": [{"id": "orders", "path": "/orders", "ready": ".orders-table",
 //    "states": ["default", "?filter=none"]}], "viewports": ["390x844", "1280x800"], "themes": ["light", "dark"],
-//    "states": ["default"], "storageState": "auth.json", "loginScript": "login.mjs", "buildStamp": "build 4f2c1e"}
+//    "states": ["default"], "storageState": "auth.json", "loginScript": "login.mjs", "buildStamp": "build 4f2c1e",
+//    "locale": "zh-CN", "timezone": "Asia/Shanghai"}
 // Command-line options override the file's values.
+import { createHash, randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   PLAYWRIGHT_VERSION, QA_BLANK, launch, newPage, gotoReady, cleanScreenshot, detectWall, pixelQA, contactSheet,
 } from './lib/capture-core.mjs';
 
 const USAGE = 'usage: node capture.mjs <url|file|routes.json> [--out dir] [--viewports 390x844,1280x800] [--themes light,dark]\n' +
-  '       [--states "default,?state=empty-first"] [--full] [--dpr 2] [--reduced-motion] [--storage-state auth.json]\n' +
+  '       [--states "default,?state=empty-first"] [--full] [--dpr 2] [--reduced-motion] [--locale zh-CN]\n' +
+  '       [--timezone Asia/Shanghai] [--storage-state auth.json]\n' +
   '       [--login-script login.mjs] [--build-stamp text] [--consent auto|dismiss|keep] [--no-qa] [--sheet]\n' +
-  '       [--name base] [--timeout ms] [--concurrency n]      (--help for details)';
+  '       [--freeze] [--name base] [--timeout ms] [--concurrency n]      (--help for details)';
 const die = (msg, code = 2) => { console.error(`capture: ${msg}`); process.exit(code); };
 
 // ---------------------------------------------------------------- options
@@ -62,12 +71,15 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--full') opt.full = true;
   else if (a === '--dpr') opt.dpr = Number(val());
   else if (a === '--reduced-motion') opt.reducedMotion = true;
+  else if (a === '--locale') opt.locale = val();
+  else if (a === '--timezone') opt.timezone = val();
   else if (a === '--storage-state') opt.storageState = resolve(val());
   else if (a === '--login-script') opt.loginScript = resolve(val());
   else if (a === '--build-stamp') opt.buildStamp = val();
   else if (a === '--consent') opt.consent = val();
   else if (a === '--no-qa') opt.qa = false;
   else if (a === '--sheet') opt.sheet = true;
+  else if (a === '--freeze') opt.freeze = true;
   else if (a === '--name') opt.name = val();
   else if (a === '--timeout') opt.timeout = Number(val());
   else if (a === '--concurrency') opt.concurrency = Number(val());
@@ -91,6 +103,7 @@ function readPlan(t) {
     return {
       base: file.base, viewports: file.viewports, themes: file.themes, states: file.states,
       storageState: rel(file.storageState), loginScript: rel(file.loginScript), buildStamp: file.buildStamp,
+      locale: file.locale, timezone: file.timezone,
       routes: file.routes.map((r, i) => ({ id: slug(r.id || r.path || `route-${i + 1}`), url: new URL(r.path || '/', file.base).href, ready: r.ready, states: r.states })),
     };
   }
@@ -113,14 +126,27 @@ const cfg = {
   storageState: opt.storageState || plan.storageState,
   loginScript: opt.loginScript || plan.loginScript,
   buildStamp: opt.buildStamp || plan.buildStamp,
+  locale: opt.locale || plan.locale || 'en-US', timezone: opt.timezone || plan.timezone,
   consent: opt.consent || 'auto',
-  dpr: opt.dpr || 2, full: Boolean(opt.full), qa: opt.qa !== false, sheet: Boolean(opt.sheet),
+  dpr: opt.dpr || 2, full: Boolean(opt.full), qa: opt.qa !== false, sheet: Boolean(opt.sheet), freeze: Boolean(opt.freeze),
   reducedMotion: opt.reducedMotion ? 'reduce' : 'no-preference',
   timeout: opt.timeout || 30000, concurrency: Math.max(1, opt.concurrency || 4),
 };
 for (const t of cfg.themes) if (!['light', 'dark'].includes(t)) die(`theme "${t}" should be light or dark`);
 if (!['auto', 'dismiss', 'keep'].includes(cfg.consent)) die('--consent takes auto, dismiss or keep');
+try { Intl.getCanonicalLocales(cfg.locale); } catch { die(`locale "${cfg.locale}" should be a language tag such as zh-CN`); }
+try { if (cfg.timezone) new Intl.DateTimeFormat('en', { timeZone: cfg.timezone }); } catch { die(`time zone "${cfg.timezone}" should be an IANA id such as Asia/Shanghai`); }
 for (const f of [cfg.storageState, cfg.loginScript]) if (f && !existsSync(f)) die(`no such file: ${f}`);
+
+// A frozen set is the one a critic is citing: a file replaced under the same name would change the evidence.
+const reportPath = join(cfg.out, 'capture-report.json');
+if (existsSync(reportPath)) {
+  let prev = {};
+  try { prev = JSON.parse(readFileSync(reportPath, 'utf8')); } catch { /* an unreadable report is not a frozen one */ }
+  if (prev.frozen) die(`${cfg.out} holds a frozen capture set (${prev.capture_id}, ${prev.generated}).\n` +
+    'Capture into a new folder with --out; delete this one only when its review is over.');
+}
+const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 
 // "default" keeps the URL; "?k=v" merges into its query; "#x" replaces its hash.
 function stateUrl(url, state) {
@@ -166,7 +192,7 @@ let storageState = cfg.storageState;
 if (cfg.loginScript) {
   const login = (await import(pathToFileURL(cfg.loginScript).href)).default;
   if (typeof login !== 'function') die(`${cfg.loginScript} must export default async function (page, {base})`);
-  const page = await newPage(browser, { storageState, reducedMotion: cfg.reducedMotion });
+  const page = await newPage(browser, { storageState, reducedMotion: cfg.reducedMotion, locale: cfg.locale, timezoneId: cfg.timezone });
   try {
     await login(page, { base: plan.base });
     storageState = await page.context().storageState(); // kept in memory only: it holds session cookies
@@ -183,7 +209,11 @@ async function capture(job) {
   const rec = { path: job.path, url: job.url, route: job.route.id, state: job.state, viewport: `${job.w}x${job.h}`, theme: job.theme };
   const page = await newPage(browser, {
     width: job.w, height: job.h, dpr: cfg.dpr, colorScheme: job.theme, reducedMotion: cfg.reducedMotion, storageState,
+    locale: cfg.locale, timezoneId: cfg.timezone,
   });
+  if (job.url.startsWith('file:')) {
+    try { rec.source_sha256 = sha256(readFileSync(fileURLToPath(job.url.replace(/[?#].*$/, '')))); } catch { /* no such file: the capture below reports it */ }
+  }
   const pageErrors = [];
   page.on('pageerror', (e) => pageErrors.push(String(e.message).split('\n')[0].slice(0, 160)));
   try {
@@ -203,6 +233,7 @@ async function capture(job) {
     let png;
     if (!problem && (cfg.consent === 'dismiss' || (cfg.consent === 'auto' && !isLocal(job.url)))) ({ png, consent: rec.consent } = await cleanScreenshot(page, shoot));
     else png = await shoot();
+    rec.sha256 = sha256(png);
     if (!problem && cfg.qa) {
       const qa = await pixelQA(page, png, QA_BLANK);
       rec.qa = { stddev: qa.stddev, edge: qa.edge, dominant: qa.dominant };
@@ -232,8 +263,12 @@ await Promise.all(Array.from({ length: Math.min(cfg.concurrency, jobs.length) },
 }));
 
 // Failed captures keep their PNG (when one was taken) so the problem can be seen, but the run fails.
-const report = { generated: new Date().toISOString(), target, playwright: PLAYWRIGHT_VERSION, browser: browser.version(), captures: results };
-writeFileSync(join(cfg.out, 'capture-report.json'), JSON.stringify(report, null, 1) + '\n');
+const generated = new Date().toISOString();
+const report = {
+  capture_id: `${generated.replace(/[-:]|\.\d+/g, '')}-${randomBytes(2).toString('hex')}`, generated, frozen: cfg.freeze,
+  target, build_stamp: cfg.buildStamp || null, locale: cfg.locale, timezone: cfg.timezone || 'machine', playwright: PLAYWRIGHT_VERSION, browser: browser.version(), captures: results,
+};
+writeFileSync(reportPath, JSON.stringify(report, null, 1) + '\n');
 if (cfg.sheet) {
   const tiles = [...results].sort((a, b) => (a.verdict === 'ok') - (b.verdict === 'ok')).map((r) => ({
     file: existsSync(r.path) ? r.path : null, bad: r.verdict !== 'ok', title: basename(r.path, '.png'),
@@ -244,7 +279,7 @@ if (cfg.sheet) {
 await browser.close();
 
 const bad = results.filter((r) => r.verdict !== 'ok');
-console.log(`\n${results.length - bad.length}/${results.length} ok · report ${join(cfg.out, 'capture-report.json')}`);
+console.log(`\n${results.length - bad.length}/${results.length} ok · set ${report.capture_id}${cfg.freeze ? ' (frozen)' : ''} · report ${reportPath}`);
 if (bad.length) {
   console.error(`capture: ${bad.length} capture(s) failed - do not judge the design from them:`);
   for (const r of bad) console.error(`  ${r.verdict.padEnd(11)} ${basename(r.path)}  ${r.reason}`);

@@ -19,9 +19,10 @@
 ## 各部分的约定
 
 - **捕获**：agent 使用套件时遵循
-  `skills/design-studio/references/feedback.md`：静默、不打断任务，只有能解析到
-  本仓库的 `feedback/inbox/`（本地路径或符号链接安装）时才写；解析不到（拷贝安装、
-  插件安装）就不记。每轮收尾跑一次三问复盘（被纠正 / 偏离了指引 / skill 缺失或出错），
+  `skills/design-studio/references/feedback.md`：静默、不打断任务。往哪写由
+  `skills/design-studio/scripts/feedback_status.py` 判定，按顺序看两处：用户设的环境变量
+  `DESIGN_SKILL_LAB_INBOX`（一个已存在、可写的文件夹；agent 不设它，也不替用户建文件夹），
+  然后是 skill 链接自的本仓库检出（符号链接安装）。两处都没有（拷贝安装、插件安装）就不记。每轮收尾跑一次三问复盘（被纠正 / 偏离了指引 / skill 缺失或出错），
   最后一句写 `Skill feedback: N entries` 或 `none`。宿主项目里另存的条目可以用
   `scripts/collect-feedback.py --import <路径>` 收进来。
 - **条目格式**：一个事件一个文件，`YYYY-MM-DD-<slug>.md`，头部字段
@@ -44,7 +45,9 @@
 它会读宿主的 `.design/decisions.md`、评审报告、这一轮的提交和会话记录，提炼条目写进
 inbox（宿主只按形态描述），先给你过目再分流。
 
-宿主在另一台机器上、或套件是拷贝 / 插件安装时，采集是关着的。在宿主会话里让 agent 做一次复盘：
+宿主在另一台机器上、或套件是拷贝 / 插件安装时，采集默认是关着的（装完跑一次
+`feedback_status.py` 就知道）。想让它自动记，就在那台机器上设 `DESIGN_SKILL_LAB_INBOX`；
+否则在宿主会话里让 agent 做一次复盘：
 它按 `skills/design-studio/references/feedback.md` 第 1 节把条目写成一事一文件的草稿（默认
 `.design/skill-feedback/`，标明未提交）。把草稿带回本仓库，用
 `scripts/collect-feedback.py --import <路径>` 收进 inbox；贴过来的是一整份汇总时，先按事件拆成条目再入库。

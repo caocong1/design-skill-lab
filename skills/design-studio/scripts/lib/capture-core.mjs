@@ -106,11 +106,11 @@ export async function userAgent(browser, mobile = false) {
 // One page in its own fresh context. Mobile emulation (isMobile + touch) below 600 px.
 export async function newPage(browser, {
   width = 1280, height = 800, dpr = 1, mobile = width < 600, colorScheme = 'light', reducedMotion = 'reduce',
-  locale = 'en-US', storageState, block = false,
+  locale = 'en-US', timezoneId, storageState, block = false,
 } = {}) {
   const ctx = await browser.newContext({
     viewport: { width, height }, deviceScaleFactor: dpr, isMobile: mobile, hasTouch: mobile,
-    colorScheme, reducedMotion, locale, storageState, ignoreHTTPSErrors: true,
+    colorScheme, reducedMotion, locale, timezoneId, storageState, ignoreHTTPSErrors: true,
     userAgent: await userAgent(browser, mobile),
   });
   if (block) await ctx.route(onHosts([...CMP_HOSTS, ...AD_HOSTS]), (route) => route.abort());

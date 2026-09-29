@@ -1,5 +1,6 @@
 # The lab's Definition of Done on every push and pull request.
 #   gates  scripts/check-lab-invariants.sh (stdlib Python, no network, a few seconds)
+#   windows  the skill's feedback_status.py on a junction install and Windows paths
 #   smoke  scripts/smoke-site.mjs over docs/ with Playwright's bundled Chromium (pinned in package-lock.json)
 name: check
 
@@ -21,6 +22,19 @@ jobs:
           python-version: '3.14'
       - name: Lab gates (G1-G9)
         run: scripts/check-lab-invariants.sh
+      - name: Skill script self-test
+        run: python3 scripts/test-feedback-status.py
+
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+      - name: Skill script self-test (junction install, Windows paths)
+        run: python scripts/test-feedback-status.py
 
   smoke:
     needs: gates

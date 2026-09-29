@@ -34,7 +34,7 @@ bash "$S/shot.sh" --help          # rung 2
 
 | Rung | Tool | Use it for | Limits |
 | --- | --- | --- | --- |
-| 1 | `capture.mjs` (Playwright) | everything: mockups and running apps; true viewport emulation (390 is 390, touch below 600), DPR, forced colour scheme, sizes x themes x states in one run, saved login (`--storage-state`, `--login-script`), route manifests, build stamps, wall / login / blank / error detection with exit 1, `--sheet` contact sheets | needs Node and Playwright; locale fixed at en-US, no timezone option |
+| 1 | `capture.mjs` (Playwright) | everything: mockups and running apps; true viewport emulation (390 is 390, touch below 600), DPR, forced colour scheme, language and time zone (`--locale`, `--timezone`), sizes x themes x states in one run, saved login (`--storage-state`, `--login-script`), route manifests, build stamps, wall / login / blank / error detection with exit 1, `--sheet` contact sheets, frozen sets (`--freeze`) | needs Node and Playwright |
 | 2 | `shot.sh` (headless Chrome CLI) | mockups and public pages on a host without Node or Playwright | no login, no manifest, no touch emulation; one theme per run (`--dark`), states go in the URL. Below 500 px it renders in a sized iframe: a site that refuses framing has those sizes skipped with exit 3; an unreachable URL exits 2 |
 | 3 | a browser tool in the host (Chrome or Playwright MCP) | interactive checks: hover, focus order, computed styles, console errors, measuring | slow for batches |
 | 4 | nothing | - | deliver the artefact marked unverified (section 9) |
@@ -96,9 +96,10 @@ Each was hit in real runs; the first two were re-verified on Chrome 153.
   backend, data and session.
 - **Route manifest** (`routes.json`, format in `capture.mjs --help`): one row per route with an id,
   the path with seeded record ids, a `ready` selector and its states. `capture.mjs` runs in en-US
-  with the machine's timezone: switch a Chinese product's language through the product itself (a
-  URL parameter, or a setting the login script saves into the session) and state the timezone in
-  the report.
+  and the machine's time zone unless told otherwise: capture a Chinese product with
+  `--locale zh-CN --timezone Asia/Shanghai` (or the same keys in the manifest). A product that
+  keeps its language in a setting is still switched through the product itself (a URL parameter,
+  or a setting the login script saves into the session). The report records both.
 - **Read-only.** Against shared servers a capture navigates and reads; no step submits, deletes or
   changes data.
 - **Assert every route** by its landing URL or ready element. A silent redirect, a login page or a
@@ -133,11 +134,12 @@ no more. Endless self-inspection anchors on the previous round's judgement and s
 the critic needs.
 
 Freeze what the critic sees. Capture the set for a critique round into a folder of its own
-(`--out .design/shots/<round>`), hand over that folder's manifest, and neither edit the build nor
-capture into that folder until the report is back. Fixes are captured into a new folder, and a
-finding names the folder it was seen in: a file replaced under the same name turns a finding into
-a dispute. A look taken while the code is still changing is exploratory: say so, and raise no
-findings from it.
+(`--out .design/shots/<round> --freeze`): `capture.mjs` then refuses to write into that folder
+again, and `capture-report.json` gives the set its `capture_id` and every PNG its `sha256`. Hand
+over that folder's manifest and do not edit the build until the report is back. Fixes are captured
+into a new folder, and a finding names the set it was seen in: a file replaced under the same name
+turns a finding into a dispute. A look taken while the code is still changing is exploratory: say
+so, and raise no findings from it.
 
 ## 6. Contact sheets
 
