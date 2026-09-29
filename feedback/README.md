@@ -44,6 +44,11 @@
 它会读宿主的 `.design/decisions.md`、评审报告、这一轮的提交和会话记录，提炼条目写进
 inbox（宿主只按形态描述），先给你过目再分流。
 
+宿主在另一台机器上、或套件是拷贝 / 插件安装时，采集是关着的。在宿主会话里让 agent 做一次复盘：
+它按 `skills/design-studio/references/feedback.md` 第 1 节把条目写成一事一文件的草稿（默认
+`.design/skill-feedback/`，标明未提交）。把草稿带回本仓库，用
+`scripts/collect-feedback.py --import <路径>` 收进 inbox；贴过来的是一整份汇总时，先按事件拆成条目再入库。
+
 ## 手动跑一轮
 
 ```bash

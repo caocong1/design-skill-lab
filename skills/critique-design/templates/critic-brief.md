@@ -37,6 +37,7 @@ Ordered by priority: look at the rows marked `first` before anything else.
 | | `shots/<queue>-focus-web-lg-light.png` | <queue> | keyboard focus on row 3 | 1280 x 800 @2 | light | <focus ring on a selected row> | <no> |
 
 Components changed this round: <Header, QueueRow, EmptyState>. Build stamp in every shot: <value>.
+Capture set: <.design/shots/r1/, captured YYYY-MM-DD HH:MM>, frozen until your report is back.
 
 ## Shot pairs (acceptance)
 

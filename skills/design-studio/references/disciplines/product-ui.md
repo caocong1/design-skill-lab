@@ -101,7 +101,7 @@ Design every screen and component across the rows that apply; list skipped rows 
 
 | Dimension | Cases |
 | --- | --- |
-| Data | first-use empty, no results, one item, typical, many (pagination or virtualisation), extreme values, stale |
+| Data | first-use empty, no results, one item, typical (every status the view distinguishes, mixed), all done, many (pagination or virtualisation), extreme values, stale |
 | Async | loading, refreshing, partial failure, error with recovery, offline, success, background job running |
 | Interaction | default, hover, focus-visible, pressed, selected, dragging, disabled (with reason), read-only, busy |
 | Validation | pristine, invalid (specific message and fix), valid, server-rejected |

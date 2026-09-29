@@ -167,8 +167,10 @@ Do not: read other directions, reuse template placeholder values, invent or add 
   Isolation hides other directions and your reasoning, never the rules or the spent list. Give
   absolute paths (`<skill>` is the design-studio folder), including to the templates.
 - Write content.md once, before any subagent starts: real or plausible copy and data that exercise
-  the primary task. Product: the key screen, one form or table, one state. Marketing: the first
-  viewport, one section, the call to action. Brand: the mark, palette, type and one application.
+  the primary task. Product: the key screen, one form or table, one state, with every status the
+  view distinguishes mixed in its data ([product-ui](../disciplines/product-ui.md), state matrix).
+  Marketing: the first viewport, one section, the call to action. Brand: the mark, palette, type
+  and one application.
 - A UI generator (for example Stitch) may draw from the same packet; its output meets the same
   board rules. Image comps may stand in for visual-only directions when the host has an image model
   ([image-generation](image-generation.md)); structural directions need HTML frames.
@@ -201,7 +203,8 @@ Assemble `.design/directions/<round>/index.html` from [options-board.html](../..
 The board builds a greyscale strip at thumbnail size. If two thumbnails are hard to tell apart,
 they are one direction: merge them, or move one on a structural axis and redraw. Each card finishes
 the sentence "In greyscale at thumbnail size it differs from <other> in <structure, type or density>".
-A difference only in colour fails by construction.
+A difference only in colour fails by construction. Passing the test shows that the directions
+differ, never that one of them is good enough to ship (section 4).
 
 ## 9. Recommend
 
@@ -216,10 +219,17 @@ A difference only in colour fails by construction.
 
 ## 10. Converge
 
+- **Show, then ask.** A question that asks the user to choose carries the rendered board: the path
+  or URL of `index.html` to open, and one PNG per direction (same content, same frame size)
+  attached or listed by path. A file written into the project has not been shown; names, palettes
+  and layouts described in words are not a board. At any effort, asking the user to choose between
+  looks is `options`: draw and render them first. In a 2026-09 host round the user was asked to
+  pick from three descriptions and could not.
 - The user picks, mixes or rejects. When mixing ("A's type with C's colour"), name what conflicts
   and resolve it (a playful palette on a severe type system); never average.
 - Record in decisions.md: chosen, rejected and why (so later rounds do not circle back), the seed
-  line, and what would change the decision.
+  line, what would change the decision, and who chose. "The user picked A", "the user kept A, B
+  and C as themes" and "A is on by default, the user has not picked" are three different rows.
 - Complete the surface contracts (own-world, form + seed; [truth-files](truth-files.md)), then build
   the system ([system](system.md)) before more screens.
 - Autonomous run with no one to choose: build the recommendation and say that the user did not pick.

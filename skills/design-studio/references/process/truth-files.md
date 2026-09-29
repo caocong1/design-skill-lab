@@ -145,6 +145,9 @@ route family, a screen family, a page), not per state:
 - The finish line is 3-6 conditions a critic can check on screenshots. Include the primary task at
   the smallest target and the one memorable idea. "Feels premium" is not checkable; "the queue count
   and the next deadline read at arm's length in the 1280 shot" is.
+- Every top job the brief names becomes one finish-line condition, checked on mixed data: "with
+  done and not-done items mixed, the not-done count and the next item to act on are in the first
+  viewport at 390". A goal that stays in the brief is not checked by anyone.
 - The contract never goes into shipped code, comments, bundles or metadata.
 - The fresh critic audits the render against every block ([critique-design](../../../critique-design/SKILL.md)).
 

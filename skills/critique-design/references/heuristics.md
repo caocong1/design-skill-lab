@@ -79,6 +79,8 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
   Measure them in the shot; do not eyeball.
 - Headings balanced, no one-word last lines; numbers that are compared use tabular numerals and
   align right.
+- Text is sized by what it tells the user, not by where it sits: a status the primary task depends
+  on is never caption-sized because its region is secondary.
 - CJK: glyph forms match the language, line-start and line-end rules hold (no 。，at a line start),
   Han-Latin spacing is consistent, single-weight faces are not synthesised bold. Rules:
   [cjk-typography](../../design-studio/references/fundamentals/cjk-typography.md).
@@ -103,6 +105,11 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
   plus label alignment per [layout-and-spacing](../../design-studio/references/fundamentals/layout-and-spacing.md).
   Check them in 2x crops.
 - Variants that should be one component; values that drift from DESIGN.md or the tokens.
+- Across screens, controls with one role (primary button, select, search field, row action) share
+  height, radius, type size and density: put one crop per screen side by side. In a row of controls
+  heights and baselines match; in a list the action column keeps its place on every row, whatever
+  the title length, at the narrowest target too. A control is as heavy as its role: touch minimums
+  are met by the hit area, not by a bigger drawing.
 - Where the target has a system component (tab bar, sheet, picker, switch), it is used, not
   redrawn.
 - Diagrams, timelines and maps: compare each mark with its line and its label, not only the whole
@@ -119,7 +126,8 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 - The minimum on almost every product surface: the three empty states (first use, no results,
   error), loading, long and mixed-script content, disabled with a reason, focus. Missing ones are
   `[F6]` failures, not polish.
-- Stress: 0, 1 and 1,000 items; the longest name; large numbers; 200% text; no image.
+- Stress: 0, 1 and 1,000 items; every status mixed in one view, then all done; the longest name;
+  large numbers; 200% text; no image. A set that shows only the tidy default proves nothing.
 
 ## 8. Interaction and motion `> Accessibility, Craft`
 
@@ -211,6 +219,9 @@ system. Themed browser surfaces are the cheapest sign that a page was built, not
 - The contract's "One memorable idea" (Own-world), visible in the first viewport and carried into
   states and components.
 - Every remaining default is justified by the brief. Novelty that costs usability is a finding too.
+- Decoration encodes something or goes: for each eyebrow, ordinal, rule, frame and shadow, name
+  what it tells the user. On a surface people come to for its content, ornament that outweighs the
+  content is a finding (the strip test in anti-slop).
 - Thumbnail test: at thumbnail size, is it distinguishable from the category's usual page?
 
 ## 14. Rationale against render `> Fit, Identity`

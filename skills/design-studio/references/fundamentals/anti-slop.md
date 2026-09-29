@@ -43,9 +43,15 @@ steps are its small form.
    another; naming concrete patterns works (Anthropic's guidance for current Claude models, 2026).
    Compare the first render with the tells below, name the default it landed on (or a new one),
    write it into decisions.md as spent for this project, and do not reuse it in the next pass.
-6. **Hold the floor silently**: responsive, accessible, fast, real content, designed states.
+6. **Strip test, when the render still reads as a template.** Hide the decorative layer (eyebrows,
+   labels in a language the product is not read in, hairlines and frames, ordinal numbers, offset
+   shadows) and capture again at the same size. If the content and the primary task read as well
+   or better, that layer was chrome: leave it out. On a surface people come to for its content
+   (media, reading, a gallery) the content is the largest thing in the first viewport. This is a
+   diagnostic, not a style: whatever carries meaning or the one memorable idea stays.
+7. **Hold the floor silently**: responsive, accessible, fast, real content, designed states.
    Distinctive work that fails the floor is worse than plain work that meets it.
-7. **The brief's words win.** When the user asks for a familiar look, including any look listed
+8. **The brief's words win.** When the user asks for a familiar look, including any look listed
    below, deliver the best version of it.
 
 ## Where defaults hide

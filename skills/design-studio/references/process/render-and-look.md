@@ -132,6 +132,13 @@ the elevate variants (step 10) get one more capture-and-confirm round, judged as
 no more. Endless self-inspection anchors on the previous round's judgement and spends the context
 the critic needs.
 
+Freeze what the critic sees. Capture the set for a critique round into a folder of its own
+(`--out .design/shots/<round>`), hand over that folder's manifest, and neither edit the build nor
+capture into that folder until the report is back. Fixes are captured into a new folder, and a
+finding names the folder it was seen in: a file replaced under the same name turns a finding into
+a dispute. A look taken while the code is still changing is exploratory: say so, and raise no
+findings from it.
+
 ## 6. Contact sheets
 
 `capture.mjs --sheet` writes `contact-sheet.png`: every capture as a labelled tile, four per row,
@@ -196,6 +203,10 @@ unverified claim says:
 
 > Unverified: <claim>. Not rendered because <reason>. To verify: open <file> at <size>, <theme>,
 > <state> and check <observable condition>.
+
+Report three verdicts separately: the floor (what the tools measured), the fresh critique (its
+disposition and gate) and the user (accepted, asked for changes, or has not seen it). None stands
+in for another: a passed floor and a met gate do not say the user is satisfied.
 
 Close-out: before delivery, re-check every positional, size or colour claim in the notes, rationale
 and decisions against the final render ("above the fold" is a measurement, not a memory of an

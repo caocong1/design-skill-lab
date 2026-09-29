@@ -11,7 +11,7 @@
       "name": "design-skill-lab",
       "source": "./",
       "description": "Three design skills for coding agents: design-studio (brief to handoff), critique-design (fresh-eye review and build acceptance), implement-design (build an existing design in your stack).",
-      "version": "0.9.0"
+      "version": "0.10.0"
     }
   ]
 }

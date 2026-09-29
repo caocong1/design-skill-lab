@@ -67,9 +67,9 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.8.5（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
-| `critique-design` | 0.2.1 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
-| `implement-design` | 0.3.0 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
+| `design-studio` | 0.10.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `critique-design` | 0.3.1 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
+| `implement-design` | 0.3.1 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
 **模式**（契约，名字不变）：`full`、`piece`、`options`（可以叠加在任何模式上）、`inspire`、`critique`、`redesign`、`handoff`、`implement`。"整体 UI 优化""改版"按 `redesign` 处理，从产品的功能重新出发，而不是打磨细节。
 
@@ -166,7 +166,7 @@ for d in skills/*/; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/"$(basename "$d")"
 
 ## 使用反馈与自我迭代
 
-套件在本地项目里使用时，如果 agent 能解析到本仓库的 `feedback/inbox/`（符号链接安装时可以），就会静默记下被纠正、指引出错、流程别扭、能力缺口和偏好，宿主项目只按形态描述，不写名字。`scripts/collect-feedback.py` 把它们聚合成 `feedback/report.md`；`iterate-design-lab` 的 evolve 模式分级消化。`scripts/evolve.sh` 可以挂 launchd 每周跑，但无人值守时只在 `evolve/<日期>` 分支上写提案和措辞修正，等主人合并。约定见 `feedback/README.md`。
+套件在本地项目里使用时，如果 agent 能解析到本仓库的 `feedback/inbox/`（符号链接安装时可以），就会静默记下被纠正、指引出错、流程别扭、能力缺口和偏好，宿主项目只按形态描述，不写名字。`scripts/collect-feedback.py` 把它们聚合成 `feedback/report.md`；`iterate-design-lab` 的 evolve 模式分级消化。`scripts/evolve.sh` 可以挂 launchd 每周跑，但无人值守时只在 `evolve/<日期>` 分支上写提案和措辞修正，等主人合并。拷贝安装和插件安装解析不到 inbox，采集是关着的：可以直接问 agent"反馈采集开着吗"，或让它把复盘写成未提交的草稿，再用 `scripts/collect-feedback.py --import` 收进来。约定见 `feedback/README.md`。
 
 ## 仓库结构
 
@@ -233,7 +233,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 - **平台事实是有日期的。** iOS 26–27、Android 16、HarmonyOS 5/6、Web Baseline 等内容写于 2026-09-27，易腐来源 90 天后到期，到期后闸门变红，直到有人复核。到期之前平台也可能已经变了。
 - **证据等级不均。** 平台规范、标准、token 格式、动效有一手摘要；品牌、平面、营销站点的不少规则仍是业内共识（`evidence: practice`）。
 - **deep 档依赖子 agent。** 隔离发散和独立评审要求宿主能开子 agent；不能开时 agent 在单一上下文里跑完并声明这一点，效果会打折扣。
-- **宿主反馈只有两个项目**，而且都来自主人自己的项目。
+- **宿主反馈只有三个项目**：前两个来自主人自己的项目；第三个（2026-09-29）在另一台机器上用拷贝安装的套件跑完后回顾补录，当时没有自动采集。
 - **目录档位是单人判断。** agent 可达性是维护者网络下 curl 的一次观测，换一个网络结果会变；国内资源（104 条）明显少于全球资源。
 - **缩略图是 1280×800 的首屏。** 站点改版后会过时，每次运行都会复检像素；5 条拿不到可用图的用排字卡。
 - **站点只在 macOS Chrome 上人工看过。** 中文用系统字体，Windows、Android 上的中文字形和行高没有核对过；CI 的冒烟测试在 Linux Chromium 上跑，只检查机械项。唯一的网络字体（拉丁 Source Serif 4）来自 jsDelivr，加载不到时退回系统衬线体。
@@ -264,6 +264,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.9.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.10.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

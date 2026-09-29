@@ -24,6 +24,11 @@ test -n "$LAB" && test -d "$LAB/.git" && test -d "$LAB/feedback/inbox" && echo "
   outside the host repository.
 - It prints nothing, or the first write is refused: capture is off. Skip the rest of this file: no
   fallback file, no message to the user, no retro line.
+- The user asks whether capture is on, or asks for a retro: that is a request, not capture, so
+  answer it either way. Say on or off and why (a copied folder, a plugin install, no inbox beside
+  it). With capture off, write the entries in the format of section 4, one file per event, into
+  `.design/skill-feedback/` or a folder the user names, and say they are drafts, not submitted.
+  They reach the inbox through the lab's `scripts/collect-feedback.py --import <folder>`.
 
 ## 2. What to log
 

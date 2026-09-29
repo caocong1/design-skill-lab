@@ -25,7 +25,9 @@ order of the primary task.>
 
 ## First viewport
 
-<Per target: the one thing seen first, the primary action, and what is deliberately below the fold.>
+<Per target: the one thing seen first, the primary action, and what is deliberately below the fold.
+A collection also names its default sort, the fields every row shows, how each status reads without
+colour, and which low-frequency fields (ids, paths, provenance) sit behind a disclosure.>
 
 Above the fold (checked with `lint.mjs --above-fold`): <per viewport, the selectors that must end
 inside it, e.g. 1280x720: `h1, [data-component=PrimaryAction]`; 390x844: `h1, [data-component=PrimaryAction]`>
