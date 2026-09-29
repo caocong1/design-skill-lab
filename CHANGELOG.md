@@ -12,6 +12,33 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.11.1] - 2026-09-29
+
+0.11.0 在 Windows 上验证过了，把结果和验证出来的写法记下来。契约不变，PATCH。
+
+### 验证
+
+- **CI**：分支推送后 `windows` 任务第一次运行，`scripts/test-feedback-status.py` 6 项在 Windows Server 2025 上全部通过（目录联接安装、拷贝安装、插件安装、环境变量的三种情况）；gates 和 smoke 同时通过。
+- **宿主 C 那台机器**（Windows 11 专业版 26200，Python 3.14.5，Node 24.16.0，Codex Desktop），由主人转去执行，五步全部符合预期：
+  - 用 Codex 自带的 skill-installer 加 `--ref` 从 0.9.0 升级到分支版本，三个 skill 变为 0.11.0 / 0.3.3 / 0.3.2。
+  - `feedback_status.py`：拷贝安装回答 `capture: off`、`why: copied install`，退出码 1；环境变量指向已存在的文件夹时回答 `capture: on`、`via: DESIGN_SKILL_LAB_INBOX`，退出码 0；指向不存在的路径时回答关，并且没有创建那个路径。
+  - `capture.mjs --locale zh-CN --timezone Asia/Shanghai --freeze`：报告里 `capture_id`、`frozen`、`locale`、`timezone`、`sha256`、`source_sha256` 齐全；报告里的 `sha256` 与系统算出的 PNG 摘要一致；同一条命令再跑一次被拒绝（退出码 2），PNG 和报告的长度、修改时间、摘要都没有变。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.11.0 → **0.11.1**（正文未改）。
+- `references/process/render-and-look.md` §1：没装 Playwright 走 npx 时，在 PowerShell 里要给字面路径。那台机器上第一次重跑失败，原因是 npx 的包装脚本会重新解析命令行，命令里的 `$script:` 变量在它的作用域里取不到；换成字面路径后通过。
+
+### 变更（文档）
+
+- `README.md`：安装一节新增"Windows 上的 Codex"：安装与自检命令、升级时安装器不覆盖已存在的目录（先改名或删除）、`--ref`、用环境变量开采集、PowerShell 里 npx 的写法。版本表同步。
+- `feedback/proposals.md` P8：写入验证结果。`feedback/log.md` 追加一节。
+
+### 未验证
+
+- Codex 认不认目录联接装的 skill。脚本对联接的判断在 CI 里验证过，宿主认不认是另一回事；拷贝安装加环境变量已经够用，所以没有在那台机器上试。
+- 0.10.0、0.10.1 的指引改动还没有在宿主项目或评测里跑过；一次模拟拷贝安装的试跑正在进行，结果另记。
+
 ## [0.11.0] - 2026-09-29
 
 把上一轮留下的提案做完：截图批次能被机器认出来，任何安装方式都能问出反馈采集是开是关，拷贝安装也能开采集。新增一个 skill 脚本、一个环境变量、`capture.mjs` 的三个选项（MINOR）。模式、交付物目录、reference 路径不变；已有的命令行和报告字段都还在，默认行为不变。

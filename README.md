@@ -36,6 +36,18 @@ python3 ~/.claude/skills/design-studio/scripts/feedback_status.py   # 自检：�
 
 最好整套装：critique-design 和 implement-design 会读 design-studio 的参考文件和脚本。单独装时，它们的 SKILL.md 也能独立使用。用符号链接安装还有一个好处：`git pull` 就是升级，反馈也能写回本仓库（见下文"使用反馈"）。拷贝安装得到的是副本，升级要重装，反馈采集默认是关着的；宿主自带的安装器也可能是拷贝（2026-09 观察到 Codex 的 skill-installer 是整目录拷贝）。副本也能开采集：把环境变量 `DESIGN_SKILL_LAB_INBOX` 设成一个已存在的文件夹，条目就写到那里。任何安装方式装完都可以跑上面那条自检。
 
+**Windows 上的 Codex**（2026-09-29 在 Windows 11、Python 3.14、Node 24 上验证）：让 Codex 用它自带的 skill-installer 安装，agent 实际执行的是下面第一条；得到的是副本。
+
+```powershell
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" --repo caocong1/design-skill-lab --path skills/design-studio skills/critique-design skills/implement-design
+python "$env:USERPROFILE\.codex\skills\design-studio\scripts\feedback_status.py"   # 自检
+```
+
+- 升级：安装器遇到已存在的目录会报 `Destination already exists` 并中止，不会覆盖。先把旧的三个目录改名或删除再装；`--ref` 可以指定分支或标签。
+- 开采集：把 `DESIGN_SKILL_LAB_INBOX` 设成一个已存在的文件夹。
+- 没装 Playwright 时 `capture.mjs` 会打印一条 `npx` 命令。在 PowerShell 里给它字面路径：npx 的包装脚本会重新解析命令行，命令里的 `$script:` 变量它取不到。
+- 用目录联接做链接安装：脚本的判断在 CI 的 Windows 任务里验证过；Codex 认不认联接装的 skill 没有验证。
+
 从 0.7.x 升级：原来的 10 个子 skill 已经并入 design-studio，`iterate-design-lab` 移到了 `.claude/skills/`。清理失效链接的命令和旧名字的去向见 `CHANGELOG.md` 0.8.0 的"弃用与迁移"。
 
 装好以后直接说需求，不用点名 skill：
@@ -68,7 +80,7 @@ python3 ~/.claude/skills/design-studio/scripts/feedback_status.py   # 自检：�
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.11.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `design-studio` | 0.11.1（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
 | `critique-design` | 0.3.3 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
 | `implement-design` | 0.3.2 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
@@ -267,6 +279,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.11.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.11.1），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。
