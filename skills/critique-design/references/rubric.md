@@ -103,6 +103,13 @@ Cite the blurred 1280 and 390 crops and the first three things you saw.
 Cite the element that carries the idea and the defaults you put through the subject test in
 [anti-slop](../../design-studio/references/fundamentals/anti-slop.md).
 
+Consistency is Craft, not Identity. A motif carried through every screen and theme scores here
+only for where it comes from: a device that would suit any product in the category (numbered
+entries, a framed cover row, a segmented bar) is a default however consistently it is applied, and
+themes that differ from each other do not make any one of them the product's own. In a 2026-09
+host round a critic scored Identity 4 on such motifs; minutes later the user called the result a
+template.
+
 ### Craft: nothing accidental
 
 | Score | Looks like |

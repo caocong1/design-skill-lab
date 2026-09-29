@@ -21,6 +21,12 @@ translate ([portable-mockups](../fundamentals/portable-mockups.md)).
 | `implement` mode: the same agent designs and builds | the acceptance-shot list, the tokens landing in the host source (or the host's system updated in place), decisions.md; then [implement-design](../../../implement-design/SKILL.md) |
 | `quick` piece answered in chat | the rendered PNG, the tokens it used, the states it covers |
 
+In `implement` mode the acceptance-shot list covers every screen family the build touches (forms,
+settings and correction screens included), not only the screens the directions drew. A family with
+no drawn and rendered screen is drawn before its production code is written: designing it in the
+host's CSS skips the render, the floor and the critic. In a 2026-09 host round the undrawn form and
+settings screens were where the controls came out heavy and misaligned.
+
 ## 2. Gate before packaging
 
 - The design passed the fresh critique at the gate in

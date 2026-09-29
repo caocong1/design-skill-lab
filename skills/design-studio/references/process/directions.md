@@ -223,8 +223,8 @@ differ, never that one of them is good enough to ship (section 4).
   or URL of `index.html` to open, and one PNG per direction (same content, same frame size)
   attached or listed by path. A file written into the project has not been shown; names, palettes
   and layouts described in words are not a board. At any effort, asking the user to choose between
-  looks is `options`: draw and render them first. In a 2026-09 host round the user was asked to
-  pick from three descriptions and could not.
+  looks is `options`: draw and render them first. In a 2026-09 host round three directions were
+  drawn and captured, no board was assembled, and the user was asked to pick from descriptions.
 - The user picks, mixes or rejects. When mixing ("A's type with C's colour"), name what conflicts
   and resolve it (a playful palette on a severe type system); never average.
 - Record in decisions.md: chosen, rejected and why (so later rounds do not circle back), the seed

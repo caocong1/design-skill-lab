@@ -2,7 +2,7 @@
 name: design-studio
 description: "Designer for every design intent. Turns requirements into a complete design (product truth, captured references, distinct directions on an options board, a design system with DESIGN.md and tokens, screens across states and platforms, a handoff package), or designs one page, screen, component, flow, animation, icon, app icon, logo, poster, social or deck graphic. Redesigns a product from what it does; chooses colour and type; finds inspiration; writes handoff specs, annotations and asset slices. Specifies interaction: task cost, keyboard, shortcuts, input methods, component behaviour. Draws in HTML/CSS/SVG and checks by rendering. 设计、UI、界面、页面、交互、易用性、快捷键、重设计、改版、整体优化、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案、设计系统、交接、切图、标注。Not for: reviewing or auditing an existing design or build (use critique-design); building an existing design or handoff in code (use implement-design); front-end bugs that involve no design decision."
 metadata:
-  version: 0.10.0
+  version: 0.10.1
   short-description: Design anything, from brief to handoff
 ---
 
