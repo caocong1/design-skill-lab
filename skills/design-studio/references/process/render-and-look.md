@@ -57,6 +57,10 @@ bash "$S/shot.sh" --help          # rung 2
 | Pixel density | DPR 2 by default; add a DPR 1 pass when the audience is on Windows laptops (hairlines, text rendering) |
 | Motion | stepped frames or a recording: [motion](../disciplines/motion.md) |
 
+One run, one folder, one report: a second run into the same folder replaces `capture-report.json`.
+Frames or routes that need different sizes go into one run through a manifest whose routes name
+their own `viewports` (`capture.mjs --help`).
+
 Name every file with what it claims. `capture.mjs` writes `<name>-<state>-<W>x<H>-<theme>.png`
 (`--name` sets the first part; a `?state=empty-first` variant is named `state-empty-first`) and records DPR, URL
 and verdict per file in `capture-report.json`. Acceptance shots use target ids instead of sizes
@@ -73,7 +77,9 @@ Each was hit in real runs; the first two were re-verified on Chrome 153.
   the viewport; `shot.sh` uses an exactly sized iframe and skips (exit 3) sizes a site will not frame.
 - **Full page.** A tall window that fakes a full-page capture breaks `vh` layouts: use a true
   full-page capture, taken from the document top. After switching a variant, route or theme,
-  confirm `scrollY` is 0.
+  confirm `scrollY` is 0. Chrome paints at most 16384 device px a side: past that (8192 px of page
+  at DPR 2) the image repeats the top of the page. `capture.mjs` fails such a file as `too-tall`;
+  lower the DPR or capture the lower sections as states.
 - **Readiness.** Wait for `document.fonts.ready`, for lazy images (scroll through the page first)
   and for entrance animations to finish, or disable them. A fixed delay is not readiness.
 - **Fonts.** Confirm in the image that the intended face rendered: look at distinctive glyphs
@@ -105,7 +111,7 @@ Each was hit in real runs; the first two were re-verified on Chrome 153.
   changes data.
 - **Assert every route** by its landing URL or ready element. A silent redirect, a login page or a
   loading state is not evidence of that route. When `capture.mjs` exits 1, read which files it
-  flagged (wall, login, error, blank, not-ready, stale-build) and recapture those.
+  flagged (wall, login, error, blank, not-ready, stale-build, too-tall) and recapture those.
 - **Same environment on both sides** (both deployed or both local). Dev-only chrome and broken
   fixtures otherwise read as regressions.
 - **Stamp the build.** Each capture proves which build it shows (a version string, a hashed asset

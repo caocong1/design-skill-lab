@@ -96,6 +96,9 @@ boxes?
   implementer can use the platform's package.
 - One static HTML file per screen or flow, with states and themes reachable by query parameter
   (`?state=empty-first&theme=dark`) or a small switcher, so each renders and hands over as its own PNG.
+- A file that holds the same screen for several targets gives each `.screen` a `data-frame`
+  (`desktop`, `phone`) beside its `data-w` and `data-h`, and shows one frame at a time by
+  `?frame=<name>`: a frame is captured and linted alone, at its own size, from scroll 0.
 
 **Avoid** (each costs the implementer a guess)
 

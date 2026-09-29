@@ -154,12 +154,14 @@ Rules, read before drawing: <skill>/references/fundamentals/portable-mockups.md,
 the floor: <skill>/../critique-design/references/rubric.md section 1.
 Redesign only: apply in every frame the Baseline in .design/function-map.md; top jobs and
 first-principles answers are in the same file.
-Frames: <target sizes>, as .screen elements with data-w and data-h (templates/options-board.html);
-light and dark if the brief needs both.
+Frames: <target sizes>, one .screen per target with data-w, data-h and data-frame
+(templates/options-board.html), shown one at a time by ?frame=<name>
+(<skill>/references/fundamentals/portable-mockups.md); light and dark if the brief needs both.
 Output: .design/directions/<round>/<a>/frame.html, a page that renders on its own with every rule
 scoped under [data-direction="a"] and its own tokens; card.md from templates/direction-card.md.
 Render and lint at the frame sizes (<skill>/scripts; <skill>/references/process/render-and-look.md
-section 5) and look before returning.
+section 5) and look before returning. Capture every frame in one run: a routes file whose routes
+name their own viewports (capture.mjs --help).
 Do not: read other directions, reuse template placeholder values, invent or add content.
 ```
 
@@ -225,6 +227,8 @@ differ, never that one of them is good enough to ship (section 4).
   and layouts described in words are not a board. At any effort, asking the user to choose between
   looks is `options`: draw and render them first. In a 2026-09 host round three directions were
   drawn and captured, no board was assembled, and the user was asked to pick from descriptions.
+- A round that ends at the user's choice is done when every frame passed render and floor and the
+  board was looked at. The fresh critique waits for the chosen direction, drawn in its states.
 - The user picks, mixes or rejects. When mixing ("A's type with C's colour"), name what conflicts
   and resolve it (a playful palette on a severe type system); never average.
 - Record in decisions.md: chosen, rejected and why (so later rounds do not circle back), the seed

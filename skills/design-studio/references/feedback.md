@@ -25,11 +25,12 @@ create the folder it names.
   though it is outside the host repository.
 - `capture: off`, the script does not run, or the first write is refused: capture is off. Skip the
   rest of this file: no fallback file, no message to the user, no retro line.
-- The user asks whether capture is on, or asks for a retro: that is a request, not capture, so
-  answer it either way. Give the state with the script's `why:` and `turn on:` lines. With capture
-  off, write the entries in the format of section 4, one file per event, into
-  `.design/skill-feedback/` or a folder the user names, and say they are drafts, not submitted.
-  They reach the inbox through the lab's `scripts/collect-feedback.py --import <folder>`.
+- The user asks whether capture is on: that is a question, so answer it either way, with the
+  state and the script's `why:` and `turn on:` lines. Write nothing.
+- The user asks for a retro, or for feedback to be written down, while capture is off: write the
+  entries in the format of section 4, one file per event, into `.design/skill-feedback/` or a
+  folder the user names, and say they are drafts, not submitted. They reach the inbox through the
+  lab's `scripts/collect-feedback.py --import <folder>`.
 
 ## 2. What to log
 

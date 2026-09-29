@@ -30,15 +30,18 @@
 // sha256 of the PNG and, for a local file, source_sha256 of that file (not of what it links to). The report
 // carries the run's capture_id, so a finding can name the set it was seen in.
 // Exit: 0 every capture ok · 1 some capture is a wall, error page, redirect to login, blank, missing
-// its ready element or build stamp · 2 usage error, Playwright / Chrome not available, or <out> holds a
-// frozen set.
+// its ready element or build stamp, or taller than Chrome can paint · 2 usage error, Playwright / Chrome
+// not available, or <out> holds a frozen set.
 //
-// routes.json sweeps many routes of one app (paths relative to the file resolve against it):
+// routes.json sweeps many routes of one app, or the frames of one mockup, in a single run with a single
+// report (paths relative to the file resolve against it; "base" may be a URL or a local file):
 //   {"base": "https://staging.example.com", "routes": [{"id": "orders", "path": "/orders", "ready": ".orders-table",
 //    "states": ["default", "?filter=none"]}], "viewports": ["390x844", "1280x800"], "themes": ["light", "dark"],
 //    "states": ["default"], "storageState": "auth.json", "loginScript": "login.mjs", "buildStamp": "build 4f2c1e",
 //    "locale": "zh-CN", "timezone": "Asia/Shanghai"}
-// Command-line options override the file's values.
+//   {"base": "frame.html", "routes": [{"id": "a-desktop", "path": "?frame=desktop", "viewports": ["1280x800"]},
+//    {"id": "a-phone", "path": "?frame=phone", "viewports": ["390x844"]}]}
+// A route may name its own "viewports" and "themes". Command-line options override the file's values.
 import { createHash, randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, resolve } from 'node:path';
@@ -100,11 +103,17 @@ function readPlan(t) {
     const file = JSON.parse(readFileSync(t, 'utf8'));
     if (!file.base || !Array.isArray(file.routes)) die(`${t}: a routes file needs "base" and "routes"`);
     const here = dirname(resolve(t)), rel = (p) => p && resolve(here, p);
+    const local = !/^(https?|file):\/\//.test(file.base);
+    const base = local ? pathToFileURL(resolve(here, file.base)).href : file.base;
+    if (local && !existsSync(resolve(here, file.base))) die(`${t}: no such file: ${file.base}`);
     return {
-      base: file.base, viewports: file.viewports, themes: file.themes, states: file.states,
+      base, viewports: file.viewports, themes: file.themes, states: file.states,
       storageState: rel(file.storageState), loginScript: rel(file.loginScript), buildStamp: file.buildStamp,
       locale: file.locale, timezone: file.timezone,
-      routes: file.routes.map((r, i) => ({ id: slug(r.id || r.path || `route-${i + 1}`), url: new URL(r.path || '/', file.base).href, ready: r.ready, states: r.states })),
+      routes: file.routes.map((r, i) => ({
+        id: slug(r.id || r.path || `route-${i + 1}`), url: new URL(r.path || (base.startsWith('file:') ? '' : '/'), base).href,
+        ready: r.ready, states: r.states, viewports: r.viewports, themes: r.themes,
+      })),
     };
   }
   if (!/^(https?|file):\/\//.test(t) && !existsSync(t.replace(/[?#].*$/, ''))) die(`no such file or URL: ${t}`);
@@ -114,14 +123,16 @@ function readPlan(t) {
 }
 
 const plan = readPlan(target);
+const viewport = (v) => {
+  const m = String(v).match(/^(\d+)x(\d+)$/);
+  if (!m) die(`viewport "${v}" should look like 390x844`);
+  return { w: Number(m[1]), h: Number(m[2]) };
+};
+const theme = (t) => (['light', 'dark'].includes(t) ? t : die(`theme "${t}" should be light or dark`));
 const cfg = {
   out: resolve(opt.out || '.design/shots'),
-  viewports: (opt.viewports || plan.viewports || ['390x844', '768x1024', '1280x800', '1920x1080']).map((v) => {
-    const m = String(v).match(/^(\d+)x(\d+)$/);
-    if (!m) die(`viewport "${v}" should look like 390x844`);
-    return { w: Number(m[1]), h: Number(m[2]) };
-  }),
-  themes: opt.themes || plan.themes || ['light'],
+  viewports: (opt.viewports || plan.viewports || ['390x844', '768x1024', '1280x800', '1920x1080']).map(viewport),
+  themes: (opt.themes || plan.themes || ['light']).map(theme),
   states: opt.states || plan.states || ['default'],
   storageState: opt.storageState || plan.storageState,
   loginScript: opt.loginScript || plan.loginScript,
@@ -132,7 +143,6 @@ const cfg = {
   reducedMotion: opt.reducedMotion ? 'reduce' : 'no-preference',
   timeout: opt.timeout || 30000, concurrency: Math.max(1, opt.concurrency || 4),
 };
-for (const t of cfg.themes) if (!['light', 'dark'].includes(t)) die(`theme "${t}" should be light or dark`);
 if (!['auto', 'dismiss', 'keep'].includes(cfg.consent)) die('--consent takes auto, dismiss or keep');
 try { Intl.getCanonicalLocales(cfg.locale); } catch { die(`locale "${cfg.locale}" should be a language tag such as zh-CN`); }
 try { if (cfg.timezone) new Intl.DateTimeFormat('en', { timeZone: cfg.timezone }); } catch { die(`time zone "${cfg.timezone}" should be an IANA id such as Asia/Shanghai`); }
@@ -147,6 +157,9 @@ if (existsSync(reportPath)) {
     'Capture into a new folder with --out; delete this one only when its review is over.');
 }
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
+// Chrome paints a screenshot into one texture of at most this many device pixels a side. Past it the image
+// repeats the top of the page and still looks like a capture (measured on Chrome 153: 9000 px at DPR 2).
+const MAX_SIDE = 16384;
 
 // "default" keeps the URL; "?k=v" merges into its query; "#x" replaces its hash.
 function stateUrl(url, state) {
@@ -163,9 +176,12 @@ const isLocal = (url) => /^file:|^https?:\/\/(localhost|127\.|0\.0\.0\.0|\[::1\]
 
 const jobs = [], paths = new Set();
 for (const route of plan.routes) {
+  // A route's own sizes and themes apply unless the command line named some.
+  const sizes = !opt.viewports && route.viewports ? route.viewports.map(viewport) : cfg.viewports;
+  const themes = !opt.themes && route.themes ? route.themes.map(theme) : cfg.themes;
   for (const state of route.states || cfg.states) {
-    for (const { w, h } of cfg.viewports) {
-      for (const theme of cfg.themes) {
+    for (const { w, h } of sizes) {
+      for (const theme of themes) {
         const path = join(cfg.out, `${route.id}-${stateSlug(state)}-${w}x${h}-${theme}.png`);
         if (paths.has(path)) die(`two captures would both write ${path}; give the routes distinct ids`);
         paths.add(path);
@@ -234,6 +250,11 @@ async function capture(job) {
     if (!problem && (cfg.consent === 'dismiss' || (cfg.consent === 'auto' && !isLocal(job.url)))) ({ png, consent: rec.consent } = await cleanScreenshot(page, shoot));
     else png = await shoot();
     rec.sha256 = sha256(png);
+    const side = Math.max(png.readUInt32BE(16), png.readUInt32BE(20)); // PNG IHDR: width, height
+    if (!problem && side > MAX_SIDE) {
+      problem = ['too-tall', `the image is ${side} device px on its long side, over Chrome's ${MAX_SIDE}: it shows the page only down to ` +
+        `${Math.floor(MAX_SIDE / cfg.dpr)} px and then repeats the top. Rerun with a lower --dpr, or capture the lower sections as states`];
+    }
     if (!problem && cfg.qa) {
       const qa = await pixelQA(page, png, QA_BLANK);
       rec.qa = { stddev: qa.stddev, edge: qa.edge, dominant: qa.dominant };

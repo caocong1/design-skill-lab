@@ -80,7 +80,7 @@ python "$env:USERPROFILE\.codex\skills\design-studio\scripts\feedback_status.py"
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.11.1（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `design-studio` | 0.12.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
 | `critique-design` | 0.3.3 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
 | `implement-design` | 0.3.2 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
@@ -208,7 +208,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 
 | 脚本 | 做什么 |
 | --- | --- |
-| `capture.mjs` + `lib/capture-core.mjs` | Playwright 截图：地址 × 视口 × 明暗 × 状态；语言与时区（`--locale`、`--timezone`）；复用登录态、校验构建标记、移除同意弹窗；遇到反爬页、空白页、报错页时以非零码退出；`--sheet` 出联系表；报告里有批次标识和每张图的摘要，`--freeze` 冻结交给评审的那一批 |
+| `capture.mjs` + `lib/capture-core.mjs` | Playwright 截图：地址 × 视口 × 明暗 × 状态；语言与时区（`--locale`、`--timezone`）；复用登录态、校验构建标记、移除同意弹窗；遇到反爬页、空白页、报错页时以非零码退出；`--sheet` 出联系表；报告里有批次标识和每张图的摘要，`--freeze` 冻结交给评审的那一批；路由表里每条路由可以有自己的视口，一次运行拍完一份样稿的各个帧；整页截图超过 Chrome 能画的高度时判失败 |
 | `shot.sh` | 零依赖兜底（Chrome 命令行），检测项比 capture.mjs 少 |
 | `lint.mjs` | 渲染后页面的确定性底线检查。不过就以退出码 1 结束的：文字对比度（计算加实测）、横向溢出、无名控件；只报警告的：点击区域、`transition: all`、减少动效、中文排版、token 漂移等 |
 | `color_tools.py` | WCAG / APCA 对比度、OKLCH 色阶、色觉模拟 `cvd`、`matrix --from tokens.css` |
@@ -279,6 +279,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.11.1），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.12.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

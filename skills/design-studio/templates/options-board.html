@@ -22,6 +22,8 @@
   - Redesign only: keep the Baseline line in the header; otherwise delete it.
   - Light and dark both needed: add a second .screen per direction with data-mode="dark" and a
     scoped dark token block.
+  - Several targets: one .stage per target inside the article, each .screen with its own data-w,
+    data-h and data-frame ("desktop", "phone"). Sizes and thumbnails are then labelled per frame.
   - Render at 1440 and 390 and look before showing (references/process/render-and-look.md).
   - Lint per direction: `lint.mjs index.html --scope '[data-direction="a"]'` shows drift inside one
     direction; page-wide colour clusters across directions and board chrome are expected.
@@ -61,6 +63,7 @@
   .frame-toggle:focus-visible { outline: 2px solid var(--board-ink); outline-offset: 2px; }
   @media (max-width: 760px) { .frame-toggle { display: none; } }
   .stage { overflow: hidden; }
+  .stage + .stage { margin-top: 16px; }
   .card { margin: 16px 0 0; display: grid; grid-template-columns: 7.5em 1fr; gap: 4px 12px; }
   .card dt { color: var(--board-muted); }
   .card dd { margin: 0; }
@@ -327,7 +330,8 @@
   frames.forEach((screen) => {
     const { w, h } = size(screen);
     const direction = screen.closest('.direction');
-    direction.querySelector('.frame-size').textContent = w + ' x ' + h;
+    const sizes = direction.querySelector('.frame-size');
+    sizes.textContent = [sizes.textContent, w + ' x ' + h].filter(Boolean).join(' · ');
 
     const cell = document.createElement('figure');
     cell.className = 'thumb';
@@ -337,7 +341,7 @@
     copy.removeAttribute('aria-label');
     stage.append(copy);
     const caption = document.createElement('figcaption');
-    caption.textContent = direction.dataset.label;
+    caption.textContent = [direction.dataset.label, screen.dataset.frame].filter(Boolean).join(' ');
     cell.append(stage, caption);
     strip.append(cell);
   });
