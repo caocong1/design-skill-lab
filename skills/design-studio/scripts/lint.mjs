@@ -4,11 +4,12 @@
 //
 //   node lint.mjs <url-or-file> [--viewports 1280x800,390x844] [--dark] [--json] [--max 8] [--strict]
 //                 [--scope css-selector] [--auth storage-state.json] [--above-fold "sel[,sel...]"]
-//                 [--platform ios|android|harmonyos|miniprogram] [--touch]
+//                 [--platform ios|android|harmonyos|miniprogram] [--touch | --no-touch]
 //
 //   node lint.mjs .design/screens/home.html                 light at 1280x800 and 390x844 (touch)
 //   node lint.mjs "http://localhost:5173/orders?state=empty-first" --dark   adds the same sizes in dark
 //   node lint.mjs ios.html --platform ios                     the iOS frame (402x874), 44 px touch floor
+//   node lint.mjs "app.html?frame=drawer" --viewports 320x640 --no-touch   a narrow desktop pane, mouse pointer
 //   node lint.mjs page.html --json > .design/critique/2026-09-27-home/lint.json
 //   node lint.mjs .design/directions/r1/index.html --scope '[data-direction="a"]'   one direction of a board
 //   node lint.mjs landing.html --viewports 390x844 --above-fold 'h1, [data-component=PrimaryAction]'
@@ -27,7 +28,7 @@
 //   touch-target     with --platform or --touch: interactive targets under the platform minimum, 44 px
 //                    for ios, miniprogram and --touch, 48 px for android, 40 px for harmonyos (48 recommended) (numbers owned by
 //                    references/fundamentals/layout-and-spacing.md, "Targets and density"). Without
-//                    them it is a warning at widths under 600.
+//                    them it is a warning at widths under 600, and absent with --no-touch.
 // Warnings
 //   contrast-unverified (text over an image that could not be sampled), overflow-clipped (content cut
 //   by overflow-x on html/body), clipped-text (text cut by overflow hidden/clip, text-overflow: ellipsis
@@ -52,6 +53,9 @@
 //               --viewports the platform's default frame is used (portable-mockups.md): ios 402x874,
 //               android 412x915, harmonyos 366x809, miniprogram 375x812.
 // --touch       a touch-first web target: every run is a touch run at 44 px (pass only touch sizes).
+// --no-touch    the frames are desktop surfaces at any width (a drawer, task pane, side panel or small
+//               window drawn alone): no phone emulation under 600, so the page keeps a mouse pointer,
+//               hover and the desktop UA, and touch-target and input-zoom are not reported.
 // --auth        a Playwright storage-state file (saved login) for routes behind sign-in.
 // Not checked: non-text contrast (borders, icons, focus rings: color_tools.py matrix --from checks the
 //   token pairs), focus visibility, keyboard order, requestAnimationFrame motion, text inside images,
@@ -103,7 +107,7 @@ const CONTROL_ROLES = new Set(['button', 'link', 'textbox', 'searchbox', 'combob
 
 function parseArgs(argv) {
   const o = { viewports: null, dark: false, json: false, max: 8, strict: false, auth: null, scope: null, target: null,
-    aboveFold: [], platform: null, touch: false };
+    aboveFold: [], platform: null, touch: false, noTouch: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const value = () => {
@@ -116,6 +120,7 @@ function parseArgs(argv) {
     else if (a === '--json') o.json = true;
     else if (a === '--strict') o.strict = true;
     else if (a === '--touch') o.touch = true;
+    else if (a === '--no-touch') o.noTouch = true;
     else if (a === '--platform') o.platform = value().toLowerCase();
     else if (a === '--above-fold') o.aboveFold = splitSelectors(value());
     else if (a === '--max') o.max = Number(value());
@@ -128,6 +133,7 @@ function parseArgs(argv) {
   }
   if (!o.target) usage('a URL or file is required');
   if (o.platform && !TOUCH_MIN[o.platform]) usage(`--platform takes ${Object.keys(TOUCH_MIN).join(', ')}`);
+  if (o.noTouch && (o.touch || o.platform)) usage('--no-touch (a desktop frame) cannot be combined with --touch or --platform');
   o.viewports = o.viewports || (o.platform ? [PLATFORM_VIEWPORT[o.platform]] : ['1280x800', '390x844']);
   o.touchMin = o.platform ? TOUCH_MIN[o.platform] : o.touch ? 44 : 0; // 0: no touch floor, 44 px warnings under 600
   if (!o.viewports.every((v) => /^\d+x\d+$/.test(v))) usage('--viewports takes WxH,WxH (e.g. 1280x800,390x844)');
@@ -138,7 +144,7 @@ function parseArgs(argv) {
 
 function usage(error) {
   if (error) {
-    process.stderr.write(`lint.mjs: ${error}\nusage: node lint.mjs <url-or-file> [--viewports WxH,...] [--dark] [--json] [--max n] [--strict] [--scope sel] [--auth state.json] [--above-fold sel,...] [--platform ios|android|harmonyos|miniprogram] [--touch]\n`);
+    process.stderr.write(`lint.mjs: ${error}\nusage: node lint.mjs <url-or-file> [--viewports WxH,...] [--dark] [--json] [--max n] [--strict] [--scope sel] [--auth state.json] [--above-fold sel,...] [--platform ios|android|harmonyos|miniprogram] [--touch | --no-touch]\n`);
     process.exit(2);
   }
   const lines = [];
@@ -800,7 +806,7 @@ async function SAMPLE([b64, items]) {
 
 async function lintRun(browser, url, run, o, first) {
   const page = await newPage(browser, { width: run.width, height: run.height, dpr: 1, colorScheme: run.scheme,
-    reducedMotion: 'no-preference', storageState: o.auth || undefined });
+    reducedMotion: 'no-preference', storageState: o.auth || undefined, mobile: o.noTouch ? false : undefined });
   try {
     const nav = await gotoReady(page, url, { settle: 0.6 });
     if (nav.status && nav.status >= 400) throw Object.assign(new Error(`${url} answered HTTP ${nav.status}`), { load: true });
@@ -1061,7 +1067,7 @@ async function main() {
   for (const scheme of o.dark ? ['light', 'dark'] : ['light']) {
     for (const v of o.viewports) {
       const [width, height] = v.split('x').map(Number);
-      runs.push({ id: `${width} ${scheme}`, width, height, scheme, touch: o.touchMin > 0 || width < 600, touchMin: o.touchMin || 44,
+      runs.push({ id: `${width} ${scheme}`, width, height, scheme, touch: o.touchMin > 0 || (width < 600 && !o.noTouch), touchMin: o.touchMin || 44,
         safeArea: o.touchMin > 0 && width < 1024 });
     }
   }

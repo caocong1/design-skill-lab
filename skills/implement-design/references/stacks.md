@@ -283,6 +283,10 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   or a `SystemBackdrop` on flyouts for transient surfaces; `SystemBackdropElement` for one panel. Radii from
   `ControlCornerRadius` (4) and `OverlayCornerRadius` (8). Title bar 32 px, 48 px with search or a person
   picture; `TitleBar` has custom drag regions. Agent plugin: `/plugin install winui@awesome-copilot`.
+- A native toolkit with no simulator or preview (egui and other immediate-mode GUIs): build shots come from
+  an offscreen render of the screen with its services stubbed, at the design's logical size and scale, never
+  from launching an app that joins a live network or account. egui: `egui_kittest` (`wgpu` + `snapshot`
+  features, `Harness::snapshot`; 0.36, 2026-10) if the project can take it. Name the harness in the report.
 
 ## Assets and fonts
 

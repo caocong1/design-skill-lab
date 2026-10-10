@@ -2,7 +2,7 @@
 name: implement-design
 description: "Use when a design, handoff package or mockup already exists and must be built in a specific stack: a .design/handoff package, HTML/CSS mockup, Figma frame, approved PNG, or specs and tokens turned into code in the host project (React, Next, Vue, Nuxt, Tailwind, Ant Design, Element Plus, uni-app, Flutter, SwiftUI, Compose, ArkUI, mini-programs, Electron, Tauri, WinUI), or a build fixed until it matches its design. Lands tokens in the host theme, builds every state, proves fidelity with build screenshots, acceptance and visual-regression baselines. 按设计稿实现、照设计图开发、设计稿还原、还原度修正、交接包落地、静态稿接入项目。Not for: deciding or improving what the design should be, UI polish, 整体优化, design-then-build from scratch, 切图/标注 or dev specs (use design-studio); reviews or acceptance reports without fixing (use critique-design); CSS refactors, front-end bugs or single property edits with no design to match."
 metadata:
-  version: 0.3.3
+  version: 0.3.4
   short-description: Build an existing design in code, verified by screenshots
 ---
 
@@ -91,7 +91,7 @@ Build everything first; then one batched capture round, one fix batch, at most o
    scale, theme, state and content into `.design/handoff/<feature>/build/`, named like the design shots
    (`<screen>-<state>-<target>-<theme>.png`); stamp the build and check the stamp in every shot. Web:
    `../design-studio/scripts/capture.mjs --name <screen> --viewports <target WxH>`, renamed as [handoff](../design-studio/references/process/handoff.md)
-   section 3 shows; else `shot.sh` beside it or the project's Playwright; native: simulator or goldens.
+   section 3 shows; else `shot.sh` or the project's Playwright; native: simulator, goldens or an offscreen render ([stacks](references/stacks.md)).
 2. Open every file: right screen, fully loaded, the state its name claims.
 3. Compare side by side, then overlaid (recipe: [render-and-look](../design-studio/references/process/render-and-look.md)
    section 8). List deviations as `expected > actual`. A screen with no design shot of its own is

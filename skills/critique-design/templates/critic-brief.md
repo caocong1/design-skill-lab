@@ -93,7 +93,8 @@ chosen one (step 9).
 
 ## Track B: open only after your Track A findings are written down
 
-- `lint.mjs` output: <path, or `lint.mjs <file> --viewports <declared targets>`>
+- `lint.mjs` output: <path, or `lint.mjs <file> --viewports <declared targets>` with `--touch`,
+  `--platform <target>` or `--no-touch` (a desktop frame under 600 wide), as the contract's input mode says>
 - Contrast matrix: <path, or `color_tools.py matrix --from <tokens.css>`>
 - Capture log: <path; exit code; walls, blanks or errors reported>
 - Acceptance only: raw literals in the changed files, <`grep -rnE '#[0-9a-fA-F]{3,8}\b|rgba?\(' <paths>` output>

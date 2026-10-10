@@ -7,6 +7,8 @@
 //   --out dir              output folder (default .design/shots)
 //   --viewports list       WxH list (default 390x844,768x1024,1280x800,1920x1080); widths under 600
 //                          are emulated as a phone (touch, mobile UA)
+//   --no-touch             no phone emulation under 600: a narrow desktop frame (drawer, task pane, side panel,
+//                          small window) keeps a mouse pointer, hover and the desktop UA
 //   --themes list          light,dark (default light) -> prefers-color-scheme
 //   --states list          default and/or query or hash variants, e.g. "default,?state=empty-first,#help"
 //   --full                 full-page capture instead of the viewport
@@ -26,8 +28,9 @@
 //   --concurrency n        pages in parallel (default 4)
 //
 // Output: <out>/<name>-<state>-<W>x<H>-<theme>.png (state "default", or the variant slugged) and
-// <out>/capture-report.json listing every capture: path, url, http status, verdict, reason, pixel stats,
-// sha256 of the PNG and, for a local file, source_sha256 of that file (not of what it links to). The report
+// <out>/capture-report.json listing every capture: path, url, http status, verdict, reason, pixel stats, touch
+// (true when it was emulated as a phone), sha256 of the PNG and, for a local file, source_sha256 of that
+// file (not of what it links to). The report
 // carries the run's capture_id, so a finding can name the set it was seen in, and writes: the requests other
 // than GET, HEAD and OPTIONS the pages sent, on leaving included (autosave, beacons). Writes warn, not fail.
 // Exit: 0 every capture ok · 1 some capture is a wall, error page, redirect to login, blank, missing
@@ -42,7 +45,8 @@
 //    "locale": "zh-CN", "timezone": "Asia/Shanghai"}
 //   {"base": "frame.html", "routes": [{"id": "a-desktop", "path": "?frame=desktop", "viewports": ["1280x800"]},
 //    {"id": "a-phone", "path": "?frame=phone", "viewports": ["390x844"]}]}
-// A route may name its own "viewports" and "themes". Command-line options override the file's values.
+// A route may name its own "viewports" and "themes", and "touch": false (as --no-touch, for that route; the
+// file may set it for all). Command-line options override the file's values.
 import { createHash, randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, resolve } from 'node:path';
@@ -52,7 +56,7 @@ import {
 } from './lib/capture-core.mjs';
 
 const USAGE = 'usage: node capture.mjs <url|file|routes.json> [--out dir] [--viewports 390x844,1280x800] [--themes light,dark]\n' +
-  '       [--states "default,?state=empty-first"] [--full] [--dpr 2] [--reduced-motion] [--locale zh-CN]\n' +
+  '       [--no-touch] [--states "default,?state=empty-first"] [--full] [--dpr 2] [--reduced-motion] [--locale zh-CN]\n' +
   '       [--timezone Asia/Shanghai] [--storage-state auth.json]\n' +
   '       [--login-script login.mjs] [--build-stamp text] [--consent auto|dismiss|keep] [--no-qa] [--sheet]\n' +
   '       [--freeze] [--name base] [--timeout ms] [--concurrency n]      (--help for details)';
@@ -71,6 +75,7 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--out') opt.out = val();
   else if (a === '--viewports') opt.viewports = list();
   else if (a === '--themes') opt.themes = list();
+  else if (a === '--no-touch') opt.touch = false;
   else if (a === '--states') opt.states = list();
   else if (a === '--full') opt.full = true;
   else if (a === '--dpr') opt.dpr = Number(val());
@@ -110,10 +115,10 @@ function readPlan(t) {
     return {
       base, viewports: file.viewports, themes: file.themes, states: file.states,
       storageState: rel(file.storageState), loginScript: rel(file.loginScript), buildStamp: file.buildStamp,
-      locale: file.locale, timezone: file.timezone,
+      locale: file.locale, timezone: file.timezone, touch: file.touch,
       routes: file.routes.map((r, i) => ({
         id: slug(r.id || r.path || `route-${i + 1}`), url: new URL(r.path || (base.startsWith('file:') ? '' : '/'), base).href,
-        ready: r.ready, states: r.states, viewports: r.viewports, themes: r.themes,
+        ready: r.ready, states: r.states, viewports: r.viewports, themes: r.themes, touch: r.touch,
       })),
     };
   }
@@ -180,13 +185,14 @@ for (const route of plan.routes) {
   // A route's own sizes and themes apply unless the command line named some.
   const sizes = !opt.viewports && route.viewports ? route.viewports.map(viewport) : cfg.viewports;
   const themes = !opt.themes && route.themes ? route.themes.map(theme) : cfg.themes;
+  const desktop = (opt.touch ?? route.touch ?? plan.touch) === false; // a narrow frame that is not a phone
   for (const state of route.states || cfg.states) {
     for (const { w, h } of sizes) {
       for (const theme of themes) {
         const path = join(cfg.out, `${route.id}-${stateSlug(state)}-${w}x${h}-${theme}.png`);
         if (paths.has(path)) die(`two captures would both write ${path}; give the routes distinct ids`);
         paths.add(path);
-        jobs.push({ route, state, url: stateUrl(route.url, state), w, h, theme, path });
+        jobs.push({ route, state, url: stateUrl(route.url, state), w, h, theme, path, touch: w < 600 && !desktop });
       }
     }
   }
@@ -241,9 +247,9 @@ try {
 
 async function capture(job) {
   const t0 = Date.now();
-  const rec = { path: job.path, url: job.url, route: job.route.id, state: job.state, viewport: `${job.w}x${job.h}`, theme: job.theme };
+  const rec = { path: job.path, url: job.url, route: job.route.id, state: job.state, viewport: `${job.w}x${job.h}`, theme: job.theme, touch: job.touch };
   const page = await newPage(browser, {
-    width: job.w, height: job.h, dpr: cfg.dpr, colorScheme: job.theme, reducedMotion: cfg.reducedMotion, storageState,
+    width: job.w, height: job.h, dpr: cfg.dpr, mobile: job.touch, colorScheme: job.theme, reducedMotion: cfg.reducedMotion, storageState,
     locale: cfg.locale, timezoneId: cfg.timezone,
   });
   if (job.url.startsWith('file:')) {

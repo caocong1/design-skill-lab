@@ -34,7 +34,7 @@ bash "$S/shot.sh" --help          # rung 2
 
 | Rung | Tool | Use it for | Limits |
 | --- | --- | --- | --- |
-| 1 | `capture.mjs` (Playwright) | everything: mockups and running apps; true viewport emulation (390 is 390, touch below 600), DPR, forced colour scheme, language and time zone (`--locale`, `--timezone`), sizes x themes x states in one run, saved login (`--storage-state`, `--login-script`), route manifests, build stamps, wall / login / blank / error detection with exit 1, `--sheet` contact sheets, frozen sets (`--freeze`) | needs Node and Playwright |
+| 1 | `capture.mjs` (Playwright) | everything: mockups and running apps; true viewport emulation (390 is 390; a phone with touch below 600, `--no-touch` for a narrow desktop frame), DPR, forced colour scheme, language and time zone (`--locale`, `--timezone`), sizes x themes x states in one run, saved login (`--storage-state`, `--login-script`), route manifests, build stamps, wall / login / blank / error detection with exit 1, `--sheet` contact sheets, frozen sets (`--freeze`) | needs Node and Playwright |
 | 2 | `shot.sh` (headless Chrome CLI) | mockups and public pages on a host without Node or Playwright | no login, no manifest, no touch emulation; one theme per run (`--dark`), states go in the URL. Below 500 px it renders in a sized iframe: a site that refuses framing has those sizes skipped with exit 3; an unreachable URL exits 2 |
 | 3 | a browser tool in the host (Chrome or Playwright MCP) | interactive checks: hover, focus order, computed styles, console errors, measuring | slow for batches |
 | 4 | nothing | - | deliver the artefact marked unverified (section 9) |
@@ -80,6 +80,12 @@ Each was hit in real runs; the first two were re-verified on Chrome 153.
   confirm `scrollY` is 0. Chrome paints at most 16384 device px a side: past that (8192 px of page
   at DPR 2) the image repeats the top of the page. `capture.mjs` fails such a file as `too-tall`;
   lower the DPR or capture the lower sections as states.
+- **Narrow is not always a phone.** Below 600 px both scripts emulate a phone: touch, no hover, a
+  mobile user agent, and `lint.mjs` adds 44 px `touch-target` and `input-zoom` warnings. A desktop
+  drawer, task pane, side panel or small window drawn as its own frame is not one: pass `--no-touch`
+  (in a manifest, `"touch": false` on that route), or its hover styles drop out of the image and a
+  critic reads the warnings as failed targets (a 320 px drawer, 2026-10 host round).
+  `capture-report.json` records `touch` per capture.
 - **Readiness.** Wait for `document.fonts.ready`, for lazy images (scroll through the page first)
   and for entrance animations to finish, or disable them. A fixed delay is not readiness.
 - **Fonts.** Confirm in the image that the intended face rendered: look at distinctive glyphs
@@ -134,9 +140,10 @@ One batched capture round, one fix batch, at most one confirm round:
 3. **Open every file** and check it shows what its name claims: right route, state, theme, size and
    build; no wall, blank, spinner or error page. A file that fails is recaptured, never judged.
 4. Look (section 7) and run the floor: web `lint.mjs <page> --viewports <each declared size>`
-   (default 1280x800 and 390x844; add `--touch` for a touch-first product); native `lint.mjs <screen>
-   --platform ios|android|harmonyos|miniprogram` (that frame and its touch minimum, which fails the
-   floor); plus `--above-fold "<selectors>"` when the contract lists the first viewport. Then
+   (default 1280x800 and 390x844; add `--touch` for a touch-first product, `--no-touch` for a
+   desktop frame under 600 wide); native `lint.mjs <screen> --platform
+   ios|android|harmonyos|miniprogram` (that frame and its touch minimum, which fails the floor);
+   plus `--above-fold "<selectors>"` when the contract lists the first viewport. Then
    `color_tools.py` on every text and UI colour pair. Write one findings list.
 5. Fix everything in one batch.
 6. Confirm at most once: recapture what the fixes touched, plus a fresh sheet. Then stop, and

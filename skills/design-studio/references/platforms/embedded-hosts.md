@@ -135,6 +135,7 @@ Renderer facts that shape the drawing (v0.9.1, current production; v1.0 is a rel
 - Harness page at the host's widths (pane: its narrowest and widest; widget: the two assumed widths),
   light and dark host themes, and for widgets inline, fullscreen and pip.
 - A render with no host variables (the fallback path) and with a partial set.
-- Touch emulation with hover off; CJK text in the host's OS fonts.
+- Touch emulation with hover off; CJK text in the host's OS fonts. A pane in a desktop host is also
+  captured and linted with `--no-touch` ([render-and-look](../process/render-and-look.md) section 3).
 - List as unverified whatever needs the real host: actual widths, the variables it sends, font
   fallback, caching.

@@ -12,6 +12,42 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.14.0] - 2026-10-11
+
+第四个宿主（宿主 D：中文桌面应用，界面用 egui 原生绘制，另有一个 Web 端）用过之后写回 3 条反馈：窄的桌面窗格被当成手机来截图和检查、原生界面没有出构建截图的办法、用户说"用设计 skill 统一样式"时先被选中的是另一个落地页 skill。两个脚本多一个 `--no-touch` 开关，截图报告多一个 `touch` 字段（MINOR）。不加开关时的行为、已有的命令行和报告字段都没有变。
+
+### 修复
+
+- `skills/design-studio/scripts/capture.mjs`、`scripts/lint.mjs`：两个脚本把宽度小于 600 的视口一律模拟成手机（触摸、没有悬停、移动端 UA），`lint.mjs` 还会报 44 px 的 `touch-target` 和 `input-zoom` 警告。宿主把桌面应用里 320 宽的侧边抽屉单独画成一帧，结果只用鼠标的窗格收到一串触摸目标警告，新上下文评审把它们算进了底线。套件自己的参考文件早就写了这类界面（`platforms/desktop.md` 的窗格，`platforms/embedded-hosts.md` 里 320–480 宽的 Office 任务窗格，`layout-and-spacing.md` 的"桌面指针界面 24–32 px 控件"），脚本的假设和它们对不上。新增 `--no-touch`：窄帧保持鼠标指针、悬停和桌面 UA，`lint.mjs` 不再报这两类警告。路由表里可以写 `"touch": false`，整份文件或单条路由都行，所以同一次运行里的抽屉帧和手机帧可以各按各的拍。`lint.mjs` 的 `--no-touch` 不能和 `--touch`、`--platform` 同用（退出码 2）。`capture-report.json` 每张图记 `touch`（是否按手机模拟）。
+
+### 新增（skill）
+
+- `references/process/render-and-look.md`：§3 截图陷阱加"窄不等于手机"，§1 工具表和 §5 第 4 步提到 `--no-touch`。`platforms/desktop.md` §5、`platforms/embedded-hosts.md` §5 各加一句指过去。
+- `critique-design/references/rubric.md` F4：指针界面里宽度小于 600 的帧用 `--no-touch` 检查；没加开关的运行报出的 44 px 警告不算问题。`templates/critic-brief.md` Track B 的 lint 一行写明按契约的输入方式带 `--touch`、`--platform` 或 `--no-touch`。
+- `implement-design/references/stacks.md` Desktop 一节：没有模拟器和预览的原生工具包（egui 这类即时模式 GUI），构建截图来自把界面离屏渲染出来、服务换成桩，尺寸和倍率与设计稿一致；不靠启动一个会接入真实网络或账号的应用。egui 可以用 `egui_kittest`（`wgpu` 和 `snapshot` 两个 feature，`Harness::snapshot`；0.36 版，2026-10-11 在 docs.rs 上核对）。宿主那一轮是从头写了一个无头 wgpu 的渲染脚手架。`implement-design/SKILL.md` §4 第 1 步的"native: simulator or goldens"加上离屏渲染并指向这一节。
+- `skills/design-studio/SKILL.md` 的描述：加"restyles or unifies the look of existing product UI across app and web"，中文关键词加"美化、样式统一"。没有加单独的"样式"和"更好看"：前者会碰到纯 CSS 重构（触发集 t071，应当不触发），后者是触发集里特意留的两可行（t038）。描述 918 → 998 字符，上限 1024。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.13.0 → **0.14.0**（描述改了，正文未改）。
+- `skills/critique-design/SKILL.md` 0.3.4 → **0.3.5**（正文未改）。
+- `skills/implement-design/SKILL.md` 0.3.3 → **0.3.4**。
+
+### 变更（反馈闭环）
+
+- 3 条条目处置后归档，`feedback/log.md` 追加一节；新提案 P10（在真实宿主里、装着别的设计 skill 时抽查触发）。
+
+### 验证
+
+- 复现页面：320 宽的桌面抽屉，28 px 高的按钮和输入框，页面自己显示 `pointer` / `hover` 媒体查询和 UA 的结果。改之前：截图里是 `pointer: coarse / hover: none`、移动端 UA，lint 报 3 条 `touch-target` 和 1 条 `input-zoom`。加 `--no-touch`：`pointer: fine / hover: hover`、桌面 UA，lint 没有警告，退出码 0。不加开关时 lint 的输出和原来一样；390 和 1280 两张截图的 `sha256` 与 0.13.0 的脚本拍出来的相同。
+- 路由表：一份文件里抽屉帧（320，`"touch": false`）、手机帧（390）、桌面帧（1280）一次拍完，报告里 `touch` 依次是 false、true、false。
+- 描述：代理方法（`evals/run_triggers.md` 的批量变体，不是真实触发率）。列表里放进三个 skill 和这台机器上装着的另外三个设计类 skill（包括那个落地页 skill）；9 条请求（宿主用户的原话、一条换了说法的、触发集里 7 条邻近行：t019、t040、t049、t059、t071、t073、t078）；新旧描述各 3 轮，每轮一个全新上下文；子 agent 没有单独指定模型，沿用本会话的设置（Opus 5.5）。54 个回答全部符合预期，新旧两组逐条相同。
+
+### 未验证
+
+- 描述的改动有没有用，没有证据。代理方法是强制选择，旧描述在里面本来就赢，复现不了宿主里的那次选错；它只说明加的词没有让邻近的 7 行走错。真实宿主里的情况见提案 P10。
+- `--no-touch` 和离屏渲染的写法都还没有在宿主里用过；`egui_kittest` 只核对了文档，没有跑。
+
 ## [0.13.0] - 2026-09-29
 
 宿主 C（中文个人媒体库 Web）又一轮重设计之后写回 5 条反馈：`lint.mjs` 的对比度误报、截图会改动被拍应用的数据、两处措辞与实际不符、implement 模式下没画过的界面能不能在构建里设计。截图报告多一个 `writes` 字段，implement 模式多一条有前提的例外（MINOR）。已有的命令行、报告字段、模板结构都还在。

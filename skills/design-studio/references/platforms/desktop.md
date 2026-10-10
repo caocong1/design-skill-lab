@@ -198,6 +198,8 @@ The web layer does not inherit native feel; design it in.
 - Both OS frames if both ship; active and inactive windows; light, dark and, on Windows, a contrast
   theme (materials drop out, forced colours apply per [color](../fundamentals/color.md)).
 - The minimum window size and each Windows window class; the solid fallback of every material role.
+- A drawer, pane or small window drawn alone under 600 px wide: capture and lint it with `--no-touch`,
+  or the tools treat it as a phone ([render-and-look](../process/render-and-look.md) section 3).
 - Keyboard walk-through of the primary flow, shortcuts visible in menus and tooltips.
 - Terminal UI, if the product has one: human-first output with a machine-readable flag, errors that
   say what to do next, `--help` that leads with examples, colour that degrades (`NO_COLOR`), progress

@@ -112,3 +112,17 @@
 - 评审报告的回退写法用无头会话实跑了一次，结果见 CHANGELOG 0.13.0 的"验证"。
 
 仍未验证：P9 的例外，以及宿主真实应用里的数据集重置和前后对比。
+
+## 2026-10-11 · 宿主 D（中文桌面应用，egui 原生界面加 Web 端）写回的 3 条，0.14.0
+
+条目由宿主会话直接写进 inbox（日期 2026-10-09）。本仓库没有见到那一轮的原始记录，事实以条目为准；截图和 lint 的一条在本仓库复现了。
+
+| 簇 / 条目 | 分级 | 处置 |
+| --- | --- | --- |
+| 窄的桌面窗格被当成手机 `narrow-desktop-pane-linted-as-touch` | B | 复现成立：320 宽的帧被模拟成触摸、无悬停、移动端 UA，lint 报 `touch-target` 和 `input-zoom`。lint 本身把它们列为警告，不是底线失败；算进底线的是评审。脚本"小于 600 就是手机"的假设和 `desktop.md`、`embedded-hosts.md`、`layout-and-spacing.md` 对不上。0.14.0：`capture.mjs` 和 `lint.mjs` 加 `--no-touch`，路由表加 `"touch": false`，报告记 `touch`；`render-and-look.md` 第 3 节写明，rubric F4 和 critic brief 同步。默认行为不变，默认截图与 0.13.0 逐字节相同。没有做条目建议的 `--pointer fine`：只有一个取值的选项不如开关直白，而且 `lint.mjs` 已经有 `--touch` |
+| 原生界面没有出构建截图的办法 `no-render-path-for-native-ui` | B | 只有一条 minor，但 implement-design 第 4 节第 1 步写的"simulator or goldens"在这个技术栈上两样都没有，指引走不通。0.14.0：`stacks.md` Desktop 一节加离屏渲染加桩的做法，implement-design 第 1 步指过去。条目里的 `run_ui + egui_wgpu::Renderer` 写法没有采用：没有核对过，而且是易腐的 API 细节。写进去的是在 docs.rs 上核对过的 `egui_kittest`（0.36）。implement-design 0.3.4 |
+| 另一个设计 skill 抢先触发 `other-design-skill-won-trigger` | A + C | 用户的纠正。请求里的词（样式、统一、好看）描述里一个都没有。0.14.0：描述加"restyles or unifies the look of existing product UI across app and web"和"美化、样式统一"；没有加单独的"样式"（会碰到 t071 的纯 CSS 重构）和"更好看"（t038 是特意留的两可行）。代理方法抽查 54 个回答全部符合预期，但旧描述在代理里本来就赢，所以改动有没有用没有证据。真实宿主里的抽查写成提案 P10 |
+
+没有改 `evals/triggers.jsonl`：它用过之后是冻结的回归集，往里加这次的原话等于对着它调描述。
+
+仍未验证：`--no-touch` 和离屏渲染的写法在宿主里的使用；描述的改动在真实宿主里的效果（P10）。
