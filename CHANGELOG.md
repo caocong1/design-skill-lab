@@ -12,6 +12,42 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.15.0] - 2026-10-27
+
+真实使用中，agent 把实验室展示页里已经为另一个 brief 写好的方向当成了新项目的多方案答案。`options` 增加来源边界、项目依据与交付前的 provenance 闸门（MINOR）；展示页和 16 套实验方向保留，不把它们变成名称黑名单。
+
+### 修复（skill）
+
+- `skills/design-studio/SKILL.md` 核心规则：宿主项目的受众、任务、内容和约束先于实验室示例；禁止把 demo、showcase、eval、模板或旧项目的完整方向包当作本轮候选。
+- `references/process/directions.md` 新增 §0，并将 deep / options 的执行入口改为 §0–10：默认候选池只能由本轮 brief 新写的 7 个 referents 产生；用户点名的参考只能固定被点名的质量，仍须重新派生坐标、内容、绘制与渲染。每个方向新增两个 brief anchors 和替换测试；上板前，非 Canon 卡回溯本轮 referents 与 seed、获准的 agent pick 或用户 pin，Canon 回溯 rut / 现有结构。参考可以借一个孤立手法，但必须写明不取什么以及在当前项目里怎样改变，不能整套搬运或换名轻改。
+- `references/process/directions.md` §6–7 与子 agent 任务包同步上述边界；方向卡和方案板模板加入 brief anchors / Brief fit，保留原有 Good at，参考表新增“宿主项目中的具体改变”，Origin 增加 `user pin`。方案板的三份样例明确只是脚手架，不能换文案和颜色后充当三方案。
+- `skills/design-studio/scripts/seed.py`：修复原有的 pinned 参考可能再次被抽中的问题。referent 第四段可写 `pinned`，这些行退出随机池、单独进入 JSON 与 Seed column，`--pick` 只计算随机方向；保留原始 #N 位置，固定 N 时 `pin + rolled` 恰好且不重复。无 pin 的调用方式不变。新增 `scripts/test-seed.py` 覆盖普通六方向、5 rolled + 1 pin、确定性、位置与全 pin 错误，并接入 Linux / Windows CI。
+
+### 变更（展示页）
+
+- `docs/lab/index.html`、`docs/lab/app.js`：中英说明都明确这些方向只服务于 Design Skill Lab 自己的资源目录，不是新项目的通用预置方案，可研究局部手法但不能整案套用。
+- `docs/lab/content.js`：在 `CONTENT.styles` 源头加同样的 agent 可读边界；16 套展示数据本身不变，避免误伤独立得出的合理设计词汇。
+
+### 新增（回归）
+
+- `evals/options-preset-leak.md`：独立的全仓库可见性回归协议。固定一个与资源目录无关的六方案 brief，检查恰好六方向、本轮 referents + seed、项目依据、真实项目内容、方案板和六张 PNG；带直接复制前六套展示方向的确定失败负例、允许合理局部参考的正例，以及用户点名 Swiss Grid 后 `5 rolled + 1 pin` 的转化与去重场景。`evals/README.md` 加入口，不混入六份主评分 brief 的聚合规则。
+
+### 变更（版本与反馈）
+
+- suite 0.14.1 → **0.15.0**；`README.md` 与 `.claude-plugin/` 同步。记录一条 `correction` 反馈。
+
+### 验证
+
+- 两个独立的普通 candidate-only 行为样本：同一社区剧场 brief 各产生 7 个本轮 referents、6 张不同方向卡；机械核验 seed、brief anchors、结构轴与展示概念包扫描均通过。两组方向分别为“行值日志 / 串联时刻 / 场务任务带 / 本人复核签 / 空位磁板 / 当日揭示”和“沿线到岗 / 留名格架 / 七格值周 / 当值签行 / 名牌归槽 / 逐条提示”，没有取展示页前六套。
+- 一个 pinned-reference 行为样本：用户点名 Swiss Grid 的严格网格，`5 rolled + 1 pin` 合成六个不同方向；pin 仅出现一次，生成新方向“候场坐标”，只保留严格网格并转成剧场的时间、区域、人员与本人权限语义列。
+- `scripts/test-seed.py` 五项通过，含逐槽 rolled 结果和原始 #N / file_line 映射；另与 HEAD 的旧脚本比对，无 pin 时 key 与六个 board slots 完全一致。`scripts/test-feedback-status.py`、`npm run test:evals` 通过。
+- 全量 G1–G9 通过；站点 smoke 27 个访问场景、59 次页面加载通过。完整样本首轮与确认轮各 9 张 PNG（六方向、桌面 / 手机方案板、缩略图）均渲染成功（capture verdict = ok），六方向与方案板的 lint floor 均为 0；警告保留在样本检查记录中。
+
+### 未验证
+
+- 没有按完整协议跑修复前后各三样本，因此不报告泄漏率；上述是候选行为冒烟与一份完整渲染样本，不是统计结论。
+- 当前 Harness 的 `read_image` 因 darwin-arm64 libvips `DLOPEN_FAILED` 无法打开 PNG；完整样本只声明 rendered = ok，不声明 looked-at 或实际灰度缩略图目视检查通过。
+
 ## [0.14.1] - 2026-10-16
 
 用户补充一个站点，资源目录 +1，无契约变化（PATCH）。

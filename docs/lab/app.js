@@ -271,7 +271,7 @@
     $('.lab-bar-nav').setAttribute('aria-label', 'Back to the new site');
     const [home, cat] = document.querySelectorAll('.lab-bar-nav a');
     home.textContent = '← New home'; cat.textContent = 'Catalogue';
-    $('.lab-bar-note').innerHTML = `<b>Directions lab</b>: the same catalogue set ${totals.styles} ways, the method’s first experiments, kept for comparison. The pages themselves are in Chinese.`;
+    $('.lab-bar-note').innerHTML = `<b>Directions lab</b>: the same catalogue set ${totals.styles} ways, the method’s first experiments, kept for comparison. These are demos for this catalogue, not presets for a new project; study isolated moves, never reuse a whole direction. The pages themselves are in Chinese.`;
     $('.lab-bar-pick span').textContent = 'Direction';
     pick.setAttribute('aria-label', 'Switch direction');
     const skip = $('.lab-skip');

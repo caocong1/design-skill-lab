@@ -4,13 +4,15 @@
   seed.py --brief .design/brief.md --round 1 [--seed N] [--pick 3] [--skip 2] REFERENTS
 
 REFERENTS is a text file with one referent per line, in the order they came to mind:
-    <referent> | <material family> | <quality to take>
+    <referent> | <material family> | <quality to take> [| pinned]
 Blank lines and lines starting with # are ignored; list markers ("1.", "-") are stripped.
+A fourth field `pinned` marks a user-pinned referent: it is reported separately and excluded from
+the roll, so --pick counts only rolled directions and the two sets cannot overlap.
 
 The roll is deterministic: sha256 of the brief text, the round and the seed. The same inputs
 always give the same board, so the result can be recorded in decisions.md and re-checked.
-The lead is never one of the first --skip lines (first ideas are the most probable ones);
-the other picks come from every remaining line. Board order: lead first (A), then the rest.
+The lead is never one of the first --skip unpinned lines (first ideas are the most probable ones);
+the other picks come from every remaining unpinned line. Board order: lead first (A), then the rest.
 
 Prints a short report; the last line is the same result as JSON.
 Procedure: references/process/directions.md. Python 3 stdlib only.
@@ -39,6 +41,24 @@ def read_referents(path):
             continue
         lines.append((number, re.sub(r"^(\d+[.)]|[-*])\s+", "", text)))
     return lines
+
+
+def partition_pinned(referents):
+    """Return (rolled pool, pinned records, rolled-index -> original position).
+
+    Pinning is an optional fourth pipe-delimited field. Keep original positions in output so cards,
+    the seed report and referents.txt all use the same stable #N identifier.
+    """
+    pool, pinned, positions = [], [], {}
+    for position, (number, text) in enumerate(referents, 1):
+        fields = [field.strip() for field in text.split("|")]
+        if len(fields) == 4 and fields[3].lower() == "pinned":
+            pinned.append({"position": position, "file_line": number,
+                           "referent": " | ".join(fields[:3])})
+        else:
+            positions[len(pool)] = position
+            pool.append((number, text))
+    return pool, pinned, positions
 
 
 def unit(key, label):
@@ -80,8 +100,8 @@ def main():
     parser.add_argument("--brief", type=Path, required=True, help="the round's brief (its text enters the hash)")
     parser.add_argument("--round", type=int, required=True, help="round number, 1 or more")
     parser.add_argument("--seed", type=int, default=0, help="user seed for a different roll of the same brief (default 0)")
-    parser.add_argument("--pick", type=int, default=3, help="referents that reach the board, lead included (default 3)")
-    parser.add_argument("--skip", type=int, default=2, help="the lead never comes from the first N lines (default 2)")
+    parser.add_argument("--pick", type=int, default=3, help="unpinned referents to roll, lead included (default 3)")
+    parser.add_argument("--skip", type=int, default=2, help="the lead never comes from the first N unpinned lines (default 2)")
     args = parser.parse_args()
 
     for path in (args.brief, args.referents):
@@ -94,19 +114,21 @@ def main():
     if args.skip < 0:
         fail("--skip must be 0 or more")
 
-    referents = read_referents(args.referents)
+    all_referents = read_referents(args.referents)
+    referents, pinned, positions = partition_pinned(all_referents)
     count = len(referents)
     if count < args.pick:
-        fail(f"{count} referents for --pick {args.pick}; list more")
+        fail(f"{count} unpinned referents for --pick {args.pick}; list more or lower --pick")
     if count <= args.skip:
-        fail(f"the lead comes after the first {args.skip} lines, but there are only {count}; list more or lower --skip")
+        fail(f"the lead comes after the first {args.skip} unpinned lines, but there are only {count}; "
+             "list more or lower --skip")
 
     brief_text = args.brief.read_text(encoding="utf-8").replace("\r\n", "\n").strip()
     key, board = roll(brief_text, args.round, args.seed, count, args.pick, args.skip)
 
-    warnings = family_warnings(referents)
-    if count < 7:
-        warnings.insert(0, f"{count} referents; the procedure asks for 7")
+    warnings = family_warnings(all_referents)
+    if len(all_referents) < 7:
+        warnings.insert(0, f"{len(all_referents)} referents; the procedure asks for 7")
     for warning in warnings:
         print(f"seed.py: warning: {warning}", file=sys.stderr)
 
@@ -114,16 +136,27 @@ def main():
     for slot, index in zip(LETTERS, board):
         number, text = referents[index]
         slots.append({"slot": slot, "role": "lead" if index == board[0] else "rolled",
-                      "position": index + 1, "file_line": number, "referent": text})
+                      "position": positions[index], "file_line": number, "referent": text})
 
     print(f"seed key {key}  (brief {args.brief}, round {args.round}, seed {args.seed})")
-    print(f"{count} referents; the lead is drawn from positions {args.skip + 1}-{count}\n")
+    if pinned:
+        print(f"{len(all_referents)} referents: {len(pinned)} pinned, {count} in the rolled pool; "
+              f"the lead skips the first {args.skip} pool lines\n")
+        print("Pinned, excluded from the roll; append after the rolled frames:")
+        for p in pinned:
+            print(f"  PIN    user pin  #{p['position']}  {p['referent']}")
+        print()
+    else:
+        print(f"{count} referents; the lead is drawn from positions {args.skip + 1}-{count}\n")
     for s in slots:
         print(f"  {s['slot']}  {s['role']:<6}  #{s['position']}  {s['referent']}")
-    summary = " ".join(f"{s['slot']}=#{s['position']}" for s in slots)
+    pin_summary = " ".join(f"PIN=#{p['position']}" for p in pinned)
+    roll_summary = " ".join(f"{s['slot']}=#{s['position']}" for s in slots)
+    summary = " ".join(part for part in (roll_summary, pin_summary) if part)
     print(f"\ndecisions.md Seed column: seed.py {key} r{args.round} s{args.seed}: {summary}")
     print(json.dumps({"key": key, "brief": str(args.brief), "round": args.round, "seed": args.seed,
-                      "pick": args.pick, "skip": args.skip, "count": count, "board": slots},
+                      "pick": args.pick, "skip": args.skip, "count": count,
+                      "total_count": len(all_referents), "pinned": pinned, "board": slots},
                      ensure_ascii=False))
 
 

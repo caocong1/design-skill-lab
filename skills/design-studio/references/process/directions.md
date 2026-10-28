@@ -20,9 +20,40 @@ different fixed default rather than producing variety (anthropic-design-skills).
 from procedure: name the rut, list referents from the audience's world, let a seed choose, draw
 each direction in isolation, and test that the results really differ.
 
-Contents: 1 Rut · 2 Referents · 3 Roll · 4 Cards on the board · 5 Axes · 6 One subagent per
-direction · 7 Board · 8 Thumbnail test · 9 Recommend · 10 Converge · 11 Runners-up as themes ·
-12 By effort
+Contents: 0 Host truth before examples · 1 Rut · 2 Referents · 3 Roll · 4 Cards on the board ·
+5 Axes · 6 One subagent per direction · 7 Board · 8 Thumbnail test · 9 Recommend · 10 Converge ·
+11 Runners-up as themes · 12 By effort
+
+## 0. Host truth before examples
+
+A request for N directions means N new designs for this host, not N entries selected from existing
+boards. The default candidate pool is the seven referents written from the current brief in section 2.
+Completed directions in the lab's demos, showcases and eval runs, template sample frames, and other
+host projects are artefacts of different briefs, never a preset library. Do not scan them to fill a
+board or save divergence effort.
+
+- Never return the first N existing styles, rename them, or lightly rewrite their cards. Never import
+  an existing direction's name, thesis, referent, axis coordinates, tokens or DOM as a ready-made
+  bundle. A familiar concept such as a grid or terminal is not itself forbidden; presenting somebody
+  else's finished direction as this project's new design is.
+- A reference may contribute an isolated move only: one structural, typographic, colour or motion
+  principle, with a reason from this brief. Re-derive the remaining axes from the host's jobs, content,
+  platform and constraints. Record the source, what was not taken, and the host-specific change in the
+  direction card. Structure may come from one source and voice from another; the combination is new.
+- If the user explicitly names an existing direction or lab style, pin only the qualities they named.
+  It still needs new host-fit anchors, coordinates, content and a newly drawn and rendered frame.
+  "Inspired by" does not exempt a copied bundle.
+
+Before drawing, give every proposed direction two **brief anchors**: one audience or scene fact, and
+one primary-job, content or hard-constraint fact. Each anchor must lead to a visible design decision.
+Then apply the substitution test: if the card could be moved to an unrelated product by changing only
+its product name and sample content, it is generic or copied; redo it before drawing.
+
+At assembly, every non-canon card must trace to a referent written this round and an origin allowed in
+section 4: the seed roll, the single agent pick when permitted, or a user pin. The canon instead traces
+to the rut or current structure and is recorded in decisions.md. A card whose only provenance is an
+existing board or the lab fails, however polished it looks. This provenance gate is additional to the
+thumbnail test: difference between cards does not prove relevance to the host.
 
 ## 1. Name the rut
 
@@ -45,7 +76,7 @@ Write three comment lines at the top of `.design/directions/<round>/referents.tx
 Seven lines below the comments, in the order they come to mind, one per line:
 
 ```text
-<referent> | <material family> | <quality to take>
+<referent> | <material family> | <quality to take> [| pinned]
 ```
 
 - From the audience's world: artefacts, systems, rituals, places, instruments, publications. Not
@@ -55,7 +86,9 @@ Seven lines below the comments, in the order they come to mind, one per line:
   fashion, architecture and interiors, packaging and retail, transport, craft and tools, nature and
   science, games and toys, ritual and ceremony, software.
 - A brief's literal metaphor gets at most one line.
-- A referent the user gave is pinned: it takes a board slot without the roll; lower `--pick` by one.
+- A referent the user gave is pinned: append `| pinned`; it takes a board slot without the roll, after
+  the rolled frames; lower `--pick` by one. The script excludes it from the roll and prints it separately.
+  Use origin `user pin` and the round's seed key when rolled; if every slot is pinned, skip the roll.
 
 Example for a freight dispatch console (Operate):
 
@@ -81,7 +114,7 @@ python3 "$S/seed.py" --brief .design/brief.md --round 1 --pick 3 .design/directi
 
 - The roll hashes the brief text, the round and `--seed` (default 0), so it is reproducible. It
   prints the board (A = lead, then B, C) and ends with a JSON line.
-- The lead never comes from the first two lines (`--skip 2`): first ideas are the most probable ones.
+- The lead never comes from the first two unpinned lines (`--skip 2`): first ideas are the most probable ones.
 - Roll once per round; the first output stands. Copy its "decisions.md Seed column" line into
   decisions.md and the board header.
 - `--seed N` is the user's lever for a different roll of the same brief. Never re-roll because you
@@ -93,8 +126,9 @@ python3 "$S/seed.py" --brief .design/brief.md --round 1 --pick 3 .design/directi
 
 | Card | Origin (card field) | Count | Recommended? |
 | --- | --- | --- | --- |
-| Lead | seeded roll, lead | 1, frame A | the default recommendation (section 9) |
+| Lead | seeded roll, lead | 1 when a roll exists, frame A | the default recommendation (section 9) |
 | Rolled | seeded roll | 2 | only with a brief-based reason |
+| Pinned | user pin | 0-N, after rolled frames, replacing rolled slots | only with a brief-based reason |
 | Our pick | agent pick | 0-1 | only with a brief-based reason |
 | Canon | canon exit | 1, last frame | never, except in a redesign (section 9); the user may still choose it |
 
@@ -144,9 +178,10 @@ The subagent receives only this packet:
 
 ```text
 Direction <A>: "<name>". Thesis: <one sentence>.
+Brief anchors: <two facts from this brief, each followed by the visible decision it causes>.
 Referent: <the line from referents.txt>
 Axis coordinates: <the direction's row>
-References: <2-4, each with what to take and what not to take>
+References: <2-4, each with one isolated move, what not to take, and the host-specific change + brief anchor>
 Brief: .design/brief.md and .design/PRODUCT.md. Content: .design/directions/<round>/content.md.
 Spent, do not use: <the three # lines of referents.txt: rut, opposite, first idea>.
 Rules, read before drawing: <skill>/references/fundamentals/portable-mockups.md,
@@ -162,7 +197,10 @@ scoped under [data-direction="a"] and its own tokens; card.md from templates/dir
 Render and lint at the frame sizes (<skill>/scripts; <skill>/references/process/render-and-look.md
 section 5) and look before returning. Capture every frame in one run: a routes file whose routes
 name their own viewports (capture.mjs --help).
-Do not: read other directions, reuse template placeholder values, invent or add content.
+Do not: read other directions, other host projects, or the lab's demos/showcases/eval artefacts (except
+the specific user-pinned reference in this packet); reuse an existing direction bundle or template
+placeholder values; invent or add content. Use only the references in this packet, each as the stated
+isolated move rather than a page to reproduce.
 ```
 
 - Never pass another direction's work, your reasoning, or an opinion about which should win.
@@ -189,9 +227,10 @@ Assemble `.design/directions/<round>/index.html` from [options-board.html](../..
   sizes; the DOM may differ, because structure is an axis.
 - A one-DOM live token switcher only when every variant shares one structure: palette or density
   variants of a chosen direction, never the first board.
-- Each card: thesis; referent and family; structure; visual (background and accent values, typefaces,
-  radius, density); good at; where it will fail; origin with the seed key. Full cards from
-  [direction-card](../../templates/direction-card.md) sit in each direction's folder.
+- Each card: thesis; two brief anchors with the visible decision each causes; referent and family; structure;
+  visual (background and accent values, typefaces, radius, density); good at; where it will fail; origin
+  with the seed key. References taken lists each isolated move, what was not taken and its host-specific
+  change. Full cards from [direction-card](../../templates/direction-card.md) sit in each direction's folder.
 - "Where it will fail" is required: who it slows down, which content breaks it, what it costs to
   build or migrate. A direction with no failure is a strawman or unexamined.
 - Fill the comparison table; its first row is the cost of the primary task (steps, context switches,
@@ -210,7 +249,7 @@ differ, never that one of them is good enough to ship (section 4).
 
 ## 9. Recommend
 
-- Recommend the lead by default. Recommend another card only for a reason from the comparison table
+- Recommend the lead by default when a roll exists; on an all-pinned board, recommend the strongest pin for a brief-based reason. Recommend another card only for a reason from the comparison table
   (primary-task cost, fit, available content, build or migration cost), and name the row. Never
   recommend the canon, with one exception: in a redesign of a daily-use tool where
   [redesign](redesign.md) §7 finds no blocking structure, recommending the canon card is correct.
@@ -258,4 +297,4 @@ Mechanics: theme families in [system](system.md).
 | --- | --- |
 | `quick` | none; name the rut and your first idea to yourself and avoid both |
 | `standard` | no board unless asked; write the three rut lines, then draw one direction that avoids them |
-| `deep` or `options` | sections 1-10, subagents when available |
+| `deep` or `options` | sections 0-10, subagents when available |

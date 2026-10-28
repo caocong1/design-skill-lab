@@ -2,7 +2,7 @@
 name: design-studio
 description: "Designer for every design intent. Turns requirements into a complete design (product truth, captured references, distinct directions on an options board, a design system with DESIGN.md and tokens, screens across states and platforms, a handoff package), or designs one page, screen, component, flow, animation, icon, app icon, logo, poster, social or deck graphic. Redesigns a product from what it does; restyles or unifies the look of existing product UI across app and web; chooses colour and type; finds inspiration; writes handoff specs, annotations and asset slices. Specifies interaction: task cost, keyboard, shortcuts, input methods, component behaviour. Draws in HTML/CSS/SVG and checks by rendering. 设计、UI、界面、页面、交互、易用性、快捷键、重设计、改版、整体优化、美化、样式统一、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案、设计系统、交接、切图、标注。Not for: reviewing or auditing an existing design or build (use critique-design); building an existing design or handoff in code (use implement-design); front-end bugs that involve no design decision."
 metadata:
-  version: 0.14.1
+  version: 0.15.0
   short-description: Design anything, from brief to handoff
 ---
 
@@ -163,7 +163,7 @@ host system of record (DESIGN.md, token file, themed library) is updated in plac
 - **Hierarchy first.** Decide what is seen first, second and third before any decoration.
 - **Constrain the vocabulary**: one type scale, one spacing scale, few colour roles, one radius logic, one icon family, one motion personality.
 - **Real content.** Use the user's copy, data and assets, or plausible domain content. Never invent testimonials, customer logos, metrics or awards; mark placeholders.
-- **Reference, never clone.** Take principles, not pixels: structure from one source, voice from another, colour from the brand. Never copy logos, illustrations, photos, copy or trade dress.
+- **The host brief before examples; reference, never clone.** Options are new designs for this host's audience, jobs, content and constraints, not entries selected from the lab's demos, showcases, eval artefacts, templates or old projects. Never import an existing direction's name + thesis + axes + layout as a bundle. For an options direction, borrow an isolated move only, record how it changes for this host, and re-derive the rest. Never copy logos, illustrations, photos, copy or trade dress.
 - **Accessibility is a constraint.** WCAG 2.2 AA is the design target; contrast is computed, never estimated. [accessibility](references/fundamentals/accessibility.md)
 - **Durable vs perishable.** Perception, hierarchy, type and accessibility last. Platform specs, tool versions, trends and social sizes carry a review date; re-check them before relying on them.
 - **Licences are part of the design.** Record the licence of every font, icon, image and code asset; trial and personal-use assets do not ship. [licensing](references/fundamentals/licensing.md)

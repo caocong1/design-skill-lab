@@ -243,6 +243,11 @@ path and sha256 in `run.json`.
 - The suite's own falsifiability condition applies: if independent judges do not score the suite above no suite, the
   suite is what changes, not the eval. Say so in the CHANGELOG and the README.
 
+## Focused regressions
+
+- [Options must come from the host brief](options-preset-leak.md): a whole-repository probe for lab/showcase
+  preset leakage, with process provenance, six rendered directions, and deterministic positive/negative controls.
+
 ## Trigger eval
 
 Routing is measured separately, with a proxy method: [run_triggers.md](run_triggers.md) (what it measures, how to run and

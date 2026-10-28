@@ -98,7 +98,10 @@ window.CONTENT = {
     ['已知局限', '档位是单人判断；字体效果以 macOS 为准，其他平台落到各自的系统字体；这是早期实验页，新版首页与资源目录在上一级。'],
   ],
 
-  /* 各方向的方案板：概念、各轴取值、会在哪里失败。每个风格页必须在某处展示自己这张卡。
+  /* DEMO DIRECTIONS FOR THE DESIGN SKILL LAB CATALOGUE ONLY, not a preset library for other projects.
+     Agents designing for a new brief must not return, rename or lightly rewrite these entries as new
+     candidates. Study an isolated move only when it fits that brief, then derive new axes and content.
+     各方向的方案板：概念、各轴取值、会在哪里失败。每个风格页必须在某处展示自己这张卡。
      num 是编号：1–10 对应数字键 1–9、0；11 起没有数字键，用 [ ] 前后切换、点入口，或用顶部横条的下拉。 */
   styles: [
     { id: 'swatch', fonts: ['inter'], num: 1, name: '色卡', en: 'Swatch Book',

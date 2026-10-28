@@ -80,7 +80,7 @@ python "$env:USERPROFILE\.codex\skills\design-studio\scripts\feedback_status.py"
 
 | skill | 版本 | 什么时候用 |
 | --- | --- | --- |
-| `design-studio` | 0.14.1（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
+| `design-studio` | 0.15.0（suite 版本） | 一切设计意图：完整设计；单个页面、组件、流程、动效、图标、Logo、海报；多套方案；找灵感；整体重设计；设计系统；交接包 |
 | `critique-design` | 0.3.5 | 评审、走查、打分、无障碍检查、按交接截图验收实现；也是 design-studio 在新上下文里调用的独立评审 |
 | `implement-design` | 0.3.4 | 已经有设计稿、交接包或样稿，要在具体技术栈里实现，并用截图证明还原度 |
 
@@ -213,7 +213,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 | `lint.mjs` | 渲染后页面的确定性底线检查。不过就以退出码 1 结束的：文字对比度（计算加实测）、横向溢出、无名控件；只报警告的：点击区域、`transition: all`、减少动效、中文排版、token 漂移等 |
 | `color_tools.py` | WCAG / APCA 对比度、OKLCH 色阶、色觉模拟 `cvd`、`matrix --from tokens.css` |
 | `catalog.py` | 查资源目录：`find` / `show` / `route` / `recipes` / `domains`（标准库） |
-| `seed.py` | 发散时的种子抽取：由 brief、轮次和用户种子决定哪些参照上方案板、谁领头 |
+| `seed.py` | 发散时的种子抽取：由 brief、轮次和用户种子决定哪些参照上方案板、谁领头；行尾 `pinned` 的用户参照单独占位、退出随机池，避免重复 |
 | `feedback_status.py` | 自检：这份安装的反馈采集是开是关、条目写到哪、为什么（标准库，macOS / Linux / Windows） |
 | `text_to_path.py` | 把字标按字体文件转成 SVG 路径（需要 venv 里的 fontTools） |
 
@@ -229,6 +229,7 @@ package.json               固定版本的 Playwright 与 axe-core，只给仓�
 | `build-research-index.py` | 校验来源头部并生成 `research/INDEX.md` |
 | `collect-feedback.py` · `evolve.sh` | 聚合反馈 · 无人值守的反馈消化（只出提案分支） |
 | `test-feedback-status.py` | skill 脚本 `feedback_status.py` 的自测：链接、拷贝、插件、环境变量四种安装各该怎么回答；CI 在 Linux 和 Windows 上跑 |
+| `test-seed.py` | `seed.py` 的自测：六方向去重、确定性、pinned 参考退出随机池且与 rolled 合并后不重复；CI 在 Linux 和 Windows 上跑 |
 
 依赖分三层，各管各的：skill 脚本只要 Python 标准库和一个 Chromium 系浏览器；`capture.mjs` 和 `lint.mjs` 需要 Playwright，项目里装了就用，没装时给出固定版本的 `npx` 命令，从不拉取未固定的版本。仓库工具里的 Python 全部只用标准库，截图和冒烟测试用 `package.json` 里固定版本的 Playwright。`evolve.sh` 需要本机装好 claude CLI。
 
@@ -279,6 +280,6 @@ scripts/evolve.sh --dry-run                  # 看无人值守的反馈消化会
 
 ## 版本与许可
 
-skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.14.1），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
+skill 版本记录在各 `SKILL.md` frontmatter 的 `metadata.version`（`design-studio` 的版本就是 suite 版本，suite 当前 0.15.0），遵循语义化版本，作用于契约（模式、交付物、产出目录结构、reference 路径）；`0.x` 期间契约仍在定型。每次迭代都记在 `CHANGELOG.md`；逐来源的抓取日期与复核期限见 `research/INDEX.md`。
 
 原创内容（skill、脚本、目录条目、研究综合、评测、页面）以 [MIT](LICENSE) 许可发布；许可范围和第三方材料的说明见 [NOTICE](NOTICE)。目录里出现的站点名称和商标归各自所有者；`research/sources/` 是第三方作品的转述式学习摘要，原文版权归原作者，其中 `research/sources/shape-of-ai.md` 按其来源的 CC BY-NC-SA 许可提供。

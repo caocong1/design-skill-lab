@@ -24,6 +24,8 @@ jobs:
         run: scripts/check-lab-invariants.sh
       - name: Skill script self-test
         run: python3 scripts/test-feedback-status.py
+      - name: Divergence seed self-test
+        run: python3 scripts/test-seed.py
 
   windows:
     runs-on: windows-latest
@@ -35,6 +37,8 @@ jobs:
           python-version: '3.14'
       - name: Skill script self-test (junction install, Windows paths)
         run: python scripts/test-feedback-status.py
+      - name: Divergence seed self-test
+        run: python scripts/test-seed.py
 
   smoke:
     needs: gates

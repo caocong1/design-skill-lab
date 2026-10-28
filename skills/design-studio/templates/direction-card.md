@@ -8,7 +8,13 @@
 **Own-world referent.** <A concrete artefact, system or ritual from the audience's world, and its
 material family: print, signage, instrument, textile, architecture, software, packaging...>
 
-**Origin.** <seeded roll | agent pick | canon exit>, seed <value from seed.py>.
+**Origin.** <seeded roll | user pin | agent pick | canon exit>, seed <value from seed.py, or none when every slot is pinned>.
+
+## Brief anchors
+
+- <Audience or scene fact from this host, then the visible design decision it causes.>
+- <Primary job, real content or hard constraint from this host, then its visible design decision.>
+- <Substitution test: why these decisions would not survive unchanged in an unrelated product.>
 
 ## Axis coordinates
 
@@ -36,9 +42,9 @@ material family: print, signage, instrument, textile, architecture, software, pa
 
 ## References taken
 
-| Source | What is taken | What is not |
-| --- | --- | --- |
-| <url> | <structure / voice / a detail> | <...> |
+| Source | Isolated move taken | What is not taken | Host-specific change, with its brief anchor |
+| --- | --- | --- | --- |
+| <url> | <one structure / voice / colour / motion principle> | <brand, content, signature elements, remaining axes> | <what changes here and why> |
 
 ## Thumbnail test
 
