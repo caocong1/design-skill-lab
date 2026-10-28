@@ -12,6 +12,18 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.14.1] - 2026-10-16
+
+用户补充一个站点，资源目录 +1，无契约变化（PATCH）。
+
+### 变更（资源目录）
+
+- `catalog/resources.jsonl` 新增 `shaders`（shaders.com，共 813 条）：200+ 个 MIT 开源的 WebGPU 特效组件（渐变、噪点、玻璃、金属、形变、光标效果），React/Vue/Svelte/Solid/原生 JS 与 Framer 通用；附免费无限画布编辑器，导出即所得组件代码；另有 MCP 服务供 agent 检索安装。归 `assets:backgrounds`，同挂 `ai:design-mcp-servers` 与 `code:motion-libs`，S 档，`origin: user-2026-10-16`。观测为 static，缩略图已拍。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.14.0 → **0.14.1**（正文未改）。`README.md` 与 `.claude-plugin/` 版本号同步。
+
 ## [0.14.0] - 2026-10-11
 
 第四个宿主（宿主 D：中文桌面应用，界面用 egui 原生绘制，另有一个 Web 端）用过之后写回 3 条反馈：窄的桌面窗格被当成手机来截图和检查、原生界面没有出构建截图的办法、用户说"用设计 skill 统一样式"时先被选中的是另一个落地页 skill。两个脚本多一个 `--no-touch` 开关，截图报告多一个 `touch` 字段（MINOR）。不加开关时的行为、已有的命令行和报告字段都没有变。

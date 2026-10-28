@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-27",
+ "generated": "2026-10-16",
  "domains": [
   {
    "id": "web",
@@ -389,7 +389,7 @@
    "blurb_zh": "插画、3D、摄影、样机与代码生成的背景",
    "blurb_en": "Illustrations, 3D, photography, mock-ups, and code-native backgrounds. Licence mistakes are the main risk in this domain: the Access column states the licence reality for each source.",
    "hue": 186,
-   "count": 46,
+   "count": 47,
    "sections": [
     {
      "id": "illustrations",
@@ -429,7 +429,7 @@
      "en": "Backgrounds, gradients, patterns and shaders",
      "note_zh": "多数用代码重做更可控；渐变按感知空间插值，加噪点防色带。",
      "note_en": "Often better recreated in code for control. Interpolate gradients perceptually and add grain against banding.",
-     "count": 13
+     "count": 14
     }
    ]
   },

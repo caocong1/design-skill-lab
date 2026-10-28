@@ -3,7 +3,7 @@
 
 Illustrations, 3D, photography, mock-ups, and code-native backgrounds. Licence mistakes are the main risk in this domain: the Access column states the licence reality for each source.
 
-46 resources, plus 3 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+47 resources, plus 3 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Illustrations · 插画
 
@@ -78,6 +78,7 @@ Often better recreated in code for control. Interpolate gradients perceptually a
 | [Haikei](https://haikei.app) | Generators for blobs, waves, layered peaks, blurry gradients, exported as SVG or PNG | Export SVG and tune the path in code | S | tool | static | free · Generated assets are free to use | [All generators](https://haikei.app/generators/) |
 | [fffuel](https://www.fffuel.co) | Collection of SVG generators: noise, grain, organic shapes, patterns, gradients | nnnoise and gggrain for texture, ooorganize for grids; export SVG and keep the parameters in a comment so the texture can be regenerated | S | tool | static | free | [nnnoise (SVG noise texture)](https://www.fffuel.co/nnnoise/); [gggrain (grainy gradients)](https://www.fffuel.co/gggrain/) |
 | [Paper Shaders](https://shaders.paper.design) | Zero-dependency shader components (mesh gradient, grain, dithering, warp) for React and vanilla JS | The cleanest way to ship a live shader background | S | library | static | free · Apache-2.0 | [Source and install (GitHub)](https://github.com/paper-design/shaders); [Mesh gradient](https://shaders.paper.design/mesh-gradient) |
+| [Shaders](https://shaders.com) | 200+ open-source WebGPU effect components (gradients, noise, glass, metal, distortions, cursor effects) for React, Vue, Svelte, Solid, vanilla JS and Framer, plus a free visual editor that exports the exact component tree | npm install shaders and compose effects as components, or tune them on the infinite-canvas editor and export code for your framework; agents can browse and install effects through the MCP server | S | library | static | freemium · MIT (engine and components); editor, presets and Pro shader library under separate terms | [Source and install (GitHub)](https://github.com/shader-effects-inc/shaders); [Docs and component reference](https://shaders.com/docs/guide); [MCP server](https://shaders.com/mcp) |
 | [Grainient](https://grainient.supply) | Grainy gradient backgrounds, animated gradients and shader tools | Use as art direction reference, then recreate in code for control | A | asset-library | static | freemium · Per pack; free and paid |  |
 | [Hero Patterns](https://heropatterns.com) | Repeatable SVG background patterns with colour controls | Keep opacity low; credit as required | A | asset-library | static | free · CC BY 4.0 · archived |  |
 | [Pattern Monster](https://pattern.monster) | Customisable SVG pattern generator | Export as CSS background or SVG | A | tool | static | free |  |

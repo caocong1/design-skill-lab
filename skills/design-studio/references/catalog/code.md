@@ -3,7 +3,7 @@
 
 The agent's design medium is code. Component libraries and primitives by stack, animation and graphics libraries, token tooling, and the pipeline that turns HTML, SVG and markup into images, PDFs and slides. Verify APIs against the installed version.
 
-101 resources, plus 13 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+101 resources, plus 14 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Component libraries and headless primitives · 组件库与无头原语
 
@@ -71,6 +71,7 @@ Match the tool to the job; check licences for commercial use.
 
 | Resource | Best for | How to use | Tier | Kind | Reach | Access · licence | Entry point |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [Shaders (home: assets)](https://shaders.com) | 200+ open-source WebGPU effect components (gradients, noise, glass, metal, distortions, cursor effects) for React, Vue, Svelte, Solid, vanilla JS and Framer, plus a free visual editor that exports the exact component tree | npm install shaders and compose effects as components, or tune them on the infinite-canvas editor and export code for your framework; agents can browse and install effects through the MCP server | S | library | static | freemium · MIT (engine and components); editor, presets and Pro shader library under separate terms | [Source and install (GitHub)](https://github.com/shader-effects-inc/shaders); [Docs and component reference](https://shaders.com/docs/guide); [MCP server](https://shaders.com/mcp) |
 | [Motion](https://motion.dev) | The standard animation library for the web (formerly Framer Motion): springs, gestures, layout and scroll animation | Import from motion/react in React (motion for vanilla JS, motion-v for Vue); check the installed major version; agents read motion.dev/llms.txt | S | library | static | free · MIT | [llms.txt (agent index)](https://motion.dev/llms.txt); [Examples (filter JS, React, Vue; some need Motion+)](https://motion.dev/examples) |
 | [three.js](https://threejs.org) | The standard WebGL and WebGPU 3D library for the web: scenes, materials, glTF loading and post-processing | Read the manual before the API docs; in React use react-three-fiber with drei | S | library | static | free · MIT | [Manual](https://threejs.org/manual/); [API docs](https://threejs.org/docs/) |
 | [Motion AI Kit (home: ai)](https://motion.dev/docs/ai-kit) | Motion's official skill and MCP server: current Motion docs for the agent, plus CSS spring generation, a transition editor and MotionScore performance audits | Install it so the agent queries current Motion APIs instead of stale training data; with Motion+ ask it to audit animations for render cost before shipping. | A | skill | static | freemium · MIT (npm motion-ai) |  |

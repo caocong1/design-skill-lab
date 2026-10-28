@@ -1,7 +1,7 @@
 # Design Skill Lab: design resource catalogue
 
-> 812 hand-curated design resources for designers and coding agents, in 15 domains. One line per resource: name — url — 中文说明 — best for — [tier · reach]. Tier S is the first place to look; reach is what a plain web fetch got (static, js, blocked, unknown).
-> Generated from catalog/resources.jsonl, data as of 2026-09-27. Source: https://github.com/caocong1/design-skill-lab
+> 813 hand-curated design resources for designers and coding agents, in 15 domains. One line per resource: name — url — 中文说明 — best for — [tier · reach]. Tier S is the first place to look; reach is what a plain web fetch got (static, js, blocked, unknown).
+> Generated from catalog/resources.jsonl, data as of 2026-10-16. Source: https://github.com/caocong1/design-skill-lab
 
 ## Websites · 网站设计 (web)
 
@@ -506,6 +506,7 @@
 - Haikei — https://haikei.app — 色块、波浪、层叠山峰、模糊渐变等背景生成器，导出 SVG 或 PNG；生成素材可免费使用。 — Generators for blobs, waves, layered peaks, blurry gradients, exported as SVG or PNG [S · static]
 - fffuel — https://www.fffuel.co — SVG 生成器合集：噪点、颗粒、有机形状、图案和渐变；做纹理背景时按需挑选。 — Collection of SVG generators: noise, grain, organic shapes, patterns, gradients [S · static]
 - Paper Shaders — https://shaders.paper.design — 零依赖 shader 组件库，含网格渐变、颗粒、抖动、形变；给网页加实时 shader 背景最干净的选择，Apache-2.0。 — Zero-dependency shader components (mesh gradient, grain, dithering, warp) for React and vanilla JS [S · static]
+- Shaders — https://shaders.com — 200+ 个开源 WebGPU 特效组件（渐变、噪点、玻璃、金属、形变、光标效果），React/Vue/Svelte/Solid/原生 JS 与 Framer 通用；附免费可视化编辑器，在画布上调好后导出即所得组件代码；引擎与组件 MIT。 — 200+ open-source WebGPU effect components (gradients, noise, glass, metal, distortions, cursor effects) for React, Vue, Svelte, Solid, vanilla JS and Framer, plus a free visual editor that exports the exact component tree [S · static]
 - Grainient — https://grainient.supply — 颗粒渐变背景、动态渐变与 shader 工具；当美术方向参考，再用代码复刻以掌控细节；有免费和付费包。 — Grainy gradient backgrounds, animated gradients and shader tools [A · static]
 - Hero Patterns — https://heropatterns.com — 可调色的可平铺 SVG 背景图案库；给区块加纹理时压低不透明度用，需署名；CC BY 4.0。 — Repeatable SVG background patterns with colour controls [A · static]
 - Pattern Monster — https://pattern.monster — 可调参数的 SVG 图案生成器，导出为 CSS 背景或 SVG 文件；给页面做纹理底纹时直接用。 — Customisable SVG pattern generator [A · static]

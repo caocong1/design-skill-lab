@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-27",
+ "generated": "2026-10-16",
  "items": {
   "100-beste-plakate": {
    "source": "screenshot",
@@ -17885,6 +17885,34 @@
      "result": "ok",
      "reason": null,
      "ms": 14483,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
+  "shaders": {
+   "source": "screenshot",
+   "file": "shaders.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 17102,
+   "captured_at": "2026-10-16T09:41:33Z",
+   "final_url": "https://shaders.com/",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 47.2,
+    "edge": 0.037,
+    "dominant": 0.667,
+    "tiles": 4
+   },
+   "url": "https://shaders.com",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 28044,
      "http": 200,
      "consent": "none"
     }
