@@ -23,3 +23,6 @@ feedback/evolve.status
 
 # Eval renders are reproducible from out/ with evals/render.mjs; keep runs lean
 evals/runs/**/*.png
+
+# WorkBuddy packaging output (scripts/pack-workbuddy.py)
+dist/

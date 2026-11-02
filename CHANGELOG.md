@@ -12,6 +12,35 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.17.0] - 2026-11-02
+
+为 WorkBuddy 开放平台打包（MINOR：新增能力）。技能本体仍只在 `skills/`；Claude Code 插件与 Codex 的安装方式、模式、交付物和 reference 路径都不变。
+
+### 新增
+
+- `scripts/pack-workbuddy.py`：把套件打成五个上传包，写到 `dist/workbuddy/`（git 忽略）：三个技能包、单专家 `design-suite`（黛米，内嵌三技能）、专家团 `design-team`（黛米、卡西、伊凡）。打包前逐项校验平台文档的硬要求（`research/sources/workbuddy-open-platform-docs.md`）：SKILL.md 必填字段、`plugin.json` 字段、`displayDescription.zh` 40–50 字、`tags` 与 `quickPrompts` 各 3 个、头像 512×512 且不超过 500 KB、主理人与成员一致。`--check` 只校验。两个专家 `plugin.json` 的版本在打包时对齐到套件版本。
+- `workbuddy/`：两个专家的 `plugin.json`、agent 定义、团队共享规则、`setting.json`、头像与头像源 `avatar-src/avatars.html`；`workbuddy/README.md` 写结构、打包命令、头像重拍命令和上传入口。
+
+### 变更（skill）
+
+- 三个 `SKILL.md` 的 frontmatter 加 WorkBuddy 要求的字段：`display_name`、`display_name_en`、`description_zh`、`description_en`、`examples_zh`、`examples_en`、顶层 `version`、`author`；正文未改。Codex 的解析器只读 `name`、`description` 与 `metadata`，其余键忽略（读的是 openai/codex 的 `codex-rs/skills/src/parser.rs`）；`claude plugin validate` 通过。
+- `skills/design-studio/SKILL.md` 0.16.0 → **0.17.0**；`critique-design` 0.4.0 → **0.4.1**、`implement-design` 0.3.5 → **0.3.6**（只改 frontmatter）。`README.md`、`.claude-plugin/` 与两个专家 `plugin.json` 同步；`README.md` 的仓库结构与脚本表加了 `workbuddy/` 和 `scripts/pack-workbuddy.py`。
+
+### 变更（闸门）
+
+- G4：随套件发布的 skill，顶层 `version` 必须等于 `metadata.version`。SKILL.md 的行数预算改为只数正文：三份文件在 0.16.0 时连 frontmatter 正好 200 / 150 / 150 行，加 14 行字段后会超；只数正文是 193 / 143 / 143。原 frontmatter 的 7 行也随之不再计入预算。
+- `.gitignore` 忽略 `dist/`。
+
+### 验证
+
+- `scripts/pack-workbuddy.py --check` 全部通过；闸门 G1–G9 通过。
+- 五张头像都能用 `npx playwright screenshot --viewport-size "512, 512"` 打开 `avatars.html?role=…` 逐字节重现。`workbuddy/README.md` 原写的 `--avatars` 参数脚本里没有，改成这条命令；原写"各 SKILL.md 已写明单独安装时的降级路径"，design-studio 并没有写，改成了实际情况。
+
+### 未验证
+
+- 还没有上传到平台。平台文档的目录树把专家团设置文件写作 `settings.json`，这里是 `setting.json`；文档也没有 `rules/` 目录。改名前先对照平台的模板 zip。
+- 技能市场里三个技能是各自独立的包；单独安装 design-studio 时，新鲜评审和 critique / implement 模式要用的相邻技能不在。
+
 ## [0.16.0] - 2026-11-02
 
 第一次季度研究复核：六路子 agent 并行核查一手来源，42 份已有摘要逐份重读、30 份新增（其中 1 份只服务于 WorkBuddy 打包脚本）、2 份归档；据此改了 29 份 reference 的内容（另有 8 份对照来源重读后只更新复核日期）、`tokens.css` 模板、`color_tools.py` 和资源目录（MINOR：新增来源改变了指引）。模式、交付物、产出目录与 reference 路径都不变。过程与没读到的东西见 `research/log.md` 2026-11-01 一节。

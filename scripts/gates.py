@@ -245,14 +245,19 @@ def check_skill_meta(d, fails):
         fails.append(f'{rel(f)}: metadata.version missing or not X.Y.Z')
     if not meta.get('short-description'):
         fails.append(f'{rel(f)}: metadata.short-description missing')
+    if d in SHIPPED and fm.get('version') != meta.get('version'):
+        fails.append(f'{rel(f)}: version {fm.get("version")!r} != metadata.version {meta.get("version")!r}')
     if d in LOCAL and fm.get('disable-model-invocation') is not True:
         fails.append(f'{rel(f)}: a repo-local maintainer skill needs disable-model-invocation: true')
     if d in SHIPPED and not (d / 'agents/openai.yaml').is_file():
         fails.append(f'{rel(d)}: missing agents/openai.yaml')
     limit = BUDGET.get(d.name, 150)
-    lines = read(f).count('\n')
+    text = read(f)
+    body = re.sub(r'\A---\n.*?\n---\n', '', text, count=1, flags=re.S)
+    lines = body.count('\n')
     if lines > limit:
-        fails.append(f'{rel(f)}: {lines} lines (budget {limit}); move detail into a reference')
+        fails.append(f'{rel(f)}: {lines} body lines (budget {limit}, frontmatter excluded); '
+                     'move detail into a reference')
 
 
 def check_reference(p, sources, fails):

@@ -1,0 +1,69 @@
+{
+  "name": "design-team",
+  "version": "0.17.0",
+  "description": "A designer, a fresh-eye critic and a design engineer collaborate from brief to verified screens and faithful builds",
+  "author": {
+    "name": "caocong1",
+    "email": "caocong1@gmail.com"
+  },
+  "agents": [
+    "./agents/design-team-lead.md",
+    "./agents/design-critic.md",
+    "./agents/design-implementer.md"
+  ],
+
+  "expertType": "team",
+  "agentName": "design-team-lead",
+  "teamInfo": {
+    "leadAgent": "design-team-lead",
+    "memberAgents": ["design-critic", "design-implementer"]
+  },
+  "skills": ["./skills/design-studio", "./skills/critique-design", "./skills/implement-design"],
+
+  "displayName": { "en": "Design Studio Team", "zh": "设计工作室团队" },
+  "profession": { "en": "End-to-end Product Design Team", "zh": "端到端产品设计团队" },
+  "displayDescription": {
+    "en": "Designer, critic and engineer in one team: requirements to divergent directions, design system and rendered screens, fresh-eye review gate, then faithful builds from the handoff package",
+    "zh": "设计师、评审师、实现师协作：从需求到方向、设计系统与界面稿，评审把关后再按交接包高保真落地"
+  },
+  "avatar": "avatars/team.png",
+  "categoryId": "00-ExpertTeam",
+  "defaultInitPrompt": {
+    "zh": "帮我把这个产品从需求做成一套完整设计",
+    "en": "Take this product from requirements to a complete design"
+  },
+  "plugin": "design-team",
+  "tags": [
+    { "en": "UI Design", "zh": "界面设计" },
+    { "en": "Design System", "zh": "设计系统" },
+    { "en": "Design Review", "zh": "设计评审" }
+  ],
+  "quickPrompts": [
+    { "en": "Take this product from requirements to a complete design", "zh": "帮我把这个产品从需求做成一套完整设计" },
+    { "en": "Review this page and tell me what's wrong", "zh": "评审这个页面哪里有问题" },
+    { "en": "Implement this design in my project", "zh": "按这份设计稿在我的项目里实现" }
+  ],
+  "members": [
+    {
+      "id": "design-team-lead",
+      "name": { "en": "Demi", "zh": "黛米" },
+      "profession": { "en": "Design Director & Lead Designer", "zh": "设计总监兼首席设计师" },
+      "avatar": "avatars/design-team-lead.png",
+      "role": "lead"
+    },
+    {
+      "id": "design-critic",
+      "name": { "en": "Casey", "zh": "卡西" },
+      "profession": { "en": "Design Reviewer", "zh": "设计评审师" },
+      "avatar": "avatars/design-critic.png",
+      "role": "member"
+    },
+    {
+      "id": "design-implementer",
+      "name": { "en": "Ivan", "zh": "伊凡" },
+      "profession": { "en": "Design Engineer", "zh": "设计工程师" },
+      "avatar": "avatars/design-implementer.png",
+      "role": "member"
+    }
+  ]
+}

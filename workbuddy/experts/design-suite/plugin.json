@@ -1,0 +1,38 @@
+{
+  "name": "design-suite",
+  "version": "0.17.0",
+  "description": "End-to-end product design: brief to directions, design system, rendered screens, fresh-eye critique, handoff and build acceptance",
+  "author": {
+    "name": "caocong1",
+    "email": "caocong1@gmail.com"
+  },
+  "agents": ["./agents/design-lead.md"],
+
+  "expertType": "agent",
+  "agentName": "design-lead",
+  "skills": ["./skills/design-studio", "./skills/critique-design", "./skills/implement-design"],
+
+  "displayName": { "en": "Demi", "zh": "黛米" },
+  "profession": { "en": "Product Design Lead", "zh": "产品设计负责人" },
+  "displayDescription": {
+    "en": "Product design lead covering the full loop: design read, divergent directions, design system and tokens, rendered and verified screens, fresh-eye critique, handoff and build acceptance",
+    "zh": "产品设计负责人：从需求解读、多方案方向、设计系统与令牌到渲染验证的界面稿，并完成评审与实现验收"
+  },
+  "avatar": "avatars/expert.png",
+  "categoryId": "01-ProductDesign",
+  "defaultInitPrompt": {
+    "zh": "帮我把这个产品从需求做成一套完整设计",
+    "en": "Take this product from requirements to a complete design"
+  },
+  "plugin": "design-suite",
+  "tags": [
+    { "en": "UI Design", "zh": "界面设计" },
+    { "en": "Design System", "zh": "设计系统" },
+    { "en": "Design Review", "zh": "设计评审" }
+  ],
+  "quickPrompts": [
+    { "en": "Take this product from requirements to a complete design", "zh": "帮我把这个产品从需求做成一套完整设计" },
+    { "en": "Review this page and tell me what's wrong", "zh": "评审这个页面哪里有问题" },
+    { "en": "Implement this design in my project", "zh": "按这份设计稿在我的项目里实现" }
+  ]
+}

@@ -1,8 +1,22 @@
 ---
 name: implement-design
+display_name: 设计实现
+display_name_en: Implement Design
 description: "Use when a design, handoff package or mockup already exists and must be built in a specific stack: a .design/handoff package, HTML/CSS mockup, Figma frame, approved PNG, or specs and tokens turned into code in the host project (React, Next, Vue, Nuxt, Tailwind, Ant Design, Element Plus, uni-app, Flutter, SwiftUI, Compose, ArkUI, mini-programs, Electron, Tauri, WinUI), or a build fixed until it matches its design. Lands tokens in the host theme, builds every state, proves fidelity with build screenshots, acceptance and visual-regression baselines. 按设计稿实现、照设计图开发、设计稿还原、还原度修正、交接包落地、静态稿接入项目。Not for: deciding or improving what the design should be, UI polish, 整体优化, design-then-build from scratch, 切图/标注 or dev specs (use design-studio); reviews or acceptance reports without fixing (use critique-design); CSS refactors, front-end bugs or single property edits with no design to match."
+description_zh: "把已有设计稿、交接包或 Figma 高保真落地为宿主项目代码：令牌进主题、状态全可达，用构建截图证明还原度。"
+description_en: "Build an existing design, handoff package or Figma frame faithfully in the host stack: tokens into the theme, every state reachable, fidelity proven with build screenshots."
+examples_zh:
+- "按这份交接包在我的 React 项目里实现"
+- "把这个 Figma 页面还原成 Vue 组件"
+- "修复线上页面和设计稿的还原度偏差"
+examples_en:
+- "Implement this handoff package in my React project"
+- "Rebuild this Figma screen as a Vue component"
+- "Fix the fidelity drift between this build and its design shots"
+version: 0.3.6
+author: "caocong1"
 metadata:
-  version: 0.3.5
+  version: 0.3.6
   short-description: Build an existing design in code, verified by screenshots
 ---
 

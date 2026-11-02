@@ -1,8 +1,22 @@
 ---
 name: design-studio
+display_name: 设计工作室
+display_name_en: Design Studio
 description: "Designer for every design intent. Turns requirements into a complete design (product truth, captured references, distinct directions on an options board, a design system with DESIGN.md and tokens, screens across states and platforms, a handoff package), or designs one page, screen, component, flow, animation, icon, app icon, logo, poster, social or deck graphic. Redesigns a product from what it does; restyles or unifies the look of existing product UI across app and web; chooses colour and type; finds inspiration; writes handoff specs, annotations and asset slices. Specifies interaction: task cost, keyboard, shortcuts, input methods, component behaviour. Draws in HTML/CSS/SVG and checks by rendering. 设计、UI、界面、页面、交互、易用性、快捷键、重设计、改版、整体优化、美化、样式统一、动效、图标、品牌、Logo、海报、配色、字体、灵感、多套方案、设计系统、交接、切图、标注。Not for: reviewing or auditing an existing design or build (use critique-design); building an existing design or handoff in code (use implement-design); front-end bugs that involve no design decision."
+description_zh: "从需求到交付的完整设计：多方案方向板、设计系统与令牌、跨平台界面稿，用 HTML/CSS/SVG 绘制并渲染验证。"
+description_en: "Design anything from brief to handoff: options board, design system and tokens, screens across platforms and states, drawn in HTML/CSS/SVG and verified by rendering."
+examples_zh:
+- "帮我把这个落地页重设计一版更有记忆点的方案"
+- "为记账 App 设计首页，产出 DESIGN.md、令牌和界面稿"
+- "给这个后台管理台做整体 UI 优化"
+examples_en:
+- "Redesign this landing page with a stronger point of view"
+- "Design the home screen of a budgeting app: DESIGN.md, tokens and mockups"
+- "Unify the look of this admin console across app and web"
+version: 0.17.0
+author: "caocong1"
 metadata:
-  version: 0.16.0
+  version: 0.17.0
   short-description: Design anything, from brief to handoff
 ---
 
