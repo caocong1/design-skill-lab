@@ -1,9 +1,9 @@
 ---
 title: Licensing
 evidence: practice
-sources: [cjk-font-licensing, ai-labelling-law]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [cjk-font-licensing, ai-labelling-law, remix-icon-license]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Licensing
@@ -72,7 +72,10 @@ A font licence answers four separate questions; check each for the delivery you 
 - Brand icon collections are convenient, but each mark stays a trademark with its own usage rules.
 - Aggregators mix licences per collection; check each set you take from.
 - Some popular open icon sets changed licence between versions; check the licence of the installed
-  version.
+  version. Remix Icon is the live case: from January 2026 it is the custom Remix Icon License v1.0,
+  not Apache-2.0 (its npm metadata still says Apache-2.0; the licence file governs). Its icons may be
+  modified and used in product UI, but never as or inside a logo, an app icon or a brand mark, and
+  never resold or repackaged as an icon set.
 
 ## Images
 

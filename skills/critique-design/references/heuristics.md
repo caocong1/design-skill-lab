@@ -1,9 +1,9 @@
 ---
 title: Heuristics (one ordered checklist)
 evidence: practice
-sources: [wcag-22, vercel-web-interface-guidelines, impeccable, hobday-visual-design-rules, laws-of-ux, clreq-chinese-text-layout, chinese-copywriting-guidelines, ooux-orca, change-aversion, shape-of-ai, ai-labelling-law, nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, carbon-notification-tooltip]
-reviewed: 2026-09-28
-review_by: 2027-09-27
+sources: [wcag-22, vercel-web-interface-guidelines, impeccable, hobday-visual-design-rules, laws-of-ux, clreq-chinese-text-layout, chinese-copywriting-guidelines, ooux-orca, change-aversion, shape-of-ai, ai-labelling-law, nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, carbon-notification-tooltip, hax-toolkit, chartability, carbon-for-ai, apple-hig-generative-ai, apple-macos-touch, embedded-host-guidelines]
+reviewed: 2026-11-01
+review_by: 2027-11-01
 ---
 
 # Heuristics
@@ -136,7 +136,8 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 - Undo instead of confirm for reversible actions; destructive actions confirm or offer an undo
   window.
 - Hover and focus popups can be dismissed with Esc, hovered without closing, and persist (WCAG
-  1.4.13). Nothing is reachable only by hover on touch targets.
+  1.4.13). Nothing is reachable only by hover on touch targets, touch Macs (macOS 27) included: a
+  hover-revealed control also appears on a tap in its area and in the context menu.
 - Every drag has a single-pointer alternative (WCAG 2.5.7).
 - Keyboard: Tab between components, arrows within; after a delete or a close, focus lands on the next
   item or the opener, never the page top; selection looks different from focus. A job done many times
@@ -154,7 +155,12 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 - AI output and agent runs: stop or pause mid-stream, edit, undo and retry sit next to the result;
   an agent's plan matches what it then does; irreversible actions (send, pay, delete) wait for
   approval; progress text names the step ("Checking 3 invoices"), not "Thinking…". Patterns:
-  [ai-experience](../../design-studio/references/disciplines/ai-experience.md).
+  [ai-experience](../../design-studio/references/disciplines/ai-experience.md). Cite the Microsoft
+  HAX guideline a finding breaks: G1-G2 (what it can do, how well), G8-G9 (dismiss, correct
+  quickly), G10 (scope down when unsure), G11 (why it did that), G16-G17 (consequences, global
+  controls), G18 (changes announced).
+- AI styling used as decoration, or an AI field that keeps its AI mark after a person edits it, or
+  loses it with no way back to the AI version, is a finding (Carbon for AI).
 
 ## 9. Content and copy `> Fit`
 
@@ -181,6 +187,9 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
   password managers (3.3.8).
 - Glass and translucent surfaces stay legible with reduced transparency or increased contrast;
   forced-colours mode keeps states visible.
+- Data views meet Chartability's critical checks: a title and summary, the purpose and how to read
+  it, a table or text alternative, nothing by colour alone, no seizure risk, more than one input
+  type, user style changes respected ([data-dense-ui](../../design-studio/references/disciplines/data-dense-ui.md)).
 - Report which checks were automated, which manual and which not done. Legal references per market
   are in [accessibility](../../design-studio/references/fundamentals/accessibility.md).
 
@@ -192,6 +201,10 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
   zone, floating bars that cover neither content nor focus, system type where native feel is asked.
 - Each target is judged in its own frame: an iOS shot is not the reference for Android or HarmonyOS.
 - Touch, pointer and keyboard each work; no hover-only affordance on touch.
+- Embedded hosts have their own review rules: an Office add-in control inside the top-right 40 × 40
+  px, a VS Code webview used for a wizard, a promotion or a settings page, a notification without
+  "Do not show again", a side panel that assumes a fixed width
+  ([embedded-hosts](../../design-studio/references/platforms/embedded-hosts.md)).
 - Posture and per-target rules: [platforms](../../design-studio/references/platforms/README.md).
 
 ## 12. Browser surfaces and details `> Craft`

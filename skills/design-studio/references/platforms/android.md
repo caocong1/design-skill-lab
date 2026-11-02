@@ -1,9 +1,9 @@
 ---
-title: Android (Android 16, Material 3 Expressive)
+title: Android (Android 16-17, Material 3 Expressive)
 evidence: digest
-sources: [material-3-expressive]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [material-3-expressive, material-motion-tokens, icon-safe-zones]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Android
@@ -16,8 +16,9 @@ checklist: [README](README.md).
 
 Numbers come from m3.material.io rendered in a browser (the site is a JS app; its Specs pages load
 token tables from `https://m3.material.io/_dsm/data/dsdb-m3/<snapshot>/TOKEN_TABLE.<id>.json`) and
-the androidx sources, read 2026-09-27. Facts marked † come from developer.android.com behaviour-change
-pages for Android 15 and 16, read the same day, and are not yet in the lab digest.
+the androidx sources, read 2026-09-27 and re-checked 2026-11-01 (token values unchanged). Facts marked †
+come from developer.android.com behaviour-change pages for Android 15 and 16, read on 2026-09-27, and
+are not yet in the lab digest.
 
 ## Changed in the last release
 
@@ -28,6 +29,8 @@ pages for Android 15 and 16, read the same day, and are not yet in the lab diges
 | Aug 2026 | Line heights adapt to a script's height category (small, medium, large, extra large) |
 | Android 15, target 35 † | Apps are edge-to-edge by default: status bar transparent, content draws behind the status and navigation bars unless insets are applied; the three-button bar is 80 % opaque by default |
 | Android 16, target 36 † | The edge-to-edge opt-out is disabled. Predictive back system animations (back-to-home, cross-task, cross-activity) are on by default, and `onBackPressed` is no longer called |
+| Android 16 QPR 2 | The system themes the icons of apps that ship no monochrome layer ([app-icons](../disciplines/app-icons.md)) |
+| Android 17, target 37 (2026-06-16) | Apps lose the opt-out from large-screen orientation and resizability, so every screen adapts on large screens; Live Updates take semantic colours; Android is Compose-first and the View-based Jetpack libraries are in maintenance mode |
 
 ## Posture on Android
 
@@ -136,7 +139,7 @@ rely on `onBackPressed` †. Support gesture and three-button navigation.
 | Predictive back | the destination screen as a real state | the gesture animation |
 | Motion | which component moves and with which scheme | the springs ([motion-tokens](../disciplines/motion-tokens.md)) |
 
-## Handoff: code availability (as of 2026-09-27)
+## Handoff: code availability (as of 2026-11-01)
 
 Put this note in every Android handoff that uses Expressive parts; the API mapping is in
 [stacks](../../../implement-design/references/stacks.md).
@@ -145,13 +148,15 @@ Put this note in every Android handoff that uses Expressive parts; the API mappi
   collapsed and expanded rails. It keeps the motion-scheme API and emphasized type internal (only the
   standard scheme is used) and lacks toolbars, button groups, split button, FAB menu, medium FAB,
   flexible app bars, loading indicator and the shape library.
-- Those arrive in **1.5.0-alpha** (latest alpha29, 2026-09-23); the shape library and the loading
-  indicator are still experimental there.
-- Views: MDC-Android **1.14.0** has the Material3Expressive themes; the FAB menu is unavailable for
-  Views.
+- Those are in **1.5.0**, in beta since 2026-10-07 (beta02 on 2026-10-21). Its API is frozen and
+  public, except the shape library and the loading indicator, which stay experimental; Material says
+  1.5.0 goes stable later in 2026.
+- Views: MDC-Android **1.14.0** has the Material3Expressive themes, the FAB menu is unavailable, and
+  1.14.0 is the last stable Views release (maintenance mode): new Android work is Compose.
 - Web: the Expressive components and shape morph are unavailable; motion uses Material's curve table.
-- Template: "Uses M3 Expressive: <components>. Compose needs material3 1.5.0-alpha (stable 1.4.0
-  lacks them); Views needs MDC 1.14.0; <any part with no Views or web version>."
+- Template: "Uses M3 Expressive: <components>. Compose needs material3 1.5.0 (beta until it ships;
+  stable 1.4.0 lacks them); Views needs MDC 1.14.0, the final Views release; <any part with no Views
+  or web version>."
 
 ## Traps
 

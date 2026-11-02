@@ -1,9 +1,9 @@
 ---
 title: Accessibility (WCAG 2.2, law by market, WCAG 3 and APCA status)
 evidence: digest
-sources: [wcag-22, accessibility-law, web-baseline-2026, apple-hig-bars, harmonyos-design]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [wcag-22, accessibility-law, web-baseline-2026, apple-hig-bars, harmonyos-design, semi-design-tokens-a11y, chartability]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Accessibility
@@ -108,7 +108,7 @@ fonts", and gives no CJK number; any px value for Chinese is practice. In WCAG w
 thresholds to CJK, never a smaller "CJK large". China's app 适老化 spec defines its own boundary
 (below); it applies to work claiming that spec.
 
-## WCAG 3 and APCA: status on 2026-09-27
+## WCAG 3 and APCA: status on 2026-11-01
 
 - WCAG 3.0 is a Working Draft (2026-09-10). Its text-contrast requirement reads "meets @@[contrast
   measure to be determined]", with an editor's note that the algorithm is yet to be determined.
@@ -122,18 +122,19 @@ thresholds to CJK, never a smaller "CJK large". China's app 适老化 spec defin
   current implementations.
 - So: WCAG 2.x ratios are the only conformance test. APCA Lc is reported beside them as a
   perceptual signal (thresholds in [color](color.md)), never instead of them and never called
-  "WCAG 3".
+  "WCAG 3". Its own site still calls it a public beta (0.1.7, revised 2022), and no new WCAG 3 draft
+  appeared after 2026-09-10; the next is planned for December 2026.
 
-## Law by market (perishable, as of 2026-09-27)
+## Law by market (perishable, as of 2026-11-01)
 
 | Market | Instrument | Covers | Cited standard | Dates |
 | --- | --- | --- | --- | --- |
-| EU, private sector | European Accessibility Act, Directive (EU) 2019/882 | consumer services: e-commerce, consumer banking, e-books and dedicated software, passenger-transport websites, apps, e-tickets and real-time information, e-communications, AV media; products such as computers, phones, terminals, e-readers | functional requirements (perceivable, operable, understandable, robust); presumption of conformity only from a standard cited in the OJEU. EN 301 549 V4.1.1 (WCAG 2.2) was written for the EAA but is not yet cited; V3.2.1 is used in practice | applies from 2025-06-28; services may keep pre-existing products until 2030-06-28; V4.1.1 national dates: announcement 2026-11-30, publication 2027-05-31, conflicting standards withdrawn 2028-05-31 |
+| EU, private sector | European Accessibility Act, Directive (EU) 2019/882 | consumer services: e-commerce, consumer banking, e-books and dedicated software, passenger-transport websites, apps, e-tickets and real-time information, e-communications, AV media; products such as computers, phones, terminals, e-readers | functional requirements (perceivable, operable, understandable, robust); presumption of conformity only from a standard cited in the OJEU. EN 301 549 V4.1.1 (WCAG 2.2) was written for the EAA but is not yet cited (still none on 2026-11-01; secondhand forecasts say late 2026); V3.2.1 is used in practice | applies from 2025-06-28; services may keep pre-existing products until 2030-06-28; V4.1.1 national dates: announcement 2026-11-30, publication 2027-05-31, conflicting standards withdrawn 2028-05-31 |
 | EU, public sector | Web Accessibility Directive (EU) 2016/2102 | public-sector websites and apps | EN 301 549 V3.2.1 = WCAG 2.1 AA (Decision 2021/1339) | in force |
-| US, state and local government | ADA Title II rule | web content and mobile apps | WCAG 2.1 AA | population ≥ 50,000: 2027-04-26; smaller and special districts: 2028-04-26 (interim rule of 2026-04-20; more rulemaking possible) |
+| US, state and local government | ADA Title II rule | web content and mobile apps | WCAG 2.1 AA | population ≥ 50,000: 2027-04-26; smaller and special districts: 2028-04-26 (interim rule of 2026-04-20; the regulatory agenda lists a possible proposal to lighten the rule, date "to be determined", none published by 2026-11-01) |
 | US, federal agencies | Section 508 | federal ICT | WCAG 2.0 A and AA | in force |
 | US, private businesses | ADA Title III | - | no DOJ web technical standard in the sources read | - |
-| International | ISO/IEC 40500:2025 | - | WCAG 2.2 (October 2023 text) | approved 2025-10-21 |
+| International | ISO/IEC 40500:2025 | - | WCAG 2.2 (October 2023 text) | approved 2025-10-21; W3C expects the December 2024 text as ISO/IEC 40500:2026 by late 2026 |
 | China | 无障碍环境建设法 | publicly funded sites, platforms and apps "应当逐步符合" national standards; news, social, shopping, health, finance, education and transport apps encouraged; self-service terminals in banks, hospitals, stations and airports must offer voice, large type and braille | GB/T 37668-2019 (推荐性); a revision adopting WCAG 2.2 non-equivalently (plan 20252537-T-469) is in approval | in force 2023-09-01 |
 | China | MIIT 适老化 notice (工信厅信管函〔2021〕67号) | websites and apps applying for the 适老化 badge | its Annex 1 (web) and Annex 2 (apps), plus GB/T 37668-2019 | pass at ≥ 60/100; the badge is valid 2 years, with spot checks |
 
@@ -145,8 +146,14 @@ thresholds to CJK, never a smaller "CJK large". China's app 适老化 spec defin
   px) and, for kiosks closed to text enlargement, a mode with x-height at least 16 CSS px.
 - Newer Chinese standards whose content was not read (do not quote numbers from them): GB/T
   45395-2025 mini-program accessibility; GB/T 46070-2025 mobile terminals (in force 2026-03-01);
-  GB/T 47523-2026 app 适老化 (in force 2026-11-01); GB/T 45445-2025 e-commerce 适老化; GB/T
-  47797-2026 government-service 适老化 (in force 2026-11-01).
+  GB/T 47523-2026 app 适老化 (in force since 2026-11-01; it covers installed apps and mini
+  programs alike, but its text sits behind a verification code on openstd and was not read); GB/T
+  45445-2025 e-commerce 适老化; GB/T 47797-2026 government-service 适老化 (in force 2026-11-01).
+  Until GB/T 47523 is read, the MIIT numbers below remain the design floor for Chinese apps.
+- China, 2026: MIIT's "数字适老中国行" campaign (May to December) reports 3,161 sites, apps and mini
+  programs retrofitted; the national legislature's inspection of the 无障碍环境建设法 (reported
+  2026-10-14) found ads and misleading buttons still inside some apps' 长辈模式 and urged mandatory
+  information-accessibility standards. The no-ads rule below is being enforced in spirit.
 - Not covered by the sources: UK, Canada, Japan (JIS X 8341-3), Korea, US state laws.
 - Record the target markets and sectors in PRODUCT.md, derive the legal floor from this table, and
   state the conformance target (standard, version, level, market) in the handoff.
@@ -189,9 +196,14 @@ each screen (`?annotate=a11y`).
 | Regions | header, navigation, main, complementary, footer; on native, the screen title and groups |
 | Focus order | the order when it differs from the visual order; where focus lands on open and returns on close |
 | Names | the spoken name of every icon-only control, image button and field: verb and object, not the icon's name |
-| Images and charts | alt text for meaningful images, "decorative" for the rest; a text summary or table for each chart |
+| Images and charts | alt text for meaningful images, "decorative" for the rest; a text summary or table for each chart; Chartability's critical checks for every data view ([data-dense-ui](../disciplines/data-dense-ui.md)) |
 | States | expanded, selected, pressed, busy, invalid, disabled with its reason |
 | Announcements | toasts, async results and errors: polite or assertive |
 | Alternatives | the button for each gesture and drag; the CAPTCHA alternative |
 | Resize behaviour | what wraps, truncates or scrolls at 200 % and at 320 px |
 | Conformance | standard, version, level and market |
+
+In a host built on a Chinese design system, its own figures agree with this file: Semi states 4.5:1 for
+text, 3:1 from 18 px and 3:1 for hover, active and focus against adjacent colours, and ships an
+accessibility theme with stronger contrast and larger type; TDesign publishes the ratio of each
+functional colour. Keep their tokens; check the pairs the product actually uses.

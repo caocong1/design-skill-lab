@@ -2,8 +2,8 @@
 title: Image generation lane - comps, raster assets, provenance, labelling
 evidence: digest
 sources: [impeccable, taste-skill, ai-labelling-law]
-reviewed: 2026-09-27
-review_by: 2026-12-27
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Image generation
@@ -39,7 +39,10 @@ gradients.
   evidence, never a spec. Values come from the direction card and the system, not the picture.
 
 **Building to an approved comp** (comp-led path; a frontier-model job, so quick effort and smaller
-models take the code-led path, where the direction card and surface contract carry the ambition):
+models take the code-led path, where the direction card and surface contract carry the ambition).
+Comp-led suits Persuade and Experience surfaces: landing pages, campaigns, editorial heroes. Operate
+and Read surfaces (app screens, tools, documents) are code-led whatever the comp shows; Impeccable
+made the same rule in 2026-10:
 
 1. Map regions: text, controls and chrome are HTML; image and texture regions are plates.
 2. Type: measure cap height, x-height, weight and width from the pixels, then pick a real, licensed

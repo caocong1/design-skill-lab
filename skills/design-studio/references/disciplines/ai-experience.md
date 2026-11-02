@@ -1,9 +1,9 @@
 ---
 title: AI experience (interaction patterns, agent control, hosted and generative UI, disclosure)
 evidence: digest
-sources: [shape-of-ai, ai-labelling-law, mcp-apps, openai-apps-sdk-ui, a2ui, web-baseline-2026, ui-events-ime]
-reviewed: 2026-09-27
-review_by: 2026-12-02
+sources: [shape-of-ai, ai-labelling-law, mcp-apps, openai-apps-sdk-ui, a2ui, web-baseline-2026, ui-events-ime, apple-hig-generative-ai, pair-guidebook, carbon-for-ai, vercel-ai-elements, ant-design-x]
+reviewed: 2026-11-01
+review_by: 2026-12-03
 ---
 
 # AI experience
@@ -13,11 +13,10 @@ and the disclosure spec, in three layers checked separately: **how people use it
 stay in control** (§2), **who draws its UI and where** (§3); disclosure (§4) covers all three. Patterns
 and host rules change quarterly; the questions behind them do not.
 
-Owned elsewhere, link, don't restate: the base state matrix and loading timing,
-[product-ui](product-ui.md); streaming and indicator motion, [motion](motion.md) §3 and
-[motion-tokens](motion-tokens.md) §4; host frames, variables and widget limits,
-[embedded-hosts](../platforms/embedded-hosts.md); labels on generated images and video,
-[image-generation](../process/image-generation.md) §5; contrast, [color](../fundamentals/color.md).
+Owned elsewhere, link, don't restate: the base state matrix and loading timing, [product-ui](product-ui.md);
+streaming and indicator motion, [motion](motion.md) §3 and [motion-tokens](motion-tokens.md) §4; host frames,
+variables and widget limits, [embedded-hosts](../platforms/embedded-hosts.md); labels on generated images and
+video, [image-generation](../process/image-generation.md) §5; contrast, [color](../fundamentals/color.md).
 
 ## Procedure
 
@@ -61,7 +60,7 @@ Family names follow Shape of AI (shapeof.ai; CC BY-NC-SA, so paraphrase, never c
 | How do I stay in control? | governors | plan before acting, approval at the right grain, visible work, pause / stop / undo, cost estimates, variations and branches, memory control (§2) |
 | Why should I believe it? | trust builders | citations that open the exact passage, caveats where they matter (not a permanent footer), data-use controls, a trace from prompt to result |
 | What is the AI here? | identifiers | one name, mark, colour and personality, restrained; sparkle icons and violet gradients are the category default ([anti-slop](../fundamentals/anti-slop.md)) |
-| What may it do on its own? | (gap in the library) | the delegation level and how it changes (§2.2) |
+| What may it do on its own? | (gap in the library) | the delegation level and how it changes (§2.2): automate what is tedious and low-risk, augment what people enjoy or answer for, and widen in phases where risk is low (PAIR Guidebook) |
 
 ### 1.3 Conversation mechanics
 
@@ -72,7 +71,7 @@ Family names follow Shape of AI (shapeof.ai; CC BY-NC-SA, so paraphrase, never c
 | Progress text | names the step and the object ("Checking 3 invoices against the bank feed"), never "Thinking…" or "Processing…" |
 | Showing work | one compact activity line that expands to tool calls, sources read and durations; finished steps collapse; a reasoning summary only when it helps judge the answer |
 | Answers | the answer first; headings and lists only for structured content; copy, retry, edit-and-resend and voluntary, non-blocking feedback on each response; code blocks with language, copy and wrap; citations as numbered inline chips with a sources panel |
-| Output controls | edit, undo, retry, adjust next to the output; a visible confirmation when a correction took effect; alternatives only when they genuinely differ |
+| Output controls | edit, undo, retry, adjust next to the output; a visible confirmation when a correction took effect; alternatives only when they genuinely differ, the likeliest first (Apple HIG, Generative AI) |
 | Errors and limits | tell apart model refusal, tool failure, network failure, rate limit and context limit; say what happened and what the user can do; keep the conversation and the draft |
 | History | searchable, renameable threads; branch or edit an earlier turn without losing the original; show which model and context produced a result |
 
@@ -210,9 +209,9 @@ the assumed scope in decisions.md.
 | Jurisdiction | Instrument | Applies |
 | --- | --- | --- |
 | EU | AI Act Art. 50: disclose AI interaction; machine-readable marking of synthetic output; disclose deep fakes and AI text published on public-interest matters | from 2026-08-02. Art. 50(2) marking for generative systems on the market before that date: by 2026-12-02. Fines up to EUR 15 million or 3 % of worldwide turnover |
-| EU | Code of Practice on transparency of AI-generated content (voluntary): label design and placement | final 2026-06-10 |
-| EU | Commission guidelines on Art. 50 | approved 2026-07-20; apply only after formal adoption (pending on 2026-09-27) |
-| China | 人工智能生成合成内容标识办法 + mandatory standard GB 45438-2025: explicit and implicit labels | in force since 2025-09-01; apps were removed from stores for missing labels (2025-11-25) |
+| EU | Code of Practice on transparency of AI-generated content (voluntary): label design and placement | final 2026-06-10, judged adequate by the Commission 2026-07-08; signatory task forces draft an EU audio earcon and a hover-or-click second layer for the icon from January 2027 |
+| EU | Commission guidelines on Art. 50 | approved 2026-07-20; apply only after formal adoption, still unconfirmed on 2026-11-01 |
+| China | 人工智能生成合成内容标识办法 + mandatory standard GB 45438-2025: explicit and implicit labels | in force since 2025-09-01; enforced: apps removed from stores (2025-11-25), 剪映 and 即梦AI summoned (2026-04-28), a WeChat mini program ordered offline for missing labels, missing metadata and unlabelled exports (2026-09-15) |
 
 ### 4.2 Where labels must appear
 
@@ -245,6 +244,9 @@ first interaction plus a small persistent label beats a modal on every turn.
   agreement text and a confirmation.
 - **Label the action, not only the feature** ("Rewritten with AI"); name the actor on every message
   and keep the identity visible through a handoff to a human; a style reserved for AI content helps.
+- **One label, two jobs** (Carbon for AI): the label is also the way into a short explanation; when a
+  person edits AI content, its AI styling drops and a "revert to AI" path stays; AI tokens live in the
+  main theme and never decorate.
 - Accessible: contrast computed on the real background, alt text or an ARIA name, a second layer
   reachable with assistive technology, timed labels visible long enough to read.
 
@@ -277,6 +279,10 @@ Add these rows to the [product-ui](product-ui.md) state matrix; reach each by `?
 | Hosted widget | the list in §3.2, plus host dark theme and missing host variables (the fallback path) |
 | Generative UI | partial render, unknown-component fallback, failed surface, disabled until valid |
 | Disclosure | first-exposure notice; the persistent label present in every state above |
+
+Name the parts as the host's component library does, so the build maps one to one: AI Elements, now on
+shadcn/ui (Plan, Task, Tool, Confirmation, Checkpoint, Queue, Context, Sources, Reasoning), or Ant Design X
+(Welcome, Prompts, Sender, Bubble, ThoughtChain, Sources; stages 开始 · 追问 · 提示 · 确认 · 错误 · 结束).
 
 ## 6. Honesty rules
 

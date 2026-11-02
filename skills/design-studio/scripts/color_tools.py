@@ -24,7 +24,9 @@ contrast  WCAG 2.x ratio per pair, a verdict, and APCA Lc. A translucent foregro
           >= 18.66px bold) and UI boundaries/icons (WCAG 2.2 SC 1.4.3 / 1.4.11).
 matrix    Every fg x bg ratio. With --from, reads custom properties from a CSS file (var() chains,
           light-dark(), .dark / [data-theme=dark] / prefers-color-scheme blocks, bare shadcn-style
-          "H S% L%" triplets), classifies colour roles by name and prints one matrix per mode:
+          "H S% L%" triplets; an @supports not (... light-dark(...) ...) block is the fallback for
+          engines without light-dark() and is skipped, so the light-dark() branch is what gets
+          checked), classifies colour roles by name and prints one matrix per mode:
             text roles    (text, fg, foreground, ink, link, placeholder, on-surface)  need 4.5 on surfaces
             ui roles      (focus, ring, icon, input, control, outline, *-strong borders) need 3 on surfaces
             on-X roles    (on-accent, primary-foreground, accent-fg)            need 4.5 on X and X-hover...
@@ -553,6 +555,8 @@ def token_env(decls, mode, scope=None):
     env = {}
     for want in ('base', mode):
         for preludes, name, value in decls:
+            if any(p.lower().startswith('@supports not') and 'light-dark' in p.lower() for p in preludes):
+                continue    # the old-engine fallback for light-dark(); the modern branch is checked
             ctx = ' '.join(preludes).lower()
             selectors = [p for p in preludes if not p.startswith('@')]
             if not selectors or not (ROOTISH.search(selectors[-1]) or (scope and scope in selectors[-1])):

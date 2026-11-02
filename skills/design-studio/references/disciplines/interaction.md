@@ -1,9 +1,9 @@
 ---
 title: Interaction (effort, keyboard, input methods, component behaviour)
 evidence: digest
-sources: [nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, wcag-22, carbon-notification-tooltip, rauno-interaction-details, emil-kowalski-animation, laws-of-ux]
-reviewed: 2026-09-28
-review_by: 2026-12-27
+sources: [nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, wcag-22, carbon-notification-tooltip, rauno-interaction-details, emil-kowalski-animation, laws-of-ux, apple-macos-touch]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Interaction
@@ -75,7 +75,9 @@ Worked example, assigning a ticket in a queue (派单):
   a disabled Previous on page 1 may leave the tab order.
 - Enter runs the default action; Esc closes or cancels the innermost layer only, one layer per press.
 - Every pointer-only act has a keyboard path: drag has "move to", hover content opens on focus, a
-  context menu opens with the Menu key or Shift+F10.
+  context menu opens with the Menu key or Shift+F10. It also has a touch path: touch Macs (macOS 27)
+  and iPads have no hover, so a hover-revealed control appears when its area is tapped and is in
+  the context menu ([desktop](../platforms/desktop.md)).
 - Draw it: a keyboard map per surface (key, scope, action) and focus-state shots in the capture round.
 
 ## 3. Shortcuts and accelerators
@@ -111,8 +113,9 @@ commits them. Everything that reacts to keys or text must wait for the commit.
 - Search-as-you-type, filters, autocomplete, inline validation, character counts and "unsaved"
   markers react to committed text, never to the pinyin letters in between.
 - The handoff names the guard: on `keydown`, ignore the event when `event.isComposing` or
-  `event.keyCode === 229`. Safari 10.1-26.6 reports `isComposing` false on the committing Enter, so
-  the second check stays for as long as those versions are in use.
+  `event.keyCode === 229`. Every shipping Safari reports `isComposing` false on the committing
+  Enter (WebKit turned its fix on in April 2026 and off again in June), and `isComposing` is not
+  Baseline: keep both checks for every engine.
 - A character limit says how it counts (a Han character as one or two) and the counter shows it
   (practice).
 - Headless capture cannot compose. Mark IME behaviour `needs confirmation` until someone types with a
@@ -135,7 +138,10 @@ leaves open. The last column is what the design must state or draw.
 | Inline edit | click the value; Enter or F2 on a focused cell | Enter commits a single line; Esc restores; Tab commits and moves on | the cell | saved and failed marks in place; what happens if someone else changed it |
 | Selection and bulk | click or Space; Shift range; ⌘/Ctrl toggle | ⌘/Ctrl+A inside the list | Esc clears | the count and scope ([data-dense-ui](data-dense-ui.md)); whether selection survives paging and filters, said on screen |
 | Reorder, move | drag; Space picks up, arrows move, Space drops, Esc cancels (practice) | - | the moved item | a "move to" alternative (WCAG 2.5.7); drop preview; edge autoscroll; undo |
-| Tabs | click; arrows between tabs | Home/End | - | selection follows focus only when the panel is instant |
+| Listbox | Tab lands on the selected option (single) or the first selected (multi) | arrows; Home/End (expected above five options); type-ahead (above seven); multi: Space toggles, Shift+arrows extend, ⌘/Ctrl+A | - | selection follows focus or waits for Space (it helps some users and hinders others); "Select all" and "Clear" buttons for multi-select |
+| Grid (editable table) | one tab stop for the grid | arrows move one cell and stop at the edge; Page Up/Down; Home/End in the row; ⌘/Ctrl+Home/End to the corners; Enter or F2 edits a cell, Esc leaves it | the cell | which cells edit; whether Esc also undoes; Shift+Space and ⌘/Ctrl+Space select a row or a column |
+| Tree | Tab lands on the focused node | Right opens a node, then moves to its first child; Left closes, then moves to the parent; Up/Down never open or close; type-ahead above seven root nodes | - | the loading state of lazy children; `*` to open all siblings, or not |
+| Tabs | click; arrows between tabs (they wrap) | Home/End; Delete on a closable tab | Delete > the next tab, else the previous | activation follows focus only when the panels are preloaded; otherwise Enter or Space activates |
 | Slider, stepper | drag, click on the track, arrows | Page Up/Down large steps, Home/End | - | a typed field beside it for exact values |
 | File upload | click, drop or paste | - | - | limits stated before choosing; per-file progress, retry and remove |
 | Copy button | click | - | - | the label changes to "已复制" in place for a moment, then back; no toast (practice) |

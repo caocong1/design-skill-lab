@@ -1,9 +1,9 @@
 ---
 title: App icons and favicons
 evidence: digest
-sources: [apple-app-icons, harmonyos-design, fluent-2]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [apple-app-icons, harmonyos-design, fluent-2, icon-safe-zones]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # App icons and favicons
@@ -43,12 +43,12 @@ them before a release export.
 
 | Platform | Deliver | Canvas > mask | Appearances and variants | Basis |
 | --- | --- | --- | --- | --- |
-| iOS, iPadOS, macOS | a layered `.icon` file from Icon Composer (background + one or more foreground layers, at most four groups) with the SVG layer sources | 1024 x 1024 px square > rounded rectangle | six: default, dark, clear light, clear dark, tinted light, tinted dark; annotate Default, Dark and Mono (clear and tinted derive from Mono); the system generates any you omit | apple-app-icons |
+| iOS, iPadOS, macOS | a layered `.icon` file from Icon Composer (background + one or more foreground layers, at most four groups) with the SVG layer sources; since 2026-10-28 a flat PNG is also accepted and segmented by the system (§3) | 1024 x 1024 px square > rounded rectangle | six: default, dark, clear light, clear dark, tinted light, tinted dark; annotate Default, Dark and Mono (clear and tinted derive from Mono); the system generates any you omit | apple-app-icons |
 | watchOS | same `.icon` workflow | 1088 x 1088 px (overshoots the rounded rectangle, same grid) > circle | none; no black background (lighten it so it does not merge with the display) | apple-app-icons |
 | tvOS | asset-catalog image stack, 2-5 layers, parallax | 800 x 480 px landscape > rounded rectangle | none; keep a safe zone, since focus crops foreground layers more than the background | apple-app-icons |
 | visionOS | asset-catalog image stack: background + 1-2 layers, rendered in 3D | 1024 x 1024 px > circle | none; no background shape that reads as a hole or dent | apple-app-icons |
-| Android | adaptive icon: foreground + background layers plus a monochrome layer | each layer 108 x 108 dp; the outer 18 dp per side is reserved for masking and effects (parallax, pulsing); logo 48-66 dp inside the central 66 dp safe zone; launchers crop to circle, squircle, rounded square | themed icons use the monochrome layer; from Android 16 QPR 2 the system themes icons of apps that ship none, so ship yours to control the result | *checked*, developer.android.com adaptive icons (updated 2026-09-22) |
-| Google Play | store icon | 512 x 512 px, 32-bit PNG, sRGB, at most 1024 KB, full square; Play applies a 30 % corner radius and the shadow | no pre-rounded corners or edge shadows; a full-bleed background unless the logo has a distinct shape | *checked*, Play icon specifications (updated 2026-06-15) |
+| Android | adaptive icon: foreground + background layers plus a monochrome layer | each layer 108 x 108 dp; the outer 18 dp per side is reserved for masking and effects (parallax, pulsing); logo 48-66 dp inside the central 66 dp safe zone; launchers crop to circle, squircle, rounded square | themed icons use the monochrome layer; from Android 16 QPR 2 the system themes icons of apps that ship none, so ship yours to control the result | icon-safe-zones (page updated 2026-10-22) |
+| Google Play | store icon | 512 x 512 px, 32-bit PNG, sRGB, at most 1024 KB, full square; Play applies a 30 % corner radius and the shadow | no pre-rounded corners or edge shadows; a full-bleed background unless the logo has a distinct shape | icon-safe-zones (page updated 2026-10-20) |
 | HarmonyOS | two layers, foreground + background, PNG | 1024 x 1024 px, square without rounded corners; the system masks per scene | the background layer has no transparent pixels (a rounded crop or transparent padding fails the store check); same spec for phone, foldable, tablet, PC and smart screen; wearables separate | harmonyos-design |
 | Windows | ICO for Win32; for packaged apps AppList target sizes 16-256 px in default, light-unplated and dark-unplated forms | design on a 48 x 48 grid: exterior corner radius 2 px, interior 1 px; at most two metaphors | at least half the icon reaches 3:1 on both light and dark themes; without the unplated files the icon sits on a system plate; ICO at least 16, 24, 32, 48 and 256 px | fluent-2; *checked*, Microsoft Learn app-icon construction (2026-07-21) |
 | Web | favicon and web-app icons, §4 | square | dark-mode SVG, maskable | *checked*, §4 |
@@ -62,8 +62,8 @@ files in §5 and a person or the implementer finishes from them.
 1. Canvas and grid: the App Icon Template on Apple Design Resources (Figma, Sketch, Photoshop and
    Illustrator). Without those tools, draw on the bare 1024 x 1024 px square (1088 for watchOS),
    keep the mark centred and inside the safe zone, and judge masks on the review sheet (§1).
-2. Draw the foreground layers flat. Export **SVG** (PNG only for mesh gradients, raster art or SVG
-   features Icon Composer cannot read); convert text to outlines; number layer names from back to
+2. Draw the foreground layers flat. Export vector, **SVG** (the HIG now names PDF too; PNG only for
+   mesh gradients, raster art or SVG features Icon Composer cannot read); convert text to outlines; number layer names from back to
    front. Strip blurs, shadows, specular, opacity and translucency settings, and background colours
    and gradients. Export **square, unmasked** layers; never export the mask (pre-masked layers weaken
    the highlight and jag the edges).
@@ -84,8 +84,13 @@ files in §5 and a person or the implementer finishes from them.
   drop shadow and is scaled down onto a system-supplied background inside the rounded rectangle.
   Redraw to use the full canvas. Take the corner geometry from Apple's template; never invent a
   superellipse formula.
+- **A flat PNG instead of layers** (HIG, 2026-10-28): the system segments a nonlayered bitmap into a
+  foreground and a background to build the dark and tinted variants, and gives glass only to large,
+  simple shapes, never to text or thin lines. Layers still give the most control: the flat route
+  suits a quick port, not a designed icon. Whether it applies before the 27 releases is not stated.
 - **Tooling** (unverified which build each link serves): the Icon Composer page says it requires
-  macOS Tahoe 26.4 or later; Icon Composer 2 was announced as a beta on 2026-06-08.
+  macOS Tahoe 26.4 or later, the Design Resources download says macOS Sequoia; Icon Composer 2 is
+  still listed as a beta (announced 2026-06-08).
 - **Legacy asset catalogue**: one 1024 x 1024 image can generate the iOS, iPadOS and watchOS sizes;
   macOS needs each size. Appearances there are Any, Dark and Tinted: tinted as greyscale, dark with a
   transparent background.
@@ -115,10 +120,14 @@ The minimum set (Evil Martians, "How to Favicon in 2026"):
   may adapt to dark mode with an embedded `@media (prefers-color-scheme: dark)` style.
 - The Apple touch icon is opaque with its own padding and background colour (the article suggests
   about 20 px of padding).
-- **Maskable safe zone** (W3C Web Application Manifest, Working Draft 2026-08-13): a centred circle
+- **Maskable safe zone** (W3C Web Application Manifest, Working Draft 2026-10-26): a centred circle
   with a radius of 40 % of the icon size (409 px across on a 512 canvas); pixels outside may be
-  masked away. Let the background bleed to the edges. `purpose` takes `any` (default), `maskable` or
-  `monochrome`.
+  masked away, and the browser may not make any pixel inside transparent (it composites transparent
+  pixels onto a solid fill). Let the background bleed to the edges, about 10 % padding per side.
+  `purpose` takes `any` (default), `maskable` or `monochrome` (alpha only).
+- No standard sets a minimum icon set: the one above is practice; `sizes="any"` marks a scalable
+  SVG, the last of several equal candidates wins, and Chromium's install check (a browser policy)
+  wants 192 and 512 px.
 - The 16 px favicon is a simplified redraw of the mark, not the logo shrunk.
 - Also design `theme-color`, the installed-app name and the Open Graph image
   ([graphics](graphics.md)).

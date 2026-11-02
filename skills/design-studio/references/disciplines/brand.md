@@ -2,8 +2,8 @@
 title: Brand identity
 evidence: practice
 sources: [cjk-font-licensing, anthropic-design-skills, openai-apps-sdk-ui, mcp-apps]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Brand identity

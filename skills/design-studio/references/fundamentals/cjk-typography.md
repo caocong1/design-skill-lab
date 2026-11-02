@@ -1,9 +1,9 @@
 ---
 title: CJK typography and CJK font licences
 evidence: digest
-sources: [clreq-chinese-text-layout, chinese-copywriting-guidelines, jlreq, cjk-font-licensing, fluent-2, harmonyos-design, web-baseline-2026]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [clreq-chinese-text-layout, chinese-copywriting-guidelines, jlreq, cjk-font-licensing, fluent-2, harmonyos-design, web-baseline-2026, ant-design-spec, tdesign-spec, arco-design-spec]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # CJK typography
@@ -21,12 +21,13 @@ numbers, truncation · Japanese · Korean · licences · verify.
 
 | Property | Rule | Basis |
 | --- | --- | --- |
-| Size | 15-17 px body on web and mobile; captions 12-13 px; nothing below the 12 px floor | practice |
-| Line height | 1.6-1.8 for running text, 1.5 in dense UI; at least 1.5 wherever emphasis dots or proper-name lines sit between lines (they need a gap of half the font size, planned into the base line height, never added to one line) | practice; clreq |
+| Size | reading text 15-17 px on web and mobile; product UI body 14 px with 12 px captions (Ant Design, TDesign, Arco and Semi all use 14 as the UI body and 12 as the desktop floor; TDesign's 10 px is a mobile base only); nothing below 12 px | practice (reading); ant-design-spec, tdesign-spec, arco-design-spec (UI) |
+| Line height | running text 1.5-2.0, usually 1.6-1.8: clreq sets the type-area line gap at 50-100 % of the font size and says a gap beyond one em does not help reading; shorter lines and smaller text take the low end. Product UI: line height = size + 8 px (12/20, 14/22, 16/24 in Ant Design and TDesign, so 1.4-1.7); Arco's guideline says 1.4 and its code 1.5715. At least 1.5 wherever emphasis dots or proper-name lines sit between lines (a gap of half the font size, planned into the base line height, never added to one line) | clreq; ant-design-spec, tdesign-spec, arco-design-spec |
 | Measure | 25-40 characters; one character is 1 em, so cap it in `em` (`max-width: 36em`), not `ch` | practice |
 | Tracking | 0: Han text is set solid; small text may take +0.02-0.05em; never copy a Latin display tracking onto a Han headline, tighten it by eye | practice; jlreq |
 | Paragraphs | one line of space, or a 2 em first-line indent in long-form and literary text, never both | practice |
-| Weight | 400-500 body, 600 emphasis; CJK strokes are dense, so no thin weights at body size and no bold body | practice |
+| Weight | 400 body and one heavier weight: 500 (Ant Design's font page, Arco) or 600 (Ant Design's DESIGN.md, TDesign, Semi; TDesign keeps only 400 and 600 because Windows renders lighter bolds as regular). CJK strokes are dense, so no thin weights at body size and no bold body | ant-design-spec, tdesign-spec, arco-design-spec; practice |
+| Steps | 3-5 sizes per product; small sizes 2-4 px apart, larger ones in bigger steps (TDesign: +2 up to 20 px, then +4 / +8 / +12 / +16) | ant-design-spec, arco-design-spec, tdesign-spec |
 
 - Justified Chinese works better than justified Latin because every character is one em wide.
   For flush lines, make the measure a whole number of ems.
@@ -132,7 +133,7 @@ Two layers decide what the reader sees:
 
 | Layer | Decide | How |
 | --- | --- | --- |
-| Source copy you write | one convention per product: spaces between Chinese and Latin or digits (the copywriting-guideline convention), or none (common in large Chinese consumer products). Never mix | lint copy files with AutoCorrect or pangu (`catalog.py show autocorrect`); number and unit spaced (`10 Gbps`, `20 TB`), except `90°` and `15%` |
+| Source copy you write | one convention per product: spaces between Chinese and Latin or digits (the copywriting-guideline convention, which Arco's style guide also states, except in fixed terms such as 7号线 and 3D打印), or none (common in large Chinese consumer products). Never mix | lint copy files with AutoCorrect or pangu (`catalog.py show autocorrect`); number and unit spaced (`10 Gbps`, `20 TB`), except `90°` and `15%` |
 | Web rendering | `text-autospace: normal` on text you do not control (CMS, user content, unspaced legacy copy) | measured, Chromium 147: the initial value is `no-autospace`; `normal` adds 1/8 em per boundary, and adds nothing where a space is already typed or next to full-width punctuation, so it is safe over spaced copy |
 | Native text engines | the copywriting guideline reports no automatic gap in OS UIs (macOS, iOS, Windows) | assume the gap exists only if the copy has it |
 

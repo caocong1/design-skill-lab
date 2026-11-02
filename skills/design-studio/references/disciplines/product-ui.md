@@ -1,9 +1,9 @@
 ---
 title: Product UI (screens, flows, states)
 evidence: practice
-sources: [ooux-orca, vercel-web-interface-guidelines, wcag-22, laws-of-ux, nng-heuristics]
-reviewed: 2026-09-28
-review_by: 2027-09-27
+sources: [ooux-orca, vercel-web-interface-guidelines, wcag-22, laws-of-ux, nng-heuristics, emil-kowalski-skills]
+reviewed: 2026-11-01
+review_by: 2027-11-01
 ---
 
 # Product UI
@@ -108,6 +108,13 @@ Design every screen and component across the rows that apply; list skipped rows 
 | Permissions | signed out, no access, read-only role, over quota or paywalled |
 | Content | long strings, missing image, mixed CJK and Latin, large numbers, long names, RTL if shipped, 200 % text |
 | Environment | each window class, light and dark, reduced motion, high contrast and forced colours, touch vs pointer vs keyboard |
+
+Keep the hard cases as one data set, not as one-off edits: realistic worst-case values (the longest
+name and email, a one-letter name, "1 member", huge counts, empty lists, long translated labels,
+surrogate-pair emoji) behind a "Demo data / Worst case" switch, and render at least one frame per
+target size from it, at the real container width, 320 px, the widest width, 200 % zoom, dark and RTL
+if shipped. Use the same set for the mockup and for the build's acceptance shots, so the pair compares
+like with like (Emil Kowalski's `break-ui` works this way).
 
 Three empty states are three different designs:
 

@@ -1,9 +1,9 @@
 ---
 title: Motion
 evidence: digest
-sources: [emil-kowalski-animation, material-3-expressive, material-motion-tokens, web-baseline-2026, wcag-22, apple-hig-liquid-glass, harmonyos-design, fluent-2, impeccable-slop-rules]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [emil-kowalski-animation, emil-kowalski-skills, material-3-expressive, material-motion-tokens, web-baseline-2026, wcag-22, apple-hig-liquid-glass, apple-motion-springs, harmonyos-design, harmonyos-motion-curves, fluent-2, impeccable-slop-rules]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Motion
@@ -27,6 +27,13 @@ stop at the first "no". The moments marked "none" are part of the spec.
 | occasionally (dialog, sheet, toast, route change, expand) | standard motion from the tokens |
 | rarely (onboarding, first item created, success after a long task) | may carry the one delight moment |
 
+When reducing an existing motion rather than deleting it: a hover becomes a colour or opacity change
+of at most 150 ms; a frequent entrance becomes a 150 ms opacity fade; anything over 300 ms comes down
+to 200-250 ms; a stagger is capped at 30 ms per item and 300 ms in total; a loop runs once. Before
+deleting, check what waits for the animation (an `opacity: 0` start state, an `animationend` or
+exit handler), and keep a short list of the motions that stay, with their reason (Emil Kowalski,
+`remove-animations`).
+
 **Purpose next.** One of: feedback (the press registered), continuity (this became that),
 orientation (it came from there and goes back there), attention (one thing changed), perceived speed
 (skeleton, optimistic update), character (rare tier only). "It looks nice" is not a purpose.
@@ -47,9 +54,9 @@ decelerations, no bounce, nothing loops". Then take the default of the target's 
 | Posture | Default | Note |
 | --- | --- | --- |
 | custom web or cross-platform brand | little or no bounce: M3 standard springs or ease-out curves; bounce 0.1-0.3 only for a drag released with momentum or an explicitly playful brand | the suite's brand-neutral default |
-| native Android | M3 **expressive** springs for most products, **standard** for utilitarian ones; spatial springs may overshoot, effects springs never | Compose's plain `MaterialTheme` gives standard; expressive needs `MaterialExpressiveTheme` (material3 1.5.0-alpha): flag it in the handoff |
-| native iOS, iPadOS, macOS | system springs (`.smooth`, `.snappy`, `.bouncy`) and system transitions; spec only the custom moments | Liquid Glass controls bring their own elastic behaviour; Reduce Motion lowers the effect and turns the elasticity off |
-| HarmonyOS | system component motion and HarmonyOS Symbol effects (the selected tab bounces) | [harmonyos](../platforms/harmonyos.md) |
+| native Android | M3 **expressive** springs for most products, **standard** for utilitarian ones; spatial springs may overshoot, effects springs never | Compose's plain `MaterialTheme` gives standard; expressive needs `MaterialExpressiveTheme` (material3 1.5.0, beta on 2026-11-01): flag it in the handoff |
+| native iOS, iPadOS, macOS | system springs (`.smooth`, `.snappy`, `.bouncy`) and system transitions; spec only the custom moments; Apple: start at bounce 0 and stay under about 0.4 on UI | Liquid Glass controls bring their own elastic behaviour; Reduce Motion lowers the effect and turns the elasticity off |
+| HarmonyOS | system component motion and HarmonyOS Symbol effects (the selected tab bounces); springs first; page transitions no shorter than 200 / 250 / 300 ms by screen size (required) | [harmonyos](../platforms/harmonyos.md) |
 | Windows | Fluent curves and durations (167/250/333 ms), built-in page transitions and connected animation | [desktop](../platforms/desktop.md) |
 
 Never re-specify a transition the platform draws itself (push, sheet presentation, glass effects);

@@ -1,9 +1,9 @@
 ---
 title: Layout and spacing
 evidence: digest
-sources: [hobday-visual-design-rules, impeccable, material-3-expressive, harmonyos-design, apple-hig-liquid-glass, wcag-22, fluent-2, wechat-miniprogram-design-guidelines, web-baseline-2026, accessibility-law]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [hobday-visual-design-rules, impeccable, material-3-expressive, harmonyos-design, apple-hig-liquid-glass, wcag-22, fluent-2, wechat-miniprogram-design-guidelines, web-baseline-2026, accessibility-law, apple-macos-touch]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Layout and spacing
@@ -106,6 +106,7 @@ mid-task.
 | Web, WCAG 2.2 AA | 24 × 24 CSS px, or a smaller target whose 24 px circle clears every neighbour; 44 × 44 is the AAA size and the touch default |
 | Mini-programs | about 7-9 mm physical; in 适老化 mode add 12 pt of hit area around icons and links, 40 × 40 pt minimum |
 | Desktop pointer UI | 24-32 px controls; row hit areas run the full width |
+| macOS with a touch display (macOS 27) | keep the pointer sizes and density; extend each hit area beyond the visible control (Apple gives no size) and let small controls expand while touched |
 | China apps, MIIT 适老化 (elder mode) | main components 60 × 60 dp/pt, other pages 44 × 44; a standalone elder app's home screen 48 × 48 |
 
 - The visible shape may be smaller than the hit area; extend the hit area with padding or an

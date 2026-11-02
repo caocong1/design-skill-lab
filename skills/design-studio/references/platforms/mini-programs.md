@@ -1,9 +1,9 @@
 ---
 title: Mini-programs (WeChat, Alipay and other hosts)
 evidence: digest
-sources: [wechat-miniprogram-design-guidelines]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [wechat-miniprogram-design-guidelines, alipay-miniprogram-design, cn-mini-program-douyin-kuaishou, baidu-smartprogram-design]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Mini-programs
@@ -120,12 +120,20 @@ only if the design adapts to it. Render every key screen at standard size and in
 
 ## Other hosts
 
-- Alipay (`my.*` APIs) and Douyin (`tt.*`) share the structure: a host capsule, host-owned launch and
-  share surfaces. Their capsule position, safe-area APIs and review rules differ:
+- Alipay (`my.*` APIs), Douyin (`tt.*`), Kuaishou and Baidu share the structure: a host capsule,
+  host-owned launch and share surfaces. Their capsule position, safe-area APIs and review rules differ:
   read each host's rectangle at runtime and design to the larger keep-out when one design ships to
-  several hosts.
-- Alipay's design spec: `python3 "$S/catalog.py" show alipay-miniprogram-design` (`S` = `skills/design-studio/scripts`; a JS site; use
-  a browser tool). The lab has no digest for it: mark its numbers unverified until read.
+  several hosts. What each host's own guide adds (read 2026-11-01):
+
+| Host | Canvas, margins | Bars | Marks | Also |
+| --- | --- | --- | --- | --- |
+| Alipay (guide 2026-06-02) | 750 px wide, 24 px (12 pt) margins | navigation bar owned by the framework, light or dark; tab bar 2-5 items at the bottom, hidden while the keyboard is up; a custom tab bar may change only icon, text and background colours | circular logo, 56 × 56 on the home page, the mark about 72 % inside the 140 / 180 guides, no badges, "NEW" or QR codes; service icon core 106 (at most 130) on a full 180 circle | at most one pop-up per page the user did not open (the checklist says two: design to one) and two motions per screen; one feedback message at a time; images 120 KB at most, placeholder `#F5F5F5`; large screens 720-3840 px on 8, 12 or 24 columns; scored in the host's quality review, with removal as the sanction |
+| Douyin (2024-07-24) | values in images only | 2-5 tabs, labels of 2-6 characters; the capsule stays on top, measured with `getCustomButtonBoundingClientRect` | logo 200 × 200, no rounded corners | toast 1.5 s for one line, 3 s for two; buttons draw normal, pressed and disabled |
+| Kuaishou (2023-2026) | 414 pt wide, 19 pt margins; at most four spacing values | the capsule is fixed, light or dark | logo at least 204 × 204 px, at most 2 MB, no corners or strokes | type 10-24 pt, at most three sizes, no custom fonts |
+| Baidu (last updated 2023-07-03) | 750 px, margins at least 34 px (17 pt) | navigation title at most 8 Chinese characters | - | reading text at least 17 pt, tappable text 12 pt, three sizes per module; elder mode 18-30 pt, targets about 44 pt, contrast "at least 3:1" as printed (use 4.5:1) |
+
+- Agent access: Alipay's pages are a script shell, but each has a Markdown twin (`opendocs.alipay.com/mini/<id>.md`)
+  and the site publishes `/mini/llms.txt`; Douyin and Kuaishou serve static pages; Baidu needs a browser.
 - Cross-host frameworks (uni-app, Taro) and kits (WeUI, Vant Weapp, TDesign):
   [stacks](../../../implement-design/references/stacks.md).
 

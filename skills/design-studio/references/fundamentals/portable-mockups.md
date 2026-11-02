@@ -2,8 +2,8 @@
 title: Portable mockups (one design language for every target)
 evidence: practice
 sources: [apple-hig-liquid-glass, apple-hig-bars, material-3-expressive, harmonyos-design, wechat-miniprogram-design-guidelines, fluent-2, wcag-22]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Portable mockups

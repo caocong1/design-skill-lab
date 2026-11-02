@@ -1,9 +1,9 @@
 ---
 title: Platforms (posture, what a target changes, cross-platform checklist)
 evidence: digest
-sources: [apple-hig-liquid-glass, apple-hig-bars, material-3-expressive, harmonyos-design, wechat-miniprogram-design-guidelines, web-baseline-2026, mcp-apps, openai-apps-sdk-ui]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [apple-hig-liquid-glass, apple-hig-bars, apple-macos-touch, material-3-expressive, harmonyos-design, harmonyos-motion-curves, wechat-miniprogram-design-guidelines, alipay-miniprogram-design, web-baseline-2026, mcp-apps, openai-apps-sdk-ui, embedded-host-guidelines]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Platforms
@@ -20,12 +20,12 @@ one target file the surface needs. How the design is drawn (frames, units, the p
 | File | Target | Digests |
 | --- | --- | --- |
 | [ios](ios.md) | iOS, iPadOS 26-27 (Liquid Glass), iPhone Duo | apple-hig-liquid-glass, apple-hig-bars |
-| [android](android.md) | Android 16, Material 3 Expressive | material-3-expressive |
-| [harmonyos](harmonyos.md) | HarmonyOS 6.x (沉浸光感, floating tabs), phone to PC | harmonyos-design |
-| [mini-programs](mini-programs.md) | WeChat, Alipay, Douyin mini-programs | wechat-miniprogram-design-guidelines |
-| [desktop](desktop.md) | Windows 11 (Fluent 2), macOS 26-27, Electron and Tauri | fluent-2, apple-hig-liquid-glass, apple-hig-bars |
+| [android](android.md) | Android 16-17, Material 3 Expressive | material-3-expressive |
+| [harmonyos](harmonyos.md) | HarmonyOS 6.x-7 (沉浸光感, floating tabs, motion), phone to PC | harmonyos-design, harmonyos-motion-curves |
+| [mini-programs](mini-programs.md) | WeChat, Alipay, Douyin, Kuaishou, Baidu mini-programs | wechat-miniprogram-design-guidelines, alipay-miniprogram-design |
+| [desktop](desktop.md) | Windows 11 (Fluent 2), macOS 26-27 incl. touch Macs, Electron and Tauri | fluent-2, apple-hig-liquid-glass, apple-hig-bars, apple-macos-touch |
 | [web](web.md) | web apps and sites, PWA, Baseline capability table | web-baseline-2026 |
-| [embedded-hosts](embedded-hosts.md) | Office and WPS add-ins, extension panels, IDE panels, chat-host widgets | mcp-apps, openai-apps-sdk-ui |
+| [embedded-hosts](embedded-hosts.md) | Office and WPS add-ins, extension panels, IDE panels, chat-host widgets | mcp-apps, openai-apps-sdk-ui, embedded-host-guidelines |
 
 ## Perishable numbers
 
@@ -94,17 +94,17 @@ each changing thing is specified:
 
 ## Changed in the last release
 
-As of 2026-09-27; each file's own box has the detail.
+As of 2026-11-01; each file's own box has the detail.
 
 | Target | Headline |
 | --- | --- |
 | [iOS, iPadOS](ios.md) | 26: Liquid Glass functional layer, floating tab bar that minimises, trailing search tab, toolbar groups with one prominent action. 27: no opt-out with the 27 SDKs, transparency slider, iPhone apps resizable (size classes, not devices), prominent tab, iPhone sidebars, iPhone Duo side bars. The HIG no longer lists device sizes |
-| [Android](android.md) | M3 Expressive: 64 dp flexible navigation bar, expanded rail replaces the drawer, docked and floating toolbars replace the bottom app bar, button groups, split button, FAB menu, springs. Target SDK 36: no edge-to-edge opt-out, predictive back animations on †. Stable Compose lacks most Expressive parts |
-| [HarmonyOS](harmonyos.md) | Guide release 2026-06-12: 沉浸光感 material with user strength and five levels; HarmonyOS 6.1 floating 56 vp capsule tabs beside the flat 48 vp bar; large-screen standard no longer requires side navigation |
+| [Android](android.md) | M3 Expressive: 64 dp flexible navigation bar, expanded rail replaces the drawer, docked and floating toolbars replace the bottom app bar, button groups, split button, FAB menu, springs. Target SDK 36: no edge-to-edge opt-out, predictive back animations on †. Android 17: no large-screen orientation opt-out. Compose material3 1.5.0 (beta) carries the Expressive parts; Views are in maintenance |
+| [HarmonyOS](harmonyos.md) | Guide release 2026-06-12: 沉浸光感 material with user strength and five levels; HarmonyOS 6.1 floating 56 vp capsule tabs beside the flat 48 vp bar; large-screen standard no longer requires side navigation. HarmonyOS 7 = API 26 (uiMaterial); transition floors of 200 / 250 / 300 ms by screen size are required |
 | [Mini-programs](mini-programs.md) | 375 px canvas = fixed and scaled, 390 px = responsive; 适老化 reads `wx.getAppBaseInfo`, care mode × 1.4 |
-| [Desktop](desktop.md) | macOS 27: sidebars reach the window edges, the selected sidebar item is semibold, bordered toolbar items over the sidebar become glass |
-| [Web](web.md) | The capability table (section 4) was re-read against web-features 3.40.0; status, dates and fallbacks are kept there only |
-| [Embedded hosts](embedded-hosts.md) | MCP Apps is a stable MCP extension (spec 2026-01-26): `ui://` resources in sandboxed iframes; OpenAI's UI guidelines now sit under "Plugins" and run on MCP Apps |
+| [Desktop](desktop.md) | macOS 27: sidebars reach the window edges, the selected sidebar item is semibold, bordered toolbar items over the sidebar become glass; touch Macs (2026-11): same density, larger hit areas, no hover-only controls |
+| [Web](web.md) | The capability table (section 4) was re-read against web-features 3.44.0; `light-dark()` needs a fallback block until the host's browsers all support it; status, dates and fallbacks are kept there only |
+| [Embedded hosts](embedded-hosts.md) | MCP Apps is a stable MCP extension (spec 2026-01-26), now in 12 hosts plus Gemini Enterprise; OpenAI's UI guidelines sit under "Plugins" and run on MCP Apps; Office, VS Code and Chrome pane rules come from the hosts' own docs |
 
 ## Cross-platform checklist
 
@@ -123,7 +123,7 @@ frame.
 - **Appearance**: light, dark, increased contrast; Reduce Transparency and the 沉浸光感 弱 strength
   where materials are used; reduced motion.
 - **Targets** per platform ([layout-and-spacing](../fundamentals/layout-and-spacing.md)); pointer
-  and keyboard on tablets and desktops; no hover-only affordance on touch.
+  and keyboard on tablets and desktops; no hover-only affordance on touch, touch Macs included.
 - **System services**: the platform's share sheet, pickers, permission prompts and keyboard types,
   not look-alikes.
 - **Right-to-left** if it ships; in iPhone Duo split view each app keeps its bars on its outer edge in RTL too.

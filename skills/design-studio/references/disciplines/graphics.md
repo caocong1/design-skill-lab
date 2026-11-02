@@ -96,7 +96,7 @@ lists a maintained tracker).
 | WeChat mini-program share card | 5:4 (for example 500 x 400) | WeChat docs, not re-fetched | [mini-programs](../platforms/mini-programs.md) |
 | 小红书 note | 3:4 (1080 x 1440 up to 1242 x 1660) | practice, 2026-09 | the cover carries the title in large type |
 | GitHub social preview | 1280 x 640 (at least 640 x 320) | 2026-09-27, GitHub docs | PNG, JPG or GIF under 1 MB; seen on light and dark pages |
-| App Store, iPhone | 6.9": 1320 x 2868, 1290 x 2796 or 1260 x 2736; else 6.5": 1284 x 2778 or 1242 x 2688 | 2026-09-27, App Store Connect | one of 6.9" or 6.5" is required; iPad 13": 2064 x 2752 |
+| App Store, iPhone | 6.9": 1320 x 2868, 1290 x 2796 or 1260 x 2736; else 6.5": 1284 x 2778 or 1242 x 2688 | 2026-09-27, App Store Connect | one of 6.9" or 6.5" is required; iPad 13": 2064 x 2752; iPhone Duo sizes are required from April 2027 ([ios](../platforms/ios.md)) |
 | Google Play | feature graphic 1024 x 500; screenshots 9:16 at least 1080 x 1920 | 2026-09-27, Play Console Help | JPEG or 24-bit PNG, no alpha |
 | Slides | 1920 x 1080 (16:9) | - | 4:3 only on request |
 

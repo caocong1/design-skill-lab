@@ -2,15 +2,15 @@
 title: Token formats - CSS mechanics, Tailwind v4, DTCG 2025.10, toolchains
 evidence: digest
 sources: [dtcg-2025-10, web-baseline-2026, design-md-spec, radix-colors-scale, fluent-2]
-reviewed: 2026-09-27
-review_by: 2026-12-27
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Token formats
 
 Syntax for the architecture in [system](system.md). One token source, rendered to whatever each
 consumer needs; add a format only when a second consumer exists. Versions and browser support are
-perishable (checked 2026-09-27): match the host's installed versions and say in the file which
+perishable (checked 2026-11-01): match the host's installed versions and say in the file which
 syntax it uses. Items marked *measured* were run in Chrome 153 and Tailwind 4.3.3.
 
 ## 1. Pick the source format
@@ -42,6 +42,8 @@ The [tokens.css](../../templates/tokens.css) starter shows the tiers. The mechan
 
 `light-dark()` takes colours (and images, newly: [web](../platforms/web.md) §4). Differences that are
 not colours (shadow geometry, border widths in high contrast) need a `[data-theme]` or media block.
+Engines without `light-dark()` need the starter's `@supports not (color: light-dark(#000, #fff))`
+block, which restates every role with its light step; `color_tools.py matrix` skips that block.
 
 **Derived states.** The rule (ramp step first, states move toward more contrast) is in
 [color](../fundamentals/color.md). When a state must be derived, one declaration serves both modes:
@@ -190,12 +192,12 @@ Start from [tokens.resolver.json](../../templates/tokens.resolver.json).
   type family. Permutations multiply: 3 families x 4 modes = 12 builds.
 - `$defs` is undefined behaviour; do not rely on it for bundling.
 
-## 6. Toolchain support (checked 2026-09-27)
+## 6. Toolchain support (checked 2026-11-01)
 
 | Tool | Version | Reads | Resolver |
 | --- | --- | --- | --- |
-| Terrazzo CLI | 2.0+ (2.7.1 current) | full 2025.10 including JSON Pointer `$ref`; object colour, dimension and duration required by default (old string syntax errors) | yes; the CSS plugin builds each permutation (`permutations: [{ input: { theme: "dark" } }]`) |
-| Style Dictionary | 5.3+ object colours (14 spaces, `hex` as the out-of-sRGB fallback), 5.4+ object dimensions (5.5.5 current) | no `$extends` or `$ref` in the changelog; `outputReferences` can emit a raw `{group.$root}` | no: resolve outside it and run once per permutation |
-| Tokens Studio for Figma | DTCG by default since 2.11 (2.12.1 current) | still writes its own types and string dimensions in DTCG mode | no; `@tokens-studio/sd-transforms` bridges to Style Dictionary |
+| Terrazzo CLI | 2.0+ (2.10.0 current, 2026-10-21) | full 2025.10 including JSON Pointer `$ref`; object colour, dimension and duration required by default (old string syntax errors); font weights 1-1000 (2.8) | yes; the CSS plugin builds each permutation (`permutations: [{ input: { theme: "dark" } }]`) |
+| Style Dictionary | 5.3+ object colours (14 spaces, `hex` as the out-of-sRGB fallback), 5.4+ object dimensions, 5.7+ object durations (5.7.1 current) | no `$extends` or `$ref` in the changelog; the raw `{group.$root}` from `outputReferences` was fixed in 5.6.0 | no (still open on 2026-11-01): resolve outside it and run once per permutation |
+| Tokens Studio for Figma | DTCG by default since 2.11 per its release notes (its docs page still says legacy; 2.13.2 current) | still writes its own types and string dimensions in DTCG mode; imports Figma timing and easing variables as `duration` and `cubicBezier` since 2.13.1 | no; `@tokens-studio/sd-transforms` bridges to Style Dictionary |
 | Figma variables | import, one file per mode | sRGB and HSL colours, px dimensions, durations in s, single-string font families, no composites | no |
 | `@google/design.md` export | 0.4.0 | lossy (system section 6) | no |

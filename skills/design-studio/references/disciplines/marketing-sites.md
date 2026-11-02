@@ -2,8 +2,8 @@
 title: Marketing sites (landing, product, editorial, portfolio, store pages)
 evidence: practice
 sources: [impeccable, anthropic-frontend-design-skill, taste-skill, vercel-web-interface-guidelines, web-baseline-2026]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Marketing sites

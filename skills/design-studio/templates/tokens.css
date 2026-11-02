@@ -15,7 +15,8 @@
 
    Tiers, referenced one way: primitives (--p-*) > semantic roles > component exceptions.
    Components read semantic tokens only. Modes re-map the semantic tier with light-dark();
-   color-scheme picks the branch, so each colour role is declared once. */
+   color-scheme picks the branch, so each colour role is declared once. Engines without
+   light-dark() get the light theme from the fallback block after section 2. */
 
 /* 1. Primitives: scales with no meaning ------------------------------------------------------ */
 :root {
@@ -145,6 +146,44 @@
 /* An explicit choice beats the OS setting; light-dark() follows color-scheme. */
 [data-theme="light"] { color-scheme: light; }
 [data-theme="dark"] { color-scheme: dark; }
+
+/* Fallback for engines without light-dark(): Chrome < 123, Firefox < 120, Safari < 17.5, and the
+   in-app browsers and WebViews built on them (links opened from chat apps). A custom property holds
+   light-dark() as plain text even where the function is unknown, so a second, plain declaration in
+   the block above would not help: every colour that reads the role becomes invalid at computed-value
+   time, and a solid button turns transparent under its white label. This block gives those engines
+   the light theme, complete. Keep the role list in step with section 2; delete the block only when
+   the host's browser matrix is entirely newer (status: platforms/web.md section 4). To give them dark
+   mode as well, add the dark steps here under @media (prefers-color-scheme: dark) and
+   [data-theme="dark"]. color_tools.py matrix skips this block and checks the branch above. */
+@supports not (color: light-dark(#000, #fff)) {
+  :root,
+  [data-family],
+  [data-theme] {
+    color-scheme: light;
+    --color-bg: var(--p-neutral-50);
+    --color-surface: var(--p-neutral-100);
+    --color-surface-raised: var(--p-neutral-50);
+    --color-border-subtle: var(--p-neutral-200);
+    --color-border: var(--p-neutral-300);
+    --color-border-strong: var(--p-neutral-600);
+    --color-text: var(--p-neutral-950);
+    --color-text-muted: var(--p-neutral-800);
+    --color-accent-subtle: var(--p-accent-100);
+    --color-accent: var(--p-accent-600);
+    --color-accent-hover: var(--p-accent-700);
+    --color-focus: var(--p-accent-600);
+    --color-danger-subtle: var(--p-danger-100);
+    --color-danger: var(--p-danger-600);
+    --color-danger-text: var(--p-danger-800);
+    --color-success-subtle: var(--p-success-100);
+    --color-success: var(--p-success-600);
+    --color-success-text: var(--p-success-800);
+    --color-warning-subtle: var(--p-warning-100);
+    --color-warning: var(--p-warning-600);
+    --color-warning-text: var(--p-warning-800);
+  }
+}
 
 /* Theme family: override primitives and structure only; roles re-derive from the block above.
 [data-family="<name>"] {

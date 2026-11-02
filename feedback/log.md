@@ -126,3 +126,14 @@
 没有改 `evals/triggers.jsonl`：它用过之后是冻结的回归集，往里加这次的原话等于对着它调描述。
 
 仍未验证：`--no-touch` 和离屏渲染的写法在宿主里的使用；描述的改动在真实宿主里的效果（P10）。
+
+## 2026-11-02 · 季度研究复核顺带处置的 3 条（0.16.0）
+
+这一轮的主任务是研究复核（`research/log.md` 2026-11-01 一节），只处置了与复核改动直接对应的条目；其余条目（提交时 inbox 里有 30 条，含复核期间宿主新提交的；多来自宿主 zh-architecture-doc-html、zh-static-docs-site、zh-macos-native-app 等）留在 inbox，等下一次 evolve。
+
+| 簇 / 条目 | 分级 | 处置 |
+| --- | --- | --- |
+| `light-dark()` 的回退写成"不需要" `light-dark-fallback-none-needed`（major） | A | 事实错误，复核 web-features 3.44.0 时一并改：`platforms/web.md` 的能力表、`modern-css.md`、`system.md` §4、`token-formats.md` §2；`templates/tokens.css` 加 `@supports not (color: light-dark(#000, #fff))` 浅色回退块；`color_tools.py matrix` 跳过该块（新旧脚本对模板的输出逐项相同）。在 Chromium 里把函数名改成未知名模拟不支持的引擎：旧模板主按钮透明、白字，新模板完整回落到浅色主题 |
+| 画稿没用上压力内容 `draw-the-stress-content`（major） | B | 与 Emil Kowalski `break-ui` 的做法一致（emil-kowalski-skills 第 23 条）。`product-ui.md` 状态矩阵下加一段：最坏情况的数据集放在一个开关后面，每个目标尺寸至少一帧用它画，样稿与构建验收截图用同一份数据 |
+| 评审子 agent 写不了报告 `critic-cannot-write` | — | 重复：0.13.0 已把"写入被拒就把整份报告放进回复"写进 `critique-design/templates/critic-brief.md` 的 Return 一节；这次宿主用的是自己临时写的任务说明，没用模板。不改 |
+

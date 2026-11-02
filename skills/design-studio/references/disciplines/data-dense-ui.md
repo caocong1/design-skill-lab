@@ -1,9 +1,9 @@
 ---
 title: Data-dense UI (tables, dashboards, big screens, charts)
-evidence: practice
-sources: [wcag-22, vercel-web-interface-guidelines]
-reviewed: 2026-09-28
-review_by: 2027-09-27
+evidence: digest
+sources: [wcag-22, vercel-web-interface-guidelines, ft-visual-vocabulary, datawrapper-color-guides, antv-design-principles, chartability]
+reviewed: 2026-11-01
+review_by: 2027-11-01
 ---
 
 # Data-dense UI
@@ -72,7 +72,9 @@ Structure:
 ## Choosing a chart
 
 Start from the question the reader must answer. Write it above the chart in the draft; if you cannot,
-the chart is decoration.
+the chart is decoration. Name the relationship it shows, in the FT Visual Vocabulary's nine:
+deviation, correlation, ranking, distribution, change over time, part-to-whole, magnitude, spatial,
+flow. Readers take a correlation for a cause: say so when it is not one.
 
 | Question | Chart | Avoid |
 | --- | --- | --- |
@@ -93,6 +95,7 @@ the chart is decoration.
 
 - The title states the finding ("华东区 Q3 退货率升至 4.2%"); the metric name, unit and period go in the subtitle.
 - Bar axes start at zero. A line axis may start elsewhere if labelled; never crop an axis to exaggerate.
+  A pictogram counts whole units only, never part of a figure.
 - Label directly at the line end or on the bar. Use a legend only when labels collide, ordered like the data.
 - Highlight the series that matters and grey the rest. The same entity keeps the same colour in every chart of the product.
 - Mute or drop gridlines. No chart borders, 3D, shadows or gradients on marks.
@@ -101,16 +104,17 @@ the chart is decoration.
 - Numbers: locale grouping and abbreviations (万 and 亿, or K and M: [product-ui](product-ui.md) Words), tabular figures, consistent decimals.
 - Show the as-of time and the source on the chart or its card.
 - Too little data is a state ("数据不足 7 天，暂不显示趋势"), not a flat line at zero.
-- Accessibility: marks and lines meet the non-text contrast minimum against adjacent colours (WCAG 1.4.11, threshold in [color](../fundamentals/color.md)), and each pie slice or area is told apart by more than hue; a second channel besides colour, such as a direct label, shape, dash or position (1.4.1); a table view or a one-sentence summary for key charts; tooltips reachable by keyboard, dismissible with Esc and hoverable (1.4.13); on touch, a tap shows the value.
+- Accessibility: marks and lines meet the non-text contrast minimum against adjacent colours (WCAG 1.4.11, threshold in [color](../fundamentals/color.md)), and each pie slice or area is told apart by more than hue; a second channel besides colour, such as a direct label, shape, dash or position (1.4.1); a table view or a one-sentence summary for key charts; tooltips reachable by keyboard, dismissible with Esc and hoverable (1.4.13); on touch, a tap shows the value. The floor is Chartability's 14 critical checks: among them a title and summary, the purpose and how to read the chart, a table, small text and low contrast, no seizure risk, more than one input type, controls that do not override assistive technology, and user style changes respected.
 
 ## Data colour
 
 Ramps, contrast and colour-vision simulation are computed as in [color](../fundamentals/color.md).
 What is specific to charts:
 
-- Categorical: at most eight hues, differing in lightness as well as hue, ordered by importance, "其他 / other" in grey. Simulate the whole set for colour-vision deficiency and check each hue against the plot ground.
-- Sequential: one hue, a lightness ramp in OKLCH. More value means more contrast with the ground (darker on light grounds, brighter on dark ones).
-- Diverging: two hues through a neutral midpoint placed at a meaningful zero (target, average, 0 %).
+- Categorical: at most seven hues (Datawrapper: past seven, group the categories or change the chart), differing in lightness as well as hue, ordered by importance, "其他 / other" in grey. When many series must share one chart, colour at most eight and grey the rest (AntV). Grey is the most used data colour. Simulate the whole set for colour-vision deficiency and check each hue against the plot ground; never use a gradient palette for categories or a categorical one for values.
+- Sequential: one hue, a lightness ramp in OKLCH, 5-7 distinguishable steps in equal lightness increments. Low is light and high is dark on a light ground (brighter on dark ones), so the ramp survives greyscale; never more than two hues at the same lightness.
+- Diverging: two hues through a neutral midpoint placed at a meaningful zero (target, average, 0 %); the midpoint is a light grey, not white.
+- In an Ant Design or AntV host, take AntV's palettes rather than a hand-picked set: the categorical ten start `#5B8FF9`, `#61DDAA`, `#65789B`, `#F6BD16`; semantic red `#F4664A`, green `#30BF78`, yellow `#FAAD14`.
 - Status colours are not series colours: red, amber and green stay reserved for status and are never used as categories.
 - Price and market deltas follow the audience's convention (红涨绿跌 or the reverse: color.md Conventions). Make them tokens (`--data-up`, `--data-down`) so every chart follows the product's setting; never hard-code them in a chart.
 - Business KPIs are coloured by good or bad, not by direction: a rising 退货率 is bad. The arrow shows direction; the colour shows judgement.

@@ -1,9 +1,9 @@
 ---
 title: iOS and iPadOS (Liquid Glass, 26-27)
 evidence: digest
-sources: [apple-hig-liquid-glass, apple-hig-bars]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [apple-hig-liquid-glass, apple-hig-bars, apple-motion-springs, apple-hig-generative-ai]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # iOS and iPadOS
@@ -68,7 +68,14 @@ with the background extension effect.
 **Accessibility settings change the material**: Reduce Transparency makes it frostier; Increase
 Contrast makes elements mostly black or white with a contrasting border; Reduce Motion lowers the
 effect and turns off the elasticity; the iOS 27 slider changes the tint. Its range and default are
-not documented.
+not documented (still not in the HIG on 2026-11-01, after the 27.0.1 and 27.2 releases).
+
+**Motion and AI**: use system transitions and springs; custom ones start from SwiftUI's defaults
+(`.default` is a critically damped spring; `.smooth`, `.snappy` and `.bouncy` have base bounce 0,
+0.15 and 0.3; Apple cautions against more than about 0.4 on UI), numbers in
+[motion-tokens](../disciplines/motion-tokens.md). Apple Intelligence features follow the HIG's
+Generative AI page: edit, undo and retry beside the output, a non-AI path, and no automated deletion
+or purchase ([ai-experience](../disciplines/ai-experience.md)).
 
 **No numbers exist for the glass itself.** Apple publishes no blur radius, tint opacity or refraction
 values; the 35 % dimming layer is the only one. Draw glass as the labelled approximation in
@@ -160,7 +167,8 @@ Standard symbols (use these names in `data-icon`): Done `checkmark` · Cancel/Cl
   space switch the tab bar to a sidebar. In iOS 27 an iPhone app can opt into the sidebar form, shown
   when there is room. Never ship a stretched phone layout.
 
-**iPhone Duo** (new HIG page 2026-09-09): on the outer display the toolbars, tab bar, navigation
+**iPhone Duo** (new HIG page 2026-09-09; on sale from 2026-10-23; App Store submissions need iPhone
+Duo screenshots from April 2027): on the outer display the toolbars, tab bar, navigation
 controls, status bar and Dynamic Island move to the side. The inner display keeps them on the side
 in landscape and uses normal horizontal bars in portrait; in Split View each app puts its controls
 on its outer edge (same side in right-to-left). Along the vertical bar: primary navigation (Back,

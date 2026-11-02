@@ -1,9 +1,9 @@
 ---
 title: Desktop apps (Windows 11 Fluent 2, macOS 26-27, Electron and Tauri)
 evidence: digest
-sources: [fluent-2, apple-hig-liquid-glass, apple-hig-bars]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [fluent-2, apple-hig-liquid-glass, apple-hig-bars, apple-macos-touch]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Desktop
@@ -32,7 +32,7 @@ specifics, and what changes when a desktop app is built with web tech. Elsewhere
 | Resizing | Every window is resizable and re-composes per width (navigation form, panes, toolbar overflow); never a fixed-size web page in a frame. Specify pane resize and collapse rules. |
 | Structure | Sidebar + content + optional inspector; a toolbar for frequent commands; context menus on right-click wherever an object is shown; a command palette for power users, in addition to visible commands ([product-ui](../disciplines/product-ui.md)). |
 | Keyboard | Keyboard first: logical tab order; shortcuts with the platform modifier (⌘ on macOS, Ctrl on Windows) shown in menus and tooltips; arrow keys in lists, trees and grids; type-ahead; Esc dismisses; Enter runs the default action. Keyboard model, shortcut conflicts and task cost: [interaction](../disciplines/interaction.md). |
-| Pointer | Hover states on everything interactive; tooltips with shortcut hints; multi-select with Shift (range) and ⌘/Ctrl (toggle). |
+| Pointer | Hover states on everything interactive; tooltips with shortcut hints; multi-select with Shift (range) and ⌘/Ctrl (toggle). Hover is never the only way in: touch screens exist on both OSes (section 3, Touch). |
 | Text | Desktop body text is smaller than mobile: macOS Body 13 pt (minimum 10), Windows Body 14 epx (minimum 12 Regular, 14 Semibold). Ramps in sections 2 and 3. |
 | Windows and state | Decide document-based (many windows) or single-window; restore windows, panes and selection on relaunch; guard unsaved changes on close and quit. |
 | Active and inactive | Both OSes dim an inactive window's chrome: draw the inactive state of the title bar and sidebar. |
@@ -154,6 +154,15 @@ out. What differs on the Mac:
 - **Layout**: no controls along the bottom edge of a window.
 - **Glass values**: none are published; every glass value in a mockup is a labelled approximation
   ([materials](../fundamentals/materials.md)).
+- **Touch** (MacBook Pro with a touch display, macOS 27, on sale from 2026-11-06; HIG updated
+  2026-10-28): touch is secondary to the keyboard and pointer, used for brief, deliberate acts.
+  Keep the layout, control size and density; make hit areas larger than the visible control (Apple
+  gives no point value); controls may expand while touched (steppers, sliders and dials do it
+  themselves). A touch display has no hover: a hover-revealed control appears when its area is
+  tapped, hides after a few seconds or when the pointer returns, keeps the selection, and is also
+  in the context menu (touch and hold). Pointer-only acts (shift-drag, hover menus) get a touch
+  equivalent. Double tap opens; touch and hold opens the context menu. Live Activities and a
+  Dynamic Island now exist on the Mac. Test with Sidecar when no touch Mac is at hand.
 
 ### Type
 

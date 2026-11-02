@@ -2,8 +2,8 @@
 title: Web apps and sites (browser platform, Baseline capabilities)
 evidence: digest
 sources: [web-baseline-2026, clreq-chinese-text-layout, vercel-web-interface-guidelines, emil-kowalski-skills, wcag-22, accessibility-law]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Web
@@ -72,7 +72,10 @@ implication and link here. Elsewhere:
 - Per field: `type`, `inputmode` and `autocomplete`; spellcheck off for emails, codes and usernames;
   paste allowed; password-manager and one-time-code friendly. Field rules: [product-ui](../disciplines/product-ui.md).
 - `touch-action: manipulation` on controls; a deliberate `-webkit-tap-highlight-color`;
-  `overscroll-behavior: contain` in modals and drawers so the page behind does not scroll.
+  `overscroll-behavior: contain` in modals and drawers so the page behind does not scroll. To stop
+  the desktop rubber-band bounce, set `overscroll-behavior: none` on `html` inside
+  `@media (pointer: fine)` only, so phones keep pull-to-refresh; `none` also disables scroll chaining
+  and swipe navigation, and hybrid touch laptops report their primary pointer, so test them.
 - `color-scheme` on `html` and a `theme-color` that matches the page background, per scheme: the
   browser's own chrome is part of the design.
 - Chinese elder-friendly (适老化) mobile web has its own floor, such as at least one font size of
@@ -94,7 +97,8 @@ implication and link here. Elsewhere:
 
 ## 4. Baseline capability table
 
-Status from web-features 3.40.0 (2026-09-24). **Baseline YYYY** = newly available that year: in
+Status from web-features 3.44.0 (2026-10-22; Chrome 156, Firefox 158, Safari 27 in its data; Firefox 159
+and Safari 27.2 shipped after it). **Baseline YYYY** = newly available that year: in
 every core browser (Chrome desktop and Android, Edge, Firefox desktop and Android, Safari macOS and
 iOS), but not yet in every user's hands. **Widely** = 30 months after that date. **Limited** = one
 or more core engines missing (named). Before relying on a Baseline 2025-2026 row, read the host's
@@ -124,7 +128,7 @@ too; "enhancement" = the design must be complete without it.
 | Same-document view transitions; `view-transition-class` | Baseline 2025 (Oct) | state changes and shared-element transitions within a page are standard web motion | plain state change; cross-fade or none under reduced motion |
 | Element-scoped view transitions | limited: Chrome only | enhancement | a page-level transition |
 | Cross-document view transitions (`@view-transition`) | limited: no Firefox | MPA page transitions are enhancement | plain navigation |
-| Scroll-driven animation (`animation-timeline: scroll()` / `view()`) | limited: no Firefox | scroll-linked effects are enhancement, never load-bearing | the static layout |
+| Scroll-driven animation (`animation-timeline: scroll()` / `view()`) | limited in the data: no Firefox entry yet (Firefox 159, 2026-10-27, shipped it) | scroll-linked effects are enhancement, never load-bearing, until the data says otherwise | the static layout |
 | `@starting-style` + `transition-behavior: allow-discrete` | Baseline 2024 (Aug) | entry animations out of `display: none` (dialog, popover, new node) work everywhere | none needed |
 | Exit to `display: none`; the `overlay` property | limited: no Firefox; `overlay` Chrome only | exits are not interoperable | design every exit to degrade to an instant hide |
 | `interpolate-size` / `calc-size()` (to `height: auto`) | limited: Chrome only | enhancement | the grid-rows or `::details-content` route in motion §4 |
@@ -136,7 +140,7 @@ too; "enhancement" = the design must be complete without it.
 
 | Feature | Status | Design implication | Fallback |
 | --- | --- | --- | --- |
-| `color-scheme`; `light-dark()` | `color-scheme` widely; `light-dark()` Baseline 2024 (May), widely 2026-11-13 (projected) | one declaration per light/dark token pair; scrollbars and form controls follow the scheme | none needed |
+| `color-scheme`; `light-dark()` | `color-scheme` widely; `light-dark()` Baseline 2024 (May; Chrome 123, Firefox 120, Safari 17.5), widely 2026-11-13 at the earliest (projected; still "newly" in 3.44.0) | one declaration per light/dark token pair; scrollbars and form controls follow the scheme | required on public pages: an engine without it treats a token holding `light-dark()` as invalid wherever it is used, so a solid button goes transparent. Give those engines the light theme in an `@supports not (color: light-dark(#000, #fff))` block, as the [tokens.css](../../templates/tokens.css) starter does; keep it while the audience includes in-app browsers or iOS before 17.5 |
 | `light-dark()` with image values | Baseline 2026 (Sep) | theme-specific images and logos in CSS | `<picture>` sources per `prefers-color-scheme` |
 | Relative colour (`oklch(from var(--c) ...)`) | Baseline 2024 (Sep) | alpha and chroma variants of one token; hover and pressed use `color-mix(in oklab, …)` toward the text colour, not a fixed lightness shift ([color](../fundamentals/color.md#derived-states)) | precomputed steps in the token file |
 | `color-mix()`; OKLab / OKLCH | widely (2025-11); mixing three or more colours limited (no Chrome) | safe for new work | none needed (two-colour mixes) |
@@ -157,7 +161,7 @@ too; "enhancement" = the design must be complete without it.
 | Scroll snap | widely | galleries and carousels snap to items | none needed |
 | `::scroll-marker`, `::scroll-button` | limited: Chrome only | CSS-generated carousel dots and arrows are not portable | real buttons, drawn and built |
 | `scrollbar-gutter` | Baseline 2024 (Dec) | reserve the gutter so content does not jump when a scrollbar appears | none needed |
-| Grid lanes (masonry) | limited: Safari 26.4 only | masonry is not native | CSS columns, a regular grid, or a scripted layout |
+| Grid lanes (masonry) | limited: no shipping engine in the data (the Safari 26.4 entry was withdrawn after 3.40.0) | masonry is not native | CSS columns, a regular grid, or a scripted layout |
 | `reading-flow` | limited: Chrome only | visual reordering still breaks keyboard and reading order | DOM order = visual order |
 | `corner-shape` (squircles) | limited: Chrome only | enhancement | plain `border-radius` |
 | CSS `if()`, `@function` | limited: Chrome only | keep out of production specs | - |
@@ -191,7 +195,8 @@ too; "enhancement" = the design must be complete without it.
 | VirtualKeyboard API, `env(keyboard-inset-*)` | limited: Chromium only | keyboard-overlay layouts are enhancement | `interactive-widget`, or a layout that works with the visual viewport |
 | Window Controls Overlay, `env(titlebar-area-*)` | limited: Chromium desktop only | an installed app may draw into the title bar | the standard title bar |
 
-Recheck triggers: each web-features release; `light-dark()` turns widely available on 2026-11-13.
+Recheck triggers: each web-features release, in particular the first after 2026-11-13 (`light-dark()`
+widely available) and the first that carries Firefox 159 (scroll-driven animation).
 
 ## 5. Verify
 

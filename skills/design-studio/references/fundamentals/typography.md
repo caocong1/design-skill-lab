@@ -2,8 +2,8 @@
 title: Typography (Latin and general)
 evidence: digest
 sources: [practical-typography-key-rules, hobday-visual-design-rules, impeccable, impeccable-slop-rules, anthropic-frontend-design-skill, taste-skill, apple-hig-liquid-glass, web-baseline-2026, wcag-22, cjk-font-licensing]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Typography

@@ -1,9 +1,9 @@
 ---
 title: Embedded hosts (Office / WPS add-ins, side panels, IDE panels, chat-host widgets, generative UI)
 evidence: digest
-sources: [mcp-apps, openai-apps-sdk-ui, a2ui, fluent-2]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [mcp-apps, openai-apps-sdk-ui, a2ui, fluent-2, embedded-host-guidelines]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Embedded hosts
@@ -40,15 +40,22 @@ ChatGPT plugins UI) and host-rendered generative UI (A2UI). Elsewhere:
 
 | Host | Width | Appearance and system |
 | --- | --- | --- |
-| Office add-in task pane (Word, Excel, PowerPoint, Outlook) | narrow and user-resizable, roughly 320-480 px (practice; perishable: check the host's docs) | Fluent 2 web tokens (below); follow Office's light or dark theme |
+| Office add-in task pane (Word, Excel, PowerPoint, Outlook) | user-resizable; at 1366 × 768 the default is Excel 350, PowerPoint 348, Word 329 and Outlook on the web 320 px wide | Fluent UI React v9 (Fabric Core 11 CSS without React) and the Fluent 2 web tokens below; a 20 px default margin on a 4 px grid; keep the top-right 40 × 40 px clear for Office's personality menu; read `Office.context.officeTheme` (four colours and `isDarkTheme`; Outlook lacks the last) and test all four Office themes, as there is no dark-mode design page; no bounce, rubber band or other physics motion |
 | WPS add-in pane | same range; confirm in the host | mirror WPS's own chrome, not Office's; its engine and fonts differ, so verify in the harness |
-| Browser extension side panel | set by the browser and the user; design the narrowest first | follow the browser's light or dark theme; the panel sits beside any website, so it carries no page-like header |
-| IDE panel (webview) | a dockable panel, often very narrow or very wide | take colours from the editor theme the host exposes to the webview, never a fixed palette; check a dark, a light and a high-contrast editor theme |
+| Browser extension side panel | set by the browser and the user, on either side (no API sets a width); design the narrowest first | follow the browser's light or dark theme; the panel sits beside any website, so it carries no page-like header; it opens only from a user gesture and lists after the browser's own panels; an action popup is 25 × 25 to 800 × 600 px and closes as soon as focus leaves it |
+| IDE panel (webview) | a dockable panel, often very narrow or very wide | VS Code: colours from the `--vscode-*` variables and the body classes `vscode-light`, `vscode-dark`, `vscode-high-contrast`, fonts from `--vscode-editor-font-*`, never a fixed palette; a webview only when no native view fits, never for a promotion, a wizard, a settings page or on every window; 3-5 views per sidebar container; view-container icons 24 px, command icons 16 px; every notification offers "Do not show again" |
 
 Fluent 2 web in Office and M365 panes (Segoe UI; px size / line height): Caption 2 10 / 14, Caption 1
 12 / 16, Body 1 14 / 20, Subtitle 2 16 / 22, Subtitle 1 20 / 26, Title 3 24 / 32; spacing on a 4 px
 base. Where the Fluent site and the React v9 code tokens differ, the code is what ships: radius Large
 6 px (site 8), Subtitle 1 20 / 28 (site 20 / 26), and a Body 2 16 / 22 that only the code has.
+
+Office specifics that shape a design: a dialog opens at 80 % of the screen's height and width by
+default (99.5 % at most), one per page; ribbon commands need icons at 16, 32 and 80 px (20, 24, 40, 48
+and 64 optional) and labels under 16 characters (64 at most); the ribbon allows seven visible tabs, six
+groups, seven commands per group and 70 commands. In the pane, use a command bar from four sections
+up (44 px targets), a tab bar for two to four (labels up to twelve characters), and a back button of
+32 px or more (44 recommended); eight sections or more means rethinking the structure.
 
 ## 3. Chat-host widgets
 
@@ -59,9 +66,13 @@ This section owns the host rules: frames, sizes, variables, limits.
 ### MCP Apps (the standard)
 
 MCP Apps (extension `io.modelcontextprotocol/ui`, stable since 2026-01-26) renders a tool's `ui://`
-HTML resource in a sandboxed iframe. The community client matrix (read 2026-09-27) lists Claude
-(web and desktop), VS Code GitHub Copilot, Microsoft 365 Copilot, ChatGPT, Cursor, Goose, Postman and
-others. ChatGPT's UI runs on this bridge; its extra rules are in the next subsection.
+HTML resource in a sandboxed iframe. The community client matrix (read 2026-11-01) lists 12 hosts:
+Claude (web, desktop and mobile apps), VS Code GitHub Copilot, Microsoft 365 Copilot, ChatGPT,
+Cursor, Goose, Postman, MCPJam, Kiro Crew and others; Claude Code is not among them. Google renders
+MCP Apps in Gemini Enterprise (inline, expandable to fullscreen or a side panel, with a text
+fallback) and invites them on its Connected Apps platform (Search and the Gemini app, preview).
+Claude does not support purchases through these widgets. ChatGPT's UI runs on this bridge; its
+extra rules are in the next subsection.
 
 | Design input | Rule |
 | --- | --- |
@@ -117,7 +128,10 @@ registered, and the host renders them with its own design system. When to choose
 widget, and the catalogue spec the designer delivers (variants, composition, copy, validation,
 partial and failure states, attribution): [ai-experience](../disciplines/ai-experience.md) §3.1 and §3.3.
 
-Renderer facts that shape the drawing (v0.9.1, current production; v1.0 is a release candidate):
+Renderer facts that shape the drawing (v0.9.1, current production; v1.0 still a candidate on
+2026-11-01). Renderers: React, Lit, Angular and Flutter are stable; SwiftUI and Jetpack Compose are
+alpha (Compose ships a Material 3 Basic catalogue); third parties render on React Native, Lynx and
+HarmonyOS, and TDesign's chat engine and CopilotKit speak it.
 
 - The optional Basic catalogue has 18 components: Text, Image, Icon, Video, AudioPlayer, Row, Column,
   List, Card, Tabs, Modal, Divider, Button, TextField, CheckBox, ChoicePicker, Slider, DateTimeInput;

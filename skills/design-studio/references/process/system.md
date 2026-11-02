@@ -1,9 +1,9 @@
 ---
 title: Design system - tokens, DESIGN.md, theme families, interop
 evidence: digest
-sources: [dtcg-2025-10, design-md-spec, anthropic-design-skills, radix-colors-scale, web-baseline-2026]
-reviewed: 2026-09-27
-review_by: 2026-12-27
+sources: [dtcg-2025-10, design-md-spec, anthropic-design-skills, radix-colors-scale, web-baseline-2026, figma-make-guidelines, v0-design-systems-2, vercel-design-md, ant-design-spec]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Design system
@@ -76,7 +76,9 @@ file holds the craft rules.
 
 - Declare each colour role once with `light-dark()`; `color-scheme` picks the branch, and
   `[data-theme]` sets `color-scheme` so an explicit choice beats the OS. No duplicated
-  media-query block. Dark-mode colour rules (not inverted, chroma down, re-picked accent steps,
+  media-query block for supporting engines; the one extra block is the light fallback for engines
+  without `light-dark()`, under `@supports not` as in the starter ([web](../platforms/web.md) §4
+  says when it can go). Dark-mode colour rules (not inverted, chroma down, re-picked accent steps,
   re-run contrast) live in [color](../fundamentals/color.md).
 - **The `var()` trap.** A custom property whose value uses `var()` is resolved on the element that
   declares it. `--color-bg: var(--p-neutral-50)` on `:root` keeps `:root`'s neutral inside a
@@ -131,8 +133,9 @@ Another agent must be able to design a new screen from `DESIGN.md` alone.
   memorable idea. Do's and Don'ts are rules a reviewer can check on a screenshot ("Don't use small
   text for anything except captions", not "use small text sparingly"). Colors carries a frequency
   budget ("primary under 5%, only the one main action per view").
-- Format: spec version `alpha`, CLI `@google/design.md` 0.4.0. YAML front matter tokens are
-  normative; prose is context. Sections, when present, keep the order Overview, Colors,
+- Format: spec version `alpha`, CLI `@google/design.md` 0.4.0 (still the latest on 2026-11-01).
+  YAML tokens are normative; prose is context. Since 2026-10-16 the spec also reads tokens from
+  fenced `yaml` blocks inside their sections, merged into one tree. Sections, when present, keep the order Overview, Colors,
   Typography, Layout, Elevation & Depth, Shapes, Components, Do's and Don'ts; extra sections
   (Motion, Modes and themes, Contrast, Not covered) follow and are preserved by consumers.
 - Rules that keep the file valid and exportable:
@@ -143,8 +146,9 @@ Another agent must be able to design a new screen from `DESIGN.md` alone.
     states are sibling keys (`button-primary-hover`);
   - no custom top-level YAML keys (`motion:`, `modes:` are warned about and dropped by export);
     describe modes and motion in prose and keep their values in the token files;
-  - no fenced `yaml` blocks in the prose: the parser merges them, and a repeated key makes it
-    ignore every token while lint still exits 0;
+  - keep token YAML in the front matter and write no other fenced `yaml` block: every such block
+    is now read as tokens, and the spec rejects a file that defines a top-level key twice, while
+    CLI 0.4.0 instead ignores every token and still exits 0;
   - no repeated `##` heading: the spec says it rejects the file, but CLI 0.4.0 lints it clean
     (exit 0), so check for duplicate headings yourself.
 - Check it when the CLI is reachable:
@@ -169,7 +173,9 @@ Another agent must be able to design a new screen from `DESIGN.md` alone.
 ## 7. Theming an existing component library
 
 Map semantic tokens onto the library's theme API; never restyle components piecemeal with deep
-selectors or `!important`. Find the mechanism for the installed major version (lockfile, not
+selectors or `!important`. Some libraries now publish an agent-readable system file: Ant Design 6.5+
+at `ant.design/design.md` (400 / 600 weights, 4 px units, `#1677FF`), Semi in its repository's
+`DESIGN.md`. Read it before mapping, and keep its values unless the brief changes them. Find the mechanism for the installed major version (lockfile, not
 memory): Ant Design `ConfigProvider` theme tokens and algorithms, Element Plus CSS variables,
 MUI theme with CSS variables, shadcn/ui CSS variables through Tailwind v4 `@theme inline`,
 Naive UI theme overrides, Flutter `ThemeData` / `ColorScheme` / `ThemeExtension`, SwiftUI asset
@@ -187,10 +193,13 @@ Whatever a store cannot express (families, modes, motion) stays in the token fil
 
 | Store | Recipe | Watch |
 | --- | --- | --- |
-| Claude Design (claude.ai/design) | The user runs `/design-sync` in Claude Code; it syncs a local component library into a design-system project one component at a time after the user approves a plan. Prepare one preview HTML per component group whose first line is `<!-- @dsCard group="Buttons" -->`, rendering the host's real components with its tokens. Claude Design can also build a team system from the codebase and send a handoff bundle to Claude Code. | Never start the sync yourself; never replace the project wholesale. Checked against the host's sync tool, 2026-09-27. |
-| Google Stitch | Keep the file at `.stitch/DESIGN.md`. Stitch MCP: `upload_design_md` (base64 UTF-8) > `create_design_system_from_design_md` > `apply_design_system`. | Stitch stores a seed theme: one hex, a colour variant, three enum fonts, four roundness steps; the rest lives only in the Markdown. A project default restyles new screens only. Its docs' "4:1 contrast" example is wrong; use 4.5:1. |
+| Claude Design | The user runs `/design-sync` in Claude Code; it syncs a local component library (or a repo, design files, uploads) into a design-system project one component at a time after the user approves a plan; `/design` imports a design or exports a live prototype. Prepare one preview HTML per component group whose first line is `<!-- @dsCard group="Buttons" -->`, rendering the host's real components with its tokens. | Never start the sync yourself; never replace the project wholesale. No file format is named and DESIGN.md is not read. The standalone claude.ai/design closes on 2026-12-14; Claude Design lives on as an artifact template in any chat. The `@dsCard` recipe was checked against the host's sync tool on 2026-09-27. |
+| Google Stitch | Keep the file at `.stitch/DESIGN.md`. Stitch MCP: `upload_design_md` (base64 UTF-8) > `create_design_system_from_design_md` > `apply_design_system`. | Stitch stores a seed theme: one hex, a colour variant, three enum fonts, four roundness steps, plus optional spacing and typography maps (untested whether the import fills them); the rest lives only in the Markdown. A project default restyles new screens only. Its docs' "4:1 contrast" example is wrong; use 4.5:1. |
 | Figma variables | Import takes DTCG JSON, one file per mode; `tz import <figma-url>` (Terrazzo; Figma Enterprise, `file_variables:read`) pulls variables into a resolver. | Import drops much of the format ([token-formats](token-formats.md) section 6 lists what survives): export a reduced copy per mode and keep the full file as the source. |
-| v0, Lovable, Figma Make | Each keeps its own store (v0 design-system skill and starter app; Lovable `.lovable/design-system.json`; Figma Make `guidelines/`). | Not verified against primary docs here: read the host's current docs, then apply the rules above. |
+| v0 | Design Systems 2.0 imports a GitHub repo, Figma frames, Storybook or docs links and attachments, and stores the setup as `v0.json` (schema 1, at most three reference sources) plus a `SKILL.md`. Give it the repo, and DESIGN.md as a link or attachment. | It does not read DESIGN.md natively. Its rule matches ours: a component, prop or token it cannot verify from the sources is not used. |
+| Figma Make | Reads `Guidelines.md` first, then a folder by system part (`foundations/`, `components/`, `composition/`); token files give philosophy, groups, tokens with examples and combinations; component files give when to use, purpose, right and wrong use, API. Project DESIGN.md and the tokens into that folder. | Many short files beat a few long ones. Library guidelines: `.md`, `.txt` or `.json`, three to eight files under 100 KB, 200 KB at most, and not used for Make kits. Beta. |
+| Lovable | Its documented routes are the Figma plugin, the Figma MCP and a `.fig` upload. | No DESIGN.md. An earlier `.lovable/design-system.json` note had no primary source and is dropped. |
+| A host `design.md` in Vercel's style | Front matter with only `name` and `description`, prose rules, tokens in a stylesheet loaded at render time. Read it as guidance. | Not the Google format: `design.md lint` does not apply, and the stylesheet is not meant to be read into context. |
 
 ## 9. Drift audit and legacy migration
 

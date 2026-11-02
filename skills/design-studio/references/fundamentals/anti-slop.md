@@ -1,9 +1,9 @@
 ---
 title: Anti-slop (designing past the default)
 evidence: digest
-sources: [anthropic-frontend-design-skill, anthropic-design-skills, impeccable, impeccable-slop-rules, taste-skill, ui-ux-pro-max, apple-hig-liquid-glass, harmonyos-design]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [anthropic-frontend-design-skill, anthropic-design-skills, impeccable, impeccable-slop-rules, taste-skill, ui-ux-pro-max, apple-hig-liquid-glass, harmonyos-design, genui-evaluation-papers-2026]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Anti-slop
@@ -13,6 +13,11 @@ output. The result is rarely bad design; it is the same design, whatever the sub
 test:
 
 > Would this choice have appeared whatever the product was? If yes, it is a default, not a decision.
+
+This is now measured, not only observed: across 15 models and 160 design briefs, the models' designs
+resemble one another more than they resemble the human reference (Design Creativity Bench, 2026-10),
+and five generative-UI tools converge on the same visual and layout features while varying mostly in
+colour (Design Theater, 2026-07).
 
 A default can still be the right answer, but only after the brief has challenged it. Novelty takes
 the same test: an experimental layout on a tax form fails appropriateness as surely as a template
@@ -91,7 +96,7 @@ under everything; scroll-triggered fade-up on every block. Impeccable's era capt
 | Near-black with one acid-green or vermilion accent and glowing edges | 2026-06 | anthropic-frontend-design-skill |
 | Broadsheet: hairline rules, zero radius, dense columns, italic display serif, tracked mono labels | 2026-06 | anthropic-frontend-design-skill, impeccable |
 | The shadcn-default look: the stock neutral theme, `--radius: 0.5rem`, identical bordered cards with one soft `rgba(0,0,0,.1)` shadow, lucide icons, gradient washes | 2026-09 | anthropic-design-skills, anthropic-frontend-design-skill |
-| Template chrome: a tracked all-caps eyebrow over every heading, middle-dot meta strings, "WORD — fragment" labels, tinted near-black (`#0B0B0B`, `#111`), mono for small data labels, an arrow on every link | 2026-09 | anthropic-frontend-design-skill |
+| Template chrome: a tracked all-caps eyebrow over every heading, middle-dot meta strings, "WORD — fragment" labels, tinted near-black (`#0B0B0B`, `#111`), mono for small data labels, an arrow on every link; hairline rules and outlined boxes, shadows on resting cards | 2026-09 to 10 | anthropic-frontend-design-skill, taste-skill (its 2026-10 rewrite lints these) |
 | Bento everywhere: a tile grid as the container for any content, cell sizes that encode nothing, cells padded to fill the grid | 2026-05 | taste-skill |
 | Glassmorphism misuse: frosted cards in the content layer, glass on glass, web imitations of Liquid Glass presented as the platform. Glass on the functional layer of iOS 26 or the 沉浸光感 material of HarmonyOS 6.1 is correct ([materials](materials.md)) | 2026-09 | impeccable-slop-rules, apple-hig-liquid-glass |
 | Gradient text on headlines; a radial halo or soft spotlight behind content on dark; dark mode with glowing accents | 2026-09 | impeccable-slop-rules |
@@ -99,22 +104,26 @@ under everything; scroll-triggered fade-up on every block. Impeccable's era capt
 | Generic 3D blobs, gradient orbs, placeholder illustrations built from circles and blocks, rough hand-drawn SVG mascots, a decorative grid-line background | 2026-09 | impeccable-slop-rules |
 | Production-test chrome: a version label in the hero, photo credits as decoration, a locale or weather strip, a scroll cue, decorative status dots, a border on every list row, fake product screenshots built from divs | 2026-05 | taste-skill |
 | GPT-style neobrutalism: bold borders, hard offset shadows, sticker badges | 2026-09 | impeccable-slop-rules |
+| Depth as decoration: a zero-offset coloured halo instead of a shadow with offset and blur; a hard offset shadow (Impeccable added it as an advisory rule in October) | 2026-10 | impeccable |
+| Rag left to chance: one word alone on the last line of a paragraph, a heading whose last line is a stub | 2026-10 | impeccable |
 | The hero-metric block (big number, small label, three stats, gradient accent); identical icon-title-text card grids; an icon tile above every heading; a pill badge above the hero headline; one accented word in a headline; cards nested in cards | 2026-09 | impeccable-slop-rules, anthropic-frontend-design-skill |
 | Copy: em-dash overuse; "supercharge", "world-class", "enterprise-grade"; forced contrast ("Not a feature. A platform."); an aphorism closing every section | 2026-09 | impeccable-slop-rules |
-| Motion: bounce or elastic easing on routine UI, a pulsing status dot, a marquee, images that zoom on hover | 2026-09 | impeccable-slop-rules |
+| Motion: bounce or elastic easing on routine UI, a pulsing status dot, a marquee, images that zoom on hover (Impeccable dropped its hover-zoom rule in October) | 2026-09 | impeccable-slop-rules |
 | A dated iOS or macOS mockup: opaque full-width bars, glass in the content layer, every toolbar button tinted, all-caps list section headers | 2026-09 | apple-hig-liquid-glass |
 
 **Overused faces, as dated lists**: Impeccable's engine (2026-09) flags Inter, Roboto, Open Sans,
 Lato, Montserrat, Arial, Helvetica, Fraunces, Instrument Sans and Serif, Geist, Mona Sans, Plus
 Jakarta Sans, Space Grotesk and Recoleta, and calls Playfair, Cormorant, Lora, Newsreader, Syne, IBM
-Plex, DM Sans and Outfit training-data defaults for persuasive pages. Taste-skill (2026-05)
-recommends Geist and Outfit. A brand face that fits stays; Operate and Read surfaces are well
-served by system stacks.
+Plex, DM Sans and Outfit training-data defaults for persuasive pages. Taste-skill's May 2026 skill
+recommended Geist and Outfit; its October rewrite names no replacement face at all and lints the
+defaults instead. A brand face that fits stays; Operate and Read surfaces are well served by system
+stacks.
 
 **Domain defaults**: Chinese big-screen dashboards (deep blue, cyan glow, neon borders, a rotating
 globe; [data-dense-ui](../disciplines/data-dense-ui.md)); enterprise admin in the untouched
 component-library theme; AI products with sparkles and violet gradients; developer tools in dark
-mode with one green accent and mono everywhere.
+mode with one green accent and mono everywhere; light or dark picked by category (dark because it is
+a developer tool, light because it is wellness) rather than by the scene.
 
 ## Cures decay too
 
@@ -127,8 +136,10 @@ names only Inter and Geist). Each remedy had a shelf life of months.
 
 So recommend a way of choosing, never a set: a font list, a palette or an effect offered as "not
 generic" becomes the next default. The tasteful reaction to one wave became the next wave; avoiding
-a list is not a design method, the test at the top is. Do not import absolute bans either: a total
-em-dash ban breaks correct range typography and Chinese punctuation (——).
+a list is not a design method, the test at the top is. The lists that last are kept that way: taste-
+skill's rewrite holds its tells as a dated registry that never names a replacement font, colour or
+component. Do not import absolute bans either: a total em-dash ban breaks correct range typography
+and Chinese punctuation (——).
 
 ## Mechanical help
 
@@ -138,11 +149,13 @@ Part of this can be checked without judgement. Run a detector on the rendered pa
 - `node "$S/lint.mjs" --help` (`S` = `skills/design-studio/scripts`) first. It checks the floor on a rendered page: counts of distinct
   colours, font sizes, radii and shadows; computed text contrast; overflow at 390 px; tap targets;
   missing alt text and labels; `transition: all`; reduced-motion handling.
-- Optional: `npx impeccable detect <dir|file|url> --json` (Impeccable, Apache-2.0; 61 rules: 32 AI
-  tells and 29 quality faults). Exit 0 = clean, 2 = findings, 1 = a target could not be scanned.
-  Waive a finding inline with a reason: `impeccable-disable <rule>: <reason>`. Never install its
-  editor hooks in a host project without the user's consent: they can download and run its engine
-  outside tool approval.
+- Optional: `npx impeccable detect <dir|file|url> --json` (Impeccable 4.8, Apache-2.0; 62 rules, 16
+  of them advisory; `--list-rules` prints them). Exit 0 = clean, 2 = findings, 1 = a target could not
+  be scanned; advisories never fail a scan. Waive a finding inline with a reason:
+  `impeccable-disable <rule>: <reason>`. Never install its editor hooks in a host project without the
+  user's consent: they can download and run its engine outside tool approval (downloads are
+  checksum-verified since 4.8), and a new design fetches directions from its online catalogue even
+  with telemetry off.
 - If the host already runs a detector, read its report before critiquing.
 
 A clean report means the known mechanical tells and floor faults are absent at the sizes, themes

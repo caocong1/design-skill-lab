@@ -1,9 +1,9 @@
 ---
 title: UI icons
 evidence: digest
-sources: [lucide-icon-design-principles, material-3-expressive, apple-hig-bars, harmonyos-design, fluent-2, openai-apps-sdk-ui, wcag-22]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [lucide-icon-design-principles, material-3-expressive, apple-hig-bars, harmonyos-design, fluent-2, openai-apps-sdk-ui, wcag-22, remix-icon-license, embedded-host-guidelines]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # UI icons
@@ -24,6 +24,8 @@ Check the host first (truth-files step 1). One family per product; never mix fam
 | HarmonyOS | HarmonyOS Symbol | 24 vp, icon size equals font size, symbol effects (the selected tab bounces) |
 | Windows | Segoe Fluent Icons; Fluent System Icons (Regular for wayfinding, Filled for selection) | crisp at 16, 20, 24, 32, 40, 48, 64; the Segoe font may be used in designs for other platforms but not shipped there |
 | chat hosts (Apps SDK widgets) | system icons, or custom icons that are monochrome and outlined | [embedded-hosts](../platforms/embedded-hosts.md) |
+| Office add-in commands | Fluent monoline ribbon icons: 16, 20 and 32 px required (up to 96); 1 px lines to 32 px, 2 px from 40 px; no orange | [embedded-hosts](../platforms/embedded-hosts.md) |
+| VS Code extensions | Codicons (`$(iconId)`); a view container takes a 24 px single-colour SVG, a command a 16 px icon with 1 px padding | [embedded-hosts](../platforms/embedded-hosts.md) |
 | web and custom brands | an open-source family chosen by the table below | - |
 
 Choose an open family on evidence, not by name recall:
@@ -34,7 +36,7 @@ Choose an open family on evidence, not by name recall:
 | Style fit | stroke, filled or duotone; geometric or humanist; corner and terminal style against the product's type and radii |
 | Weights and sizes | a stroke or weight axis, or optical sizes, if the UI uses 16, 20 and 24 |
 | Packages | a maintained package for the host stack, tree-shakable; raw SVGs available |
-| Licence | MIT, ISC or Apache-2.0 for product use; CC BY needs visible attribution; "free for personal use" does not ship |
+| Licence | MIT, ISC or Apache-2.0 for product use; CC BY needs visible attribution; "free for personal use" does not ship; a custom licence is read clause by clause (Remix Icon since 2026-01: no logo, app-icon or brand use, [licensing](../fundamentals/licensing.md)) |
 | Maintenance | recent releases, versioned, stable names |
 
 Candidates come from the catalogue: `python3 "$S/catalog.py" find --section icons:families --free` (`S` = `skills/design-studio/scripts`),

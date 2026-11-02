@@ -1,9 +1,9 @@
 ---
 title: Motion tokens and springs
 evidence: digest
-sources: [material-motion-tokens, material-3-expressive, emil-kowalski-animation, fluent-2, web-baseline-2026, dtcg-2025-10]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [material-motion-tokens, material-3-expressive, emil-kowalski-animation, fluent-2, web-baseline-2026, dtcg-2025-10, apple-motion-springs, harmonyos-motion-curves]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Motion tokens and springs
@@ -29,11 +29,13 @@ only T changes.
 
 ```text
 Compose      spring(dampingRatio = ζ, stiffness = k); in Material apps read MaterialTheme.motionScheme
-SwiftUI      .spring(duration: d, bounce: b); presets .smooth / .snappy / .bouncy
+SwiftUI      .spring(duration: d, bounce: b) (defaults 0.5 s, 0); presets .smooth / .snappy / .bouncy;
+             .default is a critically damped spring (response 0.55) since iOS 17, easeInOut before
 UIKit        UIView.animate(springDuration: d, bounce: b) { ... }
 Flutter      SpringDescription.withDurationAndBounce(duration: d, bounce: b)
              (older SDKs: SpringDescription(mass: 1, stiffness: k, damping: 2ζ√k))
-ArkUI        curves.springMotion(response: d, dampingFraction: ζ)
+ArkUI        curves.springMotion(response: d, dampingFraction: ζ) (defaults 0.55, 0.825);
+             responsiveSpringMotion (0.15, 0.86) while a finger drags; duration is ignored
 Motion (JS)  { type: "spring", stiffness: k, damping: 2ζ√k, mass: 1 }. Its visualDuration is scaled
              by 1.2 internally (visualDuration = d / 1.2) and its default bounce is not 0.
 CSS          transition: transform <T> linear(...); a retarget restarts the curve (no velocity hand-off)
@@ -41,7 +43,8 @@ DTCG         no spring type: see §6
 ```
 
 Library defaults were read in their current sources on 2026-09-27 (SwiftUI docs, Flutter API, Motion
-`main`); check the installed version before relying on them.
+`main`) and re-checked against Apple's and Huawei's references on 2026-11-01; check the installed
+version before relying on them.
 
 ## 2. The springs
 
@@ -57,6 +60,9 @@ Library defaults were read in their current sources on 2026-09-27 (SwiftUI docs,
 | SwiftUI `.smooth` (d 0.5 s) | 1.0 | 158 | 500 ms | 0 | 0 | 735 ms |
 | SwiftUI `.snappy` (d 0.5 s) | 0.85 | 158 | 500 ms | 0.15 | 0.6% | 697 ms |
 | SwiftUI `.bouncy` (d 0.5 s) | 0.7 | 158 | 500 ms | 0.3 | 4.6% | 819 ms |
+| SwiftUI `.default` (iOS 17+, response 0.55) | 1.0 | 131 | 550 ms | 0 | 0 | 808 ms |
+| ArkUI `springMotion()` default | 0.825 | 131 | 550 ms | 0.175 | 1.0% | 757 ms |
+| ArkUI `responsiveSpringMotion()` default (drag) | 0.86 | 1755 | 150 ms | 0.14 | 0.5% | 209 ms |
 
 - Material ζ and k are data from the Compose token files; d, bounce, overshoot and T are derived
   here. Material says values vary by device class (wearable, phone, tablet); only phone values are
@@ -67,6 +73,11 @@ Library defaults were read in their current sources on 2026-09-27 (SwiftUI docs,
 - **Speed by coverage**: fast for small components (switch, button, chip), default for partial-screen
   motion (menu, sheet, rail), slow for full screen.
 - SwiftUI presets take a duration (`.snappy(duration: 0.3)`); scale T by the same factor.
+- **How much bounce** (Apple, WWDC23 "Animate with springs"): about 0.15 is barely felt, 0.3 is
+  noticeable, and more than about 0.4 is too much for a UI element; when unsure use 0. Start
+  critically damped and add overshoot only after a gesture that carried momentum (WWDC18: Now
+  Playing uses 100 % damping on a tap, 80 % on a swipe to dismiss). Huawei likewise prefers springs
+  for scrolling, paging and gesture exits, and hands the drag's velocity to the release spring.
 
 ```css
 :root {
@@ -213,7 +224,7 @@ withAnimation(.snappy(duration: 0.3)) { isOpen.toggle() }
 
 ```kotlin
 // Material: take specs from the theme (check the API is public in your material3 version);
-// MaterialExpressiveTheme (material3 1.5.0-alpha) switches to the expressive scheme
+// MaterialExpressiveTheme (material3 1.5.0, beta on 2026-11-01) switches to the expressive scheme
 val spec = MaterialTheme.motionScheme.fastSpatialSpec<Float>()
 val scale by animateFloatAsState(if (pressed) 0.97f else 1f, spec)
 AnimatedVisibility(visible, enter = fadeIn() + scaleIn(initialScale = 0.96f), exit = fadeOut())

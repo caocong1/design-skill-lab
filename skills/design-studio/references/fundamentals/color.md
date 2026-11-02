@@ -1,9 +1,9 @@
 ---
 title: Colour
 evidence: digest
-sources: [radix-colors-scale, hobday-visual-design-rules, wcag-22, web-baseline-2026, impeccable, apple-hig-liquid-glass]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [radix-colors-scale, hobday-visual-design-rules, wcag-22, web-baseline-2026, impeccable, apple-hig-liquid-glass, evil-martians-oklch, stripe-accessible-color, datawrapper-color-guides]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Colour
@@ -37,9 +37,10 @@ Pick the stance before any hue. The `bolder` and `quieter` operators move one ru
 
 ## Build the ramps
 
-1. Work in OKLCH: L 0-1, C 0 to about 0.37, H in degrees. Equal L steps look equal (HSL cannot
-   promise that), and similar L gives similar contrast across hues. The script gamut-maps
-   out-of-range values; tokens keep a hex fallback.
+1. Work in OKLCH: L 0-1, C 0 to about 0.37 (always below it in sRGB and P3), H in degrees. Equal L
+   steps look equal (HSL cannot promise that; LCH also drifts in hue in the blues), and similar L
+   gives similar contrast across hues. The script gamut-maps out-of-range values and tokens keep
+   its hex fallback, because browsers clip an out-of-gamut colour instead of mapping it.
 2. Generate, do not pick:
 
    ```sh
@@ -86,6 +87,9 @@ changes. What the numbers decide:
   pure seed for brand moments and large display type; put the action fill on 600, or on 300-400
   with a dark label. The matrix decides, not habit.
 - Light solids (yellow, lime, amber, mint, sky) take dark labels.
+- The same idea as a contract (Stripe, 2019): on a perceptually even scale, two steps five apart meet
+  4.5:1 and four apart meet 3:1 for icons and large text. That holds for Stripe's own scale only;
+  on any other ramp the matrix decides.
 - Each status (danger, warning, success, info) needs subtle-background, border, solid and text roles
   from its own ramp, and always pairs with an icon or a word.
 - Dark mode: the `--dark` ramp runs from dark (50) to light (950), so background, border and text
@@ -147,7 +151,8 @@ pairs the tokens never declared: text on images, translucent layers, hover state
 - Page-level check: capture once with `filter: grayscale(1)` on the root. Whatever relied on hue
   alone disappears.
 - A red/green status pair always carries an icon or text. Chart palettes (categorical, sequential,
-  diverging): [data-dense-ui](../disciplines/data-dense-ui.md).
+  diverging; grey first, at most seven hues, gradients built on lightness):
+  [data-dense-ui](../disciplines/data-dense-ui.md).
 
 ## Dark and high-contrast modes
 
@@ -177,7 +182,8 @@ Re-map roles; never invert.
   areas.
 - Semi-transparent borders and overlays change with what is beneath them: check each surface.
 - Display P3: put accents that exceed sRGB behind `@media (color-gamut: p3)`, with the sRGB value as
-  the default. Keep text and data colours in sRGB so they read the same on every screen.
+  the default (a linter such as stylelint-gamut can enforce it). Keep text and data colours in sRGB
+  so they read the same on every screen.
 - Gradient text on headings is a dated tell ([anti-slop](anti-slop.md)) and fails contrast at its
   light end.
 

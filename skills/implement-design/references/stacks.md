@@ -1,9 +1,9 @@
 ---
 title: Stack notes for the implementer
 evidence: digest
-sources: [web-baseline-2026, apple-hig-liquid-glass, apple-hig-bars, material-3-expressive, material-motion-tokens, harmonyos-design, wechat-miniprogram-design-guidelines, fluent-2, dtcg-2025-10, mcp-apps, openai-apps-sdk-ui, vercel-web-interface-guidelines, emil-kowalski-animation, anthropic-design-skills, cjk-font-licensing, jlreq]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [web-baseline-2026, apple-hig-liquid-glass, apple-hig-bars, material-3-expressive, material-motion-tokens, harmonyos-design, wechat-miniprogram-design-guidelines, fluent-2, dtcg-2025-10, mcp-apps, openai-apps-sdk-ui, vercel-web-interface-guidelines, emil-kowalski-animation, anthropic-design-skills, cjk-font-licensing, jlreq, ant-design-spec]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Stack notes
@@ -40,7 +40,7 @@ web overlays and form controls are in the web primitives table below.
 | toast, snackbar | none on iOS: build the overlay the design draws | `SnackbarHost` + `Snackbar` | `ScaffoldMessenger.showSnackBar` | `promptAction.showToast` | `wx.showToast` (1.5 s; never for errors) |
 | menu, select | `Menu`, `Picker` | `DropdownMenu`, `ExposedDropdownMenuBox` | `MenuAnchor`, `DropdownMenu` | `bindMenu`, `Select` | `picker` |
 | switch | `Toggle` | `Switch` | `Switch.adaptive` | `Toggle({ type: ToggleType.Switch })` | `switch` |
-| segmented control | `Picker` + `.pickerStyle(.segmented)` | connected `ButtonGroup` (1.5 alpha); M3 Expressive retires `SegmentedButton` | `SegmentedButton`, `CupertinoSlidingSegmentedControl` | `SegmentButton` | kit tabs (`van-tabs`, `t-tabs`) |
+| segmented control | `Picker` + `.pickerStyle(.segmented)` | connected `ButtonGroup` (1.5 beta); M3 Expressive retires `SegmentedButton` | `SegmentedButton`, `CupertinoSlidingSegmentedControl` | `SegmentButton` | kit tabs (`van-tabs`, `t-tabs`) |
 | search | `.searchable`; `Tab(role: .search)` | `SearchBar`, `DockedSearchBar` | `SearchAnchor` | `Search` | kit search (`van-search`, `t-search`) |
 | date, time | `DatePicker` | `DatePicker`, `TimePicker` | `showDatePicker`, `CupertinoDatePicker` | `DatePicker`, `TimePicker` | `picker mode="date"` / `"time"` |
 
@@ -71,7 +71,7 @@ Status for each row, dated, and what "Baseline YYYY" means for your users: desig
 | State and shared-element transitions | same-document view transitions | skip under reduced motion; cross-document (MPA) and element-scoped transitions are limited: enhancement only |
 | Enter from `display: none` | `@starting-style` + `transition-behavior: allow-discrete` | exits out of `display: none` and the `overlay` property are limited: exits degrade to an instant hide |
 | Auto-growing textarea, chat composer | `field-sizing: content` + `max-height` | JS autosize for older engines |
-| Light and dark tokens | `color-scheme` + `light-dark()` | - |
+| Light and dark tokens | `color-scheme` + `light-dark()` | engines before Chrome 123, Firefox 120, Safari 17.5 need the light restatement under `@supports not` (tokens.css starter) |
 | Hover, pressed, subtle derivatives | relative colour `oklch(from var(--c) ...)`, `color-mix()` | OKLCH is safe everywhere |
 | Text colour on a fill | `contrast-color()` | black or white only, and the spec promises about 3:1: compute 4.5:1 body pairs yourself |
 | Component-scoped styles | `@scope` | if the host already scopes (CSS modules, Vue `scoped`), keep that |
@@ -124,7 +124,7 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
 | shadcn/ui, shadcn-vue | CSS variables in the global stylesheet | copy-in code: retheme every variable; the stock neutral theme is itself a default, never ship it; keep local edits consistent across components |
 | Radix, Base UI, React Aria, Ark UI, Reka UI | none (headless) | behaviour and accessibility; all styling from tokens |
 | MUI | `createTheme` + `ThemeProvider`, CSS variables, `colorSchemes` | component overrides in the theme's `components`, not `sx` everywhere |
-| Ant Design, Ant Design Vue | `ConfigProvider theme`: seed and map `token`, `components`, `algorithm` (dark, compact) | locale through `ConfigProvider` |
+| Ant Design, Ant Design Vue | `ConfigProvider theme`: seed and map `token`, `components`, `algorithm` (dark, compact); antd 6 emits CSS variables by default and styles slots with `classNames` / `styles` | locale through `ConfigProvider`; read `ant.design/design.md` (6.5+) |
 | Element Plus | `--el-*` variables; SCSS `@forward ... with (...)` for the palette; dark via `html.dark` + its dark variables | |
 | TDesign, Semi, Arco | their CSS variables (`--td-*`, `--semi-*`) or theme tools | TDesign spans Vue, React, mini-program and Flutter |
 | Naive UI | `n-config-provider` `theme-overrides`, `darkTheme` | |
@@ -211,17 +211,17 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   (`defaultSpatialSpec()`, `fastEffectsSpec()`...), never hand-written `spring(...)`.
   `LocalMotionScheme` was removed in 1.5.0-alpha27.
 
-| material3, as of 2026-09-27 | stable 1.4.0 (2025-09-24) | 1.5.0-alpha29 (2026-09-23) |
+| material3, as of 2026-11-01 | stable 1.4.0 (2025-09-24) | 1.5.0-beta02 (2026-10-21), API frozen |
 | --- | --- | --- |
 | 64 dp flexible nav bar `ShortNavigationBar`; rails `WideNavigationRail`, `ModalWideNavigationRail` | yes | yes |
 | `MotionScheme.expressive()`, `MaterialExpressiveTheme`, emphasized type styles | internal | yes |
-| `HorizontalFloatingToolbar`, `FlexibleBottomAppBar` (docked), `ButtonGroup`, `SplitButtonLayout`, `FloatingActionButtonMenu`, flexible top app bars | no | graduated in alpha19-23 |
+| `HorizontalFloatingToolbar`, `FlexibleBottomAppBar` (docked), `ButtonGroup`, `SplitButtonLayout`, `FloatingActionButtonMenu`, flexible top app bars | no | public, not experimental |
 | `MaterialShapes`, `LoadingIndicator` | no | still experimental |
 
-- On stable 1.4.0 with alpha-only parts in the design: adopt the alpha deliberately and record it, or build
+- On stable 1.4.0 with 1.5-only parts in the design: adopt the beta deliberately and record it, or build
   those parts from primitives and report the gap. Never swap in a retired pattern (drawer, bottom app bar).
-- Views: MDC-Android 1.14.0 has the Material3Expressive themes; `MotionUtils.resolveThemeSpringForce`
-  reads theme springs (standard values); the FAB menu is unavailable.
+- Views: MDC-Android 1.14.0, the last stable Views release, has the Material3Expressive themes;
+  `MotionUtils.resolveThemeSpringForce` reads theme springs (standard values); the FAB menu is unavailable.
 - Icons: Material Symbols vector drawables (fonts.google.com/icons), not `material-icons`. Adaptive: the
   Material breakpoints listed under Flutter, `currentWindowAdaptiveInfo()`, edge-to-edge with insets,
   predictive back; dp for sizes, sp for text; test font scale 2.0.
@@ -278,7 +278,7 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   drag region on the bar (`-webkit-app-region: drag`, Tauri `data-tauri-drag-region`), `no-drag` on its
   controls, room for traffic lights and caption buttons, full-screen and maximised states. Native menus,
   remembered bounds, a minimum window size, no text selection on chrome; test at 100/125/150% scaling.
-- WinUI ("WinUI 3" is now "WinUI"; Windows App SDK 2.4 stable): `Window.SystemBackdrop = new MicaBackdrop()`
+- WinUI 3 (Windows App SDK 2.6.4 stable, 2026-10-27; Microsoft's docs use both "WinUI" and "WinUI 3"): `Window.SystemBackdrop = new MicaBackdrop()`
   (`BaseAlt` for tabbed title bars) once, as the base layer, transparent layers above; `DesktopAcrylicBackdrop`
   or a `SystemBackdrop` on flyouts for transient surfaces; `SystemBackdropElement` for one panel. Radii from
   `ControlCornerRadius` (4) and `OverlayCornerRadius` (8). Title bar 32 px, 48 px with search or a person

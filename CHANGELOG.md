@@ -12,6 +12,69 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.16.0] - 2026-11-02
+
+第一次季度研究复核：六路子 agent 并行核查一手来源，42 份已有摘要逐份重读、30 份新增（其中 1 份只服务于 WorkBuddy 打包脚本）、2 份归档；据此改了 29 份 reference 的内容（另有 8 份对照来源重读后只更新复核日期）、`tokens.css` 模板、`color_tools.py` 和资源目录（MINOR：新增来源改变了指引）。模式、交付物、产出目录与 reference 路径都不变。过程与没读到的东西见 `research/log.md` 2026-11-01 一节。
+
+### 修复（skill）
+
+- **`light-dark()` 的回退**（宿主反馈 `light-dark-fallback-none-needed`，major）：`platforms/web.md` 的能力表把它的回退写成"不需要"，宿主照做后，在不支持的引擎里所有读颜色 token 的声明失效，主按钮成了透明底白字。现在 `web.md` §4、`fundamentals/modern-css.md`、`process/system.md` §4、`process/token-formats.md` §2 写明：同一自定义属性再写一个普通值不能回退，要用 `@supports not (color: light-dark(#000, #fff))` 块给出浅色主题全量角色，受众含应用内浏览器或 iOS 17.5 之前的 Safari 时一直保留。`templates/tokens.css` 加了这个块；`scripts/color_tools.py matrix --from` 跳过该块、只检查 `light-dark()` 分支（帮助文本同步）。
+- **输入法事件顺序**：`disciplines/interaction.md` §4 原写"Safari 10.1–26.6 报 false"。WebKit 2026-06 把修复又关掉了，web-features 3.41.0 起撤回 `isComposing` 的 Baseline：改为"所有 Safari"，并写明 `isComposing` 不是 Baseline。
+- **托管设计系统**：`process/system.md` §8 原表把 v0、Lovable、Figma Make 并成一行且未核实，其中 Lovable 的 `.lovable/design-system.json` 没有一手出处。现在按一手文档分行：v0 存 `v0.json` + `SKILL.md`，Figma Make 读 `Guidelines.md` 与文件夹（100 KB 建议、200 KB 上限），Lovable 只走 Figma，Claude Design 走 `/design-sync`、独立站 2026-12-14 关闭；另加一行说明 Vercel 式 `design.md` 不是 Google 格式。§6 写明 DESIGN.md 规范 2026-10-16 起把正文 yaml 块当 token 载体、重复顶层键拒收文件。
+- **代码可用性**：`platforms/android.md` 与 `implement-design/references/stacks.md` 的 Compose material3 改为 1.5.0-beta02（API 冻结，Expressive 组件除形状库与加载指示器外已公开），MDC 1.14.0 注明是 Views 最后一个稳定版；`stacks.md` 的 WinUI 一行改为 Windows App SDK 2.6.4，并更正"WinUI 3 已改名 WinUI"（微软文档两种叫法并存）。
+- **嵌入宿主**：`platforms/embedded-hosts.md` 原把 Office 窗格写成"约 320–480 px（实践）"，现在用微软文档的数字（1366×768 下 Excel 350、PowerPoint 348、Word 329、Outlook 网页版 320 px）。
+- **数据可视化配色**：`disciplines/data-dense-ui.md` 的分类色从"至多 8 种"改为"至多 7 种，超过就合并或换图"（Datawrapper），多序列图另有"最多给 8 个上色、其余灰"（AntV）。
+
+### 新增（skill）
+
+- `disciplines/interaction.md` §5：列表框、网格（可编辑表格）、树三行，标签页一行改写（预加载才随焦点激活、可关闭标签的 Delete）；§2 加触控路径（触控 Mac 与 iPad 没有悬停）。
+- `platforms/desktop.md` §3：触控 Mac（macOS 27，2026-11-06 上市）：版式与密度不变，热区大于控件，悬停揭示的控件要能点按揭示并进右键菜单。`fundamentals/layout-and-spacing.md` 的目标尺寸表加一行。
+- `platforms/harmonyos.md`：新增 Motion 一节（时长、转场强制下限 200 / 250 / 300 ms、物理曲线优先、跟手到离手的弹簧、`Curve` 数值）；HarmonyOS 7 = API 26 写清。
+- `disciplines/motion-tokens.md`：弹簧表加 SwiftUI `.default` 与 ArkUI 两个默认弹簧（本仓库计算 d、过冲与 CSS 收敛时间），加 Apple 的回弹阈值（0.15 不明显、0.3 明显、超过约 0.4 过分）。`disciplines/motion.md` 加删减动效的数字（Emil Kowalski `remove-animations`）与各平台姿态的新数据。
+- `platforms/mini-programs.md`：支付宝、抖音、快手、百度一张对照表，替换"支付宝规范未读、数字未核实"的说法。
+- `platforms/embedded-hosts.md`：VS Code webview 规则与 `--vscode-*` 主题、Chrome 侧边栏与弹出窗口限制、Office 对话框与功能区限制；MCP Apps 的 12 个宿主与 Gemini Enterprise；A2UI 的 SwiftUI 与 Compose 渲染器。
+- `fundamentals/cjk-typography.md`：中文正文表改为有出处：clreq 的版心行距 50%–100%（行高 1.5–2.0），Ant Design / TDesign 的 14 / 22 与"行高 = 字号 + 8"，12 px 桌面下限，第二字重 500 或 600，字阶 3–5 种；Arco 写明中文与数字间加空格。
+- `disciplines/data-dense-ui.md`（证据等级 practice → digest）：按 FT 视觉词汇的九类关系选图，象形图只用整数，Chartability 的 14 条关键项作无障碍地板，AntV 色板供 Ant Design 宿主使用。
+- `fundamentals/color.md`：OKLCH 的取值与浏览器裁切（Evil Martians），Stripe 的级差契约。`fundamentals/accessibility.md`：法规表更新到 2026-11-01（GB/T 47523 已生效但正文未读、ISO/IEC 40500:2026 预期、司法部无新规）、中国 2026 年的适老化活动与人大执法检查、国内设计系统的对比度数字。
+- `disciplines/ai-experience.md`：PAIR 的"自动化还是增强"、Apple 的输出侧控制、Carbon 的"一枚标签两份工作"、AI Elements 与 Ant Design X 的组件命名；欧盟准则工作组与中国 2026 年执法写进日期表（行数守在 300）。
+- `platforms/ios.md`：系统弹簧默认值与 Apple Intelligence 规则的指向，iPhone Duo 上市与截图日期。`platforms/android.md`：Android 16 QPR 2 自动主题图标、Android 17 取消大屏豁免。`disciplines/app-icons.md`：Apple 接受不分层的位图图标（系统自动分层）、矢量层可用 SVG 或 PDF，Android、Play 与 maskable 的数字改引 `icon-safe-zones`，写明没有标准规定 favicon 最小集合。
+- `disciplines/product-ui.md`：最坏情况的数据集放在开关后面，每个目标尺寸至少一帧用它画，样稿与构建验收用同一份（宿主反馈 `draw-the-stress-content`）。
+- `process/image-generation.md`：出图驱动只用于 Persuade 与 Experience 界面。`fundamentals/licensing.md`、`disciplines/icons.md`：Remix Icon 许可 v1.0 的限制；Office 与 VS Code 的图标约定。`disciplines/graphics.md`：iPhone Duo 截图要求。`fundamentals/anti-slop.md`：雷同的测量（2026 论文）、10 月新增的痕迹、Impeccable 4.8 与 taste-skill 重写后的说法。`platforms/README.md`：路由表与"上一版的变化"更新。
+- `critique-design/references/heuristics.md`：AI 发现引用 HAX 18 条的编号；Carbon 式 AI 标签用法；触控 Mac 的悬停；嵌入宿主的典型违规；数据视图的 Chartability 关键项。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.15.0 → **0.16.0**（正文未改）；`skills/critique-design/SKILL.md` 0.3.5 → **0.4.0**（heuristics 有新规则）；`skills/implement-design/SKILL.md` 0.3.4 → **0.3.5**（stacks 的事实更正）。`README.md` 与 `.claude-plugin/` 同步。
+- 对照复核后的来源重读、内容未改、只更新复核日期：`critique-design/references/rubric.md`、`disciplines/brand.md`、`disciplines/marketing-sites.md`、`fundamentals/materials.md`、`fundamentals/portable-mockups.md`、`fundamentals/typography.md`、`process/render-and-look.md`、`process/research.md`。耐久的 `directions.md`、`handoff.md`、`redesign.md`、`truth-files.md` 未到期，未动；`graphics.md` 的社交平台尺寸本轮没有重查，复核期限不变。
+
+### 新增与变更（证据层）
+
+- `research/sources/`：42 份复核、30 份新增、2 份归档（`design-md-format`、`dtcg-design-tokens-format` 移入 `research/sources/archive/`）。清单与更正见 `research/log.md`。
+- `scripts/build-research-index.py`：支持归档目录；归档摘要在 INDEX.md 末尾单列、不计逾期，skill 引用归档 id 时 `--check` 报错并提示后继 id。`research/README.md` 加"怎么归档一份来源"。
+- `research/topics/` 九篇都加了结论、关闭了已解决的未决问题、写了变更记录；`research/backlog.md` 的待补来源第 1、3–10 项完成，日历触发表重写并加新登记项。
+
+### 变更（资源目录）
+
+- 新增 6 条：`vscode-ux-guidelines`、`office-addin-design`、`chrome-side-panel-api`、`android-adaptive-icons`、`tencent-ardot`、`vercel-design-md`（共 819 条）。
+- 按复核改写 12 条：AI Elements（11 月底迁入 shadcn/ui）、taste-skill（2026-10 重写）、Impeccable（4.8 的规则数）、Carbon for AI（新地址；自家 AI 标签指引链接 404，改指组件文档）、支付宝小程序设计（`llms.txt` 与 `.md` 入口）、Harmonizer（仓库无许可证文件）、APCA 计算器、Mobbin MCP（套餐与限流）、Figma Make、v0、MCP Apps、A2UI。
+- 20 条验链观测追加到 `catalog/observed.jsonl`（`android-adaptive-icons` 改用重定向后的规范地址后重测一次）；7 张缩略图重拍，`chrome-side-panel-api` 首拍未加载样式，加 `shot-overrides.json` 等待后重拍。
+
+### 变更（反馈闭环）
+
+- 处置并归档 3 条：`light-dark-fallback-none-needed`、`draw-the-stress-content`（见上）、`critic-cannot-write`（重复：0.13.0 已写进 critic-brief 的 Return）。其余条目留在 inbox，等下一次 evolve。`feedback/log.md` 追加一节。
+
+### 验证
+
+- 闸门 G1–G9 通过；站点冒烟测试通过（jsDelivr 字体请求在本机网络下被关闭连接，属不计入闸门的外部失败）；`scripts/test-seed.py`、`scripts/test-feedback-status.py`、`npm run test:evals` 通过。
+- `light-dark()` 回退：把模板里的函数名改成未知名，在 Chromium 156 里模拟不支持的引擎。旧模板：浅色与深色系统设置下主按钮背景都是 `rgba(0, 0, 0, 0)`、白字，页面底色透明；新模板：两种设置下都完整回落到浅色主题；在支持的引擎里新旧模板的计算值逐项相同。`color_tools.py matrix --from` 对新模板的输出与旧脚本对旧模板的输出逐字相同；旧脚本读新模板会把回退块当成深色值，所以脚本修改是必需的。
+- 摘要里要写进规则的事实另行重抓：Stripe、Evil Martians、Vercel design.md 与其文章、Figma Make 两篇、v0 文档、clreq 2026-10-07 TR 的版心行距原文。新弹簧行的 d、过冲与收敛时间用与原表相同的方法计算，并先复算原表三行确认一致。
+
+### 未验证
+
+- 新规则都还没有在宿主项目或评测里跑过。`light-dark()` 回退只在 Chromium 里模拟过，没有在真实的旧 Safari 或微信内置浏览器上试。
+- GB/T 47523-2026 正文、ISO/IEC 40500 项目页、Stitch 文档页没有读到；子 agent 读到而主 agent 没有重抓的数字，摘要里写明了出处。
+- 触控 Mac 的指引没有点数值；HarmonyOS 没有减弱动效的规定；Claude Code 不在 MCP Apps 宿主列表里，但这只是社区矩阵的读数。
+
 ## [0.15.0] - 2026-10-27
 
 真实使用中，agent 把实验室展示页里已经为另一个 brief 写好的方向当成了新项目的多方案答案。`options` 增加来源边界、项目依据与交付前的 provenance 闸门（MINOR）；展示页和 16 套实验方向保留，不把它们变成名称黑名单。

@@ -2,8 +2,8 @@
 title: Modern CSS as design material
 evidence: digest
 sources: [web-baseline-2026, wcag-22, clreq-chinese-text-layout, jlreq]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Modern CSS as design material
@@ -52,7 +52,7 @@ trigger and never flipped.
 
 | Primitive | Specify | Class | Fallback, trap |
 | --- | --- | --- | --- |
-| `light-dark()` + `color-scheme` | every colour role as one light/dark pair; both themes from one token file | native | takes colours and images only: shadows and gradients compose colour tokens ([materials](materials.md)) |
+| `light-dark()` + `color-scheme` | every colour role as one light/dark pair; both themes from one token file | native, with the light fallback block ([web](../platforms/web.md) §4) | takes colours and images only: shadows and gradients compose colour tokens ([materials](materials.md)); a second plain declaration is no fallback, because a custom property keeps `light-dark()` as text and breaks where it is used |
 | `color-mix(in oklab, …)`, e.g. `color-mix(in oklab, var(--color-accent), var(--color-text) 10%)` | hover and pressed states, tints, subtle backgrounds, state layers, translucent fills, with no new hex per state; which space and which direction: [color](color.md), Derived states | native for two colours | three or more colours: limited; native implementers need resolved values (below) |
 | relative colour, `oklch(from var(--color-accent) l c h / 0.12)` | alpha and channel variants of one token | native | a lightness offset needs its sign per mode: `calc(l - 0.06)` darkens in dark too and lowers contrast there ([color](color.md), Derived states); native implementers need resolved values (below) |
 | `contrast-color()` | an automatic black or white label on colours you cannot pre-compute: user-picked tag, calendar and avatar colours | native | returns only black or white, the algorithm is up to the browser and only about 3:1 is promised: never trust it for body text; pre-compute label pairs wherever colours are known |

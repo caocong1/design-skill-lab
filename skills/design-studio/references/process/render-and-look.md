@@ -2,8 +2,8 @@
 title: Render and look - tool ladder, capture traps, bounded verification
 evidence: measured
 sources: [impeccable, anthropic-design-skills]
-reviewed: 2026-09-27
-review_by: 2026-12-27
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Render and look

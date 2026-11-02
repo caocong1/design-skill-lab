@@ -1,9 +1,9 @@
 ---
-title: HarmonyOS (HarmonyOS 6.x, 沉浸光感, floating tabs)
+title: HarmonyOS (HarmonyOS 6.x-7, 沉浸光感, floating tabs, motion)
 evidence: digest
-sources: [harmonyos-design, cjk-font-licensing]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+sources: [harmonyos-design, harmonyos-motion-curves, cjk-font-licensing]
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # HarmonyOS
@@ -27,7 +27,7 @@ carries `updatedDate`. Doc ids used here: `immersivelight-0000002612101053`,
 | --- | --- |
 | Guide release 2026-06-12 (HDC 2026) | 14 new pages, among them 鸿蒙黑体 (HarmonyOS Sans), 沉浸光感, 圆角参数 (radius), 间隔参数 (spacing). About 22 controls gained 沉浸光感 sections (bottom tabs, sub-tabs, title bar, buttons, toolbar, menus, search box, dialogs, half-modal sheet, sliders, switches, segmented buttons). 字体排印 renamed 文本排印. UX standards added 2.1.3.4 (main scroll area height), 滑动沉浸 and 短视频沉浸; the large-screen standard dropped the 侧边导航栏 (side navigation) requirement |
 | HarmonyOS 6.1 | Bottom tabs come in two styles: flat (48 vp) and floating capsule (56 vp) |
-| API levels | HDS `hdsMaterial` and floating `HdsTabs` since 6.1.0(23); the MiniBar layout since 6.1.1(24); ArkUI `@ohos.arkui.uiMaterial` since "26.0.0" as printed (which OS release that is was not verified) |
+| API levels | HDS `hdsMaterial` and floating `HdsTabs` since 6.1.0(23); the MiniBar layout since 6.1.1(24); ArkUI `@ohos.arkui.uiMaterial` since API 26.0.0, which is HarmonyOS 7 (API numbers follow SemVer from 26.0.0; SDK release 2026-08-29, OS announced 2026-09-07) |
 
 ## 沉浸光感 (Immersive Light)
 
@@ -197,6 +197,25 @@ and the 8 vp grid: [layout-and-spacing](../fundamentals/layout-and-spacing.md).
 - Contrast: icons and titles above 3:1, body text above 4.5:1; default system colours guarantee 3:1.
   Computation and general minima: [color](../fundamentals/color.md).
 - The main scrollable control is at least 20 % of the screen height (2.1.3.4, required).
+- Gestures (required): long press 500 ms (adjustable 400-650 ms); double tap within 70-400 ms.
+
+## Motion
+
+- **Durations** (design guide): long moves within 350 ms, short ones within 250 ms, small ones
+  within 150 ms (a colour change 100, a switch 150, deleting a row 200, an image to full screen 350).
+- **Transition floors** (UX standard 2.1.5.2.2, required): page transitions last at least 200 ms
+  below 8.5 inches, 250 ms from 8.5 to 12 inches, 300 ms above 12 inches. Moving to a lower or upper
+  level slides sideways, preferably on a spring. The launch page stays under 3 s.
+- **Physics first**: Huawei prefers spring curves for scrolling, paging and gesture exits and keeps
+  Bézier curves for a few cases. While a finger drags, `responsiveSpringMotion` (0.15, 0.86, 0.25);
+  after release, `springMotion` (default response 0.55, damping fraction 0.825), and the release
+  inherits the drag's velocity. `duration` is ignored for the physics curves. Press feedback starts
+  on touch-down.
+- **Curves** (ArkUI `Curve`): standard `FastOutSlowIn` (0.4, 0, 0.2, 1), decelerate
+  `LinearOutSlowIn` (0, 0, 0.2, 1), accelerate `FastOutLinearIn` (0.4, 0, 1, 1), plus Sharp, Rhythm,
+  Smooth, Friction and ExtremeDeceleration. Token mapping: [motion-tokens](../disciplines/motion-tokens.md).
+- No reduce-motion rule was found in the guide or the standard; apply the general one
+  ([motion](../disciplines/motion.md) §5).
 
 ## Handoff names
 

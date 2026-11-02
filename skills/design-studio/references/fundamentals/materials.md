@@ -2,8 +2,8 @@
 title: Materials, elevation and shadow
 evidence: digest
 sources: [apple-hig-liquid-glass, apple-hig-bars, harmonyos-design, fluent-2, material-3-expressive, hobday-visual-design-rules, vercel-web-interface-guidelines, impeccable-slop-rules, web-baseline-2026, wcag-22]
-reviewed: 2026-09-27
-review_by: 2026-12-26
+reviewed: 2026-11-01
+review_by: 2027-01-30
 ---
 
 # Materials, elevation and shadow
