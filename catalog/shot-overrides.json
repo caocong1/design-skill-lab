@@ -15,6 +15,11 @@
   "url": "https://carbondesignsystem.com/data-visualization/chart-types/",
   "note": "the getting-started page is generic Carbon chrome; chart types shows the charts"
  },
+ "chrome-side-panel-api": {
+  "wait": 5000,
+  "ready": "main h1",
+  "note": "the first capture rendered before the stylesheet applied (unstyled logo stack); wait for the page heading and settle"
+ },
  "cnipa-trademark": {
   "hide": [
    "#noticeFloat"

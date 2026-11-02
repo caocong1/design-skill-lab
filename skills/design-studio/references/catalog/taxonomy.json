@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16",
+ "generated": "2026-11-02",
  "domains": [
   {
    "id": "web",
@@ -67,7 +67,7 @@
    "blurb_zh": "真实产品的界面、官方平台规范、公开的设计系统",
    "blurb_en": "What actually ships: screens and flows from real products, component references, official platform guidelines and published design systems. Prefer these over concept shots for anything users will operate daily.",
    "hue": 42,
-   "count": 61,
+   "count": 64,
    "sections": [
     {
      "id": "screens-flows",
@@ -91,7 +91,7 @@
      "en": "Platform guidelines",
      "note_zh": "权威且带版本。引用记忆中的数字前，先看当前页面。",
      "note_en": "Authoritative and versioned. Check the current page before relying on a remembered number.",
-     "count": 15
+     "count": 18
     },
     {
      "id": "design-systems",
@@ -169,7 +169,7 @@
    "blurb_zh": "AI 产品的交互模式与指引、生成界面与素材的工具，以及面向 agent 的 skill、格式与 MCP；领域变化快，取用要标注日期",
    "blurb_en": "Designing AI products (interaction patterns, platform guidance), AI tools that generate interfaces and assets, and the agent-facing layer: skills, rule sets, formats such as DESIGN.md, and MCP servers that give agents design files and a browser. This field moves quickly: date what you take.",
    "hue": 90,
-   "count": 56,
+   "count": 58,
    "sections": [
     {
      "id": "ai-ux-patterns",
@@ -193,7 +193,7 @@
      "en": "AI design tools and generators",
      "note_zh": "从提示词生成界面或素材的工具：适合快速出变体，也用来看清当下 AI 的“默认长相”——那正是要避开的样子。",
      "note_en": "Prompt-to-UI and prompt-to-asset tools. Useful for fast variants and for seeing the current default look, which is also the look to diverge from.",
-     "count": 8
+     "count": 9
     },
     {
      "id": "agent-skills-rules",
@@ -209,7 +209,7 @@
      "en": "Agent-readable formats",
      "note_zh": "向 agent 描述设计系统的文件格式（如 DESIGN.md）及其合集。",
      "note_en": "Files that describe a design system to an agent, such as DESIGN.md, and collections of them.",
-     "count": 6
+     "count": 7
     },
     {
      "id": "design-mcp-servers",
@@ -330,7 +330,7 @@
    "blurb_zh": "图标家族、搜索与 API、品牌 logo、绘制指引",
    "blurb_en": "Pick one family per product and record its licence. Raw-SVG endpoints are listed so an agent can pull an icon without installing a package.",
    "hue": 162,
-   "count": 61,
+   "count": 62,
    "sections": [
     {
      "id": "families",
@@ -370,7 +370,7 @@
      "en": "App icons and favicons",
      "note_zh": "画廊看惯例，工具做打包；平台规格会过期。",
      "note_en": "Galleries for the idiom, tools for the packaging. Platform specs are perishable.",
-     "count": 9
+     "count": 10
     },
     {
      "id": "svg-tools",

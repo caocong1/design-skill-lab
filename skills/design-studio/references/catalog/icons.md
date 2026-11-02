@@ -3,7 +3,7 @@
 
 Pick one family per product and record its licence. Raw-SVG endpoints are listed so an agent can pull an icon without installing a package.
 
-61 resources, plus 2 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
+62 resources, plus 2 cross-listed from other domains. Columns are explained in README.md; `python3 "$S/catalog.py" find` (`S` = `skills/design-studio/scripts`) searches every domain at once. Rows are sorted by tier, then by reach, so what an agent can fetch comes first.
 
 ## Icon families · 图标家族
 
@@ -93,6 +93,7 @@ Galleries for the idiom, tools for the packaging. Platform specs are perishable.
 | [Apple Icon Composer](https://developer.apple.com/icon-composer/) | Apple's tool for building layered, material-aware app icons from SVG or PNG layers | Supply flat layers; let the system render the material | A | tool | static | free |  |
 | [Maskable.app](https://maskable.app) | Preview and edit PWA maskable icons against every mask shape | Check the safe zone before shipping the manifest | A | tool | static | free |  |
 | [RealFaviconGenerator](https://realfavicongenerator.net) | Generates and checks a complete, current favicon package | Run the checker on the deployed site | A | tool | static | free |  |
+| [Android adaptive icons](https://developer.android.com/develop/ui/compose/system/icon_design_adaptive) | The adaptive-icon geometry (108 dp layers, 66 dp safe zone, 18 dp reserved per side), the monochrome layer for themed icons, and Android 16 QPR 2 auto-theming | Draw foreground, background and monochrome layers on the 108 dp canvas with the logo inside the 66 dp centre; pair with the Google Play icon specification (512 px, 30 % radius applied by Play). | A | guideline | static | free · Google Content License (CC BY 4.0 for text) | [Google Play icon specifications](https://developer.android.com/distribute/google-play/resources/icon-design-specifications) |
 | [Apple HIG: App icons](https://developer.apple.com/design/human-interface-guidelines/app-icons) | Current rules for layered app icons, appearances (default, dark, clear, tinted) and platform shapes | Agents: fetch …/human-interface-guidelines/app-icons.json; check the layer structure, appearances (default, dark, clear, tinted) and sizes before exporting from Icon Composer | A | guideline | js | free | API `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/{page}.json` |
 | [Icon Kitchen](https://icon.kitchen) | Generates adaptive Android icons and iOS, web and macOS icon sets from one artwork | Preview mask shapes and the monochrome layer before export | A | tool | js | free |  |
 | [HarmonyOS app icon guidelines (zh)](https://developer.huawei.com/consumer/cn/doc/design-guides/application-icon-0000001953444009) | Huawei's rules for HarmonyOS app icons: foreground and background layers, grid for visual weight, top-down lighting, nine recommended colour directions and multi-device adaptation | Check the grid, layer split and gradient direction before exporting HarmonyOS icons; keep the main content centred so system masks do not clip it | A | guideline | js | free |  |

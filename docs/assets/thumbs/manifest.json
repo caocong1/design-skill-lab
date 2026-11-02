@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-16",
+ "generated": "2026-11-02",
  "items": {
   "100-beste-plakate": {
    "source": "screenshot",
@@ -810,6 +810,40 @@
      "ms": 6049,
      "http": 200,
      "consent": "none"
+    }
+   ]
+  },
+  "android-adaptive-icons": {
+   "source": "screenshot",
+   "file": "android-adaptive-icons.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 35618,
+   "captured_at": "2026-11-02T03:25:20Z",
+   "final_url": "https://developer.android.com/develop/ui/compose/system/icon_design_adaptive",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 43.5,
+    "edge": 0.0979,
+    "dominant": 0.735,
+    "tiles": 0
+   },
+   "url": "https://developer.android.com/develop/ui/views/launch/icon_design_adaptive",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "error",
+     "reason": "page.goto: Timeout 30000ms exceeded.",
+     "ms": 30663
+    },
+    {
+     "mode": "screenshot-slow",
+     "result": "ok",
+     "reason": null,
+     "ms": 63475,
+     "http": 200,
+     "consent": "clicked:No thanks"
     }
    ]
   },
@@ -3197,26 +3231,26 @@
    "file": "carbon-for-ai.webp",
    "w": 800,
    "h": 500,
-   "bytes": 14694,
-   "captured_at": "2026-09-27T09:47:22Z",
-   "final_url": "https://carbondesignsystem.com/guidelines/carbon-for-ai/",
+   "bytes": 18296,
+   "captured_at": "2026-11-02T03:24:25Z",
+   "final_url": "https://www.carbondesignsystem.com/building-blocks/foundations/carbon-for-ai",
    "http": 200,
    "qa": {
     "verdict": "ok",
-    "stddev": 115.7,
-    "edge": 0.0466,
-    "dominant": 0.388,
-    "tiles": 1
+    "stddev": 23.8,
+    "edge": 0.059,
+    "dominant": 0.704,
+    "tiles": 2
    },
-   "url": "https://carbondesignsystem.com/guidelines/carbon-for-ai/",
+   "url": "https://carbondesignsystem.com/building-blocks/foundations/carbon-for-ai",
    "attempts": [
     {
      "mode": "screenshot",
      "result": "ok",
      "reason": null,
-     "ms": 14531,
+     "ms": 39168,
      "http": 200,
-     "consent": "clicked:Accept All removed:1"
+     "consent": "none"
     }
    ]
   },
@@ -3552,6 +3586,34 @@
      "ms": 7253,
      "http": 200,
      "consent": "none"
+    }
+   ]
+  },
+  "chrome-side-panel-api": {
+   "source": "screenshot",
+   "file": "chrome-side-panel-api.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 25132,
+   "captured_at": "2026-11-02T03:27:10Z",
+   "final_url": "https://developer.chrome.com/docs/extensions/reference/api/sidePanel",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 28,
+    "edge": 0.077,
+    "dominant": 0.636,
+    "tiles": 0
+   },
+   "url": "https://developer.chrome.com/docs/extensions/reference/api/sidePanel",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 17931,
+     "http": 200,
+     "consent": "clicked:No thanks"
     }
    ]
   },
@@ -14215,6 +14277,34 @@
     }
    ]
   },
+  "office-addin-design": {
+   "source": "screenshot",
+   "file": "office-addin-design.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 32308,
+   "captured_at": "2026-11-02T03:24:29Z",
+   "final_url": "https://learn.microsoft.com/en-us/office/dev/add-ins/design/add-in-design",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 34.7,
+    "edge": 0.0964,
+    "dominant": 0.882,
+    "tiles": 0
+   },
+   "url": "https://learn.microsoft.com/office/dev/add-ins/design/add-in-design",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 43188,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
   "ogimage-gallery": {
    "source": "screenshot",
    "file": "ogimage-gallery.webp",
@@ -19693,6 +19783,42 @@
     }
    ]
   },
+  "tencent-ardot": {
+   "source": "screenshot",
+   "file": "tencent-ardot.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 20588,
+   "captured_at": "2026-11-02T03:25:29Z",
+   "final_url": "https://ardot.tencent.com/",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 52.1,
+    "edge": 0.0493,
+    "dominant": 0.63,
+    "tiles": 0
+   },
+   "url": "https://ardot.tencent.com",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "qa",
+     "reason": "blank (edge 0.0060)",
+     "ms": 49284,
+     "http": 200,
+     "consent": "none"
+    },
+    {
+     "mode": "screenshot-slow",
+     "result": "ok",
+     "reason": null,
+     "ms": 54208,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
   "tencent-cdc": {
    "source": "screenshot",
    "file": "tencent-cdc.webp",
@@ -21467,6 +21593,34 @@
     }
    ]
   },
+  "vercel-design-md": {
+   "source": "screenshot",
+   "file": "vercel-design-md.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 61924,
+   "captured_at": "2026-11-02T03:24:32Z",
+   "final_url": "https://vercel.com/design.md",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 40.6,
+    "edge": 0.1692,
+    "dominant": 0.826,
+    "tiles": 0
+   },
+   "url": "https://vercel.com/design.md",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 6657,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
   "view-transitions-demos": {
    "source": "screenshot",
    "file": "view-transitions-demos.webp",
@@ -21630,6 +21784,34 @@
      "result": "ok",
      "reason": null,
      "ms": 3132,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
+  "vscode-ux-guidelines": {
+   "source": "screenshot",
+   "file": "vscode-ux-guidelines.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 27148,
+   "captured_at": "2026-11-02T03:24:30Z",
+   "final_url": "https://code.visualstudio.com/api/ux-guidelines/overview",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 46.4,
+    "edge": 0.0864,
+    "dominant": 0.796,
+    "tiles": 0
+   },
+   "url": "https://code.visualstudio.com/api/ux-guidelines/overview",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 44343,
      "http": 200,
      "consent": "none"
     }
