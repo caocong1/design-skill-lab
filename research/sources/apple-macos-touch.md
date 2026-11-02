@@ -1,0 +1,30 @@
+# Apple: touch input on macOS 27 (MacBook Pro with Touch, 2026-10-28) — HIG guidance, AppKit behaviour
+- id: apple-macos-touch · url: https://developer.apple.com/design/human-interface-guidelines/designing-for-macos · fetched: 2026-11-01 · method: json-api + fetch
+- review_by: 2027-01-30 (perishable +90d: hardware ships 2026-11-06; tech talks and Xcode 27.3 beta pending) · licence note: paraphrased digest, not a mirror (Apple HIG, AppKit documentation, Apple Newsroom)
+> 中文导语：2026-10-28 Apple 发布首款带触控屏的 MacBook Pro（macOS 27，11-06 上市），同日 HIG 的 Designing for macOS、Gestures、Pointing devices 三页加入触控指引：触控在 macOS 上是键鼠之外的次要输入；布局和控件尺寸保持不变，只把点击热区做大、让控件在触摸时临时放大；不能有只靠悬停才能触达的功能，要给悬停揭示的控件一条触控路径（点一下所在区域揭示、几秒后隐藏、右键菜单兜底）。这推翻了本仓库 desktop.md 里"macOS = 纯指针"的假设。
+
+Read on 2026-11-01 by the platform verifier: HIG `designing-for-macos`, `gestures` (#macOS, #macOS-trackpad-and-touch-display-gestures) and `pointing-devices` (#Touch-support-for-hidden-controls) via DocC JSON (all three change logs "October 28, 2026"); AppKit "Adopting gesture recognizers in your app" (DocC JSON); Apple Newsroom 2026-10-28 "Apple unveils groundbreaking MacBook Pro with PROLED XDR Display and Touch for the first time on Mac"; the developer hub https://developer.apple.com/touch-on-mac/ (fetch; tech-talk transcripts not in the page HTML).
+
+## Key facts
+1. Ergonomics: "On a Mac with a touch display, people reach forward to touch the screen, so they tend to use touch for brief, intentional interactions rather than sustained work." [designing-for-macos]
+2. "Support standard gestures on trackpads and Mac devices with a touch display. Use larger tap targets and controls that expand on touch to make touch interaction easier, while keeping control size and density the same to stay optimized for keyboard and pointing device input." [designing-for-macos#Best-practices]
+3. "In macOS, touch is secondary to keyboard and pointing device input."; "Keep the layout and size of interface elements the same when you support touch." [gestures#macOS]
+4. "Make tap targets bigger, not the controls themselves… enlarging their tap targets to anticipate that interaction may start slightly outside of their visual bounds." **No point value is given.**
+5. "Consider providing expandable controls… a temporary variant resized appropriately for touch that appears when someone taps the control… leave it in place for a short time after they lift their finger… steppers, sliders, and dials gain this behavior automatically."
+6. "Don't use touch as the only way to access controls or features… provide touch equivalents for actions otherwise performed exclusively with a pointing device, like using a keyboard modifier to shift-drag or displaying a menu when the pointer moves over an element."
+7. Gesture table [gestures#macOS-trackpad-and-touch-display-gestures]: Select = Tap; Open = Double tap; Scroll = "Slide one finger up or down"; Zoom = Pinch; Rotate = two fingers; Open a context menu = "Touch and hold"; Drag = "Touch and hold, then drag". The standard table adds: Double tap to "open an item on a Mac with a touch display".
+8. **Hidden controls** [pointing-devices#Touch-support-for-hidden-controls]: "Reserve touch support for essential controls"; "Reveal a hidden control when someone taps its general location… Hide a control again when the person finishes with it, or after a few seconds"; "Retain the current selection when revealing a hidden control"; "Make essential hidden controls available in a context menu"; sidebar: tapping a header or row reveals its controls "until touch moves outside the sidebar or someone uses a pointing device again"; tabbed window: a tap anywhere reveals the selected tab's close button.
+9. AppKit: standard controls and gesture recognizers "Works with touch, with no changes needed"; `mouseDown` overrides get single-finger emulation only; `NSScreen.main?.touchCapabilities.contains(.multiTouch)`; "a touch display has no hover"; "AppKit doesn't translate touch swipes for you" (`isTouchSwipeNavigationEnabled`); Sidecar routes touch "the same way it does on a Mac with a touch display" (a way to test without the hardware).
+10. Newsroom: "MacBook Pro features Touch for the first time"; "macOS automatically translates touches into clicks. Updated system gesture APIs also enable developers to create intuitive experiences designed specifically for Touch"; "double-tap a window to fill the screen, or flick to tile it into place"; "The Dynamic Island comes to the Mac, serving as the new home for Spotlight, Live Activities, and Siri AI"; "Touch built for macOS 27"; 14- and 16-inch; "available to pre-order starting today, October 28, with availability beginning Friday, November 6."
+11. Hub: tech talks 111456 "Design for touch on Mac", 111468 "Bring Touch to your Mac app", 111467 "Bring Live Activities to Mac"; Group Labs November 18 and 19; "Xcode 27.3 beta … Coming soon".
+
+## What it changes for the skills
+- skills/design-studio/references/platforms/desktop.md: macOS 27 is no longer pointer-only. The posture row says: same layout and density; hit areas larger than the visual control; expandable controls on touch; no hover-only features; hidden controls get a tap-to-reveal and a context-menu path; Live Activities and a Dynamic Island exist on the Mac.
+- skills/design-studio/references/disciplines/interaction.md: "hover reveals controls" needs a touch equivalent on macOS as on iPadOS; "a touch display has no hover".
+- skills/critique-design/references/heuristics.md: on macOS targets, a control that appears only on hover without a tap or context-menu path is a finding.
+- skills/implement-design/references/stacks.md (macOS / SwiftUI, AppKit): `mouseDown` overrides get single-finger emulation only; test with Sidecar when no touch Mac is available.
+
+## Not verified / open
+- No tap-target size in points is given anywhere read; the 44 pt iOS figure is not stated for the Mac.
+- The tech-talk transcripts were not in the page HTML on 2026-11-01; their specifics (if any numbers) are unread.
+- Whether Catalyst and SwiftUI apps get the expandable-control behaviour automatically is stated only for AppKit standard controls.

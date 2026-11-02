@@ -108,3 +108,31 @@
 - skill 改动：新增 `disciplines/interaction.md`；design-studio 路由表、阅读顺序、新算子 `streamline`；product-ui 加响应时间三档；ai-experience 输入框加输入法例外；system、desktop 指向 interaction；surface contract 加 Task cost 块，handoff-spec 的 Behaviour 节列出交互交付物；critique-design 的启发式第 2 节改为按截图计算任务成本，第 8 节加键盘、快捷键、输入法、toast / tooltip、"不在指针下移动"。主题 03 加结论 14–18。
 - 未验证：这些规则还没有在任何宿主项目或评测里跑过。评测 brief 01（中文运维台）和 05（审批）是最接近的替身，第三轮可以把"任务成本块"和"输入法说明"列为事实检查项。
 
+## 2026-11-01 至 11-02 · 第一次季度复核与证据补齐（0.16.0）
+
+主人要求：搜索最新的设计相关库、文章与论文，更新已有研究，去掉或归档没用的部分，据此迭代本项目。
+
+**做法**
+
+- 六个核查子 agent 并行，各管一块：平台设计语言、标准与法规、Web 平台与 token、AI 设计技能生态、视觉 / 动效 / 字体 / 数据可视化、中文生态。每个都先读本地摘要的 Key facts，再去抓一手页面（DocC JSON、华为文档 API、W3C TR、npm 与 GitHub API、联邦公报与欧盟 cellar 的接口），按诚实规则交回：没抓到写"不可达"，二手标"SECONDHAND"，数字原样引用。
+- 主 agent 把交回的内容逐份写进摘要，对要写进 skill 规则的事实单独复核：Stripe、Evil Martians、Vercel design.md、Figma Make、v0 五页重抓；clreq 的版心行距一句在 2026-10-07 的 TR 里核对原文；`light-dark()` 的回退在 Chromium 里模拟复现。
+
+**证据层的变化**
+
+- 42 份摘要复核（`fetched` 改为 2026-11-01，`review_by` 按易腐 / 耐久重算），每份写明"相对上一版的更正"。被推翻或改动较大的：
+  - `ui-events-ime`：WebKit 2026-06 把正确的输入法事件顺序又关掉了，web-features 3.41.0 起撤回 `isComposing` 的 Baseline。"Safari 27 已修"作废，双重判断对所有 Safari 都要保留。
+  - `web-baseline-2026`：3.40.0 → 3.44.0，引用特性的状态都没变；`light-dark()` 仍是"新近"，并补记宿主事故（不支持时主按钮变透明）；Firefox 159 已发布滚动驱动动画但数据集还没跟上；grid lanes 的 Safari 条目被撤回。
+  - `material-3-expressive`：Compose material3 1.5.0 进入 beta 且 API 冻结，Expressive 组件除形状库与加载指示器外都已公开；MDC 1.14.0 是 Views 最后一个稳定版。
+  - `apple-app-icons`：2026-10-28 起 HIG 接受不分层的位图图标，由系统自动分层。
+  - `impeccable` 到 4.8（62 条规则），`taste-skill` 整体重写（旧摘要描述的技能已退役），`design-md-spec` 的规范允许正文里的 yaml 块，`dtcg-2025-10` 的工具版本全部更新，`ai-labelling-law` 补了欧盟准则的工作组与中国 2026 年的三次执法，`accessibility-law` 确认 GB/T 47523-2026 生效但正文被验证码挡住。
+  - 两份耐久来源（`change-aversion`、`ooux-orca`）未到期、未动。
+- 29 份新增摘要：`apple-hig-generative-ai`、`apple-motion-springs`、`apple-macos-touch`、`harmonyos-motion-curves`、`icon-safe-zones`、`embedded-host-guidelines`、`alipay-miniprogram-design`、`cn-mini-program-douyin-kuaishou`、`baidu-smartprogram-design`、`evil-martians-oklch`、`stripe-accessible-color`、`vercel-design-md`、`figma-make-guidelines`、`v0-design-systems-2`、`ft-visual-vocabulary`、`datawrapper-color-guides`、`antv-design-principles`、`chartability`、`pair-guidebook`、`hax-toolkit`、`ant-design-x`、`carbon-for-ai`、`vercel-ai-elements`、`genui-evaluation-papers-2026`、`ant-design-spec`、`tdesign-spec`、`arco-design-spec`、`semi-design-tokens-a11y`、`remix-icon-license`；另有 `workbuddy-open-platform-docs` 只服务于本仓库的打包脚本，不被 skill 引用。
+- 2 份归档：`design-md-format`、`dtcg-design-tokens-format` 早已被取代，0.8.0 起没有任何 skill 引用，移到 `research/sources/archive/`。`build-research-index.py` 学会了归档：归档的摘要单列一表、不计逾期，被 skill 引用即报错。规则写进 research/README.md。
+- 9 篇主题综合都追加了结论、关掉了已解决的未决问题并写了变更记录；backlog 的待补来源第 1、3–10 项完成，日历触发表重写。
+
+**没做到的**
+
+- GB/T 47523-2026 正文、ISO/IEC 40500 项目页（403）、Stitch 文档页（只有脚本外壳）、Lovable 的存储细节、腾讯 CDC / 京东 JDC / 网易 UEDC 站点（连接被关闭）都没读到。
+- 国内团队带测量结果的 AI + UI 文章一篇也没找到。
+- 六个子 agent 交回的内容里，凡未经主 agent 重抓的数字都按子 agent 的读数记录，摘要正文写明了由谁读到。
+

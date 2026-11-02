@@ -1,10 +1,12 @@
 # IBM Carbon: notification and tooltip usage guidance
-- id: carbon-notification-tooltip · url: https://carbondesignsystem.com/components/notification/usage/ · fetched: 2026-09-28 · method: repo@d8783ad2ae3b5e59c58f58311491f8a2c4e62631
-- review_by: 2026-12-27 (perishable +90d) · licence note: paraphrased digest, not a mirror (carbon-website is Apache-2.0)
+- id: carbon-notification-tooltip · url: https://carbondesignsystem.com/components/notification/usage/ · fetched: 2026-11-01 · method: repo@d8783ad2ae3b5e59c58f58311491f8a2c4e62631
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (carbon-website is Apache-2.0)
 > 中文导语：IBM Carbon 设计系统对"通知（toast、行内、可操作、callout）"和"tooltip / toggletip"写得最具体的一份公开规范：toast 什么时候自动消失、带操作的通知为什么不能自动消失、tooltip 里为什么不能放按钮。网站页面太大抓不全，读的是 carbon-website 仓库里的源文件。
 
 Read on 2026-09-28 at `carbon-design-system/carbon-website@d8783ad`: `src/pages/components/notification/usage.mdx` (last changed
 2025-06-30) and `src/pages/components/tooltip/usage.mdx` (last changed 2025-02-11), prose only (images and live demos skipped).
+
+Re-read 2026-11-01 (GitHub API): `notification/usage.mdx` last changed in `39aa620` (2025-06-30) and `tooltip/usage.mdx` in `7a90c55` (2025-02-11); repo main HEAD `5e9cd1d` (2026-09-30). No content change since the first read, so the pin stays.
 
 ## Key facts
 1. **Four notification variants** (notification § Variants): inline (in the task flow, top of the content area or above a form's submit

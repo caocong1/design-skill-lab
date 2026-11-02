@@ -1,6 +1,6 @@
 # 03 界面工艺与现代 Web 平台
 
-> 元数据：更新于 2026-09-28 · 依据：vercel-web-interface-guidelines、web-baseline-2026、wcag-22、laws-of-ux、nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip、apple-hig-liquid-glass、apple-hig-bars、harmonyos-design、fluent-2、impeccable、impeccable-slop-rules、chinese-copywriting-guidelines（旧分析 03 已并入）· 复核期限：2026-12-26（另有两个触发点：2026-11-13 `light-dark()` 转为“广泛可用”；web-features 每次发版）
+> 元数据：更新于 2026-11-01 · 依据：vercel-web-interface-guidelines、web-baseline-2026、wcag-22、laws-of-ux、nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip、apple-hig-liquid-glass、apple-hig-bars、apple-macos-touch、harmonyos-design、fluent-2、impeccable、impeccable-slop-rules、chinese-copywriting-guidelines（旧分析 03 已并入）· 复核期限：2027-01-30（另有两个触发点：2026-11-13 之后第一次 web-features 发版看 `light-dark()` 是否转为"广泛可用"；第一份带 Firefox 159 数据的发版看滚动驱动动画）
 
 这一篇回答两件事。第一，交互工艺——焦点、目标尺寸、加载、表单、状态这类几百个“有没有想到”的小决定——怎样保证不漏。第二，2024–2026 年进入 Baseline 的 HTML / CSS 原语怎样改变“设计稿该画什么、规格该写什么”。视觉规则（Hobday、排版、色阶、圆角）归 05；token 的 CSS 作用域与 `light-dark()` 组织法归 06；动效归 04。
 
@@ -15,7 +15,7 @@
 3. **状态与语义是设计决定，不只是实现。** 筛选、标签页、分页、展开面板写进 URL；返回 / 前进恢复滚动；链接用 `<a>`，不用按钮或 div；乐观更新配回滚或撤销；破坏性操作要确认或给撤销窗口；状态不只靠颜色（WCAG 1.4.1）；纯图标按钮必须有可访问名称；“不要把 schema 端出来”——视觉上可省标签，可访问名称不能省；每个数据视图都要设计空、稀疏、密集、出错四态，并经得起极短与极长的用户内容。依据：vercel #5、#9，wcag-22 #9。一手资料。
 4. **表单规则里有三条已经是 WCAG 2.2 条款。** 通用规则：不预先禁用提交（请求开始后才禁用并显示指示、带幂等键）；不拦截按键，先接受再校验；错误写在字段旁，提交后聚焦第一个错误；占位符是示例值而不是标签；`autocomplete`、`type`、`inputmode` 写对；有未保存修改时提醒。已成条款的三条：允许粘贴和密码管理器、不用无替代的谜题式验证（3.3.8，AA）；同一流程里不让用户重复输入已给过的信息（3.3.7，A）；所有拖拽都有单指针、非拖拽的替代（2.5.7，AA：点轨道设滑块值、看板卡片“移动到”菜单、列表上移 / 下移按钮）。依据：vercel #10，wcag-22 #19、#21–22。一手资料。
 5. **焦点规则因悬浮栏而重新变得要紧。** 用 `:focus-visible`；吸顶栏、吸底栏、非模态对话框、cookie 横幅不得把获得焦点的元素**完全**遮住（2.4.11，AA；失败模式 F110，充分技术 C43 = `scroll-padding`）。焦点外观 2.4.13（AAA）：指示区面积至少等于组件 2 CSS px 周长，且同一批像素在聚焦前后有 3:1 的变化；紧贴边缘向外的 2 px 描边合格，向内缩进的 2 px 线不合格，至少要 3 px。2025 年起 iOS 26 的悬浮玻璃标签栏、HarmonyOS 的悬浮页签让“底部有常驻浮层”成为常态，所以 `scroll-padding-bottom` = 浮层高度应成为默认。依据：wcag-22 #14–16，vercel #1，apple-hig-bars #3，harmonyos-design #11。一手资料。
-6. **Baseline 是设计词汇，不是实现细节。** Baseline“新近可用”= Chrome（桌面 + Android）、Edge、Firefox（桌面 + Android）、Safari（macOS + iOS）全部支持；“广泛可用”= 新近可用满 30 个月；在此之前是“有限可用”。数据以 web-features 3.40.0（2026-09-24 发布）为准。规格里每用到一个原语，就标三档之一：**原生**（Baseline，直接写）/ **原生 + 回退**（写明回退长什么样）/ **增强**（没有它也要好看、好用）。依据：web-baseline-2026 #1–2。一手资料。
+6. **Baseline 是设计词汇，不是实现细节。** Baseline“新近可用”= Chrome（桌面 + Android）、Edge、Firefox（桌面 + Android）、Safari（macOS + iOS）全部支持；“广泛可用”= 新近可用满 30 个月；在此之前是“有限可用”。数据以 web-features 3.40.0（2026-09-24 发布）为准；2026-11-01 用 3.44.0（2026-10-22）逐项复查，本篇引用的特性状态与日期都没有变。规格里每用到一个原语，就标三档之一：**原生**（Baseline，直接写）/ **原生 + 回退**（写明回退长什么样）/ **增强**（没有它也要好看、好用）。依据：web-baseline-2026 #1–2。一手资料。
 7. **可以直接写进规格的原生原语**（年份为 Baseline 新近可用日期）：`popover`（2025-01，自带顶层、轻点关闭、Esc、焦点归还）；invoker commands `command` / `commandfor`（2025-12，按钮声明式打开对话框与弹层）；`<dialog>`、`inert`、`:focus-visible`、`:has()`、尺寸容器查询（广泛可用）；同文档视图过渡与 `view-transition-class`（2025-10）；`@starting-style`（2024-08）；`light-dark()`（2024-05）；相对颜色语法（2024-09）；`color-mix()` 与 OKLab / OKLCH（2025-11-09 起广泛可用）；`@scope`（2026-03）；容器样式查询（2026-05，只对自定义属性）；`field-sizing`（2026-06）；`sibling-index()` / `sibling-count()`（2026-08）；`text-wrap: balance`（2024-05）；`backdrop-filter`（2024-09）；`linear()` 缓动（2026-06-11 起广泛可用）；`prefers-reduced-motion`、`prefers-contrast`、`forced-colors`、`color-scheme`、dvh / svh / lvh（广泛可用）；`text-box` / `text-box-trim` 属性键（2026-08-18）；`text-autospace: normal` 与 `no-autospace`（2025-11-11，Chrome 140 / Firefox 145 / Safari 18.4）。依据：web-baseline-2026 #3–4、#7、#10、#12–19、#21、#23–25；`text-autospace` 为本篇对 web-features 3.40.0 `data.json` 的复查。一手资料 + 实测。
 8. **只能当增强、稿子里必须画回退的**：锚点定位在特性层面仍是“有限”，但 325 个兼容键中 323 个已 Baseline，只差 `position-visibility` 的两个值——按“带已测回退可用”对待，锚定元素的动画仍是增强；可定制 `<select>`（`appearance: base-select`，无 Firefox）；跨文档视图过渡（无 Firefox）；滚动驱动动画（无 Firefox，37 个键无一 Baseline）；进出 `display: none` 的退出动画（无 Firefox）与 `overlay`（仅 Chrome）；`interpolate-size` / `calc-size()`（仅 Chrome）；`popover="hint"` 与悬停触发的 interest invokers；`<dialog closedby>`（无 Safari）；`text-wrap: pretty`（无 Firefox）；`corner-shape`（仅 Chrome）；`prefers-reduced-transparency`（仅 Chrome）；`text-autospace` 的显式值（`ideograph-alpha` 等，无 Chrome）与 `text-spacing-trim`（仅 Chromium）。`if()`、`@function`、滚动状态查询不进生产规格。依据：web-baseline-2026 #3、#5–6、#8–11、#20、#22、#26；`text-autospace` 同上。一手资料 + 实测。
 9. **这些原语改变的是设计决定。** ① 弹层规格要写明 auto 还是 manual 关闭、Esc 行为、焦点归还位置，以及 `position-try-fallbacks` 的备选位置顺序；悬停触发的 tooltip 仍要 JS，且必须满足 WCAG 1.4.13（可不移开指针就关闭、指针可移上去、持续到用户离开）。② 原生 select 可以“设计”了，但 Firefox 用户看到的是经典控件——稿里画两张。③ 退出动画要能降级为瞬间隐藏。④ 聊天输入框自动增高用 `field-sizing: content`。⑤ 纯 CSS 错开用 `sibling-index()`。⑥ 组件变体可以由容器样式查询切换，不必层层传 class。⑦ 按钮、徽章的光学垂直居中用 `text-box-trim`（边值类型的 Firefox 数据缺失，用前核对）。依据：web-baseline-2026 #27–32，wcag-22 #13。一手资料 + 推论。
@@ -28,6 +28,12 @@
 16. **中文输入法是中文产品的交互地板，此前没有任何工具或规则在管。** 输入法组字期间回车是"选词上屏"，不能触发发送、提交、建标签；边打边搜、校验、字数统计要等上屏后的文字。判断依据是 `isComposing`，但 Safari 10.1–26.6 在"完成组字那一下"的 keydown 上报 false（事件顺序颠倒，WebKit bug 165004），所以要同时判 `keyCode === 229`。`KeyboardEvent.isComposing` 直到 2026-09-14（Safari 27）才进入 Baseline。无头截图无法组字，这类行为只能手测或标"待确认"。依据：ui-events-ime #1–5。一手资料 + 兼容数据。
 17. **组件行为要写到"模式名没决定的部分"。** 组合框的补全类型、弹出时机、空查询显示什么；菜单的勾选项、子菜单斜向移动不关闭；toast 只放信息与成功、带操作或报错就不自动消失、说过的话事后找得到；tooltip 只放名称和非必要说明，带链接或按钮就换成 toggletip。依据：wai-aria-apg #9–11，carbon-notification-tooltip #1–7，emil-kowalski-animation #2（首个 tooltip 延迟、相邻即时）。一手资料 + 业内共识（子菜单斜向容差无一手来源）。
 18. **"舒心"主要是不打扰和不丢东西。** 手势效果从第一像素跟手、途中可反悔，可逆操作可在手势中触发、破坏性操作只在松手时生效；高频操作不做动画；新到内容不把用户正在操作的行挤走；记住上次的选择、筛选、视图；草稿不丢。依据：rauno-interaction-details #2、#4、#5、#7，nng-heuristics #3–5，motion 的频率门（emil-kowalski-animation #6）。一手资料 + 推论。
+
+19. **"新近可用"不等于"不需要回退"：`light-dark()` 是实例。** 引擎不认识 `light-dark()` 时，自定义属性仍把它当文本保存，所有读这个 token 的颜色声明在计算值阶段失效，主按钮变成透明底配白字（宿主反馈 2026-10-27，本仓库 2026-11-01 在 Chromium 里模拟复现）；在同一自定义属性上再写一个普通值不能当回退。可行的回退是 `@supports not (color: light-dark(#000, #fff))` 块里给出浅色主题全量角色。微信等应用内浏览器和 iOS 17.5 之前的 Safari 都在受众里，所以公开页面在 3.44.0 仍标"新近"之前都要带这个块。（一手资料：web-baseline-2026 #13；实测）
+20. **数据集之外的进展要单独记，不提前改档。** Firefox 159（2026-10-27）已发布滚动驱动动画，但 3.44.0 与其后的开发版都还没有 Firefox 条目，所以规格里仍按增强处理；grid lanes 在 3.40.0 里的 Safari 26.4 条目被撤回，现在没有任何引擎。（一手资料：web-baseline-2026 #9、#26）
+21. **输入法：结论 16 的"Safari 27 已修"被推翻。** WebKit 2026-04 打开了正确的事件顺序，2026-06 因回归报告太多又全局关掉；web-features 3.41.0 起撤回 `isComposing` 的 Baseline，BCD 8.1.7 把 Safari 标成部分支持。`isComposing || keyCode === 229` 的双重判断对所有 Safari 版本都要保留。（一手资料：ui-events-ime #4–5）
+22. **APG 的复合组件补齐了。** 列表框（五项以上要 Home/End、七项以上要逐字跳转，选择是否随焦点由设计决定）、网格（方向键到边停、Enter 或 F2 进入编辑、Esc 退出且可撤销）、标签页（面板预加载时才自动激活）、树（右键展开再进第一个子项、左键收起再回父项）。interaction.md 的组件表据此补了三行。（一手资料：wai-aria-apg #12–22）
+23. **触控 Mac 让"桌面 = 纯指针"不再成立。** macOS 27 的触控屏（2026-11-06 上市）：版式与密度不变，热区比可见控件大，没有悬停，悬停才出现的控件要能点按区域揭示并在右键菜单里有入口。（一手资料：apple-macos-touch）
 
 ## 论证
 
@@ -57,10 +63,11 @@
 - `position-anchor` 兼容键的 Baseline 日期是 2026-09-14（Chrome 151），而 Chrome 125 就发布了锚点定位；疑为兼容数据修订，未查。
 - NN/g 十条启发式、Vercel 仓库里的 `AGENTS.md` 与 vercel.com 发布页未做摘要或比对。
 - 我们的截图流程（`capture.mjs` / `shot.sh`）在无头浏览器里截“打开状态的 popover / dialog”是否稳定（顶层渲染、`@starting-style` 的首帧），没有测过；可移植稿改用原生弹层前应先测一次。
-- 2026-11-13 `light-dark()` 转为广泛可用后，能力表要改档；下一个 web-features 版本发布后整表重拉比对。
+- 2026-11-13 之后第一次 web-features 发版时看 `light-dark()` 是否转为广泛可用；即使转了，应用内浏览器与旧 iOS 的回退块是否还要保留，取决于宿主的浏览器矩阵（结论 19）。
 - KLM 没有触屏操作符（点按、滑动、捏合）；套件把一次点按近似为 P，未读触屏 KLM 扩展。
 - 子菜单"斜向移动容差"、拖拽的键盘拾取（Space 拿起、方向键移动）目前是业内共识，没有一手来源；Android 输入法的按键事件形态未读。
-- IME 规则只读了 Web 规范；UIKit、Android、HarmonyOS、小程序 `input` 的组字模型未读。
+- IME 规则只读了 Web 规范；UIKit、Android、HarmonyOS、小程序 `input` 的组字模型未读。WebKit 接替 311717 / 317127 的新跟踪 bug 还没有链接出来，Safari 何时重新打开正确顺序未知。
+- clreq 编辑稿 2026-10-25 新增"字素与分词、选择"一节（光标与删除按字素簇；中文分词有歧义），待下一次月度发布后再写进规则。
 
 ## 对 skill 的约束
 
@@ -81,3 +88,4 @@
 
 - 2026-09-27 重写：由旧分析 03 迁入并全文重写。Hobday 视觉规则与 Laws of UX 移到 05；新增 Web 平台能力层（web-features 3.40.0 的 Baseline 状态、三档标注、原语如何改变设计决定、粒度陷阱）、WCAG 2.2 的表单 / 拖拽 / 焦点条款、玻璃的 Web 回退、现成检测器的覆盖边界；更正 APCA“仍是草案”、24 px 规则的出处与写法、Vercel 只读 README 三处；复查并更正 `text-autospace` 的状态粒度；删除“易腐与耐久”“对设计 agent 的启发”等仪式性小节。
 - 2026-09-28 补充：新增结论 14–18（交互成本与 KLM、键盘与快捷键、中文输入法、组件行为、顺手默认值），依据新增的 nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip 与 wcag-22 #32；对 skill 的约束加 interaction.md 与 surface contract 的 Task cost 块。NN/g 十条启发式此前只在 laws-of-ux 摘要里提到名字，现在有了单独摘要。
+- 2026-11-01 复核：web-features 3.40.0 → 3.44.0，引用状态不变；新增结论 19（`light-dark()` 回退与宿主事故）、20（Firefox 159 与 grid lanes）、21（推翻"Safari 27 已修输入法顺序"）、22（APG 复合组件）、23（触控 Mac）；未决问题更新。

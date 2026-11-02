@@ -1,6 +1,6 @@
 # 04 动效
 
-> 元数据：更新于 2026-09-27 · 依据：material-3-expressive、material-motion-tokens、emil-kowalski-animation、emil-kowalski-skills、web-baseline-2026、wcag-22、apple-hig-liquid-glass、fluent-2、vercel-web-interface-guidelines、impeccable-slop-rules、anthropic-frontend-design-skill、taste-skill、dtcg-2025-10、design-md-spec；另 Apple SwiftUI `Spring` 文档（DocC JSON，本篇 2026-09-27 核对，尚无摘要）· 复核期限：2026-12-26（Compose 的 Expressive API 仍在 1.5.0-alpha 里毕业，易腐）
+> 元数据：更新于 2026-11-01 · 依据：material-3-expressive、material-motion-tokens、emil-kowalski-animation、emil-kowalski-skills、web-baseline-2026、wcag-22、apple-hig-liquid-glass、apple-motion-springs、harmonyos-motion-curves、fluent-2、vercel-web-interface-guidelines、impeccable-slop-rules、anthropic-frontend-design-skill、taste-skill、dtcg-2025-10、design-md-spec · 复核期限：2027-01-30（Compose material3 1.5.0 正式版发布时提前复核）
 
 动效回答三个问题：要不要动、用什么动、怎么证明它动对了。2026 年的变化是：Material 把动效从“缓动曲线 + 时长”换成弹簧物理，并分出 expressive / standard 两套方案；`linear()` 在 2026-06 成为 Web 上广泛可用的特性，弹簧第一次能在纯 CSS 里忠实表达；而 Emil Kowalski 把 Web 动效手艺写成了 agent 能执行的规则和评审契约。本篇给出“弹簧优先”的 token 立场、姿态默认值和减弱动效的设计法。交互规则中的加载时序归 03；token 文件格式归 06。
 
@@ -19,7 +19,7 @@
    | slow.spatial | 0.8 / 200 | 0.9 / 300 |
    | fast / default / slow .effects | 1.0 / 3800、1600、800 | 同左 |
 
-   空间类（位置、尺寸、旋转、圆角）可过冲，效果类（颜色、透明度）永不过冲；按覆盖面积选速度：小组件 fast、局部屏幕 default、全屏 slow；一个被按下的按钮同时用 fast spatial（形状）和 fast effects（颜色）。Material 建议**大多数产品用 expressive**，工具型产品用 standard。但代码现实相反：Compose 普通 `MaterialTheme` 默认 standard，只有 `MaterialExpressiveTheme` 默认 expressive；稳定版 material3 1.4.0（2025-09-24）的整套 motion scheme API 都是 `internal`，稳定版应用拿不到 expressive，要用 1.5.0-alpha（最新 alpha29，2026-09-23）；Android Views 的六个 `motionSpring*` 属性只有 standard 值，且“尚未接入组件”。Material 还说数值按设备类别（手表 / 手机 / 平板）不同，公开的只有手机值。依据：material-3-expressive #4–12、#35–38，material-motion-tokens #2–11。一手资料。
+   空间类（位置、尺寸、旋转、圆角）可过冲，效果类（颜色、透明度）永不过冲；按覆盖面积选速度：小组件 fast、局部屏幕 default、全屏 slow；一个被按下的按钮同时用 fast spatial（形状）和 fast effects（颜色）。Material 建议**大多数产品用 expressive**，工具型产品用 standard。但代码现实相反：Compose 普通 `MaterialTheme` 默认 standard，只有 `MaterialExpressiveTheme` 默认 expressive；稳定版 material3 1.4.0（2025-09-24）的整套 motion scheme API 都是 `internal`，稳定版应用拿不到 expressive，要用 1.5.0（2026-10-07 进入 beta，beta02 为 2026-10-21，API 已冻结，`MotionScheme` 与 `MaterialExpressiveTheme` 已公开；Material 说年内转正式版）；Android Views 的六个 `motionSpring*` 属性只有 standard 值，且“尚未接入组件”。Material 还说数值按设备类别（手表 / 手机 / 平板）不同，公开的只有手机值。依据：material-3-expressive #4–12、#35–38，material-motion-tokens #2–11。一手资料。
 6. **Web 上用 `linear()` 采样弹簧，比 Material 自己给的 cubic-bezier 替身更忠实。** `linear()` 自 2026-06-11 起广泛可用。本篇计算（质量 1，从静止出发）：CSS 必须运行到收敛时间 T（与终点误差 < 0.1%）才不会在末尾跳一下，T 约为感知时长 d 的 1.33–1.64 倍：
 
    | 弹簧 | d | 过冲 | T（0.1%） | Material Web 替身 |
@@ -38,6 +38,10 @@
 12. **动效在交换格式里没有完整位置。** DTCG 2025.10 有 `duration`、`cubicBezier`、`transition`（三字段必填，但说不出“动哪个属性、从哪到哪”），没有 spring，也没有 `linear()`；弹簧参数放 `$extensions`（反向域名键）或成对的 `number` token。DESIGN.md 没有动效词汇，自定义 `motion:` 块会被警告并在导出时丢弃，动效个性只能写成散文章节。依据：dtcg-2025-10 #18–19，design-md-spec #19（均见 06）。一手资料 + 实测。
 13. **agent 看不见动画，所以“看过”必须被制造出来。** 演示要能重播、能慢放到 0.25× / 0.1×、能切减弱动效、能切方案；快速连点检验打断；按时间点冻结抽帧拼成联系表再看；没看就如实说没看。评审沿用 Emil 的契约：发现项写成 Before | After | Why 一张表，“默认标记，批准要挣来”，结论明确写 Block 或 Approve；修正次序是先删、再减、再修缓动、再修原点与物理感、再做可打断、再挪到合成层、再做非对称时序，最后才打磨与补无障碍。依据：emil-kowalski-skills #4–7，emil-kowalski-animation #16。一手资料 + 业内共识。
 14. **动效的 AI 痕迹是带日期的，而且解药会腐坏。** 2025-11 Anthropic 的文章把“一次编排好的、错开 `animation-delay` 的首屏入场”当作提升品质的解药；到 2026-09，同一个 frontend-design skill 已把“每个区块淡入上滑、每张卡片都有悬停过渡”列为“读起来像 AI 生成”。Impeccable 2026-09 的动效痕迹：脉动状态点、装饰性闪烁光标、自动跑马灯、常规 UI 上的弹跳缓动、会改变布局的动画、悬停时缩放 / 旋转的图片。taste-skill 的动效 4–7 档直接写 `transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1)`——既违反“永不 transition: all”，这条 expo-out 曲线也已成为 AI 页面的签名。依据：anthropic-frontend-design-skill #7、#16，impeccable-slop-rules #9，taste-skill #8。一手资料。
+
+15. **Apple 的弹簧有了一手数字，并且站在"少弹"一边。** SwiftUI `spring(duration:bounce:)` 默认 0.5 s、bounce 0；`.default` 自 iOS 17 起是临界阻尼弹簧（response 0.55）；WWDC23："15% 左右还不算弹，30% 明显，超过约 0.4 对 UI 元素过分"，"拿不准就用 0"；WWDC18：调弹性从 100% 阻尼开始，只有带动量的手势才奖励一点过冲（Now Playing 点按 100%、下滑关闭 80%）。所以结论 7 的张力主要在 Material Expressive 一侧：Apple、Emil、Impeccable 都把回弹当例外。（一手资料：apple-motion-springs #1–10）
+16. **鸿蒙的动效数值：物理曲线优先、转场有强制下限。** 设计指南：长距 ≤ 350 ms、短距 ≤ 250 ms、很短 ≤ 150 ms；ArkUI `Curve` 枚举给出 13 条贝塞尔曲线的数值（标准 FastOutSlowIn = 0.4, 0, 0.2, 1）；`springMotion` 默认 response 0.55、dampingFraction 0.825，跟手时用 `responsiveSpringMotion`（0.15, 0.86, 0.25），离手继承速度；通用应用 UX 体验标准（2026-10-28 V31）把转场下限定为必须项：8.5 英寸以下 200 ms、8.5–12 英寸 250 ms、12 英寸以上 300 ms。没有找到减弱动效的规定。本仓库按 (d, ζ) 记法算出：springMotion 默认值过冲约 1.0%、CSS 收敛约 757 ms。（一手资料：harmonyos-motion-curves；计算）
+17. **"删减"有了数字。** Emil 的 `remove-animations`：悬停改成 ≤ 150 ms 的颜色或透明度；高频入场改成 150 ms 淡入；超过 300 ms 的降到 200–250 ms；错峰每项 ≤ 30 ms、总计 ≤ 300 ms；删之前先查依赖动画结束的代码，并列出保留的 2–5 个动效。`animation-performance` 给出帧预算（60 Hz 16.7 ms、120 Hz 8 ms）和"只合成 / 重绘 / 重排"三级属性。（一手资料：emil-kowalski-skills #21–22）
 
 ## 论证
 
@@ -62,11 +66,11 @@
 ## 未决问题
 
 - Material 按设备类别（手表 / 平板）的弹簧值没有公开数字；Material 也没说减弱动效时 expressive 应回退到什么。
-- HarmonyOS 的动效曲线与弹簧参数没有摘要；harmonyos-design 只记了 HarmonyOS Symbol 的动效策略，且页面自相矛盾（列出 9 种，又说“7 种动态效果”）。技能里 `curves.springMotion(response, dampingFraction)` 与 (d, ζ) 的对应没有一手来源。
+- HarmonyOS 的动效曲线与弹簧参数：2026-11-01 已有摘要 harmonyos-motion-curves（结论 16），设计指南给出的 interpolatingSpring 与 springMotion 对照印证了 response = 2π/√k、dampingFraction = ζ。仍缺：加速曲线的数值（只在图里）、减弱动效规定。
 - 技能里 Motion（JS）“visualDuration 内部按 1.2 缩放、默认回弹不为 0”和 Flutter `SpringDescription.withDurationAndBounce` 的说法没有 source 摘要；Android“移除动画”= animator duration scale 0 属通识。
-- Apple HIG 的 Motion 页与 WWDC“Designing Fluid Interfaces”没有摘要；emil-kowalski-skills 里的阻尼 / 响应表是 Emil 对 WWDC 的转述，不是 Apple 发布的 token。
+- Apple HIG 的 Motion 页与 WWDC“Designing Fluid Interfaces”已有摘要 apple-motion-springs（结论 15）。Apple 仍不公布系统组件（sheet、标签栏）的弹簧值。
 - 冻结抽帧（通过 `document.getAnimations()` 设 `currentTime`）对 CSS 与 WAAPI 有效，对 JS 驱动的弹簧库无效；对 `linear()` 弹簧的抽帧是否与设备上的观感一致，没有做过对照。
-- 建议补 source 摘要：`apple-swiftui-spring`（或并入 apple-hig-liquid-glass），以及 HarmonyOS 动效页。
+- （已完成 2026-11-01：apple-motion-springs、harmonyos-motion-curves。）
 
 ## 对 skill 的约束
 
@@ -85,3 +89,4 @@
 ## 变更记录
 
 - 2026-09-27 重写：由旧分析 04 迁入并全文重写。更正“0.9 系弹簧 = M3 Expressive”的错误，补上 expressive 数值、Material 的推荐与 Compose 的代码现实；按 SwiftUI 文档核验弹簧换算与预设；新增 `linear()` 采样的 d / T 计算及与 Material Web 替身的对照、按姿态的默认值与其张力、减弱动效的设计法、Web 技术的 Baseline 状态、token 格式的空缺、agent 评审契约、带日期的动效痕迹；删除“易腐与耐久”“注意”等仪式性小节。
+- 2026-11-01 复核：Compose material3 1.5.0 进入 beta 且 API 冻结（结论 5 改写）；新增结论 15（Apple 弹簧默认值与回弹阈值）、16（鸿蒙动效数值与转场下限）、17（删减动效的数字）；三条未决问题关闭或收窄。motion-tokens 的弹簧表加了 SwiftUI `.default` 与 ArkUI 两个默认弹簧（本篇计算）。

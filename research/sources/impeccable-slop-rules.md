@@ -1,10 +1,12 @@
 # Impeccable anti-pattern catalogue (/slop)
-- id: impeccable-slop-rules · url: https://impeccable.style/slop/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror (project is Apache-2.0)
+- id: impeccable-slop-rules · url: https://impeccable.style/slop/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (project is Apache-2.0)
 - superseded_by: impeccable (the whole v4.x project: skill, references, detector, hooks). This file stays as the /slop catalogue snapshot.
 > 中文导语：Impeccable（Paul Bakaus）的 /slop 页面是目前最完整的"可机械检测的界面问题"目录，每条标明是 AI 痕迹还是基本质量问题、靠源码检测、浏览器检测还是需要设计评审。英文站今天是 67 条（含 4 条"对照你的 DESIGN.md"规则），中文站仍停在旧版 46 条。整个项目见 `impeccable`。
 
 Read on 2026-09-27: the English page https://impeccable.style/slop/ (the 2026-09-21 digest could not reach it and used the Chinese mirror) and the Chinese page https://impeccable.cn/slop/ for comparison. Repo https://github.com/pbakaus/impeccable HEAD `9d715cc` (2026-09-25); npm `impeccable` latest 4.1.0 (2026-09-08). Each rule on the page has a live example and links to a guide (Polish, Typeset, Layout, Colorize, Animate, Clarify, Harden, Optimize, Audit, Critique).
+
+Re-read on 2026-11-01 (static HTML of the English page): the counts moved; see fact 16. The Chinese mirror could not be fetched (fact 14 not re-checked).
 
 ## Key facts
 1. **Framing** (page intro): "AI slop changes with the era and the model"; an era switch shows **2022 / 2025 / 2026** examples (2022: purple gradients, glass panels, neon glow; later eras: beige editorial layouts and a GPT-style neobrutalist take). 11 deliberately exaggerated example pages carry the detector overlay.
@@ -23,6 +25,9 @@ Read on 2026-09-27: the English page https://impeccable.style/slop/ (the 2026-09
 14. **Chinese mirror is stale** (impeccable.cn/slop, same day): still 46 rules in 8 groups (visual 7, typography 10, colour 5, layout 8, motion 3, copy 4, imagery 1, general 8), era switch only 2022 / 2026, modes CLI / browser / LLM-only / optional (`--gpt`, `--gemini` provider-specific rules, off by default). Its intro states "41 deterministic + 4 optional + 5 LLM-only", which does not add up to its own 46. It still names Inter, Geist, Space Grotesk and "the newest reflex", Instrument Serif; the English page now names only Inter and Geist.
 15. **What the English update added vs the 46-rule list**: the 4 design-system drift rules; browser layout rules (text covered, unbalanced columns, heading proximity, cards flush to scroller, JS errors, content stuck waiting to appear); motion rules (pulsing dot, blinking cursor, marquee); copy rule (repeated text in one container); imagery rules (placeholder illustrations, jagged masks, hidden-under-overlay); decorative grid-line background; halo and spotlight backgrounds; tiny interface text. Specific numbers the Chinese page gave (padding ≥ 8 px ideally 12-16 px, body ≥ 14 px ideally 16 px, line height 1.5-1.7, tracking ≤ 0.05em, card radius 12-16 px with pills only for tags and buttons, adjacent type steps ≥ 1.25×) are softened on the English page to "start around" values or dropped.
 
+Re-counted 2026-11-01
+16. The intro now says "**62 detector rules** and 6 patterns for design review"; the catalogue renders **67 cards** (61 detector + 6 review; the new `hard-offset-shadow` advisory has no card yet): Your design system 4 · Visual Details 8 · **Typography 13** (two new quality cards: a one-word last line, a heading with a stub last line) · Color & Contrast 7 · Layout & Space 12 · **Motion 4** (the hover-zoom and layout-animation cards are gone; remaining: pulsing dot, blinking cursor, marquee, bounce or elastic easing on routine UI) · Copy 5 · Imagery 4 · General quality 10; by method 49 Source / 12 Browser / 6 Design review. Era captions unchanged (2022 "Purple gradients, glass panels, neon glow"; 2025 "Beige backgrounds, editorial labels, decorative motion"; 2026 "GPT-style neobrutalism: bold borders, hard shadows, sticker badges"). The rule registry behind the page is in `impeccable` fact 37.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/anti-slop.md: cite this snapshot (2026-09-27, 67 rules) as the third dated tells list; keep the rule that tells are dated observations; use fact 14-15 as evidence of decay (Space Grotesk recommended by Anthropic in 2025-11, flagged by Impeccable's Chinese list, dropped by name from the English list by 2026-09).
 - skills/design-studio/scripts/lint.mjs: the Quality rules and the Source/Browser split map directly onto our deterministic lint; "content stuck at opacity 0", "text covered by another element" and "clipped popovers" need a rendered page.
@@ -30,6 +35,7 @@ Read on 2026-09-27: the English page https://impeccable.style/slop/ (the 2026-09
 - skills/design-studio/references/process/system.md: drift checks presuppose a DESIGN.md with complete font, colour, size and radius scales.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): facts 3, 6 and 9 counts superseded by fact 16 (typography 13, motion 4, detector 62).
 - Which of the 61 detector rules are Source vs Browser was read from each card's label, not from the detector code; see `impeccable` for the engine and version (the skill's own version number was not checked here; npm shows 4.1.0).
 - The 2025 and 2026 era examples were not opened individually.
 - Our own lab page once gave every row a coloured left bar (adjacent to the "side-tab accent" tell) and was changed to one domain swatch per section heading; this is recorded in the 2026-09-21 digest and in `research/field/`, not re-checked today.

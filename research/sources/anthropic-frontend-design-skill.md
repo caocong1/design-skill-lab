@@ -1,6 +1,6 @@
 # Anthropic `frontend-design` skill and its companion article
-- id: anthropic-frontend-design-skill · url: https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md · fetched: 2026-09-27 · method: repo@41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror
+- id: anthropic-frontend-design-skill · url: https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md · fetched: 2026-11-01 · method: repo@ca45fc4
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：Anthropic 官方的 `frontend-design` skill（也作为 Claude Code 插件分发）是所有设计 skill 要超越的基线；它要求"从题材出发、先计划再对照 brief 审一遍、只在一处大胆"，并列出一份带日期的"AI 生成界面聚类"清单。本文件同时摘要 2025-11-12 的配套博客文章（"分布收敛"机制）。更大范围的 Anthropic 设计类 skill 见 `anthropic-design-skills`。
 
 Sources read on 2026-09-27:
@@ -8,6 +8,8 @@ Sources read on 2026-09-27:
 - Earlier versions for the change history: `0075614` (2025-12-04, 583 words), `2235be7` (2026-06-09, PR #1293, 1336 words); current is 1516 words.
 - Plugin copy `anthropics/claude-plugins-official` `plugins/frontend-design/skills/frontend-design/SKILL.md` (main): byte-identical to the skill.
 - Article: https://claude.com/blog/improving-frontend-design-through-skills (Anthropic Applied AI team, 2025-11-12), method fetch.
+
+Re-read on 2026-11-01: `skills/frontend-design/SKILL.md` has the same blob (`a5333457…`) at `41bbe19` and at HEAD `ca45fc4` (71 lines / 1,516 words; last path commit 2026-09-03, #1713); the `claude-plugins-official` copy is byte-identical and its plugin.json is now version 1.1.1 (2026-10-26). Facts 1–18 stand; the article was not re-read.
 
 ## Key facts
 1. **Role framing** (SKILL.md, opening): the model is the design lead of a studio known for identities "not mistaken for anyone else's"; the client has already rejected cliché or templated proposals; take aesthetic risk "if justified". (June 2026 wording was "take one real aesthetic risk you can justify"; September softened it.)
@@ -39,6 +41,7 @@ Sources read on 2026-09-27:
 - skills/critique-design/references/heuristics.md: single-word headline accents, all-caps labels, decorative numbering and the writing rules (CTA names persist, errors never apologise) are checkable items.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): none (unchanged; pin moved to the HEAD that carries the identical blob).
 - The article's example screenshots and the "frontend design cookbook" notebook were not re-read today.
 - Whether Anthropic's product surfaces load this exact text (vs a variant) was not checked; only the repo and plugin copies were compared.
 - The June → September changes are read from diffs; the PR description (#1713) gives no rationale beyond "avoid generic design defaults".

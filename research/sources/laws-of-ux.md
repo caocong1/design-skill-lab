@@ -1,9 +1,11 @@
 # Laws of UX (Jon Yablonski)
-- id: laws-of-ux · url: https://lawsofux.com/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: laws-of-ux · url: https://lawsofux.com/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：Jon Yablonski 整理的"UX 定律"合集（30 条，来自心理学与 HCI 研究），适合在评审和决策说明里点名引用，把"感觉"变成"论据"。本文件列出每条的一句话定义和对设计的含义；逐条页面只抽查了三条。
 
 Read on 2026-09-27: the index page (30 laws; available in English, Spanish, French, Arabic, Persian) plus the pages for Miller's law, Doherty threshold and Working memory. Each law page has an overview, takeaways, origins and further reading. Implications in brackets are this digest's paraphrase unless marked "(page)".
+
+Re-read 2026-11-01: the index still lists 30 laws including Working Memory; the language list was not visible in the text extraction and is not re-confirmed; individual law pages not re-read. Unchanged.
 
 ## Key facts
 1. **Aesthetic-usability effect**: attractive design is perceived as more usable. [Polish buys tolerance and can mask problems in testing.]

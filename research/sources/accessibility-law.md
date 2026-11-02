@@ -1,7 +1,9 @@
-# Accessibility law and standards by market (EU, US, ISO, China), as of 2026-09-27
-- id: accessibility-law · url: https://www.etsi.org/deliver/etsi_en/301500_301599/301549/04.01.01_60/en_301549v040101p.pdf · fetched: 2026-09-27 · method: fetch + browser + json-api
-- review_by: 2026-12-26 · licence note: paraphrased digest, not a mirror
-> 中文导语：一张按市场排的"法律引用哪个标准、哪个版本、哪天生效"对照表：欧盟 EAA 与 EN 301 549（v4.1.1 已发布，但还没在官方公报上引用），美国 ADA Title II（期限推迟到 2027/2028），ISO/IEC 40500:2025，以及中国的《无障碍环境建设法》、GB/T 37668 和一批 2025–2026 年新出的适老化、无障碍国标，外加工信部适老化规范里的具体数字。设计目标定为 WCAG 2.2 AA；交付时写清楚面向哪个市场、对应哪条法规。
+# Accessibility law and standards by market (EU, US, ISO, China), as of 2026-11-01
+- id: accessibility-law · url: https://www.etsi.org/deliver/etsi_en/301500_301599/301549/04.01.01_60/en_301549v040101p.pdf · fetched: 2026-11-01 · method: fetch + browser + json-api
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
+> 中文导语：一张按市场排的"法律引用哪个标准、哪个版本、哪天生效"对照表：欧盟 EAA 与 EN 301 549（v4.1.1 已发布，但还没在官方公报上引用），美国 ADA Title II（期限推迟到 2027/2028），ISO/IEC 40500:2025，以及中国的《无障碍环境建设法》、GB/T 37668 和一批 2025–2026 年新出的适老化、无障碍国标，外加工信部适老化规范里的具体数字。设计目标定为 WCAG 2.2 AA；交付时写清楚面向哪个市场、对应哪条法规。2026-11-01 复核：各项日期都没变；GB/T 47523-2026 当天生效（正文仍被验证码挡住，没有读到）；EN 301 549 V4.1.1 仍未在官方公报上引用；美国司法部仍只有"考虑延期、再发 NPRM"的议程，没有新规；新增工信部 2026 年两份文件和全国人大执法检查的结论。
+
+Re-read on 2026-11-01 (json-api + fetch): Publications Office SPARQL over cellar; the Commission's harmonised-standards index and its accessibility page; ada.gov web-rule page; Federal Register API (DOJ documents under 28 CFR 35 since 2026-06-01; document 2026-07663); reginfo.gov Unified Agenda RIN 1190-AA82 (pub 202510); access-board.gov/ict and news; openstd and std.samr.gov.cn records for GB/T 47523-2026 (plan 20231997-T-339) and GB/T 37668 (plan 20252537-T-469); SAC 公告 2026年第21号 (std.sacinfo.org.cn); MIIT 工信厅信管函〔2026〕223号 and 工信部信管函〔2026〕258号; 人民日报 2026-10-14 (gmw.cn repost); SAMR 2026-10-23 approval notice. `iso.org` returned 403. Result: no dated fact changed; facts 13, 15, 17 and 20 carry the re-check; facts 24–26 added.
 
 Read on 2026-09-27. EU: Directive (EU) 2019/882 full text via the Publications Office cellar (`http://publications.europa.eu/resource/celex/32019L0882`,
 because EUR-Lex blocks automated fetches); Implementing Decision (EU) 2021/1339 (cellar `32021D1339`); ETSI deliver directory
@@ -54,7 +56,7 @@ EU: EN 301 549
     with text **x-height ≥ 16 CSS px**.
 13. No Commission implementing decision citing V4.1.1 was found as of 2026-09-27 (a Publications Office SPARQL title search for 2026 acts naming
     Directive 2019/882 returned only a court case and procurement documents; see "Not verified"). Until one is published, V4.1.1
-    gives no formal presumption under the EAA, and V3.2.1 stays the cited version under 2016/2102.
+    gives no formal presumption under the EAA, and V3.2.1 stays the cited version under 2016/2102. Re-checked 2026-11-01: still none (cellar SPARQL over English titles since 2026-06-01 naming 301 549, "accessibility requirements for products and services" or 2019/882 returns only the Public Procurement Act proposal and its staff documents; the Commission's harmonised-standards index lists under "Accessibility" only the 2016/2102 decision pages, naming no standard version). Secondary sources forecast the citation around 2026-11-30 or 2026-12-16; not verified.
 
 US
 14. **ADA Title II** final rule (DOJ, 89 FR 31320, published 2024-04-24, effective 2024-06-24): web content and mobile apps of state and local
@@ -62,14 +64,14 @@ US
 15. Interim final rule **91 FR 20902 (2026-04-20, effective that day)** moved compliance dates: population **≥ 50,000: 2026-04-24 → 2027-04-26**.
     Population **< 50,000 and special district governments: 2027-04-26 → 2028-04-26**. Comments closed 2026-06-22. DOJ says it "plans to engage in
     future rulemaking" on the rule's substance and may issue an NPRM. If none is issued and nothing suggests further delay, it "fully anticipates
-    implementing the regulation at the new deadline".
+    implementing the regulation at the new deadline". Re-checked 2026-11-01: ada.gov still shows 2027-04-26 / 2028-04-26 and WCAG 2.1 AA; no DOJ document under 28 CFR part 35 has appeared in the Federal Register since 2026-06-01; the Unified Agenda entry RIN 1190-AA82 (pub 202510) reads "Final Rule Stage", "Economically Significant", "EO 14192 Designation: Deregulatory", timetable "Interim Final Rule 07/00/2026" and "NPRM To Be Determined", abstract: "considering whether to extend the deadlines … then publish a Notice of Proposed Rulemaking (NPRM) to reconsider whether some of the regulatory provisions … could be made less burdensome." A National Federation of the Blind suit against the extension (filed 2026-05-27, summary-judgment motion 2026-09-28, no decision) is reported by secondary trackers only.
 16. **Section 508** (federal agencies; Revised 508 Standards E205.4): electronic content conforms to **WCAG 2.0 Level A and AA**.
 
 ISO
 17. **ISO/IEC 40500:2025** "W3C Web Content Accessibility Guidelines (WCAG) 2.2", edition 2, ISO lists publication **2025-09**, 72 pages, free (CHF 0).
     W3C announced the approval on **2025-10-21**, processed through JTC 1 as a PAS. W3C: it is "the **October 2023 version** of WCAG 2.2" (not the
     2024-12-12 errata edition), and W3C is working to update ISO/IEC 40500 and EN 301 549 to the latest 2.2 text. The ISO page shows stage 90.92
-    "to be revised" with **ISO/IEC DIS 40500** under development.
+    "to be revised" with **ISO/IEC DIS 40500** under development. Re-checked 2026-11-01: `iso.org` unreachable (403); the WAI "WCAG 2 Overview" (updated 2026-09-17) says ISO/IEC 40500:2025 "is exactly the same as the October 2023 version of WCAG 2.2" and "We expect the December 2024 version of WCAG 2.2 to be available as ISO/IEC 40500:2026 by late 2026."
 
 China
 18. **《中华人民共和国无障碍环境建设法》**: adopted 2023-06-28 (14th NPC Standing Committee, 3rd session), **in force 2023-09-01** (Art. 72). Art. 32:
@@ -86,7 +88,7 @@ China
 20. Newer national standards found on std.samr.gov.cn (all 推荐性 except GB/Z 41284, a 指导性技术文件; contents not read): **GB/T 45395-2025** 小程序应用无障碍技术要求 (issued and in force
     2025-03-28); **GB/T 46070-2025** 移动智能终端信息无障碍通用规范 (issued 2025-08-29, in force 2026-03-01); **GB/T 47523-2026** 移动互联网应用程序适老化
     技术规范 (issued 2026-04-30, **in force 2026-11-01**; MIIT/TC485; drafted by CAICT with China Mobile, Douyin, Alibaba, Ant, vivo, Xiaomi, 上海寻梦,
-    拉扎斯, Ping An Bank); **GB/T 47797-2026** 政务服务平台适老化服务建设指南 (issued 2026-07-02, in force 2026-11-01); **GB/T 45445-2025** 电子商务平台适老化通用要求
+    拉扎斯, Ping An Bank; confirmed in force on 2026-11-01: SAC 公告 2026年第21号 item 328 of 384 standards dated 2026-04-30, openstd status 现行, CCS M21, ICS 33.030, plan 20231997-T-339 "发布后6个月正式实施"; the openstd preview and download are gated by a verification code, so the text and its numbers remain unread, and the plan record's scope text is generic 无障碍 wording that must not be quoted as the standard); **GB/T 47797-2026** 政务服务平台适老化服务建设指南 (issued 2026-07-02, in force 2026-11-01); **GB/T 45445-2025** 电子商务平台适老化通用要求
     (2025-02-28); **GB/Z 41284-2022** 信息无障碍 网站设计无障碍评级测试方法 (reviewed 2026-01-08, kept); **GB/T 18978.171-2024** 软件无障碍设计指南 (in force
     2025-07-01); **GB/T 44382-2024** 与年龄相关的色光亮度对比度规范; **GB/T 44808.2-2024** age-related colour-vision colour combinations; **GB/T 44808.4-2024**
     minimum legible character size by age; **GB/T 32632-2026** ICT terminal accessibility design principles (in force 2027-03-01).
@@ -118,6 +120,11 @@ China
     offer a permanent close. Avoid jargon and internet slang; keep common names and icons; offer "undo last step". Desktop: full keyboard operation and
     an extra-large cursor. Provide a desktop shortcut or client straight into the elder service.
 
+China, 2026 instruments (added 2026-11-01)
+24. **MIIT 2026.** 工信厅信管函〔2026〕223号 (成文 2026-05-15, 发布 2026-05-22) "关于开展2026年'数字适老中国行'活动的通知": theme "数字适老 智享生活", May–December 2026, "1+3+N" (one brand, three series, N regional events); phases 准备 May (plans due 5月30日前) / 实施 June–November / 总结 December, run with 基础电信企业, 中国信息通信研究院 and 中国互联网协会; "以标提质": "标准化、规模化推进互联网应用适老化及无障碍改造", exploring 纯语音打车, "一键免验证" for low-risk operations and 移动支付"老年专享" with unified technical specifications; e-commerce platforms encouraged to optimise "适老版". No mandatory duties, no GB/T numbers, no "长辈模式" wording; legal hook "落实《中华人民共和国无障碍环境建设法》要求". 工信部信管函〔2026〕258号 (2026-08-13, Q2 telecom service-quality 通告): "指导3161家与老年人、残疾人生活密切相关的网站、APP、小程序等完成适老化及无障碍改造"; app enforcement context: 27 batches of APP technical spot checks, 983 ordered to rectify, 122 publicly named, 28 removed.
+25. **NPC Standing Committee 执法检查 of the 无障碍环境建设法** (June–July 2026; Beijing, Inner Mongolia, Shanghai, Hunan, Chongqing, Gansu), as reported by 人民日报 on 2026-10-14 (the formal report was not located on npc.gov.cn): "部分网站和应用程序的'长辈模式'仍存在广告内容和诱导性按键，农村地区'数字鸿沟'尤为明显"; the group recommends "加快建立健全信息无障碍领域强制性标准，增强标准的约束力"; built facilities "有而难用"; drug package inserts flagged for small print (Hunan public-interest litigation covered 27 pharma companies and 156 products). State-media report of the inspection, not the report itself.
+26. **GB/T 37668 revision and the 2026-11-01 batch.** Plan 20252537-T-469 still "正在批准" on 2026-11-01, "拟实施日期：发布后3个月正式实施", "非等效采用 ISO/IEC 40500:2025"; GB/T 37668-2019 stays 现行 (复审 2025-07-01 "修订"). SAMR's 2026-10-23 approval batch (515 standards: 10 强制性, 466 推荐性, 39 指导性) names none as accessibility-specific. Secondhand (新华/央视 via chinanews, 2026-10-31): 54 强制性 and 465 推荐性 standards plus one 指导性技术文件 take effect 2026-11-01, naming 《移动互联网应用程序适老化技术规范》 and 《政务服务平台适老化服务建设指南》.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/accessibility.md: a legal matrix, market → instrument → cited standard/version → dates (facts 1–21).
   Design target WCAG 2.2 AA everywhere; legal minimum today EU public sector EN 301 549 V3.2.1 (WCAG 2.1 AA), EU EAA V4.1.1 pending OJEU citation,
@@ -139,7 +146,8 @@ China
   version) in the Accessibility dimension.
 
 ## Not verified / open
-- Review trigger (perishable, +90d): OJEU citation of EN 301 549 V4.1.1, a DOJ Title II NPRM, publication of the GB/T 37668 revision, GB/T 47523 entering into force (2026-11-01).
+- Correction vs the previous version (2026-11-01): no dated fact changed; facts 13, 15, 17 and 20 carry the re-check, facts 24–26 are new. Still pending: OJEU citation of EN 301 549 V4.1.1, a DOJ Title II NPRM, the GB/T 37668 revision, and the text of GB/T 47523-2026 (CAPTCHA-gated on openstd; no 征求意见稿 or CAICT 解读 with numbers found).
+- Review trigger (perishable, +90d): OJEU citation of EN 301 549 V4.1.1 (forecasts 2026-11-30 / 2026-12-16, secondhand), a DOJ Title II NPRM, publication of the GB/T 37668 revision, a readable copy of GB/T 47523-2026, ISO/IEC 40500:2026.
 - OJEU citation of EN 301 549 V4.1.1: no implementing decision was found (search plus secondary reports forecasting October–November 2026). The audit's
   "citation target ~2026-11-30" mixes this up with the standard's own **doa** date (2026-11-30). Recheck EUR-Lex after 2026-11-30.
 - The audit said "the EAA's legal reference remains v3.2.1 until OJEU citation". Primary sources show V3.2.1 is cited under 2016/2102 (public sector),

@@ -1,7 +1,9 @@
 # WCAG 2.2: the success criteria that shape visual and interaction design (plus WCAG 3 and APCA status)
-- id: wcag-22 · url: https://www.w3.org/TR/WCAG22/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2026-12-26 · licence note: paraphrased digest, not a mirror (W3C Document License)
+- id: wcag-22 · url: https://www.w3.org/TR/WCAG22/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-01-30 (perishable +90d for the WCAG 3 and APCA status; the 2.2 criteria themselves are durable) · licence note: paraphrased digest, not a mirror (W3C Document License)
 > 中文导语：WCAG 2.2 是现在全球法规和采购标准引用的无障碍基线（EN 301 549 v4.1.1、ISO/IEC 40500:2025 都以它为准）。这份摘要只收画稿和写规格时要用到的条款和阈值：对比度、目标尺寸、焦点、拖拽、重排、文本间距、认证。最后说明 WCAG 3 草案和 APCA 的现状：两者都还不能用来判定合规。
+
+Re-read on 2026-11-01 (fetch): the TR page, the WCAG 2.2 errata page, the WCAG 3.0 Working Draft page, the AGWG schedule wiki, WAI news, the WAI "WCAG 2 Overview" (updated 2026-09-17), the W3C blog post of 2026-09-25; repos `w3c/wcag3@c110b49` (2026-10-07) and `w3c/wcag@9b94e18`; apcacontrast.com and git.apcacontrast.com (read by the web-platform verifier the same day). `iso.org` returned 403. Result: nothing in facts 1–32 changed; facts 33–36 record the re-check.
 
 Read on 2026-09-27 (static HTML via curl): WCAG 2.2 Recommendation (`https://www.w3.org/TR/WCAG22/`, dated version
 `REC-WCAG22-20241212`); Understanding pages for 1.4.3, 1.4.11, 2.4.11, 2.4.13, 2.5.7, 2.5.8 (`https://www.w3.org/WAI/WCAG22/Understanding/<slug>.html`);
@@ -151,8 +153,15 @@ Added 2026-09-28 (Understanding 2.1.4 read, `https://www.w3.org/WAI/WCAG22/Under
 - skills/design-studio/scripts/lint.mjs: computed text contrast with no rounding, target boxes below 24 px that fail the 24 px circle test,
   horizontal overflow at 320 px width (reflow), and whether the focused element stays visible under sticky or fixed elements.
 
+Re-checked 2026-11-01
+33. **WCAG 2.2 unchanged**: "This version" is still `REC-WCAG22-20241212`. The errata page (`$Date: 2026/10/01`) lists entries dated 2026-08-17 (six, e.g. "1.4.13 … exception phrasing made consistent", "Single pointer definition: 'touch screen' → 'touchscreen'"), 2025-10-28 (six), 2025-06-27 (five) and 2024-11 (eleven), all editorial; substantive corrections "are not to be considered normative until a new Recommendation is published".
+34. **WCAG 3 unchanged**: the latest WD is still `WD-wcag-3.0-20260910` (no October draft; WAI news lists nothing after 2026-09-25). Contrast text as in fact 25. §3: "For a specified conformance scope to conform to WCAG 3, all core requirements MUST be satisfied"; "A conformance claim is not required in order to conform to WCAG 3". §4: "This section presents reporting tiers, not conformance tiers"; tiers 4–6 Bronze / Silver / Gold are "[TBD number of]"; editor's notes: "An alternative proposal explores using scoring…", "The AGWG has not yet decided whether assertions can be required for conformance". Schedule wiki (last edited 2026-09-10): Q4 2026 "Publish updated working draft in December (Updated provisions and accessibility supported section)"; Q4 2027 "Publish CR Snapshot of WCAG 3"; Q3 2026 "Possible FPWD Note on color algorithm (Research is not sufficient to do this at this time)". W3C blog 2026-09-25 (Shawn Lawton Henry): the September draft "takes a fundamentally different approach", "a single level of conformance", "builds on WCAG 2.2 Level A and AA success criteria"; no dates.
+35. **ISO**: the WAI "WCAG 2 Overview" (updated 2026-09-17) states "ISO/IEC 40500:2025 is exactly the same as the October 2023 version of WCAG 2.2" and "We expect the December 2024 version of WCAG 2.2 to be available as ISO/IEC 40500:2026 by late 2026." `iso.org` (projects 91029, 94018) was unreachable (HTTP 403); a search snippet shows ISO/IEC DIS 40500 edition 3 at stage 40.60 (secondhand).
+36. **APCA page wording (apcacontrast.com, 2026-11-01)**: header "Beta 0.1.7 (G) • Revised May 27, 2022"; footer "APCA W3 is in public beta"; Bronze levels "(preliminary)", Silver "(prelim)"; Lc guide: 90 "Preferred level for fluent text and columns of body text", 75 "The minimum level for columns of body text", 60 minimum "for content text that is not body, column, or block text", 45 "for larger, heavier text (36px normal weight or 24px bold) such as headlines", 30 "The absolute minimum for any text not listed above" (placeholder, disabled), 15 "The absolute minimum for any non-text that needs to be discernible". The page calls APCA "the new contrast method and algorithm being developed for the W3/AGWG accessibility guidelines" and claims no adoption. git.apcacontrast.com carries a "Beta Non-Com" badge; readtech.org/ARC is "ARC Public Beta Draft", "12 March 2023", "should be considered beta". `apca-w3` npm is still 0.1.9.
+
 ## Not verified / open
-- Review trigger (perishable, +90d): the next WCAG 3 WD (planned December 2026) and any change in APCA/ARC status. The 2.2 criterion text is durable.
+- Correction vs the previous version (2026-11-01): no fact changed; facts 33–36 record the re-check and the APCA page's own status wording.
+- Review trigger (perishable, +90d): the December 2026 WCAG 3 WD; ISO/IEC 40500:2026 publication; any change in APCA/ARC status. The 2.2 criterion text is durable.
 - The CJK "equivalent size" for large-scale text has no number in WCAG 2.2 or its Understanding doc. Any px value for Chinese text is practice.
 - WCAG2ICT (applying 2.2 to native apps) was not read for this digest. For non-web software see EN 301 549 clause 11 in `accessibility-law`.
 - The ARC page is labelled beta and can change without notice. The ARC Silver and Gold font lookup tables were not read.

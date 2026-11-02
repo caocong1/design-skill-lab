@@ -1,6 +1,6 @@
 # Nielsen Norman Group: 10 usability heuristics, response-time limits, interaction cost, command names and shortcuts
-- id: nng-heuristics · url: https://www.nngroup.com/articles/ten-usability-heuristics/ · fetched: 2026-09-28 · method: fetch
-- review_by: 2027-09-28 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: nng-heuristics · url: https://www.nngroup.com/articles/ten-usability-heuristics/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：NN/g 的四篇基础文章：Nielsen 十条可用性启发式、三个响应时间界限（0.1 / 1 / 10 s）、"交互成本"的定义，以及命令命名与快捷键指南。它们是"方便、快捷、高效"这类要求的一手出处：把"用着顺手"拆成可以数、可以比的东西（反馈多快、步骤多少、要记住什么）。backlog §4 第 2 项登记的就是这份。
 
 Read on 2026-09-28 (static fetch, article text only; linked sub-articles not read):
@@ -8,6 +8,8 @@ Read on 2026-09-28 (static fetch, article text only; linked sub-articles not rea
 `/articles/response-times-3-important-limits/` (Nielsen, 1993, updated 2014);
 `/articles/interaction-cost-definition/` (Raluca Budiu, 2013-08-31, last reviewed 2024-10-14);
 `/articles/ui-copy/` (Anna Kaley, 2019-03-03, "UI Copy: UX Guidelines for Command Names and Keyboard Shortcuts").
+
+Re-read 2026-11-01: Jakob Nielsen, April 24, 1994, "Last reviewed: Jan. 30, 2024", the same ten titles, and the note that the ten "have remained relevant and unchanged since 1994". The three companion articles were not re-read. Unchanged.
 
 ## Key facts
 1. **The ten heuristics** (#1-#10 on the page): visibility of system status; match between system and real world; user control and freedom;

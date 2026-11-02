@@ -1,9 +1,11 @@
 # WeChat Mini Program design guidelines (微信小程序设计指南) and the elderly-friendly guide (适老化)
-- id: wechat-miniprogram-design-guidelines · url: https://developers.weixin.qq.com/miniprogram/design/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror
+- id: wechat-miniprogram-design-guidelines · url: https://developers.weixin.qq.com/miniprogram/design/ · fetched: 2026-11-01 · method: fetch + browser
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：微信官方的小程序设计指南：四条原则（友好礼貌、清晰明确、便捷优雅、统一稳定）、右上角胶囊不可侵占、标签栏 2-5 项、错误不用一闪而过的 toast、字号 22/17/15/14/12 pt、设计稿 375/390 px。本次同时读了《适老化设计指南》：关怀模式下字体和控件放大 1.4 倍、热区外扩 12 pt、最小 40×40 pt，并给出了各档位的具体字号。
 
 Read on 2026-09-27: the main guide (Chinese; English machine translation offered, Chinese prevails) and `/miniprogram/design/elderly.html` (小程序适老化设计指南). Other sub-guides exist and were not read today: `adapt.html` (大屏适配: PC/tablet, dynamic layout, gesture-to-mouse translation), `accessibility.html` (无障碍), `MaterialDesign.html` (物料设计). The page footer reads "Copyright © 2012-2026 Tencent".
+
+Re-read on 2026-11-01 (headless browser plus the markdown mirror `/miniprogram/design/index.md`, HTTP 200 when requested with `--compressed`; `elderly`, `adapt`, `accessibility` and `MaterialDesign` pages; WeUI via GitHub and npm). Nothing changed; facts 18–19 record the re-check and the 大屏适配 sub-guide.
 
 ## Key facts - main guide
 1. **Four principles** (§一-四): *friendly and polite* - every page has one clear focus, remove elements irrelevant to the user's decision, nothing outside the current flow interrupts it; *clear* - tell users where they are, where they can go, how to go back; secondary pages offer back at top-left (iOS edge-swipe and the Android back key also return); *convenient and elegant* - reduce typing (use APIs such as camera card recognition, location; prefer choosing over typing; search history), avoid mis-taps; *unified and stable* - consistent controls and interactions across pages; WeUI is the standard component library.
@@ -27,6 +29,10 @@ Read on 2026-09-27: the main guide (Chinese; English machine translation offered
 17. **Components** (§3.4): nav bar unscaled at standard, **×1.18** above standard with larger hit area (native nav bar auto-adapts, custom ones must be adapted); bottom tab bar divides width evenly and scales icons/labels (native adapts, custom must be adapted); top tabs scale labels and underline, keep spacing fixed; search bar scales text/graphics, keeps margins; content modules keep edge margins and scale elements, content must remain complete.
 18. **Tooling** (§四): an automatic 适老化 adaptation tool exists but does not cover all cases; test and adapt manually afterwards.
 
+Re-checked 2026-11-01
+19. Page edit dates: index "最后一次编辑于 2026-04-20"; elderly 2026-07-04; adapt 2026-03-01; accessibility 2026-07-04; MaterialDesign 2026-09-16, all before the first read. Facts 3, 6, 8–13 and 15–17 match verbatim (including "23.8（「关怀模式」字号）", iPad +2 = 24.5, nav "16 17 18.5 20 20 20 20", "*1.4（「关怀模式」倍率）", "缩放倍率：1.18", "12pt的反馈热区", "至少≥44pt", "最少40*40pt热区"). WeUI: the design page names no version and links `WEUI_1_0_161226_Sketch.zip` / `WeUI1.0.psd.zip`, while the code is Tencent/weui `v2.6.26` (2026-03-12; npm `weui` 2.6.26, weui-wxss v2.6.26): do not imply that the 1.0 kits match current WeUI. 大屏适配 (`adapt`): unadapted mini programs on PC render at "手机尺寸414x736" (portrait) or "平板尺寸768x1024" (landscape); seven layout patterns; "Navigation Bar与Tab Bar高度（若有），适配后高度保持不变". 物料设计 is offline print material.
+20. Other mini-program hosts were read the same day and digested separately: `alipay-miniprogram-design` (750 px canvas, 24 px margins, 56 px circular logo, tab bar hidden under the keyboard, `.md` endpoints), `baidu-smartprogram-design` (34 px margins, 17 pt reading text, 适老化 18–30 pt) and `cn-mini-program-douyin-kuaishou`.
+
 ## What it changes for the skills
 - skills/design-studio/references/platforms/mini-programs.md: reserve the capsule area before designing navigation; tab bar 2-5 (≤ 4 advised), native bottom tabs only on home; errors never as 1.5-s toasts; one loader per page, local loading preferred; 7-9 mm targets; type centred on 17 pt body with 22/15/14/12; choose 375 (fixed, scaled) vs 390 (responsive) deliberately.
 - skills/design-studio/references/platforms/mini-programs.md and fundamentals/accessibility.md: add the 适老化 numbers - read `wx.getAppBaseInfo`; care mode 1.4× for type/graphics/buttons with fixed spacing; nav bar ×1.18; 12-pt hit extension, 44-pt no-extension threshold, 40 × 40 pt floor; 4.5:1 / 3:1 contrast; custom nav and tab bars must be adapted by hand.
@@ -34,6 +40,7 @@ Read on 2026-09-27: the main guide (Chinese; English machine translation offered
 - skills/critique-design/references/heuristics.md: capsule overlap, >5 tabs, transient error toasts, two loaders on one page and custom nav bars that ignore the font setting are review findings.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): none; facts 18–19 added.
 - The colour palette, list, form, button and icon specs (§5.2-5.6) are images and were not read.
-- The large-screen, accessibility and 物料设计 sub-guides were not read today.
+- The accessibility sub-guide was not read; 大屏适配 was read on 2026-11-01 (fact 18); 物料设计 is offline print material, not UI.
 - The 2026-09-20 digest said the design canvas is "375 px or 390 px"; the page now distinguishes them (375 = fixed/scaled, 390 = responsive), which is recorded above.

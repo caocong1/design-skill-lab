@@ -1,7 +1,9 @@
 # Emil Kowalski on UI animation: essays and published agent skills
-- id: emil-kowalski-animation · url: https://emilkowal.ski/ui/great-animations · fetched: 2026-09-27 · method: fetch
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror (skills repo is MIT)
+- id: emil-kowalski-animation · url: https://emilkowal.ski/ui/great-animations · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (skills repo is MIT)
 > 中文导语：Emil Kowalski（Sonner 作者，曾在 Vercel、Linear 做设计工程）把网页动效手艺压成了可直接执行的规则：先按"出现频率"决定要不要动，再定目的、缓动、时长、属性、可打断性。本文件合并了他的三篇文章和 2026 年发布的 skills 仓库（emil-design-eng、animate、review-animations 等），原计划中的 `emil-kowalski-skills` 一并收在这里。
+
+Re-read on 2026-11-01: https://emilkowal.ski/ (the Writing list is the same 7 posts, undated, nothing new) and https://emilkowal.ski/ui/great-animations (the fact 1 quotes re-found verbatim). The skills repository has since moved to `a81dbca` (2026-10-28) with three added skills; `emil-kowalski-skills` owns the repository facts and digests the additions.
 
 Sources read on 2026-09-27 (all undated on page unless stated):
 - Essays (method fetch): https://emilkowal.ski/ui/great-animations · https://emilkowal.ski/ui/7-practical-animation-tips · https://emilkowal.ski/ui/you-dont-need-animations · https://emilkowal.ski/ui/agents-with-taste

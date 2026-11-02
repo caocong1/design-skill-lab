@@ -1,9 +1,11 @@
 # Chinese Copywriting Guidelines (中文文案排版指北)
-- id: chinese-copywriting-guidelines · url: https://github.com/sparanoid/chinese-copywriting-guidelines · fetched: 2026-09-27 · method: repo@9a5fbeb842f39644352fd79b5d8c6764718105cc
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror (source is MIT)
+- id: chinese-copywriting-guidelines · url: https://github.com/sparanoid/chinese-copywriting-guidelines · fetched: 2026-11-01 · method: repo@9a5fbeb842f39644352fd79b5d8c6764718105cc
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror (source is MIT)
 > 中文导语：sparanoid 维护的《中文文案排版指北》是中文互联网最常被引用的"中英混排空格与标点"约定，规则少、可机械检查（pangu / AutoCorrect）。它是团队约定而非国家标准；排版引擎层面的标准见 `clreq-chinese-text-layout`。
 
 Read on 2026-09-27: `README.zh-Hans.md` and `README.md` (Traditional) on branch `master` at `9a5fbeb` (last commit 2023-08-09; the rules have not changed since). Licence MIT. The original has full right/wrong example pairs; this digest keeps only the rules.
+
+Re-read 2026-11-01 (GitHub API): `master` HEAD is `2c2d89c` (2023-08-09T19:00:17Z), the parent of the pinned merge commit `9a5fbeb` with the same timestamp; the repository's `pushed_at` 2026-10-12 is dependabot and l10n branch activity only; licence MIT. The rules are unchanged, so the pin stays.
 
 ## Key facts
 1. **Spacing - CJK and Latin** (§ 空格 / 中英文之间需要增加空格): put a space between Chinese characters and English words.

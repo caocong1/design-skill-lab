@@ -1,6 +1,6 @@
 # 07 平台规范与中文排版
 
-> 元数据：更新于 2026-09-27 · 依据：apple-hig-liquid-glass、apple-hig-bars、apple-app-icons、material-3-expressive、harmonyos-design、fluent-2、wechat-miniprogram-design-guidelines、clreq-chinese-text-layout、jlreq、chinese-copywriting-guidelines、cjk-font-licensing、wcag-22、accessibility-law、web-baseline-2026 · 复核期限：2026-11-01（GB/T 47523-2026 适老化规范生效、iOS 27.1 正式版；其余摘要 2026-12-26）
+> 元数据：更新于 2026-11-01 · 依据：apple-hig-liquid-glass、apple-hig-bars、apple-app-icons、apple-macos-touch、material-3-expressive、harmonyos-design、harmonyos-motion-curves、fluent-2、wechat-miniprogram-design-guidelines、alipay-miniprogram-design、cn-mini-program-douyin-kuaishou、baidu-smartprogram-design、embedded-host-guidelines、clreq-chinese-text-layout、jlreq、chinese-copywriting-guidelines、cjk-font-licensing、ant-design-spec、tdesign-spec、arco-design-spec、wcag-22、accessibility-law、web-baseline-2026 · 复核期限：2027-01-30（Compose material3 1.5.0 正式版、GB/T 47523 正文可读时提前复核）
 
 一句话：2026 年一张“像那个平台”的稿子，必须画对三样东西——浮在内容上的导航层、按角色指定的系统材质、各平台自己的尺寸与字阶；中文稿子还要过标点、间距、字体授权三关。本篇列出每个目标平台必须画什么、不能再画什么，以及中文排版与字体授权的可执行规则。应用图标（Icon Composer 六种外观、鸿蒙双层图标）的细节归图标主题，本篇只在对照表里点到。
 
@@ -10,10 +10,11 @@
 
 1. **目标平台只改变三样：画框、惯例、约束。** 画框是尺寸、安全区、系统栏；惯例是导航结构、手势、系统组件；约束是字体、图标体系、最小点击区、输入方式。媒介（HTML / CSS / SVG → PNG）、方法与质量标准不变。先定姿态——原生、品牌化原生、自定义——同一产品不混用两套惯用法。依据：本仓库 0.3.0 起的角色边界结论（旧分析 11），经审计列为应保留项（research-knowledge §12）。业内共识。
 2. **三大移动平台都把导航改成“浮在内容上的一层”。** iOS 26 起标签栏是悬浮在底部的 Liquid Glass 层，可随滚动最小化；HarmonyOS 6.1 起新增 56 vp 悬浮式胶囊页签；M3 Expressive 新增浮动工具栏，并用 64 dp 的新导航栏取代 80 dp 旧栏。内容延伸到栏下方。画不透明、贴底、全宽的旧式底栏，在 2026 年是错稿，不只是过时。依据：apple-hig-bars #3–4、harmonyos-design #11、material-3-expressive #23、#27。一手资料。
-3. **iOS / iPadOS 26–27。** 用 27 SDK 构建时系统忽略 `UIDesignRequiresCompatibility`，不能再退出新设计；iOS 27 里 iPhone 应用在可缩放环境中可自由缩放，排版必须由 size class 驱动。HIG 不再给设备尺寸表，也从未给出标签栏、工具栏的高度——这些只在官方 UI Kit 里（本轮未读），样机数值一律标“近似”。依据：apple-hig-liquid-glass #19–20、#30，apple-hig-bars #11。一手资料。
+3. **iOS / iPadOS 26–27。** 用 27 SDK 构建时系统忽略 `UIDesignRequiresCompatibility`，不能再退出新设计；iOS 27 里 iPhone 应用在可缩放环境中可自由缩放，排版必须由 size class 驱动。HIG 不再给设备尺寸表，也从未给出标签栏、工具栏的高度——这些只在官方 UI Kit 里（本轮未读），样机数值一律标“近似”。2026-11-01 复核：27.0.1（09-28）与 27.2（10-26）发布，HIG 相关页面没有新改动；iPhone Duo 2026-10-23 上市，2027-04 起提交须带 Duo 截图。依据：apple-hig-liquid-glass #19–20、#30、#34，apple-hig-bars #11、#29。一手资料。
 4. **Android（M3 Expressive）：规范领先于稳定代码。** 依据：material-3-expressive #5、#12、#23–27、#30、#35–38。一手资料。
    - 规范层：抽屉与底部应用栏“不再推荐”，改用展开式导航栏（220–360 dp）与停靠 / 浮动工具栏（64 dp，不与导航栏同时出现）；连接式按钮组取代分段按钮；expressive 动效是多数场景的默认。
-   - 代码层：Compose 稳定版 1.4.0 只带 64 dp 导航栏与宽 / 模态导航栏；工具栏、按钮组、分裂按钮、FAB 菜单、加载指示器都在 1.5.0-alpha；1.4.0 的动效方案 API 全是 `internal`，代码默认是 standard，只有 `MaterialExpressiveTheme` 才默认 expressive；Views 需 MDC 1.14.0。
+   - 代码层：Compose 稳定版 1.4.0 只带 64 dp 导航栏与宽 / 模态导航栏；工具栏、按钮组、分裂按钮、FAB 菜单、加载指示器都在 1.5.0（2026-10 进入 beta，API 冻结，除形状库与加载指示器外都已公开）；1.4.0 的动效方案 API 全是 `internal`，代码默认是 standard，只有 `MaterialExpressiveTheme` 才默认 expressive；Views 需 MDC 1.14.0，这是 Views 库最后一个稳定版（维护模式）。
+   - 平台：Android 17（2026-06-16）对目标 API 37 的应用取消大屏方向与尺寸的豁免，所有界面都要适配大屏。
 5. **HarmonyOS 6.1+。** 依据：harmonyos-design #11–22。一手资料。
    - 底部页签分平铺式（48 vp，模糊材质）与悬浮式（56 vp 胶囊，沉浸光感）。悬浮式宽度按断点计算：≥ 5 项最宽 360 vp，4 项 328 vp，3 项 248 / 272 vp，2 项 168 / 184 vp，平板整体 ×1.15；不支持滑动内容切换页签。
    - 标题栏 56 vp（大标题 112 vp），渐变模糊层向下延伸 32 vp。
@@ -41,7 +42,7 @@
     - 规范：clreq 给“不多于 1/4 em，行首行尾不加”（调整时可压到 1/8 em）；《中文文案排版指北》要求手打空格（数字与 °、% 之间除外）。
     - 浏览器：`text-autospace: normal | no-autospace` 自 2025-11-11 进入 Baseline，`ideograph-alpha` 等关键字值仍只有 Firefox 与 Safari；`text-spacing-trim`（标点挤压）只有 Chromium。
     - 实测 Chrome 153：初始值是 `no-autospace`，要显式开启；开启后每处插入 1/8 em；已有手打空格处不再叠加。
-12. **中文正文数值是业内共识，不是 clreq 条文。** 行高 1.5–1.8、每行 25–40 字、正文字重 400–500 属实践经验。依据：jlreq #3–4、accessibility-law #22、harmonyos-design #27、wechat-miniprogram-design-guidelines #9、#12、material-3-expressive #20。业内共识（数值）/ 一手资料（旁证与平台字阶）。
+12. **中文正文数值：行高有了 clreq 依据，界面字号有了国内设计系统的一手数字（2026-11-01 更新，原标题"是业内共识"作废）。** clreq 7.1.1 的注：版心行距多半在字号的 50%–100%（即 `line-height` 1.5–2.0），行短字小取低端，超过一个字号也不会更易读。Ant Design 与 TDesign 的界面正文都是 14 / 22，行高 = 字号 + 8 px；桌面最小字号 12 px（TDesign 的 10 px 只作移动端基准）；第二字重 Ant Design 字体页与 Arco 说 500，Ant Design 的 DESIGN.md、TDesign、Semi 用 600；Arco 指南写行高 1.4、代码是 1.5715。每行 25–40 字仍属实践。依据：jlreq #3–4、accessibility-law #22、harmonyos-design #27、wechat-miniprogram-design-guidelines #9、#12、material-3-expressive #20。业内共识（数值）/ 一手资料（旁证与平台字阶）。
     - 一手旁证：jlreq（日文行距为半字到一字，约合 `line-height` 1.5–2.0，横排每行约 40 字）；工信部适老化规范（行距 ≥ 1.3 倍，适老版正文 ≥ 18 dp/pt）。
     - 平台给出的中文 UI 字阶：HarmonyOS Body_M 14 vp、Body_L 16 vp、Title_M 24 vp；微信常用 22 / 17 / 15 / 14 / 12 pt，iOS 关怀模式正文 23.8 px；M3 自 2026-08 按文字系统的字高类别自动加大行高。
 13. **字体栈与语言标注。** 西文字体在前、中文字体在后，否则西文会落进中文字体自带的西文字形；标对 `lang`（zh-CN / zh-TW / ja 决定思源 / Noto CJK 选哪套地区字形，也影响断行）；不要把日文字体混进简中栈；不合成粗体与斜体，中文强调用字重、颜色或着重号（`text-emphasis` 已广泛可用）。Windows 简中 UI 字体是 Microsoft YaHei UI；鸿蒙系统字体是 HarmonyOS Sans（可变字重 40–900）。依据：fluent-2 #10、harmonyos-design #30–31、clreq-chinese-text-layout #11 与浏览器支持节。业内共识 + 一手资料。
@@ -52,6 +53,11 @@
     - 例外提醒：霞鹜新晰黑是 IPA 许可证，不是 OFL。
 15. **维权信号有据，但只到厂商声明为止。** 方正 2015、2022、2023 年，汉仪 2018 年公开声明：带“迷你”“经典”等前缀的“免费字体”多是改名盗版。法院判决本轮未读，“维权频繁”只能说有厂商公开声明支持。依据：cjk-font-licensing #19。一手资料（厂商声明）。
 16. **日文另有规则，不照搬 clreq。** 半角标点加半字空、和欧间四分空、禁则分四级、ruby 为正文半字号且 7 pt 以下改用括注；CSS `line-break` 没有与 jlreq 默认“strict”级精确对应的关键字。中文产品里出现日文时按 jlreq 处理，并标 `lang="ja"`。依据：jlreq #5–18。一手资料。
+
+17. **国内其他小程序宿主各有一套规范，且画布不同。** 支付宝（2026-06-02）：750 px、边距 24 px，导航栏归框架、深浅两套，标签栏 2–5 项且键盘弹出时隐藏，非用户触发的弹窗每页至多 1 个（走查表写 2 个），同屏动效不超过 2 个，LOGO 为圆形、首页 56×56；文档每页有 `.md` 孪生页与 `/mini/llms.txt`。抖音：标签 2–6 字、toast 单行 1.5 s 双行 3 s。快手：414 pt 宽、边距 19 pt、字号 10–24 pt 且不支持自定义字体。百度（2023）：边距 34 px、阅读文本 ≥ 17 pt、适老化 18–30 pt。依据：alipay-miniprogram-design、cn-mini-program-douyin-kuaishou、baidu-smartprogram-design。一手资料。
+18. **嵌入宿主有了宿主自己的规范。** Office 任务窗格在 1366×768 下 Excel 350、Word 329、Outlook 网页版 320 px，默认外边距 20 px、4 px 网格，右上 40×40 px 留给个性菜单，对话框默认占屏 80%，没有深色模式设计页；VS Code 的 webview "只在绝对必要时用"，不许做促销、向导、设置页，主题靠 `--vscode-*` 变量；Chrome 侧边栏只能由用户手势打开、宽度由用户决定，弹出窗口 25×25 到 800×600 px。依据：embedded-host-guidelines。一手资料。
+19. **桌面与鸿蒙的版本事实。** macOS 27 有了触控屏（topic 03 结论 23）；Windows App SDK 稳定版到 2.6.4（2026-10-27），微软文档里"WinUI"与"WinUI 3"两种叫法并存；鸿蒙 API 26.0.0 即 HarmonyOS 7（2026-09-07 发布），`@ohos.arkui.uiMaterial` 需要它；鸿蒙动效数值见 topic 04 结论 16。依据：apple-macos-touch、fluent-2 #30、harmonyos-design #37。一手资料。
+20. **中文字体：许可证文本都没变，版本与新字体在变。** 霞鹜文楷 1.530、霞鹜新晰黑 1.308、更纱黑体 1.0.43；新出现扇尾胄黑 16、文渊字体与文津宋体（均 OFL）；阿里巴巴普惠体官网列 12 个家族（含 Alibaba Sans 172 语种）；荣耀字体的支持页下载改为需要登录。依据：cjk-font-licensing #20–23。一手资料（非法律意见）。
 
 ## 论证
 
@@ -105,14 +111,14 @@ Web 与跨端自绘产品不应在内容层模仿平台玻璃：平台玻璃是�
 
 ## 未决问题
 
-- iOS 标签栏、工具栏、胶囊的几何尺寸（高度、底部内缩、最小化尺寸）只在 iOS 27 UI Kit 里，本轮未读；iPhone Duo 的点尺寸与竖向栏宽度未知；iOS 27 透明度滑杆的范围与默认值未见一手资料；`ToolbarVerticalCompressionBehavior` 仍在 27.1 beta。
+- iOS 标签栏、工具栏、胶囊的几何尺寸（高度、底部内缩、最小化尺寸）只在 iOS 27 UI Kit 里，本轮未读；iPhone Duo 的点尺寸与竖向栏宽度未知；iOS 27 透明度滑杆的范围与默认值未见一手资料；`ToolbarVerticalCompressionBehavior` 已随 27.1 正式发布。
 - M3 按设备类别变化的弹簧值未公开；连接式按钮组 XS 内圆角页面写 4 dp、token 解析为 8 dp。
 - HarmonyOS：断点图、五级材质示意、九种图标配色方向、排版正误示例只在图片里；接口版本“26.0.0”对应哪一版 HarmonyOS 未见一手说明；`background_primary` 深色值疑似文档笔误。
-- 微信大屏适配、无障碍、物料三份子指南未读；配色、列表、表单、按钮规格为图片。
-- GB/T 47523-2026《移动互联网应用程序适老化技术规范》2026-11-01 生效，GB/T 45395-2025 小程序无障碍、GB/T 46070-2025 均未读到正文。
+- 微信大屏适配已读（未适配时按 414×736 或 768×1024 渲染）；无障碍子指南未读；配色、列表、表单、按钮规格为图片。支付宝的色彩、字体、间距规格同样只在图里。
+- GB/T 47523-2026《移动互联网应用程序适老化技术规范》已于 2026-11-01 生效，但 openstd 的预览与下载都要验证码，正文仍未读到；GB/T 45395-2025 小程序无障碍、GB/T 46070-2025 同样未读。
 - 在网站上提供**未修改**的厂商字体文件，算“随软件分发”还是“单独分发”，许可证文本都没有说清；OPPO 明文禁止“提供其他下载渠道”，倾向于否。
 - 国内产品界面文案是否普遍不加中西文空格，需要系统抽样。
-- clreq 的版心、行距章节未摘要，中文正文数值仍缺中文一手依据；Ant Design、TDesign 的字阶与间距未摘要。
+- （2026-11-01 已补：clreq 版心行距、Ant Design / TDesign / Arco / Semi 的字阶与间距，见结论 12。）每行 25–40 字仍缺一手依据。
 - Windows 节电模式是否影响 Mica，两页微软文档互相矛盾；Fluent 的 Copilot 交接模式页本轮未复读。
 - `text-autospace` 在 Firefox、Safari 中的实际渲染与叠加行为未测（本机只有 Chromium）；`overflow-wrap: anywhere` 对中文标点的影响未测。
 
@@ -138,3 +144,4 @@ Web 与跨端自绘产品不应在内容层模仿平台玻璃：平台玻璃是�
 ## 变更记录
 
 - 2026-09-27 重写：由旧分析 08 迁入并全文重写，吸收审计报告 research-knowledge §1–4、§9。新增 iOS 26–27、M3 Expressive、HarmonyOS 6.1、Windows 11 / Fluent 2、macOS 26–27 的一手事实与“必画 / 不再画”表、材质角色对照、点击区对照、jlreq、中文字体授权三档；更正“开放许可字体”与“平台资料不可抓取”两处错误；把中文正文数值降为业内共识；补充 Chrome 153 的禁则与 `text-autospace` 实测；删除仪式性小节。
+- 2026-11-01 复核：结论 3、4、12 改写（iOS 27.x 与 Duo 日期、Compose 1.5.0 beta 与 Views 维护模式、Android 17、中文正文数值改为有出处）；新增结论 17（其他小程序宿主）、18（嵌入宿主的一手规范）、19（桌面与鸿蒙版本）、20（中文字体版本与新字体）；四条未决问题更新或关闭。

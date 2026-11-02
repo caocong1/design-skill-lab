@@ -1,9 +1,9 @@
 # Radix Colors: understanding the 12-step scale
-- id: radix-colors-scale · url: https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: radix-colors-scale · url: https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：Radix Colors 把每条色阶固定为 12 级，每级对应一个用途（背景、组件底色、边框、实色、文字）。这种"色阶级别 = 角色契约"的做法让暗色模式和品牌主题只是重新映射；第 11、12 级文字在同色阶第 2 级背景上保证 APCA Lc 60 / Lc 90。
 
-Read on 2026-09-27 (living documentation page, undated).
+Read on 2026-09-27 (living documentation page, undated). Re-read 2026-11-01: the 12-row use-case table, the Lc 60 / Lc 90 guarantees and the five dark-text families are verbatim identical; npm `@radix-ui/colors` is still 3.0.0 (2023-10-02).
 
 ## Key facts
 1. **12 steps, each with at least one use case** (§ Use cases table): 1 app background · 2 subtle background · 3 UI element background · 4 hovered UI element background · 5 active/selected UI element background · 6 subtle borders and separators · 7 UI element border and focus rings · 8 hovered UI element border · 9 solid backgrounds · 10 hovered solid backgrounds · 11 low-contrast text · 12 high-contrast text.

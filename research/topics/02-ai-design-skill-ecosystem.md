@@ -1,6 +1,6 @@
 # 02 AI 设计 skill 生态与本套件定位
 
-> 元数据：更新于 2026-09-27 · 依据：impeccable、impeccable-slop-rules、taste-skill、ui-ux-pro-max、anthropic-frontend-design-skill、anthropic-design-skills、emil-kowalski-skills、emil-kowalski-animation、design-md-spec、vercel-web-interface-guidelines、openai-apps-sdk-ui、mcp-apps；另有几份未单独写摘要的一手页面，文中给出 URL，均于 2026-09-27 读取 · 复核期限：2026-12-26
+> 元数据：更新于 2026-11-01 · 依据：impeccable、impeccable-slop-rules、taste-skill、ui-ux-pro-max、anthropic-frontend-design-skill、anthropic-design-skills、emil-kowalski-skills、emil-kowalski-animation、design-md-spec、vercel-web-interface-guidelines、openai-apps-sdk-ui、mcp-apps、v0-design-systems-2、figma-make-guidelines、vercel-design-md、genui-evaluation-papers-2026、ant-design-spec、semi-design-tokens-a11y；星数与安装量是 2026-11-01 的读数 · 复核期限：2027-01-30
 
 本篇回答四个问题：别人是怎么做"会设计的 agent"的；本套件和他们重叠在哪里；真正的不同在哪里；0.8.0 借了哪些机制，为什么借。同类项目都在固定提交上通读了 SKILL.md 和参考文件，并由第二位读者核对过。星数和安装量是 2026-09-27 的读数，会过时。
 
@@ -63,6 +63,15 @@
    含义有两点。本套件的系统产物要能和这些宿主互通，不能另起一套格式。生图已经是宿主的默认能力，应该给它一条可选的、记录出处的通道。（一手资料）
 10. **设计理由必须对照渲染结果核查。** "Design Theater" 研究（arXiv 2607.22928，2026-07-24）测了 5 个生成式 UI 工具，共 120 个界面：超过 25% 的设计理由没有体现在界面上，功能需求有 34% 没有实现。凡是要求"写出理由"的套件，本套件也在内，都要做这项核查。（一手资料）
 11. **0.8.0 的借用原则：拿机制，不拿文风、不拿默认值、不拿锁定。** 具体清单见下文采纳表。
+
+12. **2026-10 的同类更新（覆盖结论 4、5 中的过时数字）。**
+   - Impeccable 到 4.8.0（2026-10-26）：检测规则 62 条，其中 16 条只作提示；/slop 页 67 张卡（字体 13、动效 4）；支持 19 个宿主，钩子在 6 个上；"Operate 与 Read 界面一律代码驱动"，出图驱动只留给 Persuade 与 Experience；方向卡改成首屏的 HTML 草图；引擎下载有校验和；关掉遥测也照样从在线目录取方向。星数 98,871。
+   - taste-skill 2026-10-13 起是一个全新的技能（247 个站点研究）：脚本按种子从 20 个方向里抽 3 个，源码规则 23 条、真实 Chrome 检查 93 项，`tells.md` 是不推荐替代品的年代清单；原来的 12 个技能拆到 taste-skill-classics 与 imagegen-skills。它公布了自己的模型评审结果：最后一轮 v2 7.7、不装技能 7.8，也就是输给了不装技能。
+   - Emil Kowalski 的仓库加了 `remove-animations`、`animation-performance`、`break-ui`（共 16 个技能）；UI UX Pro Max 只有打包版本号变动。
+   （一手资料：impeccable 33–40、taste-skill 24–31、emil-kowalski-skills 21–24、ui-ux-pro-max 22）
+13. **同类之间开始收敛到同一套机制：确定性抽取、渲染后的机械门、带年代的痕迹清单、公开评测（含输的结果）。** 本套件的 `seed.py`、`lint.mjs`、anti-slop 的年代表和 `evals/` 正是这四样；差别仍在设计师与实现者分离、中文与国内平台深度、证据层。不能再说这些机制是本套件独有。（推论，基于结论 12）
+14. **托管设计系统的互通：除 Stitch 外，没有一家原生读 Google 的 DESIGN.md。** v0 把设计系统存成 `v0.json`（schema 1，最多三个参考来源）加一个 `SKILL.md`；Figma Make 先读 `Guidelines.md` 再读按部件分的短文件（库级 guidelines 100 KB 建议、200 KB 上限，测试版）；Claude Design 通过 `/design-sync` 从仓库、设计文件或上传物同步，不点名文件格式，独立站 2026-12-14 关闭；Lovable 文档只写 Figma 插件、Figma MCP 与 `.fig` 上传；Vercel 的 `design.md` 是另一种东西（散文规则 + 模型不读的运行时样式表 + 代码检查）。组件库一侧，Ant Design 6.5 发布 `ant.design/design.md`，Semi 有仓库 `DESIGN.md` 与 MCP，shadcn 官方技能加了 DESIGN.md 工作流。结论：DESIGN.md 是给人和 agent 读的描述，交给各宿主时投影成它们各自的格式。（一手资料：v0-design-systems-2、figma-make-guidelines、anthropic-design-skills 33、design-md-spec 32、vercel-design-md、ant-design-spec、semi-design-tokens-a11y）
+15. **"生成的设计彼此雷同"已有测量。** 15 个模型、160 份设计里，模型之间比它们与人类参照更像（Design Creativity Bench，2026-10）；Design Theater 的 120 个界面里，五个工具有四个只实现了 6% 或更少的功能性原则，视觉与布局趋同、主要差在颜色（AIES 2026 收录）。厂商一侧，按模型公布的默认风格清单仍停在 Opus 5.5，之后的 Claude 5 系列指南没有前端审美一节。（一手资料：genui-evaluation-papers-2026、anthropic-design-skills 32）
 
 ## 论证
 
@@ -174,11 +183,11 @@
 - **要不要上编辑钩子**，在编辑后自动跑 lint？收益是即时发现问题，风险是在宿主里越权行事。
 - **实时切换器或旋钮面板**（Emil prototype、Anthropic playground），要不要作为 `options` 的第二种形态？
 - **按模型的渲染先验**，即各模型家族"已经用掉"的风格清单，应该由多样本评测测出来，而不是手写。评测每格至少要 3 个样本才能做。
-- **托管设计系统的互通深度。** Claude Design、v0、Lovable、Figma Make 是否原生读取 DESIGN.md，未核实（design-md-spec 的未决项）。
+- **托管设计系统的互通深度。** 2026-11-01 已核实（结论 14）：除 Stitch 外都不原生读 DESIGN.md。仍未知的是 Stitch 的导入会不会填入它新增的 spacing 与 typography 字段。
 - **本地策展参照库。** Impeccable 在线概念目录的规模和质量没有读到，本套件离线的 `seed.py` 没有"挑战者"目录，要不要自己策展一份本地参照库，未定。
 - **差异能否转化为更好的产出**，要等第一轮评测。评测里的一个偏差来源要预先承认：身份感维度的"与题材无关"判据，本套件自己也在教。
 - **Design Theater 的 25% 能否外推。** 研究对象是 5 个生成式 UI 工具，这个比例放到由 skill 驱动的通用 agent 上是否成立，未知。
-- **参考库 MCP**（Mobbin、Refero）只核实到搜索结果层面；安装量数字出自 skills.sh 页面，还没有单独写摘要。
+- **参考库 MCP**：Mobbin 的 MCP 已从其文档核实，Refero 仍只到搜索结果层面；安装量数字出自 skills.sh 排行榜，属二手读数。
 
 ## 对 skill 的约束
 
@@ -232,3 +241,4 @@
   - 新增：厂商按模型公布的默认风格；平台方设计系统存储；Design Theater；重叠与差异对照；0.8.0 采纳表与不借清单。
 - 2026-09-21 1.1（旧分析 02）：补充 v0 与 impeccable.cn，新增"解药也会过期"一节。
 - 2026-09-21 1.0（旧分析 02）：首版横评。
+- 2026-11-01 复核：新增结论 12–15（同类 10 月更新、机制收敛、托管系统互通的一手核实、雷同的测量）；结论 4、5 中的 Impeccable 与 taste-skill 数字以结论 12 为准，原文保留作为 2026-09-27 的记录；两条未决问题改为已核实或部分核实。

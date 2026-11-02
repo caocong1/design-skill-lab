@@ -1,9 +1,11 @@
 # Shape of AI: UX patterns for AI products
-- id: shape-of-ai · url: https://www.shapeof.ai/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror. The source is shared under **CC BY-NC-SA** ("© Emily Campbell 2025 | Sharable under CC-BY-NC-SA"); this digest of its taxonomy and two pattern pages is offered under the same CC BY-NC-SA terms, not under the repository's MIT licence.
+- id: shape-of-ai · url: https://www.shapeof.ai/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror. The source is shared under **CC BY-NC-SA** ("© Emily Campbell 2025 | Sharable under CC-BY-NC-SA"); this digest of its taxonomy and two pattern pages is offered under the same CC BY-NC-SA terms, not under the repository's MIT licence.
 > 中文导语：Emily Campbell 维护的 AI 产品交互模式库，把 57 个模式分成六族（引导、提示动作、调节、治理、信任、标识），对应六个问题：怎么开始、能要求什么、怎么调、我怎么保持控制、凭什么信、哪里是 AI。本文件摘要索引页和两个模式页（Action plan、Disclosure）。源站为 CC BY-NC-SA，本摘要沿用同一许可。
 
 Read on 2026-09-27: the index page (57 pattern links, confirmed by counting `/patterns/` hrefs), plus `/patterns/action-plan` and `/patterns/disclosure`. The site nav has Patterns, UI Library and About; the "Prompt actions" family is labelled "Inputs" in the family tabs (`/pattern-types/inputs`).
+
+Re-read on 2026-11-01 (static HTML of the index, `/sitemap.xml`, `/patterns/{rating,token-layering,workflow}`, `/pattern-types/dark-matter`). Index unchanged; fact 9 records what the sitemap adds.
 
 ## Key facts
 1. **Wayfinders** (8) - help users construct their first prompt: example gallery, follow up (ask when the prompt is unclear), initial CTA (large open input), nudges, prompt details (show what happens behind the scenes), randomize, suggestions, templates.
@@ -15,6 +17,9 @@ Read on 2026-09-27: the index page (57 pattern links, confirmed by counting `/pa
 7. **Action plan page** (`/patterns/action-plan`): the AI lays out intended steps before running; plans are **advisory** (shown in the stream of thought, user not asked) or **contractual** (user must verify before execution - e.g. Replit, Devin). Forms: step lists, execution previews with approval gates, content outlines (Gamma generates without blocking), adaptive plans that change mid-run. Design considerations: show the plan before committing resources; keep it skimmable (expand per step for detail); make it editable without regenerating everything; let experienced users collapse or bypass it; keep **fidelity between plan and execution** - divergence must update or explain the plan. Trade-off: confirmation adds friction; calibrate when to block.
 8. **Disclosure page** (`/patterns/disclosure`): AI-native products may not need labels, blended products should label AI-generated or edited content, agents should label bot messages; always inform users when AI is involved, especially if data is collected without opt-out. Forms: bot/assistant labelling, feature-level chips ("AI Assist"), output attribution ("AI-generated", "Summarized with AI"). Considerations: name the actor every time and keep the identity through human handoffs (Intercom Fin's per-message badge persists); **label the action, not just the feature** ("Rewrote with AI"); use a distinct style reserved for AI content (iA Writer greys AI text until a human edits it); never fake human interaction and make a human reachable; disclose by default for realistic synthetic media (Content Credentials); allow opt-out - disclosure alone may not be consent.
 
+Re-checked 2026-11-01
+9. The index still links **57** patterns in the six families with the counts above (8 / 14 / 10 / 13 / 7 / 5; the "Prompt actions" tab is `/pattern-types/inputs`); footer still "2025 | Sharable under CC-BY-NC-SA". The sitemap lists **60** pattern URLs: `rating` ("Giving users the ability to rate their interactions has become a table stakes pattern…"), `workflow` (user-defined steps vs "AI generates its own steps… users can observe, verify, or stop"; "dual modes" for construction and inspection) and `token-layering` (live but rendering the Open input page: "A persistent input… / inline / command-style prompt with parameters / a prompt in a panel"), plus a seventh pattern type **`dark-matter`** ("Potentially nefarious, but certainly ambiguous patterns that impact user trust with questionable user value") that is not linked from the family tabs. Facts 7–8's pages were not re-read.
+
 ## What it changes for the skills
 - skills/design-studio/references/disciplines/ai-experience.md: use the six families as the checklist structure (start / ask / steer / stay in control / trust / identify); add the gap Shape of AI covers only as "verification": delegation level and progressive autonomy for long-running or background agents, and hosted/generative UI (see `mcp-apps`, `openai-apps-sdk-ui`, `a2ui`).
 - skills/design-studio/references/disciplines/ai-experience.md: action plans - choose advisory vs contractual by cost and risk; plans editable in place; plan/execution fidelity is a review item.
@@ -22,5 +27,6 @@ Read on 2026-09-27: the index page (57 pattern links, confirmed by counting `/pa
 - Any text copied into the skills from this source must stay short, paraphrased and attributed; the skills are MIT, the source is NC-SA.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): none; fact 9 added (three unlisted pages and a seventh, unlinked pattern type).
 - Only two of the 57 pattern pages and none of the "UI Library" pages were read.
 - Counts per family are from today's index; the library changes as new products appear.

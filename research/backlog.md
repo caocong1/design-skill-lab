@@ -22,11 +22,16 @@
 | 每年 5 月 | Google I/O | `material-3-expressive`、`material-motion-tokens`、`a2ui` |
 | 每年 6 月 | WWDC | `apple-hig-liquid-glass`、`apple-hig-bars`、`apple-app-icons` |
 | 每年 6 月 | HDC（华为开发者大会） | `harmonyos-design` |
-| 随时 | W3C 发布：WCAG 3 工作草案（下一版计划在 2026-12）、clreq / jlreq 修订、DTCG 社区组报告 | `wcag-22`、`accessibility-law`、`clreq-chinese-text-layout`、`jlreq`、`dtcg-2025-10` |
-| 每次发版 | web-features 数据集 | `web-baseline-2026`（`light-dark()` 预计 2026-11-13 转为广泛可用） |
-| 2026-11-01 | GB/T 47523-2026《移动互联网应用程序适老化技术规范》生效；正文尚未读到 | `accessibility-law` |
-| 2026-12-02 | 欧盟 AI 法案第 50(2) 条过渡期结束 | `ai-labelling-law` |
-| 待定 | EN 301 549 V4.1.1 在欧盟官方公报（OJEU）上引用；美国司法部发布 ADA Title II 新规提案；GB/T 37668 修订版发布 | `accessibility-law` |
+| 随时 | W3C 发布：WCAG 3 工作草案（下一版计划在 2026-12）、clreq / jlreq 修订（clreq 下一次月度发布会带上"字素与分词、选择"一节）、DTCG 社区组报告 | `wcag-22`、`accessibility-law`、`clreq-chinese-text-layout`、`jlreq`、`dtcg-2025-10` |
+| 每次发版 | web-features 数据集：2026-11-13 之后第一次发版看 `light-dark()` 是否转为广泛可用；第一份带 Firefox 159 数据的发版看滚动驱动动画 | `web-baseline-2026` |
+| 2026-11-01（已到） | GB/T 47523-2026《移动互联网应用程序适老化技术规范》已生效；正文在 openstd 上要验证码，仍未读到，读到后替换 MIIT 2021 数字 | `accessibility-law` |
+| 2026-11 底 | AI Elements 弃用、迁入 shadcn/ui；EN 301 549 V4.1.1 可能在 OJEU 上引用（二手预测 11-30 或 12-16） | `vercel-ai-elements`、`accessibility-law` |
+| 2026-12-02 | 欧盟 AI 法案第 50(2) 条过渡期结束（ai-experience.md 的 `review_by` 设在 12-03） | `ai-labelling-law` |
+| 2026-12-14 | Claude Design 独立站 claude.ai/design 关闭 | `anthropic-design-skills`、`process/system.md` §8 |
+| 2026 年内 | Compose material3 1.5.0 正式版（Material 官方说法）；ISO/IEC 40500:2026（W3C 预期） | `material-3-expressive`、`wcag-22` |
+| 2027-01 | 欧盟行为准则签署方工作组开始起草音频提示音与图标的交互式第二层 | `ai-labelling-law` |
+| 待定 | EN 301 549 V4.1.1 在欧盟官方公报（OJEU）上引用；美国司法部发布 ADA Title II 新规提案；GB/T 37668 修订版发布；DESIGN.md 的 #182（动效节）合并；Style Dictionary 支持 resolver | `accessibility-law`、`design-md-spec`、`dtcg-2025-10` |
+| 2027-04 | App Store 提交须带 iPhone Duo 截图 | `apple-hig-bars` |
 | 2027-04-26 | 美国 ADA Title II 第一批合规期限（人口 ≥ 5 万的地方政府） | `accessibility-law` |
 
 ### 事件触发（沿用 SEED-001，任一满足即执行）
@@ -40,7 +45,7 @@
 
 ## 3. 旧种子的去向
 
-### SEED-001 新鲜度审查与证据补齐（2026-09-21 种下）
+### SEED-001 新鲜度审查与证据补齐（2026-09-21 种下；第一次季度复核 2026-11-01 执行）
 
 | 原步骤 | 0.8.0 状态 |
 | --- | --- |
@@ -68,23 +73,24 @@
 
 按优先级排列。写摘要前先确认能抓到原文。
 
-1. `apple-hig-generative-ai`：Apple HIG 的 Generative AI 页（AI 体验、输出侧规则）。
+1. ~~`apple-hig-generative-ai`~~：2026-11-01 已完成。
 2. ~~`nng-heuristics`~~：2026-09-28 已完成（见 log）。仍缺 NN/g 付费报告与键盘快捷键专题。
-3. 嵌入宿主窗格：Office 加载项设计指南（learn.microsoft.com）、Chrome 侧边栏、VS Code UX 指南（webview 与面板）。`embedded-hosts` 目前只有一次宿主会话的经验。
-4. 长时 agent 与 AI 交互：Google PAIR Guidebook、Microsoft HAX Toolkit、Ant Design X、Carbon for AI、Vercel AI Elements。
-5. `apple-swiftui-spring`（也可以并入 `apple-hig-liquid-glass`）：Apple 的弹簧参数和"Designing Fluid Interfaces"。另外还缺 HarmonyOS 的动效曲线页。
-6. 色彩：Evil Martians 的 OKLCH 文章（09-21 已抓到，一直没写摘要）、Stripe《Designing accessible color systems》。
-7. 中文排版：clreq 的版心、行距章节；Ant Design / TDesign 的字阶与间距。中文正文的数值目前仍是业内共识，没有一手依据。
-8. 图标：Android 自适应图标安全区、PWA maskable、favicon 最小集合。
-9. 托管设计系统的存储格式：Claude Design、v0、Lovable、Figma Make 是否读 DESIGN.md，以及怎么读。
-10. 数据可视化：FT Visual Vocabulary、Datawrapper Academy、AntV 设计原则、Chartability。`data-dense-ui` 目前基本是经验。
+3. ~~嵌入宿主窗格~~：2026-11-01 已完成（`embedded-host-guidelines`）。仍缺：WPS 加载项的官方规范。
+4. ~~长时 agent 与 AI 交互的规范来源~~：2026-11-01 已完成（`pair-guidebook`、`hax-toolkit`、`ant-design-x`、`carbon-for-ai`、`vercel-ai-elements`）。仍缺：后台运行的通知与恢复有测量的来源。
+5. ~~Apple 弹簧与鸿蒙动效~~：2026-11-01 已完成（`apple-motion-springs`、`harmonyos-motion-curves`）。
+6. ~~色彩~~：2026-11-01 已完成（`evil-martians-oklch`、`stripe-accessible-color`）。
+7. ~~中文排版数值~~：2026-11-01 已完成（clreq 第 14 条、`ant-design-spec`、`tdesign-spec`、`arco-design-spec`、`semi-design-tokens-a11y`）。仍缺：每行字数（25–40 字）的一手依据。
+8. ~~图标安全区~~：2026-11-01 已完成（`icon-safe-zones`；没有标准规定 favicon 最小集合）。
+9. ~~托管设计系统的存储格式~~：2026-11-01 已完成（`v0-design-systems-2`、`figma-make-guidelines`、`vercel-design-md`、design-md-spec 第 32 条）。仍缺：Stitch 的导入会不会填入 spacing 与 typography（要写入真实项目才能测）。
+10. ~~数据可视化~~：2026-11-01 已完成（`ft-visual-vocabulary`、`datawrapper-color-guides`、`antv-design-principles`、`chartability`）。
 11. Refactoring UI 公开文章（Rauno Freiberg 一篇 2026-09-28 已完成：`rauno-interaction-details`）。
-12. 参考库 MCP：Mobbin MCP、Refero MCP。目前只核实到搜索结果层面。
-13. 交互补缺（0.9.0 登记）：触屏 KLM 扩展；子菜单斜向容差（Amazon menu-aim 一类）与拖拽键盘拾取的一手来源；原生平台的输入法组字模型（UIKit `markedTextRange`、Android `InputConnection`、HarmonyOS、小程序 `input`）；APG 的列表框、网格、标签页、树等模式页。
+12. 参考库 MCP：Mobbin MCP 已从其文档核实（目录条目已更新）；Refero MCP 仍只核实到搜索结果层面。
+13. 交互补缺（0.9.0 登记）：触屏 KLM 扩展；子菜单斜向容差（Amazon menu-aim 一类）与拖拽键盘拾取的一手来源；原生平台的输入法组字模型（UIKit `markedTextRange`、Android `InputConnection`、HarmonyOS、小程序 `input`）。APG 的列表框、网格、标签页、树已于 2026-11-01 读完（`wai-aria-apg` 第 12–22 条）。
+14. 2026-11-01 新登记：GB/T 47523-2026 正文（验证码挡住）；WPS 加载项规范；Refactoring UI；国内团队带测量结果的 AI + UI 文章（本轮在腾讯 ISUX、美团、蚂蚁、京东、网易的站点上都没找到）；2026 年关于屏幕阅读的研究里只找到"易读版式对成人无效"（Frontiers, n = 69）与"读写障碍字体无效"（荟萃分析 g = −0.04），行长、中文行距与字距没有新的测量；一项儿童中文在线教育界面的眼动研究（IJHCI 2026，n = 161，只读到摘要）称 14 px、1.5 倍行距最利于学习，未写进规则。
 
 ## 5. 未决的研究问题
 
-- **套件到底有没有让设计变好？** 要等评测第一轮，而且输了也要写出来。按主题 09 的可证伪条件 F1–F9 逐条判定。
+- **套件到底有没有让设计变好？** 两轮评测按事先登记的规则都是"没有明确差别"（主题 09 结论 12）。第三轮要先按提案 P6 与 2026 年的评审研究（主题 09 结论 13）改评测，再跑。
 - **0.7.0 / 0.8.0 的重设计原则在真实项目里是否成立**：从功能地图出发的结构性方向，加上变更成本反向规则。评测 brief 06 只是替身，需要一次真实的宿主重设计。
 - **反馈改动的效果**：`field/2026-09-host-retros.md` 里只有两条"已观察生效"，而且各只有一次观察。下一个宿主项目要回填验证状态。
 - **同一模型家族的新鲜评审能有多独立**，没测过（主题 09）。

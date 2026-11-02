@@ -1,12 +1,14 @@
 # Keystroke-Level Model (Card, Moran and Newell), as taught by David Kieras
-- id: klm-kieras · url: https://www.cs.umd.edu/~golbeck/INST631/KSM.pdf · fetched: 2026-09-28 · method: fetch
-- review_by: 2027-09-28 (durable +365d) · licence note: paraphrased digest, not a mirror (© David Kieras 1993, course copy)
+- id: klm-kieras · url: https://www.cs.umd.edu/~golbeck/INST631/KSM.pdf · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror (© David Kieras 1993, course copy)
 > 中文导语：KLM（击键层模型）是 HCI 里最老也最实用的效率估算法：把一个任务写成一串基本动作（按键、指点、手在键鼠之间移动、想一下、等系统），每个动作查一个标准时间，加起来就是熟练用户完成任务的估计时间。它不需要原型，只要设计说清楚"怎么操作"就能比较两个方案谁更快。这里读的是 KLM 研究者之一 David Kieras 写的教学版本（基于 Card、Moran、Newell 1980 / 1983），原论文在 ACM 付费墙后没读。
 
 Read on 2026-09-28: David Kieras, "Using the Keystroke-Level Model to Estimate Execution Times" (University of Michigan, 1993), the
 whole text (PDF, converted with pdftotext). The primary paper, Card, Moran and Newell, "The keystroke-level model for user performance time
 with interactive systems", CACM 23(7), 1980, pp. 396-410 (doi 10.1145/358886.358895), was **not** read; the operator times below are
 Kieras's statement of them.
+
+Re-read 2026-11-01 (PDF, 29.8 KB, via pdftotext): "© David Kieras, 1993"; "K - Keystroke (.12 - 1.2 sec; .28 recommended for most users)"; "P - Point with mouse … (1.1 sec)", ".8 to 1.5 sec"; "B - Press or release mouse button (.1 sec)"; "BB - Click mouse button (.2 sec)"; "H - Home hands to keyboard or mouse (.4 sec)"; "M - Mental act … (.6 - 1.35 sec; use 1.2 sec)" citing Olson & Olson (1989). Facts 2–3 exact. Unchanged.
 
 ## Key facts
 1. **Method** (§ The Method): choose representative task scenarios; specify the design far enough to list keystroke-level actions; take the

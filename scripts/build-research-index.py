@@ -8,20 +8,24 @@ Inputs
                                  - review_by: YYYY-MM-DD [(note)] · licence note: <text>
                                  - superseded_by: <id> [(note)]          (optional)
                                method tokens: fetch | browser | json-api | repo@<sha>
+  research/sources/archive/    digests taken out of service: superseded, and no longer cited by any
+                               skill. Same header (superseded_by required). Frozen: never re-reviewed,
+                               never cited (citing one is an error), id never reused
   skills/**/*.md               frontmatter "sources: [id, id]" (or a YAML block list) gives cited-by
 
 Output (generated; never edit by hand)
-  research/INDEX.md            every source sorted by id: title, fetched, method, review_by (overdue
-                               marked), superseded_by, cited-by
+  research/INDEX.md            every active source sorted by id: title, fetched, method, review_by
+                               (overdue marked), superseded_by, cited-by; then the archived ones
 
 Usage
   scripts/build-research-index.py                   validate, then write research/INDEX.md
   scripts/build-research-index.py --check           exit 1 if a header is malformed, a skill cites an
-                                                    unknown id, or INDEX.md is stale
+                                                    unknown or archived id, or INDEX.md is stale
   add --warn-unknown to either form                 report unknown cited ids as warnings, not errors
 
 "Overdue" is judged against today's date, so INDEX.md goes stale the day a review_by passes: --check then
-fails until the source is re-reviewed (new fetched + review_by) and the index is rebuilt.
+fails until the source is re-reviewed (new fetched + review_by) and the index is rebuilt. Archived
+sources are exempt: they stay as they were when retired.
 """
 import datetime
 import pathlib
@@ -30,6 +34,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCES = ROOT / 'research' / 'sources'
+ARCHIVE = SOURCES / 'archive'
 SKILLS = ROOT / 'skills'
 INDEX = ROOT / 'research' / 'INDEX.md'
 
@@ -82,7 +87,10 @@ def parse_header(path):
         if rec.get('method') and not METHOD.match(token):
             errors.append(f'{rel}: method token "{token}" is not fetch | browser | json-api | repo@<sha>')
     rec['fetched_date'], rec['review_date'] = fetched, review_by
-    rec['superseded_by'] = (rec.get('superseded_by') or '').split(' ')[0].strip() or None
+    raw = (rec.get('superseded_by') or '').strip()
+    rec['superseded_by'] = raw.split(' ')[0].strip() or None
+    rec['superseded_note'] = raw[len(rec['superseded_by']):].strip() if rec['superseded_by'] else ''
+    rec['archived'] = path.parent == ARCHIVE
     return rec, errors
 
 
@@ -103,19 +111,29 @@ def frontmatter_sources(path):
 
 def load():
     records, errors = {}, []
-    for path in sorted(SOURCES.glob('*.md')):
+    for path in sorted(SOURCES.glob('*.md')) + sorted(ARCHIVE.glob('*.md')):
         rec, errs = parse_header(path)
         errors += errs
         if rec and not errs:
+            if rec['id'] in records:
+                errors.append(f'{path.relative_to(ROOT)}: id "{rec["id"]}" is also '
+                              f'{records[rec["id"]]["file"].relative_to(ROOT)}; an id is never reused')
+                continue
             records[rec['id']] = rec
     for rec in records.values():
-        target = rec['superseded_by']
+        rel, target = rec['file'].relative_to(ROOT), rec['superseded_by']
         if target and target not in records:
-            errors.append(f'{rec["file"].relative_to(ROOT)}: superseded_by "{target}" is not a source id')
+            errors.append(f'{rel}: superseded_by "{target}" is not a source id')
+        elif target and records[target]['archived']:
+            errors.append(f'{rel}: superseded_by "{target}" is itself archived; point at the live successor')
+        if rec['archived'] and not target:
+            errors.append(f'{rel}: an archived source must name the superseded_by that replaced it')
     cited, unknown = {}, {}
     for path in sorted(SKILLS.rglob('*.md')):
         rel = path.relative_to(ROOT)
         for sid in frontmatter_sources(path):
+            if sid in records and records[sid]['archived']:
+                errors.append(f'{rel}: cites archived source "{sid}"; cite {records[sid]["superseded_by"]} instead')
             (cited if sid in records else unknown).setdefault(sid, []).append(rel)
     return records, cited, unknown, errors
 
@@ -125,17 +143,19 @@ def cell(text):
 
 
 def render(records, cited, today):
-    overdue = [r for r in records.values() if r['review_date'] < today]
-    uncited = [sid for sid in records if sid not in cited]
-    latest = max((r['fetched_date'] for r in records.values()), default=None)
+    active = {sid: r for sid, r in records.items() if not r['archived']}
+    archived = {sid: r for sid, r in records.items() if r['archived']}
+    overdue = [r for r in active.values() if r['review_date'] < today]
+    uncited = [sid for sid in active if sid not in cited]
+    latest = max((r['fetched_date'] for r in active.values()), default=None)
     out = [
         '# Research index',
         '',
         '> 生成物，勿手改。由 `scripts/build-research-index.py` 从 `research/sources/*.md` 的头部与',
         '> `skills/**/*.md` frontmatter 的 `sources:` 生成。说明见 [README.md](README.md)。',
         '',
-        f'{len(records)} 份来源摘要 · 被 skill 引用 {len(records) - len(uncited)} 份 · 未被引用 {len(uncited)} 份 · '
-        f'逾期未复核 {len(overdue)} 份 · 最近抓取 {latest or "—"}',
+        f'{len(active)} 份来源摘要 · 被 skill 引用 {len(active) - len(uncited)} 份 · 未被引用 {len(uncited)} 份 · '
+        f'逾期未复核 {len(overdue)} 份 · 已归档 {len(archived)} 份 · 最近抓取 {latest or "—"}',
         '',
         '| id | 标题 | 抓取 | 方法 | 复核期限 | 取代关系 | 被引用 |',
         '| --- | --- | --- | --- | --- | --- | --- |',
@@ -143,9 +163,10 @@ def render(records, cited, today):
     replaces = {}
     for rec in records.values():
         if rec['superseded_by']:
-            replaces.setdefault(rec['superseded_by'], []).append(rec['id'])
-    for sid in sorted(records):
-        rec = records[sid]
+            replaces.setdefault(rec['superseded_by'], []).append(
+                rec['id'] + ('（已归档）' if rec['archived'] else ''))
+    for sid in sorted(active):
+        rec = active[sid]
         review = rec['review_date'].isoformat()
         if rec['review_date'] < today:
             review = f'**逾期** {review}'
@@ -157,6 +178,21 @@ def render(records, cited, today):
         users = ' · '.join(f'[{p.relative_to("skills")}](../{p})' for p in sorted(set(cited.get(sid, []))))
         out.append(f'| [{sid}](sources/{sid}.md) | {cell(rec["title"])} | {rec["fetched_date"]} | '
                    f'{cell(rec["method"])} | {review} | {"; ".join(relation) or "—"} | {users or "—"} |')
+    if archived:
+        out += [
+            '',
+            '## 已归档',
+            '',
+            '> 被取代且不再被任何 skill 引用的摘要，按退役时的内容冻结，不再复核；id 保留，不复用。'
+            '文件在 `research/sources/archive/`。引用它们的 skill frontmatter 会被 `--check` 判错。',
+            '',
+            '| id | 标题 | 抓取 | 由谁取代 | 说明 |',
+            '| --- | --- | --- | --- | --- |',
+        ]
+        for sid in sorted(archived):
+            rec = archived[sid]
+            out.append(f'| [{sid}](sources/archive/{sid}.md) | {cell(rec["title"])} | {rec["fetched_date"]} | '
+                       f'{rec["superseded_by"]} | {cell(rec["superseded_note"]) or "—"} |')
     out.append('')
     return '\n'.join(out)
 
@@ -173,7 +209,8 @@ def main():
         print(f'warning: {w}')
     if errors:
         sys.exit('research index invalid:\n  ' + '\n  '.join(errors))
-    text = render(records, cited, datetime.date.today())
+    today = datetime.date.today()
+    text = render(records, cited, today)
     rel = INDEX.relative_to(ROOT)
     if check:
         if not INDEX.exists() or INDEX.read_text() != text:
@@ -181,9 +218,10 @@ def main():
         print(f'OK  {len(records)} source headers valid, {rel} fresh, {len(warnings)} warnings')
         return
     INDEX.write_text(text)
-    overdue = sum(r['review_date'] < datetime.date.today() for r in records.values())
-    print(f'{rel}: {len(records)} sources, {len(cited)} cited by skills, {overdue} overdue, '
-          f'{len(unknown)} unknown ids cited')
+    archived = sum(r['archived'] for r in records.values())
+    overdue = sum(r['review_date'] < today for r in records.values() if not r['archived'])
+    print(f'{rel}: {len(records) - archived} sources ({archived} archived), {len(cited)} cited by skills, '
+          f'{overdue} overdue, {len(unknown)} unknown ids cited')
 
 
 if __name__ == '__main__':

@@ -1,9 +1,11 @@
 # Visual design rules you can safely follow every time (Anthony Hobday)
-- id: hobday-visual-design-rules · url: https://anthonyhobday.com/sideprojects/saferules/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: hobday-visual-design-rules · url: https://anthonyhobday.com/sideprojects/saferules/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：Anthony Hobday 的一页"安全规则"：28 条视觉基本功（近黑近白、中性色微饱和、阴影模糊约为偏移两倍、嵌套圆角、容器亮度差上限等），作者明言"有理由就可以打破"。其中多条是数字，能直接变成评审或 lint 检查项。
 
 Read on 2026-09-27 (page undated). The page opens: you do not have to follow these every time; break any of them for a good reason; they are safe defaults. The page has 28 rules (28 `<h2>` headings), each with an illustrated right/wrong example; the numbering below follows the page.
+
+Re-read 2026-11-01: page still undated, 28 `<h2>` rules in the same order; facts 2 ("less than 5% saturation"), 16 (4 px offset → 8 px blur), 18 (12 % dark / 7 % light, "about 100 well-designed websites"), 20 (16 px), 21 (70; 60–80), 22 (30 / 60 px) and 24 (inside = outside − distance) verbatim. Unchanged.
 
 ## Key facts
 1. Near-black and near-white instead of pure black and white (pure black is uncomfortably contrasty, pure white too bright); all later "black/white" mean near-black/near-white.

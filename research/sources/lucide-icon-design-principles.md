@@ -1,9 +1,11 @@
 # Lucide icon design language and specification
-- id: lucide-icon-design-principles · url: https://lucide.dev/contribute/icons/design-principles · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: lucide-icon-design-principles · url: https://lucide.dev/contribute/icons/design-principles · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：Lucide 图标库的设计语言与规格：24×24 画布、2 px 居中描边、圆角规则、元素间最少 2 px、用 circle/square 对比视觉重量、模糊测试。今天的版本比上次多了一条"复用已有形状"，并新增了一页用 must/should 分级的正式规格。自绘描边图标时照这套写规则最省事。
 
 Read on 2026-09-27: the design-language page (14 principles; the site also serves an LLM-friendly Markdown copy at `/contribute/icons/design-principles.md`) and the new specification page https://lucide.dev/contribute/icons/specification (`.md` copy read). The older URL `/guide/design/icon-design-guide` was already a 404 on 2026-09-21. Each principle on the page has do/don't figures.
+
+Re-read 2026-11-01 (`/contribute/icons/design-principles.md`): 14 principles with the same titles; 24 × 24 canvas, 1 px safe zone, 2 px strokes, radii 2 px (≥ 8 px) / 1 px / 2.41 px (1 + √2), ≥ 2 px spacing; principle 14 "Reuse established shapes" present. Library: release 1.66.0 (2026-10-31), 2,015 SVGs in `icons/` at that tag (lucide.dev prints no total). Unchanged.
 
 ## Key facts
 1. **Requirement levels** (specification § Requirement levels): **must / must not** = required; **should / should not** = may flex to make a better icon; any exception must be intentional. Must-rules can be broken only by an explicit project exception; when should-rules conflict, choose clarity and consistency with Lucide (§ Priority of requirements).

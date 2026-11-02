@@ -1,6 +1,6 @@
 # Requirements for Japanese Text Layout (JLReq, 日本語組版処理の要件): the rules that matter for UI and web
-- id: jlreq · url: https://www.w3.org/TR/jlreq/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: jlreq · url: https://www.w3.org/TR/jlreq/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：W3C《日本語組版処理の要件》（JLReq）是日文排版的规范性参考，内容来自 JIS X 4051 与出版业实践。本摘要只收界面和网页排版用得上的条目：禁则四级、标点半角加空、和欧间四分空、行长与行距、ruby 与着重点、段首缩进、行调整优先级，以及对应的 CSS 支持现状。中文排版请看 clreq 摘要；这里不重复。
 
 Read on 2026-09-27:
@@ -13,6 +13,8 @@ Read on 2026-09-27:
   - "Japanese Gap Analysis" (`/TR/jpan-gap/`, 2025-05-31).
   - "Requirements for Japanese Digital Text Layout" (jlreq-d), still a GitHub draft (repo pushed 2026-09-18; no /TR/ page — 404).
 - CSS status from the `web-features` package v3.40.0 (jsDelivr) and the CSS Text 3 editor's draft (14 August 2026).
+
+Re-read on 2026-11-01: `/TR/jlreq/` is still the Note of 11 August 2020; repo `w3c/jlreq` at `4394247` (2026-09-18, no commits since); jlreq-d repo at `1e096f2` (2026-10-08, 22 commits since 2026-09-01 drafting sections 1–2; `/TR/jlreq-d/` still 404); web-features 3.44.0 matches facts 20–21 (`text-autospace` feature Firefox 145 / Safari 27 with `normal` / `no-autospace` Baseline 2025-11-11; `text-spacing-trim` Chrome 123; `hanging-punctuation` Safari 26.5; `word-break: auto-phrase` Chrome 119; `text-wrap: pretty` Chrome 117 / Safari 26; `ruby-align` low 2024-12-11; `font-size-adjust` low 2024-07-25; `text-emphasis` high 2024-09-03). Nothing in the facts changed.
 
 ## Key facts
 **Base model** [#principles_of_arrangement_of_kanji_and_kana_characters, #considerations_in_designing_the_kihonhanmen]

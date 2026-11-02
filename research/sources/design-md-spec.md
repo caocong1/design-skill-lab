@@ -1,7 +1,9 @@
 # DESIGN.md format (Google Labs): spec "alpha", @google/design.md CLI 0.4.0, and how Stitch consumes it
-- id: design-md-spec · url: https://github.com/google-labs-code/design.md · fetched: 2026-09-27 · method: repo@9bf8eae67128b6cc55ad9bf86665767deb4c11cd
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror (source is Apache-2.0)
+- id: design-md-spec · url: https://github.com/google-labs-code/design.md · fetched: 2026-11-01 · method: repo@6e5da5382f41edbba9d73b2c62f33f32e9971f15
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (source is Apache-2.0)
 > 中文导语：DESIGN.md 是给 agent 读的设计系统文件。YAML front matter 写 token，Markdown 正文按固定顺序写设计理由。规范版本号是 "alpha"，0.4.0 是 CLI 的版本号。本文记录规范、PHILOSOPHY、CLI 的 lint/diff/export 行为，其中导出实测有损：广色域被压成 sRGB，引用被展开，em 单位会生成非法的 DTCG。另外记录 Stitch 如何读写 DESIGN.md。写 DESIGN.md 模板、做系统互通或交接之前先读本文。
+
+Re-read on 2026-11-01: GitHub API (repo, commits, tags, releases, pulls); `compare/9bf8eae…6e5da53` with patches; raw `README.md` and `packages/cli/src/linter/spec-config.yaml` at `6e5da53`; the npm registry; the Stitch MCP tool schemas as served to a Claude Code session (`upload_design_md`, `create_design_system_from_design_md`, `create_design_system`, `update_design_system`); `google-labs-code/stitch-skills` HEAD. The Stitch docs pages returned only their JavaScript shell, so facts 26, 27 and 29 stand as read on 2026-09-27; the CLI was not re-run.
 
 Read on 2026-09-27:
 - **Repo, cloned at `9bf8eae`.** This is `main` HEAD, "release: 0.4.0 (#161)", 2026-07-27. Files read: `README.md`, `PHILOSOPHY.md`, `docs/spec.md` (generated from `spec-gen/spec.mdx` plus `spec-config.ts`, which loads `packages/cli/src/linter/spec-config.yaml`), the parser, the DTCG exporter and the lint rules.
@@ -12,18 +14,14 @@ Read on 2026-09-27:
 
 ## Key facts
 **Status and versions**
-1. **Repository.** `google-labs-code/design.md`: Apache-2.0, 28,119 stars on 2026-09-27; created 2026-04-10, last push 2026-09-14.
-2. **npm releases of `@google/design.md`.** 0.1.0 and 0.1.1 on 2026-04-21, 0.2.0 on 2026-05-26, 0.3.0 on 2026-06-15, **0.4.0 on 2026-07-27** (latest). Requires Node ≥ 18. It installs two bins, `design.md` and `designmd`; the latter exists because Windows treats the `.md` suffix as a file association.
+1. **Repository.** `google-labs-code/design.md`: Apache-2.0, 28,119 stars on 2026-09-27 and 28,680 on 2026-11-01; created 2026-04-10; last push 2026-10-16 (HEAD `6e5da53`, "docs(spec): allow interleaved YAML code blocks in DESIGN.md (#178)", the only commit since `9bf8eae`).
+2. **npm releases of `@google/design.md`.** 0.1.0 and 0.1.1 on 2026-04-21, 0.2.0 on 2026-05-26, 0.3.0 on 2026-06-15, **0.4.0 on 2026-07-27** (still the latest on 2026-11-01; no tag or GitHub release since). Requires Node ≥ 18. It installs two bins, `design.md` and `designmd`; the latter exists because Windows treats the `.md` suffix as a file association.
 3. **The spec has no numbered version yet.** Its `version` field is **`"alpha"`**: see the spec-config.yaml line `version: alpha` and the README's Status section ("Expect changes to the format"). "0.4" is the CLI version.
-4. **Unmerged work at `9bf8eae`** (open PRs, which show where the format is heading):
-   - #178 (2026-09-14): interleaved YAML code blocks in the spec.
-   - #177: make the DTCG export emit the required `lineHeight`/`letterSpacing`.
-   - #176: project-defined component sub-tokens.
-   - #169: "hypertokens".
-   - #168: shadow export.
-   - #167: a `prose-token-leak` rule.
-   - #166: axis-specific padding.
-   - #164: physical units pt/mm/cm/in.
+4. **Unmerged work at `9bf8eae`, and what became of it by `6e5da53` (2026-11-01):**
+   - #178 (interleaved YAML code blocks) **merged 2026-10-16**: see fact 5a.
+   - Closed without merge: #165, #166 (axis-specific padding), #167 (`prose-token-leak` rule), #168 (shadow export), #169 ("hypertokens"), #173, #174, #175.
+   - Still open: #177 (DTCG export of `lineHeight`/`letterSpacing`), #176 (project-defined component sub-tokens), #164 (physical units pt/mm/cm/in), #163, #170, #148, #143, #142, #141, #138, #136, #133, #130, #128, #115, #112.
+   - Opened since: **#179** grouped tokens across categories and **#180** formalised external @-references (both 2026-10-01); **#182 "Motion & Micro-interaction section and motion tokens"** and **#183 "Voice & Content Strategy section"** (both 2026-10-08). None merged.
 
 **Format** (docs/spec.md)
 5. **File layout.** A DESIGN.md has an optional YAML front matter (between lines that are exactly `---`) followed by a Markdown body. **The tokens are normative and the prose gives context.** Prose may use descriptive colour names such as "Midnight Forest Green" for token names such as `primary`.
@@ -40,6 +38,7 @@ Read on 2026-09-27:
    - `color-mix(in srgb, …)`. Weights may be omitted, but since 0.4.0 a weight that is given must be a percentage: `red 20` is a lint error, `red 20%` is fine (measured).
 
    Colours are converted to sRGB for contrast checks. **Hex `#RRGGBB` is the recommended default.**
+5a. **Interleaved YAML code blocks** (spec at `6e5da53`, merged 2026-10-16). Tokens "may be embedded… in two ways": the YAML front matter, or "Interleaved YAML Code Blocks… fenced ```yaml code blocks placed within the relevant markdown section"; the two may be mixed (metadata in the front matter, `colors` and `typography` inside their own sections). "All blocks are parsed and merged into a single design token tree. Each top-level schema key may be defined at most once across the entire document; defining the same top-level key in multiple blocks is an error." README and `docs/spec.md` gain the consumer-behaviour row "Duplicate top-level YAML key | Error; reject the file". The commit touches README, `docs/spec.md`, `spec-gen/*` and tests only (the new test asserts a hybrid file lints with zero errors); no parser or linter source changed, so the measured 0.4.0 behaviour in fact 15 is not altered by it and was not re-measured.
 8. **Dimension and typography values.**
    - A Dimension is a string with the unit **px, em or rem**.
    - Typography properties: `fontFamily` (string), `fontSize`, `fontWeight` (a number, bare or quoted), `lineHeight`, `letterSpacing`, `fontFeature` (maps to `font-feature-settings`), `fontVariation` (maps to `font-variation-settings`).
@@ -71,7 +70,7 @@ Read on 2026-09-27:
     - Unknown spacing value: kept as a string.
     - Unknown component property: accepted with a warning.
     - **Duplicate section heading: an error; the file is rejected.** Measured with 0.4.0: a file with two `## Colors` headings lints clean (no finding, exit 0), so the CLI does not enforce this rule.
-15. **Parser behaviour** (`parser/handler.ts`, and measured). Tokens are read from the front matter **and from every fenced ```yaml / ```yml block in the body**, then merged. If the same top-level key appears in two blocks, the parser raises DUPLICATE_SECTION. In that case lint reports **one warning and ignores all tokens**; measured exit code 0. A file with no YAML at all produces a single warning: "No YAML content found".
+15. **Parser behaviour** (`parser/handler.ts`, and measured). Tokens are read from the front matter **and from every fenced ```yaml / ```yml block in the body**, then merged. If the same top-level key appears in two blocks, the parser raises DUPLICATE_SECTION. In that case lint reports **one warning and ignores all tokens**; measured exit code 0. A file with no YAML at all produces a single warning: "No YAML content found". Since `6e5da53` this parser behaviour is the documented format rather than an implementation detail (fact 5a), so any compliant reader will treat a stray ```yaml fence in prose as tokens.
 
 **PHILOSOPHY.md**
 16. **Intent over precision.** "The quality of a generated design is determined less by the precision of its values than by how clearly the intent is described." Prose is the focus of the format. Tokens are "context", not rendering instructions, and the maintainers "do not accept or recommend token requirements" in the spec.
@@ -139,11 +138,12 @@ Read on 2026-09-27:
       - `colorVariant`: MONOCHROME, NEUTRAL, TONAL_SPOT, VIBRANT, EXPRESSIVE, FIDELITY, CONTENT, RAINBOW or FRUIT_SALAD.
       - Optional hex overrides for primary, secondary, tertiary and neutral.
       - `designMd`: the Markdown as a string.
+    - **Schema served on 2026-11-01** ("Next ID: 15"): the required set and the enums above are unchanged; the font enum has 68 values (SOURCE_SERIF_FOUR, METROPOLIS and SOURCE_SANS_THREE marked deprecated); `ROUND_TWO` is deprecated as "Unused"; two **optional** fields are new, `spacing: map<string, string>` and `typography: map<level, {fontFamily, fontSize, fontWeight, letterSpacing, lineHeight}>`. Whether `create_design_system_from_design_md` fills them from a DESIGN.md is not stated in the schema and was not tested. `upload_design_md` takes `projectId` + `designMdBase64` ("decoded content must be valid UTF-8"); `create_design_system_from_design_md` takes `projectId`, `selectedScreenInstance {id, sourceScreen}` and the optional `deviceType`.
 29. **Stitch docs that disagree with the 0.4.0 CLI.**
     - The linting-rules page lists **8** rules, not 11, and files unknown component properties under the error rule `broken-ref`.
     - The overview example says "Do maintain **4:1** contrast ratio for all text". The spec and the linter use WCAG AA **4.5:1**. Do not copy the Stitch example.
     - The specification page still types Color as "# + hex code (sRGB)" and its schema has no `omitted` key, while `docs/spec.md` at 0.4.0 accepts any CSS colour and defines `omitted`.
-30. **Stitch Design Skills** (`google-labs-code/stitch-skills` at `0337446`, 8,378 stars).
+30. **Stitch Design Skills** (`google-labs-code/stitch-skills` at `0337446`, 8,378 stars; HEAD unchanged on 2026-11-01).
     - **Path convention:** `.stitch/DESIGN.md`.
     - The docs say "13 agent skills in three plugins" (stitch-design, stitch-build, stitch-utilities); the repo actually has **16** SKILL.md files.
     - The main DESIGN.md skills:
@@ -155,6 +155,7 @@ Read on 2026-09-27:
     - Install with `npx plugins add google-labs-code/stitch-skills --scope project --target claude-code` (or `cursor`, `gemini-cli`, `antigravity`).
     - Stitch's extraction prompt treats the repository as the source of truth and says "nothing invented, nothing placeholder". It says to inherit an existing design system, and to let the product's data shape (a timeline, a graph, a catalog) organise the page.
 31. **`VoltAgent/awesome-design-md`** (`f696123`, 118,191 stars, MIT) is a collection of DESIGN.md files "extracted from real websites". It is useful for studying style DNA, but the brands' IP stays with the brands.
+32. **Other hosts (2026-11-01, primary docs only; details in `figma-make-guidelines`, `v0-design-systems-2` and `vercel-design-md`). No host other than Stitch documents reading DESIGN.md.** v0 Design Systems 2.0 stores an imported system as `v0.json` plus a `SKILL.md`; Figma Make reads its own `Guidelines.md` and a guidelines folder (Markdown, 100 KB recommended, 200 KB cap); Claude Design takes a design system through `/design-sync` from a repository, design files or uploads with no file format named (its help centre also dates the standalone claude.ai/design shutdown to 2026-12-14 and the Enterprise default to 2026-10-15); Cursor points designers at `.cursor/rules/design-system.mdc`; Lovable at its Figma plugin, Figma MCP or `.fig` upload; Vercel's `vercel.com/design.md` is a prose skill file with a runtime stylesheet, not the Google format. Gemini CLI, Jules and Antigravity: no primary page says they read DESIGN.md; the only link is `stitch-skills`' install targets.
 
 ## What it changes for the skills
 - **skills/design-studio/references/process/system.md**
@@ -166,14 +167,15 @@ Read on 2026-09-27:
   - Keep the canonical section order and define `primary`.
   - Give every typography level all five properties, with a unitless `lineHeight` and `letterSpacing` in px or rem, so a DTCG export stays valid. The px/rem constraint is our inference from fact 25, not a spec rule.
   - Declare both `backgroundColor` and `textColor` on components, so the linter checks their contrast. Write states as sibling keys.
-  - Do not add custom top-level YAML keys (modes, motion), and do not put stray ```yaml fences in the prose. Describe modes and motion in prose sections and keep their values in the token files.
+  - Do not add custom top-level YAML keys (modes, motion), and do not put stray ```yaml fences in the prose: since `6e5da53` a fenced YAML block is a spec'd token carrier, and a repeated top-level key is a file-rejecting error (fact 5a). Keep token YAML in the front matter only; describe modes and motion in prose sections and keep their values in the token files.
 - **skills/design-studio/references/process/truth-files.md and process/directions.md**
   - Replace adjective lists and tone sliders with one specific referent sentence ("a point, not a region") plus an intentional Do's/Don'ts list (PHILOSOPHY).
 - **skills/design-studio/references/disciplines/motion-tokens.md**
   - DESIGN.md has no motion vocabulary, and a custom `motion:` YAML block warns in 0.4.0 and is dropped by exporters. Motion lives in DTCG / `tokens.css` (see `dtcg-2025-10`) and is described in prose.
 - **skills/design-studio/references/process/handoff.md and platforms/embedded-hosts.md (hosted design-system interop)**
   - For Stitch: put the file at `.stitch/DESIGN.md` and upload it with the two MCP tools.
-  - Expect Stitch to reduce the system to a seed colour, variant, 3 enum fonts and 4 roundness levels. A project default does not restyle existing screens.
+  - Expect Stitch to reduce the system to a seed colour, variant, 3 enum fonts and 4 roundness levels, plus optional spacing and typography maps whose import path is untested (fact 28). A project default does not restyle existing screens.
+  - Other hosts do not read DESIGN.md (fact 32): hand Figma Make its guidelines folder, v0 its sources, Claude Design its `/design-sync` inputs; DESIGN.md remains the human- and agent-readable description, the token files the implementation.
 - **skills/critique-design/SKILL.md (mechanical track) and skills/design-studio/scripts/lint.mjs**
   - `design.md lint` JSON can be one evidence input. Its findings are not a pass on accessibility or quality.
 
@@ -181,6 +183,7 @@ Read on 2026-09-27:
 - **How `create_design_system_from_design_md` maps a full DESIGN.md onto `DesignTheme`** (for example, whether a 12-colour palette or custom font survives). Not tested: it would mean writing to a live Stitch project.
 - **When DESIGN.md was open-sourced.** The claim "open-sourced on 2026-04-23" in the audit's research-knowledge.md comes from a secondary source. The primary sources show the GitHub and npm 0.1.0 release on **2026-04-21**, and the repo was created on 2026-04-10.
 - **Stitch's CLI page.** `/docs/design-md/cli/` rendered the generic docs landing page in headless Chrome, so its content was not read.
-- **Other hosts.** Whether Claude Design, v0, Lovable or Figma Make read DESIGN.md natively was not checked here.
+- **Other hosts.** Resolved on 2026-11-01 from primary docs (fact 32): none of Claude Design, v0, Lovable, Figma Make or Cursor documents reading DESIGN.md; what each reads instead is recorded there.
 - **Stitch March-2026 redesign.** The claim that it made DESIGN.md first-class (from the audit's research-skills.md) was not verified from a primary source.
+- Correction vs the previous version (2026-11-01): facts 1, 2, 4, 28 and 30 refreshed; 5a and 32 added; fact 15 noted as now spec'd. Facts 26, 27 and 29 (Stitch docs) could not be re-read; the "when open-sourced" item is unchanged (a search snippet of an `@stitchbygoogle` post dated 2026-04-23 says the spec was open-sourced "yesterday", i.e. 2026-04-22; not fetched from x.com; the 0.1.0 release is 2026-04-21).
 - **Fact-check pass 2026-09-27.** An independent re-read of the repo at `9bf8eae`, npm, the GitHub API, the Stitch pages (headless Chrome), the two related repos, and fresh CLI 0.4.0 probe runs corrected facts 7, 12, 26 and 28, and added findings to 14 and 29. Everything else matched the sources, including all export, diff and exit-code measurements.

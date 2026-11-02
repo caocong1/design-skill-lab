@@ -1,7 +1,7 @@
 # DESIGN.md format (Google Labs) - README-level digest
 - id: design-md-format · url: https://github.com/google-labs-code/design.md · fetched: 2026-09-27 · method: repo@9bf8eae67128b6cc55ad9bf86665767deb4c11cd
 - review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror (source is Apache-2.0)
-- superseded_by: design-md-spec (full spec 0.4 digest, including PHILOSOPHY.md); keep this file only as the short README-level summary and for old citations
+- superseded_by: design-md-spec (full spec 0.4 digest of the same commit, including PHILOSOPHY.md). Archived 2026-11-01: not cited by any skill since 0.8.0; kept as the README-level summary for old citations
 > 中文导语：DESIGN.md 是 Google Labs 开源的"给编码 agent 读的视觉身份文件"格式：YAML front matter 放 token（规范性），Markdown 正文放理由；配套 CLI 可 lint、diff、导出到 DTCG / Tailwind。本文件是 README 层面的摘要，已被 `design-md-spec` 取代；新引用请指向后者。
 
 Read on 2026-09-27: `README.md` at tag commit `9bf8eae` ("release: 0.4.0 (#161)", 2026-07-27; repo created 2026-04-10, last push 2026-09-14). npm `@google/design.md` latest = 0.4.0 (published 2026-07-27). The Stitch-hosted spec page https://stitch.withgoogle.com/docs/design-md/specification answered HTTP 200 but is a JS app and was not read; `docs/spec.md` in the repo is covered by `design-md-spec`.

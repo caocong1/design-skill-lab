@@ -1,6 +1,6 @@
 # Apple HIG: Liquid Glass (Materials, Color, Layout, Typography) for iOS, iPadOS and macOS 26–27
-- id: apple-hig-liquid-glass · url: https://developer.apple.com/design/human-interface-guidelines/materials · fetched: 2026-09-27 · method: json-api + fetch
-- review_by: 2026-12-26 · licence note: paraphrased digest, not a mirror
+- id: apple-hig-liquid-glass · url: https://developer.apple.com/design/human-interface-guidelines/materials · fetched: 2026-11-01 · method: json-api + fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：苹果 2025 年起把 Liquid Glass 定为 iOS/iPadOS/macOS 26 的"功能层"材质，2026 年（27 系列）继续调整：加入透明度滑杆，并且用 27 SDK 构建时不能再关掉新设计。本文汇总 HIG 的 Materials、Color、Layout、Typography、Scroll views、Branding 页面（通过 DocC JSON 读取，每页都带更新日期）以及 WWDC25/26 讲座原文。画 iOS/macOS 稿子、写规格之前先看这份。
 
 Read (all 2026-09-27; HIG pages via `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<page>.json`):
@@ -9,6 +9,8 @@ materials, color, layout, typography, scroll-views, branding, buttons, the-menu-
 `/documentation/bundleresources/information-property-list/uidesignrequirescompatibility`; WWDC25 219 "Meet Liquid Glass", 356 "Get to know
 the new design system"; WWDC26 269 "What's new in SwiftUI", 278 "Modernize your UIKit app", 289 "Modernize your AppKit app" (transcripts on
 developer.apple.com/videos/play/…); Apple Newsroom 2026-06-08 (https://www.apple.com/newsroom/2026/06/apple-aids-app-development-with-new-intelligence-frameworks-and-advanced-tools/); HIG "What's new" (https://developer.apple.com/design/whats-new/).
+
+Re-read on 2026-11-01 (DocC JSON for materials, color, layout, typography, scroll-views, branding, the-menu-bar, buttons, motion; developer docs `technologyoverviews/adopting-liquid-glass` and `uidesignrequirescompatibility`; the What's New feed and the releases page). Nothing in facts 1–32 changed; facts 33–35 record the re-check.
 
 ## Key facts
 **Materials** (change log: 2025-06-09 added Liquid Glass; 2025-09-09 updated; no 2026 entry as of 2026-09-27)
@@ -98,6 +100,11 @@ Cyan    #00C0E8 #3CD3FE #007EAE #6DD9FF   Gray6   #F2F2F7 #1C1C1E #EBEBF0 #24242
     - Glass controls can get a new "bounce on click" effect; use it only on controls.
 32. Design kits: a 2026-06-23 news post announced iOS, iPadOS and macOS 27 design kits for Figma and Sketch, with Liquid Glass updates, more components and states, naming aligned with code, better resizing, and Dark Mode for macOS. The What's new page then lists "New iOS and iPadOS 27 UI Kit for Figma" and "New macOS 27 UI Kit for Figma" on 2026-09-17 (updated components, system colours, app icons). [design/whats-new; developer.apple.com/news/?id=e2lxw9l1]
 
+Re-checked 2026-11-01
+33. Change logs today: Materials still "September 9, 2025" (no 2026 entry); Color and Typography "December 16, 2025"; Scroll views "June 8, 2026"; Layout and Branding "September 9, 2026"; Menu bar "June 9, 2025". The What's New feed lists no guidance entry for these pages after 2026-09-27. Facts 2, 4–6, 8, 24, 26, 27 and 30 re-found verbatim (fact 30: "The system ignores this key when you build for iOS 27 or later, iPadOS 27 or later, Mac Catalyst 27 or later, macOS 27 or later, or tvOS 27 or later.").
+34. Releases since 2026-09-27 (developer.apple.com/news/releases, as printed): iOS, iPadOS, macOS, watchOS and visionOS 27.0.1 on September 28, 2026; iOS 27.2 (24B119 and 24B91020), iPadOS 27.2, macOS 27.2 (26B123), tvOS, visionOS and watchOS 27.2 on October 26, 2026; Xcode 27.1 (27A9275) October 15 and Xcode 27.2 (27B52) October 29. The page lists no "iOS 27.1" release at all.
+35. The HIG Motion page (change log 2025-09-09) says Liquid Glass "responds to direct touch interaction with greater emphasis… but produces a more subdued effect when a person interacts using a trackpad". With touch displays arriving on macOS 27 (digest `apple-macos-touch`, 2026-10-28) that sentence now applies to the Mac as well.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/materials.md: State the two-layer model (glass = functional layer only; standard materials inside content), regular vs clear, the three conditions for clear, the 35% dimming, no glass on glass, and how glass behaves under the accessibility settings and the iOS 27 slider. Also state that Apple publishes no blur or opacity numbers, so any web or CSS rendering is a labelled approximation.
 - skills/design-studio/references/platforms/ios.md: Build the iOS/iPadOS section on facts 1–13, 17–23 and 29–30. State that there is no opt-out with the 27 SDKs, that iPhone apps are resizable in iOS 27, that scroll edge effects replace opaque bars, and that section headers are title case.
@@ -113,6 +120,7 @@ Cyan    #00C0E8 #3CD3FE #007EAE #6DD9FF   Gray6   #F2F2F7 #1C1C1E #EBEBF0 #24242
 - skills/design-studio/references/disciplines/brand.md: "Express brand colour in the content layer, not on controls" (fact 16).
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): none; facts 33–35 added. Still open: the iOS 27 transparency slider range, and whether the `UIDesignRequiresCompatibility` compatibility mode persists for 26-SDK apps running on 27.
 - Apple publishes no blur radius, tint opacity or refraction numbers for Liquid Glass, and the only numeric rule is the 35% dimming layer. Any CSS numbers in the kit must be marked as an approximation.
 - The exact range of the iOS 27 transparency slider and its default position are not in the HIG. The only sources are the Newsroom and WWDC26 269, and the HIG Materials page has no 2026 update. A secondary report of an "ultra clear to fully tinted" range remains unverified.
 - It is not confirmed whether the HIG's "preferred look for Liquid Glass" setting and the iOS 27 slider are the same control.

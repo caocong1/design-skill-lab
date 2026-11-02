@@ -1,7 +1,7 @@
 # Design Tokens Format Module 2025.10 (DTCG)
 - id: dtcg-design-tokens-format · url: https://www.designtokens.org/tr/2025.10/format/ · fetched: 2026-09-27 · method: fetch
 - review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
-- superseded_by: dtcg-2025-10 (covers the whole 2025.10 release: Format + Color + Resolver). This file stays as the Format-module digest.
+- superseded_by: dtcg-2025-10 (covers the whole 2025.10 release: Format + Color + Resolver). Archived 2026-11-01: not cited by any skill since 0.8.0; kept as the Format-module digest for old citations
 > 中文导语：W3C 设计 token 社区组（DTCG）2025-10-28 发布的第一个稳定版 token 交换格式。本文件只摘 Format 模块（token 结构、类型、组、引用）；Color 模块只列要点；Resolver（主题/模式）模块是同一稳定版的一部分，详见 `dtcg-2025-10`。
 
 Read on 2026-09-27: the Format module "Final Community Group Report 28 October 2025" (editors Louis Chenais, Kathleen McMahon, Drew Powers, Matthew Ström-Awn, Donna Vitan) and the Technical Reports index https://www.designtokens.org/technical-reports/ ; Color module https://www.designtokens.org/tr/2025.10/color/ for the colour-space list.

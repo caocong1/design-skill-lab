@@ -1,9 +1,11 @@
 # Butterick's Practical Typography: summary of key rules
-- id: practical-typography-key-rules · url: https://practicaltypography.com/summary-of-key-rules.html · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: practical-typography-key-rules · url: https://practicaltypography.com/summary-of-key-rules.html · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：Matthew Butterick《实用排版》的"关键规则摘要"：正文四要素（字号、行距、行长、字体）的三个数字区间，以及引号、强调、全大写、段落间距、连字等 26 条西文排版基本功。中文排版数值不同，见 `clreq-chinese-text-layout`。
 
 Read on 2026-09-27 (web book, continuously revised; page undated). The page has **26** numbered rules; the 2026-09-21 digest merged them into 15 and slightly misstated two (see "Not verified / open").
+
+Re-read 2026-11-01: still 26 numbered rules, page undated; facts 2–4 ("10–12 points … 15–25 pixels"; "120–145%"; "45–90 characters"), rule 15 ("5–12% extra letterspacing"), rule 17 (1–4× indent or 4–10 pt), rule 22 ("longer than three pages") and rules 25–26 verbatim. Unchanged.
 
 ## Key facts
 1. The four most important body-text decisions: **point size, line spacing, line length, font** (rule 1).

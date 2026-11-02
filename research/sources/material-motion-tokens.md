@@ -1,6 +1,6 @@
 # Material 3 motion tokens: easing/duration curves and the two spring schemes
-- id: material-motion-tokens · url: https://m3.material.io/styles/motion/overview/how-it-works · fetched: 2026-09-27 · method: browser
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror (values copied as data)
+- id: material-motion-tokens · url: https://m3.material.io/styles/motion/overview/how-it-works · fetched: 2026-11-01 · method: browser + json-api
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (values copied as data)
 > 中文导语：Material 3 的动效正从"缓动曲线 + 时长"迁移到"弹簧物理"。弹簧有两套预设方案：expressive（Material 官方建议大多数场景用，有明显回弹）和 standard（功能型、几乎不回弹）。上一版摘要把 MDC-Android 文档里的数值（0.9/1400 等）误标成"M3 Expressive 弹簧"，那其实是 standard 方案；而 Compose 的 `MaterialTheme` 默认也是 standard，只有 `MaterialExpressiveTheme` 默认 expressive。
 
 Sources read on 2026-09-27:
@@ -8,6 +8,8 @@ Sources read on 2026-09-27:
 - androidx `compose/material3` on branch `androidx-main` (HEAD `23327507f7fc`, 2026-09-27): `MaterialTheme.kt`, `MotionScheme.kt`, `tokens/StandardMotionTokens.kt`, `tokens/ExpressiveMotionTokens.kt` (raw GitHub mirror).
 - Stable `androidx.compose.material3:material3-android:1.4.0` sources jar (Google Maven); latest on Maven = `1.5.0-alpha29` (lastUpdated 2026-09-23).
 - MDC-Android `docs/theming/Motion.md` (last changed 2025-01-07, `ed6c81b`).
+
+Re-read on 2026-11-01 (both motion pages in headless Chrome; the motion token JSON at DSDB snapshot `2026-10-13_06-10-19`; `tokens/ExpressiveMotionTokens.kt`, `tokens/StandardMotionTokens.kt` and `MaterialTheme.kt` at androidx `c6f38aee`). Values unchanged; fact 10's status wording updated; fact 15 records the re-check. MDC `Motion.md` (facts 13–14) was not re-read.
 
 ## Key facts
 1. **Physics replaces curves** (How it works, intro): "The physics system is replacing the previous system based on easing and duration"; introduced with M3 Expressive.
@@ -28,11 +30,14 @@ Sources read on 2026-09-27:
 
    MDC-Android `Motion.md` lists exactly the **standard** column as its six `?attr/motionSpring*` attributes; it has no expressive values.
 9. **Derived equivalents** (computed here, mass 1: perceived duration = 2π/√k, bounce = 1 − ζ as in SwiftUI `spring(duration:bounce:)`, peak overshoot = e^(−ζπ/√(1−ζ²))): expressive fast spatial 222 ms / bounce 0.4 / 9.5 % overshoot; expressive default 322 ms / 0.2 / 1.5 %; expressive slow 444 ms / 0.2 / 1.5 %; standard fast 168 ms / 0.1 / 0.15 %; standard default 237 ms / 0.1 / 0.15 %; standard slow 363 ms / 0.1 / 0.15 %; effects fast/default/slow 102 / 157 / 222 ms, no overshoot.
-10. **Which scheme Compose uses by default** (code): on androidx-main (1.5.0-alpha), `MaterialTheme(...)` defaults to `MotionScheme.standard()` (`MaterialTheme.kt`: `motionScheme: MotionScheme = standard()`), while `MaterialExpressiveTheme(...)` defaults to `MotionScheme.expressive()` when no outer expressive theme exists. In stable **1.4.0**, `MotionScheme.standard()/expressive()` and `MaterialExpressiveTheme` are `internal`, and the motion-scheme composition local defaults to `standard()` - so a stable-Compose app gets standard springs, and expressive motion needs the 1.5 alpha line.
+10. **Which scheme Compose uses by default** (code): on androidx-main (1.5.0-alpha), `MaterialTheme(...)` defaults to `MotionScheme.standard()` (`MaterialTheme.kt`: `motionScheme: MotionScheme = standard()`), while `MaterialExpressiveTheme(...)` defaults to `MotionScheme.expressive()` when no outer expressive theme exists. In stable **1.4.0**, `MotionScheme.standard()/expressive()` and `MaterialExpressiveTheme` are `internal`, and the motion-scheme composition local defaults to `standard()` - so a stable-Compose app gets standard springs, and expressive motion needs the 1.5 line (1.5.0-beta02 on 2026-11-01, where `MotionScheme` and `MaterialExpressiveTheme` are public API: `material-3-expressive` fact 37).
 11. **Implementation status** (How it works, status table and § Application > Components): Jetpack Compose "Available" - 21 Material components use physics by default; Android Views (MDC-Android) "Available. Not added to components" (support "coming soon"); Flutter "Unavailable"; Web "Compatible with Compose springs. See specs".
 12. **Customisation levels** (§ Advanced customizations, Compose): level 1 use a preset scheme; level 2 build a custom `MotionScheme` returning different `AnimationSpec`s; level 3 swap the scheme per element by overriding the CompositionLocal.
 13. **Legacy curve tokens** (MDC-Android `Motion.md` § Curves): standard `cubic-bezier(0.2, 0, 0, 1)`; standard decelerate `(0, 0, 0, 1)`; standard accelerate `(0.3, 0, 1, 1)`; emphasized = path `M 0,0 C 0.05,0 0.133333,0.06 0.166666,0.4 C 0.208333,0.82 0.25,1 1,1`; emphasized decelerate `(0.05, 0.7, 0.1, 1)`; emphasized accelerate `(0.3, 0, 0.8, 0.15)`; linear `(0, 0, 1, 1)`. Durations: short 50/100/150/200, medium 250/300/350/400, long 450/500/550/600, extra long 700/800/900/1000 ms; "duration should increase as the area/traversal of an animation increases".
 14. **Transition patterns** (MDC-Android): container transform, shared axis, fade through, fade.
+
+Re-checked 2026-11-01
+15. Fact 8's values are identical in the 2026-10-13 token snapshot and in the Kotlin token files (Expressive 0.6/800, 0.8/380, 0.8/200; Standard 0.9/1400, 0.9/700, 0.9/300; effects 1.0/3800, 1600, 800); fact 11's status table is identical. The token database's "Motion scheme" context lists only Standard and Expressive plus an "iOS" tag whose spring values are all `"undefined": true`; no wearable or tablet values are public.
 
 ## What it changes for the skills
 - skills/design-studio/references/disciplines/motion-tokens.md: label 0.9/1400, 0.9/700, 0.9/300 as the **standard** scheme; add the expressive column; add the derived duration/bounce table (fact 9) so springs map to SwiftUI `duration/bounce` and CSS `linear()` samples; note device-class variation; keep speed-by-coverage and the spatial/effects split as durable rules.
@@ -41,6 +46,7 @@ Sources read on 2026-09-27:
 - skills/implement-design/references/stacks.md: Compose - read `MaterialTheme.motionScheme` specs instead of hand-written `spring(...)`; Views - `MotionUtils.resolveThemeSpringForce` with the six `motionSpring*` attributes (standard values).
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): fact 10 wording only (beta instead of alpha); fact 15 added.
 - Per-device-class token values (wearable, tablet) were not found as numbers; only the phone values in the Compose token files are listed.
 - The m3.material.io "specs" pages for converting springs to web were not read.
 - Correction vs the 2026-09-21 digest: it titled the MDC table "M3 Expressive springs"; those values are the standard scheme. It also did not say which scheme is Material's recommended default (expressive) or which one Compose applies by default (standard, unless `MaterialExpressiveTheme`).

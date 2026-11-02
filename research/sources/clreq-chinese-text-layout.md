@@ -1,9 +1,11 @@
 # Requirements for Chinese Text Layout (clreq, 中文排版需求)
-- id: clreq-chinese-text-layout · url: https://www.w3.org/TR/clreq/ · fetched: 2026-09-27 · method: fetch
-- review_by: 2027-09-27 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: clreq-chinese-text-layout · url: https://www.w3.org/TR/clreq/ · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：W3C 国际化兴趣组中文布局任务组编写的《中文排版需求》是中文排版的规范性参考（禁则分级、标点挤压、中西间距、行间标点）。本摘要只取与界面和网页排版直接相关的条目；竖排、注音等章节未展开。浏览器实现状态单列，因为那部分易腐。
 
 Read on 2026-09-27: the latest published version, "W3C Group Note Draft 01 September 2026" (`https://www.w3.org/TR/2026/DNOTE-clreq-20260901/`), editors Fuqiao XUE and Richard Ishida. The TR is trilingual (English, Simplified, Traditional). Note: `www.w3.org` answered a bot challenge to a plain client; a request with browser-like headers returned the full document. The note is republished roughly monthly (per earlier research: 2025-10-08 … 2026-08-04, 2026-09-01).
+
+Re-read on 2026-11-01: the TR is now "W3C Group Note Draft 07 October 2026" (`https://www.w3.org/TR/2026/DNOTE-clreq-20261007/`). Repo `w3c/clreq` at `08a701f` (2026-10-25); commits since 2026-09-01: 2026-09-04 (`others/system-font-mappings.md`), 2026-09-09 dark mode and 2026-09-16 `text-spacing-trim` touch only the document's own CSS, 2026-10-25 "Grapheme/word segmentation & selection (#793)" adds a section to the editor's draft (fact 13), not yet in a published TR. So the 2026-10-07 publication differs from 2026-09-01 only in styling; facts 1–12 stand. Every fragment id cited below resolves in the 2026-10-07 TR; `#line_adjustment` is now numbered 6.2.2 (ids are the stable reference, numbers drift).
 
 ## Key facts
 1. **Line-start / line-end prohibition levels** (§6.1.1 行首行尾禁则, https://www.w3.org/TR/clreq/#prohibition_rules_for_line_start_end): four levels - *none* 不处理 (common in Taiwan/Hong Kong newspapers); *basic* 基本处理 - pause marks (、，。：；！？), closing quotes, closing brackets, closing book-title marks (乙式), connector marks, interpuncts and solidi never start a line; opening quotes, brackets and book-title marks never end a line - **"the most recommended"**; *GB-style* GB法 - basic plus the solidus (分隔号) may not end a line; *strict* 严格处理 - GB-style plus dashes and ellipses may not start a line.
@@ -19,7 +21,11 @@ Read on 2026-09-27: the latest published version, "W3C Group Note Draft 01 Septe
 11. **Emphasis marks** (§5.3.1 着重号, https://www.w3.org/TR/clreq/#h_emphasis): dots (U+25CF or U+2022) under the text in horizontal writing (right side in vertical); normally not placed under punctuation; Chinese-dominant text keeps them below even when Japanese is embedded (Japanese puts them above).
 12. **Interlinear marks and leading** (§5.6.1 行间标点的处理, https://www.w3.org/TR/clreq/#handling_interlinear_punctuation): with proper-name lines, wavy book-title lines or emphasis dots, single-sided setting needs line gap ≥ 1/2 of the font size, double-sided ≥ 5/8; set it in the base grid from the start, never enlarge single lines locally. Horizontal text uses single-sided setting; line before dots when both occur ("先线后点").
 
-## Browser implementation (perishable; web-features 3.40.0 `data.json`, checked 2026-09-27)
+13. **Segmentation and selection** (editor's draft `https://w3c.github.io/clreq/#h_segmentation`, added 2026-10-25, pending the next monthly publication): "Cursor movement, deletion, and selection should operate on grapheme cluster boundaries"; "A caret should never be placed inside a grapheme cluster, and the Backspace and Delete keys should remove the whole cluster"; "Word segmentation is inherently ambiguous" (研究生命的起源 → 研究/生命/的/起源 or 研究生/命/的/起源); sentences end at 。？！ plus any closing quote or bracket, "The ellipsis (……) may also end an unfinished sentence", and a period inside a decimal or an abbreviation is not a boundary. Relevant to caret movement, double-click and word-level selection, and "delete word" in text fields (interaction.md).
+
+14. **Type-area line gap** (§7.1.1 Page design, a Note, read in the 2026-10-07 TR): "The line gap for the type area is commonly set to a value between 50% and 100% of the height of the character frame used for the type area. A shorter line gap can be chosen in cases where the line length is short or the font size of the type area is relatively small. On the other hand, the line gap usually does not exceed the font size. Increasing the line gap beyond the font size does not improve the reading experience." (版心的行距多半介于字型大小的50%–100%之间…行距一般不会超过字型大小). With all characters the same size, "line height = font size / 2 + line gap + font size / 2 = font size + line gap" (行高=字型大小+行距). In CSS terms, Chinese body text set solid in a type area takes `line-height` **1.5 to 2.0**, shorter lines and smaller sizes toward 1.5, and nothing above 2.0 helps reading. This is the first clreq number for Chinese body leading; until now the lab held 1.5–1.8 as practice.
+
+## Browser implementation (perishable; web-features 3.40.0 `data.json`, checked 2026-09-27; re-checked against 3.44.0 on 2026-11-01: unchanged)
 - `text-autospace`: property with `normal` / `no-autospace` Baseline newly available 2025-11-11 (Chrome 140, Firefox 145, Safari 18.4); keyword values `ideograph-alpha`, `ideograph-numeric`, `auto` Firefox 145 + Safari 18.4 only; `insert` Firefox 145 + Safari 27.
 - `text-spacing-trim` (punctuation compression): Chromium 123+ only.
 - `hanging-punctuation`: Safari 26.5 only. `word-break: auto-phrase`: Chromium 119+ only.
@@ -31,6 +37,7 @@ Read on 2026-09-27: the latest published version, "W3C Group Note Draft 01 Septe
 - skills/design-studio/scripts/lint.mjs: forbidden line-start punctuation in rendered text, split ⸺/…… and typed full-width spaces between CJK and Latin are detectable on a rendered page.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): no cited rule changed; the TR date moved to 2026-10-07; fact 13 is from the editor's draft and must be re-cited to a TR once published; fact 14 (the 50–100 % type-area line gap) was confirmed in the published 2026-10-07 TR.
 - The "no space next to Chinese pause marks" rule in §6.3.3 may interact with `text-autospace` implementations differently per browser; not tested.
 - All fragment IDs above were checked against the 2026-09-01 HTML; section numbers can shift between monthly republications, fragment IDs are the stable reference.
 - The previous digest (2026-09-20) quoted the 1/4-em rule from the vertical-writing section §2.1.3; the same limit is stated for horizontal text in §6.3.3, which is now the cited location.

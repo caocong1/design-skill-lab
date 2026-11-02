@@ -1,6 +1,6 @@
 # 06 设计系统与 token
 
-> 元数据：更新于 2026-09-27 · 依据：dtcg-2025-10、design-md-spec、radix-colors-scale、web-baseline-2026、mcp-apps、openai-apps-sdk-ui、a2ui（旧摘要 dtcg-design-tokens-format、design-md-format 已被前两者取代）· 复核期限：2026-12-26
+> 元数据：更新于 2026-11-01 · 依据：dtcg-2025-10、design-md-spec、radix-colors-scale、web-baseline-2026、mcp-apps、openai-apps-sdk-ui、a2ui、v0-design-systems-2、figma-make-guidelines、vercel-design-md、ant-design-spec、tdesign-spec、semi-design-tokens-a11y（旧摘要 dtcg-design-tokens-format、design-md-format 已归档）· 复核期限：2027-01-30
 
 一句话：系统是“一次决定、处处复用”的那组决策。2026 年它有三种载体——给工具交换的 DTCG token（含 Resolver 主题模块）、给下一个 agent 读的 DESIGN.md、给浏览器的 `tokens.css`——外加一批只能容纳其中一部分的托管存储与宿主变量。本篇回答：分几层、主题怎么表达、DESIGN.md 管什么、怎么和别人的存储共处。
 
@@ -12,8 +12,8 @@
 4. **主题族 × 模式 = 两个正交的 modifier。** 族文件只写原始色阶与结构（圆角、字号、表面处理），模式文件只把语义颜色角色以别名指向“当前族”的色阶。别名在集合合并之后（解析第 3 阶段）才求值，所以任何族自动获得任何模式，不需要 N×M 个文件；排列数是各 modifier 上下文数之积。密度若允许用户独立选择，就单独做一个只动间距与控件高度的 modifier，族文件不得再写这些 token。依据：dtcg-2025-10 #30–37、#41（Terrazzo 建议“每个 token 类型族一个 modifier”）。机制为一手资料，组织法为推论。
 5. **工具链是硬约束（2026-09-27，易腐）。** 结论：`*.tokens.json` + `*.resolver.json` 是源，给 Figma 的是按模式降级的导出副本。依据：dtcg-2025-10 #40–43。一手资料。
    - Terrazzo ≥ 2.0：完整支持 2025.10，含 resolver 与 JSON Pointer `$ref`，按排列输出 CSS。
-   - Style Dictionary 5.5.5：读对象颜色（≥ 5.3）与对象尺寸（≥ 5.4），**不读 resolver**，只能在外部解析后每个排列跑一次。
-   - Tokens Studio 2.12.1：DTCG 模式仍写自有类型和字符串尺寸。
+   - Style Dictionary 5.7.1（2026-11-01）：读对象颜色（≥ 5.3）、对象尺寸（≥ 5.4）与对象时长（≥ 5.7），**仍不读 resolver**，只能在外部解析后每个排列跑一次；`$root` 泄漏已在 5.6.0 修复。
+   - Tokens Studio 2.13.2：DTCG 模式仍写自有类型和字符串尺寸；2.13.1 起把 Figma 的时长与缓动变量导入为 `duration` / `cubicBezier`。Terrazzo 到 2.10.0，结论不变。
    - Figma 原生变量导入：一个文件 = 一个模式；只收 sRGB / HSL 颜色、px 尺寸、s 时长、单字符串字体；不收复合类型。
 6. **DTCG 没有的类型。** spring、字体样式、百分比 / 不透明度、资源文件、字符串、布尔都没有；`transition` 说不出“动哪个属性、从哪到哪”；`gradient` 不区分线性 / 径向。弹簧参数放 `$extensions`（反向域名键）或成对的 `number` token。依据：dtcg-2025-10 #18–19。一手资料。
 7. **DESIGN.md 描述系统，token 文件实现系统。** 规范版本仍是 `alpha`，0.4.0 是 CLI `@google/design.md` 的版本（2026-07-27）。front matter 的 token 为准，正文给理由；`lint` 有错误时退出 1；`diff` 在错误或警告增多时退出 1。`export` 有损：广色域被压成 sRGB hex、别名被展开、组件丢失、`em` 被写成非法 DTCG 单位、`lineHeight: 24px` 被写成 24 倍行高。永远不把 export 当 token 源。依据：design-md-spec #3、#20–25。一手资料 + 实测（CLI 探针）。
@@ -29,6 +29,10 @@
     - ② 未注册的自定义属性在使用处求值，嵌套的 `[data-theme=dark]` 能翻转 `:root` 声明的角色；用 `@property` 注册为 `<color>` 的角色在 `:root` 就算定，不再翻转。
     - ③ 值里含 `var()` 的派生 token 在声明它的元素上解析：族作用域覆盖了原始值却不重声明派生 token，就会沿用 `:root` 的旧值。
     - 另：`contrast-color()`（Baseline 2026）只返回黑或白，只“应当”满足 3:1，不能用来给正文配色。
+
+13. **DESIGN.md 规范 2026-10-16 起把"正文里的 yaml 代码块"写成了正式载体。** token 可以写在 front matter，也可以写在各节的 ```yaml 块里，两者合并成一棵树；同一个顶层键在全文出现两次就拒收整个文件。CLI 仍是 0.4.0，这次只改了文档没改解析器。对模板的意义：token 只写在 front matter，正文不放任何 yaml 围栏。待合并的 PR 里有"动效节与 motion token"（#182），合并后结论 6 关于动效没有位置的说法要改。依据：design-md-spec #4、#5a。一手资料。
+14. **托管存储与组件库一侧的"agent 可读系统文件"已经一手核实**（覆盖结论 10 的二手部分）：v0 存 `v0.json` + `SKILL.md`，Figma Make 读 `Guidelines.md` 与文件夹，Claude Design 走 `/design-sync`，三者都不读 DESIGN.md；Ant Design 6.5 发布 `ant.design/design.md`（字阶 14/22、只用 400 与 600、4 px 单位），Semi 在仓库里放 `DESIGN.md` 并提供 MCP；Vercel 的 `design.md` 把 token 放进模型不读的运行时样式表。系统记录源仍只有一个，其余是投影（结论 10 的原则不变）。依据：v0-design-systems-2、figma-make-guidelines、ant-design-spec、semi-design-tokens-a11y、vercel-design-md。一手资料。
+15. **CSS 落地的第四个作用域事实：`light-dark()` 写在自定义属性里，在不支持它的引擎里会让所有读这个 token 的声明在计算值阶段失效。** 同一属性再写一个普通值不能回退；要用 `@supports not (color: light-dark(#000, #fff))` 块重写一遍浅色角色。tokens.css 模板已加此块，`color_tools.py matrix` 会跳过它、只检查 `light-dark()` 分支（新旧脚本输出逐项相同）。依据：web-baseline-2026 #13；实测（Chromium 模拟）。
 
 ## 论证
 
@@ -56,10 +60,10 @@
 
 - Figma 原生**导出**是否保留别名、`$extensions`、颜色空间，未测；各套餐的模式数量上限页面未列。
 - `create_design_system_from_design_md` 如何把完整 DESIGN.md 映射成 Stitch 的种子主题（12 色调色板、自定义字体是否保留），未测——测试需要写入真实 Stitch 项目。
-- Claude Design、v0、Lovable、Figma Make 的存储格式本轮没有一手复核（Claude Design 的 `/design-sync` 由技能流对照宿主工具核对过）；需要各补一份 source 摘要。
-- Style Dictionary 维护者 2026-08-28、09-18 两次提出 resolver 配置方案，尚未发布；发布后工具表要改。
+- （2026-11-01 已一手核实 v0、Figma Make、Claude Design，Lovable 只核实到"走 Figma"；结论 14。）
+- Style Dictionary 的 resolver 支持到 2026-11-01 仍未发布（5.7.0 只加了 duration）；发布后工具表要改。
 - DTCG Format 模块自相矛盾：§6.6 说工具“MAY”支持 JSON Pointer，§6.6.2 与 §7.1.2 说“MUST”；§6.6.2 的 `{"$ref":"#/base"}` 指向整个 token，§7.1.2 指向 `/$value`。建议值别名一律用花括号或 `/$value`。
-- DESIGN.md 未合并的 PR（#176 组件子 token、#164 物理单位、#169 hypertokens、#177 导出补齐行高与字距）可能改变模板写法。
+- DESIGN.md 的 PR：#178（穿插 yaml 块）已合并，#169 已关闭；#176 组件子 token、#164 物理单位、#177 导出补齐行高与字距仍开着；新开 #182（动效节与 motion token）、#183（语气与内容），合并后可能改变模板写法。
 - 2026-09-08 的 DTCG 预览草案是否新增 spring、不透明度类型，未读全文。
 - MCP Apps 各宿主实际下发 76 个变量中的哪些、取值为何，未抓取；A2UI v1.0 删除 `theme` 是否原样定稿。
 - Terrazzo 的正交性检测对“族 × 模式 × 密度”三 modifier 结构的实际判定未跑过；CSS 作用域 ↔ resolver ↔ CSS 的往返也没有实做一次。
@@ -86,3 +90,4 @@
 ## 变更记录
 
 - 2026-09-27 重写：由旧分析 07 迁入并全文重写。更正“Resolver 仍在演进”与“`$schema` 属于 token 文件规范”两处错误；新增 Color / Resolver 模块、族 × 模式的正交组织法、工具支持现状、DESIGN.md 规范全文与 CLI 实测（export 损失、lint 两个漏检反例）、PHILOSOPHY、托管存储与宿主变量互通、CSS 作用域实测；删除“易腐与耐久”“对最终 skill 的影响”等仪式性小节。
+- 2026-11-01 复核：结论 5 的工具版本更新；新增结论 13（DESIGN.md 穿插 yaml 块）、14（托管存储与组件库系统文件的一手核实）、15（`light-dark()` 的回退）；三条未决问题更新。

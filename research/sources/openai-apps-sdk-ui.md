@@ -1,6 +1,6 @@
 # OpenAI plugin UI guidelines (formerly "Apps SDK" design guidelines) + `@openai/apps-sdk-ui`
-- id: openai-apps-sdk-ui · url: https://developers.openai.com/plugins/concepts/ui-guidelines · fetched: 2026-09-27 · method: fetch
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror (OpenAI docs licence not checked; `openai/apps-sdk-ui` is MIT)
+- id: openai-apps-sdk-ui · url: https://developers.openai.com/plugins/concepts/ui-guidelines · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (OpenAI docs licence not checked; `openai/apps-sdk-ui` is MIT)
 > 中文导语：这是 ChatGPT 里第三方 UI（旧称 Apps SDK，现归入 "plugins"）的官方设计与审核规则：inline 卡片 / 轮播 / 全屏 / 画中画四种展示形态、每种形态的数量上限、品牌色和字体能用在哪、哪些东西不许做。设计师为"寄宿在聊天宿主里的界面"画稿时，这些是硬约束，不是风格建议。
 
 Sources read on 2026-09-27 (all via the Markdown twins the site serves at `<page>.md`):
@@ -11,6 +11,8 @@ Sources read on 2026-09-27 (all via the Markdown twins the site serves at `<page
 - Reference (`window.openai`, `_meta` fields) — https://developers.openai.com/plugins/reference.md
 - Blog "What makes a great ChatGPT app" — https://developers.openai.com/blog/what-makes-a-great-chatgpt-app.md
 - Component library `openai/apps-sdk-ui` repo@0f00143c7a639906f1621fe58e1b6be7b5bea46d (2026-05-05): `src/Typography.mdx`, `src/Responsive design.mdx`, `src/Dark mode.mdx`, `src/styles/variables-semantic.css`.
+
+Re-read on 2026-11-01: `developers.openai.com/plugins/concepts/ui-guidelines.md` in full, `build/chatgpt-ui.md`, `reference.md`, `plugins/plugin-guidelines.md`, `deploy/app-review.md`, the `/plugins` landing page; `openai/apps-sdk-ui` (HEAD still `0f00143`, 2026-05-05; release v0.2.2; npm 0.2.2 unchanged). Facts 2–16 re-found verbatim; fact 22 records one URL rename and the distribution pages.
 
 ## Key facts
 1. **Renaming.** The docs now live under "Plugins" (skills + MCP server + optional UI) and one directory is shared by ChatGPT and Codex; "Apps SDK" survives in package names and image paths. UI is explicitly optional: "Keep the MCP tools useful without a component" (chatgpt-ui.md#overview).
@@ -35,6 +37,9 @@ Sources read on 2026-09-27 (all via the Markdown twins the site serves at `<page
 20. **Product framing** (blog): a ChatGPT app is a capability entered mid-conversation, not a destination — "know / do / show"; pick a few "specific powers" instead of porting screens; checklist includes handling vague and specific prompts and showing value on the first turn.
 21. **`@openai/apps-sdk-ui` tokens** (repo@0f00143): type scale heading-5xl 72/72 … heading-lg 24/28, heading-md 20/26, heading-sm 18/26, heading-xs 16/24 (weight 600); text-lg 18/29, **text-md 16/24, text-sm 14/20**, text-xs 12/18, text-2xs 10/14, text-3xs 8/12 (weight 400). Radii 2, 4, 6, 8, 10, 12, 16, 20, 24 px + full. Spacing unit 4 px. Control sizes 22–48 px (md 32, 2xl 44). Font stack starts `ui-sans-serif, -apple-system, system-ui, "Segoe UI", "Noto Sans"`. Breakpoints xs 380, sm 576, md 768, lg 1024, xl 1280, 2xl 1536 (mobile-first). Dark mode via `data-theme` on `<html>`, nestable. Requires React 18/19 + Tailwind 4; built on Radix. A Figma community library exists (file 1625636989296445101).
 
+Re-checked 2026-11-01
+22. Facts 3–12 verbatim: inline card "Limit to two actions, placed at bottom", "No nested scrolling", "No duplicate inputs"; carousel "3–8 items", "Avoid showing more than two lines of text" against "three lines max" (the contradiction persists), "single, optional CTA"; fullscreen with the composer "always present"; colour "Avoid custom gradients or patterns"; typography "Don't use custom fonts, even in full screen modes"; icons "monochromatic and outlined"; "Do not include your logo"; WCAG AA. Facts 13–16 (`availableDisplayModes`, "≤ 64 chars", approval-gated `toolInput` null) unchanged. **Rename**: `/plugins/app-guidelines` now 301s to **`/plugins/plugin-guidelines`** (cite that); its wording: "all plugins listed in the ChatGPT Directory, including MCP and skills-only plugins"; "universal directory shared by ChatGPT and Codex"; physical goods only; no ads; 13–17 suitability; Instant Checkout "currently in beta… select marketplace partners". `deploy/app-review`: submit via `platform.openai.com/plugins`; "Only submit the plugin if you intend for it to be publicly available in the countries you define"; projects with EU data residency cannot currently submit plugins with MCP. The developers-site nav now carries "Publish and measure ads in ChatGPT" as a separate product while plugin-guidelines forbid plugins that serve ads. Distribution status: help-centre articles returned 403; secondhand (search snippet of help.openai.com 20001256): the app directory migrated to the Plugin directory on 2026-07-09.
+
 ## What it changes for the skills
 - skills/design-studio/references/platforms/embedded-hosts.md: add a "ChatGPT (plugins UI)" host row: 4 modes with their limits (≤2 bottom actions per card, 3–8 carousel items, ≤1 CTA per item, 2-line metadata, no nested scroll, no tabs/drill-ins, no duplicate composer), composer always overlaid in fullscreen, PiP behaviour, system font only, brand colour only on primary buttons/badges/logos, no gradients, no logo in the widget, monochrome outlined icons.
 - skills/design-studio/references/disciplines/ai-experience.md: hosted-UI surface = "capability entered mid-conversation" (know/do/show); pending state for approval-gated tool input; follow-up text must not duplicate the card; status strings ≤64 chars.
@@ -45,6 +50,7 @@ Sources read on 2026-09-27 (all via the Markdown twins the site serves at `<page
 - skills/implement-design/references/stacks.md: implement against the MCP Apps bridge first; `window.openai` only behind feature detection.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): none to the design facts; fact 22 adds the plugin-guidelines URL and the review page. Container pixel sizes remain unpublished.
 - No pixel widths/heights for ChatGPT containers are published; "up to the height of the mobile display area" is the only height rule. Aspect ratios for imagery are "enforced" but not listed.
 - The Figma library and Storybook (openai.github.io/apps-sdk-ui) were not opened; token values come from the repo source at the commit above (still the repo HEAD when re-cloned 2026-09-27), which may lag the npm package.
 - Carousel metadata line count is contradictory on the page (2 vs 3).

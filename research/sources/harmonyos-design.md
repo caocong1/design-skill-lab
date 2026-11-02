@@ -1,6 +1,6 @@
 # HarmonyOS Design Guide (鸿蒙设计指南): 沉浸光感, bottom tabs, layout grid, typography, HarmonyOS Sans, app icons
-- id: harmonyos-design · url: https://developer.huawei.com/consumer/cn/doc/design-guides/immersivelight-0000002612101053 · fetched: 2026-09-27 · method: json-api
-- review_by: 2026-12-26 (perishable +90d) · licence note: paraphrased digest, not a mirror
+- id: harmonyos-design · url: https://developer.huawei.com/consumer/cn/doc/design-guides/immersivelight-0000002612101053 · fetched: 2026-11-01 · method: json-api
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：华为官方《HarmonyOS 设计》指南及对应 ArkUI/HDS 接口文档的要点：沉浸光感材质（三档用户强度、五级材质厚度、按场景选档）、平铺式 48 vp 与悬浮式 56 vp 底部页签及宽度规则、断点与 4/8/12 栅格、文本排版 token、鸿蒙黑体可变字体、双层应用图标。画鸿蒙界面稿或写鸿蒙规格前先读这份；具体数字都带出处页面和更新日期。
 
 How it was read (2026-09-27): the design guide is a JS app, but every page is served as JSON by
@@ -17,6 +17,8 @@ system-icons-0000001929854962 (2026-07-14) · corner-radius-parameter-0000002556
 color-0000001776857164 (2026-07-20) · ux-guidelines-general-0000001760708152 (2026-07-21, V30) · whats-new-0000002189266636 (2026-06-24).
 API references: ui-design-hdstabs (2026-09-23), ui-design-hdsmaterial (2026-09-23), arkts-apis-uimaterial (2026-09-23), ts-appendix-enums (2026-09-23),
 ts-container-gridrow (2026-09-23); guide ui-design-hds-component-material (2026-09-23).
+
+Re-read on 2026-11-01 (doc API `getDocumentById` for every doc id below, `getCatalogTree` with 168 leaf ids, a bulk metadata scan; release-notes pages `version-number-26`, `overview-2600`, `overview-allversion`; developer news). Two guide pages and all referenced API pages were revised in October, yet every number quoted in facts 5–9, 11–16, 19–25, 27 and 29–35 was re-found verbatim; the four discrepancies under Not verified persist; the "26.0.0" question is resolved (fact 37). Facts 36–38 record the re-check.
 
 ## Key facts
 **Release context** [whats-new]
@@ -214,6 +216,11 @@ ts-container-gridrow (2026-09-23); guide ui-design-hds-component-material (2026-
     - `interactive_hover` #0C000000 / #0CFFFFFF and `interactive_pressed` #19000000 / #19FFFFFF on the color page. ⚠ The uiMaterial Table 1 prints different dark values: hover #19FFFFFF, pressed #26FFFFFF (and `comp_background_tertiary` dark #19FFFFFF vs #0CFFFFFF on the color page).
     - Default system colours guarantee a minimum **3:1** contrast (color, "如何分层构建色彩").
 
+Re-checked 2026-11-01
+36. **Revisions since 2026-09-27** (`updatedDate`): 色彩 color-0000001776857164 2026-07-20 → 2026-10-30 11:06 (V21); 通用应用 UX 体验标准 ux-guidelines-general 2026-07-21 (V30) → 2026-10-28 (V31); the ArkUI references hdstabs (V224), hdsmaterial (V55), `@ohos.arkui.uiMaterial` (V36, `displayUpdateTime` 2026-10-26), ts-appendix-enums (V249), ts-container-gridrow (V249) and the hds-component-material guide (V55) all re-stamped 2026-10-29 05:3x — a bulk stamp, so use `displayUpdateTime` for reference pages. The other twelve design pages are unchanged: immersivelight 2026-06-12 V1, bottomtab 2026-09-20 V15, titlebar 2026-06-12 V16, layout-basics 2026-08-24, typography 2026-07-29, font 2026-07-28, application-icon 2026-07-28, system-icons 2026-07-14, corner-radius 2026-08-12, interval 2026-07-10, responsive 2025-06-20, whats-new 2026-06-24 (its last entry is still 2026年06月12日, so it does not log the October revisions). New design pages 鸿蒙卡片 (harmonyos-widget2, 2026-10-12) and 状态机卡片 (status-widgets, 2026-10-19) were read only for their stamps (icon asset "220*220px"; status card "主要文本字号统一使用 24vp（Bold）", "75% 不透明度的彩色背板").
+37. **"26.0.0" resolved.** `version-number-26`: "从API版本26.0.0开始，API版本号统一采用语义化版本（Semantic Versioning，简称SemVer）格式（X.Y.Z）"; `overview-2600`: "HarmonyOS开发套件26.0.0版本在HDC.2026正式面向开发者发布首个Beta版本，并于8月29日正式Release发布", "26.0.0在6.1.1(24)的基础上，进一步增强了组件的材质效果"; developer news 2026-09-07: "HarmonyOS 7（API 26）正式发布". So `@ohos.arkui.uiMaterial` (fact 9) needs the HarmonyOS 7 / API 26 SDK, while `hdsMaterial` and the floating tabs (6.1.0(23)) belong to the HarmonyOS 6.1 line. Version table (`overview-allversion`, V52 2026-10-08): 6.0.0(20) 2025/09/25 · 6.0.1(21) 2025/11/20 · 6.0.2(22) 2026/01/21 · 6.1.0(23) 2026/04/20 · 6.1.1(24) 2026/05/26 · 26.0.0 Beta1 2026/06/12, Beta2 2026/07/28, Release 2026/08/29 (the DevEco Studio 26.0.0 Release row says 2026/08/28, a one-day mismatch as printed); "ArkWeb的Chromium内核从132升级为144版本".
+38. **Additions**: uiMaterial `MaterialState.ENABLE` covers more components than fact 9 lists ("Dialog、Toast、AlphabetIndexer、ChipGroup、ChipGroupV2、Chip、ChipV2、Select、菜单控制、Toggle、SegmentButton、SegmentButtonV2、Slider、SelectionMenu、Navigation、NavDestination … Tabs设置barFloatingStyle并生效悬浮样式，页签栏Tabbar默认开启"); new anchors `MaterialInfo`, `uiMaterial.getMaterialInfo`, `empty`, `uiMaterial.getGlobalMaterialLevel`, `LightEffectOptions`; uiMaterial's own `MaterialType` (`IMMERSIVE = 2`) differs from hdsMaterial's (0/100/101). GridRow `columns` default since API 20: `{ xs: 2, sm: 4, md: 8, lg: 12, xl: 12, xxl: 12 }`. UX-standard numbers not in fact 29: icon minimums PC 14/10 vp, smart screen 26/22 vp, wearable 20/16 vp; remote-control hit area "至少为 4cm (推荐) 不得小于 2.5cm (必须)"; §2.1.3.2 "长按手势的接触时长应为 500 ms，时长在 400 ms-650 ms 内可调 / 双击手势的间隔时长应为 70-400 ms 之间". The motion standards (§2.1.5) and the ArkUI curves are digested in `harmonyos-motion-curves`.
+
 ## What it changes for the skills
 - skills/design-studio/references/platforms/harmonyos.md: replace the 13-line practice section with:
   - 沉浸光感: 3 strengths, 5 thickness levels and the scene → level table; device tiers are separate from thickness.
@@ -232,6 +239,7 @@ ts-container-gridrow (2026-09-23); guide ui-design-hds-component-material (2026-
 - skills/implement-design/references/stacks.md (ArkUI): `uiMaterial.ImmersiveMaterial` + `systemMaterial()`, `ImmersiveStyle`, `hdsMaterial` ADAPTIVE, `HdsTabs.barFloatingStyle`, `barOverlap` + `barBackgroundBlurStyle`, `expandSafeArea`, `BounceSymbolEffect`, `getWindowWidthBreakpoint`/`HeightBreakpoint`, `GridRow` breakpoints.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): no quoted number changed; "26.0.0" is HarmonyOS 7 / API 26 (fact 37); facts 36–38 added. The October revisions' content delta is unknown (no archived V20/V30/pre-V36 pages); whether 鸿蒙卡片 / 状态机卡片 existed before 2026-09-27 is not provable.
 - Floating tab width for 2–3 tabs: the design guide (248/272 and 168/184 vp) and the HdsTabs API default formula (76 or 80 vp × n + 8 vp → 236/248 and 160/168 vp) disagree. The guide matches an 80/88 vp per-tab formula. The maximum also differs: guide 360 vp (≥5 tabs) / 328 vp (4 tabs), API 328 vp for all ≥4. Treat the guide as the design target and say that the component default may differ.
 - MiniBar layout B vs C at 600–840 vp: the guide's "宽高比 < 0.8" is ambiguous; the HdsTabs API uses 高宽比 (height ÷ width) for the same thresholds. Not confirmed on a device which reading the guide intends.
 - Colour token dark values for `interactive_hover`, `interactive_pressed` and `comp_background_tertiary` differ between the color page and the uiMaterial Table 1 (see fact 35); which is current was not settled.

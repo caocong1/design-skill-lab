@@ -1,12 +1,14 @@
 # Apple App Icons: Icon Composer, layered Liquid Glass icons, six appearances, sizes
-- id: apple-app-icons · url: https://developer.apple.com/design/human-interface-guidelines/app-icons · fetched: 2026-09-27 · method: json-api + fetch
-- review_by: 2026-12-26 · licence note: paraphrased digest, not a mirror
+- id: apple-app-icons · url: https://developer.apple.com/design/human-interface-guidelines/app-icons · fetched: 2026-11-01 · method: json-api + fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：从 2025 年起，苹果的 iPhone、iPad、Mac、Watch 应用图标都做成"分层的 Liquid Glass 图标"：设计软件里画平面图层，再到 Icon Composer 里加材质，标注 Default、Dark、Mono 三种，系统据此生成六种外观。画布是 1024 px，Apple Watch 是 1088 px。macOS 图标一律裁成圆角矩形。2026-06 推出 Icon Composer 2 beta，当前 Icon Composer 页面写明需要 macOS Tahoe 26.4 或更高。交付苹果图标前先看这份。
 
 Read (2026-09-27): HIG `app-icons` (DocC JSON); developer docs `/documentation/xcode/creating-your-app-icon-using-icon-composer`,
 `/documentation/xcode/configuring-your-app-icon`, `/documentation/technologyoverviews/adopting-liquid-glass#App-icons` (JSON); the Icon Composer page
 https://developer.apple.com/icon-composer/ (HTML); https://developer.apple.com/design/whats-new/ and https://developer.apple.com/design/resources/ (HTML);
 WWDC25 220 "Say hello to the new look of app icons" and 361 "Create icons with Icon Composer" (transcripts).
+
+Re-read on 2026-11-01 (DocC JSON: HIG `app-icons`; developer docs `creating-your-app-icon-using-icon-composer`, `configuring-your-app-icon`, `adopting-liquid-glass#App-icons`; the Icon Composer page and the Design Resources page). **The HIG page changed on 2026-10-28**: facts 17–19 record the new "Icon formats" guidance and a correction to fact 6; everything else re-found verbatim.
 
 ## Key facts
 1. Change log: 2025-06-09 "Updated guidance to reflect layered icons, consistency across platforms, and best practices for Liquid Glass"; **2026-06-08 "Refined guidance for Liquid Glass"**. HIG What's new lists **"Download Icon Composer 2 beta" on 2026-06-08**. The first Icon Composer came out 2025-06-09, as a beta (WWDC25 361). [app-icons#Change-log; design/whats-new]
@@ -91,6 +93,11 @@ WWDC25 220 "Say hello to the new look of app icons" and 361 "Create icons with I
     - On iOS, appearances are Any, Dark and Tinted: supply the tinted icon as **greyscale** and the dark icon with a **transparent background**.
     - The App Store icon well is iOS 1024 pt, or "App Store – 2x" on macOS. [configuring-your-app-icon]
 
+Changed 2026-11-01
+17. **Icon formats** (HIG `app-icons#Icon-formats`; change log "October 28, 2026 | Added guidance for app icon format options."): "In iOS, iPadOS, macOS, and watchOS, you can provide icons in one of two formats: nonlayered bitmap images (such as PNG) or layered Icon Composer files." "If you provide a bitmap image instead, the system attempts to segment your icon, isolating the foreground elements from the background to create an icon with two layers. These two layers help make your icon compatible with dark and tinted appearance variants, ensuring the use of a consistent background." "When the system segments your icon, it applies Liquid Glass effects to foreground layers that feature large, simple shapes. It doesn't automatically apply Liquid Glass effects to smaller, more complex elements in an icon like text and thin lines." The Layer design section now opens "Although you can provide a nonlayered image for your icon (see Icon formats), layers give you the most control". Design consequence: a flat PNG is no longer a dead end, but text and thin-line marks get no glass unless layered by hand.
+18. **Correction to fact 6** ("prefer SVG"): the HIG now reads "Prefer vector graphics… vector graphics (such as SVG or PDF) scale gracefully… For mesh gradients and raster artwork, prefer PNG format." The Icon Composer developer document still mentions no PDF.
+19. Unchanged: facts 2, 5 (1024 / 800×480 / 1024 / 1088 px; six appearances), 10, 12 and 14 verbatim; "No additional considerations for iOS, iPadOS, or macOS."; the Icon Composer page still "Requires macOS Tahoe 26.4 or later." while the Design Resources download still says "Requires macOS Sequoia or later."; What's New still lists only "Download Icon Composer 2 beta" (June 8, 2026); the Icon Composer doc keeps "to compare macOS 26 with macOS 27 rendering, click 26 and then 27". Open: whether bitmap segmentation applies on the 26.x releases or only on 27 (not stated).
+
 ## What it changes for the skills
 - skills/design-studio/references/disciplines/app-icons.md: The Apple section should use facts 2–16. Correct the current text in `skills/design-icons/references/app-icons-and-favicons.md:25`: watchOS is 1088×1088, not 1024; there are six appearances (default, dark, clear light, clear dark, tinted light, tinted dark); the annotations are Default, Dark and Mono; the deliverable is a `.icon` file plus SVG layer sources; at most four groups; no feathering; no masks; the current Icon Composer download needs macOS Tahoe 26.4 or later (see open items).
 - skills/design-studio/references/process/handoff.md: Icon handoff = layered SVG/PNG sources named back to front, the `.icon` file, a Default/Dark/Mono annotation note, a flattened 1024 marketing export, and a separate watch canvas check at 1088.
@@ -100,6 +107,7 @@ WWDC25 220 "Say hello to the new look of app icons" and 361 "Create icons with I
 - skills/design-studio/assets/mockup-kit/kit.json: Icon mask shapes per platform. Don't draw a custom glass effect on icons in mockups; mark them as "system-rendered".
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): fact 6 (SVG or PDF); facts 17–19 added for the 2026-10-28 "Icon formats" section.
 - The exact corner-radius and grid geometry of the 2025 rounded rectangle (it is in the templates, which were not opened). Don't invent a superellipse formula.
 - Whether Icon Composer 2 is still in beta on 2026-09-27. The page doesn't say "beta" and no general-release date was found. The macOS 26.4 requirement comes from the current Icon Composer page, while the Icon Composer download on the Apple Design Resources page still says "Requires macOS Sequoia or later" (possibly the older version); which build each link serves was not checked.
 - The HIG no longer publishes the list of sizes the system generates (Settings, Spotlight, notifications) in pt, and none was found in the primary sources read.

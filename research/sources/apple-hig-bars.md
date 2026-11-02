@@ -1,6 +1,6 @@
 # Apple HIG: Bars (Tab bars, Toolbars and navigation bars, Sidebars) for iOS, iPadOS and macOS 26–27
-- id: apple-hig-bars · url: https://developer.apple.com/design/human-interface-guidelines/tab-bars · fetched: 2026-09-27 · method: json-api + fetch
-- review_by: 2026-12-26 · licence note: paraphrased digest, not a mirror
+- id: apple-hig-bars · url: https://developer.apple.com/design/human-interface-guidelines/tab-bars · fetched: 2026-11-01 · method: json-api + fetch
+- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：iOS 26 起，标签栏悬浮在内容上方（Liquid Glass），可以在滚动时缩小，可以带附件，搜索可以作为单独一个标签放在最右侧。工具栏按功能分组，只允许一个 `.prominent` 主操作。独立的"导航栏"页面已并入 Toolbars。27 系列又加了几样：prominent 标签、工具栏可见优先级、iPhone 也能用侧边栏，以及折叠屏 iPhone Duo 把各种栏移到屏幕侧边。画移动端导航前先读这份。
 
 Read (2026-09-27; HIG via `https://developer.apple.com/tutorials/data/design/human-interface-guidelines/<page>.json`): tab-bars, toolbars,
@@ -8,6 +8,8 @@ sidebars, search-fields, icons, the-menu-bar, designing-for-iphone-duo, scroll-v
 `/documentation/technologyoverviews/adopting-liquid-glass`, SwiftUI `TabBarMinimizeBehavior`, `TabViewBottomAccessoryPlacement`, `TabRole/prominent`,
 `ToolbarItemVisibilityPriority`, `ToolbarOverflowMenu`, `ToolbarItemPlacement/topBarPinnedTrailing`, `ToolbarVerticalCompressionBehavior`, `ToolbarSpacer`,
 `View/toolbarMinimizationBehavior(_:for:)`, UIKit `UITabBarController/prominentTabIdentifier`, `UINavigationItem/navigationBarMinimization`, `UIBarMinimization`. Talks: WWDC25 356; WWDC26 269, 278, 289, 292 (transcripts). App Store Connect "Screenshot specifications".
+
+Re-read on 2026-11-01 (DocC JSON: tab-bars, toolbars, sidebars, search-fields, icons, designing-for-iphone-duo, scroll-views; `navigation-bars.json` still 404; SwiftUI `ToolbarVerticalCompressionBehavior`, `TabRole/prominent`, `toolbarMinimizationBehavior(_:for:)`; Apple Developer News). Facts 1–24 and 26 unchanged; fact 25 updated; facts 27–29 record the re-check.
 
 ## Key facts
 **Tab bars** (change log: 2025-07-28 added Liquid Glass; 2025-12-16 updated; 2026-06-08 "Updated terminology and art")
@@ -86,6 +88,11 @@ sidebars, search-fields, icons, the-menu-bar, designing-for-iphone-duo, scroll-v
     - Use the system overflow menu and keep the ellipsis symbol for overflow only. [designing-for-iphone-duo#Vertical-controls]
 26. Reserved regions: the outer camera (always present), the inner camera (only while active) and the fold (when the device is partly open). In grids, prefer an even number of columns. Screenshot sizes: outer display **1398×2034 px**, inner **2007×2853 px** (App Store Connect screenshot specifications; uploads "available later this year"). [designing-for-iphone-duo#Reserved-regions]
 
+Re-checked 2026-11-01
+27. Change logs: Tab bars, Sidebars and Search fields "June 8, 2026"; Toolbars "December 16, 2025"; Designing for iPhone Duo "September 9, 2026"; nothing newer. Facts 1, 3, 4, 8, 11–16 and 18 re-found verbatim; the tab-bars page now names the `TabBarMinimizeBehavior` and `MinimizeBehavior` APIs next to the minimize guidance.
+28. **Fact 25 update**: `ToolbarVerticalCompressionBehavior` is now listed for iOS 27.1, iPadOS 27.1, Mac Catalyst 27.1, macOS 27.1, tvOS 27.1, visionOS 27.1 and watchOS 27.1 with no beta flag (the first read said "iOS 27.1 beta").
+29. **iPhone Duo dates** (Apple Developer News, 2026-10-05, "Prepare and submit your apps for iPhone Duo"): "iPhone Duo will be available to customers starting October 23, 2026" and "Starting April 2027, any apps or games submitted will need to include screenshots for iPhone Duo." Fact 26's "uploads available later this year" is thereby dated.
+
 ## What it changes for the skills
 - skills/design-studio/references/platforms/ios.md: Replace the old "bottom tab bar, 3–5 items" rule with facts 1–11 and 12–19. The tab bar floats and can minimize; the accessory is only for persistent features; search sits in the trailing tab (standard vs button style); one prominent tab in iOS 27; up to 3 toolbar groups; one `.prominent` trailing action; no "Back" text; iPhone sidebars in iOS 27; iPhone Duo vertical bars.
 - skills/design-studio/references/disciplines/product-ui.md: Navigation chooser: tab bar vs sidebar vs `sidebarAdaptable`; where search goes (tab, bottom toolbar, top toolbar, inline); actions in toolbars, not tabs; checkout buttons stay with their content.
@@ -101,6 +108,7 @@ sidebars, search-fields, icons, the-menu-bar, designing-for-iphone-duo, scroll-v
 - skills/implement-design/references/stacks.md: `tabBarMinimizeBehavior`, `tabViewBottomAccessory`, `Tab(role: .search | .prominent)`, `sidebarAdaptable`, `ToolbarItemGroup`, `ToolbarSpacer`, `visibilityPriority`, `ToolbarOverflowMenu`, `topBarPinnedTrailing`, `toolbarMinimizationBehavior(_:for:)`; UIKit `prominentTabIdentifier`, `navigationBarMinimization`, `UISearchTab`, and iPhone Duo `ReservedRegion` / `ArrangementView`.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-01): fact 25 (27.1 shipped, no beta flag); facts 27–29 added. Bar geometry still lives only in the UI kits.
 - iOS tab bar and toolbar geometry (height, bottom inset, capsule radius, item size, minimized size) is not in the HIG. It lives in the iOS 27 Figma and Sketch UI kits, which were not read. Any number in kit.json must say "approximation".
 - The exact look of the iOS 27 "prominent" tab beyond "enhanced visual emphasis" and trailing placement.
 - iPhone Duo point sizes and the width of the vertical bar; only screenshot pixel sizes were found. `ToolbarVerticalCompressionBehavior` is still in beta (27.1).

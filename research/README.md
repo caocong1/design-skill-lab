@@ -9,6 +9,7 @@
 | 路径 | 是什么 | 语言 | 谁来写 |
 | --- | --- | --- | --- |
 | `sources/<id>.md` | 一份一手来源一个文件：带固定头部的转述式摘要 | 英文，可加一段中文导语 | 手写 |
+| `sources/archive/<id>.md` | 已归档的摘要：被取代、且不再被任何 skill 引用。按退役时的内容冻结，不再复核；id 不复用 | 英文 | 只移动，不改正文 |
 | `topics/NN-<slug>.md` | 9 篇主题综合：当前结论（带来源 id 与日期）· 论证 · 未决问题 · 对 skill 的约束 · 变更记录 | 中文 | 手写 |
 | `field/` | 现场证据：实验室自己的实战、宿主项目复盘、评测报告（`evals-<date>.md`） | 中文或英文 | 手写 |
 | [log.md](log.md) | 按日期的研究日志：抓了什么、发现了什么、改了什么；只追加 | 中文 | 手写 |
@@ -42,6 +43,17 @@
    - `## What it changes for the skills`：受影响的 skill 文件清单，每个文件一句话；
    - `## Not verified / open`：没核实的、自相矛盾的，以及"相对上一版的更正"。
 4. **重建索引**：`python3 scripts/build-research-index.py`，然后在 [log.md](log.md) 记一笔。
+
+## 怎么归档一份来源
+
+一份摘要同时满足两个条件时归档：已经被新 id 取代（头部有 `superseded_by`），而且没有任何 skill 文件在 `sources:` 里引用它。只被取代、仍被引用的摘要不归档（例如 `impeccable-slop-rules`），因为它还承担着后继摘要没有写进去的具体条目。
+
+1. `git mv research/sources/<id>.md research/sources/archive/<id>.md`，正文不改。
+2. 在头部 `superseded_by` 的括号说明里补一句 `Archived YYYY-MM-DD: <为什么>`。
+3. `python3 scripts/build-research-index.py`：归档的摘要从主表移到 INDEX.md 末尾的"已归档"表，不再计入逾期；此后任何 skill 引用它都会让 `--check` 失败，提示改引后继 id。
+4. 在 [log.md](log.md) 记一笔。
+
+归档不是删除：文件、id 和 git 历史都在，topics 与 log 里按路径写的链接继续有效。一个 id 退役后不再分配给别的来源。
 
 ## skill 怎么引用来源
 

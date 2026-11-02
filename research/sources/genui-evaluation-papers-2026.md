@@ -1,0 +1,30 @@
+# 2026 papers on generative UI, design homogeneity and LLM judges of UI quality (arXiv), with the numbers that matter for an eval method
+- id: genui-evaluation-papers-2026 · url: https://arxiv.org/abs/2607.22928 · fetched: 2026-11-01 · method: fetch
+- review_by: 2027-01-30 (perishable +90d: a fast-moving literature; several entries are preprints) · licence note: paraphrased digest, not a mirror (arXiv abstracts and HTML pages; each paper's own licence applies)
+> 中文导语：十篇 2026 年论文的要点，服务于本仓库的两个方法问题：盲评量表为什么被压扁（单次绝对打分 Pearson 0.72，评审小组 0.92；总分区间只有 3.45–3.73；控制性劣化后 83–86% 样本总分不变），以及生成式 UI 的同质化是否可测（模型互相之间比与人类参照更像；Design Theater 的 120 个界面里功能性原则实现率 ≤ 6%）。结论：成对比较优于绝对分，评审要换位抗位置偏差，身份感维度要用"是否和同类生成物撞脸"来测。主题 09 的第三轮评测改法以此为据。
+
+Read on 2026-11-01: a delegated verifier fetched each arXiv abs/HTML page; the lead AI-ecosystem verifier re-fetched the abs pages of 2607.28439, 2605.04165, 2610.11539, 2607.22928, 2609.34854 and 2606.05697 and confirmed the dates and numbers quoted for those six. The remaining four are as read by the delegate.
+
+## Key facts
+1. **arXiv:2607.28439 (2026-07-30), ESPP persona panel for generative UI**: 7,000 screenshots (500 instructions × 14 models, 5 human ratings each); a single-pass judge reaches Pearson 0.716 / Spearman 0.612 against humans, a persona panel 0.922 / 0.904; the leaderboard's "Overall scores span a narrow 3.45–3.73 range". Absolute-scale judging compresses.
+2. **arXiv:2605.04165 (2026-05-05), FlowEval** (Wu, Vaithilingam, Schoop, Nichols, Barik): 945 UIs, 429 expert pairwise comparisons; a trace metric reaches Spearman 0.96 over 7 models; Cohen's κ 0.46 / 73.0 % agreement against a pairwise MLLM judge (Claude Opus 4.5: κ 0.44 / 71.1 %); A/B order randomised.
+3. **arXiv:2609.34854 (2026-09-28), AUV-Bench**: 1,395 executable web UIs, 12 models, 44 professional designers; the best model–designer Spearman is 0.57; "exact diagnosis-chain success peaks at only 24.7%"; after controlled degradation the overall score is unchanged for 83.5–86.4 % of samples. Judges are insensitive to real regressions.
+4. **arXiv:2609.22971 (2026-09-19), AMUSER**: a YES/NO judge's κ against the human majority rises from 0.40 to 0.48 after bias calibration (GPT-5.5 0.591); human Fleiss' κ 0.38 when independent, 0.72 after debate. Positive bias is measurable and partly correctable.
+5. **arXiv:2606.05697 (2026-06-04), PerceptUI**: order-swapped pairwise "Consistent Accuracy" 44.30 vs GPT-5 31.09 / Claude Opus 4.6 26.44; position bias measured as the first/second-answer gap (o1: 16.56 vs 97.78); UICrit comment quality 0.54 vs designers 0.75. Pairwise judging needs both orders.
+6. **arXiv:2610.11539 (2026-10-08, v2 10-14), Design Creativity Bench**: 15 models × 160 designs; originality 0.592 [0.582, 0.602] across models vs 0.764 human–model; creative range 0.581 vs 0.902 human; "Model-generated designs resemble one another more than they resemble the human reference"; an embedding scorer was used because the LLM judge (highest human agreement) failed monotonicity.
+7. **arXiv:2607.22928 (2026-07-24), Design Theater**: 120 interfaces from 5 tools; principle recognition mean 0.54; "four of five tools implementing 6% or fewer functional principles"; a Design Homogeneity Index (visual 0.137, layout 0.196, colour 31.9): tools converge on visual and layout features and vary on colour; accepted at AAAI/AIES (Crossref: AIES vol. 9 no. 2 pp. 1325–1337, 2026-10-11); cited in 2026 by 2609.34854 and 2610.21185.
+8. **arXiv:2609.15078 (2026-09-14, v3 10-12), vibe design agents**: typicality-weighted spec sampling lowers screenshot cosine similarity from 0.6765 to 0.5438 (τ = 2.0) and raises option coverage from 1.00 to 2.87; an online RCT over 3.39 M tasks: thumbs-down −14.6 %, CI [−32.8 %, +3.5 %], not significant; the judge is "not validated against human annotation".
+9. **arXiv:2603.13036 (2026-03-13), Interrogating Design Homogenization in Web Vibe Coding**: a 63-source review plus 6 tool walkthroughs; proposes "productive friction" (reflective prompting, anchoring to brand design systems, provenance); no measurements.
+10. **arXiv:2605.24830 (2026-05-24), Macaron-A2UI**: a model trained on "A2UI v0.8"; A2UI-Bench with 300 tasks, VLM-judged, no human evaluation; 75.6 vs GPT-5.4 74.1.
+11. Not found: an arXiv paper for Design Arena (its methodology page describes blind four-model tournaments with Bradley–Terry scoring and hidden identities; vote totals are secondhand), a WebDev Arena paper (blog: "over 80,000 community votes"), or any paper measuring "AI slop" in generated interfaces beyond entries 6 and 7.
+
+## What it changes for the skills
+- research/topics/09-method.md and evals/judging.md (next round, pre-registered): prefer pairwise preference over absolute scores (entries 1, 3, 5); judge each pair in both orders and report the consistency (5); recalibrate the 1–5 scale with anchors or accept that absolute means will compress (1, 3); treat "no change after a known regression" as a judge-validity test (3); use a different model family or a persona panel where the host allows (1, 4).
+- research/topics/02-ai-design-skill-ecosystem.md: homogeneity is now measured, not asserted (6, 7); the Identity dimension's "would this appear regardless of subject" test is supported by "models resemble each other more than the human reference".
+- skills/design-studio/references/fundamentals/anti-slop.md: cite 6 and 7 as the evidence that the problem is convergence toward each other, which is why dated pattern lists and subject-derived referents are the countermeasure; keep the lists dated.
+- skills/critique-design/references/rubric.md: the rationale-versus-render check (entry 7's 25 % unimplemented rationale, already in the rubric) keeps its source; add "functional principles claimed but not built" as a named failure.
+
+## Not verified / open
+- Entries 4, 8, 9 and 10 were read only by the delegate; numbers are as reported on the abs pages.
+- None of the papers evaluates a skill-driven general coding agent; external validity to this suite is an assumption.
+- Preprint status: several entries may change on revision; the arXiv version read is the one dated above.

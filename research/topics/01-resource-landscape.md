@@ -1,6 +1,6 @@
 # 01 资源版图与目录方法
 
-> 元数据：更新于 2026-09-27 · 依据：ui-ux-pro-max、design-md-spec、cjk-font-licensing、accessibility-law、mcp-apps、openai-apps-sdk-ui；实测：2026-09-21 两次全量验链、2026-09-27 两次独立全量探测（目录审计与候选资源调研）、2026-09-27 缩略图重拍 · 复核期限：2026-12-26
+> 元数据：更新于 2026-11-01 · 依据：ui-ux-pro-max、design-md-spec、cjk-font-licensing、accessibility-law、mcp-apps、openai-apps-sdk-ui、alipay-miniprogram-design、vercel-design-md、ant-design-spec、semi-design-tokens-a11y、remix-icon-license；实测：2026-09-21 两次全量验链、2026-09-27 两次独立全量探测（目录审计与候选资源调研）、2026-09-27 缩略图重拍、2026-11-01 对 25 条受影响条目验链并为 6 条新条目拍图 · 复核期限：2027-01-30
 
 本篇回答两件事：设计师在用哪几类外部资源，每类的偏差是什么；一份给 agent 用的资源目录应该怎样建模，又怎样知道它现在还是对的。条目和计数以 `catalog/` 与生成视图为准，本文只写方法和判断。文中出现的数字都是某一天的测量，都带着日期。
 
@@ -17,8 +17,11 @@
 9. **缩略图是证据，不是装饰，也要质检。** v1 的 601 条里有 104 条（17%）没有可用的缩略图：62 条没拍到，42 张拍到的是空白页、骨架屏、验证页或错误页；其中 53 条的 og:image 当天可以直接取回。v2 的顺序是：GitHub 仓库用它的社交卡；其余先截图，截图要过像素 QA（灰度标准差、边缘密度、主色占比）；截图不合格就用 og:image，og:image 也要过 QA；两者都不合格时显示设计过的占位卡。宁可不出图，也不出一张验证页。（实测）
 10. **对 agent 最有价值的是"怎么直达"。** 2026-09-27 实测，以下机器端点全部可用：jsDelivr 上各图标库的原始 SVG、Iconify API、Simple Icons CDN、svgl API、Fontsource API、WebAIM 对比度 API。W3C 主站对脚本返回 403，但 `w3c.github.io` 上的 WCAG、APG、clreq 镜像返回 200。这些地址应该写进 `api` 和 `entry_points`，不该埋在 `how_to_use` 的散文里。（实测）
 11. **agent 通过查询脚本加精简投影使用目录，不整份读 Markdown。** v1 为了找三四行，要读一个 1.3k 到 6k token 的域文件，而表格里恰好没有 skill 要求 agent 使用的 `kind` 列。v2 提供 `catalog.py find / show / route / recipes`，默认先按档位、再按可达性排序。UUPM 的查询纪律值得借：一个意图、2 到 5 个词、最多重试一次、查不到就直说。但它不做中文分词，本目录需要按 CJK 二元组匹配。（实测 + ui-ux-pro-max 事实 10、13）
-12. **2026 年版图最大的变化，是出现了专门给 agent 用的资源。** 设计工具可以被 agent 读写（Figma MCP 的写画布功能处于 beta）；DESIGN.md 成了事实上的格式（design-md-spec）；宿主内 UI 有了标准（mcp-apps、openai-apps-sdk-ui）；参考库开始提供 MCP（Mobbin、Refero，这一点只核实到搜索结果层面）。因此 `ai` 域分三块：AI 交互模式、AI 设计工具与生成器、面向 agent 的 skill / MCP / 格式；`kind` 枚举增加 `mcp`、`skill`、`api`。（一手资料为主，参考库 MCP 未核实）
+12. **2026 年版图最大的变化，是出现了专门给 agent 用的资源。** 设计工具可以被 agent 读写（Figma MCP 的写画布功能处于 beta）；DESIGN.md 成了事实上的格式（design-md-spec）；宿主内 UI 有了标准（mcp-apps、openai-apps-sdk-ui）；参考库开始提供 MCP（Mobbin 的 MCP 文档 2026-11-01 已读到：Pro、Team、Enterprise 套餐，OAuth，每用户每 60 秒 60 次；Refero 仍只核实到搜索结果层面）。因此 `ai` 域分三块：AI 交互模式、AI 设计工具与生成器、面向 agent 的 skill / MCP / 格式；`kind` 枚举增加 `mcp`、`skill`、`api`。（一手资料为主，参考库 MCP 未核实）
 13. **授权信息必须写进条目，而且要预期它会变。** Remix Icon 在 2026-01 改了许可证。厂商的"免费商用"中文字体不是开源许可证：禁止修改，也禁止单独分发，所以子集化有风险（cjk-font-licensing 事实 10–15）。awesome-design-md 收录的品牌 DESIGN.md 是从网站提取的，知识产权仍归品牌方（design-md-spec 事实 31）。（一手资料）
+
+14. **2026-10 起，文档方开始直接给 agent 准备入口，这比"能不能抓到网页"更重要。** 支付宝小程序文档的 HTML 是脚本外壳，但每页都有静态的 `.md` 孪生页，全站还有 `/mini/llms.txt`；Ant Design 6.5 起发布 `ant.design/design.md`，Semi 在仓库根放了给 agent 读的 `DESIGN.md` 并提供 MCP；Vercel 公开了一份散文式的 `design.md`。条目的 `entry_points` 应优先写这些入口，而不是只写人看的首页。（一手资料：alipay-miniprogram-design、ant-design-spec、semi-design-tokens-a11y、vercel-design-md）
+15. **一个季度内的变动足以让条目失真，所以复核要按季度跑。** 2026-09-27 到 11-01 之间：Remix Icon 的许可证在条目里已是 v1.0，但 npm 元数据仍写 Apache-2.0（以许可证文件为准）；AI Elements 宣布 11 月底迁往 shadcn/ui；Carbon 站点改版，自家"AI 标签"指引链接变成 404（条目改指组件文档）；taste-skill 整体重写，旧条目的"三个拨杆"描述过时；Motiff 妙多 2026-07-31 停服、11-01 关闭导出，腾讯 CoDesign 退市（两者目录未收录）。（实测：2026-11-01 验链与条目复核）
 
 ## 论证
 
@@ -86,7 +89,7 @@ UUPM 给风格表加了 active / supplemental / deprecated 三种状态，弃用
 
 - **只有一个探测位置。** 设想过用 GitHub Actions 每周从美国再探测一次，与本地结果合并，两边的差异就是"中国大陆可用性"。这还没有实现。Google Fonts、Unsplash 这类站点在大陆是否稳定，目前没有字段表达：`region` 表示内容出自哪里，不表示在哪里能用。
 - **档位理由缺失。** S 档的判断仍是一个人做的，没有写理由，也没有使用反馈。要不要给 S 行加一个 `why` 字段，没有定。
-- **MCP 可达没有位置。** `agent_access` 只有 `static|js|blocked|unknown` 四个值，"通过 MCP 可达"（Mobbin MCP、Refero MCP、Figma MCP）无处表达。要不要加 `mcp` 这个值，没有定；这两个参考库 MCP 本身也只核实到搜索结果层面。
+- **MCP 可达没有位置。** `agent_access` 只有 `static|js|blocked|unknown` 四个值，"通过 MCP 可达"（Mobbin MCP、Refero MCP、Figma MCP）和"有 llms.txt / `.md` 孪生页"都无处表达。要不要加值，没有定；Mobbin MCP 已从其文档核实，Refero MCP 仍只核实到搜索结果层面。
 - **深链失效率只来自 25 条抽样。** 要等 `entry_points` 全部结构化、全量探测之后，才有可信的比率。
 - **关系与许可证结构。** v2 没有 `relations` 字段（parent、mirror_of、supersedes），同一产品拆成多行的情况（Ant Design、ECharts、Rive 等约 12 组）只能手工合并。许可证仍是自由文本，没有 SPDX 代码，也没有"可商用 / 需署名"之类的标记，无法筛选。
 - **缩略图的权利边界。** 缩略图是第三方页面缩到 800×500 的截图，只用来识别资源。站点如果要求不被截取，目前没有退出机制；要不要建，没有定。
@@ -122,3 +125,4 @@ UUPM 给风格表加了 active / supplemental / deprecated 三种状态，弃用
   - 删除：手写计数；"国内导航多为 SEO 农场"等没有数据的断言。
   - 新增：v2 数据模型（事实、观测、缩略图分文件）；可达性的认识论；S 档配额与可达性规则；深链与事实腐烂的实测；缩略图 QA 与覆盖文件；agent 查询接口；2026 年面向 agent 的资源类型。
 - 2026-09-21 首版（旧分析 01）。
+- 2026-11-01 复核：结论 12 的 Mobbin MCP 改为已核实；新增结论 14（文档方为 agent 准备入口）、15（一个季度内的条目失真与季度复核）。目录同步：6 条新条目（VS Code UX 指南、Office 加载项设计、Chrome 侧边栏 API、Android 自适应图标、腾讯 Ardot、Vercel design.md），12 条既有条目按复核改写（AI Elements、taste-skill、Impeccable、Carbon for AI、支付宝、Harmonizer、APCA、Mobbin MCP、Figma Make、v0、MCP Apps、A2UI）。
