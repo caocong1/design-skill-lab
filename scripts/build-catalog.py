@@ -5,7 +5,8 @@ Inputs
   catalog/resources.jsonl             hand-curated rows (schema v2); the only file humans edit
   catalog/taxonomy.json               domains, sections and kinds with zh + en titles and notes
   catalog/observed.jsonl              machine observations written by scripts/check-links.py
-                                      (append-only; the latest record per id wins)
+                                      (append-only; the latest record per id wins, except that a
+                                      check with no HTTP answer never replaces an earlier answer)
   docs/assets/thumbs/manifest.json    thumbnail manifest written by scripts/shoot-catalog.mjs (optional)
 
 Outputs (generated; never edit by hand)
@@ -84,9 +85,13 @@ def load():
 
 
 def latest_observations(observed):
+    """A failed fetch is not an observation (research/README.md, honesty rule 2): an `unreachable` record is kept
+    in the log but does not replace an earlier record that got an HTTP answer."""
     latest = {}
     for record in observed:                                   # later lines win ties
         seen = latest.get(record.get('id'))
+        if seen is not None and record.get('verdict') == 'unreachable' and seen.get('verdict') != 'unreachable':
+            continue
         if seen is None or record.get('checked_at', '') >= seen.get('checked_at', ''):
             latest[record.get('id')] = record
     return latest
@@ -355,9 +360,9 @@ def render_readme(domains, rows, kinds, generated):
         '- **Tier**: `S` first place to look, `A` strong, `B` niche or with a stated weakness.',
         '- **Reach** (observed by a plain fetch, not a guess): `static` = a web fetch can read it; `js` = needs '
         'a real browser; `blocked` = bot protection or a login wall, so give the user the link and what to look '
-        'for; `unknown` = the last check got no usable answer from the maintainer\'s network (unreachable, moved '
-        'or not yet checked), which is not proof that it is down. If a source is unreachable, pick another in the '
-        'same section.',
+        'for; `unknown` = no usable answer from the maintainer\'s network (never reachable, gone, moved or not yet '
+        'checked), which is not proof that it is down; a later check that got no answer at all does not replace an '
+        'earlier answer. If a source is unreachable, pick another in the same section.',
         '- **Access · licence**: cost (`free`, `freemium`, `paid`), `login` when content is gated, the licence '
         'where it matters, and the status when it is not `active` (`slow`, `archived`, `sunset`). Check the '
         'licence before using any asset.',

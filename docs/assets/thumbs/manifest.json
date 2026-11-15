@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02",
+ "generated": "2026-11-15",
  "items": {
   "100-beste-plakate": {
    "source": "screenshot",
@@ -5438,6 +5438,33 @@
     }
    ]
   },
+  "designer-skills": {
+   "source": "github",
+   "file": "designer-skills.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 16924,
+   "captured_at": "2026-11-15T16:52:27Z",
+   "final_url": null,
+   "http": null,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 50.7,
+    "edge": 0.051,
+    "dominant": 0.863,
+    "tiles": 0
+   },
+   "url": "https://github.com/Owl-Listener/designer-skills",
+   "attempts": [
+    {
+     "mode": "github",
+     "result": "ok",
+     "reason": null,
+     "ms": 1349,
+     "src": "https://opengraph.githubassets.com/1/Owl-Listener/designer-skills"
+    }
+   ]
+  },
   "designing-interface-animation": {
    "source": "screenshot",
    "file": "designing-interface-animation.webp",
@@ -10089,30 +10116,29 @@
    ]
   },
   "interface-design-skill": {
-   "source": "screenshot",
+   "source": "github",
    "file": "interface-design-skill.webp",
    "w": 800,
    "h": 500,
-   "bytes": 10840,
-   "captured_at": "2026-09-27T09:33:47Z",
-   "final_url": "https://interface-design.dev/",
-   "http": 200,
+   "bytes": 14968,
+   "captured_at": "2026-11-15T16:52:24Z",
+   "final_url": null,
+   "http": null,
    "qa": {
     "verdict": "ok",
-    "stddev": 22.9,
-    "edge": 0.0341,
-    "dominant": 0.887,
-    "tiles": 3
+    "stddev": 33.1,
+    "edge": 0.0472,
+    "dominant": 0.891,
+    "tiles": 0
    },
-   "url": "https://interface-design.dev",
+   "url": "https://github.com/Dammyjay93/interface-design",
    "attempts": [
     {
-     "mode": "screenshot",
+     "mode": "github",
      "result": "ok",
      "reason": null,
-     "ms": 4590,
-     "http": 200,
-     "consent": "none"
+     "ms": 63167,
+     "src": "https://opengraph.githubassets.com/1/Dammyjay93/interface-design"
     }
    ]
   },
@@ -12397,6 +12423,34 @@
     }
    ]
   },
+  "magic-patterns": {
+   "source": "screenshot",
+   "file": "magic-patterns.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 17502,
+   "captured_at": "2026-11-15T16:51:40Z",
+   "final_url": "https://www.magicpatterns.com/",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 50,
+    "edge": 0.0436,
+    "dominant": 0.639,
+    "tiles": 1
+   },
+   "url": "https://www.magicpatterns.com",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 18651,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
   "magic-ui": {
    "source": "screenshot",
    "file": "magic-ui.webp",
@@ -14361,6 +14415,33 @@
     }
    ]
   },
+  "oil-ui": {
+   "source": "github",
+   "file": "oil-ui.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 13328,
+   "captured_at": "2026-11-15T16:52:25Z",
+   "final_url": null,
+   "http": null,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 42.9,
+    "edge": 0.0415,
+    "dominant": 0.903,
+    "tiles": 2
+   },
+   "url": "https://github.com/oil-oil/oil-ui",
+   "attempts": [
+    {
+     "mode": "github",
+     "result": "ok",
+     "reason": null,
+     "ms": 463,
+     "src": "https://opengraph.githubassets.com/1/oil-oil/oil-ui"
+    }
+   ]
+  },
   "oklch-article": {
    "source": "screenshot",
    "file": "oklch-article.webp",
@@ -14524,6 +14605,34 @@
      "result": "ok",
      "reason": null,
      "ms": 5065,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
+  "open-design": {
+   "source": "screenshot",
+   "file": "open-design.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 39882,
+   "captured_at": "2026-11-15T16:51:31Z",
+   "final_url": "https://open-design.ai/",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 69.3,
+    "edge": 0.0807,
+    "dominant": 0.218,
+    "tiles": 0
+   },
+   "url": "https://open-design.ai",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 9762,
      "http": 200,
      "consent": "none"
     }
@@ -14747,6 +14856,34 @@
      "result": "ok",
      "reason": null,
      "ms": 3992,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
+  "openai-frontend-prompt": {
+   "source": "screenshot",
+   "file": "openai-frontend-prompt.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 27518,
+   "captured_at": "2026-11-15T16:51:28Z",
+   "final_url": "https://developers.openai.com/api/docs/guides/frontend-prompt",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 31.8,
+    "edge": 0.0794,
+    "dominant": 0.839,
+    "tiles": 1
+   },
+   "url": "https://developers.openai.com/api/docs/guides/frontend-prompt",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 7377,
      "http": 200,
      "consent": "none"
     }
@@ -18979,24 +19116,24 @@
    "file": "stitch.webp",
    "w": 800,
    "h": 500,
-   "bytes": 29360,
-   "captured_at": "2026-09-27T09:33:41Z",
-   "final_url": "https://stitch.withgoogle.com/",
+   "bytes": 28924,
+   "captured_at": "2026-11-15T16:20:22Z",
+   "final_url": "https://stitch.google.com/",
    "http": 200,
    "qa": {
     "verdict": "ok",
-    "stddev": 54.8,
-    "edge": 0.0508,
-    "dominant": 0.497,
+    "stddev": 52.4,
+    "edge": 0.0509,
+    "dominant": 0.503,
     "tiles": 0
    },
-   "url": "https://stitch.withgoogle.com",
+   "url": "https://stitch.google.com",
    "attempts": [
     {
      "mode": "screenshot",
      "result": "ok",
      "reason": null,
-     "ms": 18348,
+     "ms": 24995,
      "http": 200,
      "consent": "none"
     }
@@ -19248,6 +19385,34 @@
      "result": "ok",
      "reason": null,
      "ms": 8249,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
+  "subframe": {
+   "source": "screenshot",
+   "file": "subframe.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 14572,
+   "captured_at": "2026-11-15T16:51:32Z",
+   "final_url": "https://www.subframe.com/",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 24.7,
+    "edge": 0.0555,
+    "dominant": 0.497,
+    "tiles": 0
+   },
+   "url": "https://www.subframe.com",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 11007,
      "http": 200,
      "consent": "none"
     }
@@ -20669,6 +20834,34 @@
     }
    ]
   },
+  "ui-sdk": {
+   "source": "screenshot",
+   "file": "ui-sdk.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 32306,
+   "captured_at": "2026-11-15T16:51:29Z",
+   "final_url": "https://ui-sdk.dev/",
+   "http": 200,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 74.1,
+    "edge": 0.1103,
+    "dominant": 0.598,
+    "tiles": 0
+   },
+   "url": "https://ui-sdk.dev",
+   "attempts": [
+    {
+     "mode": "screenshot",
+     "result": "ok",
+     "reason": null,
+     "ms": 8107,
+     "http": 200,
+     "consent": "none"
+    }
+   ]
+  },
   "ui-skills": {
    "source": "screenshot",
    "file": "ui-skills.webp",
@@ -21030,6 +21223,33 @@
      "ms": 12701,
      "http": 200,
      "consent": "none"
+    }
+   ]
+  },
+  "unslop": {
+   "source": "github",
+   "file": "unslop.webp",
+   "w": 800,
+   "h": 500,
+   "bytes": 13032,
+   "captured_at": "2026-11-15T16:52:25Z",
+   "final_url": null,
+   "http": null,
+   "qa": {
+    "verdict": "ok",
+    "stddev": 47,
+    "edge": 0.038,
+    "dominant": 0.876,
+    "tiles": 0
+   },
+   "url": "https://github.com/heydamir/unslop",
+   "attempts": [
+    {
+     "mode": "github",
+     "result": "ok",
+     "reason": null,
+     "ms": 700,
+     "src": "https://opengraph.githubassets.com/1/heydamir/unslop"
     }
    ]
   },

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02",
+ "generated": "2026-11-16",
  "domains": [
   {
    "id": "web",
@@ -169,7 +169,7 @@
    "blurb_zh": "AI 产品的交互模式与指引、生成界面与素材的工具，以及面向 agent 的 skill、格式与 MCP；领域变化快，取用要标注日期",
    "blurb_en": "Designing AI products (interaction patterns, platform guidance), AI tools that generate interfaces and assets, and the agent-facing layer: skills, rule sets, formats such as DESIGN.md, and MCP servers that give agents design files and a browser. This field moves quickly: date what you take.",
    "hue": 90,
-   "count": 58,
+   "count": 65,
    "sections": [
     {
      "id": "ai-ux-patterns",
@@ -193,7 +193,7 @@
      "en": "AI design tools and generators",
      "note_zh": "从提示词生成界面或素材的工具：适合快速出变体，也用来看清当下 AI 的“默认长相”——那正是要避开的样子。",
      "note_en": "Prompt-to-UI and prompt-to-asset tools. Useful for fast variants and for seeing the current default look, which is also the look to diverge from.",
-     "count": 9
+     "count": 12
     },
     {
      "id": "agent-skills-rules",
@@ -201,7 +201,7 @@
      "en": "Agent skills and rule sets",
      "note_zh": "本套件的先行者：引导 coding agent 做出更好界面的 skill 与规则清单。取其思路；它们互相竞争、互有重叠。",
      "note_en": "Prior art for this suite: skills and rule lists that steer coding agents toward better interfaces. Read them for ideas; they compete and overlap.",
-     "count": 13
+     "count": 17
     },
     {
      "id": "agent-formats",
@@ -652,7 +652,7 @@
    "blurb_zh": "agent 的画笔：组件库、动效与图形库、token 工具与渲染管线",
    "blurb_en": "The agent's design medium is code. Component libraries and primitives by stack, animation and graphics libraries, token tooling, and the pipeline that turns HTML, SVG and markup into images, PDFs and slides. Verify APIs against the installed version.",
    "hue": 306,
-   "count": 101,
+   "count": 102,
    "sections": [
     {
      "id": "components",
@@ -660,7 +660,7 @@
      "en": "Component libraries and headless primitives",
      "note_zh": "优先用宿主项目已有的库；选型时偏好可访问的原语与真正的主题 API。",
      "note_en": "Use the host project's library. When choosing, prefer accessible primitives and a real theme API.",
-     "count": 32
+     "count": 33
     },
     {
      "id": "animated-components",

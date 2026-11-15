@@ -30,7 +30,7 @@ Collect from outside the interface-design bubble.
 | [Pinterest](https://www.pinterest.com) | Visual search engine for moodboarding across every discipline | Use visual search on a reference image to find relatives | A | community | js | free · login |  |
 | [Same Energy](https://same.energy) | Visual search engine that finds images with the same feel | Start with one image, explore its neighbours | A | tool | js | free · slow |  |
 | [Designspiration](https://www.designspiration.com) | Inspiration search by keyword and colour | Find references matching a palette | B | community | static | free · slow |  |
-| [PureRef](https://www.pureref.com) | Lightweight reference-board app | Keep references visible while working | B | tool | blocked | freemium |  |
+| [PureRef](https://www.pureref.com) | Lightweight reference-board app | Keep references visible while working | B | tool | static | freemium |  |
 
 ## Daily feeds and newsletters · 每日聚合与通讯
 
@@ -40,7 +40,7 @@ Trend radar. Date what you take; fashion expires.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [Posts Design (home: graphic)](https://posts.design) | Hand-curated gallery of real social posts and Open Graph images from companies, each linked to its source | Browse /brands/<handle>, /opengraph and /trends; agents query the public JSON search API | A | gallery | static | free | [Open Graph images](https://posts.design/opengraph); API `https://posts.design/api/gallery/search?q={query}&collection={launches\|opengraph}&limit={n}` |
 | [Sidebar](https://sidebar.io) | Five hand-picked design links a day: a low-noise daily reading feed | Subscribe by email or RSS and skim daily; save what matters, ignore the rest | A | newsletter | static | free |  |
-| [Dense Discovery](https://www.densediscovery.com) | Thoughtful weekly newsletter across design, tech and culture | Breadth beyond the UI bubble | A | newsletter | blocked | free |  |
+| [Dense Discovery](https://www.densediscovery.com) | Thoughtful weekly newsletter across design, tech and culture | Breadth beyond the UI bubble | A | newsletter | static | free |  |
 | [TLDR Design](https://tldr.tech/design) | Daily design and tooling news digest | Skim the daily email or /design/archives for tool releases and product updates | B | newsletter | static | free |  |
 | [Muzli](https://muz.li) | Aggregated inspiration feed | Install the browser extension for a new-tab feed, or browse /inspiration/ collections; high volume, mixed quality | B | newsletter | static | free |  |
 | [Design Compass (디자인 나침반) (ko)](https://designcompass.org) | Korean design news covering local design systems, rebrands and tools | Follow for the Korean design scene (KRDS, Toss, Kakao); an English edition lives at /en/ | B | article | static | free | [English edition](https://designcompass.org/en/) |
@@ -53,9 +53,9 @@ Domestic portfolios, moodboards and shared design files.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [站酷 ZCOOL (zh)](https://www.zcool.com.cn) | The largest Chinese designer community across every discipline | Search in Chinese by category; the domestic equivalent of Behance | S | community | static | free |  |
 | [即时设计资源广场 (zh)](https://js.design/community) | Chinese design tool with a large shared-resource community | Domestic UI kits for Ant Design, TDesign, HarmonyOS | A | community | js | free · login · Licence per file |  |
-| [UI中国 (zh)](https://www.ui.cn) | Chinese UI designer community: app and web UI portfolios, UI kits and job posts | Search by category for domestic app and web UI work; check dates, many kits are old | A | community | unknown | free |  |
 | [Figma Community (home: communities)](https://www.figma.com/community) | Shared design files, UI kits and plugins, including many Chinese design-system kits | Inspect how a system is constructed, not just how it looks | A | community | blocked | free · Licence per file |  |
 | [花瓣 (zh)](https://huaban.com) | Chinese Pinterest-style image collecting | Moodboards with Chinese-market references | A | community | blocked | free · login |  |
+| [UI中国 (zh)](https://www.ui.cn) | Chinese UI designer community: app and web UI portfolios, UI kits and job posts | Search by category for domestic app and web UI work; check dates, many kits are old | A | community | blocked | free |  |
 | [Xiaohongshu (小红书) (zh)](https://www.xiaohongshu.com) | The lifestyle platform where Chinese designers and brands post moodboards, case notes and visual trends | Search design keywords in Chinese (海报排版, 品牌升级, UI 灵感) to see what the domestic audience responds to right now | A | community | blocked | free · login |  |
 | [优设导航 (zh)](https://hao.uisdc.com) | The most complete Chinese design-site directory; contains promoted links | Locate Chinese tools and asset sites | B | archive | static | free |  |
 | [Figma.Cool (Figma 中文社区) (zh)](https://www.figma.cool) | Chinese Figma community with localisation, plugin and component-kit guides | Use to find Chinese-language Figma resources, plugins and localisation help for domestic teams | B | community | static | free |  |

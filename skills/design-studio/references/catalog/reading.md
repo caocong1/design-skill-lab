@@ -73,7 +73,7 @@ Evidence to cite instead of opinion.
 | [GOV.UK design principles](https://www.gov.uk/guidance/government-design-principles) | Ten principles for user-centred services | Start with user needs; do the hard work to make it simple | A | guideline | static | free |  |
 | [Built for Mars](https://builtformars.com) | Peter Ramsey's step-by-step UX case studies of real products (onboarding, banking, checkout) plus 1,400+ UX examples | Read the case study for the flow you are designing; feeds exist for case studies and UX Bites | A | article | static | freemium | [Case studies](https://builtformars.com/case-studies); [llms.txt](https://builtformars.com/llms.txt) |
 | [MeasuringU](https://measuringu.com) | Quantitative UX research: benchmarks, SUS and sample sizes explained with data | Use when a claim needs numbers rather than opinion (task time, SUS norms, how many users to test) | A | article | static | free |  |
-| [UX Myths](https://uxmyths.com) | Common UX misconceptions with research that refutes them | Settle arguments such as the three-click rule | B | archive | static | free · archived |  |
+| [UX Myths](https://uxmyths.com) | Common UX misconceptions with research that refutes them | Settle arguments such as the three-click rule | B | archive | blocked | free · archived |  |
 
 ## Process, critique and presenting work · 流程、评审与呈现
 
@@ -101,11 +101,11 @@ The canon. Paid unless noted.
 | [The Big Book of Dashboards (home: dataviz)](https://www.bigbookofdashboards.com) | Real business dashboards grouped by scenario, each with expert critique of what works and why | Find the scenario closest to the brief (executive summary, operations, sales, health care) and borrow its layout logic; the site hosts the dashboards shown in the book. | A | book | static | paid |  |
 | [Don't Make Me Think](https://sensible.com/dont-make-me-think/) | Steve Krug's short classic on web usability | First usability book to read | A | book | static | paid |  |
 | [The Design of Everyday Things](https://www.hachettebookgroup.com/titles/don-norman/the-design-of-everyday-things/9780465050659/) | Don Norman on affordances, signifiers, mapping and feedback | The vocabulary of interaction design | A | book | static | paid |  |
-| [Grid Systems in Graphic Design](https://niggli.ch/en/products/rastersysteme-fur-die-visuelle-gestaltung) | Mueller-Brockmann's definitive manual on grids | Reference for poster, editorial and deck layout | A | book | static | paid |  |
 | [The Elements of Typographic Style](https://typographica.org/typography-books/the-elements-of-typographic-style-4th-edition/) | Robert Bringhurst's reference on proportion, rhythm, spacing and the details of Latin typesetting (v4.0) | Consult the chapters on rhythm and proportion (measure, leading) and on the page before inventing a rule; the link is Typographica's review, the book is in print from Hartley & Marks | A | book | static | paid |  |
 | [Interaction of Color](https://yalebooks.yale.edu/book/9780300179354/interaction-of-color/) | Albers on how colours change each other | Why a colour looks wrong in context | A | book | static | paid |  |
 | [Microcopy: The Complete Guide](https://www.microcopybook.com) | Kinneret Yifrah's guide to interface words | Reference for error, empty-state and button copy | A | book | static | paid |  |
 | [Form Design Patterns](https://www.smashingmagazine.com/printed-books/form-design-patterns/) | Adam Silver's inclusive form patterns | Before designing any complex form | A | book | static | paid |  |
+| [Grid Systems in Graphic Design](https://niggli.ch/en/products/rastersysteme-fur-die-visuelle-gestaltung) | Mueller-Brockmann's definitive manual on grids | Reference for poster, editorial and deck layout | A | book | blocked | paid |  |
 | [Designing Interface Animation](https://rosenfeldmedia.com/books/designing-interface-animation/) | Val Head's book on purposeful UI animation | Depth on motion in design systems | A | book | blocked | paid |  |
 
 ## Courses · 课程
@@ -128,12 +128,12 @@ Domestic case studies and team blogs for Chinese-market context.
 
 | Resource | Best for | How to use | Tier | Kind | Reach | Access · licence | Entry point |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [优设网 (zh)](https://www.uisdc.com) | The largest Chinese design learning site: tutorials, trend reports, tool news | Search a topic in Chinese; quality varies by author | A | article | static | free |  |
 | [腾讯 ISUX (zh)](https://isux.tencent.com) | Tencent's social UX team writes up real product and brand design cases | Case studies of mass-market Chinese products | A | article | static | free |  |
 | [Woshipm (人人都是产品经理) (zh)](https://www.woshipm.com) | The largest Chinese product-management community, with many UX, interaction and industry teardown articles | Search Chinese product patterns and teardowns; the 产品设计 channel (/category/pd) is the most relevant; quality varies | A | article | static | free | [产品设计 channel](https://www.woshipm.com/category/pd) |
 | [腾讯 CDC (zh)](https://cdc.tencent.com) | Tencent's customer research and design centre | User-research and enterprise-product perspective | A | article | js | free · slow |  |
 | [阿里巴巴设计 (zh)](https://www.alibabadesign.com) | Alibaba Design's D20 summit site: talks and case write-ups from Alibaba's design teams | Use the talks for commerce and enterprise design at scale; Alibaba Design's free 3D and AI assets live on 堆友 (d.design) | A | article | js | free · slow |  |
 | [Ant Design 语雀专栏 (zh)](https://www.yuque.com/ant-design) | Long-form writing from the Ant Design team on enterprise product design | Depth behind Ant Design's patterns | A | article | js | free · slow |  |
-| [优设网 (zh)](https://www.uisdc.com) | The largest Chinese design learning site: tutorials, trend reports, tool news | Search a topic in Chinese; quality varies by author | A | article | blocked | free |  |
 | [少数派 (zh)](https://sspai.com) | Chinese publication on apps, tools and digital craft | App reviews reveal what Chinese power users value | B | article | static | free |  |
+| [UXRen (zh)](https://www.uxren.cn) | Chinese UX community with translations of international articles | Find Chinese translations of canonical articles | B | community | static | free · slow |  |
 | [Juejin (稀土掘金) (zh)](https://juejin.cn) | The largest Chinese developer community; its front-end channel covers CSS, animation, component libraries and design-to-code practice | Search in Chinese for how domestic teams implement a pattern (Taro, mini-programs, ECharts); quality varies by author | B | community | static | free | [Front-end channel](https://juejin.cn/frontend) |
-| [UXRen (zh)](https://www.uxren.cn) | Chinese UX community with translations of international articles | Find Chinese translations of canonical articles | B | community | blocked | free · slow |  |
