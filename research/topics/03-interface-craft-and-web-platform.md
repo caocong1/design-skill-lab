@@ -1,6 +1,6 @@
 # 03 界面工艺与现代 Web 平台
 
-> 元数据：更新于 2026-11-01 · 依据：vercel-web-interface-guidelines、web-baseline-2026、wcag-22、laws-of-ux、nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip、apple-hig-liquid-glass、apple-hig-bars、apple-macos-touch、harmonyos-design、fluent-2、impeccable、impeccable-slop-rules、chinese-copywriting-guidelines（旧分析 03 已并入）· 复核期限：2027-01-30（另有两个触发点：2026-11-13 之后第一次 web-features 发版看 `light-dark()` 是否转为"广泛可用"；第一份带 Firefox 159 数据的发版看滚动驱动动画）
+> 元数据：更新于 2026-11-16 · 依据：vercel-web-interface-guidelines、web-baseline-2026、wcag-22、laws-of-ux、nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip、apple-hig-liquid-glass、apple-hig-bars、apple-macos-touch、harmonyos-design、fluent-2、impeccable、impeccable-slop-rules、chinese-copywriting-guidelines（旧分析 03 已并入）· 复核期限：2027-01-30（另有两个触发点：2026-11-13 之后第一次 web-features 发版看 `light-dark()` 是否转为"广泛可用"；第一份带 Firefox 159 数据的发版看滚动驱动动画）
 
 这一篇回答两件事。第一，交互工艺——焦点、目标尺寸、加载、表单、状态这类几百个“有没有想到”的小决定——怎样保证不漏。第二，2024–2026 年进入 Baseline 的 HTML / CSS 原语怎样改变“设计稿该画什么、规格该写什么”。视觉规则（Hobday、排版、色阶、圆角）归 05；token 的 CSS 作用域与 `light-dark()` 组织法归 06；动效归 04。
 
@@ -34,6 +34,9 @@
 21. **输入法：结论 16 的"Safari 27 已修"被推翻。** WebKit 2026-04 打开了正确的事件顺序，2026-06 因回归报告太多又全局关掉；web-features 3.41.0 起撤回 `isComposing` 的 Baseline，BCD 8.1.7 把 Safari 标成部分支持。`isComposing || keyCode === 229` 的双重判断对所有 Safari 版本都要保留。（一手资料：ui-events-ime #4–5）
 22. **APG 的复合组件补齐了。** 列表框（五项以上要 Home/End、七项以上要逐字跳转，选择是否随焦点由设计决定）、网格（方向键到边停、Enter 或 F2 进入编辑、Esc 退出且可撤销）、标签页（面板预加载时才自动激活）、树（右键展开再进第一个子项、左键收起再回父项）。interaction.md 的组件表据此补了三行。（一手资料：wai-aria-apg #12–22）
 23. **触控 Mac 让"桌面 = 纯指针"不再成立。** macOS 27 的触控屏（2026-11-06 上市）：版式与密度不变，热区比可见控件大，没有悬停，悬停才出现的控件要能点按区域揭示并在右键菜单里有入口。（一手资料：apple-macos-touch）
+
+24. **web-features 3.46.0（2026-11-12）。** 滚动驱动动画成为 Baseline 2026；`light-dark()` 在 11-13 之前的最后一版仍是"新近可用"，数据还没标"广泛可用"，回退块继续保留；`position-visibility` 有了 Chrome 157；网格车道（masonry）只有 Safari。上一版"Safari 条目被撤回"是把功能级支持为空误读了，摘要已更正。CSS Color 5 在 2026-11-14 出了新的工作草案，`contrast-color()` 不变。（一手资料：web-baseline-2026 #33–36）
+25. **输入法：同类独立写出了同一套防护。** UI UX Pro Max 的输入法文档与本套件一致（`isComposing || keyCode === 229` 双重判断、Safari 顺序缺陷、永远不在 `compositionend` 时提交），并多出四点：忽略按住不放的重复 Enter、用 `requestSubmit()` 提交以保留校验、保留可见的发送按钮、日文和韩文各自实测。四点已写进 interaction.md §4。（一手资料：ui-ux-pro-max 26、ui-events-ime）
 
 ## 论证
 
@@ -89,3 +92,4 @@
 - 2026-09-27 重写：由旧分析 03 迁入并全文重写。Hobday 视觉规则与 Laws of UX 移到 05；新增 Web 平台能力层（web-features 3.40.0 的 Baseline 状态、三档标注、原语如何改变设计决定、粒度陷阱）、WCAG 2.2 的表单 / 拖拽 / 焦点条款、玻璃的 Web 回退、现成检测器的覆盖边界；更正 APCA“仍是草案”、24 px 规则的出处与写法、Vercel 只读 README 三处；复查并更正 `text-autospace` 的状态粒度；删除“易腐与耐久”“对设计 agent 的启发”等仪式性小节。
 - 2026-09-28 补充：新增结论 14–18（交互成本与 KLM、键盘与快捷键、中文输入法、组件行为、顺手默认值），依据新增的 nng-heuristics、klm-kieras、wai-aria-apg、ui-events-ime、rauno-interaction-details、carbon-notification-tooltip 与 wcag-22 #32；对 skill 的约束加 interaction.md 与 surface contract 的 Task cost 块。NN/g 十条启发式此前只在 laws-of-ux 摘要里提到名字，现在有了单独摘要。
 - 2026-11-01 复核：web-features 3.40.0 → 3.44.0，引用状态不变；新增结论 19（`light-dark()` 回退与宿主事故）、20（Firefox 159 与 grid lanes）、21（推翻"Safari 27 已修输入法顺序"）、22（APG 复合组件）、23（触控 Mac）；未决问题更新。
+- 2026-11-16 复核：web-features 3.44.0 → 3.46.0，新增结论 24；新增结论 25（输入法防护的独立印证与四点补充）。

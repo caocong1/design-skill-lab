@@ -210,7 +210,7 @@ the assumed scope in decisions.md.
 | --- | --- | --- |
 | EU | AI Act Art. 50: disclose AI interaction; machine-readable marking of synthetic output; disclose deep fakes and AI text published on public-interest matters | from 2026-08-02. Art. 50(2) marking for generative systems on the market before that date: by 2026-12-02. Fines up to EUR 15 million or 3 % of worldwide turnover |
 | EU | Code of Practice on transparency of AI-generated content (voluntary): label design and placement | final 2026-06-10, judged adequate by the Commission 2026-07-08; signatory task forces draft an EU audio earcon and a hover-or-click second layer for the icon from January 2027 |
-| EU | Commission guidelines on Art. 50 | approved 2026-07-20; apply only after formal adoption, still unconfirmed on 2026-11-01 |
+| EU | Commission guidelines on Art. 50 (non-binding) | published in the Official Journal 2026-11-12 (C/2026/6005); para 68 puts short outputs (single words, captions, alt text, UI labels, icon-scale graphics) and source code outside the 50(2) marking duty |
 | China | 人工智能生成合成内容标识办法 + mandatory standard GB 45438-2025: explicit and implicit labels | in force since 2025-09-01; enforced: apps removed from stores (2025-11-25), 剪映 and 即梦AI summoned (2026-04-28), a WeChat mini program ordered offline for missing labels, missing metadata and unlabelled exports (2026-09-15) |
 
 ### 4.2 Where labels must appear

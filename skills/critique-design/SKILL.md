@@ -13,10 +13,10 @@ examples_en:
 - "Review this screen and tell me what's wrong"
 - "Run an accessibility audit on this checkout flow"
 - "Accept this build against its handoff screenshots"
-version: 0.4.1
+version: 0.4.2
 author: "caocong1"
 metadata:
-  version: 0.4.1
+  version: 0.4.2
   short-description: Fresh-eye design review, scoring and build acceptance
 ---
 
@@ -75,9 +75,11 @@ B caught, and B's false positives. Floor items no tool checked are `not verified
    region that delivers it: `kept`, `partial` or `missing`. A rationale the render does not show is
    design theater; partial and missing are findings. Write down every candidate; do not filter.
 5. **Track B.** Run or open the mechanical evidence and merge it with Track A.
-6. **Vet pass.** Re-open every cited location (shot region, selector, `file:line`) before a candidate
-   becomes a finding. Drop false positives, fix wrong locations, merge repeats into one systemic
-   finding, then grade it. Keep a one-line reason for each rejected candidate.
+6. **Vet pass.** Re-open every cited location (shot region, selector, `file:line`) before a
+   candidate becomes a finding. Drop false positives, fix wrong locations, merge repeats into one
+   systemic finding, then grade it. Keep a one-line reason for each rejected candidate. A finding
+   names what a user loses if it stays; `ship` with no material fix is a normal result (critics
+   over-report on good work).
 7. **Score** with the [rubric](references/rubric.md): floor, then ceiling, then the gate.
 8. **Decide, crop, report**: disposition, one crop per finding, [report](templates/critique-report.md).
 

@@ -22,13 +22,13 @@
 | 每年 5 月 | Google I/O | `material-3-expressive`、`material-motion-tokens`、`a2ui` |
 | 每年 6 月 | WWDC | `apple-hig-liquid-glass`、`apple-hig-bars`、`apple-app-icons` |
 | 每年 6 月 | HDC（华为开发者大会） | `harmonyos-design` |
-| 随时 | W3C 发布：WCAG 3 工作草案（下一版计划在 2026-12）、clreq / jlreq 修订（clreq 下一次月度发布会带上"字素与分词、选择"一节）、DTCG 社区组报告 | `wcag-22`、`accessibility-law`、`clreq-chinese-text-layout`、`jlreq`、`dtcg-2025-10` |
-| 每次发版 | web-features 数据集：2026-11-13 之后第一次发版看 `light-dark()` 是否转为广泛可用；第一份带 Firefox 159 数据的发版看滚动驱动动画 | `web-baseline-2026` |
+| 随时 | W3C 发布：WCAG 3 工作草案（下一版计划在 2026-12）、clreq / jlreq 修订（clreq 的"字素与分词、选择"一节已随 2026-11-04 的 TR 发布）、DTCG 社区组报告 | `wcag-22`、`accessibility-law`、`clreq-chinese-text-layout`、`jlreq`、`dtcg-2025-10` |
+| 每次发版 | web-features 数据集：2026-11-13 之后第一次发版看 `light-dark()` 是否转为广泛可用（3.46.0 是 11-12，仍未转）。Firefox 159 的滚动驱动动画已随 3.45.0 进入 Baseline，此项完成 | `web-baseline-2026` |
 | 2026-11-01（已到） | GB/T 47523-2026《移动互联网应用程序适老化技术规范》已生效；正文在 openstd 上要验证码，仍未读到，读到后替换 MIIT 2021 数字 | `accessibility-law` |
-| 2026-11 底 | AI Elements 弃用、迁入 shadcn/ui；EN 301 549 V4.1.1 可能在 OJEU 上引用（二手预测 11-30 或 12-16） | `vercel-ai-elements`、`accessibility-law` |
-| 2026-12-02 | 欧盟 AI 法案第 50(2) 条过渡期结束（ai-experience.md 的 `review_by` 设在 12-03） | `ai-labelling-law` |
-| 2026-12-14 | Claude Design 独立站 claude.ai/design 关闭 | `anthropic-design-skills`、`process/system.md` §8 |
-| 2026 年内 | Compose material3 1.5.0 正式版（Material 官方说法）；ISO/IEC 40500:2026（W3C 预期） | `material-3-expressive`、`wcag-22` |
+| 2026-11 底 | AI Elements 弃用、迁入 shadcn/ui（新址已上线，见摘要第 5–6 条）；EN 301 549 V4.1.1 可能在 OJEU 上引用（二手预测 11-30 或 12-16；11-16 查 cellar 尚无） | `vercel-ai-elements`、`accessibility-law` |
+| 2026-12-02 | 欧盟 AI 法案第 50(2) 条过渡期结束（ai-experience.md 的 `review_by` 设在 12-03）。Art. 50 准则已于 11-12 在官方公报发布（C/2026/6005） | `ai-labelling-law` |
+| 2026-12-14 | Claude Design 独立站 claude.ai/design 关闭、转为只读；看"迁移到 Claude"之后设计系统 artifact 能否编辑、`/design-sync` 是否改读格式 | `anthropic-design-skills`、`process/system.md` §8 |
+| 2026 年内 | Compose material3 1.5.0 正式版（Material 官方说法；11-04 已到 rc01）；ISO/IEC 40500:2026（W3C 预期）；`@google/design.md` 0.4.1 发到 npm（仓库里已修 `lineHeight` 导出） | `material-3-expressive`、`wcag-22`、`design-md-spec` |
 | 2027-01 | 欧盟行为准则签署方工作组开始起草音频提示音与图标的交互式第二层 | `ai-labelling-law` |
 | 待定 | EN 301 549 V4.1.1 在欧盟官方公报（OJEU）上引用；美国司法部发布 ADA Title II 新规提案；GB/T 37668 修订版发布；DESIGN.md 的 #182（动效节）合并；Style Dictionary 支持 resolver | `accessibility-law`、`design-md-spec`、`dtcg-2025-10` |
 | 2027-04 | App Store 提交须带 iPhone Duo 截图 | `apple-hig-bars` |
@@ -87,10 +87,11 @@
 12. 参考库 MCP：Mobbin MCP 已从其文档核实（目录条目已更新）；Refero MCP 仍只核实到搜索结果层面。
 13. 交互补缺（0.9.0 登记）：触屏 KLM 扩展；子菜单斜向容差（Amazon menu-aim 一类）与拖拽键盘拾取的一手来源；原生平台的输入法组字模型（UIKit `markedTextRange`、Android `InputConnection`、HarmonyOS、小程序 `input`）。APG 的列表框、网格、标签页、树已于 2026-11-01 读完（`wai-aria-apg` 第 12–22 条）。
 14. 2026-11-01 新登记：GB/T 47523-2026 正文（验证码挡住）；WPS 加载项规范；Refactoring UI；国内团队带测量结果的 AI + UI 文章（本轮在腾讯 ISUX、美团、蚂蚁、京东、网易的站点上都没找到）；2026 年关于屏幕阅读的研究里只找到"易读版式对成人无效"（Frontiers, n = 69）与"读写障碍字体无效"（荟萃分析 g = −0.04），行长、中文行距与字距没有新的测量；一项儿童中文在线教育界面的眼动研究（IJHCI 2026，n = 161，只读到摘要）称 14 px、1.5 倍行距最利于学习，未写进规则。
+15. 2026-11-16 新登记：oil-ui 公布的 15 次盲测页面（作者自评，未读）；Impeccable 登录后上传内容与其隐私页的出入（待其更新隐私页后复核）；鸿蒙新页面"智能穿戴应用 UX 体验标准"（10-28）与"阔折叠"（10-30）未读；GB/T 47523-2026 正文仍被验证码挡住，新闻稿确认为推荐性标准；国内团队带测量的 AI + UI 文章仍未找到，主要渠道是微信公众号，现有工具检索不到。
 
 ## 5. 未决的研究问题
 
-- **套件到底有没有让设计变好？** 两轮评测按事先登记的规则都是"没有明确差别"（主题 09 结论 12）。第三轮要先按提案 P6 与 2026 年的评审研究（主题 09 结论 13）改评测，再跑。
+- **套件到底有没有让设计变好？** 两轮评测按事先登记的规则都是"没有明确差别"（主题 09 结论 12）。第三轮要先按提案 P6 与 2026 年的评审研究（主题 09 结论 13、15–17：分歧照列、行为结论要有操作证据、可加一项截图多样性指标）改评测，再跑。
 - **0.7.0 / 0.8.0 的重设计原则在真实项目里是否成立**：从功能地图出发的结构性方向，加上变更成本反向规则。评测 brief 06 只是替身，需要一次真实的宿主重设计。
 - **反馈改动的效果**：`field/2026-09-host-retros.md` 里只有两条"已观察生效"，而且各只有一次观察。下一个宿主项目要回填验证状态。
 - **同一模型家族的新鲜评审能有多独立**，没测过（主题 09）。

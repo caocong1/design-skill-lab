@@ -67,7 +67,7 @@ Status for each row, dated, and what "Baseline YYYY" means for your users: desig
 | Menu, toggletip, picker, non-modal panel | `popover` (`auto` light-dismiss or `manual`) | top layer, Esc and focus return come free. `popover="hint"` and hover interest invokers are limited: hover tooltips still need JS and must meet WCAG 1.4.13 |
 | A button opens or closes a dialog or popover | `command` + `commandfor` | a click handler for older engines |
 | Modal | `<dialog>` + `showModal()` | `closedby` is limited (no Safari): keep a close button and Esc |
-| Tooltip, menu, coach-mark placement | anchor positioning + `position-try-fallbacks` | spec and test the fallback order; `position-visibility: anchor-valid / anchor-visible` is Safari 27 only; animating anchored elements is enhancement; older engines get a JS positioner behind `@supports (anchor-name: --a)` |
+| Tooltip, menu, coach-mark placement | anchor positioning + `position-try-fallbacks` | spec and test the fallback order; `position-visibility: anchor-valid / anchor-visible` is Chrome 157 and Safari 27, no Firefox; animating anchored elements is enhancement; older engines get a JS positioner behind `@supports (anchor-name: --a)` |
 | State and shared-element transitions | same-document view transitions | skip under reduced motion; cross-document (MPA) and element-scoped transitions are limited: enhancement only |
 | Enter from `display: none` | `@starting-style` + `transition-behavior: allow-discrete` | exits out of `display: none` and the `overlay` property are limited: exits degrade to an instant hide |
 | Auto-growing textarea, chat composer | `field-sizing: content` + `max-height` | JS autosize for older engines |
@@ -211,7 +211,7 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   (`defaultSpatialSpec()`, `fastEffectsSpec()`...), never hand-written `spring(...)`.
   `LocalMotionScheme` was removed in 1.5.0-alpha27.
 
-| material3, as of 2026-11-01 | stable 1.4.0 (2025-09-24) | 1.5.0-beta02 (2026-10-21), API frozen |
+| material3, as of 2026-11-16 | stable 1.4.0 (2025-09-24) | 1.5.0-rc01 (2026-11-04), API frozen since beta |
 | --- | --- | --- |
 | 64 dp flexible nav bar `ShortNavigationBar`; rails `WideNavigationRail`, `ModalWideNavigationRail` | yes | yes |
 | `MotionScheme.expressive()`, `MaterialExpressiveTheme`, emphasized type styles | internal | yes |
@@ -278,7 +278,7 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   drag region on the bar (`-webkit-app-region: drag`, Tauri `data-tauri-drag-region`), `no-drag` on its
   controls, room for traffic lights and caption buttons, full-screen and maximised states. Native menus,
   remembered bounds, a minimum window size, no text selection on chrome; test at 100/125/150% scaling.
-- WinUI 3 (Windows App SDK 2.6.4 stable, 2026-10-27; Microsoft's docs use both "WinUI" and "WinUI 3"): `Window.SystemBackdrop = new MicaBackdrop()`
+- WinUI 3 (Windows App SDK 2.6.5 stable, 2026-11-03; Microsoft's docs use both "WinUI" and "WinUI 3"): `Window.SystemBackdrop = new MicaBackdrop()`
   (`BaseAlt` for tabbed title bars) once, as the base layer, transparent layers above; `DesktopAcrylicBackdrop`
   or a `SystemBackdrop` on flyouts for transient surfaces; `SystemBackdropElement` for one panel. Radii from
   `ControlCornerRadius` (4) and `OverlayCornerRadius` (8). Title bar 32 px, 48 px with search or a person

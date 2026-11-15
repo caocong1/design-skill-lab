@@ -1,6 +1,6 @@
 # 06 设计系统与 token
 
-> 元数据：更新于 2026-11-01 · 依据：dtcg-2025-10、design-md-spec、radix-colors-scale、web-baseline-2026、mcp-apps、openai-apps-sdk-ui、a2ui、v0-design-systems-2、figma-make-guidelines、vercel-design-md、ant-design-spec、tdesign-spec、semi-design-tokens-a11y（旧摘要 dtcg-design-tokens-format、design-md-format 已归档）· 复核期限：2027-01-30
+> 元数据：更新于 2026-11-16 · 依据：dtcg-2025-10、design-md-spec、radix-colors-scale、web-baseline-2026、mcp-apps、openai-apps-sdk-ui、a2ui、v0-design-systems-2、figma-make-guidelines、vercel-design-md、ant-design-spec、tdesign-spec、semi-design-tokens-a11y（旧摘要 dtcg-design-tokens-format、design-md-format 已归档）· 复核期限：2027-01-30
 
 一句话：系统是“一次决定、处处复用”的那组决策。2026 年它有三种载体——给工具交换的 DTCG token（含 Resolver 主题模块）、给下一个 agent 读的 DESIGN.md、给浏览器的 `tokens.css`——外加一批只能容纳其中一部分的托管存储与宿主变量。本篇回答：分几层、主题怎么表达、DESIGN.md 管什么、怎么和别人的存储共处。
 
@@ -33,6 +33,14 @@
 13. **DESIGN.md 规范 2026-10-16 起把"正文里的 yaml 代码块"写成了正式载体。** token 可以写在 front matter，也可以写在各节的 ```yaml 块里，两者合并成一棵树；同一个顶层键在全文出现两次就拒收整个文件。CLI 仍是 0.4.0，这次只改了文档没改解析器。对模板的意义：token 只写在 front matter，正文不放任何 yaml 围栏。待合并的 PR 里有"动效节与 motion token"（#182），合并后结论 6 关于动效没有位置的说法要改。依据：design-md-spec #4、#5a。一手资料。
 14. **托管存储与组件库一侧的"agent 可读系统文件"已经一手核实**（覆盖结论 10 的二手部分）：v0 存 `v0.json` + `SKILL.md`，Figma Make 读 `Guidelines.md` 与文件夹，Claude Design 走 `/design-sync`，三者都不读 DESIGN.md；Ant Design 6.5 发布 `ant.design/design.md`（字阶 14/22、只用 400 与 600、4 px 单位），Semi 在仓库里放 `DESIGN.md` 并提供 MCP；Vercel 的 `design.md` 把 token 放进模型不读的运行时样式表。系统记录源仍只有一个，其余是投影（结论 10 的原则不变）。依据：v0-design-systems-2、figma-make-guidelines、ant-design-spec、semi-design-tokens-a11y、vercel-design-md。一手资料。
 15. **CSS 落地的第四个作用域事实：`light-dark()` 写在自定义属性里，在不支持它的引擎里会让所有读这个 token 的声明在计算值阶段失效。** 同一属性再写一个普通值不能回退；要用 `@supports not (color: light-dark(#000, #fff))` 块重写一遍浅色角色。tokens.css 模板已加此块，`color_tools.py matrix` 会跳过它、只检查 `light-dark()` 分支（新旧脚本输出逐项相同）。依据：web-baseline-2026 #13；实测（Chromium 模拟）。
+
+16. **2026-11 托管设计系统与格式的变化。**
+   - Claude Design 独立站 12-14 之后只读；"迁移到 Claude"把项目和设计系统变成 artifact，迁过去的设计系统不能在页面上直接改（要让 Claude 改），对话和批注不迁移。
+   - DESIGN.md 仓库里的 0.4.1 修好了 `lineHeight` 和 `letterSpacing` 的导出，但 npm 上仍是 0.4.0，所以"`lineHeight` 写成带引号的无单位数"这条照旧；动效一节的 PR 仍未合并。
+   - A2UI v1.0 去掉了智能体一侧的主题，品牌完全在渲染器；组件目录用 `instructions` 携带设计规则。
+   - Style Dictionary 5.8 仍不支持 2025.10 的 resolver；Stitch 迁到 stitch.google.com，主题字段不变；Ant Design 6.7.0 只改了 Alert 的一个组件 token。
+
+   （一手资料：anthropic-design-skills 36、design-md-spec 33–36、a2ui 21–23、dtcg-2025-10 44、ant-design-spec 复核）
 
 ## 论证
 
@@ -91,3 +99,4 @@
 
 - 2026-09-27 重写：由旧分析 07 迁入并全文重写。更正“Resolver 仍在演进”与“`$schema` 属于 token 文件规范”两处错误；新增 Color / Resolver 模块、族 × 模式的正交组织法、工具支持现状、DESIGN.md 规范全文与 CLI 实测（export 损失、lint 两个漏检反例）、PHILOSOPHY、托管存储与宿主变量互通、CSS 作用域实测；删除“易腐与耐久”“对最终 skill 的影响”等仪式性小节。
 - 2026-11-01 复核：结论 5 的工具版本更新；新增结论 13（DESIGN.md 穿插 yaml 块）、14（托管存储与组件库系统文件的一手核实）、15（`light-dark()` 的回退）；三条未决问题更新。
+- 2026-11-16 复核：新增结论 16（Claude Design 迁移、DESIGN.md 0.4.1 未发布、A2UI 去主题、工具版本）。

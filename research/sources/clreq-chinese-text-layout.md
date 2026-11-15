@@ -1,6 +1,6 @@
 # Requirements for Chinese Text Layout (clreq, 中文排版需求)
-- id: clreq-chinese-text-layout · url: https://www.w3.org/TR/clreq/ · fetched: 2026-11-01 · method: fetch
-- review_by: 2027-11-01 (durable +365d) · licence note: paraphrased digest, not a mirror
+- id: clreq-chinese-text-layout · url: https://www.w3.org/TR/clreq/ · fetched: 2026-11-16 · method: fetch
+- review_by: 2027-11-16 (durable +365d) · licence note: paraphrased digest, not a mirror
 > 中文导语：W3C 国际化兴趣组中文布局任务组编写的《中文排版需求》是中文排版的规范性参考（禁则分级、标点挤压、中西间距、行间标点）。本摘要只取与界面和网页排版直接相关的条目；竖排、注音等章节未展开。浏览器实现状态单列，因为那部分易腐。
 
 Read on 2026-09-27: the latest published version, "W3C Group Note Draft 01 September 2026" (`https://www.w3.org/TR/2026/DNOTE-clreq-20260901/`), editors Fuqiao XUE and Richard Ishida. The TR is trilingual (English, Simplified, Traditional). Note: `www.w3.org` answered a bot challenge to a plain client; a request with browser-like headers returned the full document. The note is republished roughly monthly (per earlier research: 2025-10-08 … 2026-08-04, 2026-09-01).
@@ -31,12 +31,16 @@ Re-read on 2026-11-01: the TR is now "W3C Group Note Draft 07 October 2026" (`ht
 - `hanging-punctuation`: Safari 26.5 only. `word-break: auto-phrase`: Chromium 119+ only.
 - `text-emphasis` (着重号): Baseline widely available since 2024-09-03.
 
+Re-checked 2026-11-16 (standards verifier): `api.w3.org/specifications/clreq/versions`, and the full text of the new Group Note Draft of **4 November 2026** (`https://www.w3.org/TR/2026/DNOTE-clreq-20261104/`, now what `/TR/clreq/` resolves to) diffed against the 7 October 2026 draft.
+15. **The segmentation section is published** as §4.2 "Grapheme/word segmentation & selection / 字素、词语的分割与选择" (4.2.1 grapheme clusters, 4.2.2 words and word boundaries, 4.2.3 sentences): cursor movement, deletion and selection work on grapheme-cluster boundaries and a caret never sits inside a cluster; Chinese word segmentation is dictionary-, rule- or statistics-based and inherently ambiguous (the new Figure 10 shows 研究生命的起源 split two ways); sentences end at 。？！ (with any closing quote or bracket), an ellipsis may end one, and decimal or abbreviation points are not boundaries. Later figures are renumbered. One other wording change: Western letters and digits are not tracked around Chinese "pause or stop punctuation marks" (was "commas or full stops"); not a rule change.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/cjk-typography.md: default prohibition level "basic"; compression before prohibition; never break ⸺ or ……, number+unit, sign+number, currency+amount (use `white-space: nowrap` or `&nbsp;`/U+2060 where the engine does not know the rule); CJK-Latin gap ≈ 1/4 em from the renderer, not a typed full-width space; interlinear marks need leading planned into the base grid.
 - skills/design-studio/references/fundamentals/modern-css.md: carry the support table above with its date and the web-features version.
 - skills/design-studio/scripts/lint.mjs: forbidden line-start punctuation in rendered text, split ⸺/…… and typed full-width spaces between CJK and Latin are detectable on a rendered page.
 
 ## Not verified / open
+- 2026-11-16: fact 13 cited the editor's-draft anchor; the text is now §4.2 of the 2026-11-04 TR (fact 15). Fragment ids cited elsewhere in this digest were not re-checked against the new TR.
 - Correction vs the previous version (2026-11-01): no cited rule changed; the TR date moved to 2026-10-07; fact 13 is from the editor's draft and must be re-cited to a TR once published; fact 14 (the 50–100 % type-area line gap) was confirmed in the published 2026-10-07 TR.
 - The "no space next to Chinese pause marks" rule in §6.3.3 may interact with `text-autospace` implementations differently per browser; not tested.
 - All fragment IDs above were checked against the 2026-09-01 HTML; section numbers can shift between monthly republications, fragment IDs are the stable reference.

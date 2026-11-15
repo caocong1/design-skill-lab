@@ -78,7 +78,7 @@ trigger and never flipped.
 | --- | --- | --- | --- |
 | same-document view transitions, `view-transition-name`, `view-transition-class` | state changes and shared-element morphs; name the paired elements in the motion spec | native | cross-document (page to page) transitions are limited: plain navigation |
 | `@starting-style` + `transition-behavior: allow-discrete` | entry animations out of `display: none` for dialogs, popovers and new rows | native for entry | exit into `display: none` and top-layer exit are not interoperable: design exits that degrade to an instant hide |
-| scroll-driven animations, `animation-timeline: scroll()` / `view()` | progress, reveals and parallax bound to scroll | enhancement (no Firefox) | the static state is the design |
+| scroll-driven animations, `animation-timeline: scroll()` / `view()` | progress, reveals and parallax bound to scroll | enhancement (Baseline 2026: current engines only) | the static state is the design |
 | `interpolate-size: allow-keywords`, `calc-size()` | animating to `height: auto` | enhancement (Chromium only) | `grid-template-rows: 0fr` to `1fr`; `::details-content` for accordions |
 
 **Type** (rules: [typography](typography.md), [cjk-typography](cjk-typography.md))

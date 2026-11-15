@@ -197,7 +197,7 @@ Start from [tokens.resolver.json](../../templates/tokens.resolver.json).
 | Tool | Version | Reads | Resolver |
 | --- | --- | --- | --- |
 | Terrazzo CLI | 2.0+ (2.10.0 current, 2026-10-21) | full 2025.10 including JSON Pointer `$ref`; object colour, dimension and duration required by default (old string syntax errors); font weights 1-1000 (2.8) | yes; the CSS plugin builds each permutation (`permutations: [{ input: { theme: "dark" } }]`) |
-| Style Dictionary | 5.3+ object colours (14 spaces, `hex` as the out-of-sRGB fallback), 5.4+ object dimensions, 5.7+ object durations (5.7.1 current) | no `$extends` or `$ref` in the changelog; the raw `{group.$root}` from `outputReferences` was fixed in 5.6.0 | no (still open on 2026-11-01): resolve outside it and run once per permutation |
+| Style Dictionary | 5.3+ object colours (14 spaces, `hex` as the out-of-sRGB fallback), 5.4+ object dimensions, 5.7+ object durations (5.8.0 current, 2026-11-03) | no `$extends` or `$ref` in the changelog; the raw `{group.$root}` from `outputReferences` was fixed in 5.6.0 | no (issue #1590 still open on 2026-11-16): resolve outside it and run once per permutation |
 | Tokens Studio for Figma | DTCG by default since 2.11 per its release notes (its docs page still says legacy; 2.13.2 current) | still writes its own types and string dimensions in DTCG mode; imports Figma timing and easing variables as `duration` and `cubicBezier` since 2.13.1 | no; `@tokens-studio/sd-transforms` bridges to Style Dictionary |
 | Figma variables | import, one file per mode | sRGB and HSL colours, px dimensions, durations in s, single-string font families, no composites | no |
 | `@google/design.md` export | 0.4.0 | lossy (system section 6) | no |

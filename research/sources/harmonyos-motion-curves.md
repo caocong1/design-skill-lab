@@ -17,6 +17,8 @@ Read on 2026-11-01 by the platform verifier (doc API `getDocumentById`): 动效 
 9. Micro-motion: multi-oscillation springs only on small elements. **No reduce-motion rule** was found on any page read.
 10. **API versions** (release notes): 26.0.0 · DevEco Studio 26.0.0 Release · `2026/08/28`; 6.1.1(24) `2026/05/26`; 6.1.0(23) `2026/04/20`; 6.0.2(22) `2026/01/21`; 6.0.1(21) `2025/11/20`; 6.0.0(20) `2025/09/25`; 26.0.0 Beta1 `2026/06/12`, Beta2 `2026/07/28`, Release `2026/08/29` (one-day mismatch with the table, as printed); SemVer X.Y.Z from 26.0.0; "ArkWeb的Chromium内核从132升级为144版本".
 
+Re-checked 2026-11-16 (CN verifier, document API): no design-guide page has an `updatedDate` after 2026-10-30. The ArkUI guides `arkts-spring-curve` and `arkts-animation-smoothing` were edited on 2026-11-11 (`displayUpdateTime`), and the numbers this digest cites still read the same: `springMotion` defaults 0.55 / 0.825, `responsiveSpringMotion` 0.15 / 0.86 with overlap 0.25, duration ignored for springs; the `interpolatingSpring` and `springMotion` values of fact 5 are still in `animation-attributes`, and "建议开发者优先使用物理曲线" is still in `arkts-curve-overview`. Only the sample code changed.
+
 ## What it changes for the skills
 - skills/design-studio/references/platforms/harmonyos.md: a motion row with the duration ladder, the three bezier families and the physics-first rule; the 必须-level transition floors (200 / 250 / 300 ms by screen size) become a check for HarmonyOS targets; drag → release uses `responsiveSpringMotion` → `springMotion`.
 - skills/design-studio/references/disciplines/motion-tokens.md: the HarmonyOS column of the spring table gets `springMotion(response, dampingFraction)` with (d, ζ) semantics and the 0.55 / 0.825 defaults (the earlier text had "no first-hand source").
@@ -24,6 +26,7 @@ Read on 2026-11-01 by the platform verifier (doc API `getDocumentById`): 动效 
 - research/topics/04-motion.md: the open item "HarmonyOS 的动效曲线与弹簧参数没有摘要" is closed.
 
 ## Not verified / open
+- 2026-11-16: no fact changed.
 - The 加速曲线 bezier values are not printed on the guide page (only in images).
 - No reduce-motion guidance was found; whether HarmonyOS exposes a system reduce-motion setting to apps is not covered here.
 - The relationship between the guide's `springMotion` defaults and SwiftUI's is an observation, not a vendor statement.

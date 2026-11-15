@@ -1,6 +1,6 @@
 # 07 平台规范与中文排版
 
-> 元数据：更新于 2026-11-01 · 依据：apple-hig-liquid-glass、apple-hig-bars、apple-app-icons、apple-macos-touch、material-3-expressive、harmonyos-design、harmonyos-motion-curves、fluent-2、wechat-miniprogram-design-guidelines、alipay-miniprogram-design、cn-mini-program-douyin-kuaishou、baidu-smartprogram-design、embedded-host-guidelines、clreq-chinese-text-layout、jlreq、chinese-copywriting-guidelines、cjk-font-licensing、ant-design-spec、tdesign-spec、arco-design-spec、wcag-22、accessibility-law、web-baseline-2026 · 复核期限：2027-01-30（Compose material3 1.5.0 正式版、GB/T 47523 正文可读时提前复核）
+> 元数据：更新于 2026-11-16 · 依据：apple-hig-liquid-glass、apple-hig-bars、apple-app-icons、apple-macos-touch、material-3-expressive、harmonyos-design、harmonyos-motion-curves、fluent-2、wechat-miniprogram-design-guidelines、alipay-miniprogram-design、cn-mini-program-douyin-kuaishou、baidu-smartprogram-design、embedded-host-guidelines、clreq-chinese-text-layout、jlreq、chinese-copywriting-guidelines、cjk-font-licensing、ant-design-spec、tdesign-spec、arco-design-spec、wcag-22、accessibility-law、web-baseline-2026 · 复核期限：2027-01-30（Compose material3 1.5.0 正式版、GB/T 47523 正文可读时提前复核）
 
 一句话：2026 年一张“像那个平台”的稿子，必须画对三样东西——浮在内容上的导航层、按角色指定的系统材质、各平台自己的尺寸与字阶；中文稿子还要过标点、间距、字体授权三关。本篇列出每个目标平台必须画什么、不能再画什么，以及中文排版与字体授权的可执行规则。应用图标（Icon Composer 六种外观、鸿蒙双层图标）的细节归图标主题，本篇只在对照表里点到。
 
@@ -58,6 +58,17 @@
 18. **嵌入宿主有了宿主自己的规范。** Office 任务窗格在 1366×768 下 Excel 350、Word 329、Outlook 网页版 320 px，默认外边距 20 px、4 px 网格，右上 40×40 px 留给个性菜单，对话框默认占屏 80%，没有深色模式设计页；VS Code 的 webview "只在绝对必要时用"，不许做促销、向导、设置页，主题靠 `--vscode-*` 变量；Chrome 侧边栏只能由用户手势打开、宽度由用户决定，弹出窗口 25×25 到 800×600 px。依据：embedded-host-guidelines。一手资料。
 19. **桌面与鸿蒙的版本事实。** macOS 27 有了触控屏（topic 03 结论 23）；Windows App SDK 稳定版到 2.6.4（2026-10-27），微软文档里"WinUI"与"WinUI 3"两种叫法并存；鸿蒙 API 26.0.0 即 HarmonyOS 7（2026-09-07 发布），`@ohos.arkui.uiMaterial` 需要它；鸿蒙动效数值见 topic 04 结论 16。依据：apple-macos-touch、fluent-2 #30、harmonyos-design #37。一手资料。
 20. **中文字体：许可证文本都没变，版本与新字体在变。** 霞鹜文楷 1.530、霞鹜新晰黑 1.308、更纱黑体 1.0.43；新出现扇尾胄黑 16、文渊字体与文津宋体（均 OFL）；阿里巴巴普惠体官网列 12 个家族（含 Alibaba Sans 172 语种）；荣耀字体的支持页下载改为需要登录。依据：cjk-font-licensing #20–23。一手资料（非法律意见）。
+
+21. **2026-11 的平台与中文生态。**
+   - clreq 2026-11-04 的 TR 发布了"字素、词语的分割与选择"一节：光标、删除、选择以字素簇为单位；中文分词天然有歧义。
+   - 鸿蒙设计指南 10-30 之后没有页面更新；ArkUI 弹簧文档 11-11 修订，数值不变。四家小程序规范页都没有新的修改日期。
+   - Compose material3 1.5.0 到 rc01（11-04），稳定版仍是 1.4.0；Windows App SDK 稳定版 2.6.5。
+   - A2UI 有了微信小程序渲染器（`a2ui-miniprogram`）。
+   - GB/T 47523-2026 仍读不到全文；新闻转载确认它是推荐性标准，分五类要求（可感知、可操作、可理解、兼容、安全）并配测试方法。
+   - 工具：妙多（Motiff）已于 2026-07-31 停服、11-01 删除数据；Qoder 0.5.5 加了带批注的 Sites 设计画布。
+   - 国内团队带测量数字的 AI + UI 文章这一轮仍没找到。微信公众号是这些团队的主要发布渠道，现有工具检索不到，所以只能说"没找到"，不能说"没有"。
+
+   （一手资料：clreq-chinese-text-layout 15、harmonyos-motion-curves 复核、material-3-expressive 43、fluent-2 复核、a2ui 24、accessibility-law 28；工具与文章为 CN 核查读数）
 
 ## 论证
 
@@ -145,3 +156,4 @@ Web 与跨端自绘产品不应在内容层模仿平台玻璃：平台玻璃是�
 
 - 2026-09-27 重写：由旧分析 08 迁入并全文重写，吸收审计报告 research-knowledge §1–4、§9。新增 iOS 26–27、M3 Expressive、HarmonyOS 6.1、Windows 11 / Fluent 2、macOS 26–27 的一手事实与“必画 / 不再画”表、材质角色对照、点击区对照、jlreq、中文字体授权三档；更正“开放许可字体”与“平台资料不可抓取”两处错误；把中文正文数值降为业内共识；补充 Chrome 153 的禁则与 `text-autospace` 实测；删除仪式性小节。
 - 2026-11-01 复核：结论 3、4、12 改写（iOS 27.x 与 Duo 日期、Compose 1.5.0 beta 与 Views 维护模式、Android 17、中文正文数值改为有出处）；新增结论 17（其他小程序宿主）、18（嵌入宿主的一手规范）、19（桌面与鸿蒙版本）、20（中文字体版本与新字体）；四条未决问题更新或关闭。
+- 2026-11-16 复核：新增结论 21（clreq 分割一节发布、鸿蒙与小程序无变化、Compose rc01、A2UI 小程序渲染器、GB/T 47523 状态、妙多停服）。

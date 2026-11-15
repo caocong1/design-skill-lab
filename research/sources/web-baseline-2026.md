@@ -1,6 +1,6 @@
 # Web platform Baseline status of UI primitives (web-features 3.44.0), as of 2026-11-01
-- id: web-baseline-2026 · url: https://cdn.jsdelivr.net/npm/web-features@3.44.0/data.json · fetched: 2026-11-01 · method: json-api
-- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror
+- id: web-baseline-2026 · url: https://cdn.jsdelivr.net/npm/web-features@3.46.0/data.json · fetched: 2026-11-16 · method: json-api
+- review_by: 2027-02-14 (perishable +90d) · licence note: paraphrased digest, not a mirror
 > 中文导语：设计稿里敢不敢直接用原生 popover、锚点定位、自定义 select、视图过渡、`contrast-color()`？这份表按 web-features 官方数据（Baseline 状态、年份，"新近可用"还是"广泛可用"，各浏览器版本）逐项回答，并说明每项对设计决策的影响。写 web 平台能力表、动效规格或实现映射时以这里为准。
 
 Re-read on 2026-11-01: `web-features` npm **3.44.0** (published 2026-10-22T16:30Z) `data.json`, diffed key by key against 3.40.0 (1231 features vs
@@ -120,7 +120,14 @@ Design consequences
     container style queries let components switch variants without class plumbing. `text-box-trim` enables optical centring in buttons and badges
     (Baseline for the properties; check the edge value used). Keep `if()`, `@function` and scroll-state queries out of production specs.
 
+Re-checked 2026-11-16: `web-features` **3.45.0** (2026-11-02) and **3.46.0** (2026-11-12, `latest`), plus the `next` build `3.46.0-dev-20261113053600-6248b5d` (2026-11-13T05:42Z, the newest), each `data.json` diffed key by key against 3.44.0 by the standards verifier, with webstatus.dev for two features; the main agent re-read the browser releases and the scroll-driven, light-dark, grid-lanes, anchor-positioning, container-scroll-state, interest-invokers and focusgroup entries in 3.46.0 itself. Browsers in the 3.46.0 data: Chrome 157 (2026-11-03), Edge 157, Firefox 160 (2026-11-10), Safari 27.2 (2026-10-26).
+33. **Scroll-driven animations: Baseline 2026 (newly), `baseline_low_date` 2026-10-27**, from 3.45.0: Chrome 115 / Firefox 159 / Safari 26; 35 of 37 keys Baseline (not `animation-timeline_included`, which has no data, nor `timeline-scope: all`, which lacks Chrome). Widely would be 2029-04-27 (arithmetic). This supersedes fact 9's "limited".
+34. **`light-dark()` unchanged** in 3.45.0, 3.46.0 and the 2026-11-13 dev build: `low` since 2024-05-13, no `baseline_high_date`. 3.46.0 was published the day before the projected date and no build after 2026-11-13T05:42Z exists yet, so no dataset value says "widely" so far.
+35. **Grid lanes** (fact 26 corrected): the `display: grid-lanes` and `inline-grid-lanes` keys list Safari 26.4 in 3.44.0 as well; what was empty in 3.44.0 is the feature-level support, because the `fit-tolerance` keys had no data. In 3.46.0 `fit-tolerance` gains Safari 27.2, so the feature shows Safari 27.2. Still limited: no Chrome or Firefox.
+36. **Smaller moves.** Anchor positioning's `position-visibility` keys add Chrome and Edge 157 (Safari 27 already; no Firefox), so fact 5's "Safari 27 only" is outdated; container scroll-state queries add a `scrolled` key at Chrome 144; interest invokers move their feature minimum to Chrome 149 (new `interest-delay` keys; still Chrome only); `focusgroup` now has Chrome 150. No status or date changed for popover, invoker commands, view transitions, `@starting-style`, `interpolate-size`, `text-box`, relative colour, `color-mix()`, `contrast-color()`, `@scope`, `field-sizing`, container style queries, `sibling-count()`, `if()`, `text-autospace`, `text-spacing-trim`, `dialog closedby`, `text-wrap: pretty`, `reading-flow`, `corner-shape` or `prefers-reduced-transparency`. `KeyboardEvent.isComposing` and `InputEvent.isComposing` stay non-Baseline with no Safari data.
+
 ## What it changes for the skills
+- 2026-11-16: skills/design-studio/references/platforms/web.md §4 re-derived from 3.46.0 (scroll-driven animation Baseline 2026 but still enhancement, `position-visibility`, grid lanes, scroll-state); modern-css.md, platforms/README.md and implement-design stacks.md follow.
 - skills/design-studio/references/platforms/web.md: a capability table with the status, Baseline year and widely date of facts 3–23. Mark every
   primitive as native / native-with-fallback / enhancement, per fact 27–32.
 - skills/design-studio/references/fundamentals/modern-css.md: same statuses, framed as design material. `light-dark()` becomes widely available on
@@ -143,6 +150,7 @@ Design consequences
 - skills/design-studio/scripts (future `check-knowledge`): re-pull `data.json` and diff these ids on each review.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-16): fact 9 is superseded by fact 33 (Baseline 2026); fact 26's grid-lanes sentence misread an empty feature-level support as a withdrawn key (fact 35); fact 5's `position-visibility` support grew (fact 36). Not verified: whether the next build marks `light-dark()` widely available, and the Firefox 159 / 160 and Chrome 157 release notes (taken from the data).
 - Correction vs the previous version (2026-11-01 re-read, 3.40.0 → 3.44.0): no cited feature changed status or dates; browser rows in fact 1
   updated; fact 26 "grid lanes (Safari 26.4 only)" no longer holds (the entry was removed; nothing ships); fact 9 records Firefox 159's
   scroll-driven animations ahead of the dataset; fact 31 no longer calls `light-dark()` "safe for new work" (host incident, fact 13); fact 26a added.

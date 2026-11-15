@@ -12,6 +12,93 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.18.0] - 2026-11-16
+
+第二次研究复核：先用脚本找出上游哪里变了，再只深读变了的地方，另外检索了 AI 做设计的 2026 年 9–11 月资料（MINOR：新来源改变了指引）。模式、交付物、产出目录与 reference 路径都不变。过程与没读到的东西见 `research/log.md` 2026-11-16 一节。
+
+### 修复（skill）
+
+- `platforms/embedded-hosts.md` §4：A2UI 原写"v0.9.1 是现行版、v1.0 仍是候选"。v1.0 已于 2026-11-05 成为当前版本，改写为：品牌只在渲染器一侧（v1.0 去掉了 `theme` 与 `primaryColor`，严格渲染器会拒收仍带它们的界面）；一个界面可以按组件混用目录；第三方渲染器加上微信小程序。
+- `platforms/web.md` §4：能力表按 web-features 3.46.0 重算。
+  - 滚动驱动动画 2026-10-27 成为 Baseline 2026，但旧引擎和应用内浏览器仍然没有，仍是增强、不承重。
+  - `position-visibility` 加 Chrome 157；容器滚动状态查询加 `scrolled`。
+  - 网格车道（masonry）改为"只有 Safari"：上一版"Safari 条目被撤回"是把功能级支持为空误读了。
+  - `light-dark()` 在 11-13 之前的最后一版仍是"新近可用"，回退块照旧。
+  - `fundamentals/modern-css.md`、`platforms/README.md`、`implement-design/references/stacks.md` 同步。
+- `disciplines/ai-experience.md` §4.1：欧盟 Art. 50 准则原写"批准、未正式通过"。现改为已于 2026-11-12 在官方公报发布（C/2026/6005，不具约束力），并写明第 68 段：单个词、图注、替代文本、UI 标签、图标尺寸的图形不需要 50(2) 的机器可读标记。行数守在 300。
+- `process/system.md` §6 与 §8：DESIGN.md CLI 写明 npm 上仍是 0.4.0，仓库里未发布的 0.4.1 才修好 `lineHeight` 与 `letterSpacing` 的导出，所以"带引号的无单位 `lineHeight`"照旧；Claude Design 一行补上"迁移到 Claude"之后设计系统只读、对话与批注不迁移。
+- 版本行：`platforms/android.md` 与 `stacks.md` 的 Compose material3 改为 1.5.0-rc01（2026-11-04，稳定版仍是 1.4.0）；`stacks.md` 的 Windows App SDK 改为 2.6.5；`process/token-formats.md` 的 Style Dictionary 改为 5.8.0（仍不支持 resolver）。
+
+### 新增（skill）
+
+- `fundamentals/anti-slop.md`（证据：`openai-frontend-guidance`、`unslop-skill`、`anthropic-design-skills` 第 37 条、`taste-skill` 第 32–35 条、`impeccable` 第 42 条）：
+  - 第 6 步加"替换测试"：把产品名换成别家，界面还成立，说明身份感只在名字里。unslop 的模板测试与 OpenAI 的品牌测试是同一个动作。
+  - 年代痕迹表加两行 2026-11：OpenAI 让 GPT-5.5 限制的单调配色（奶油色从此被两家厂商独立点名），以及浮动区块卡片、首屏卡片、渐变或 SVG 首屏。
+  - 字体一段补上厂商自相矛盾：Claude Code 2.1.321 把 Inter 与 Space Grotesk 改为"好的默认"，OpenAI 让模型避开 Inter。
+  - "解药也会过期"一段：taste-skill 一个月内从"不推荐替代品的痕迹清单"改成按行业发配色。并说明 OpenAI 的"字距一律为 0""不得随视口缩放字号"是不引入的绝对禁令，只取理由。
+  - Impeccable 的 `detect` 一行改为 4.9：机器登录了 Impeccable 账户时，会上传计数和哈希，评审报告与 DESIGN.md 默认上传。在宿主项目里用它之前先问。
+- `disciplines/interaction.md`（证据：`ui-ux-pro-max` 第 26 条、`emil-kowalski-skills` 第 26 条）：
+  - §4 输入法加四点：发送用的 Enter 忽略按住重复（`event.repeat`），用 `requestSubmit()` 提交以保留校验，保留可见的发送按钮，日文与韩文各自实测。
+  - §6 手势加一条：松手时按距离（约一半行程）或快速甩动判定，否则回弹。
+- `disciplines/motion.md`（证据：`emil-kowalski-skills` 第 25、28 条）：
+  - "一次只有一个焦点动效"加两条：每个容器只有一个入场（容器或其子项，不能都动）；错峰步长略不等距，只错开长列表的前几个。
+  - 删减动效时，300 ms 上限给抽屉和底部表单（最多 500 ms）、toast（约 400 ms）留例外。
+- `platforms/embedded-hosts.md` §1：Office 窗格要画"没有缓存导航状态时打开的默认视图"，按文档保存的状态放进文档设置（微软 2026-11-03 的 `navigation-patterns`）。
+
+### 变更（skill）
+
+- `skills/design-studio/SKILL.md` 0.17.0 → **0.18.0**（正文未改）。
+- `skills/critique-design/SKILL.md` 0.4.1 → **0.4.2**：筛选一步加一句，每条发现要说出用户会损失什么，不带修改意见的 `ship` 是正常结果。依据 `genui-evaluation-papers-2026` 第 21 条：评审在已经合格的作品里也会报问题，并把它改坏。
+- `skills/implement-design/SKILL.md` 0.3.6 → **0.3.7**（`stacks.md` 的事实更新）。
+- `README.md`、`.claude-plugin/` 与两个 WorkBuddy 专家的 `plugin.json` 同步。
+- 复核日期：`anti-slop.md` 与 `web.md` 按重读的来源整份复核，`reviewed` 改为 2026-11-16。其余只改了一两处事实的文件，保留原复核日期。
+
+### 新增与变更（证据层）
+
+- 新增 3 份摘要：
+  - `openai-frontend-guidance`：GPT-5.5 前端提示词与 GPT-5.4 前端指南，两页全文由主 agent 重读。
+  - `unslop-skill`：SKILL.md 全文。
+  - `oil-ui-skill`：SKILL.md 与评审派发协议全文。
+- 更新 23 份，每份写明读了什么、相对上一版改了什么：
+  - 同类 skill：
+    - `impeccable`：4.9.1 的账户、云与定价、Loop、逐帧动效检查；
+    - `impeccable-slop-rules`：68 张卡；
+    - `taste-skill`：2.5 整体重写；
+    - `emil-kowalski-skills`：20 个 skill 与 #51 的更正；
+    - `ui-ux-pro-max`：RTL 与输入法文档；
+    - `design-md-spec`：0.4.1 未发布、Stitch 迁域名、18 个 MCP 工具；
+    - `anthropic-design-skills`：Claude Design 迁移、Fable 5.2、2.1.321 的字体改动。
+  - 宿主协议：`a2ui`、`mcp-apps`、`vercel-ai-elements`、`openai-apps-sdk-ui`。
+  - 标准与平台：`web-baseline-2026`、`clreq-chinese-text-layout`（分割一节发布）、`carbon-notification-tooltip`（仓库归档，改读线上页）、`ai-labelling-law`、`accessibility-law`、`material-3-expressive`、`fluent-2`、`embedded-host-guidelines`、`dtcg-2025-10`、`ant-design-spec`、`harmonyos-motion-curves`。
+  - 论文：`genui-evaluation-papers-2026` 加 11 条，包括人与人一致性上限、评审过度笃定、整体打分虚高、交互证据、属性种子拉开多样性、评审把好结果改坏。
+- 主题综合 01、02、03、04、06、07、08、09 各加结论与变更记录。backlog 的日历触发表更新：Firefox 159 一项完成，clreq 一节已发布，Art. 50 准则已发布；新登记一项。
+
+### 资源目录
+
+- 全量验链 819 条：不可达的 23 条复查时 19 条正常。
+- 真实变化三处：
+  - Stitch 迁到 stitch.google.com，条目与 DESIGN.md 条目的入口一并改；
+  - 大都会博物馆的 `/v1/search` 于 10-01 下线，API 样例改为分页的 `/v1.1/search`；
+  - interface-design.dev 部署被停（402），条目改指 GitHub 仓库并按其现状重写。
+- 新增 8 条：`unslop`、`oil-ui`、`openai-frontend-prompt`、`open-design`、`ui-sdk`、`designer-skills`、`subframe`、`magic-patterns`。taste-skill、Impeccable、Emil 的 skills、AI Elements 的说明按 11 月的变化改写。共 827 条。
+
+### 修复（仓库工具）
+
+- `scripts/build-catalog.py`：v2 的验链日志里，一次没拿到 HTTP 回应的检查（`unreachable`）会成为最新一条，把上一次有效观测覆盖成 `unknown`。这违反 `research/README.md` 诚实规则第 2 条；v1 在 `20c63ed` 修过，v2 重写时回归。现在日志照记，视图沿用上一次有效回应。目录 README 里 `unknown` 的定义同步改写。
+
+### 验证
+
+- 闸门 G1–G9 通过；`scripts/pack-workbuddy.py --check` 通过；`npm run smoke` 全部通过（827 条、822 张缩略图，首页 84.7 KB gzip，320 与 390 宽无横向溢出）；`npm run test:evals`、`scripts/test-feedback-status.py`、`scripts/test-seed.py` 通过。本机的 Playwright 浏览器缓存此前被清空，为跑冒烟测试补装了固定版本 1.63.0 的 headless shell。
+- 新条目与改了网址的条目都实际访问、验链、截图，并在联系表上人工看过。
+
+### 未验证
+
+- GB/T 47523-2026 正文（验证码）、ETSI 与 iso.org（403）、Stitch 文档页（脚本外壳）。
+- 两篇"评审把好结果改坏"的论文只读到摘要。
+- Claude Code 2.1.321 改动后的 artifact 设计指引原文。
+- Impeccable 登录后的上传，没有用二进制实跑。
+- 国内团队带测量结果的 AI + UI 文章仍未找到。
+
 ## [0.17.0] - 2026-11-02
 
 为 WorkBuddy 开放平台打包（MINOR：新增能力）。技能本体仍只在 `skills/`；Claude Code 插件与 Codex 的安装方式、模式、交付物和 reference 路径都不变。

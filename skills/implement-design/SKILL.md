@@ -13,10 +13,10 @@ examples_en:
 - "Implement this handoff package in my React project"
 - "Rebuild this Figma screen as a Vue component"
 - "Fix the fidelity drift between this build and its design shots"
-version: 0.3.6
+version: 0.3.7
 author: "caocong1"
 metadata:
-  version: 0.3.6
+  version: 0.3.7
   short-description: Build an existing design in code, verified by screenshots
 ---
 

@@ -2,8 +2,8 @@
 title: Web apps and sites (browser platform, Baseline capabilities)
 evidence: digest
 sources: [web-baseline-2026, clreq-chinese-text-layout, vercel-web-interface-guidelines, emil-kowalski-skills, wcag-22, accessibility-law]
-reviewed: 2026-11-01
-review_by: 2027-01-30
+reviewed: 2026-11-16
+review_by: 2027-02-14
 ---
 
 # Web
@@ -97,13 +97,12 @@ implication and link here. Elsewhere:
 
 ## 4. Baseline capability table
 
-Status from web-features 3.44.0 (2026-10-22; Chrome 156, Firefox 158, Safari 27 in its data; Firefox 159
-and Safari 27.2 shipped after it). **Baseline YYYY** = newly available that year: in
-every core browser (Chrome desktop and Android, Edge, Firefox desktop and Android, Safari macOS and
-iOS), but not yet in every user's hands. **Widely** = 30 months after that date. **Limited** = one
-or more core engines missing (named). Before relying on a Baseline 2025-2026 row, read the host's
-browser matrix (browserslist, old in-app WebViews, embedded hosts) and treat the row as needing a
-fallback there.
+Status from web-features 3.46.0 (2026-11-12; Chrome 157, Firefox 160, Safari 27.2 in its data).
+**Baseline YYYY** = newly available that year: in every core browser (Chrome desktop and Android,
+Edge, Firefox desktop and Android, Safari macOS and iOS), but not yet in every user's hands.
+**Widely** = 30 months after that date. **Limited** = one or more core engines missing (named).
+Before relying on a Baseline 2025-2026 row, read the host's browser matrix (browserslist, old in-app
+WebViews, embedded hosts) and treat the row as needing a fallback there.
 
 How to use a row: "none needed" = specify it natively; a fallback = draw or specify that fallback
 too; "enhancement" = the design must be complete without it.
@@ -117,7 +116,7 @@ too; "enhancement" = the design must be complete without it.
 | Invoker commands (`command` + `commandfor`) | Baseline 2025 (Dec; Safari 26.2) | a button opens or closes a dialog or popover declaratively; the spec names the command (`show-modal`, `close`, `request-close`, `toggle-popover`) | a click handler |
 | `<dialog>` modal; `inert` | widely | modals are `<dialog>`; everything behind is inert | none needed |
 | `<dialog closedby>` | limited: no Safari | light dismiss for dialogs is not portable | a visible close button and Esc on every dialog |
-| Anchor positioning (`anchor()`, `position-area`, `position-try-fallbacks`) | core properties Baseline 2026 (Jan); `position-visibility` Safari 27 only | tooltips, menus, coach marks declare placement plus a fallback order: draw the primary and the flipped placement | a scripted positioner; animating anchored elements is enhancement |
+| Anchor positioning (`anchor()`, `position-area`, `position-try-fallbacks`) | core properties Baseline 2026 (Jan); `position-visibility` Chrome 157 and Safari 27, no Firefox | tooltips, menus, coach marks declare placement plus a fallback order: draw the primary and the flipped placement | a scripted positioner; animating anchored elements is enhancement |
 | Exclusive accordion `<details name>`; `::details-content` | Baseline 2024 (Sep); Baseline 2025 (Sep) | native accordions, styleable and animatable open state | none needed |
 | `hidden="until-found"` | limited: no Safari | find-in-page into collapsed sections | content that matters stays open or reachable by the app's search |
 
@@ -128,7 +127,7 @@ too; "enhancement" = the design must be complete without it.
 | Same-document view transitions; `view-transition-class` | Baseline 2025 (Oct) | state changes and shared-element transitions within a page are standard web motion | plain state change; cross-fade or none under reduced motion |
 | Element-scoped view transitions | limited: Chrome only | enhancement | a page-level transition |
 | Cross-document view transitions (`@view-transition`) | limited: no Firefox | MPA page transitions are enhancement | plain navigation |
-| Scroll-driven animation (`animation-timeline: scroll()` / `view()`) | limited in the data: no Firefox entry yet (Firefox 159, 2026-10-27, shipped it) | scroll-linked effects are enhancement, never load-bearing, until the data says otherwise | the static layout |
+| Scroll-driven animation (`animation-timeline: scroll()` / `view()`) | Baseline 2026 (Oct; Firefox 159; `timeline-scope: all` still no Chrome) | scroll-linked progress and reveals run in every current engine, not yet in older ones or many in-app WebViews: still enhancement, never load-bearing | the static layout, which is also the reduced-motion state |
 | `@starting-style` + `transition-behavior: allow-discrete` | Baseline 2024 (Aug) | entry animations out of `display: none` (dialog, popover, new node) work everywhere | none needed |
 | Exit to `display: none`; the `overlay` property | limited: no Firefox; `overlay` Chrome only | exits are not interoperable | design every exit to degrade to an instant hide |
 | `interpolate-size` / `calc-size()` (to `height: auto`) | limited: Chrome only | enhancement | the grid-rows or `::details-content` route in motion §4 |
@@ -140,7 +139,7 @@ too; "enhancement" = the design must be complete without it.
 
 | Feature | Status | Design implication | Fallback |
 | --- | --- | --- | --- |
-| `color-scheme`; `light-dark()` | `color-scheme` widely; `light-dark()` Baseline 2024 (May; Chrome 123, Firefox 120, Safari 17.5), widely 2026-11-13 at the earliest (projected; still "newly" in 3.44.0) | one declaration per light/dark token pair; scrollbars and form controls follow the scheme | required on public pages: an engine without it treats a token holding `light-dark()` as invalid wherever it is used, so a solid button goes transparent. Give those engines the light theme in an `@supports not (color: light-dark(#000, #fff))` block, as the [tokens.css](../../templates/tokens.css) starter does; keep it while the audience includes in-app browsers or iOS before 17.5 |
+| `color-scheme`; `light-dark()` | `color-scheme` widely; `light-dark()` Baseline 2024 (May; Chrome 123, Firefox 120, Safari 17.5), widely 2026-11-13 at the earliest (projected; still "newly" in 3.46.0 of 2026-11-12, the last release before that date) | one declaration per light/dark token pair; scrollbars and form controls follow the scheme | required on public pages: an engine without it treats a token holding `light-dark()` as invalid wherever it is used, so a solid button goes transparent. Give those engines the light theme in an `@supports not (color: light-dark(#000, #fff))` block, as the [tokens.css](../../templates/tokens.css) starter does; keep it while the audience includes in-app browsers or iOS before 17.5 |
 | `light-dark()` with image values | Baseline 2026 (Sep) | theme-specific images and logos in CSS | `<picture>` sources per `prefers-color-scheme` |
 | Relative colour (`oklch(from var(--c) ...)`) | Baseline 2024 (Sep) | alpha and chroma variants of one token; hover and pressed use `color-mix(in oklab, …)` toward the text colour, not a fixed lightness shift ([color](../fundamentals/color.md#derived-states)) | precomputed steps in the token file |
 | `color-mix()`; OKLab / OKLCH | widely (2025-11); mixing three or more colours limited (no Chrome) | safe for new work | none needed (two-colour mixes) |
@@ -154,14 +153,14 @@ too; "enhancement" = the design must be complete without it.
 | --- | --- | --- | --- |
 | Size container queries | widely | components respond to their container, not the page ([layout-and-spacing](../fundamentals/layout-and-spacing.md)) | none needed |
 | Container style queries (`@container style(--x: y)`) | Baseline 2026 (May) | a component switches variant on a custom property | class-based variants |
-| Container scroll-state queries (`stuck`, `snapped`, `scrollable`) | limited: Chrome only | "header looks different when stuck" is enhancement | one style that works stuck or not |
+| Container scroll-state queries (`stuck`, `snapped`, `scrollable`; `scrolled` from Chrome 144) | limited: Chrome only | "header looks different when stuck" is enhancement | one style that works stuck or not |
 | `@scope` | Baseline 2026 (Mar) | component-scoped styles without naming schemes | the host's existing scoping |
 | `:has()` | widely (2026-06) | parent state from children: a field group with an error, a row with a checked box | none needed |
 | Small / large / dynamic viewport units | widely | see section 2 | none needed |
 | Scroll snap | widely | galleries and carousels snap to items | none needed |
 | `::scroll-marker`, `::scroll-button` | limited: Chrome only | CSS-generated carousel dots and arrows are not portable | real buttons, drawn and built |
 | `scrollbar-gutter` | Baseline 2024 (Dec) | reserve the gutter so content does not jump when a scrollbar appears | none needed |
-| Grid lanes (masonry) | limited: no shipping engine in the data (the Safari 26.4 entry was withdrawn after 3.40.0) | masonry is not native | CSS columns, a regular grid, or a scripted layout |
+| Grid lanes (masonry) | limited: Safari only (`display: grid-lanes` 26.4, `fit-tolerance` 27.2); no Chrome or Firefox | masonry is not portable | CSS columns, a regular grid, or a scripted layout |
 | `reading-flow` | limited: Chrome only | visual reordering still breaks keyboard and reading order | DOM order = visual order |
 | `corner-shape` (squircles) | limited: Chrome only | enhancement | plain `border-radius` |
 | CSS `if()`, `@function` | limited: Chrome only | keep out of production specs | - |
@@ -196,7 +195,7 @@ too; "enhancement" = the design must be complete without it.
 | Window Controls Overlay, `env(titlebar-area-*)` | limited: Chromium desktop only | an installed app may draw into the title bar | the standard title bar |
 
 Recheck triggers: each web-features release, in particular the first after 2026-11-13 (`light-dark()`
-widely available) and the first that carries Firefox 159 (scroll-driven animation).
+widely available; the fallback block stays while the audience includes old in-app browsers).
 
 ## 5. Verify
 

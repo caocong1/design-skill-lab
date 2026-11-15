@@ -1,6 +1,6 @@
 # 01 资源版图与目录方法
 
-> 元数据：更新于 2026-11-01 · 依据：ui-ux-pro-max、design-md-spec、cjk-font-licensing、accessibility-law、mcp-apps、openai-apps-sdk-ui、alipay-miniprogram-design、vercel-design-md、ant-design-spec、semi-design-tokens-a11y、remix-icon-license；实测：2026-09-21 两次全量验链、2026-09-27 两次独立全量探测（目录审计与候选资源调研）、2026-09-27 缩略图重拍、2026-11-01 对 25 条受影响条目验链并为 6 条新条目拍图 · 复核期限：2027-01-30
+> 元数据：更新于 2026-11-16 · 依据：ui-ux-pro-max、design-md-spec、cjk-font-licensing、accessibility-law、mcp-apps、openai-apps-sdk-ui、alipay-miniprogram-design、vercel-design-md、ant-design-spec、semi-design-tokens-a11y、remix-icon-license；实测：2026-09-21 两次全量验链、2026-09-27 两次独立全量探测（目录审计与候选资源调研）、2026-09-27 缩略图重拍、2026-11-01 对 25 条受影响条目验链并为 6 条新条目拍图 · 复核期限：2027-01-30
 
 本篇回答两件事：设计师在用哪几类外部资源，每类的偏差是什么；一份给 agent 用的资源目录应该怎样建模，又怎样知道它现在还是对的。条目和计数以 `catalog/` 与生成视图为准，本文只写方法和判断。文中出现的数字都是某一天的测量，都带着日期。
 
@@ -22,6 +22,14 @@
 
 14. **2026-10 起，文档方开始直接给 agent 准备入口，这比"能不能抓到网页"更重要。** 支付宝小程序文档的 HTML 是脚本外壳，但每页都有静态的 `.md` 孪生页，全站还有 `/mini/llms.txt`；Ant Design 6.5 起发布 `ant.design/design.md`，Semi 在仓库根放了给 agent 读的 `DESIGN.md` 并提供 MCP；Vercel 公开了一份散文式的 `design.md`。条目的 `entry_points` 应优先写这些入口，而不是只写人看的首页。（一手资料：alipay-miniprogram-design、ant-design-spec、semi-design-tokens-a11y、vercel-design-md）
 15. **一个季度内的变动足以让条目失真，所以复核要按季度跑。** 2026-09-27 到 11-01 之间：Remix Icon 的许可证在条目里已是 v1.0，但 npm 元数据仍写 Apache-2.0（以许可证文件为准）；AI Elements 宣布 11 月底迁往 shadcn/ui；Carbon 站点改版，自家"AI 标签"指引链接变成 404（条目改指组件文档）；taste-skill 整体重写，旧条目的"三个拨杆"描述过时；Motiff 妙多 2026-07-31 停服、11-01 关闭导出，腾讯 CoDesign 退市（两者目录未收录）。（实测：2026-11-01 验链与条目复核）
+
+16. **2026-11-16 全量验链与目录补充。**
+   - 819 条第一次全跑：static 625、js 114、blocked 56、error 1、不可达 23。不可达的 23 条复查时 19 条正常，属于这一网络当时的抖动。
+   - 真正要改的三条：Stitch 迁到 stitch.google.com（302，深链一并跳转）；大都会博物馆的 `/v1/search` 于 10-01 下线，改用分页的 `/v1.1/search`；interface-design.dev 的部署被停（402），仓库还在，条目改指仓库。
+   - 验链暴露了 v2 脚本的一个回归：一次没拿到 HTTP 回应的检查会覆盖上一次有效观测，违反"抓取失败不算观测"。`build-catalog.py` 已修正：日志照记，视图沿用上一次有效回应。
+   - 新增 8 条：unslop、oil-ui、OpenAI 前端提示词、OpenDesign、UI SDK、Designer Skills Pack、Subframe、Magic Patterns；taste-skill、Impeccable、Emil 的 skills 与 AI Elements 的说明按 11 月的变化改写。
+
+   （实测；新条目见 catalog/resources.jsonl，origin `research-2026-11-16`）
 
 ## 论证
 
@@ -126,3 +134,4 @@ UUPM 给风格表加了 active / supplemental / deprecated 三种状态，弃用
   - 新增：v2 数据模型（事实、观测、缩略图分文件）；可达性的认识论；S 档配额与可达性规则；深链与事实腐烂的实测；缩略图 QA 与覆盖文件；agent 查询接口；2026 年面向 agent 的资源类型。
 - 2026-09-21 首版（旧分析 01）。
 - 2026-11-01 复核：结论 12 的 Mobbin MCP 改为已核实；新增结论 14（文档方为 agent 准备入口）、15（一个季度内的条目失真与季度复核）。目录同步：6 条新条目（VS Code UX 指南、Office 加载项设计、Chrome 侧边栏 API、Android 自适应图标、腾讯 Ardot、Vercel design.md），12 条既有条目按复核改写（AI Elements、taste-skill、Impeccable、Carbon for AI、支付宝、Harmonizer、APCA、Mobbin MCP、Figma Make、v0、MCP Apps、A2UI）。
+- 2026-11-16 复核：新增结论 16（全量验链、三处真实变化、抓取失败覆盖观测的回归及修正、新增 8 条）。

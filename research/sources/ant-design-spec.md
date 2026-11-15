@@ -17,12 +17,15 @@ Pin note: `ant-design/ant-design` is pinned at `ac2322a`, the HEAD of `master` w
 7. **6.x changes relevant to design** (changelog-cn): 6.0.0 "组件语义化结构" (per-slot `classNames` / `styles`), "杂项：默认使用 CSS 变量。", `useToken` exposes CSS variables, new `colorBorderDisabled`, `zeroRuntime`, mask blur on Drawer / Modal / Image, "Tabs 移除激活态文字阴影。", IE dropped; 6.3.0 "Grid 新增 `xxxl`（1920px）断点"; 6.3.1 / 6.5.1 `prefers-reduced-motion` honoured by Button, Checkbox, Radio, Switch, Segmented, Splitter, BorderBeam; 6.4.0 `colorErrorAffix` / `colorWarningAffix`, Badge `paddingInline`, BorderBeam, "Agent Readiness" files; 6.4.4 deeper `boxShadowTertiary`; **6.5.0 "新增 antd `DESIGN.md` 设计语言文件并发布到 ant.design/design.md"** (repo commits 2026-05-20 add, 2026-06-24 "improve DESIGN.md guidance for AI tools"); 6.6.0 ConfigProvider token `focusOutline`, Alert `borderRadius` token, Listy virtual list; 6.6.6–6.6.8 (October 2026) list no token or motion items.
 8. Ant Design Mobile 5.43.0 (2026-09-14), nothing since; Ant Design X is digested in `ant-design-x`.
 
+Re-checked 2026-11-16 (CN verifier; release notes and commit titles, not the spec pages): antd **6.7.0** (2026-11-04, npm `latest`) changes one component token (Alert's container radius `borderRadius` became `containerBorderRadius`), extends ConfigProvider `variant` to five more components, and ships a wave of keyboard and naming fixes (clear buttons get labels, localised names for row selection and OTP cells, Collapse Space key); reduced-motion handling for scrolling landed on master after the release. `DESIGN.md` in the repository is unchanged since 2026-06-24 and `ant.design/design.md` still serves `version: alpha` with the same primary and status colours. No spec page changed beyond two link fixes.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/cjk-typography.md: Chinese UI body 14 / 22 (1.571), the `+8 px` line-height rule and "3–5 sizes per product" become digest-backed (TDesign states the same body pair: `tdesign-spec`); keep the 1.5–1.8 range for reading text as practice.
 - skills/design-studio/references/process/system.md §7: Ant Design 6 themes through CSS variables by default; the host's `DESIGN.md` at ant.design/design.md is a system of record to read, not to re-derive; `prefers-reduced-motion` is honoured by core controls.
 - skills/implement-design/references/stacks.md (Ant Design): 6.x semantic `classNames` / `styles`, `focusOutline`, the `xxxl` breakpoint.
 
 ## Not verified / open
+- 2026-11-16: no fact in this digest changed; the type ladder, spacing and colour tokens are untouched by 6.7.0.
 - The weight discrepancy (500 in font-cn vs 600 in DESIGN.md) is as published; which the components use was not checked in code.
 - The font ladder image on font-cn was not read; the numbers come from the source formula and the DESIGN.md.
 - Gutter and breakpoint values are not on the layout page; `antd`'s Grid breakpoints were not read from code here.

@@ -13,10 +13,10 @@ examples_en:
 - "Redesign this landing page with a stronger point of view"
 - "Design the home screen of a budgeting app: DESIGN.md, tokens and mockups"
 - "Unify the look of this admin console across app and web"
-version: 0.17.0
+version: 0.18.0
 author: "caocong1"
 metadata:
-  version: 0.17.0
+  version: 0.18.0
   short-description: Design anything, from brief to handoff
 ---
 

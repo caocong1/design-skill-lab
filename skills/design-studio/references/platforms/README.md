@@ -103,7 +103,7 @@ As of 2026-11-01; each file's own box has the detail.
 | [HarmonyOS](harmonyos.md) | Guide release 2026-06-12: 沉浸光感 material with user strength and five levels; HarmonyOS 6.1 floating 56 vp capsule tabs beside the flat 48 vp bar; large-screen standard no longer requires side navigation. HarmonyOS 7 = API 26 (uiMaterial); transition floors of 200 / 250 / 300 ms by screen size are required |
 | [Mini-programs](mini-programs.md) | 375 px canvas = fixed and scaled, 390 px = responsive; 适老化 reads `wx.getAppBaseInfo`, care mode × 1.4 |
 | [Desktop](desktop.md) | macOS 27: sidebars reach the window edges, the selected sidebar item is semibold, bordered toolbar items over the sidebar become glass; touch Macs (2026-11): same density, larger hit areas, no hover-only controls |
-| [Web](web.md) | The capability table (section 4) was re-read against web-features 3.44.0; `light-dark()` needs a fallback block until the host's browsers all support it; status, dates and fallbacks are kept there only |
+| [Web](web.md) | The capability table (section 4) was re-read against web-features 3.46.0 (scroll-driven animation is now Baseline 2026); `light-dark()` needs a fallback block until the host's browsers all support it; status, dates and fallbacks are kept there only |
 | [Embedded hosts](embedded-hosts.md) | MCP Apps is a stable MCP extension (spec 2026-01-26), now in 12 hosts plus Gemini Enterprise; OpenAI's UI guidelines sit under "Plugins" and run on MCP Apps; Office, VS Code and Chrome pane rules come from the hosts' own docs |
 
 ## Cross-platform checklist

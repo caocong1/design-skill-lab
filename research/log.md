@@ -136,3 +136,47 @@
 - 国内团队带测量结果的 AI + UI 文章一篇也没找到。
 - 六个子 agent 交回的内容里，凡未经主 agent 重抓的数字都按子 agent 的读数记录，摘要正文写明了由谁读到。
 
+
+## 2026-11-16 · 第二次复核：上游变化、新同类与 2026 年 9–11 月的研究（0.18.0）
+
+主人要求：核实本项目学习过的所有项目、网站和文章有没有新东西，另找 AI 做设计的最新资料，据此迭代。距上一次季度复核只有 15 天，所以先用脚本找"哪里变了"，再只对变了的地方深读。
+
+**做法**
+
+- 脚本先行（不花模型额度）：
+  - 全量验链 819 条；
+  - 21 个固定到提交的上游仓库逐个比对新提交与改动路径；
+  - web-features 3.44.0 / 3.45.0 / 3.46.0 与开发版逐键比对；
+  - Claude Code 更新日志与 npm 发布时间。
+- 五个核查子 agent 并行（便宜模型，结果先写盘）：同类 skill、AI 设计工具与厂商指南、论文、中文生态、标准与平台。
+- 要写进 skill 规则的事实，主 agent 单独复核：
+  - Claude Code 2.1.321 的字体那一行；
+  - OpenAI 两页前端指南全文；
+  - 欧盟官方公报 C/2026/6005 的第 5、68 段；
+  - web-features 3.46.0 里的浏览器版本和六个特性；
+  - A2UI 的 `versions.json`；
+  - Apps SDK 被说成 404 的两个路径。
+
+**核查中更正的子 agent 说法**
+
+- Apps SDK 的两页并未 404：子 agent 试的是错的路径，原路径一个 200、一个 301 到已读过的页面。
+- 网格车道：子 agent 说"其余键都没有 Safari"，其实 `display: grid-lanes` 键 3.44.0 起就列着 Safari 26.4；上一版摘要把"功能级支持为空"读成了"条目被撤回"，已在摘要第 35 条更正。
+
+**证据层的变化**
+
+- 新增 3 份摘要：`openai-frontend-guidance`、`unslop-skill`、`oil-ui-skill`。
+- 更新 23 份（每份写明读了什么、相对上一版改了什么）：
+  - 同类：`impeccable`（4.9.1：账户与云、Pro、Loop、逐帧动效检查）、`impeccable-slop-rules`（68 张卡）、`taste-skill`（2.5 再次整体重写）、`emil-kowalski-skills`（20 个 skill，#51 的更正）、`ui-ux-pro-max`（RTL、输入法文档）、`design-md-spec`（0.4.1 只在仓库里）、`anthropic-design-skills`（Claude Design 迁移、Fable 5.2 指南、2.1.321 的字体改动）；
+  - 宿主协议：`a2ui`（v1.0 成为当前版本）、`mcp-apps`（草案放宽双层 iframe）、`vercel-ai-elements`（新址 21 个模式）、`openai-apps-sdk-ui`（规则不变）；
+  - 标准与平台：`web-baseline-2026`（滚动驱动动画成为 Baseline）、`clreq-chinese-text-layout`（分割一节发布）、`carbon-notification-tooltip`（仓库归档，改读线上页）、`ai-labelling-law`（准则在官方公报发布）、`accessibility-law`、`material-3-expressive`、`fluent-2`、`embedded-host-guidelines`、`dtcg-2025-10`、`ant-design-spec`、`harmonyos-motion-curves`；
+  - 论文：`genui-evaluation-papers-2026` 加 11 条。
+- 只查了日期或版本、内容不变、因此没改的：Apple HIG 六份（158 页的变更表没有 10-28 之后的条目）、鸿蒙设计指南（168 页没有 10-30 之后的更新）、四家小程序、WCAG 2.2 与 WCAG 3、jlreq、UI Events、Semi、Arco、Ant Design X、TDesign（只有移动端复选框边框从 3 px 改 2 px，摘要没有引用这个值）、FT 图表词汇、Remix Icon。
+
+**没做到的**
+
+- GB/T 47523-2026 正文（验证码）。
+- ETSI 与 iso.org（403）。
+- Stitch 文档页（只有脚本外壳）。
+- 即时设计、墨刀、稿定、即梦、秒哒、CodeBuddy 的更新日志（脚本外壳或连接被拒）。
+- 国内团队带测量结果的 AI + UI 文章仍然没有找到；微信公众号无法检索。
+- 两篇关于"评审会把好结果改坏"的 OpenReview 论文只读到摘要。

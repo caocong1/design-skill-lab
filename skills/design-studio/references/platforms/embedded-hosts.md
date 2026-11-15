@@ -55,7 +55,9 @@ default (99.5 % at most), one per page; ribbon commands need icons at 16, 32 and
 and 64 optional) and labels under 16 characters (64 at most); the ribbon allows seven visible tabs, six
 groups, seven commands per group and 70 commands. In the pane, use a command bar from four sections
 up (44 px targets), a tab bar for two to four (labels up to twelve characters), and a back button of
-32 px or more (44 recommended); eight sections or more means rethinking the structure.
+32 px or more (44 recommended); eight sections or more means rethinking the structure. Browser storage in
+a pane can be cleared: draw the default view the pane opens to when no navigation state is cached, and
+keep per-document state in the document's settings (Learn, `navigation-patterns`, 2026-11-03).
 
 ## 3. Chat-host widgets
 
@@ -128,19 +130,21 @@ registered, and the host renders them with its own design system. When to choose
 widget, and the catalogue spec the designer delivers (variants, composition, copy, validation,
 partial and failure states, attribution): [ai-experience](../disciplines/ai-experience.md) §3.1 and §3.3.
 
-Renderer facts that shape the drawing (v0.9.1, current production; v1.0 still a candidate on
-2026-11-01). Renderers: React, Lit, Angular and Flutter are stable; SwiftUI and Jetpack Compose are
-alpha (Compose ships a Material 3 Basic catalogue); third parties render on React Native, Lynx and
-HarmonyOS, and TDesign's chat engine and CopilotKit speak it.
+Renderer facts that shape the drawing (v1.0 is the current protocol since 2026-11-05; v0.9.1 is the
+previous one, v0.8 deprecated). Renderers: React, Lit, Angular and Flutter are stable; SwiftUI and
+Jetpack Compose are alpha (Compose ships a Material 3 Basic catalogue); third parties render on React
+Native, Lynx, HarmonyOS and WeChat mini programs, and TDesign's chat engine and CopilotKit speak it.
 
 - The optional Basic catalogue has 18 components: Text, Image, Icon, Video, AudioPlayer, Row, Column,
   List, Card, Tabs, Modal, Divider, Button, TextField, CheckBox, ChoicePicker, Slider, DateTimeInput;
   Icon names come from a fixed set of 59 system icons. A catalogue that mirrors your design system
   replaces or extends it.
 - Web renderers theme through CSS variables on `:where(:root)` (for example `--a2ui-color-primary`,
-  `--a2ui-card-background`, `--a2ui-font-family-title`); dark mode follows `prefers-color-scheme` or the
-  classes `a2ui-light` / `a2ui-dark`. Map the tokens there; the Basic components ignore the theme an
-  agent sends, and v1.0 removes the agent-side theme.
+  `--a2ui-card-background`, `--a2ui-font-family-title`); dark mode follows `prefers-color-scheme` or
+  the classes `a2ui-light` / `a2ui-dark`. Map the tokens there: branding is the renderer's alone,
+  since v1.0 removed `theme` and `primaryColor` from catalogues and surfaces (a strict renderer
+  rejects a surface that still sends them). One surface may mix catalogues, one per component, all
+  on the same version.
 - A surface renders nothing until its root arrives, then fills in progressively: its first frames are
   placeholders, so draw them in the host's style.
 

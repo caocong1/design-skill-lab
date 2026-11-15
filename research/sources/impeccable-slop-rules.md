@@ -1,6 +1,6 @@
 # Impeccable anti-pattern catalogue (/slop)
-- id: impeccable-slop-rules · url: https://impeccable.style/slop/ · fetched: 2026-11-01 · method: fetch
-- review_by: 2027-01-30 (perishable +90d) · licence note: paraphrased digest, not a mirror (project is Apache-2.0)
+- id: impeccable-slop-rules · url: https://impeccable.style/slop/ · fetched: 2026-11-16 · method: fetch
+- review_by: 2027-02-14 (perishable +90d) · licence note: paraphrased digest, not a mirror (project is Apache-2.0)
 - superseded_by: impeccable (the whole v4.x project: skill, references, detector, hooks). This file stays as the /slop catalogue snapshot.
 > 中文导语：Impeccable（Paul Bakaus）的 /slop 页面是目前最完整的"可机械检测的界面问题"目录，每条标明是 AI 痕迹还是基本质量问题、靠源码检测、浏览器检测还是需要设计评审。英文站今天是 67 条（含 4 条"对照你的 DESIGN.md"规则），中文站仍停在旧版 46 条。整个项目见 `impeccable`。
 
@@ -28,6 +28,9 @@ Re-read on 2026-11-01 (static HTML of the English page): the counts moved; see f
 Re-counted 2026-11-01
 16. The intro now says "**62 detector rules** and 6 patterns for design review"; the catalogue renders **67 cards** (61 detector + 6 review; the new `hard-offset-shadow` advisory has no card yet): Your design system 4 · Visual Details 8 · **Typography 13** (two new quality cards: a one-word last line, a heading with a stub last line) · Color & Contrast 7 · Layout & Space 12 · **Motion 4** (the hover-zoom and layout-animation cards are gone; remaining: pulsing dot, blinking cursor, marquee, bounce or elastic easing on routine UI) · Copy 5 · Imagery 4 · General quality 10; by method 49 Source / 12 Browser / 6 Design review. Era captions unchanged (2022 "Purple gradients, glass panels, neon glow"; 2025 "Beige backgrounds, editorial labels, decorative motion"; 2026 "GPT-style neobrutalism: bold borders, hard shadows, sticker badges"). The rule registry behind the page is in `impeccable` fact 37.
 
+Re-checked 2026-11-16 (peers verifier; `https://impeccable.style/slop/` fetched as static HTML):
+17. The intro still reads "62 detector rules and 6 patterns for design review"; the catalogue now renders **68 cards** (67 on 2026-11-01): the new card is "Hard offset shadow" under Visual Details (now 9), the advisory rule that had no card before. Other groups unchanged (Your design system 4, Typography 13, Color & Contrast 7, Layout & Space 12, Motion 4, Copy 5, Imagery 4, General quality 10). The three era tabs (2022, 2025, 2026) and their captions are unchanged; 11 example pages, same names.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/anti-slop.md: cite this snapshot (2026-09-27, 67 rules) as the third dated tells list; keep the rule that tells are dated observations; use fact 14-15 as evidence of decay (Space Grotesk recommended by Anthropic in 2025-11, flagged by Impeccable's Chinese list, dropped by name from the English list by 2026-09).
 - skills/design-studio/scripts/lint.mjs: the Quality rules and the Source/Browser split map directly onto our deterministic lint; "content stuck at opacity 0", "text covered by another element" and "clipped popovers" need a rendered page.
@@ -35,6 +38,7 @@ Re-counted 2026-11-01
 - skills/design-studio/references/process/system.md: drift checks presuppose a DESIGN.md with complete font, colour, size and radius scales.
 
 ## Not verified / open
+- Correction vs the previous version (2026-11-16): fact 16's 67 cards are 68 (fact 17).
 - Correction vs the previous version (2026-11-01): facts 3, 6 and 9 counts superseded by fact 16 (typography 13, motion 4, detector 62).
 - Which of the 61 detector rules are Source vs Browser was read from each card's label, not from the detector code; see `impeccable` for the engine and version (the skill's own version number was not checked here; npm shows 4.1.0).
 - The 2025 and 2026 era examples were not opened individually.

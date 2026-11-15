@@ -1,7 +1,7 @@
 ---
 title: Interaction (effort, keyboard, input methods, component behaviour)
 evidence: digest
-sources: [nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, wcag-22, carbon-notification-tooltip, rauno-interaction-details, emil-kowalski-animation, laws-of-ux, apple-macos-touch]
+sources: [nng-heuristics, klm-kieras, wai-aria-apg, ui-events-ime, wcag-22, carbon-notification-tooltip, rauno-interaction-details, emil-kowalski-animation, emil-kowalski-skills, ui-ux-pro-max, laws-of-ux, apple-macos-touch]
 reviewed: 2026-11-01
 review_by: 2027-01-30
 ---
@@ -115,11 +115,14 @@ commits them. Everything that reacts to keys or text must wait for the commit.
 - The handoff names the guard: on `keydown`, ignore the event when `event.isComposing` or
   `event.keyCode === 229`. Every shipping Safari reports `isComposing` false on the committing
   Enter (WebKit turned its fix on in April 2026 and off again in June), and `isComposing` is not
-  Baseline: keep both checks for every engine.
+  Baseline: keep both checks for every engine. An Enter that sends also ignores auto-repeat
+  (`event.repeat`) and submits through `requestSubmit()` so validation still runs; keep a visible
+  Send button, since virtual keyboards may not report Enter at all.
 - A character limit says how it counts (a Han character as one or two) and the counter shows it
   (practice).
 - Headless capture cannot compose. Mark IME behaviour `needs confirmation` until someone types with a
-  real input method (Microsoft Pinyin, Sogou, macOS Pinyin, iOS and Android keyboards).
+  real input method (Microsoft Pinyin, Sogou, macOS Pinyin, iOS and Android keyboards). Japanese and
+  Korean compose differently: a product that serves them is checked with each, not only with Pinyin.
 - Paste, autofill, dictation and password managers are input too: accept them ([product-ui](product-ui.md), Forms).
 
 ## 5. Component behaviour
@@ -165,6 +168,7 @@ leaves open. The last column is what the design must state or draw.
   ([motion](motion.md), frequency first).
 - **Gestures.** The effect follows the finger from the first pixel and can be reversed mid-way; a
   reversible action may fire during the gesture, a destructive one only on release and with undo;
+  release commits on distance (about half the travel) or on a fast flick, and otherwise springs back;
   every gesture has a visible control (WCAG 2.5.1, 2.5.7).
 
 ## 7. Deliverable

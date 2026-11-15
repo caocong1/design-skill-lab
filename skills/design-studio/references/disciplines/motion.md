@@ -28,11 +28,11 @@ stop at the first "no". The moments marked "none" are part of the spec.
 | rarely (onboarding, first item created, success after a long task) | may carry the one delight moment |
 
 When reducing an existing motion rather than deleting it: a hover becomes a colour or opacity change
-of at most 150 ms; a frequent entrance becomes a 150 ms opacity fade; anything over 300 ms comes down
-to 200-250 ms; a stagger is capped at 30 ms per item and 300 ms in total; a loop runs once. Before
-deleting, check what waits for the animation (an `opacity: 0` start state, an `animationend` or
-exit handler), and keep a short list of the motions that stay, with their reason (Emil Kowalski,
-`remove-animations`).
+of at most 150 ms; a frequent entrance becomes a 150 ms opacity fade; anything over 300 ms comes
+down to 200-250 ms (sheets and drawers keep up to 500 ms, toasts about 400 ms); a stagger is capped
+at 30 ms per item and 300 ms in total; a loop runs once. Before deleting, check what waits for the
+animation (an `opacity: 0` start state, an `animationend` or exit handler), and keep a short list of
+the motions that stay, with their reason (Emil Kowalski, `remove-animations`).
 
 **Purpose next.** One of: feedback (the press registered), continuity (this became that),
 orientation (it came from there and goes back there), attention (one thing changed), perceived speed
@@ -85,8 +85,10 @@ what does not move.
 - **Menus and tooltips never delay input.** A menu is usable on the frame it appears; its opacity and
   scale finish within 150 ms. The first tooltip waits for a hover delay; neighbours then open at once,
   with no animation, while the pointer moves along the group.
-- **One focal motion at a time.** Stagger siblings by 30-50 ms, cap the whole group near 300 ms, and
-  never block interaction while it runs. Never fade up every block on scroll.
+- **One focal motion at a time.** One entrance per container: the container or its children, never
+  both. Stagger siblings by 30-50 ms in slightly uneven steps, only the first handful of a long list,
+  cap the whole group near 300 ms, and never block interaction while it runs. Never fade up every
+  block on scroll.
 - **Hover motion only for fine pointers**: `@media (hover: hover) and (pointer: fine)`. Hover never
   moves layout.
 - **Motion never carries a state alone**: the end state is readable without having seen the motion.

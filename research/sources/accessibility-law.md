@@ -125,6 +125,10 @@ China, 2026 instruments (added 2026-11-01)
 25. **NPC Standing Committee 执法检查 of the 无障碍环境建设法** (June–July 2026; Beijing, Inner Mongolia, Shanghai, Hunan, Chongqing, Gansu), as reported by 人民日报 on 2026-10-14 (the formal report was not located on npc.gov.cn): "部分网站和应用程序的'长辈模式'仍存在广告内容和诱导性按键，农村地区'数字鸿沟'尤为明显"; the group recommends "加快建立健全信息无障碍领域强制性标准，增强标准的约束力"; built facilities "有而难用"; drug package inserts flagged for small print (Hunan public-interest litigation covered 27 pharma companies and 156 products). State-media report of the inspection, not the report itself.
 26. **GB/T 37668 revision and the 2026-11-01 batch.** Plan 20252537-T-469 still "正在批准" on 2026-11-01, "拟实施日期：发布后3个月正式实施", "非等效采用 ISO/IEC 40500:2025"; GB/T 37668-2019 stays 现行 (复审 2025-07-01 "修订"). SAMR's 2026-10-23 approval batch (515 standards: 10 强制性, 466 推荐性, 39 指导性) names none as accessibility-specific. Secondhand (新华/央视 via chinanews, 2026-10-31): 54 强制性 and 465 推荐性 standards plus one 指导性技术文件 take effect 2026-11-01, naming 《移动互联网应用程序适老化技术规范》 and 《政务服务平台适老化服务建设指南》.
 
+Re-checked 2026-11-16 (standards verifier: cellar SPARQL title searches, Federal Register API, reginfo.gov, ada.gov, access-board.gov; CN verifier: openstd.samr.gov.cn and std.samr.gov.cn record pages and a 光明网 repost). ETSI and iso.org answered 403 and were not read.
+27. **No change in force dates.** No Commission implementing decision citing EN 301 549 V4.1.1 in the Official Journal yet (the forecasts are for 2026-11-30 or 2026-12-16); ISO/IEC 40500:2026 still "expected by late 2026" per W3C; ADA Title II dates unchanged (2027-04-26 and 2028-04-26), no NPRM; no Section 508 change. Not in this digest before: an HHS interim final rule of 2026-05-11 (Federal Register 2026-09266) moves the Section 504 web and app accessibility date for HHS recipients with 15 or more employees from 2026-05-11 to 2027-05-11.
+28. **GB/T 47523-2026** is still unreadable in full (openstd: "该标准暂无全文，请等待更新" plus a captcha-gated preview). SECONDHAND (光明网 repost of the 2026-10-31 notice): it is a **recommended (推荐性)** national standard covering 可感知性、可操作性、可理解性、兼容性、安全性 requirements and their test methods. No clause or number was read, so the MIIT 2021 numbers remain the only numeric source.
+
 ## What it changes for the skills
 - skills/design-studio/references/fundamentals/accessibility.md: a legal matrix, market → instrument → cited standard/version → dates (facts 1–21).
   Design target WCAG 2.2 AA everywhere; legal minimum today EU public sector EN 301 549 V3.2.1 (WCAG 2.1 AA), EU EAA V4.1.1 pending OJEU citation,
@@ -146,6 +150,7 @@ China, 2026 instruments (added 2026-11-01)
   version) in the Accessibility dimension.
 
 ## Not verified / open
+- 2026-11-16: no dated fact changed; facts 27–28 add the Section 504 date and GB/T 47523's recommended status (secondhand).
 - Correction vs the previous version (2026-11-01): no dated fact changed; facts 13, 15, 17 and 20 carry the re-check, facts 24–26 are new. Still pending: OJEU citation of EN 301 549 V4.1.1, a DOJ Title II NPRM, the GB/T 37668 revision, and the text of GB/T 47523-2026 (CAPTCHA-gated on openstd; no 征求意见稿 or CAICT 解读 with numbers found).
 - Review trigger (perishable, +90d): OJEU citation of EN 301 549 V4.1.1 (forecasts 2026-11-30 / 2026-12-16, secondhand), a DOJ Title II NPRM, publication of the GB/T 37668 revision, a readable copy of GB/T 47523-2026, ISO/IEC 40500:2026.
 - OJEU citation of EN 301 549 V4.1.1: no implementing decision was found (search plus secondary reports forecasting October–November 2026). The audit's

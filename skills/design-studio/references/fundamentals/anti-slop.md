@@ -1,9 +1,9 @@
 ---
 title: Anti-slop (designing past the default)
 evidence: digest
-sources: [anthropic-frontend-design-skill, anthropic-design-skills, impeccable, impeccable-slop-rules, taste-skill, ui-ux-pro-max, apple-hig-liquid-glass, harmonyos-design, genui-evaluation-papers-2026]
-reviewed: 2026-11-01
-review_by: 2027-01-30
+sources: [anthropic-frontend-design-skill, anthropic-design-skills, impeccable, impeccable-slop-rules, taste-skill, ui-ux-pro-max, apple-hig-liquid-glass, harmonyos-design, genui-evaluation-papers-2026, openai-frontend-guidance, unslop-skill]
+reviewed: 2026-11-16
+review_by: 2027-02-14
 ---
 
 # Anti-slop
@@ -48,10 +48,13 @@ steps are its small form.
    another; naming concrete patterns works (Anthropic's guidance for current Claude models, 2026).
    Compare the first render with the tells below, name the default it landed on (or a new one),
    write it into decisions.md as spent for this project, and do not reuse it in the next pass.
-6. **Strip test, when the render still reads as a template.** Hide the decorative layer (eyebrows,
-   labels in a language the product is not read in, hairlines and frames, ordinal numbers, offset
-   shadows) and capture again at the same size. If the content and the primary task read as well
-   or better, that layer was chrome: leave it out. On a surface people come to for its content
+6. **Strip and swap tests, when the render still reads as a template.** Hide the decorative layer
+   (eyebrows, labels in a language the product is not read in, hairlines and frames, ordinal numbers,
+   offset shadows) and capture again at the same size. If the content and the primary task read as
+   well or better, that layer was chrome: leave it out. Then put a competitor's name where the
+   product's is: if the screen still fits, the identity lives only in the name, so move the subject
+   into the memorable element, the copy and the imagery (unslop's template check and OpenAI's brand
+   test make the same move, 2026). On a surface people come to for its content
    (media, reading, a gallery) the content is the largest thing in the first viewport. This is a
    diagnostic, not a style: whatever carries meaning or the one memorable idea stays.
 7. **Hold the floor silently**: responsive, accessible, fast, real content, designed states.
@@ -93,6 +96,8 @@ under everything; scroll-triggered fade-up on every block. Impeccable's era capt
 | --- | --- | --- |
 | Warm cream ground (near `#F4F1EA`, `#F5F1EA`), high-contrast serif display with italic accents, a terracotta, clay, brass or oxblood accent (near `#D97757`, `#B08947`), espresso text: Claude's own "tasteful" default, and the first palette a warm, bookish or child-facing subject produces | 2025 to 2026-09 | anthropic-frontend-design-skill, anthropic-design-skills, taste-skill, impeccable |
 | Defaults Anthropic names for current Claude models: cream or off-white ground, italic accent words in headlines, 01 / 02 / 03 section labels, monospace labels, pill-shaped buttons | 2026-09 | anthropic-design-skills |
+| One-note palettes that OpenAI's GPT-5.5 frontend prompt tells the model to limit: a page dominated by one hue family, purple or purple-blue gradients, beige, cream, sand or tan, dark blue or slate, brown, orange or espresso (cream is now named by two vendors independently) | 2026-11 | openai-frontend-guidance, anthropic-design-skills |
+| Page sections styled as floating cards, cards inside cards, hero text or the product inside a card, a split hero with a card on one side, a gradient or SVG illustration as the hero, gradient orbs and bokeh | 2026-11 | openai-frontend-guidance |
 | Near-black with one acid-green or vermilion accent and glowing edges | 2026-06 | anthropic-frontend-design-skill |
 | Broadsheet: hairline rules, zero radius, dense columns, italic display serif, tracked mono labels | 2026-06 | anthropic-frontend-design-skill, impeccable |
 | The shadcn-default look: the stock neutral theme, `--radius: 0.5rem`, identical bordered cards with one soft `rgba(0,0,0,.1)` shadow, lucide icons, gradient washes | 2026-09 | anthropic-design-skills, anthropic-frontend-design-skill |
@@ -115,8 +120,11 @@ under everything; scroll-triggered fade-up on every block. Impeccable's era capt
 Lato, Montserrat, Arial, Helvetica, Fraunces, Instrument Sans and Serif, Geist, Mona Sans, Plus
 Jakarta Sans, Space Grotesk and Recoleta, and calls Playfair, Cormorant, Lora, Newsreader, Syne, IBM
 Plex, DM Sans and Outfit training-data defaults for persuasive pages. Taste-skill's May 2026 skill
-recommended Geist and Outfit; its October rewrite names no replacement face at all and lints the
-defaults instead. A brand face that fits stays; Operate and Read surfaces are well served by system
+recommended Geist and Outfit; its October rewrite named no replacement face and linted the defaults;
+its November rebuild deals one of 39 type pairings by trade. Vendors flip as well: OpenAI's GPT-5.4
+frontend guide says to avoid default stacks (Inter, Roboto, Arial, system), while Claude Code
+2.1.321 (2026-11-09) changed its artifact guidance to treat Inter and Space Grotesk as good default
+typefaces. A brand face that fits stays; Operate and Read surfaces are well served by system
 stacks.
 
 **Domain defaults**: Chinese big-screen dashboards (deep blue, cyan glow, neon borders, a rotating
@@ -136,10 +144,14 @@ names only Inter and Geist). Each remedy had a shelf life of months.
 
 So recommend a way of choosing, never a set: a font list, a palette or an effect offered as "not
 generic" becomes the next default. The tasteful reaction to one wave became the next wave; avoiding
-a list is not a design method, the test at the top is. The lists that last are kept that way: taste-
-skill's rewrite holds its tells as a dated registry that never names a replacement font, colour or
-component. Do not import absolute bans either: a total em-dash ban breaks correct range typography
-and Chinese punctuation (——).
+a list is not a design method, the test at the top is. Taste-skill shows both answers within a
+month: its October rewrite kept its tells as a dated registry that named no replacement, and its
+November rebuild deals one of 64 palettes by trade instead, skipping the last twelve it used. Do not
+import absolute bans either: a total em-dash ban breaks correct range typography and Chinese
+punctuation (——); OpenAI's "letter spacing 0, never negative" and "no font size scaled with viewport
+width" would forbid the tight tracking display sizes need and a `clamp()` that keeps a rem term
+([typography](typography.md)). Take the reason (small text is never tightened, a pure `vw` size
+breaks zoom), not the ban.
 
 ## Mechanical help
 
@@ -149,13 +161,15 @@ Part of this can be checked without judgement. Run a detector on the rendered pa
 - `node "$S/lint.mjs" --help` (`S` = `skills/design-studio/scripts`) first. It checks the floor on a rendered page: counts of distinct
   colours, font sizes, radii and shadows; computed text contrast; overflow at 390 px; tap targets;
   missing alt text and labels; `transition: all`; reduced-motion handling.
-- Optional: `npx impeccable detect <dir|file|url> --json` (Impeccable 4.8, Apache-2.0; 62 rules, 16
+- Optional: `npx impeccable detect <dir|file|url> --json` (Impeccable 4.9, Apache-2.0; 62 rules, 16
   of them advisory; `--list-rules` prints them). Exit 0 = clean, 2 = findings, 1 = a target could not
   be scanned; advisories never fail a scan. Waive a finding inline with a reason:
   `impeccable-disable <rule>: <reason>`. Never install its editor hooks in a host project without the
   user's consent: they can download and run its engine outside tool approval (downloads are
   checksum-verified since 4.8), and a new design fetches directions from its online catalogue even
-  with telemetry off.
+  with telemetry off. On a machine signed in to an Impeccable account (4.9+), a full `detect` of a git
+  work tree uploads rule counts and hashes unless telemetry is off, and Impeccable's own critiques and
+  DESIGN.md upload by default: ask before running it in a host project.
 - If the host already runs a detector, read its report before critiquing.
 
 A clean report means the known mechanical tells and floor faults are absent at the sizes, themes

@@ -148,15 +148,15 @@ Put this note in every Android handoff that uses Expressive parts; the API mappi
   collapsed and expanded rails. It keeps the motion-scheme API and emphasized type internal (only the
   standard scheme is used) and lacks toolbars, button groups, split button, FAB menu, medium FAB,
   flexible app bars, loading indicator and the shape library.
-- Those are in **1.5.0**, in beta since 2026-10-07 (beta02 on 2026-10-21). Its API is frozen and
-  public, except the shape library and the loading indicator, which stay experimental; Material says
-  1.5.0 goes stable later in 2026.
+- Those are in **1.5.0**: beta since 2026-10-07, release candidate rc01 since 2026-11-04 (bug fixes
+  only). Its API is frozen and public, except the shape library and the loading indicator, which stay
+  experimental as of beta01; Material says 1.5.0 goes stable later in 2026.
 - Views: MDC-Android **1.14.0** has the Material3Expressive themes, the FAB menu is unavailable, and
   1.14.0 is the last stable Views release (maintenance mode): new Android work is Compose.
 - Web: the Expressive components and shape morph are unavailable; motion uses Material's curve table.
-- Template: "Uses M3 Expressive: <components>. Compose needs material3 1.5.0 (beta until it ships;
-  stable 1.4.0 lacks them); Views needs MDC 1.14.0, the final Views release; <any part with no Views
-  or web version>."
+- Template: "Uses M3 Expressive: <components>. Compose needs material3 1.5.0 (a release candidate
+  until it ships; stable 1.4.0 lacks them); Views needs MDC 1.14.0, the final Views release; <any
+  part with no Views or web version>."
 
 ## Traps
 

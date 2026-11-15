@@ -1,6 +1,6 @@
 # 02 AI 设计 skill 生态与本套件定位
 
-> 元数据：更新于 2026-11-01 · 依据：impeccable、impeccable-slop-rules、taste-skill、ui-ux-pro-max、anthropic-frontend-design-skill、anthropic-design-skills、emil-kowalski-skills、emil-kowalski-animation、design-md-spec、vercel-web-interface-guidelines、openai-apps-sdk-ui、mcp-apps、v0-design-systems-2、figma-make-guidelines、vercel-design-md、genui-evaluation-papers-2026、ant-design-spec、semi-design-tokens-a11y；星数与安装量是 2026-11-01 的读数 · 复核期限：2027-01-30
+> 元数据：更新于 2026-11-16 · 依据：impeccable、impeccable-slop-rules、taste-skill、ui-ux-pro-max、anthropic-frontend-design-skill、anthropic-design-skills、emil-kowalski-skills、emil-kowalski-animation、design-md-spec、vercel-web-interface-guidelines、openai-apps-sdk-ui、mcp-apps、v0-design-systems-2、figma-make-guidelines、vercel-design-md、genui-evaluation-papers-2026、ant-design-spec、semi-design-tokens-a11y；星数与安装量是 2026-11-01 的读数、openai-frontend-guidance、unslop-skill、oil-ui-skill · 复核期限：2027-01-30
 
 本篇回答四个问题：别人是怎么做"会设计的 agent"的；本套件和他们重叠在哪里；真正的不同在哪里；0.8.0 借了哪些机制，为什么借。同类项目都在固定提交上通读了 SKILL.md 和参考文件，并由第二位读者核对过。星数和安装量是 2026-09-27 的读数，会过时。
 
@@ -73,6 +73,27 @@
 14. **托管设计系统的互通：除 Stitch 外，没有一家原生读 Google 的 DESIGN.md。** v0 把设计系统存成 `v0.json`（schema 1，最多三个参考来源）加一个 `SKILL.md`；Figma Make 先读 `Guidelines.md` 再读按部件分的短文件（库级 guidelines 100 KB 建议、200 KB 上限，测试版）；Claude Design 通过 `/design-sync` 从仓库、设计文件或上传物同步，不点名文件格式，独立站 2026-12-14 关闭；Lovable 文档只写 Figma 插件、Figma MCP 与 `.fig` 上传；Vercel 的 `design.md` 是另一种东西（散文规则 + 模型不读的运行时样式表 + 代码检查）。组件库一侧，Ant Design 6.5 发布 `ant.design/design.md`，Semi 有仓库 `DESIGN.md` 与 MCP，shadcn 官方技能加了 DESIGN.md 工作流。结论：DESIGN.md 是给人和 agent 读的描述，交给各宿主时投影成它们各自的格式。（一手资料：v0-design-systems-2、figma-make-guidelines、anthropic-design-skills 33、design-md-spec 32、vercel-design-md、ant-design-spec、semi-design-tokens-a11y）
 15. **"生成的设计彼此雷同"已有测量。** 15 个模型、160 份设计里，模型之间比它们与人类参照更像（Design Creativity Bench，2026-10）；Design Theater 的 120 个界面里，五个工具有四个只实现了 6% 或更少的功能性原则，视觉与布局趋同、主要差在颜色（AIES 2026 收录）。厂商一侧，按模型公布的默认风格清单仍停在 Opus 5.5，之后的 Claude 5 系列指南没有前端审美一节。（一手资料：genui-evaluation-papers-2026、anthropic-design-skills 32）
 
+16. **2026-11 的同类更新：一家商业化，一家再次整体重写。**
+   - Impeccable 4.9.1（2026-11-13）加了账户与云：登录后，对 git 工作区跑完整 `detect` 会上传规则计数与哈希，保存的评审报告和 DESIGN.md 默认上传；Pro 每月 20 美元（含 370 个起点的 worlds 目录、macOS 上的 Loop、"再多 20 条检测规则"）。免费 skill 仍然不需要账户。另有按帧采集的动效检查和第五个子 agent。
+   - taste-skill 2.5（2026-11-05）又一次整体重写：不再有具名方向，改为按行业从 64 套配色、39 组字体搭配里抽；收尾门禁在 1440 和 390 两个宽度跑浏览器检查；年代痕迹清单只剩文案部分。结论 12 里它的数字只代表 10 月的版本。
+   - Emil Kowalski 的仓库到 20 个 skill（choreograph、gestures、learn-taste、ask-emil），并经多模型复核改正了几处 API 和互相矛盾的说法。
+   - UI UX Pro Max 新增输入法 Enter 防护文档，与本套件 interaction.md 的说法一致，还多出四点（已采纳）。
+
+   （一手资料：impeccable 41–48、taste-skill 32–36、emil-kowalski-skills 25–28、ui-ux-pro-max 23–26）
+17. **新同类：unslop 与 oil-ui。**
+   - unslop（2026-10-29 建库，11-16 已 16,526 星，CC BY 4.0）专改已有的"AI 味"界面：审计 → 五行方向 → 停下等用户 → 按固定顺序改九遍 → 重新渲染对照。它的"丰富度只给一两个内容时刻"与本套件"大胆只花在一处"同向，"把产品名换成别家，界面是否仍然成立"的模板测试已写进 anti-slop。
+   - oil-ui（3,406 星，MIT，中文优先）是机制上最近的同类：只做设计判断；主视口灰度结构先过独立评审；视觉评审与 UX 走查分派两个新上下文子 agent，走查者不拿预设路径。不同在于它默认只推荐一个方向，用户要比较时才出三个。
+   - 两者都没有可复核的公开评测。
+
+   （一手资料：unslop-skill、oil-ui-skill）
+18. **厂商的设计指南互相矛盾，也自相矛盾。**
+   - OpenAI 公开了 GPT-5.5 的前端提示词和 GPT-5.4 的前端指南：限制"单调配色"（紫色渐变、米色 / 奶油色、深蓝 / 石板灰、棕 / 橙），禁卡片套卡片，首屏做"品牌测试"。Anthropic 给 Opus 5.5 点名的默认风格里也有奶油色：两家独立点名了同一个默认。
+   - Claude Code 2.1.321（2026-11-09）把 artifact 的设计指引改为"Inter 和 Space Grotesk 是好的默认字体"，而 OpenAI 的指南要模型避开 Inter，Anthropic 自己更早的片段也把这两款列为用滥或收敛点。Fable 5.2 的提示指南没有前端一节。
+   - 这加强了结论 3：只能教判据；清单必须写明厂商、模型和日期，绝对禁令不进 skill。
+
+   （一手资料：openai-frontend-guidance、anthropic-design-skills 35–37）
+19. **宿主正在补上结论 8 里"实时切换器、旋钮面板"的缺口。** 2026-10 至 11 上线的：Figma code layers（画布上并排比较正在运行的变体）、Subframe 与 Magic Patterns 的画布 agent、Cursor 云端 agent 的画布、Qoder 带批注的 Sites 设计画布、ChatGPT 桌面浏览器的批注 API（站点可注册实时调 token 的控件）。本套件仍以静态方案板为默认，相对差距变大；没有证据表明画布形态的产出更好。（更新日志读数，未写摘要；见 log 2026-11-16）
+
 ## 论证
 
 ### 解药也会过期：时间线
@@ -132,6 +153,8 @@
 
   GitHub 星数：UUPM 130,871，taste 90,402，Impeccable 71,605，awesome-design-md 118,191，design.md 28,119。本套件没有已知的公开安装。星数只能说明"设计 skill"是热门品类，不代表质量。
 
+  2026-11-16 读数（skills.sh 全时安装量，二手）：frontend-design 1,121,915，web-design-guidelines 865,069，taste 780,761，UUPM 453,071，emil-design-eng 450,603，Impeccable 409,723；taste 已超过 UUPM。排行榜有明显失真：一个 35 星的仓库显示 143 万安装，同一套 skill 被多个组织复制上榜，一次 `npx skills add` 会把整个仓库的 skill 都记一次。安装量至多说明仓库热度，不能当质量或真实使用的证据。GitHub 星数（同日）：UUPM 149,833，taste 115,979，Impeccable 110,564，open-design 107,733，Emil 57,119，unslop 16,526，oil-ui 3,406。
+
 ### 0.8.0 采纳什么，为什么
 
 | 机制 | 来源 | 为什么 | 落在哪 |
@@ -187,6 +210,8 @@
 - **本地策展参照库。** Impeccable 在线概念目录的规模和质量没有读到，本套件离线的 `seed.py` 没有"挑战者"目录，要不要自己策展一份本地参照库，未定。
 - **差异能否转化为更好的产出**，要等第一轮评测。评测里的一个偏差来源要预先承认：身份感维度的"与题材无关"判据，本套件自己也在教。
 - **Design Theater 的 25% 能否外推。** 研究对象是 5 个生成式 UI 工具，这个比例放到由 skill 驱动的通用 agent 上是否成立，未知。
+- **默认推荐一个方向（oil-ui），还是给方案板让用户选（本套件）？** 两种做法都没有比较过；本套件的评测 brief 可以加一组只出一个方向的臂。
+- **账户与云的边界。** Impeccable 4.9 登录后默认上传评审报告和 DESIGN.md，而其隐私页（2026-11-10）没提到；本套件在宿主项目里建议它时要先问。
 - **参考库 MCP**：Mobbin 的 MCP 已从其文档核实，Refero 仍只到搜索结果层面；安装量数字出自 skills.sh 排行榜，属二手读数。
 
 ## 对 skill 的约束
@@ -242,3 +267,4 @@
 - 2026-09-21 1.1（旧分析 02）：补充 v0 与 impeccable.cn，新增"解药也会过期"一节。
 - 2026-09-21 1.0（旧分析 02）：首版横评。
 - 2026-11-01 复核：新增结论 12–15（同类 10 月更新、机制收敛、托管系统互通的一手核实、雷同的测量）；结论 4、5 中的 Impeccable 与 taste-skill 数字以结论 12 为准，原文保留作为 2026-09-27 的记录；两条未决问题改为已核实或部分核实。
+- 2026-11-16 复核：新增结论 16–19（同类商业化与重写、unslop 与 oil-ui、厂商指南自相矛盾、宿主画布）；论证一节的热度表补 11-16 读数与排行榜失真的说明；两条未决问题补充。

@@ -1,6 +1,6 @@
 # 08 AI 产品体验
 
-> 元数据：更新于 2026-11-01 · 依据：shape-of-ai、openai-apps-sdk-ui、mcp-apps、a2ui、ai-labelling-law、apple-hig-generative-ai、pair-guidebook、hax-toolkit、carbon-for-ai、vercel-ai-elements、ant-design-x · 复核期限：2026-12-03（欧盟 AI 法案第 50(2) 条宽限期 12-02 结束后复核；欧盟指南正式通过或 A2UI v1.0 定稿时提前复核）
+> 元数据：更新于 2026-11-16 · 依据：shape-of-ai、openai-apps-sdk-ui、mcp-apps、a2ui、ai-labelling-law、apple-hig-generative-ai、pair-guidebook、hax-toolkit、carbon-for-ai、vercel-ai-elements、ant-design-x · 复核期限：2026-12-03（欧盟 AI 法案第 50(2) 条宽限期 12-02 结束后复核；欧盟指南正式通过或 A2UI v1.0 定稿时提前复核）
 
 一句话：AI 界面的设计问题分三层——用户怎么和它打交道（交互模式），用户怎么管住它（agent 控制），它的界面由谁画、画在哪（宿主 UI 与生成式 UI）；三层之上还压着一条 2025–2026 年落地的法律义务：告诉用户这是 AI，并把生成内容标出来。
 
@@ -53,6 +53,15 @@
 16. **AI 体验有了几套可引用的一手规则。** PAIR：自动化困难、不愉快的任务，增强人们喜欢做或要负责的任务，分阶段放权、风险低处多放（回答"第七问"）；HAX 的 18 条按"初始、交互中、出错时、长期"编号，评审可直接引用编号；Carbon for AI：一枚 AI 标签同时是可解释性入口，用户改写后去掉 AI 样式并留"恢复"路径，AI 样式不作装饰；Apple：编辑、撤销、重试放在输出旁边，保留不用 AI 的路径，不自动执行删除与购买。依据：pair-guidebook、hax-toolkit、carbon-for-ai、apple-hig-generative-ai。一手资料。
 17. **组件词汇已经成型，命名照宿主组件库来。** AI Elements（2026-11 底迁入 shadcn/ui）给出 Plan、Task、Tool、Confirmation、Checkpoint、Queue、Context、Sources、Reasoning 等 49 个组件，每个都有等待、流式、完成三态；Ant Design X 的 RICH 范式把会话分为开始、追问、提示、确认、错误、结束，组件有 Welcome、Prompts、Sender、Bubble、ThoughtChain、Sources。依据：vercel-ai-elements、ant-design-x。一手资料。
 18. **AG-UI 1.0 发布（2026-09-17）。** 运行结束带 `outcome`（含中断与取消），新增子 agent 事件与活动事件，推理事件族取代 THINKING_*；它和 A2UI、MCP Apps 都有中间件对接。设计含义：中断、取消、子 agent 进度都是协议里的一等状态，状态矩阵要画出来。依据：a2ui #20。一手资料。
+
+19. **2026-11 的 AI 体验变化。**
+   - 欧盟 Art. 50 准则 2026-11-12 在官方公报发布（C/2026/6005，不具约束力）。第 68 段把单个词、图注、替代文本、UI 标签、图标尺寸的图形和源代码排除在 50(2) 的机器可读标记义务之外。
+   - A2UI v1.0 成为当前版本：智能体不能再传主题；组件目录用 `instructions` 携带设计规则，可以按组件混用目录。
+   - MCP Apps 的草案不再强制双层 iframe（稳定版不变，界面作者无影响）。
+   - AI Elements 迁入 shadcn/ui，只保留 21 个模式和 4 个基础件；Artifact、JSX Preview、画布一组不再提供。
+   - ChatGPT 桌面浏览器的批注 API 让用户在渲染页面上圈选并评论，交给 Codex 修改；站点可以注册自己的控件（例如实时调一个间距 token）。这是"在真实页面上给反馈"的新通道。
+
+   （一手资料：ai-labelling-law 23–24、a2ui 21–23、mcp-apps 22–23、vercel-ai-elements 5–6；ChatGPT 批注为 AI 工具核查读数）
 
 ## 论证
 
@@ -112,3 +121,4 @@
 
 - 2026-09-27 重写：由旧分析 09 迁入并全文重写，吸收旧 `design-product-ui/references/ai-ux.md` 中仍然成立的部分与审计报告 research-knowledge §8。新增 agent 控制链与第七问、Apple 2026-06-08 输出侧规则、MCP Apps / ChatGPT / A2UI 宿主与生成式 UI、欧盟第 50 条与行为准则、中国标识办法与 GB 45438-2025；把“标注生成内容”从可选诚信规则改为法定必交付物；删除仪式性小节。
 - 2026-11-01 复核：结论 5–8、10–12 补充（MCP Apps 宿主、ChatGPT 规则页、A2UI 渲染器与 Express、欧盟准则与工作组、中国 2026 执法）；新增结论 16（AI 体验的一手规则）、17（组件词汇）、18（AG-UI 1.0）；一条未决问题关闭。
+- 2026-11-16 复核：新增结论 19（欧盟准则发布与第 68 段、A2UI v1.0、MCP Apps 草案、AI Elements 迁移、ChatGPT 批注）。
