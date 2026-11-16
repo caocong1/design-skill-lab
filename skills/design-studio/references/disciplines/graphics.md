@@ -189,6 +189,13 @@ proof approval.
 - Write the insight on the graphic as an annotation, and the data source and date on the piece.
 - Draw marks after strokes and align each mark with the label it names. A diagram that renders
   wrong in a way no rule explains: [casebook](../casebook.md), "Diagrams and marks on a line".
+- Technical and architecture diagrams (layers, flows across a boundary):
+  - Rendered text, not authored text: a scaled SVG shows `font-size × rendered width / viewBox width`;
+    keep that at 12 px or more at every target width (a 2026-10 host source failed on 10 of 12 figures).
+  - One flow vocabulary across every figure (colour, line style, arrowhead, label), with a legend;
+    two figures that draw the same flow differently contradict each other.
+  - Colours as classes or custom properties, never hex attributes, so themes and forced colours reach them.
+  - An animated figure has a static end state for print and reduced motion.
 
 ## 8. Generative backgrounds and artwork
 

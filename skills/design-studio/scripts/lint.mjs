@@ -48,7 +48,8 @@
 // --strict      target-size and img-alt also fail the floor.
 // --scope       only elements inside this selector are checked and inventoried (overflow and
 //               --above-fold stay page-wide).
-// --above-fold  comma-separated selectors whose every rendered match must end inside the first viewport.
+// --above-fold  comma-separated selectors whose every rendered match must end inside the first viewport;
+//               per viewport as the surface contract writes it: '1280x800=h1, .map; 390x844=h1'.
 // --platform    the frames are native screens: every run is a touch run with that minimum, and without
 //               --viewports the platform's default frame is used (portable-mockups.md): ios 402x874,
 //               android 412x915, harmonyos 366x809, miniprogram 375x812.
@@ -122,7 +123,7 @@ function parseArgs(argv) {
     else if (a === '--touch') o.touch = true;
     else if (a === '--no-touch') o.noTouch = true;
     else if (a === '--platform') o.platform = value().toLowerCase();
-    else if (a === '--above-fold') o.aboveFold = splitSelectors(value());
+    else if (a === '--above-fold') parseAboveFold(o, value());
     else if (a === '--max') o.max = Number(value());
     else if (a === '--auth') o.auth = value();
     else if (a === '--scope') o.scope = value();
@@ -154,6 +155,18 @@ function usage(error) {
   }
   process.stdout.write(lines.join('\n') + '\n');
   process.exit(0);
+}
+
+// --above-fold takes one selector list for every viewport, or per viewport: '1280x800=h1, .map; 390x844=h1'.
+function parseAboveFold(o, text) {
+  if (!/^\s*\d+x\d+\s*=/.test(text)) { o.aboveFold = splitSelectors(text); return; }
+  o.aboveFoldBy = {};
+  for (const part of text.split(';').map((x) => x.trim()).filter(Boolean)) {
+    const m = part.match(/^(\d+x\d+)\s*=\s*(.*)$/);
+    if (!m) usage(`--above-fold: "${part}" should look like 390x844=h1, .cta`);
+    o.aboveFoldBy[m[1]] = splitSelectors(m[2]);
+  }
+  o.aboveFold = [...new Set(Object.values(o.aboveFoldBy).flat())];
 }
 
 // Top-level commas only: 'a, b:is(.x, .y)' is two selectors.
@@ -526,6 +539,22 @@ function PAGE([mode, opt = {}]) {
       }
     }
   }
+  // An ellipsis box whose content is wider than it is truncated even when the line rects come back
+  // clipped to the box (seen in fixed-width table cells): compare scrollWidth with clientWidth.
+  const clippedSel = new Set(out.clipped.map((c) => c.sel));
+  for (const [el] of byParent) {
+    for (let n = el; n && n !== document.body; n = parentOf(n)) {
+      if (n.nodeType !== 1) continue;
+      const s = cs(n);
+      if (s.textOverflow !== 'ellipsis' || !/hidden|clip/.test(s.overflowX)) continue;
+      if (n.scrollWidth > n.clientWidth + 1 && n.clientWidth >= 4 && visible(n) && !clippedSel.has(sel(el))) {
+        clippedSel.add(sel(el));
+        out.clipped.push({ sel: sel(el), why: `width cut by ellipsis${n === el ? '' : ` on ${sel(n)}`} (needs ${n.scrollWidth}px, has ${n.clientWidth}px)`,
+          text: (n.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 48) });
+      }
+      break;
+    }
+  }
   // Straight quotes and apostrophes in headings and prose (code-like elements skipped).
   const PROSE = 'h1, h2, h3, h4, h5, h6, p, li, blockquote, figcaption, dt, dd, caption, [role="heading"]';
   const quoted = new Set();
@@ -823,7 +852,7 @@ async function lintRun(browser, url, run, o, first) {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.evaluate(PAGE, ['finish']);
     const data = await page.evaluate(PAGE, ['collect', { touch: run.touch ? run.touchMin : 0, markCjk: first, scope,
-      aboveFold: o.aboveFold, safeArea: run.safeArea ? HOME_INDICATOR : 0 }]);
+      aboveFold: o.aboveFoldBy ? o.aboveFoldBy[`${run.width}x${run.height}`] || [] : o.aboveFold, safeArea: run.safeArea ? HOME_INDICATOR : 0 }]);
     if (data.error) throw Object.assign(new Error(data.error), { load: true });
     data.wall = wall;
     data.motion = motion;
@@ -843,6 +872,8 @@ async function sampleContrast(page, data) {
     .map((t) => ({ id: t.id, fg: t.fg, rects: t.rects.filter(([, y, , h]) => h >= 8 && y + h <= SHOT_CAP) }))
     .filter((t) => t.rects.length);
   if (!items.length) return {};
+  const layoutState = () => page.evaluate(() => [matchMedia('(pointer: coarse)').matches, matchMedia('(hover: hover)').matches, innerWidth, innerHeight].join());
+  const before = await layoutState();
   await page.evaluate(PAGE, ['hide']);
   let shot;
   try {
@@ -852,6 +883,9 @@ async function sampleContrast(page, data) {
   } finally {
     await page.evaluate(PAGE, ['show']);
   }
+  // Some Playwright builds drop touch emulation for a full-page shot, so the page re-lays out without its
+  // (pointer: coarse) rules: pixels would be read from a different layout than the rects. Keep computed ratios.
+  if ((await layoutState()) !== before) { data.sampleNote = 'layout changed during the full-page shot: computed ratios only'; return {}; }
   const tool = await (await page.context().browser().newContext()).newPage();
   try {
     const res = await tool.evaluate(SAMPLE, [shot.toString('base64'), items]);
@@ -927,6 +961,7 @@ function judgeContrast(t, sample) {
 function analyse(run, data, add) {
   const r = run.id;
   if (data.wall) add('contrast-unverified', r, 'page', `the page looks like a ${data.wall}; results describe that page`);
+  if (data.sampleNote) add('contrast-unverified', r, 'page', data.sampleNote);
   for (const t of data.texts) {
     const j = judgeContrast(t, data.samples[t.id]);
     if (j.unverified) { add('contrast-unverified', r, t.sel, j.unverified, t.text); continue; }
@@ -975,7 +1010,8 @@ function analyse(run, data, add) {
     if (entry.script === 'zh' && !entry.jpFirst && /hiragino (kaku|mincho|maru)|hiragino ?sans(?! ?gb)|yu ?gothic|yu ?mincho|meiryo|ms p?gothic|ms p?mincho| jp$/i.test(main.familyName)) {
       add('cjk-font', r, entry.sel, `rendered with ${name}, a Japanese font`, entry.text);
     }
-    if (entry.weight >= 600 && !main.isCustomFont && /(^|[-_ ])(regular|light|thin|book|normal|w[1-5])$/i.test(main.postScriptName || '')) {
+    const boldFace = fonts.some((f) => /(bold|semibold|demi|heavy|black|medium|w[6-9])$/i.test(f.postScriptName || ''));
+    if (entry.weight >= 600 && !boldFace && !main.isCustomFont && /(^|[-_ ])(regular|light|thin|book|normal|w[1-5])$/i.test(main.postScriptName || '')) {
       add('cjk-synthetic', r, entry.sel, `weight ${entry.weight} drawn with ${name}: faux bold`, entry.text);
     }
   }
@@ -1084,6 +1120,7 @@ Without Node: shot.sh renders; color_tools.py contrast / matrix --from tokens.cs
   }
   const findings = new Map();
   const merged = {};
+  const byScheme = {}; // near-duplicates are compared within one theme: light and dark values never meet
   const meta = [];
   const strict = new Set([...FLOOR, ...(o.strict ? ['target-size', 'img-alt'] : []), ...(o.touchMin ? ['touch-target'] : [])]);
   const add = (rule, run, sel, detail, text, data) => {
@@ -1104,15 +1141,22 @@ Without Node: shot.sh renders; color_tools.py contrast / matrix --from tokens.cs
       }
       meta.push({ ...run, url: data.url, lang: data.lang, texts: data.texts.length, measured: Object.keys(data.samples).length });
       analyse(run, data, add);
+      const theme = (byScheme[run.scheme] = byScheme[run.scheme] || {});
       for (const [name, bucket] of Object.entries(data.inventory)) {
         merged[name] = merged[name] || {};
-        for (const [v, n] of Object.entries(bucket)) merged[name][v] = (merged[name][v] || 0) + n;
+        theme[name] = theme[name] || {};
+        for (const [v, n] of Object.entries(bucket)) { merged[name][v] = (merged[name][v] || 0) + n; theme[name][v] = (theme[name][v] || 0) + n; }
       }
     }
   } finally {
     await browser.close().catch(() => {});
   }
   const inventory = inventorySummary(merged);
+  const perScheme = Object.values(byScheme).map(inventorySummary);
+  for (const [name, s] of Object.entries(inventory)) {
+    const seen = new Set();
+    s.clusters = perScheme.flatMap((p) => (p[name] ? p[name].clusters : [])).filter((c) => !seen.has(c.join()) && seen.add(c.join()));
+  }
   for (const [name, s] of Object.entries(inventory)) {
     if (s.clusters.length) add('token-drift', 'all', name, s.clusters.map((c) => c.join(' ~ ')).join(', '));
     if (s.budget && s.count > s.budget) add('vocabulary', 'all', name, `${s.count} distinct (budget ${s.budget})`);

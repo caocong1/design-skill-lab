@@ -20,7 +20,7 @@ what the files below show, against the brief and the contract (fresh) or the han
 | `.design/brand/strategy.md` | brand work: replaces the surface contract; the tests in `<skills path>/design-studio/references/disciplines/brand.md` section 4 are the finish line, judged on the rendered test sheet (a manifest row), not on the author's pass/fail record |
 | `<skills path>/critique-design/references/rubric.md` | floor, anchors, gate |
 | `<.design/system/DESIGN.md or the host's token file>` | only to check drift from the system; its prose is not evidence |
-| `.design/handoff/<feature>/README.md` + `handoff.json` | acceptance only: structure tree, tokens, tolerances, shot list |
+| `.design/handoff/<feature>/README.md` + `handoff.json` | acceptance only: structure tree, tokens, tolerances, shot list. In `implement` mode there is no package: give the acceptance-shot list (design shot, build shot, contract, build stamp per row) in its place |
 
 Acceptance keeps the handoff row and the surface contract (its finish line is an acceptance
 criterion); PRODUCT.md, the brief and the rubric are optional there, because a build is judged

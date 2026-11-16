@@ -12,6 +12,65 @@
 
 各 skill 的当前版本记录在对应 `SKILL.md` frontmatter 的 `metadata.version`；逐来源的抓取日期与复核期限见 `research/INDEX.md`（0.8.0 之前是 `analysis/SOURCE_INDEX.md`，已随 `analysis/` 删除）。下面旧版本条目里提到的路径保持原样，是当时的路径。
 
+## [0.19.0] - 2026-11-16
+
+处置 inbox 里积压的 37 条使用反馈（六个宿主项目，2026-10-23 至 11-06），MINOR：新增截图与 lint 选项、新指引。模式、交付物、产出目录与 reference 路径都不变。逐条处置见 `feedback/log.md` 2026-11-16 一节，三条结构性改动写成提案 P11–P13。
+
+### 修复（脚本）
+
+- `capture.mjs` 截动效定格帧时总是截到最终帧：截图用 `animations: 'disabled'`，会把暂停的动画快进到终点。新增 `--keep-animations`。在夹具上复现并复测：暂停在 0.25 s 的动画，旧行为宽 800 px（终点），新选项宽 230 px（应有值）。
+- `capture.mjs` 路由表里相对的目录 `base` 解析高了一层（`resolve()` 去掉了末尾斜杠），现在目录会补上斜杠。
+- `lint.mjs` 的 `cjk-synthetic`：粗体元素里有一个常规字重的子元素时，会把父元素误报为伪粗体。现在只要用到了粗体字面就不报。
+- `lint.mjs` 的 `token-drift`：会把浅色和深色主题里的值当成近似重复（例如 `#eeeeee ~ #ebebeb`）。现在只在同一主题内比较。
+- 新旧脚本在同一夹具上对比过：旧版报出上述两条误报，新版只报同主题的真近似值。
+- 两条在本仓库固定的 Playwright 上没能复现的缺陷，加了防御：
+  - 带省略号的盒子另外比较 `scrollWidth` 与 `clientWidth`；
+  - 整页截图前后若 `pointer` / `hover` 或视口变了，不再用像素取样，退回计算值并说明。
+
+### 新增（脚本）
+
+- `capture.mjs`：
+  - `--forced-colors`：模拟强制颜色，文件名加 `-fc`，报告里记录；
+  - `--ready <selector>`：单个目标也能等就绪元素出现。
+- `lint.mjs --above-fold` 接受按视口分别写的形式，如 `'1280x800=h1, .map; 390x844=h1'`，与契约模板一致。
+
+### 新增与变更（skill）
+
+- `process/render-and-look.md`：
+  - Web 默认尺寸外，Read 与 Operate 界面加 320（`--no-touch`）；多页站点在评审前扫一遍横向溢出。
+  - 强制颜色与动效定格帧各指向新选项。
+  - 新的截图陷阱：离屏 `file://` iframe 截成空白、定格帧、WebGPU（安全上下文、就绪标志、退回说明、可旋转相机要能回到构图）。
+  - 原生 macOS 窗口截图的做法：按窗口 id 截、后台启动、关窗口恢复、非激活态、转 sRGB、副本要有独立的构建 UUID。
+- `process/directions.md`（守在 300 行）：
+  - brief 要"酷炫"时，至少一个方向到达配色与图像两个轴的远端；
+  - 子 agent 只拿自己那一行坐标；
+  - content.md 的行数要填满最大帧；
+  - 多帧或以动效为主的方向可以用截图与片段上方案板；
+  - 无人可选时，可由新上下文评审挑选。
+- `templates/surface-contract.md`：收敛及之后的改动标明 `(user)` 或 `(author)`；首屏选择器改用按视口的写法。
+- `disciplines/product-ui.md`：状态的新鲜度，以及"源不可达"作为单独的状态。
+- `platforms/README.md`、`process/truth-files.md`：姿态写明谁定的；商业产品或多桌面系统时，外壳姿态是要问的业务问题。
+- `fundamentals/cjk-typography.md`：更正 `word-break: auto-phrase` 的说法（只对日文生效），并给出中文标题的做法。
+- `disciplines/graphics.md`：技术与架构图四条。
+- `disciplines/motion.md`：定格帧用 `--keep-animations`。
+- `critique-design`（0.4.2 → **0.5.0**）：
+  - 验收要有"升级后首次启动"和"稀疏数据"两种状态；原生桌面要有激活窗口截图，并在选中底色上取样文字；
+  - 第二轮第一次截到的状态单独过一遍；implement 模式用截图对照表代替交接包（`critic-brief.md`）；
+  - `heuristics.md`：面向不写代码读者时，正文里的标识符是内容问题；强制颜色下边框画的形状怎么处理。
+- `implement-design`（0.3.7 → **0.4.0**）：`stacks.md` 加 SwiftUI 在 macOS 上的阴影、`Table` 与 `fixedSize` 陷阱（守在 300 行）。
+- `skills/design-studio/SKILL.md` 0.18.0 → **0.19.0**（正文未改）；`README.md`、`.claude-plugin/` 与两个 WorkBuddy 专家的 `plugin.json` 同步。
+
+### 反馈
+
+- 37 条全部归档到 `feedback/archive/2026-11/`。
+- `options-use-lab-presets` 已在 0.15.0 处置，这次只是归档。
+- 提案：P11 局域网分享方案板，P12 动效方向的录制脚本与卡片变体，P13 原生构建评审后先改系统文件。
+
+### 验证
+
+- 每处脚本改动都先在夹具上复现，再复测。
+- 闸门 G1–G9、`pack-workbuddy.py --check`、`npm run smoke`、`npm run test:evals`、`test-seed.py`、`test-feedback-status.py` 全部通过。
+
 ## [0.18.0] - 2026-11-16
 
 第二次研究复核：先用脚本找出上游哪里变了，再只深读变了的地方，另外检索了 AI 做设计的 2026 年 9–11 月资料（MINOR：新来源改变了指引）。模式、交付物、产出目录与 reference 路径都不变。过程与没读到的东西见 `research/log.md` 2026-11-16 一节。

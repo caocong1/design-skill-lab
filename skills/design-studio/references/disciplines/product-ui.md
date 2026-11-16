@@ -102,7 +102,7 @@ Design every screen and component across the rows that apply; list skipped rows 
 | Dimension | Cases |
 | --- | --- |
 | Data | first-use empty, no results, one item, typical (every status the view distinguishes, mixed), all done, many (pagination or virtualisation), extreme values, stale |
-| Async | loading, refreshing, partial failure, error with recovery, offline, success, background job running |
+| Async | loading, refreshing, partial failure, error with recovery, offline, source unreachable, success, background job running |
 | Interaction | default, hover, focus-visible, pressed, selected, dragging, disabled (with reason), read-only, busy |
 | Validation | pristine, invalid (specific message and fix), valid, server-rejected |
 | Permissions | signed out, no access, read-only role, over quota or paywalled |
@@ -125,6 +125,12 @@ Three empty states are three different designs:
 | Error | loading failed | what failed, in words; whether the user's data is safe | retry; the last good data with a stale marker; a status or support link | a raw code alone; a blank screen |
 
 A cleared queue ("全部处理完毕") is a success state, not an empty one: confirm it, then show what comes next.
+
+Status that comes from probing or syncing (devices, jobs, prices) says how fresh each value is: live,
+last known with its age, or never seen. "The source is unreachable" (a network down, a project's
+server off) is its own state, drawn and named in the contract: every value keeps its last known
+reading with its age and the screen names the unreachable source; it never turns into a red outage
+for every item.
 
 Response time has three limits: within 0.1 s the input itself answers (pressed state, caret, a toggle
 flips, a drag follows); within 1 s the user's flow holds; past 10 s attention leaves. Feedback within

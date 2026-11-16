@@ -1,6 +1,8 @@
 <!-- Template: copy the structure, not the values. Save as .design/surfaces/<surface>.md, one per
      surface (a route, a screen family or a page). The final critique audits the render against every
-     block below. Never copy this file into shipped code. Delete these comments. -->
+     block below. Never copy this file into shipped code. Delete these comments.
+     Tag every change made at or after convergence with who made it, `(user)` or `(author)`: a critic
+     may undo an author's change, never a user's without asking. -->
 
 # Surface: <surface> (<route or screen>)
 
@@ -29,8 +31,8 @@ order of the primary task.>
 A collection also names its default sort, the fields every row shows, how each status reads without
 colour, and which low-frequency fields (ids, paths, provenance) sit behind a disclosure.>
 
-Above the fold (checked with `lint.mjs --above-fold`): <per viewport, the selectors that must end
-inside it, e.g. 1280x720: `h1, [data-component=PrimaryAction]`; 390x844: `h1, [data-component=PrimaryAction]`>
+Above the fold (checked with `lint.mjs --above-fold`, which takes this per-viewport form): <the selectors
+that must end inside each viewport, e.g. `1280x720=h1, [data-component=PrimaryAction]; 390x844=h1`>
 
 ## Task cost
 

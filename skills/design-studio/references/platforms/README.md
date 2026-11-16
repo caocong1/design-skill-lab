@@ -51,9 +51,13 @@ ids as in `sources:`; the mobile, web and host digests are due for review on 202
 | Branded-native | native structure and behaviour; brand colour, type and illustration | most consumer apps |
 | Cross-platform custom | one custom system on every platform | content and brand products, games; still obey back behaviour, safe areas, text scaling and accessibility APIs |
 
-Write the posture in the brief. It sets the motion default ([motion](../disciplines/motion.md)), the
-type ([typography](../fundamentals/typography.md), native targets) and the materials
-([materials](../fundamentals/materials.md)).
+Write the posture in the brief, with who decided it. It sets the motion default
+([motion](../disciplines/motion.md)), the type ([typography](../fundamentals/typography.md), native
+targets) and the materials ([materials](../fundamentals/materials.md)). For a commercial product, or
+one that ships on more than one desktop OS, the posture of the shell is a business question (a single
+tool or a product family, brand, editions): ask it when the brief does not settle it. "Daily tool,
+so convention" governs the work surfaces, not automatically the shell (2026-11 host: a fully native
+desktop app was rejected after shipping as not reading as the company's product).
 
 **Do not mix idioms inside one app**: no iOS back chevron with a "Back" label on Android screens that
 answer system back differently; no Material FAB on an otherwise native iOS screen; no HarmonyOS

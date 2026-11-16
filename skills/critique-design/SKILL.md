@@ -13,10 +13,10 @@ examples_en:
 - "Review this screen and tell me what's wrong"
 - "Run an accessibility audit on this checkout flow"
 - "Accept this build against its handoff screenshots"
-version: 0.4.2
+version: 0.5.0
 author: "caocong1"
 metadata:
-  version: 0.4.2
+  version: 0.5.0
   short-description: Fresh-eye design review, scoring and build acceptance
 ---
 
@@ -122,15 +122,18 @@ Also tag effort (`S`/`M`/`L`) and type: `quick win`, `systemic` (fix once in tok
 
 At most two rounds. Round 2 re-checks each round-1 finding against its own evidence shot, re-captured
 at the same size, theme and state: `resolved`, `partial` or `unresolved`, plus at most three
-regressions. Partial or unresolved never adds up to `ship`. After round 2, disclose what remains.
+regressions. States first captured in round 2 get their own full pass, graded like round 1 and outside
+those three. Partial or unresolved never adds up to `ship`. After round 2, disclose what remains.
 
 ## Accepting a build (`acceptance`)
 
 Only screenshots of the build count, from any source (browser, simulator, device, golden test, a
 paste). With none, acceptance has not happened: say so.
 
-1. Pair each handoff shot (`shots` in handoff.json) with a build shot at the same logical size, DPR,
-   theme, state and content, carrying the build stamp. A mismatched pair is `recapture`.
+1. Pair each handoff shot (`shots` in handoff.json, or in implement mode a list of design-shot and
+   build-shot pairs) with a build shot at the same logical size, DPR, theme, state and content,
+   carrying the build stamp. A mismatched pair is `recapture`. Besides the demo data, require first
+   launch after an upgrade (old data, one-time notes unseen) and sparse data (one item, empty fields).
 2. Compare region by region: the named components of the spec's structure tree (`data-component` in
    the mockup), side by side, then overlaid (render-and-look section 8). Per region: `match`,
    `adapted`, `missing`, `contradicted` or `added`, with a crop. Spacing, type (face, size, weight,
@@ -142,7 +145,8 @@ paste). With none, acceptance has not happened: say so.
    handoff, never guess), **platform difference** (a system component or font renders differently:
    usually accept, record it in the spec).
 4. Say how each thing a still cannot show was checked (targets, focus order and visibility,
-   screen-reader names, contrast, text scaling, reduced motion), then fill the
+   screen-reader names, contrast, text scaling, reduced motion; native desktop: one active-window shot
+   per theme, text sampled on the selection fill), then fill the
    [acceptance report](../design-studio/templates/acceptance-report.md). `ship` needs every region
    `match` or `adapted` and no open P0 or P1; a region is fixed only on a re-captured build shot.
 

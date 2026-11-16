@@ -65,6 +65,8 @@ State it before producing anything, at every effort level (in chat for quick wor
 - Name the kind of thing precisely: "an on-call triage console", not "a dashboard".
 - Convention or novelty follows frequency and stakes. Daily, high-stakes Operate surfaces lean
   convention; a Persuade or Experience surface seen once has room for novelty. Say which and why.
+  On a native or multi-platform target, add the posture (native, branded-native or custom shell;
+  [platforms](../platforms/README.md)) and who decided it.
 - Weak: "A modern, clean dashboard for our users."
 - Strong: "Reading this as a bid-tracking console for six procurement officers who work in it all day
   on 24-inch monitors: calm, dense, keyboard-first; convention over novelty, because they already

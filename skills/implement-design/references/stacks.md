@@ -110,8 +110,8 @@ motion. Design-side capability table: [web](../../design-studio/references/platf
   `rounded-card`. For modes, keep semantic variables on `:root` and `[data-theme=dark]`, and map them
   with `@theme inline { --color-surface: var(--surface); }`.
 - Once tokens exist, remove the raw palette (`--color-*: initial;` in `@theme`) and ban arbitrary values
-  (`p-[13px]`, `text-[#1a1a1a]`). Attribute dark mode:
-  `@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));`.
+  (`p-[13px]`, `text-[#1a1a1a]`). Attribute dark mode: `@custom-variant dark (&:where([data-theme=dark],
+  [data-theme=dark] *));`.
 - Check the major first. v4 targets Safari 16.4+, Chrome 111+, Firefox 128+; hosts serving older engines
   or old in-app WebViews stay on v3.4 (`tailwind.config.js`). v4 loads a JS config through `@config`.
 
@@ -154,9 +154,8 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
 
 ## Flutter
 
-- `ThemeData(colorScheme:, textTheme:, ...)` with component themes (`FilledButtonThemeData`,
-  `InputDecorationTheme`...) and a `ThemeExtension` for custom roles (status colours, spacing, motion).
-  No literal colours or paddings in widgets.
+- `ThemeData(colorScheme:, textTheme:, ...)` with component themes (`FilledButtonThemeData`, ...) and a
+  `ThemeExtension` for custom roles (status, spacing, motion); no literal colours or paddings in widgets.
 - Adaptive: `LayoutBuilder` / `MediaQuery.sizeOf`; name Material's breakpoints (compact < 600, medium
   600-839, expanded 840-1199, large 1200-1599, extra-large >= 1600 dp); `SafeArea`; `NavigationBar` >
   `NavigationRail` (extended) by width. M3 Expressive no longer recommends the navigation drawer.
@@ -167,9 +166,9 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   installed release's Cupertino notes, then pick and record one: Cupertino as it ships, native bars via
   platform views (costly), or the handoff's fallback. Never `BackdropFilter` spread around as fake glass.
 - Test the largest `MediaQuery.textScalerOf`; honour `MediaQuery.disableAnimationsOf`. Bundle fonts with
-  their licence and set `fontFamilyFallback` for CJK, or Chinese glyphs fall to an arbitrary system face.
-- Goldens per component and screen at fixed sizes, themes and text scales. Load the real fonts in the
-  test setup, or text renders as placeholder boxes. One icon family: its package or `flutter_svg`.
+  their licence; set `fontFamilyFallback` for CJK, or Chinese falls to an arbitrary system face. Goldens
+  per component and screen at fixed sizes, themes and text scales, with the real fonts loaded in the test
+  setup (else placeholder boxes). One icon family: its package or `flutter_svg`.
 
 ## SwiftUI and UIKit (iOS, iPadOS, macOS 26-27)
 
@@ -195,21 +194,25 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
 | image continues under the sidebar | `.backgroundExtensionEffect()` | `UIBackgroundExtensionView`, `NSBackgroundExtensionView` |
 | concentric corners | `ConcentricRectangle`, `rect(corners:isUniform:)` | `UICornerConfiguration`; AppKit 27 `.containerConcentric` |
 
-- iOS 27 API names changed between the WWDC26 talks and the docs: take them from the installed SDK.
-- No glass in the content layer, none on glass, no custom blur as glass; tint only the single primary
-  action. iOS 27 `.automatic` scroll edges have their own look: revisit `.soft` / `.hard` overrides. Give
+- iOS 27 API names changed after WWDC26: take them from the installed SDK. No glass in the content
+  layer, none on glass, no custom blur as glass; tint only the single primary action. iOS 27 `.automatic` scroll edges have their own look: revisit `.soft` / `.hard` overrides. Give
   every non-text toolbar item a title too: overflow menus and iPhone Duo's vertical bars show it.
 - Check with Reduce Transparency, Increase Contrast and the iOS 27 transparency slider changed. Previews
   for every state, size class, colour scheme and Dynamic Type size.
+- macOS traps (2026-11 host): `.shadow` on a whole panel shadows every subview onto it (neighbours'
+  text fell below 4.5:1): shadow the background shape or `.compositingGroup()` first. `Table` column
+  visibility and widths: `TableColumnCustomization` defaults set once in `init`, ideal widths under the
+  narrowest window; never scroll or change table state in the update that swaps its rows (`.task(id:)`).
+  No `fixedSize(vertical:)` on wrapping text without a minimum width (one character per line). Shots:
+  [render-and-look](../../design-studio/references/process/render-and-look.md) §3.
 
 ## Jetpack Compose (Android 16, Material 3 Expressive)
 
 - `MaterialTheme` or `MaterialExpressiveTheme` with colour scheme, typography, shapes and motion scheme
   from the tokens; extra roles through `CompositionLocal`. Decide dynamic colour from the brief.
-- Plain `MaterialTheme` gives the standard spring scheme; expressive motion needs
-  `MaterialExpressiveTheme` / `MotionScheme.expressive()`. Read springs from `MaterialTheme.motionScheme`
-  (`defaultSpatialSpec()`, `fastEffectsSpec()`...), never hand-written `spring(...)`.
-  `LocalMotionScheme` was removed in 1.5.0-alpha27.
+- Plain `MaterialTheme` gives the standard springs; expressive motion needs `MaterialExpressiveTheme` /
+  `MotionScheme.expressive()`. Read springs from `MaterialTheme.motionScheme` (`defaultSpatialSpec()`...),
+  never hand-written `spring(...)`; `LocalMotionScheme` was removed in 1.5.0-alpha27.
 
 | material3, as of 2026-11-16 | stable 1.4.0 (2025-09-24) | 1.5.0-rc01 (2026-11-04), API frozen since beta |
 | --- | --- | --- |
@@ -252,18 +255,16 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
   `barOverlap(true)` + `barBackgroundBlurStyle` + a translucent `barBackgroundColor`. The guide's
   floating widths for 2-3 tabs (168 / 184, 248 / 272 vp) differ from the HdsTabs default formula: set
   the width from the design.
-- Immersive pages: `expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])`.
-  Title bar 56 vp, large 112 vp.
+- Immersive pages: `expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])`; title 56 vp, large 112.
 - Icons: HarmonyOS Symbol (`SymbolGlyph`); the selected tab bounces with `BounceSymbolEffect`. HarmonyOS
   Sans is the system face: use it, never bundle a modified copy.
 
 ## WeChat and other mini-programs
 
-- Layout in rpx (750 rpx = screen width), px for hairlines. Custom navigation: the capsule rectangle
-  from `wx.getMenuButtonBoundingClientRect()`, status bar and safe area from `wx.getWindowInfo()`;
-  `wx.getSystemInfo` is no longer maintained.
-- Tokens as CSS variables on `page`; dark mode through `"darkmode": true` in `app.json`, a `theme.json`,
-  and `@media (prefers-color-scheme: dark)` in WXSS.
+- Layout in rpx (750 rpx = screen width), px for hairlines. Custom navigation: the capsule from
+  `wx.getMenuButtonBoundingClientRect()`, status bar and safe area from `wx.getWindowInfo()` (not the
+  unmaintained `wx.getSystemInfo`). Tokens as CSS variables on `page`; dark mode via `"darkmode": true`
+  in `app.json`, a `theme.json` and `@media (prefers-color-scheme: dark)` in WXSS.
 - 适老化: read `fontSizeScaleFactor` / `fontSizeSetting` from `wx.getAppBaseInfo()`. Care mode scales
   type, graphics and buttons 1.4x with spacing fixed. Custom navigation bars (x1.18 above standard) and
   custom tab bars must be adapted by hand. Icon hit areas +12 pt; floor 40 x 40 pt.
@@ -274,19 +275,18 @@ Behaviour from the kit or a headless layer; the look from tokens through the kit
 
 ## Desktop
 
-- Electron and Tauri: system font stack; tokens follow the OS appearance and accent. Custom title bar:
-  drag region on the bar (`-webkit-app-region: drag`, Tauri `data-tauri-drag-region`), `no-drag` on its
-  controls, room for traffic lights and caption buttons, full-screen and maximised states. Native menus,
-  remembered bounds, a minimum window size, no text selection on chrome; test at 100/125/150% scaling.
-- WinUI 3 (Windows App SDK 2.6.5 stable, 2026-11-03; Microsoft's docs use both "WinUI" and "WinUI 3"): `Window.SystemBackdrop = new MicaBackdrop()`
-  (`BaseAlt` for tabbed title bars) once, as the base layer, transparent layers above; `DesktopAcrylicBackdrop`
-  or a `SystemBackdrop` on flyouts for transient surfaces; `SystemBackdropElement` for one panel. Radii from
-  `ControlCornerRadius` (4) and `OverlayCornerRadius` (8). Title bar 32 px, 48 px with search or a person
-  picture; `TitleBar` has custom drag regions. Agent plugin: `/plugin install winui@awesome-copilot`.
-- A native toolkit with no simulator or preview (egui and other immediate-mode GUIs): build shots come from
-  an offscreen render of the screen with its services stubbed, at the design's logical size and scale, never
-  from launching an app that joins a live network or account. egui: `egui_kittest` (`wgpu` + `snapshot`
-  features, `Harness::snapshot`; 0.36, 2026-10) if the project can take it. Name the harness in the report.
+- Electron and Tauri: system font stack; tokens follow the OS appearance and accent. Custom title bar: drag
+  region (`-webkit-app-region: drag`, Tauri `data-tauri-drag-region`), `no-drag` on its controls, room for
+  traffic lights and caption buttons, full-screen and maximised states. Native menus, remembered bounds, a
+  minimum window, no text selection on chrome; test at 100/125/150% scaling.
+- WinUI 3 (Windows App SDK 2.6.5, 2026-11-03; docs say "WinUI" and "WinUI 3"): `Window.SystemBackdrop =
+  new MicaBackdrop()` (`BaseAlt` under tabbed title bars) once as the base, transparent layers above;
+  `DesktopAcrylicBackdrop` or a `SystemBackdrop` on flyouts; `SystemBackdropElement` for one panel. Radii
+  `ControlCornerRadius` 4, `OverlayCornerRadius` 8. Title bar 32 px (48 with search or a person picture);
+  `TitleBar` has drag regions. Agent plugin: `/plugin install winui@awesome-copilot`.
+- No simulator or preview (egui and other immediate-mode GUIs): shoot an offscreen render with services
+  stubbed, at the design's logical size and scale, never an app joined to a live network or account;
+  egui: `egui_kittest` (`wgpu` + `snapshot`, `Harness::snapshot`; 0.36, 2026-10). Name the harness.
 
 ## Assets and fonts
 

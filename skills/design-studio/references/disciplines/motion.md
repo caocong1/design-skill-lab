@@ -183,7 +183,8 @@ Look at it, do not trust it:
 2. Click a trigger rapidly: it must reverse from where it is.
 3. Capture frames: `motion-demo.html?moment=<id>&t=<ms>` starts the moment and freezes every
    animation at `t`. Capture one URL per frame (t = 0, 40, 80, 120, 160, 240, 320, end) with
-   `$S/capture.mjs` and build a contact sheet with its `--sheet`, or loop `$S/shot.sh`.
+   `$S/capture.mjs --keep-animations` (without it every frame shows the end state) and build a contact
+   sheet with its `--sheet`, or loop `$S/shot.sh`.
    Look at the sheet. A render you did not look at is unverified: say so.
 4. Turn on reduced motion and repeat step 1.
 

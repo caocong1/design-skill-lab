@@ -137,3 +137,35 @@
 | 画稿没用上压力内容 `draw-the-stress-content`（major） | B | 与 Emil Kowalski `break-ui` 的做法一致（emil-kowalski-skills 第 23 条）。`product-ui.md` 状态矩阵下加一段：最坏情况的数据集放在一个开关后面，每个目标尺寸至少一帧用它画，样稿与构建验收截图用同一份数据 |
 | 评审子 agent 写不了报告 `critic-cannot-write` | — | 重复：0.13.0 已把"写入被拒就把整份报告放进回复"写进 `critique-design/templates/critic-brief.md` 的 Return 一节；这次宿主用的是自己临时写的任务说明，没用模板。不改 |
 
+
+## 2026-11-16 · inbox 里积压的 37 条（0.19.0）
+
+条目来自六个宿主项目（按形态：zh-architecture-doc-html、zh-static-docs-site、zh-macos-native-app、zh-docs-static-site、zh-desktop-ops-tool、zh-macos-utility，另有一条 new-web-app），2026-10-23 至 11-06 写入。主人说"继续处理"，按 evolve 流程逐条读原文、按根因聚类。脚本缺陷先在本仓库复现再改。
+
+| 簇 / 条目 | 分级 | 处置 |
+| --- | --- | --- |
+| 动效定格帧截出来是最终帧 `capture-disables-motion-freeze`、`motion-frozen-capture`（major），以及 `webgpu-direction-verify-review` 的同一点 | A | 复现成立：`capture.mjs` 用 `animations: 'disabled'`，暂停在 t = 0.25 s 的动画被快进到终点（800 px，应为 230 px）。加 `--keep-animations`（截图用 `animations: 'allow'`），复测得 230 px；`motion.md` §7 与 `render-and-look.md` §2、§3 指向它，并写明 rAF 驱动的画布两种模式都不会暂停 |
+| 路由表的目录 base 解析高了一层 `capture-routes-directory-base` | A | 复现成立：`resolve()` 去掉末尾斜杠。目录 base 现在补上斜杠，夹具里截到的是 `sub/other.html` |
+| 强制颜色要手写脚本 `capture-forced-colors-option` | B | `capture.mjs --forced-colors`（文件名加 `-fc`，报告记录），夹具里红块变成系统 Canvas；`render-and-look.md` §2 的 Themes 一行指向它 |
+| 320 宽的重排只在评审时才发现 `capture-misses-320-reflow`（major） | B | `render-and-look.md` §2：Read 与 Operate 界面在 Web 默认尺寸外加 320（`--no-touch`），多页站点在评审前扫一遍横向溢出 |
+| 方案板的 iframe 在整页截图里是空白 `board-iframes-blank-full-capture`；方案板用截图不用标记 `board-images-not-markup`（nit）；动效方向上方案板 `options-board-motion-directions` | B + C | `render-and-look.md` §3 加离屏 `file://` iframe 的陷阱；`directions.md` §7 允许多帧或以动效为主的方向用截图（加带封面、减弱动效下不自动播放的短片段）并链接实时帧，灰度条用同一批截图。录制脚本与卡片变体写成提案 P12 |
+| `lint.mjs`：子元素字重被算到父元素上 `lint-cjk-synthetic-child-span`、跨主题的近似值 `lint-token-drift-across-themes`（nit） | A | 两条都复现成立并修好：用到粗体字面时不再报伪粗体；近似值只在同一主题内比较。新旧脚本在同一夹具上对比：旧版报 `#eeeeee ~ #ebebeb` 和伪粗体，新版只报同主题的 `#cccccc ~ #cbcbcb` |
+| `lint.mjs` 漏报表格单元格的省略号 `lint-misses-ellipsis-in-table-cells`；整页截图后触摸布局被换掉 `lint-coarse-pointer-flip` | A（防御） | 本仓库固定的 Playwright 上两条都没能复现（省略号能报出，整页截图前后 `pointer: coarse` 不变），宿主多半用的是 npx 拉来的别的版本。仍加了两道防御：带省略号的盒子比较 `scrollWidth` 与 `clientWidth`；截图前后布局状态变了就不用像素取样、退回计算值并说明 |
+| 首屏选择器按视口区分 `lint-above-fold-per-viewport` | B | `--above-fold '1280x800=h1, .map; 390x844=h1'`，与契约模板的写法一致（模板同步）；夹具里 `.late` 只在 390 报出 |
+| 方向 `bold-palette-pole-missing`、`direction-isolation-shared-file`、`content-md-too-few-rows`、`converge-without-user` | B | `directions.md` §5：brief 要"酷炫、震撼"时至少一个方向到达配色策略与图像两个轴的远端；§6：每个子 agent 只拿自己那一行坐标，并写明可读的宿主文件；content.md 的行数要填满最大帧的主列表；§10：无人可选时可以由新上下文评审按两两规则挑，记下种子和次选。文件守在 300 行 |
+| 收敛时的改动是谁定的 `contract-convergence-owner` | B | 契约模板：收敛及之后的每条改动标 `(user)` 或 `(author)`；评审可以撤回作者的改动，撤回用户的要先问 |
+| 状态新鲜度与"源不可达" `freshness-unreachable`（major） | B | `product-ui.md`：探测或同步来的状态写明新鲜度（实时、最后已知加时长、从未）；"源不可达"是单独画的状态，不能画成每一项都红；状态矩阵 Async 一行加入 |
+| 原生姿态被推翻 `native-posture-overridden`（major，用户纠正） | B | `platforms/README.md`：姿态写进 brief 并写明谁定的；商业产品或多桌面系统时，外壳的姿态是业务问题，brief 没说就问；"每天用的工具所以遵循惯例"管的是工作面，不自动管外壳。`truth-files.md` 的设计判断加姿态一句 |
+| 评审把术语当排版问题 `critique-styles-jargon-instead-of-flagging`（major，用户纠正） | B | `critique-design/references/heuristics.md` §9：brief 指明不写代码的读者时，正文里的路径、命令、字段名、英文状态值是内容问题（成片出现为 P1），解法是换成读者的话，等宽字体、断行规则和术语表都不算解决；附一个数代码样词的便宜检查 |
+| 强制颜色下的边框三角 `forced-colours-border-triangles` | B | `heuristics.md` §10：把墨色和纸色 token 映射到 `CanvasText` / `Canvas`，形状本身 `forced-color-adjust: none`；不要逐边改色 |
+| `auto-phrase` 对中文无效 `auto-phrase-zh` | A | 说法有误：`cjk-typography.md` 改为 `word-break: auto-phrase` 只对日文生效，并给中文标题的三种做法 |
+| 技术图示 `technical-diagram-guidance` | B | `graphics.md` §7 加四条：按渲染后的字号算（≥ 12 px）、一套贯穿所有图的流向词汇和图例、颜色走类名或自定义属性、动画图有静态终态 |
+| WebGPU 方向的验证与评审 `webgpu-direction-verify-review` | B | `render-and-look.md` §3 的 Canvas 与 WebGPU 一条扩充：在别人会打开的源上验证（局域网 http 不是安全上下文）、等就绪标志（`--ready`）、退回说明先查 `isSecureContext`、2D 退回要完整、可旋转的相机要能回到构图 |
+| 原生 macOS 截图 `native-macos-capture`、`side-by-side-copy-shares-uuid`（均 major）、`native-motion-evidence` | B | `render-and-look.md` §3 加"原生 macOS 窗口"：按窗口 id 截、后台启动并关窗口恢复、跳过小窗口（警告框）、后台窗口渲染为非激活态、颜色检查前转 sRGB；并列副本从源码构建、独立 bundle id 与构建 UUID，不从正式包重签（Apple TN3178、TN3179，宿主引用，本仓库未读原文）；原生采样帧只能说明顺序，减弱动效通过应用自己的动效策略注入 |
+| 原生验收 `acceptance-inactive-selection`、`acceptance-misses-upgrade-path`（均 major）、`implement-mode-acceptance-inputs`、`round2-new-states-cap` | B | `critique-design/SKILL.md`：验收除演示数据外要有"升级后首次启动"和"稀疏数据"两种状态；原生桌面每个主题一张激活窗口截图，在选中底色上取样文字；第二轮里第一次截到的状态单独完整过一遍，不占三条回退的名额；implement 模式用验收截图对照表代替交接包（`critic-brief.md` 同步）。正文 149 / 150 行 |
+| SwiftUI 的阴影泄漏与 `Table` 陷阱 `swiftui-shadow-leak`、`swiftui-table-pitfalls`（major），以及 `acceptance-misses-upgrade-path` 里的 `fixedSize` | B | `implement-design/references/stacks.md` SwiftUI 一节加 macOS 陷阱一条；文件压到 300 行 |
+| 原生构建评审后先改系统文件和构建 `native-redraw-after-critique` | C | 交付契约的变更，写成提案 P13 |
+| 局域网分享方案板 `share-board-on-lan` | C | 新脚本，写成提案 P11 |
+| 方案项沿用了实验室的预设 `options-use-lab-presets`（major） | — | 已在 0.15.0 处置（`directions.md` §0 宿主事实先于示例、`seed.py` 的来源记录、`evals/options-preset-leak.md` 回归），条目当时没有归档，这次一并归档 |
+
+仍未验证：`--keep-animations`、`--forced-colors`、按视口的 `--above-fold` 和两道 lint 防御在宿主里的使用；两条没复现的 lint 缺陷在宿主自己的 Playwright 版本上是否就此消失；原生 macOS 的做法只来自一个宿主。

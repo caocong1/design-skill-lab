@@ -14,6 +14,11 @@
 //   --full                 full-page capture instead of the viewport
 //   --dpr n                device scale factor (default 2)
 //   --reduced-motion       emulate prefers-reduced-motion: reduce
+//   --forced-colors        emulate forced-colors: active (Windows high contrast); file names gain "-fc"
+//   --keep-animations      shoot animations as the page left them (a motion frame frozen at ?t=<ms>). By default
+//                          finite animations are fast-forwarded to their end and infinite ones cancelled, which
+//                          is right for settled UI and wrong for a frozen frame; rAF-driven canvases are never paused
+//   --ready selector       wait until this element is visible before shooting (a route may set its own "ready")
 //   --locale tag           browser language, e.g. zh-CN (default en-US)
 //   --timezone id          IANA time zone, e.g. Asia/Shanghai (default: this machine's)
 //   --storage-state file   Playwright storageState JSON (saved login) for every capture
@@ -43,12 +48,13 @@
 //    "states": ["default", "?filter=none"]}], "viewports": ["390x844", "1280x800"], "themes": ["light", "dark"],
 //    "states": ["default"], "storageState": "auth.json", "loginScript": "login.mjs", "buildStamp": "build 4f2c1e",
 //    "locale": "zh-CN", "timezone": "Asia/Shanghai"}
+// A local directory base needs no trailing slash; routes resolve inside it.
 //   {"base": "frame.html", "routes": [{"id": "a-desktop", "path": "?frame=desktop", "viewports": ["1280x800"]},
 //    {"id": "a-phone", "path": "?frame=phone", "viewports": ["390x844"]}]}
 // A route may name its own "viewports" and "themes", and "touch": false (as --no-touch, for that route; the
 // file may set it for all). Command-line options override the file's values.
 import { createHash, randomBytes } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
@@ -56,7 +62,8 @@ import {
 } from './lib/capture-core.mjs';
 
 const USAGE = 'usage: node capture.mjs <url|file|routes.json> [--out dir] [--viewports 390x844,1280x800] [--themes light,dark]\n' +
-  '       [--no-touch] [--states "default,?state=empty-first"] [--full] [--dpr 2] [--reduced-motion] [--locale zh-CN]\n' +
+  '       [--no-touch] [--states "default,?state=empty-first"] [--full] [--dpr 2] [--reduced-motion] [--forced-colors]\n' +
+  '       [--keep-animations] [--ready selector] [--locale zh-CN]\n' +
   '       [--timezone Asia/Shanghai] [--storage-state auth.json]\n' +
   '       [--login-script login.mjs] [--build-stamp text] [--consent auto|dismiss|keep] [--no-qa] [--sheet]\n' +
   '       [--freeze] [--name base] [--timeout ms] [--concurrency n]      (--help for details)';
@@ -80,6 +87,9 @@ for (let i = 0; i < argv.length; i++) {
   else if (a === '--full') opt.full = true;
   else if (a === '--dpr') opt.dpr = Number(val());
   else if (a === '--reduced-motion') opt.reducedMotion = true;
+  else if (a === '--forced-colors') opt.forcedColors = true;
+  else if (a === '--keep-animations') opt.keepAnimations = true;
+  else if (a === '--ready') opt.ready = val();
   else if (a === '--locale') opt.locale = val();
   else if (a === '--timezone') opt.timezone = val();
   else if (a === '--storage-state') opt.storageState = resolve(val());
@@ -110,8 +120,10 @@ function readPlan(t) {
     if (!file.base || !Array.isArray(file.routes)) die(`${t}: a routes file needs "base" and "routes"`);
     const here = dirname(resolve(t)), rel = (p) => p && resolve(here, p);
     const local = !/^(https?|file):\/\//.test(file.base);
-    const base = local ? pathToFileURL(resolve(here, file.base)).href : file.base;
     if (local && !existsSync(resolve(here, file.base))) die(`${t}: no such file: ${file.base}`);
+    // resolve() drops a trailing slash; without it a directory base resolves its routes one folder too high.
+    const isDir = local && statSync(resolve(here, file.base)).isDirectory();
+    const base = local ? pathToFileURL(resolve(here, file.base)).href + (isDir ? '/' : '') : file.base;
     return {
       base, viewports: file.viewports, themes: file.themes, states: file.states,
       storageState: rel(file.storageState), loginScript: rel(file.loginScript), buildStamp: file.buildStamp,
@@ -147,6 +159,7 @@ const cfg = {
   consent: opt.consent || 'auto',
   dpr: opt.dpr || 2, full: Boolean(opt.full), qa: opt.qa !== false, sheet: Boolean(opt.sheet), freeze: Boolean(opt.freeze),
   reducedMotion: opt.reducedMotion ? 'reduce' : 'no-preference',
+  forcedColors: opt.forcedColors ? 'active' : 'none', keepAnimations: Boolean(opt.keepAnimations), ready: opt.ready,
   timeout: opt.timeout || 30000, concurrency: Math.max(1, opt.concurrency || 4),
 };
 if (!['auto', 'dismiss', 'keep'].includes(cfg.consent)) die('--consent takes auto, dismiss or keep');
@@ -189,7 +202,7 @@ for (const route of plan.routes) {
   for (const state of route.states || cfg.states) {
     for (const { w, h } of sizes) {
       for (const theme of themes) {
-        const path = join(cfg.out, `${route.id}-${stateSlug(state)}-${w}x${h}-${theme}.png`);
+        const path = join(cfg.out, `${route.id}-${stateSlug(state)}-${w}x${h}-${theme}${cfg.forcedColors === 'active' ? '-fc' : ''}.png`);
         if (paths.has(path)) die(`two captures would both write ${path}; give the routes distinct ids`);
         paths.add(path);
         jobs.push({ route, state, url: stateUrl(route.url, state), w, h, theme, path, touch: w < 600 && !desktop });
@@ -250,6 +263,7 @@ async function capture(job) {
   const rec = { path: job.path, url: job.url, route: job.route.id, state: job.state, viewport: `${job.w}x${job.h}`, theme: job.theme, touch: job.touch };
   const page = await newPage(browser, {
     width: job.w, height: job.h, dpr: cfg.dpr, mobile: job.touch, colorScheme: job.theme, reducedMotion: cfg.reducedMotion, storageState,
+    forcedColors: cfg.forcedColors,
     locale: cfg.locale, timezoneId: cfg.timezone,
   });
   if (job.url.startsWith('file:')) {
@@ -263,14 +277,15 @@ async function capture(job) {
     // First problem wins: [verdict, reason]. The PNG is written either way, so a failure can be looked at.
     const wall = await detectWall(page, nav);
     let problem = wall.walled ? [wall.kind, wall.reason] : null; // wall | error | login
-    if (!problem && job.route.ready) {
-      const seen = await page.locator(job.route.ready).first().waitFor({ state: 'visible', timeout: 10000 }).then(() => true, () => false);
-      if (!seen) problem = ['not-ready', `ready element ${job.route.ready} never became visible`];
+    const readySel = job.route.ready || cfg.ready;
+    if (!problem && readySel) {
+      const seen = await page.locator(readySel).first().waitFor({ state: 'visible', timeout: 10000 }).then(() => true, () => false);
+      if (!seen) problem = ['not-ready', `ready element ${readySel} never became visible`];
     }
     if (!problem && cfg.buildStamp && !(await page.content()).includes(cfg.buildStamp)) {
       problem = ['stale-build', `build stamp "${cfg.buildStamp}" is not in the page`];
     }
-    const shoot = () => page.screenshot({ path: job.path, fullPage: cfg.full, animations: 'disabled', timeout: 30000 });
+    const shoot = () => page.screenshot({ path: job.path, fullPage: cfg.full, animations: cfg.keepAnimations ? 'allow' : 'disabled', timeout: 30000 });
     let png;
     if (!problem && (cfg.consent === 'dismiss' || (cfg.consent === 'auto' && !isLocal(job.url)))) ({ png, consent: rec.consent } = await cleanScreenshot(page, shoot));
     else png = await shoot();
@@ -315,7 +330,7 @@ await Promise.all(Array.from({ length: Math.min(cfg.concurrency, jobs.length) },
 const generated = new Date().toISOString();
 const report = {
   capture_id: `${generated.replace(/[-:]|\.\d+/g, '')}-${randomBytes(2).toString('hex')}`, generated, frozen: cfg.freeze,
-  target, build_stamp: cfg.buildStamp || null, locale: cfg.locale, timezone: cfg.timezone || 'machine', playwright: PLAYWRIGHT_VERSION, browser: browser.version(),
+  target, build_stamp: cfg.buildStamp || null, forced_colors: cfg.forcedColors === 'active', keep_animations: cfg.keepAnimations, locale: cfg.locale, timezone: cfg.timezone || 'machine', playwright: PLAYWRIGHT_VERSION, browser: browser.version(),
   writes: net ? [...writes].map(([request, count]) => ({ request, count })) : 'not recorded', captures: results,
 };
 writeFileSync(reportPath, JSON.stringify(report, null, 1) + '\n');

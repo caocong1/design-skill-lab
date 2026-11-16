@@ -170,6 +170,11 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 - Errors name the problem and the recovery, next to the field. Empty states say what is missing and
   offer the next action.
 - One term per concept, in the product's own vocabulary; dates, numbers and units in locale format.
+- The register fits the audience the brief names. For readers who do not code, a file path, slash
+  command, field or variable name, English status value or internal code in reader-facing text is a
+  content finding (P1 when systemic), fixed by saying it in the reader's own terms; monospace,
+  break rules or a glossary do not fix it. A cheap check: count code-like tokens per page (`a_b`,
+  `camelCase`, paths, `/cmd`) against the abbreviations that audience already knows.
 - Chinese copy: full-width punctuation, no repeated marks (！！), proper nouns in their correct case
   (GitHub, not github), spacing per cjk-typography.
 - AI-generated content and AI features carry the labels the law requires; see
@@ -186,7 +191,9 @@ Sections: 0 Evidence · 1 Purpose · 2 Structure · 3 Hierarchy and layout · 4 
 - Forms do not ask again for what the user already entered (3.3.7); sign-in allows paste and
   password managers (3.3.8).
 - Glass and translucent surfaces stay legible with reduced transparency or increased contrast;
-  forced-colours mode keeps states visible.
+  forced-colours mode keeps states visible. Shapes drawn with borders (CSS arrows, triangles) survive it
+  only when the ink and paper tokens are remapped to `CanvasText` and `Canvas` and the shape opts out
+  with `forced-color-adjust: none`; recolouring individual sides breaks other arrow directions.
 - Data views meet Chartability's critical checks: a title and summary, the purpose and how to read
   it, a table or text alternative, nothing by colour alone, no seizure risk, more than one input
   type, user style changes respected ([data-dense-ui](../../design-studio/references/disciplines/data-dense-ui.md)).

@@ -50,12 +50,12 @@ bash "$S/shot.sh" --help          # rung 2
 
 | Dimension | Minimum |
 | --- | --- |
-| Sizes | the targets declared in the brief and surface contracts. Web with no declaration: 390, 768, 1280, 1920. Other targets: the platform frame at its logical size, plus the second size class the product serves (tablet, wide window) |
-| Themes | every theme, mode and family claimed |
+| Sizes | the targets declared in the brief and surface contracts. Web with no declaration: 390, 768, 1280, 1920; Read and Operate surfaces add 320 with `--no-touch` (reflow, WCAG 1.4.10), and a multi-page site gets an overflow sweep of every page before the critic runs. Other targets: the platform frame at its logical size, plus the second size class the product serves (tablet, wide window) |
+| Themes | every theme, mode and family claimed; forced colours (`capture.mjs --forced-colors`, files end `-fc`) when the rubric's forced-colours check applies |
 | States | default plus every designed state, named as in the [product-ui](../disciplines/product-ui.md) state matrix (`empty-first`, `no-results`, `loading`, `error`, `offline`), plus long content and focus-visible where reachable, through the state URLs the mockup exposes |
 | Content | real or realistic; the longest strings; mixed scripts if they ship |
 | Pixel density | DPR 2 by default; add a DPR 1 pass when the audience is on Windows laptops (hairlines, text rendering) |
-| Motion | stepped frames or a recording: [motion](../disciplines/motion.md) |
+| Motion | stepped frames or a recording: [motion](../disciplines/motion.md); a frame frozen at `?t=` needs `capture.mjs --keep-animations` |
 
 One run, one folder, one report: a second run into the same folder replaces `capture-report.json`.
 Frames or routes that need different sizes go into one run through a manifest whose routes name
@@ -93,8 +93,27 @@ Each was hit in real runs; the first two were re-verified on Chrome 153.
   (never `document.fonts.check()`). A silent fallback changes widths, wrapping and tone.
 - **Translucent fixed overlays** (toolbar, switcher, cookie bar) let the controls beneath show
   through as ghost buttons in a still. Make them opaque, or check them over busy content.
+- **Frozen frames.** By default `capture.mjs` fast-forwards finite animations to their end and cancels
+  infinite ones: right for settled UI, wrong for a motion frame paused at `?t=`, which then shows the
+  end state. Pass `--keep-animations`. Scenes drawn by `requestAnimationFrame` are never paused by
+  either mode: let `?t` drive the engine's own clock.
+- **Offscreen iframes.** Chrome does not paint offscreen `file://` iframes (worse with `loading="lazy"`)
+  in a full-page capture, so a board of iframes comes out blank: capture each frame on its own.
 - **Canvas and WebGPU** often capture blank. Read the pixels back where the page can; otherwise say
-  the canvas was not seen.
+  the canvas was not seen. WebGPU needs a secure context: verify on the origin people will open
+  (`file://`, https or localhost; `about:blank` and a LAN `http://` address hide it), wait on a ready
+  flag set after the pipelines exist (`--ready 'html[data-ready]'`), make the fallback note check
+  `isSecureContext` before blaming the browser, and keep the 2D fallback complete. An orbitable
+  camera needs a way back to the composed view (a spring on release or a reset).
+- **Native macOS windows.** Capture one window by id (`screencapture -l <id>`), never the screen. Launch
+  in the background with window restoration off (`open -g -n <app> --args -ApplePersistenceIgnoreState
+  YES`) and skip small windows: after a crash a "reopen windows?" alert can be the only one. A
+  background window renders inactive (grey selection, prominent buttons and focus), so take one
+  active-window capture per theme for those, and convert to sRGB before any colour check. A
+  side-by-side capture copy is built from source with its own bundle id and build UUID, never re-signed
+  from the shipping app: macOS files Local Network permission by build UUID (Apple TN3178, TN3179).
+  Sampled native frames show the sequence, not exact timing; reduced motion is tested through the
+  app's own injectable motion policy, since SwiftUI's `accessibilityReduceMotion` is read-only.
 - **A caption is not a measurement.** For "is this aligned", compare boxes with a browser tool.
 - A render is wrong in a way no rule here explains: [casebook](../casebook.md).
 

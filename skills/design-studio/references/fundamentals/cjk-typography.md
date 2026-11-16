@@ -105,8 +105,10 @@ Use the **basic** level (clreq's "most recommended"), one level per document:
 Browsers apply most of this by default; set `lang` and `line-break: strict` for UI copy. Anything
 that measures text itself does not: canvas and chart labels, SVG text, custom truncation, native
 text-measuring code, generated images. There, or when the engine misses a pair, glue it with `&nbsp;`, U+2060
-(word joiner) or `white-space: nowrap`. Headings may use `word-break: auto-phrase` (Chromium only;
-enhancement) so phrases stay whole.
+(word joiner) or `white-space: nowrap`. `word-break: auto-phrase` keeps phrases whole only in Japanese
+(`lang="ja"`, Chromium); on a Chinese heading it changes nothing (a 2026-11 host capture split 「五步」
+at 390 with it set). For Chinese headings keep a short trailing parenthetical in a `nowrap` span, move a
+long one to its own line on narrow screens, or put `<wbr>` only at phrase boundaries you control.
 
 ## Punctuation
 

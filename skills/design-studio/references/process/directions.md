@@ -9,8 +9,7 @@ review_by: 2027-09-27
 # Directions
 
 Loop steps 4-5 and the `options` modifier. Owns: the divergence engine (rut, referents, seeded roll),
-the direction axes, direction subagents, the options board, direction cards, the thumbnail test,
-the recommendation, converge, re-roll and runners-up as themes.
+axes, direction subagents, the board and cards, the thumbnail test, recommend, converge, re-roll, themes.
 Inputs: brief.md, PRODUCT.md, draft surface contracts, research notes.
 Outputs: `.design/directions/<round>/` (referents.txt, content.md, one folder per direction,
 index.html) and a row in decisions.md.
@@ -20,9 +19,8 @@ different fixed default rather than producing variety (anthropic-design-skills).
 from procedure: name the rut, list referents from the audience's world, let a seed choose, draw
 each direction in isolation, and test that the results really differ.
 
-Contents: 0 Host truth before examples · 1 Rut · 2 Referents · 3 Roll · 4 Cards on the board ·
-5 Axes · 6 One subagent per direction · 7 Board · 8 Thumbnail test · 9 Recommend · 10 Converge ·
-11 Runners-up as themes · 12 By effort
+Contents: 0 Host truth · 1 Rut · 2 Referents · 3 Roll · 4 Cards on the board · 5 Axes · 6 One subagent
+per direction · 7 Board · 8 Thumbnail test · 9 Recommend · 10 Converge · 11 Runners-up · 12 By effort
 
 ## 0. Host truth before examples
 
@@ -168,13 +166,13 @@ by position, tabular numerals, no cards.
 - Brand, graphics and marketing: replace the structural axes with the medium's own, such as
   composition, mark construction, story order and page archetype.
 - Fill one table of coordinates for all directions before anything is drawn. If two rows match on
-  the axes that matter for this brief, move one.
+  the axes that matter for this brief, move one. When the brief asks for spectacle (酷炫, 震撼, "wow"),
+  at least one row reaches the far pole of colour strategy and of imagery, not only of motion.
 - A host design system constrains tokens; directions then differ on structure and composition.
 
 ## 6. One subagent per direction
 
-Draw each direction in its own isolated subagent, so the directions do not share one context's taste.
-The subagent receives only this packet:
+Draw each direction in its own isolated subagent (no shared taste), which receives only this packet:
 
 ```text
 Direction <A>: "<name>". Thesis: <one sentence>.
@@ -203,20 +201,21 @@ placeholder values; invent or add content. Use only the references in this packe
 isolated move rather than a page to reproduce.
 ```
 
-- Never pass another direction's work, your reasoning, or an opinion about which should win.
+- Never pass another direction's work, your reasoning, or an opinion about which should win; the
+  packet carries its own row inline (no shared coordinates file) and names the host files it may read.
   Isolation hides other directions and your reasoning, never the rules or the spent list. Give
   absolute paths (`<skill>` is the design-studio folder), including to the templates.
 - Write content.md once, before any subagent starts: real or plausible copy and data that exercise
   the primary task. Product: the key screen, one form or table, one state, with every status the
-  view distinguishes mixed in its data ([product-ui](../disciplines/product-ui.md), state matrix).
+  view distinguishes mixed in its data ([product-ui](../disciplines/product-ui.md), state matrix),
+  and enough rows to fill the largest frame's main list, so density never differs by accident.
   Marketing: the first viewport, one section, the call to action. Brand: the mark, palette, type
   and one application.
-- A UI generator (for example Stitch) may draw from the same packet; its output meets the same
-  board rules. Image comps may stand in for visual-only directions when the host has an image model
-  ([image-generation](image-generation.md)); structural directions need HTML frames.
-- **No subagents**: write every thesis and coordinate row first and freeze them; draw each direction
-  from its own packet in one pass without reopening earlier frames; apply the thumbnail test with
-  extra suspicion; write "single-context run" in the board footer and in decisions.md.
+- A UI generator (Stitch) may draw from the same packet under the same board rules. Image comps may
+  stand in for visual-only directions ([image-generation](image-generation.md)); structure needs HTML.
+- **No subagents**: freeze every thesis and coordinate row first; draw each direction from its own packet
+  in one pass without reopening earlier frames; doubt the thumbnail test; say "single-context run"
+  in the board footer and in decisions.md.
 
 ## 7. Board
 
@@ -227,12 +226,15 @@ Assemble `.design/directions/<round>/index.html` from [options-board.html](../..
   sizes; the DOM may differ, because structure is an axis.
 - A one-DOM live token switcher only when every variant shares one structure: palette or density
   variants of a chosen direction, never the first board.
+- Multi-frame or motion-led directions may show their captures instead (plus short clips with a
+  poster, never autoplaying under reduced motion), each linking its live frame.html; the greyscale
+  strip uses the same captures. Iframes of `file://` frames paint blank in full-page captures.
 - Each card: thesis; two brief anchors with the visible decision each causes; referent and family; structure;
   visual (background and accent values, typefaces, radius, density); good at; where it will fail; origin
   with the seed key. References taken lists each isolated move, what was not taken and its host-specific
   change. Full cards from [direction-card](../../templates/direction-card.md) sit in each direction's folder.
 - "Where it will fail" is required: who it slows down, which content breaks it, what it costs to
-  build or migrate. A direction with no failure is a strawman or unexamined.
+  build or migrate; a direction with no failure is a strawman or unexamined.
 - Fill the comparison table; its first row is the cost of the primary task (steps, context switches,
   what stays visible while acting).
 - Render at 1440 and 390 and look before showing ([render-and-look](render-and-look.md)). If two
@@ -241,11 +243,11 @@ Assemble `.design/directions/<round>/index.html` from [options-board.html](../..
 
 ## 8. Thumbnail test
 
-The board builds a greyscale strip at thumbnail size. If two thumbnails are hard to tell apart,
-they are one direction: merge them, or move one on a structural axis and redraw. Each card finishes
-the sentence "In greyscale at thumbnail size it differs from <other> in <structure, type or density>".
-A difference only in colour fails by construction. Passing the test shows that the directions
-differ, never that one of them is good enough to ship (section 4).
+The board builds a greyscale strip at thumbnail size. Two thumbnails hard to tell apart are one
+direction: merge them, or move one on a structural axis and redraw. Each card finishes "In greyscale
+at thumbnail size it differs from <other> in <structure, type or density>"; a difference only in
+colour fails by construction. Passing shows that the directions differ, never that one is good
+enough to ship (section 4).
 
 ## 9. Recommend
 
@@ -253,19 +255,17 @@ differ, never that one of them is good enough to ship (section 4).
   (primary-task cost, fit, available content, build or migration cost), and name the row. Never
   recommend the canon, with one exception: in a redesign of a daily-use tool where
   [redesign](redesign.md) §7 finds no blocking structure, recommending the canon card is correct.
-- Say what would change your mind: a fact that, if true, makes another direction better.
-- Name which traits mix cleanly and which conflict.
+- Say what would change your mind (a fact that would make another direction better), and which traits
+  mix cleanly and which conflict.
 - Presenting options without a recommendation delegates the design; hiding the recommended
   direction's failure mode is selling, not designing.
 
 ## 10. Converge
 
 - **Show, then ask.** A question that asks the user to choose carries the rendered board: the path
-  or URL of `index.html` to open, and one PNG per direction (same content, same frame size)
-  attached or listed by path. A file written into the project has not been shown; names, palettes
-  and layouts described in words are not a board. At any effort, asking the user to choose between
-  looks is `options`: draw and render them first. In a 2026-09 host round three directions were
-  drawn and captured, no board was assembled, and the user was asked to pick from descriptions.
+  or URL of `index.html`, and one PNG per direction (same content, same frame size) attached or
+  listed by path. Names, palettes and layouts in words are not a board (a 2026-09 host round asked
+  for a pick from descriptions). At any effort, choosing between looks is `options`: render first.
 - A round that ends at the user's choice is done when every frame passed render and floor and the
   board was looked at. The fresh critique waits for the chosen direction, drawn in its states.
 - The user picks, mixes or rejects. When mixing ("A's type with C's colour"), name what conflicts
@@ -275,7 +275,8 @@ differ, never that one of them is good enough to ship (section 4).
   and C as themes" and "A is on by default, the user has not picked" are three different rows.
 - Complete the surface contracts (own-world, form + seed; [truth-files](truth-files.md)), then build
   the system ([system](system.md)) before more screens.
-- Autonomous run with no one to choose: build the recommendation and say that the user did not pick.
+- Autonomous run with no one to choose: build the recommendation, or let the fresh critic pick by the
+  rubric's pairwise rule; say that the user did not pick and record the seed and the runner-up.
 - **"None of these"**: ask which axis feels wrong (structure, type voice, colour, density) before
   drawing more. New values on the same axes earn the same rejection.
 - **Re-roll** on request, in a register: *safer* (referents nearer the category, never the rut) or
@@ -284,12 +285,11 @@ differ, never that one of them is good enough to ship (section 4).
 
 ## 11. Runners-up as themes
 
-When the user wants runners-up kept as switchable themes, list per theme the traits it must keep
-at declared variant points: shell and navigation, collection presentation (table, list, cards),
-detail container (page, drawer, split), density. A version that keeps only the colours is labelled
-"palette variant", not the direction: in the 2026-09 host rounds, colour-only themes lost the
-table style, density and header treatment that made their directions.
-Mechanics: theme families in [system](system.md).
+When the user wants runners-up kept as switchable themes, list per theme the traits it keeps at
+declared variant points: shell and navigation, collection presentation (table, list, cards), detail
+container (page, drawer, split), density. A version that keeps only the colours is a "palette
+variant", not the direction (2026-09 host rounds: colour-only themes lost the table style, density
+and header treatment that made them). Mechanics: theme families in [system](system.md).
 
 ## 12. By effort
 
